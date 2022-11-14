@@ -3,4 +3,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
+
+  root to: "standards_imports#new"
+  resources :standards_imports, only: [:new, :create, :show]
 end
