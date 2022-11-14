@@ -1,0 +1,2 @@
+class StandardsImport < ApplicationRecord
+end
