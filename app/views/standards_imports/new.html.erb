@@ -1,4 +1,23 @@
 <div>
-  <h1 class="font-bold text-4xl">StandardsImports#new</h1>
-  <p>Find me in app/views/standards_imports/new.html.erb</p>
+ <%= form_with model: @standards_import do |f| %>
+   <div>
+     <%= f.label :name %>
+     <%= f.text_field :name %>
+   </div>
+   <div>
+     <%= f.label :email %>
+     <%= f.email_field :email %>
+   </div>
+   <div>
+     <%= f.label :organization %>
+     <%= f.text_field :organization %>
+   </div>
+   <div>
+     <%= f.label :notes %>
+     <%= f.text_area :notes %>
+   </div>
+   <div>
+     <%= f.submit nil, class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+   </div>
+ <% end %>
 </div>
