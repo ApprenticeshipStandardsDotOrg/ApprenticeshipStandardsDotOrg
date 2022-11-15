@@ -18,7 +18,7 @@ RSpec.describe "StandardsImports", type: :request do
               name: "Mickey Mouse",
               email: "mickey@mouse.com",
               organization: "Disney",
-              notes: "a"*500
+              notes: "a" * 500
             }
           }
         }.to change(StandardsImport, :count).by(1)
@@ -27,7 +27,7 @@ RSpec.describe "StandardsImports", type: :request do
         expect(si.name).to eq "Mickey Mouse"
         expect(si.email).to eq "mickey@mouse.com"
         expect(si.organization).to eq "Disney"
-        expect(si.notes).to eq "a"*500
+        expect(si.notes).to eq "a" * 500
 
         expect(response).to redirect_to standards_import_path(si)
       end
@@ -42,7 +42,7 @@ RSpec.describe "StandardsImports", type: :request do
               name: "Mickey Mouse",
               email: "mickey@mouse.com",
               organization: "Disney",
-              notes: "a"*500
+              notes: "a" * 500
             }
           }
         }.to_not change(StandardsImport, :count)
