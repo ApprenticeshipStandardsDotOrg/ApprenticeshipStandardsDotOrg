@@ -10,3 +10,6 @@ Organization: <%= @standards_import.organization %>
 <div>
 Notes: <%= @standards_import.notes %>
 </div>
+<div>
+File Names: <%= @standards_import.files.map{|file| file.filename.to_s}.join(", ") %>
+</div>

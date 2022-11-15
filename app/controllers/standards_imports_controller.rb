@@ -20,6 +20,6 @@ class StandardsImportsController < ApplicationController
   private
 
   def create_params
-    params.require(:standards_import).permit(:name, :email, :organization, :notes)
+    params.require(:standards_import).permit(:name, :email, :organization, :notes, files: [])
   end
 end

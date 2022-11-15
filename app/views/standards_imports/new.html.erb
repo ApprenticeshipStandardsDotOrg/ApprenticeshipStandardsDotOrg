@@ -17,6 +17,10 @@
      <%= f.text_area :notes %>
    </div>
    <div>
+      <%= f.label :files %>
+      <%= f.file_field :files, multiple: true %>
+    </div>
+   <div>
      <%= f.submit nil, class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
    </div>
  <% end %>

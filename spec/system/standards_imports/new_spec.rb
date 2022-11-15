@@ -7,20 +7,26 @@ RSpec.describe "standards_imports/new" do
     fill_in "Email", with: "mickey@example.com"
     fill_in "Organization", with: "Disney"
     fill_in "Notes", with: "a" * 500
+    attach_file "Files", ["spec/fixtures/files/pixel1x1.jpg", "spec/fixtures/files/pixel1x1.pdf", "spec/fixtures/files/pixel1x1-2.jpg"]
 
     expect {
       click_on "Create Standards import"
     }.to change(StandardsImport, :count).by(1)
+    .and change(ActiveStorage::Attachment, :count).by(3)
 
     si = StandardsImport.last
     expect(si.name).to eq "Mickey Mouse"
     expect(si.email).to eq "mickey@example.com"
     expect(si.organization).to eq "Disney"
     expect(si.notes).to eq "a" * 500
+    expect(si.files.count).to eq 3
 
     expect(page).to have_text "Mickey Mouse"
     expect(page).to have_text "mickey@example.com"
     expect(page).to have_text "Disney"
     expect(page).to have_text "a" * 500
+    expect(page).to have_text "pixel1x1.jpg"
+    expect(page).to have_text "pixel1x1.pdf"
+    expect(page).to have_text "pixel1x1-2.jpg"
   end
 end
