@@ -51,4 +51,13 @@ RSpec.describe "StandardsImports", type: :request do
       end
     end
   end
+
+  describe "GET /show" do
+    it "returns http success" do
+      si = create(:standards_import)
+      get standards_import_path(si)
+
+      expect(response).to be_successful
+    end
+  end
 end

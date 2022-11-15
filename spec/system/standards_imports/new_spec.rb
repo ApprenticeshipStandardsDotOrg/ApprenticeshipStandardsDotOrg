@@ -14,12 +14,12 @@ RSpec.describe "standards_imports/new" do
 
     si = StandardsImport.last
     expect(si.name).to eq "Mickey Mouse"
-    expect(si.email).to eq "mickey@mouse.com"
+    expect(si.email).to eq "mickey@example.com"
     expect(si.organization).to eq "Disney"
     expect(si.notes).to eq "a"*500
 
     expect(page).to have_text "Mickey Mouse"
-    expect(page).to have_text "mickey@mouse.com"
+    expect(page).to have_text "mickey@example.com"
     expect(page).to have_text "Disney"
     expect(page).to have_text "a"*500
   end

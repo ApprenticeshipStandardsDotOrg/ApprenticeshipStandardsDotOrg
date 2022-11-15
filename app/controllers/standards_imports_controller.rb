@@ -14,6 +14,7 @@ class StandardsImportsController < ApplicationController
   end
 
   def show
+    @standards_import = StandardsImport.find(params[:id])
   end
 
   private
