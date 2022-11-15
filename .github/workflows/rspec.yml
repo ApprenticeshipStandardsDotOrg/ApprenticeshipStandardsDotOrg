@@ -1,0 +1,71 @@
+name: RSpec
+
+on:
+  push:
+    paths-ignore:
+      - "bin/*"
+      - "**.md"
+    branches:
+      - "**-wip"
+      - "main"
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - "bin/*"
+      - "**.md"
+
+jobs:
+  rspec:
+
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: app_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js 18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Install dependencies
+        run: bundle install
+
+      - name: Run tests
+        env:
+          RAILS_ENV: test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB_TEST: app_test
+          CI: true
+        run: |
+          bundle exec rails db:schema:load
+          bundle exec rake assets:precompile
+          bundle exec rspec spec
+
+      - name: Archive selenium screenshots
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: selenium-screenshots
+          path: ${{ github.workspace }}/tmp/capybara/*.png
