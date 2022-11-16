@@ -1,22 +1,25 @@
-<div class="w-full max-w-prose mx-auto">
-  <div class="mb-4">
-    <div class="show-label">Name</div>
-    <div class="show-field"><%= @standards_import.name %></div>
-  </div>
-  <div class="mb-4">
-    <div class="show-label">Email</div>
-    <div class="show-field"><%= @standards_import.email %></div>
-  </div>
-  <div class="mb-4">
-    <div class="show-label">Organization</div>
-    <div class="show-field"><%= @standards_import.organization %></div>
-  </div>
-  <div class="mb-4">
-    <div class="show-label">Notes</div>
-    <div class="show-field"><%= @standards_import.notes %></div>
-  </div>
-  <div class="mb-4">
-    <div class="show-label">Files</div>
-    <div class="show-field"><%= @standards_import.files.map{|file| file.filename.to_s}.join(", ") %></div>
+<div class="flex flex-col w-full mx-auto">
+  <h1 class="w-full max-w-prose mx-auto text-center mb-3">Thank you for submitting your apprenticeship standards!</h1>
+  <div class="w-full max-w-prose mx-auto">
+    <div class="mb-4">
+      <div class="show-label">Name</div>
+      <div class="show-field"><%= @standards_import.name %></div>
+    </div>
+    <div class="mb-4">
+      <div class="show-label">Email</div>
+      <div class="show-field"><%= @standards_import.email %></div>
+    </div>
+    <div class="mb-4">
+      <div class="show-label">Organization</div>
+      <div class="show-field"><%= @standards_import.organization %></div>
+    </div>
+    <div class="mb-4">
+      <div class="show-label">Notes</div>
+      <div class="show-field"><%= @standards_import.notes %></div>
+    </div>
+    <div class="mb-4">
+      <div class="show-label">Files</div>
+      <div class="show-field"><%= @standards_import.files.map{|file| file.filename.to_s}.join(", ") %></div>
+    </div>
   </div>
 </div>
