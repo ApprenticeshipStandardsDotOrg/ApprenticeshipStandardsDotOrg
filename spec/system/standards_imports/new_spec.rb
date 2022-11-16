@@ -10,7 +10,7 @@ RSpec.describe "standards_imports/new" do
     attach_file "Files", ["spec/fixtures/files/pixel1x1.jpg", "spec/fixtures/files/pixel1x1.pdf", "spec/fixtures/files/pixel1x1-2.jpg"]
 
     expect {
-      click_on "Create Standards import"
+      click_on "Upload"
     }.to change(StandardsImport, :count).by(1)
     .and change(ActiveStorage::Attachment, :count).by(3)
 
