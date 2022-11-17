@@ -20,7 +20,9 @@
     <div class="mb-4">
       <div class="show-label">Files</div>
       <% @standards_import.files.each do |file| %>
-        <div class="show-field mb-1"><%= file.filename.to_s %></div>
+        <div class="w-full mb-1">
+          <%= link_to file.filename.to_s, url_for(file), class: "text-blue-600 hover:text-blue-800 visited:text-purple-600" %>
+        </div>
       <% end %>
     </div>
   </div>
