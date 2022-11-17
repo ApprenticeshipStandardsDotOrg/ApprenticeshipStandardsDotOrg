@@ -19,7 +19,9 @@
     </div>
     <div class="mb-4">
       <div class="show-label">Files</div>
-      <div class="show-field"><%= @standards_import.files.map{|file| file.filename.to_s}.join(", ") %></div>
+      <% @standards_import.files.each do |file| %>
+        <div class="show-field mb-1"><%= file.filename.to_s %></div>
+      <% end %>
     </div>
   </div>
 </div>
