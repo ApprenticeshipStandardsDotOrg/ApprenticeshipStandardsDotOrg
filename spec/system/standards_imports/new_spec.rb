@@ -12,7 +12,7 @@ RSpec.describe "standards_imports/new" do
     expect {
       click_on "Upload"
     }.to change(StandardsImport, :count).by(1)
-    .and change(ActiveStorage::Attachment, :count).by(3)
+      .and change(ActiveStorage::Attachment, :count).by(3)
 
     si = StandardsImport.last
     expect(si.name).to eq "Mickey Mouse"

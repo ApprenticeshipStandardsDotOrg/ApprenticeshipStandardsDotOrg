@@ -23,7 +23,7 @@ RSpec.describe "StandardsImports", type: :request do
             }
           }
         }.to change(StandardsImport, :count).by(1)
-        .and change(ActiveStorage::Attachment, :count).by(1)
+          .and change(ActiveStorage::Attachment, :count).by(1)
 
         si = StandardsImport.last
         expect(si.name).to eq "Mickey Mouse"
