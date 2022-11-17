@@ -6,5 +6,5 @@ Rails.application.routes.draw do
   # root "articles#index"
 
   root to: "standards_imports#new"
-  resources :standards_imports, only: [:new, :create, :show]
+  resources :standards_imports, only: [:index, :new, :create, :show]
 end
