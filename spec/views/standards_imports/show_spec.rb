@@ -11,10 +11,10 @@ RSpec.describe "standards_imports/show.html.erb", type: :view do
 
   it "displays standards import field values" do
     si = build(:standards_import,
-               name: "Mickey Mouse",
-               email: "mickey@example.com",
-               organization: "Disney",
-               notes: "a" * 300)
+      name: "Mickey Mouse",
+      email: "mickey@example.com",
+      organization: "Disney",
+      notes: "a" * 300)
     assign(:standards_import, si)
 
     render
