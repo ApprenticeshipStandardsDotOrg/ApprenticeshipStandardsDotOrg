@@ -1,0 +1,32 @@
+<div class="flex flex-col w-full mx-auto">
+  <h1 class="w-full max-w-prose mx-auto text-center mb-3">Thank you for submitting your apprenticeship standards!</h1>
+  <div class="w-full max-w-prose mx-auto mb-4">
+    <div class="mb-4">
+      <div class="show-label">Name</div>
+      <div class="show-field"><%= @standards_import.name %></div>
+    </div>
+    <div class="mb-4">
+      <div class="show-label">Email</div>
+      <div class="show-field"><%= @standards_import.email %></div>
+    </div>
+    <div class="mb-4">
+      <div class="show-label">Organization</div>
+      <div class="show-field"><%= @standards_import.organization %></div>
+    </div>
+    <div class="mb-4">
+      <div class="show-label">Notes</div>
+      <div class="show-field"><%= @standards_import.notes %></div>
+    </div>
+    <div class="mb-4">
+      <div class="show-label">Files</div>
+      <% @standards_import.files.each do |file| %>
+        <div class="w-full mb-1">
+          <%= link_to file.filename.to_s, url_for(file), class: "text-blue-600 hover:text-blue-800 visited:text-purple-600" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="w-full max-w-prose mx-auto">
+    <%= link_to "Upload more standards", new_standards_import_path, class: "btn-primary" %>
+  </div>
+</div>

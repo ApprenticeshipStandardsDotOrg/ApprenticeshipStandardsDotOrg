@@ -2,12 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
-/*
-
 @layer components {
   .btn-primary {
-    @apply py-2 px-4 bg-blue-200;
+    @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded
   }
 }
 
-*/
+@layer base {
+  .form-label, .show-label {
+    @apply block text-gray-700 text-sm font-bold mb-2
+  }
+
+  .form-field {
+    @apply appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow
+  }
+
+  .show-field {
+    @apply w-full text-gray-700 leading-tight
+  }
+
+  h1 {
+    @apply text-2xl font-semibold
+  }
+}
