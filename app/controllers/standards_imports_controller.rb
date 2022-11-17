@@ -1,4 +1,9 @@
 class StandardsImportsController < ApplicationController
+  before_action :authenticate_user!, only: [:index]
+
+  def index
+  end
+
   def new
     @standards_import = StandardsImport.new
   end
