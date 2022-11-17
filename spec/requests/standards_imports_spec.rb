@@ -1,27 +1,6 @@
 require "rails_helper"
 
 RSpec.describe "StandardsImports", type: :request do
-  describe "GET /index" do
-    context "when admin user" do
-      it "returns http success" do
-        admin = create(:admin)
-
-        sign_in admin
-        get standards_imports_path
-
-        expect(response).to be_successful
-      end
-    end
-
-    context "when guest" do
-      it "redirects to root path" do
-        get standards_imports_path
-
-        expect(response).to redirect_to new_user_session_path
-      end
-    end
-  end
-
   describe "GET /new" do
     it "returns http success" do
       get new_standards_import_path
