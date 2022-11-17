@@ -7,5 +7,5 @@ Rails.application.routes.draw do
 
   root to: "standards_imports#new"
   resources :standards_imports, only: [:new, :create, :show]
-  resources :import_files, only: [:index]
+  resources :file_imports, only: [:index]
 end

@@ -1,4 +1,4 @@
-class ImportFilesController < ApplicationController
+class FileImportsController < ApplicationController
   before_action :authenticate_user!, only: [:index]
 
   def index
