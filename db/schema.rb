@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_17_195452) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_17_205045) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -41,6 +41,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_17_195452) do
     t.uuid "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "file_imports", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "active_storage_attachment_id", null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["active_storage_attachment_id"], name: "index_file_imports_on_active_storage_attachment_id"
   end
 
   create_table "occupations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -80,4 +88,5 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_17_195452) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "file_imports", "active_storage_attachments"
 end
