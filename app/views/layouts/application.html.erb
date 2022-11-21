@@ -13,7 +13,9 @@
 
   <body>
     <main class="container mx-auto mt-28 px-5 flex">
-      <%= link_to "Logout", destroy_user_session_path %>
+      <% if user_signed_in? %>
+        <%= button_to "Logout", destroy_user_session_path, method: :delete, data: {turbo: false} %>
+      <% end %>
       <p class="notice"><%= notice %></p>
       <p class="alert"><%= alert %></p>
       <%= yield %>
