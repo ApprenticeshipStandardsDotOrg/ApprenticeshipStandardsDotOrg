@@ -107,6 +107,7 @@ GEM
       rainbow
       rubocop
       smart_properties
+    erblint-github (0.1.2)
     erubi (1.11.0)
     factory_bot (6.2.1)
       activesupport (>= 5.0.0)
@@ -285,6 +286,7 @@ DEPENDENCIES
   debug
   dotenv-rails
   erb_lint
+  erblint-github
   factory_bot_rails
   importmap-rails
   pg (~> 1.1)
