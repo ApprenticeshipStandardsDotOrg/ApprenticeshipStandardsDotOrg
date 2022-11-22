@@ -11,6 +11,7 @@ Rails 7, and PostgreSQL 14.
 [libvips]: https://www.libvips.org/install.html
 
 ## Linting
+### Ruby linting
 
 We are using [standard][standard] for Ruby
 linting. To check the style of all Ruby files, run:
@@ -25,7 +26,16 @@ To automatically apply linting fixes, run:
 bundle exec standardrb --fix
 ```
 
+### ERB linting
+We are using [erb_lint][erb_lint] for ERB linting. To check the style of all
+`.erb` files, run:
+
+```
+bundle exec erblint --lint-all
+```
+
 [standard]: https://github.com/testdouble/standard
+[erb_lint]: https://github.com/Shopify/erb-lint
 
 ## Testing Suite
 
