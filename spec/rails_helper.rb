@@ -77,4 +77,8 @@ RSpec.configure do |config|
   config.before(:each, type: :system, debug: true) do
     driven_by :selenium_chrome
   end
+
+  config.before(:each, type: :request, admin: true) do
+    host! "admin.example.com"
+  end
 end
