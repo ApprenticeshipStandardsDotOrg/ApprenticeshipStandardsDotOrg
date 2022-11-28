@@ -15,4 +15,3 @@ module ActiveStorageAttachmentExtension
     end
   end
 end
-
