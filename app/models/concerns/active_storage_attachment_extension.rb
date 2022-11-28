@@ -3,9 +3,16 @@ module ActiveStorageAttachmentExtension
 
   included do
     has_one :file_import
+
+    after_commit :create_file_import, on: :create
+  end
+
+  private
+
+  def create_file_import
+    if record_type == "StandardsImport"
+      FileImport.create!(active_storage_attachment: self)
+    end
   end
 end
 
-Rails.configuration.to_prepare do
-  ActiveStorage::Attachment.include ActiveStorageAttachmentExtension
-end
