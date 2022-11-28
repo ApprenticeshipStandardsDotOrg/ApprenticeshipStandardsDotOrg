@@ -1,1 +1,8 @@
-<div>File imports page</div>
+<div>
+<% @file_imports.find_each do |file_import| %>
+  <div>
+    <%= file_import.status.titleize %>
+    <%= link_to file_import.active_storage_attachment.blob.filename, "#" %>
+  </div>
+<% end %>
+</div>

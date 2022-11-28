@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :file_import do
-    active_storage_attachment { ActiveStorage::Attachment.new }
+    association :active_storage_attachment, factory: :active_storage_attachment
   end
 end
