@@ -69,6 +69,7 @@ GEM
     addressable (2.8.1)
       public_suffix (>= 2.0.2, < 6.0)
     ast (2.4.2)
+    bcrypt (3.1.18)
     better_html (2.0.1)
       actionview (>= 6.0)
       activesupport (>= 6.0)
@@ -76,7 +77,6 @@ GEM
       erubi (~> 1.4)
       parser (>= 2.4)
       smart_properties
-    bcrypt (3.1.18)
     bindex (0.8.1)
     bootsnap (1.13.0)
       msgpack (~> 1.2)
