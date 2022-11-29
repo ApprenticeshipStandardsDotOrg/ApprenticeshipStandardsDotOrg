@@ -2,7 +2,7 @@
 <% @file_imports.find_each do |file_import| %>
   <div>
     <%= file_import.status.titleize %>
-    <%= link_to file_import.active_storage_attachment.blob.filename, "#" %>
+    <%= link_to file_import.active_storage_attachment.blob.filename, file_import.active_storage_attachment.blob.url %>
   </div>
 <% end %>
 </div>
