@@ -26,7 +26,7 @@ RSpec.describe "FileImports", type: :request do
 
     context "on non-admin subdomain" do
       it "has 404 response" do
-        expect{
+        expect {
           get file_imports_path
         }.to raise_error(ActionController::RoutingError)
       end
