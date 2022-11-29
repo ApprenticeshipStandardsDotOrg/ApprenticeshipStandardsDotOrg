@@ -5,6 +5,7 @@ RSpec.describe "FileImports", type: :request do
     context "when admin user" do
       it "returns http success" do
         admin = create(:admin)
+        create_pair(:standards_import, :with_files)
 
         sign_in admin
         get file_imports_path

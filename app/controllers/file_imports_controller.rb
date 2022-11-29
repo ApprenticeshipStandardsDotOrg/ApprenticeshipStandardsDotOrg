@@ -2,6 +2,6 @@ class FileImportsController < ApplicationController
   before_action :authenticate_user!, only: [:index]
 
   def index
-    @file_imports = FileImport.all
+    @file_imports = FileImport.includes(active_storage_attachment: :blob)
   end
 end
