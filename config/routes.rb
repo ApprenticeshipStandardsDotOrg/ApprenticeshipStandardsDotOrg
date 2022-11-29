@@ -10,9 +10,20 @@ Rails.application.routes.draw do
       patch "users", to: "devise/registrations#update", as: "user_registration"
       put "users", to: "devise/registrations#update", as: nil
     end
+
+    devise_scope :user do
+      unauthenticated do
+        root to: "users/sessions#new", as: :unauthenticated_root
+      end
+
+      authenticated :user do
+        root to: "file_imports#index"
+      end
+    end
   end
 
-  root to: "standards_imports#new"
+  root to: "standards_imports#new", as: :guest_root
+
   resources :standards_imports, only: [:new, :create, :show]
   resources :file_imports, only: [:index]
 end
