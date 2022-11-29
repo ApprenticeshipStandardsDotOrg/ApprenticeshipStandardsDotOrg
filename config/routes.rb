@@ -20,10 +20,11 @@ Rails.application.routes.draw do
         root to: "file_imports#index"
       end
     end
+
+    resources :file_imports, only: [:index]
   end
 
   root to: "standards_imports#new", as: :guest_root
 
   resources :standards_imports, only: [:new, :create, :show]
-  resources :file_imports, only: [:index]
 end
