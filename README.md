@@ -5,8 +5,15 @@ Rails 7, and PostgreSQL 14.
 ## Development setup
 1. Run `bin/setup`
 2. Install [libvips][libvips] for use with ActiveStorage
+4. To access the admin pages, you must modify your `/etc/hosts` file:
+   ```
+   # Added for ApprenticeshipStandards.org
+   127.0.0.1 admin.example.localhost
+   # End ApprenticeshipStandards.org additions
+   ```
 3. Start rails app: `bin/dev`. The application will be available
-   at http://localhost:3000.
+   at http://localhost:3000. The admin pages will be available at:
+   http://admin.example.localhost:3000.
 
 [libvips]: https://www.libvips.org/install.html
 
