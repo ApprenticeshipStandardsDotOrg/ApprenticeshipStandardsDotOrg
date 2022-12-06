@@ -1,7 +1,7 @@
 <div class="flex flex-col w-full mx-auto">
   <h1 class="mx-auto text-center">Log in</h1>
   <div class="w-full max-w-prose mx-auto">
-    <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "w-full max-w-prose bg-white shadow-md rounded p-8 pt-6 pb-8 mb-4" }) do |f| %>
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: "w-full max-w-prose bg-white shadow-md rounded p-8 pt-6 pb-8 mb-4"}) do |f| %>
       <div class="field text-sm mb-4">
         <%= f.label :email, class: "font-semibold" %><br>
         <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "w-full mt-2 rounded" %>
