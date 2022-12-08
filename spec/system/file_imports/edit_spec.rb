@@ -17,13 +17,16 @@ RSpec.describe "file_imports/edit" do
 
     login_as admin
     visit file_imports_path
+
     within("div#file-imports") do
       first("a", text: "Edit", exact: true).click
     end
+    
     expect(page).to have_content("Edit #{file.active_storage_attachment.blob.filename}")
-    # Select drop down and change status to something else
-    # Click on update
-    # Verify that within FileImports we have a file import with the changed status
-
+    select("Processing", from: "file_import[status]").click
+    click_on "Update"
+    expect(page).to have_content("File Imports")
+    file.reload
+    expect(file.status).to eq "processing"
   end
 end
