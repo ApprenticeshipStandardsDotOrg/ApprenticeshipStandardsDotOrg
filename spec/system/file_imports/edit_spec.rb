@@ -21,7 +21,7 @@ RSpec.describe "file_imports/edit" do
     within("div#file-imports") do
       first("a", text: "Edit", exact: true).click
     end
-    
+
     expect(page).to have_content("Edit #{file.active_storage_attachment.blob.filename}")
     select("Processing", from: "file_import[status]").click
     click_on "Update"

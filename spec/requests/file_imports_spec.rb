@@ -39,14 +39,14 @@ RSpec.describe "FileImports", type: :request do
         it "returns http success" do
           admin = create(:admin)
           file = create(:file_import)
-          
+
           sign_in admin
           get edit_file_import_path(file)
-          
+
           expect(response).to be_successful
         end
       end
-      
+
       context "when guest" do
         it "redirects to root path" do
           file = create(:file_import)
