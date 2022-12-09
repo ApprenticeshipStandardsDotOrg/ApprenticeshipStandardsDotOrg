@@ -1,5 +1,5 @@
 class FileImportsController < ApplicationController
-  before_action :authenticate_user!, only: [:index]
+  before_action :authenticate_user!
   include ActiveStorage::SetCurrent
 
   def index
