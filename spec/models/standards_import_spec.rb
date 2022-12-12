@@ -7,6 +7,14 @@ RSpec.describe StandardsImport, type: :model do
     expect(si).to be_valid
   end
 
+  describe "#file_count" do
+    it "returns file count" do
+      si = create(:standards_import, :with_files)
+
+      expect(si.file_count).to eq 1
+    end
+  end
+
   describe "#notify_admin" do
     it "calls new_standards_import mailer on create" do
       si = build(:standards_import)

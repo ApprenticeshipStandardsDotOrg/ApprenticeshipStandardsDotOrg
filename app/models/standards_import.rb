@@ -3,6 +3,10 @@ class StandardsImport < ApplicationRecord
 
   after_create :notify_admin
 
+  def file_count
+    files.count
+  end
+
   private
 
   def notify_admin
