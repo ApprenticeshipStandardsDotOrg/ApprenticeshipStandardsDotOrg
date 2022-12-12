@@ -81,6 +81,7 @@ RSpec.describe "FileImports", type: :request do
             }
           }
           patch file_import_path(file), params: file_params
+          expect(file.reload).to be_processing
           expect(response).to redirect_to file_imports_path
         end
       end

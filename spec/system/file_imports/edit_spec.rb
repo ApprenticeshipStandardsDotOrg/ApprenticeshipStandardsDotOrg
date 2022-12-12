@@ -1,16 +1,6 @@
 require "rails_helper"
 
 RSpec.describe "file_imports/edit" do
-  it "displays edit link", :admin do
-    create :file_import
-    admin = create :admin
-
-    login_as admin
-    visit file_imports_path
-
-    expect(page).to have_link("Edit", exact: true)
-  end
-
   it "allows admin user to edit file import", :admin, debug: true do
     file = create :file_import
     admin = create :admin
