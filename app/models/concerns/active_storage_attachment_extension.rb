@@ -11,7 +11,9 @@ module ActiveStorageAttachmentExtension
 
   def create_file_import
     if record_type == "StandardsImport"
-      FileImport.create!(active_storage_attachment: self)
+      Rails.error.handle do
+        FileImport.create!(active_storage_attachment: self)
+      end
     end
   end
 end

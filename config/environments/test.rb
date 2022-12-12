@@ -59,6 +59,10 @@ Rails.application.configure do
   # config.action_view.annotate_rendered_view_with_filenames = true
 
   config.after_initialize do
+    Rails.error.subscribe(ErrorSubscriber.new)
+  end
+
+  config.after_initialize do
     Bullet.enable = true
     Bullet.bullet_logger = true
     Bullet.unused_eager_loading_enable = false
