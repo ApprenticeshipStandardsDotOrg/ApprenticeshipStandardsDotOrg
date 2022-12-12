@@ -12,10 +12,13 @@ RSpec.describe "file_imports/edit" do
       first("a", text: "Edit").click
     end
 
-    expect(page).to have_content("Edit #{file.active_storage_attachment.blob.filename}")
+    expect(page).to have_content("Edit #{file.filename}")
     select("Processing", from: "file_import[status]").click
     click_on "Update"
-    expect(page).to have_content("File Imports")
+    within("h2") do
+      expect(page).to have_content("File Imports")
+    end
+    expect(page).to have_content("Processing")
     file.reload
     expect(file.status).to eq "processing"
   end
