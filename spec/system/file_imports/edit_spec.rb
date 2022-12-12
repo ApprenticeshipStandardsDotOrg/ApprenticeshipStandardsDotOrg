@@ -9,7 +9,7 @@ RSpec.describe "file_imports/edit" do
     visit file_imports_path
 
     within("div#file-imports") do
-      first("a", text: "Edit", exact: true).click
+      first("a", text: "Edit").click
     end
 
     expect(page).to have_content("Edit #{file.active_storage_attachment.blob.filename}")
