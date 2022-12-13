@@ -34,6 +34,8 @@ Then, try to install mailcatcher again:
 gem install mailcatcher
 ```
 
+To preview emails, go to `http://localhost:1080`
+
 ## Linting
 ### Ruby linting
 
