@@ -21,7 +21,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :file_imports, only: [:index]
+    resources :file_imports, only: [:index, :edit, :update]
   end
 
   root to: "standards_imports#new", as: :guest_root
