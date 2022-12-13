@@ -5,17 +5,31 @@ Rails 7, and PostgreSQL 14.
 ## Development setup
 1. Run `bin/setup`
 2. Install [libvips][libvips] for use with ActiveStorage
+3. Install [mailcatcher][mailcatcher] to preview emails
 4. To access the admin pages, you must modify your `/etc/hosts` file:
    ```
    # Added for ApprenticeshipStandards.org
    127.0.0.1 admin.example.localhost
    # End ApprenticeshipStandards.org additions
    ```
-3. Start rails app: `bin/dev`. The application will be available
+5. Start rails app: `bin/dev`. The application will be available
    at http://localhost:3000. The admin pages will be available at:
    http://admin.example.localhost:3000.
 
 [libvips]: https://www.libvips.org/install.html
+[mailcatcher]: https://mailcatcher.me
+
+If you run into an issue while installing mailcatcher, you can try installing thin with the following command:
+
+```bash
+gem install thin -v 1.5.1 -- --with-cflags="-Wno-error=implicit-function-declaration"
+```
+
+Then, try to install mailcatcher again:
+
+```bash
+gem install mailcatcher
+```
 
 ## Linting
 ### Ruby linting
