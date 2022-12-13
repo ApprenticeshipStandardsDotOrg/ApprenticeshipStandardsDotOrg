@@ -5,7 +5,6 @@
       <p class="font-medium"><%= link_to file_import.filename, file_import.active_storage_attachment.blob.url %></p>
       <p class="text-sm rounded-full py-2 px-4 bg-amber-300"><%= file_import.status.titleize %></p>
       <%= link_to "Edit", edit_file_import_path(file_import) %>
-
     </div>
   <% end %>
 </div>
