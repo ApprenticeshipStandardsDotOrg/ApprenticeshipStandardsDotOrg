@@ -6,8 +6,9 @@ class AdminMailer < ApplicationMailer
   #   en.admin_mailer.new_standards_import.subject
   #
   def new_standards_import(standards_import)
-    @greeting = "Hi"
+    @standards_import = standards_import
 
-    mail to: "to@example.org"
+    mail to: "admin@example.org",
+      subject: "New standards import uploaded"
   end
 end
