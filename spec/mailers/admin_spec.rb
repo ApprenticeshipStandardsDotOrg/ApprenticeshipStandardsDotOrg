@@ -12,10 +12,12 @@ RSpec.describe AdminMailer, type: :mailer do
       expect(mail.to).to eq(["admin@example.org"])
       expect(mail.from).to eq(["admin@example.com"])
 
-      expect(mail.body.encoded).to match si.name
-      expect(mail.body.encoded).to match si.email
-      expect(mail.body.encoded).to match si.organization
-      expect(mail.body.encoded).to match "10 files uploaded"
+      mail.body.parts.each do |part|
+        expect(part.body.encoded).to match si.name
+        expect(part.body.encoded).to match si.email
+        expect(part.body.encoded).to match si.organization
+        expect(part.body.encoded).to match "10 files uploaded"
+      end
     end
   end
 end
