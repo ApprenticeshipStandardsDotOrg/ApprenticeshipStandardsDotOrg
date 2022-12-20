@@ -58,6 +58,7 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "ApprenticeshipStandardsDotOrg_production"
 
   config.action_mailer.perform_caching = false
+  config.action_mailer.default_url_options = {host: ENV["APP_DOMAIN"]}
 
   ActionMailer::Base.smtp_settings = {
     port: ENV["MAILGUN_SMTP_PORT"],
