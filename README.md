@@ -126,3 +126,7 @@ end
 
 Any errors when running in debug mode will also create a screenshot in the `tmp`
 directory to help with debugging.
+
+### Deployment
+
+Every time `main` is updated, it will trigger a deploy to Heroku automatically.
