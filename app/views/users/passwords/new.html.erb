@@ -1,16 +1,21 @@
-<h2>Forgot your password?</h2>
+<div class="flex flex-col w-full mx-auto">
+  <h1 class="mx-auto text-center">Forgot your password?</h1>
+  <div class="w-full max-w-prose mx-auto">
+    <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: {method: :post, class: "w-full max-w-prose bg-white shadow-md rounded p-8 pt-6 pb-8 mb-4"}) do |f| %>
+      <%= render "users/shared/error_messages", resource: resource %>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: {method: :post}) do |f| %>
-  <%= render "users/shared/error_messages", resource: resource %>
+      <div class="field  text-sm mb-4">
+        <%= f.label :email, class: "font-semibold" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "w-full mt-2 rounded" %>
+      </div>
 
-  <div class="field">
-    <%= f.label :email %><br>
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+      <div class="actions">
+        <%= f.submit "Send me reset password instructions", class: "btn-primary" %>
+      </div>
+    <% end %>
+
+    <div class="hover:text-slate-50">
+      <%= render "users/shared/links" %>
+    </div>
   </div>
-
-  <div class="actions">
-    <%= f.submit "Send me reset password instructions" %>
-  </div>
-<% end %>
-
-<%= render "users/shared/links" %>
+</div>
