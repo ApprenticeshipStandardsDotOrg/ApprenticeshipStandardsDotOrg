@@ -37,6 +37,3 @@
 
 # Ignore spec file to track failures for --only-failures flag
 spec/examples.txt
-
-# Ignore node_modules
-/node_modules
