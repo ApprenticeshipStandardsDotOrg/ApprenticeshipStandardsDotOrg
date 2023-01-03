@@ -1,10 +1,10 @@
 <% if Rails.env.production? %>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=<%= Rails.application.credentials.dig(:google_analytics) %>"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EJH1K3YRJK"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
 
-    gtag('config', '<%= Rails.application.credentials.dig(:google_analytics) %>');
+    gtag('config', 'G-EJH1K3YRJK');
   </script>
 <% end %>
