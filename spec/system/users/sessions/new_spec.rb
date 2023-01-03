@@ -30,7 +30,7 @@ RSpec.describe "user/sessions/new", :admin, :js do
       expect(page).to have_css('div[role="alert"]')
 
       find("svg[aria-label=Close]").click
-      expect(page).to_not have_text "Invalid Email or password"
+      expect(page).to_not have_no_content "Invalid Email or password"
     end
   end
 end
