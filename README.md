@@ -47,6 +47,10 @@ brew install mailcatcher
 
 [mailcatcher_brew]: https://formulae.brew.sh/formula/mailcatcher
 
+## AWS Setup
+If you will have access to AWS to manage the S3 buckets, [view the setup
+documentation](doc/AWS.md).
+
 ## Linting
 ### Ruby linting
 
