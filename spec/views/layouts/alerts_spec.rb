@@ -7,8 +7,8 @@ RSpec.describe "layouts/_alerts.html.erb", type: :view do
 
       expect(rendered).to have_css "[aria-label=Close]"
       expect(rendered).to have_css "[role=button]"
-      expect(rendered).to have_css '[data-dismiss-target="#alert-flash"]'
-      expect(rendered).to have_css "div#alert-flash"
+      expect(rendered).to have_css '[data-action="click->dismissable#dismiss"]'
+      expect(rendered).to have_css '[data-controller="dismissable"]'
       expect(rendered).to have_text "Sample alert"
     end
   end
@@ -19,8 +19,8 @@ RSpec.describe "layouts/_alerts.html.erb", type: :view do
 
       expect(rendered).to have_css "[aria-label=Close]"
       expect(rendered).to have_css "[role=button]"
-      expect(rendered).to have_css '[data-dismiss-target="#notice-flash"]'
-      expect(rendered).to have_css "div#notice-flash"
+      expect(rendered).to have_css '[data-action="click->dismissable#dismiss"]'
+      expect(rendered).to have_css '[data-controller="dismissable"]'
       expect(rendered).to have_text "Sample notice"
     end
   end
