@@ -18,7 +18,7 @@ RSpec.describe "user/sessions/new", :admin, :js do
   end
 
   context "with invalid parameters" do
-    it "shows error message" do
+    it "shows error message that can be dismissed" do
       visit new_user_session_path
 
       fill_in "Email", with: "user@example.com"
@@ -28,6 +28,9 @@ RSpec.describe "user/sessions/new", :admin, :js do
       expect(page).to_not have_link "Logout"
       expect(page).to have_text "Invalid Email or password"
       expect(page).to have_css('div[role="alert"]')
+
+      find("svg[aria-label=Close]").click
+      expect(page).to have_no_content "Invalid Email or password"
     end
   end
 end
