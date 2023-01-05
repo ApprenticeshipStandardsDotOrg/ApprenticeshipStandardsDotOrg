@@ -16,7 +16,8 @@
    so you can try again.
 5. Setup your MFA Access by clicking on “Assign MFA Device”. Follow the
    instructions to set up Google Authenticator, or another Virtual MFA Device.
-   **For the MFA device name, be sure to enter your username.**
+   **For the MFA device name, be sure to enter your IAM username that you use to
+   sign in to the AWS console or you will get a permissions error.**
 
    ![Assign MFA Device button](images/assign-mfa-device.png "Assign MFA Device")
 
