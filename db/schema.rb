@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_06_195916) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_09_185748) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -59,7 +59,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_06_195916) do
     t.string "onet_code"
     t.string "rapids_code"
     t.integer "time_based_hours"
-    t.string "hybrid_hours"
+    t.int4range "hybrid_hours"
     t.integer "competency_based_hours"
   end
 
