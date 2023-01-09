@@ -76,6 +76,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_09_170211) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "states", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.string "abbreviation"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.integer "role", default: 0, null: false
