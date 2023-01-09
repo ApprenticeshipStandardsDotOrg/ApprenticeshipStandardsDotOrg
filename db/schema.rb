@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_05_173615) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_09_170211) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -57,6 +57,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_05_173615) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "onet_code"
+    t.string "rapids_code"
+    t.integer "time_based_hours"
+    t.string "hybrid_hours"
+    t.integer "competency_based_hours"
   end
 
   create_table "onet_codes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -64,6 +68,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_05_173615) do
     t.string "code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name", "code"], name: "unique_name_per_code", unique: true
   end
 
   create_table "standards_imports", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
