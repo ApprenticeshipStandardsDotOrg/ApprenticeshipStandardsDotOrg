@@ -83,6 +83,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_09_170211) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "task_records", id: false, force: :cascade do |t|
+    t.string "version", null: false
+  end
+
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.integer "role", default: 0, null: false

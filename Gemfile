@@ -42,6 +42,7 @@ gem "bootsnap", require: false
 gem "devise"
 gem "rollbar"
 gem "aws-sdk-s3", require: false
+gem "after_party"
 
 # Use Sass to process CSS
 # gem "sassc-rails"
