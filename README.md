@@ -5,7 +5,9 @@ Rails 7, and PostgreSQL 14.
 ## Development setup
 1. Run `bin/setup`
 2. Install [libvips][libvips] for use with ActiveStorage
-3. Install [mailcatcher][mailcatcher] to preview emails
+3. Install [mailcatcher][mailcatcher] to preview emails. See the
+   [troubleshooting](#mailcatcher-troubleshooting) section if you have
+   installation issues.
 4. To access the admin pages, you must modify your `/etc/hosts` file:
    ```
    # Added for ApprenticeshipStandards.org
@@ -19,9 +21,12 @@ Rails 7, and PostgreSQL 14.
    ```bash
    mailcatcher
    ```
+   To preview emails, go to `http://localhost:1080`
+
 [libvips]: https://www.libvips.org/install.html
 [mailcatcher]: https://mailcatcher.me
 
+### Mailcatcher troubleshooting
 If you run into an issue while installing mailcatcher, you can try installing thin with the following command:
 
 ```bash
@@ -34,7 +39,17 @@ Then, try to install mailcatcher again:
 gem install mailcatcher
 ```
 
-To preview emails, go to `http://localhost:1080`
+You can also install mailcatcher with [brew][mailcatcher_brew]:
+
+```bash
+brew install mailcatcher
+```
+
+[mailcatcher_brew]: https://formulae.brew.sh/formula/mailcatcher
+
+## AWS Setup
+If you will have access to AWS to manage the S3 buckets, [view the setup
+documentation](doc/AWS.md).
 
 ## Linting
 ### Ruby linting
