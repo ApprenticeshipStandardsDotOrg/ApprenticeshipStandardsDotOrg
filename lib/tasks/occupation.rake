@@ -7,10 +7,23 @@ namespace :occupation do
       xlsx = Roo::Spreadsheet.open("https://www.apprenticeship.gov/sites/default/files/wps/apprenticeship-occupations.xlsx")
       xlsx.sheet(0).parse(headers: true).each do |row|
         occupation = Occupation.find_or_initialize_by(name: row["RAPIDS TITLE"])
+        hybrid_start_hours = nil
+        hybrid_end_hours = nil
+        hybrid_hours = nil
+
+        if row["HYBRID"]
+          hybrid_start_hours = row["HYBRID"].match(/(\d{1,}) -/)
+          hybrid_end_hours = row["HYBRID"].match(/- (\d{1,})/)
+        end
+
+        if hybrid_start_hours && hybrid_end_hours
+          hybrid_hours = (hybrid_start_hours[1]..hybrid_end_hours[1])
+        end
+
         occupation.update!(
           rapids_code: row["RAPIDS CODE"],
           time_based_hours: row["TIME-BASED"],
-          hybrid_hours: row["HYBRID"],
+          hybrid_hours: hybrid_hours,
           competency_based_hours: row["COMPETENCY-BASED"]
         )
       end
