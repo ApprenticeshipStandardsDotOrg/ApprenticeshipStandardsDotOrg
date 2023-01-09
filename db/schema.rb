@@ -68,7 +68,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_09_170211) do
     t.string "code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["name", "code"], name: "unique_name_per_code", unique: true
+    t.index ["code"], name: "unique_code", unique: true
   end
 
   create_table "standards_imports", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
