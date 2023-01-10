@@ -76,10 +76,6 @@ Rails.application.configure do
   config.hosts << "admin.example.localhost"
 
   config.after_initialize do
-    Rails.error.subscribe(ErrorSubscriber.new)
-  end
-
-  config.after_initialize do
     Bullet.enable = true
     Bullet.alert = true
     Bullet.bullet_logger = true
