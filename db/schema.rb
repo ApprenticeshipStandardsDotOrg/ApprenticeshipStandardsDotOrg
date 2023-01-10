@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_09_170211) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_10_165003) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -72,6 +72,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_09_170211) do
     t.integer "agency_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["state_id", "agency_type"], name: "index_registration_agencies_on_state_id_and_agency_type", unique: true
     t.index ["state_id"], name: "index_registration_agencies_on_state_id"
   end
 
