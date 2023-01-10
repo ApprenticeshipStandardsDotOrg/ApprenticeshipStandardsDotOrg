@@ -15,4 +15,13 @@ RSpec.describe RegistrationAgency, type: :model do
     new_ra.agency_type = :saa
     expect(new_ra).to be_valid
   end
+
+  describe "#to_s" do
+    it "returns state name and agency type" do
+      ca = build_stubbed(:state, name: "California")
+      ra = build(:registration_agency, state: ca, agency_type: :saa)
+
+      expect(ra.to_s).to eq "California (SAA)"
+    end
+  end
 end
