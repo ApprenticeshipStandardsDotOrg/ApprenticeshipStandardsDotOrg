@@ -19,6 +19,8 @@ namespace :occupation do
 
         if hybrid_start_hours && hybrid_end_hours
           hybrid_hours = (hybrid_start_hours[1]..hybrid_end_hours[1])
+        elsif row["HYBRID"]
+          hybrid_hours = (row["HYBRID"]..row["HYBRID"])
         end
 
         occupation.update!(
