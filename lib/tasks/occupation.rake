@@ -6,7 +6,8 @@ namespace :occupation do
     if Date.current.wday.eql?(0) || ENV["FORCE"] == "true"
       puts "Importing RAPIDS codes"
       xlsx = Roo::Spreadsheet.open("https://www.apprenticeship.gov/sites/default/files/wps/apprenticeship-occupations.xlsx")
-      xlsx.sheet(0).parse(headers: true).each do |row|
+      xlsx.sheet(0).parse(headers: true).each_with_index do |row, index|
+        next if index.zero?
         occupation = Occupation.find_or_initialize_by(name: row["RAPIDS TITLE"])
         hybrid_start_hours = nil
         hybrid_end_hours = nil
