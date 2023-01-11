@@ -2,7 +2,7 @@ module ActiveStorageAttachmentExtension
   extend ActiveSupport::Concern
 
   included do
-    has_one :file_import
+    has_one :file_import, foreign_key: :active_storage_attachment_id, dependent: :destroy
 
     after_commit :create_file_import, on: :create
   end
