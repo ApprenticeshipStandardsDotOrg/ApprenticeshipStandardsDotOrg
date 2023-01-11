@@ -17,10 +17,10 @@ namespace :occupation do
           hybrid_start_hours = hours.match(/(\d{1,})\s*-/)
           hybrid_end_hours = hours.match(/-\s*(\d{1,})/)
 
-          if hybrid_start_hours && hybrid_end_hours
-            hybrid_hours = (hybrid_start_hours[1]..hybrid_end_hours[1])
+          hybrid_hours = if hybrid_start_hours && hybrid_end_hours
+            (hybrid_start_hours[1]..hybrid_end_hours[1])
           else
-            hybrid_hours = (hours..hours)
+            (hours..hours)
           end
         end
 
