@@ -57,6 +57,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_10_165003) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "onet_code"
+    t.string "rapids_code"
+    t.integer "time_based_hours"
+    t.int4range "hybrid_hours"
+    t.integer "competency_based_hours"
   end
 
   create_table "onet_codes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
