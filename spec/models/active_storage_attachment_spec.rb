@@ -33,4 +33,17 @@ RSpec.describe ActiveStorage::Attachment, type: :model do
 
     expect { attachment.save! }.to_not change(FileImport, :count)
   end
+
+  it "deletes file import record when deleted" do
+    file_import = create(:file_import)
+    attachment = file_import.active_storage_attachment
+
+    expect {
+      attachment.destroy!
+    }.to change(ActiveStorage::Attachment, :count).by(-1)
+      .and change(FileImport, :count).by(-1)
+
+    expect { attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
+    expect { file_import.reload }.to raise_error(ActiveRecord::RecordNotFound)
+  end
 end

@@ -7,6 +7,23 @@ RSpec.describe StandardsImport, type: :model do
     expect(si).to be_valid
   end
 
+  it "deletes file import record when deleted" do
+    standards_import = create(:standards_import, :with_files)
+    attachment = standards_import.files.first
+    file_import = attachment.file_import
+
+    expect(attachment).to be
+    expect(file_import).to be
+
+    expect {
+      standards_import.destroy!
+    }.to change(ActiveStorage::Attachment, :count).by(-1)
+      .and change(FileImport, :count).by(-1)
+
+    expect { attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
+    expect { file_import.reload }.to raise_error(ActiveRecord::RecordNotFound)
+  end
+
   describe "#file_count" do
     it "returns file count" do
       si = create(:standards_import, :with_files)
