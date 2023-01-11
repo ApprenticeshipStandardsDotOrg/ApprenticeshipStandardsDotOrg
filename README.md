@@ -67,6 +67,24 @@ To automatically apply linting fixes, run:
 bundle exec standardrb --fix
 ```
 
+## Post-deployment tasks
+
+We are using [After Party](https://github.com/theSteveMitchell/after_party) to
+run post-deployment tasks. These tasks may include one-time necessary updates to the
+database. Run the tasks manually by:
+```
+bundle exec rake after_party:run
+```
+
+Alternatively, every time you pull the main branch, run:
+```
+bin/setup
+```
+
+which will update gems, run any database migrations, and run the after party
+post-deployment tasks.
+
+
 ### ERB linting
 We are using [erb_lint][erb_lint] for ERB linting. To check the style of all
 `.erb` files, run:

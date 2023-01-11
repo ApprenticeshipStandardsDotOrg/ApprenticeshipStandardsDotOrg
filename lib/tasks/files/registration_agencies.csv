@@ -1,0 +1,58 @@
+state_name,type
+Alaska,OA
+Alabama,SAA
+Arkansas,OA
+Arizona,SAA
+California,OA
+California,SAA
+Colorado,OA
+Connecticut,SAA
+District of Columbia,SAA
+Delaware,SAA
+Florida,SAA
+Georgia,OA
+Guam,SAA
+Hawaii,SAA
+Iowa,OA
+Idaho,OA
+Illinois,OA
+Indiana,OA
+Kansas,SAA
+Kentucky,SAA
+Louisiana,SAA
+Massachusetts,SAA
+Maryland,SAA
+Maine,SAA
+Michigan,OA
+Minnesota,SAA
+Missouri,OA
+Mississippi,OA
+Montana,SAA
+North Carolina,SAA
+North Dakota,OA
+Nebraska,OA
+New Hampshire,OA
+New Jersey,OA
+New Mexico,SAA
+Nevada,SAA
+New York,SAA
+Ohio,SAA
+Oklahoma,OA
+Oregon,SAA
+Pennsylvania,SAA
+Puerto Rico,OA
+Rhode Island,SAA
+South Carolina,OA
+South Dakota,OA
+Tennessee,SAA
+Texas,OA
+Utah,OA
+Virginia,SAA
+U.S. Virgin Islands,SAA
+Vermont,SAA
+Washington,SAA
+Wisconsin,SAA
+West Virginia,OA
+Wyoming,OA
+American Samoa,OA
+Northern Mariana Islands,OA
