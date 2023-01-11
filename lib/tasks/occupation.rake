@@ -13,14 +13,15 @@ namespace :occupation do
         hybrid_hours = nil
 
         if row["HYBRID"]
-          hybrid_start_hours = row["HYBRID"].match(/(\d{1,}) -/)
-          hybrid_end_hours = row["HYBRID"].match(/- (\d{1,})/)
-        end
+          hours = row["HYBRID"]
+          hybrid_start_hours = hours.match(/(\d{1,})\s*-/)
+          hybrid_end_hours = hours.match(/-\s*(\d{1,})/)
 
-        if hybrid_start_hours && hybrid_end_hours
-          hybrid_hours = (hybrid_start_hours[1]..hybrid_end_hours[1])
-        elsif row["HYBRID"]
-          hybrid_hours = (row["HYBRID"]..row["HYBRID"])
+          if hybrid_start_hours && hybrid_end_hours
+            hybrid_hours = (hybrid_start_hours[1]..hybrid_end_hours[1])
+          else
+            hybrid_hours = (hours..hours)
+          end
         end
 
         occupation.update!(
