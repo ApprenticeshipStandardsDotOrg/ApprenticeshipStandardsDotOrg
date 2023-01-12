@@ -1,0 +1,18 @@
+<div class="flex flex-col w-full mx-auto">
+  <h1 class="w-full max-w-prose mx-auto text-center mb-3">Thank you for submitting your occupation standard!</h1>
+  <div class="w-full max-w-prose mx-auto mb-4">
+    <div class="mb-4">
+      <div class="show-label">Description</div>
+      <div class="show-field"><%= @data_import.description %></div>
+    </div>
+    <div class="mb-4">
+      <div class="show-label">File</div>
+        <div class="w-full mb-1">
+          <%= link_to @data_import.file.filename.to_s, url_for(@data_import.file), class: "text-blue-600 hover:text-blue-800 visited:text-purple-600" %>
+        </div>
+    </div>
+  </div>
+  <div class="w-full max-w-prose mx-auto">
+    <%= link_to "Upload more standards", new_data_import_path, class: "btn-primary" %>
+  </div>
+</div>
