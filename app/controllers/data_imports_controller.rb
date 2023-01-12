@@ -17,7 +17,16 @@ class DataImportsController < ApplicationController
   end
 
   def show
-    @data_import = DataImport.includes(file_attachment: :blob).find(params[:id])
+    @data_import = DataImport.find(params[:id])
+  end
+
+  def destroy
+    @data_import = DataImport.find(params[:id])
+    
+    unless @data_import.destroy
+      flash[:error] = "Occupation Standard could not be deleted"
+    end
+    redirect_to new_data_import_path
   end
 
   private

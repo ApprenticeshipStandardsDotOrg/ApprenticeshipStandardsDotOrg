@@ -14,5 +14,6 @@
   </div>
   <div class="w-full max-w-prose mx-auto">
     <%= link_to "Upload more standards", new_data_import_path, class: "btn-primary" %>
+    <%= link_to "Delete occupation standard", data_import_path(@data_import), method: :delete, data: {turbo_method: :delete}, class: "btn-primary" %>
   </div>
 </div>

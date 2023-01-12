@@ -66,4 +66,15 @@ RSpec.describe "DataImports", type: :request, admin: true do
       expect(response).to be_successful
     end
   end
+
+  describe "DELETE /destroy" do
+    it "deletes record and redirects to new page" do
+      admin = create(:admin)
+      di = create(:data_import)
+      
+      sign_in admin
+      expect{ delete data_import_path(di) }.to change(DataImport, :count).by(-1)
+      expect(response).to redirect_to(new_data_import_path)
+    end
+  end
 end
