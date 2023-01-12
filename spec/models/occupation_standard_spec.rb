@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe OccupationStandard, type: :model do
   it "has a valid factory" do
@@ -7,7 +7,7 @@ RSpec.describe OccupationStandard, type: :model do
     expect(occupation_standard).to be_valid
   end
 
-  describe "#rapids_code" do 
+  describe "#rapids_code" do
     it "returns occupation rapids_code when occupation exists" do
       occupation = build_stubbed(:occupation, rapids_code: "abc")
       occupation_standard = build(:occupation_standard, occupation: occupation)
@@ -22,7 +22,7 @@ RSpec.describe OccupationStandard, type: :model do
     end
   end
 
-  describe "#onet_code" do 
+  describe "#onet_code" do
     it "returns occupation onet_code when occupation exists" do
       occupation = build_stubbed(:occupation, onet_code: "abc")
       occupation_standard = build(:occupation_standard, occupation: occupation)
