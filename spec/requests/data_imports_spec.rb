@@ -77,4 +77,49 @@ RSpec.describe "DataImports", type: :request, admin: true do
       expect(response).to redirect_to(new_data_import_path)
     end
   end
+
+  describe "GET /edit/:id" do
+    context "on admin subdomain", :admin do
+      context "when admin user" do
+        it "returns http success" do
+          admin = create(:admin)
+          di = create(:data_import)
+
+          sign_in admin
+          get edit_data_import_path(di)
+
+          expect(response).to be_successful
+        end
+      end
+
+      context "when guest" do
+        it "redirects to root path" do
+          di = create(:data_import)
+          get edit_file_import_path(di)
+
+          expect(response).to redirect_to new_user_session_path
+        end
+      end
+    end
+  end
+
+  describe "PUT /update/:id" do
+    context "on admin subdomain", :admin do
+      context "when admin user" do
+        it "updates record and redirects to index" do
+          admin = create(:admin)
+          di = create(:data_import)
+
+          sign_in admin
+          di_params = {
+            data_import: {
+              description: "A new description"
+            }
+          }
+          patch data_import_path(di), params: di_params
+          expect(response).to redirect_to data_import_path(di)
+        end
+      end
+    end
+  end
 end
