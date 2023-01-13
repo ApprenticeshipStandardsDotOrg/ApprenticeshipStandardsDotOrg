@@ -12,5 +12,4 @@ class DataImport < ApplicationRecord
       errors.add(:file, "Must upload file")
     end
   end
-
 end

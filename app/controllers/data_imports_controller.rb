@@ -22,7 +22,7 @@ class DataImportsController < ApplicationController
 
   def destroy
     @data_import = DataImport.find(params[:id])
-    
+
     unless @data_import.destroy
       flash[:error] = "Occupation Standard could not be deleted"
     end
