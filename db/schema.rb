@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_16_181439) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_17_185953) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -141,12 +141,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_16_181439) do
     t.string "title"
     t.string "description"
     t.uuid "occupation_standard_id", null: false
-    t.integer "default_hours"
     t.integer "minimum_hours"
     t.integer "maximum_hours"
     t.integer "sort_order"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.int4range "default_hours"
     t.index ["occupation_standard_id"], name: "index_work_processes_on_occupation_standard_id"
   end
 
