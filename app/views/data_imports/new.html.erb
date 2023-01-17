@@ -10,6 +10,11 @@
         <%= f.label :file, class: "form-label" %>
         <%= f.file_field :file, class: "form-field" %>
       </div>
+      <% if @data_import.errors.any? %>
+        <% @data_import.errors.full_messages.each do |msg| %>
+          <p><%= msg %></p>
+        <% end %>
+      <% end %>
       <div>
         <%= f.submit "Upload", class: "btn-primary" %>
       </div>
