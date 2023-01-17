@@ -79,7 +79,7 @@ RSpec.describe "DataImports", type: :request, admin: true do
   end
 
   describe "GET /edit/:id" do
-    context "on admin subdomain", :admin do
+    context "on admin subdomain" do
       context "when admin user" do
         it "returns http success" do
           admin = create(:admin)
@@ -104,7 +104,7 @@ RSpec.describe "DataImports", type: :request, admin: true do
   end
 
   describe "PUT /update/:id" do
-    context "on admin subdomain", :admin do
+    context "on admin subdomain" do
       context "when admin user" do
         it "updates record and redirects to index" do
           admin = create(:admin)
@@ -124,7 +124,7 @@ RSpec.describe "DataImports", type: :request, admin: true do
   end
 
   describe "GET /index" do
-    context "on admin subdomain", :admin do
+    context "on admin subdomain" do
       context "when admin user" do
         it "returns http success" do
           admin = create(:admin)
