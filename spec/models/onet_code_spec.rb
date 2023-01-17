@@ -7,4 +7,3 @@ RSpec.describe OnetCode, type: :model do
     expect(onet_code).to be_valid
   end
 end
-

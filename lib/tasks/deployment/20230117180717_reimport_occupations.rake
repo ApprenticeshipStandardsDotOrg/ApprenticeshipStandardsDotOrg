@@ -1,5 +1,5 @@
 namespace :after_party do
-  desc 'Deployment task: reimport_occupations'
+  desc "Deployment task: reimport_occupations"
   task reimport_occupations: :environment do
     puts "Running deploy task 'reimport_occupations'"
 
