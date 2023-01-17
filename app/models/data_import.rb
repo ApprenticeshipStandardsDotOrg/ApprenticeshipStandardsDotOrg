@@ -9,7 +9,7 @@ class DataImport < ApplicationRecord
 
   def file_presence
     unless file.attached?
-      errors.add(:file, "Must upload file")
+      errors.add(:file, "must be attached")
     end
   end
 end
