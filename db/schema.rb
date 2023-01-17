@@ -98,6 +98,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_24_155651) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "organization_id"
+    t.string "title"
+    t.integer "term_months"
+    t.int4range "ojt_hours"
+    t.int4range "rsi_hours"
+    t.float "apprenticeship_to_journeyworker_ratio"
     t.index ["occupation_id"], name: "index_occupation_standards_on_occupation_id"
     t.index ["organization_id"], name: "index_occupation_standards_on_organization_id"
     t.index ["registration_agency_id"], name: "index_occupation_standards_on_registration_agency_id"
