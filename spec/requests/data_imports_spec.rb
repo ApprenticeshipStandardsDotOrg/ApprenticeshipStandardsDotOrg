@@ -122,4 +122,28 @@ RSpec.describe "DataImports", type: :request, admin: true do
       end
     end
   end
+
+  describe "GET /index" do
+    context "on admin subdomain", :admin do
+      context "when admin user" do
+        it "returns http success" do
+          admin = create(:admin)
+          create(:data_import)
+
+          sign_in admin
+          get data_imports_path
+
+          expect(response).to be_successful
+        end
+      end
+
+      context "when guest" do
+        it "redirects to root path" do
+          get data_imports_path
+
+          expect(response).to redirect_to new_user_session_path
+        end
+      end
+    end
+  end
 end

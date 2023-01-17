@@ -42,6 +42,10 @@ class DataImportsController < ApplicationController
     end
   end
 
+  def index
+    @data_imports = DataImport.all
+  end
+
   private
 
   def create_params
