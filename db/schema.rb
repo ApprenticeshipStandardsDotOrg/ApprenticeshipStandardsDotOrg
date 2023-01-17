@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_12_183845) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_16_181439) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -129,10 +129,24 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_12_183845) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "work_processes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "title"
+    t.string "description"
+    t.uuid "occupation_standard_id", null: false
+    t.integer "default_hours"
+    t.integer "minimum_hours"
+    t.integer "maximum_hours"
+    t.integer "sort_order"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["occupation_standard_id"], name: "index_work_processes_on_occupation_standard_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "file_imports", "active_storage_attachments"
   add_foreign_key "occupation_standards", "occupations"
   add_foreign_key "occupation_standards", "registration_agencies"
   add_foreign_key "registration_agencies", "states"
+  add_foreign_key "work_processes", "occupation_standards"
 end
