@@ -1,6 +1,10 @@
 class DataImportsController < ApplicationController
   before_action :authenticate_user!
 
+  def index
+    @data_imports = DataImport.all
+  end
+
   def new
     @data_import = DataImport.new
   end
@@ -20,15 +24,6 @@ class DataImportsController < ApplicationController
     @data_import = DataImport.find(params[:id])
   end
 
-  def destroy
-    @data_import = DataImport.find(params[:id])
-
-    unless @data_import.destroy
-      flash[:error] = "Occupation Standard could not be deleted"
-    end
-    redirect_to new_data_import_path
-  end
-
   def edit
     @data_import = DataImport.find(params[:id])
   end
@@ -42,8 +37,13 @@ class DataImportsController < ApplicationController
     end
   end
 
-  def index
-    @data_imports = DataImport.all
+  def destroy
+    @data_import = DataImport.find(params[:id])
+
+    unless @data_import.destroy
+      flash[:error] = "Occupation Standard could not be deleted"
+    end
+    redirect_to new_data_import_path
   end
 
   private
