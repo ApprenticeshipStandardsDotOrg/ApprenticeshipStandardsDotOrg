@@ -10,6 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+
 ActiveRecord::Schema[7.0].define(version: 2023_01_17_192226) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -74,11 +75,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_17_192226) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "onet_code"
     t.string "rapids_code"
     t.integer "time_based_hours"
     t.int4range "hybrid_hours"
     t.integer "competency_based_hours"
+    t.uuid "onet_code_id"
+    t.index ["onet_code_id"], name: "index_occupations_on_onet_code_id"
   end
 
   create_table "onet_codes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -156,6 +158,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_17_192226) do
   add_foreign_key "file_imports", "active_storage_attachments"
   add_foreign_key "occupation_standards", "occupations"
   add_foreign_key "occupation_standards", "registration_agencies"
+  add_foreign_key "occupations", "onet_codes"
   add_foreign_key "registration_agencies", "states"
   add_foreign_key "work_processes", "occupation_standards"
 end

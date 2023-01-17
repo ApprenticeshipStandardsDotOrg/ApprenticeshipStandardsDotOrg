@@ -9,6 +9,7 @@ namespace :occupation do
       xlsx.sheet(0).parse(headers: true).each_with_index do |row, index|
         next if index.zero?
         occupation = Occupation.find_or_initialize_by(name: row["RAPIDS TITLE"])
+        onet_code = OnetCode.find_by(code: row["ONET SOC CODE"].strip)
         hybrid_start_hours = nil
         hybrid_end_hours = nil
         hybrid_hours = nil
@@ -27,6 +28,7 @@ namespace :occupation do
 
         occupation.update!(
           rapids_code: row["RAPIDS CODE"],
+          onet_code: onet_code,
           time_based_hours: row["TIME-BASED"],
           hybrid_hours: hybrid_hours,
           competency_based_hours: row["COMPETENCY-BASED"]
