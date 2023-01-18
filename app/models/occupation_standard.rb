@@ -8,6 +8,8 @@ class OccupationStandard < ApplicationRecord
 
   delegate :rapids_code, to: :occupation, allow_nil: true
 
+  enum occupation_type: [:time, :competency, :hybrid], _suffix: :based
+
   def onet_code
     occupation&.onet_code&.code
   end
