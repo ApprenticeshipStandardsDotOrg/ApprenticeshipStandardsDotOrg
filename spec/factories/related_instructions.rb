@@ -1,10 +1,9 @@
 FactoryBot.define do
   factory :related_instruction do
-    title { "MyString" }
-    hours { "" }
+    title { "Computerized Techniques" }
+    hours { 60 }
     elective { false }
     sort_order { 1 }
-    occupation_standard { nil }
-    default_course_id { 1 }
+    occupation_standard
   end
 end
