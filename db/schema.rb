@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_17_181123) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_18_191907) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -41,6 +41,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_17_181123) do
     t.uuid "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "competency_evaluation_options", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "resource_type", null: false
+    t.uuid "resource_id", null: false
+    t.string "title"
+    t.integer "sort_order"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["resource_type", "resource_id"], name: "index_competency_evaluation_options_on_resource"
   end
 
   create_table "data_imports", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
