@@ -99,18 +99,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_20_175440) do
     t.index ["state_id"], name: "index_registration_agencies_on_state_id"
   end
 
-  create_table "related_instructions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "title"
-    t.int4range "hours"
-    t.boolean "elective"
-    t.integer "sort_order"
-    t.uuid "occupation_standard_id", null: false
-    t.integer "default_course_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["occupation_standard_id"], name: "index_related_instructions_on_occupation_standard_id"
-  end
-
   create_table "standards_imports", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -184,7 +172,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_20_175440) do
   add_foreign_key "occupation_standards", "registration_agencies"
   add_foreign_key "occupations", "onet_codes"
   add_foreign_key "registration_agencies", "states"
-  add_foreign_key "related_instructions", "occupation_standards"
   add_foreign_key "wage_steps", "occupation_standards"
   add_foreign_key "work_processes", "occupation_standards"
 end
