@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_18_205341) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_20_175440) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -101,7 +101,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_18_205341) do
 
   create_table "related_instructions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title"
-    t.int4range "hours"
+    t.integer "hours"
     t.boolean "elective"
     t.integer "sort_order"
     t.uuid "occupation_standard_id", null: false
@@ -150,6 +150,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_18_205341) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "wage_steps", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "occupation_standard_id", null: false
+    t.integer "sort_order"
+    t.string "title"
+    t.integer "minimum_hours"
+    t.decimal "ojt_percentage"
+    t.integer "duration_in_months"
+    t.integer "rsi_hours"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["occupation_standard_id"], name: "index_wage_steps_on_occupation_standard_id"
+  end
+
   create_table "work_processes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title"
     t.string "description"
@@ -172,5 +185,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_18_205341) do
   add_foreign_key "occupations", "onet_codes"
   add_foreign_key "registration_agencies", "states"
   add_foreign_key "related_instructions", "occupation_standards"
+  add_foreign_key "wage_steps", "occupation_standards"
   add_foreign_key "work_processes", "occupation_standards"
 end
