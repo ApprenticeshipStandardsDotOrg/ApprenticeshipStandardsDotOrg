@@ -111,7 +111,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_24_155651) do
     t.integer "ojt_hours_max"
     t.integer "rsi_hours_min"
     t.integer "rsi_hours_max"
-    t.uuid "data_import_id", null: false
+    t.uuid "data_import_id"
     t.index ["data_import_id"], name: "index_occupation_standards_on_data_import_id"
     t.index ["occupation_id"], name: "index_occupation_standards_on_occupation_id"
     t.index ["organization_id"], name: "index_occupation_standards_on_organization_id"
