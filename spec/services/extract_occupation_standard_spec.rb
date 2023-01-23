@@ -15,7 +15,7 @@ RSpec.describe ExtractOccupationStandard, type: :service do
 
       service = described_class.new(data_import)
 
-      expect{
+      expect {
         service.call
       }.to change(OccupationStandard, :count).by(1)
         .and change(Organization, :count).by(0)

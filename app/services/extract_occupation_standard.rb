@@ -32,7 +32,7 @@ class ExtractOccupationStandard
           ojt_hours_min: row["Minimum OJT Hours"],
           ojt_hours_max: row["Maximum OJT Hours"],
           rsi_hours_min: row["Minimum RSI Hours"],
-          rsi_hours_max: row["Maximum RSI Hours"],
+          rsi_hours_max: row["Maximum RSI Hours"]
         )
       end
     end
@@ -69,13 +69,11 @@ class ExtractOccupationStandard
   end
 
   def occupation
-    occupation = Occupation.find_by(rapids_code: rapids_code)
-    occupation ||= begin
-                     onet_code = OnetCode.find_by(row["Onet Code"])
-                     if onet_code
-                       Occupation.find_by(onet_code: onet_code)
-                     end
-                   end
-
+    Occupation.find_by(rapids_code: rapids_code) || begin
+      onet_code = OnetCode.find_by(code: row["Onet Code"])
+      if onet_code
+        Occupation.find_by(onet_code: onet_code)
+      end
+    end
   end
 end
