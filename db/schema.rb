@@ -109,6 +109,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_24_155651) do
     t.string "rapids_code"
     t.string "apprenticeship_to_journeyworker_ratio"
     t.string "existing_title"
+    t.uuid "organization_id"
     t.index ["occupation_id"], name: "index_occupation_standards_on_occupation_id"
     t.index ["organization_id"], name: "index_occupation_standards_on_organization_id"
     t.index ["registration_agency_id"], name: "index_occupation_standards_on_registration_agency_id"
