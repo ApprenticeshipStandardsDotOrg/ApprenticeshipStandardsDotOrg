@@ -63,6 +63,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_23_173947) do
     t.index ["resource_type", "resource_id"], name: "index_competency_options_on_resource"
   end
 
+  create_table "courses", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "title"
+    t.string "description"
+    t.string "code"
+    t.decimal "units"
+    t.integer "hours"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "data_imports", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "description"
     t.uuid "user_id", null: false
@@ -128,6 +138,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_23_173947) do
     t.integer "default_course_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "course_id"
+    t.index ["course_id"], name: "index_related_instructions_on_course_id"
     t.index ["occupation_standard_id"], name: "index_related_instructions_on_occupation_standard_id"
   end
 
@@ -187,12 +199,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_23_173947) do
     t.string "title"
     t.string "description"
     t.uuid "occupation_standard_id", null: false
-    t.integer "default_hours"
     t.integer "minimum_hours"
     t.integer "maximum_hours"
     t.integer "sort_order"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "default_hours"
     t.index ["occupation_standard_id"], name: "index_work_processes_on_occupation_standard_id"
   end
 
@@ -205,6 +217,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_23_173947) do
   add_foreign_key "occupation_standards", "registration_agencies"
   add_foreign_key "occupations", "onet_codes"
   add_foreign_key "registration_agencies", "states"
+  add_foreign_key "related_instructions", "courses"
   add_foreign_key "related_instructions", "occupation_standards"
   add_foreign_key "wage_steps", "occupation_standards"
   add_foreign_key "work_processes", "occupation_standards"
