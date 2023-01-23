@@ -102,12 +102,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_24_155651) do
     t.integer "term_months"
     t.int4range "ojt_hours"
     t.int4range "rsi_hours"
-    t.float "apprenticeship_to_journeyworker_ratio"
     t.integer "occupation_type"
     t.integer "probationary_period_months"
     t.string "sponsor_name"
     t.string "onet_code"
     t.string "rapids_code"
+    t.string "apprenticeship_to_journeyworker_ratio"
     t.index ["occupation_id"], name: "index_occupation_standards_on_occupation_id"
     t.index ["organization_id"], name: "index_occupation_standards_on_organization_id"
     t.index ["registration_agency_id"], name: "index_occupation_standards_on_registration_agency_id"
@@ -220,12 +220,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_24_155651) do
     t.string "title"
     t.string "description"
     t.uuid "occupation_standard_id", null: false
+    t.integer "default_hours"
     t.integer "minimum_hours"
     t.integer "maximum_hours"
     t.integer "sort_order"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "default_hours"
     t.index ["occupation_standard_id"], name: "index_work_processes_on_occupation_standard_id"
   end
 
