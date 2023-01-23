@@ -43,6 +43,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_20_175440) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "competencies", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "work_process_id", null: false
+    t.string "title"
+    t.text "description"
+    t.integer "sort_order"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["work_process_id"], name: "index_competencies_on_work_process_id"
+  end
+
   create_table "data_imports", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "description"
     t.uuid "user_id", null: false
@@ -166,6 +176,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_20_175440) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "competencies", "work_processes"
   add_foreign_key "data_imports", "users"
   add_foreign_key "file_imports", "active_storage_attachments"
   add_foreign_key "occupation_standards", "occupations"
