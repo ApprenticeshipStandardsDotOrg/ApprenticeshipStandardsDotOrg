@@ -10,11 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
 ActiveRecord::Schema[7.0].define(version: 2023_01_24_155651) do
-=======
-ActiveRecord::Schema[7.0].define(version: 2023_01_23_213330) do
->>>>>>> c19f658 (Change ojt and rsi hours to min/max integer fields)
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -106,7 +102,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_23_213330) do
     t.integer "term_months"
     t.integer "occupation_type"
     t.integer "probationary_period_months"
-    t.string "sponsor_name"
     t.string "onet_code"
     t.string "rapids_code"
     t.string "apprenticeship_to_journeyworker_ratio"
