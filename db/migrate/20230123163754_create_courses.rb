@@ -6,7 +6,6 @@ class CreateCourses < ActiveRecord::Migration[7.0]
       t.string :code
       t.decimal :units
       t.integer :hours
-      t.integer :organization_id
 
       t.timestamps
     end
