@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_23_164009) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_23_173947) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -51,6 +51,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_23_164009) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["work_process_id"], name: "index_competencies_on_work_process_id"
+  end
+
+  create_table "competency_options", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "resource_type", null: false
+    t.uuid "resource_id", null: false
+    t.string "title", null: false
+    t.integer "sort_order", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["resource_type", "resource_id"], name: "index_competency_options_on_resource"
   end
 
   create_table "courses", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
