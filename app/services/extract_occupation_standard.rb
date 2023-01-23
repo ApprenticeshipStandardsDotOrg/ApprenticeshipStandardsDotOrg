@@ -1,8 +1,9 @@
 class ExtractOccupationStandard
-  attr_reader :data_import
+  attr_reader :data_import, :row
 
   def initialize(data_import)
     @data_import = data_import
+    @row = nil
   end
 
   def call
@@ -13,37 +14,12 @@ class ExtractOccupationStandard
       sheet.parse(headers: true).each_with_index do |row, index|
         next if index.zero?
 
-        state = State.find_by(abbreviation: row["Registration State"])
-        reg_agency = RegistrationAgency.find_by(state: state, agency_type: row["OA or SAA"].downcase.to_sym)
-        organization = if (sponsor_name = row["Sponsor Name"])
-                    Organization.find_or_create_by!(name: sponsor_name)
-                  end
-
-        rapids_code = if (match = row["RAPIDS Code"].match(/(.*)[A-Za-z]{2}\z/))
-                        match.captures.first
-                      end
-
-        occupation_type = case row["Type"]
-                          when /competency/i
-                            :competency
-                          when /time/i
-                            :time
-                          when /hybrid/i
-                            :hybrid
-                          end
-
-        occupation = Occupation.find_by(rapids_code: rapids_code)
-        occupation ||= begin
-                         onet_code = OnetCode.find_by(row["Onet Code"])
-                         if onet_code
-                           Occupation.find_by(onet_code: onet_code)
-                         end
-                       end
+        @row = row
 
         OccupationStandard.create!(
           data_import: data_import,
           occupation: occupation,
-          registration_agency: reg_agency,
+          registration_agency: registration_agency,
           title: row["Occupation Title"],
           existing_title: row["Existing Title"],
           term_months: row["Term (in months)"],
@@ -60,5 +36,46 @@ class ExtractOccupationStandard
         )
       end
     end
+  end
+
+  private
+
+  def registration_agency
+    state = State.find_by(abbreviation: row["Registration State"])
+    RegistrationAgency.find_by(state: state, agency_type: row["OA or SAA"].downcase.to_sym)
+  end
+
+  def organization
+    if (sponsor_name = row["Sponsor Name"])
+      Organization.find_or_create_by!(name: sponsor_name)
+    end
+  end
+
+  def rapids_code
+    @_rapids_code ||= if (match = row["RAPIDS Code"].match(/(.*)[A-Za-z]{2}\z/))
+      match.captures.first
+    end
+  end
+
+  def occupation_type
+    case row["Type"]
+    when /competency/i
+      :competency
+    when /time/i
+      :time
+    when /hybrid/i
+      :hybrid
+    end
+  end
+
+  def occupation
+    occupation = Occupation.find_by(rapids_code: rapids_code)
+    occupation ||= begin
+                     onet_code = OnetCode.find_by(row["Onet Code"])
+                     if onet_code
+                       Occupation.find_by(onet_code: onet_code)
+                     end
+                   end
+
   end
 end
