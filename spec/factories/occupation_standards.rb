@@ -3,5 +3,6 @@ FactoryBot.define do
     occupation
     url { "http://example.com" }
     registration_agency
+    organization
   end
 end
