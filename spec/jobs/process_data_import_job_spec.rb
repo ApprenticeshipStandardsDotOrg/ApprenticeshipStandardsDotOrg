@@ -2,11 +2,11 @@ require "rails_helper"
 
 RSpec.describe ProcessDataImportJob, type: :job do
   describe "#perform" do
-    it "calls ExtractOccupationStandard service" do
+    it "calls ImportOccupationStandardDetails service" do
       data_import = build_stubbed(:data_import)
-      service = instance_double("ExtractOccupationStandard")
+      service = instance_double("ImportOccupationStandardDetails")
 
-      expect(ExtractOccupationStandard).to receive(:new).with(data_import).and_return(service)
+      expect(ImportOccupationStandardDetails).to receive(:new).with(data_import).and_return(service)
       expect(service).to receive(:call).and_return(build(:occupation))
 
       described_class.new.perform(data_import)
@@ -51,7 +51,6 @@ RSpec.describe ProcessDataImportJob, type: :job do
       ca = create(:state, abbreviation: "CA")
       ca_oa = create(:registration_agency, state: ca, agency_type: :oa)
 
-      onet_code = create(:onet_code, code: "13-1071.01")
       occupation = create(:occupation, rapids_code: "1057")
 
       data_import = create(:data_import)

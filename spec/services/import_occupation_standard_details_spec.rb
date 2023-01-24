@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe ExtractOccupationStandard, type: :service do
+RSpec.describe ImportOccupationStandardDetails do
   describe "#call" do
     it "creates an occupation standards record" do
       ca = create(:state, abbreviation: "CA")

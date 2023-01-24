@@ -1,4 +1,4 @@
-class ExtractOccupationStandard
+class ImportOccupationStandardDetails
   attr_reader :data_import, :row
 
   def initialize(data_import)
