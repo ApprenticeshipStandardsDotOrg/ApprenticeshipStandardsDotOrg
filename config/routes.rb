@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   constraints(Subdomain) do
     require "sidekiq/web"
-    mount Sidekiq::Web => "/sidekiq"
+    mount Sidekiq::Web => "/sidekiq", as: :sidekiq
 
     devise_for :users,
       skip: :registrations,
