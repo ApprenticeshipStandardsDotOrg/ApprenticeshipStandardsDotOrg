@@ -12,9 +12,11 @@ class ExtractOccupationStandard
       sheet = xlsx.sheet(0)
 
       @row = sheet.parse(headers: true)[1]
+      occupation_standard = OccupationStandard.find_or_initialize_by(
+        data_import: data_import
+      )
 
-      OccupationStandard.create!(
-        data_import: data_import,
+      occupation_standard.assign_attributes(
         occupation: occupation,
         registration_agency: registration_agency,
         title: row["Occupation Title"],
@@ -31,6 +33,7 @@ class ExtractOccupationStandard
         rsi_hours_min: row["Minimum RSI Hours"],
         rsi_hours_max: row["Maximum RSI Hours"]
       )
+      occupation_standard
     end
   end
 

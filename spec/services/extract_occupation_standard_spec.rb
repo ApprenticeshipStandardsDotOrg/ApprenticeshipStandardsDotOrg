@@ -13,14 +13,8 @@ RSpec.describe ExtractOccupationStandard, type: :service do
 
       data_import = create(:data_import)
 
-      service = described_class.new(data_import)
+      os = described_class.new(data_import).call
 
-      expect {
-        service.call
-      }.to change(OccupationStandard, :count).by(1)
-        .and change(Organization, :count).by(0)
-
-      os = OccupationStandard.last
       expect(os.data_import).to eq data_import
       expect(os.occupation).to eq occupation1
       expect(os.registration_agency).to eq ca_oa
