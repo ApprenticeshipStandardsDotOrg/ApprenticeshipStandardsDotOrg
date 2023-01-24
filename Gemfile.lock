@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/citizensadvice/capybara_accessible_selectors
+  revision: 55fa9e13f3c030787c0b36e168940dfc0ad74ebf
+  tag: v0.10.0
+  specs:
+    capybara_accessible_selectors (0.10.0)
+      capybara (>= 3.36.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -325,11 +333,12 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  aws-sdk-s3
   after_party
+  aws-sdk-s3
   bootsnap
   bullet
   capybara
+  capybara_accessible_selectors!
   debug
   devise
   dotenv-rails
