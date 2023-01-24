@@ -11,30 +11,26 @@ class ExtractOccupationStandard
       xlsx = Roo::Spreadsheet.open(file, extension: :xlsx)
       sheet = xlsx.sheet(0)
 
-      sheet.parse(headers: true).each_with_index do |row, index|
-        next if index.zero?
+      @row = sheet.parse(headers: true)[1]
 
-        @row = row
-
-        OccupationStandard.create!(
-          data_import: data_import,
-          occupation: occupation,
-          registration_agency: registration_agency,
-          title: row["Occupation Title"],
-          existing_title: row["Existing Title"],
-          term_months: row["Term (in months)"],
-          onet_code: row["Onet Code"],
-          rapids_code: rapids_code,
-          occupation_type: occupation_type,
-          probationary_period_months: row["Probationary Period"],
-          apprenticeship_to_journeyworker_ratio: row["Ratio of Apprentice to Journeyworker"],
-          organization: organization,
-          ojt_hours_min: row["Minimum OJT Hours"],
-          ojt_hours_max: row["Maximum OJT Hours"],
-          rsi_hours_min: row["Minimum RSI Hours"],
-          rsi_hours_max: row["Maximum RSI Hours"]
-        )
-      end
+      OccupationStandard.create!(
+        data_import: data_import,
+        occupation: occupation,
+        registration_agency: registration_agency,
+        title: row["Occupation Title"],
+        existing_title: row["Existing Title"],
+        term_months: row["Term (in months)"],
+        onet_code: row["Onet Code"],
+        rapids_code: rapids_code,
+        occupation_type: occupation_type,
+        probationary_period_months: row["Probationary Period"],
+        apprenticeship_to_journeyworker_ratio: row["Ratio of Apprentice to Journeyworker"],
+        organization: organization,
+        ojt_hours_min: row["Minimum OJT Hours"],
+        ojt_hours_max: row["Maximum OJT Hours"],
+        rsi_hours_min: row["Minimum RSI Hours"],
+        rsi_hours_max: row["Maximum RSI Hours"]
+      )
     end
   end
 
