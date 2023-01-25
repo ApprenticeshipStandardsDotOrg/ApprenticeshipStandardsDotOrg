@@ -1,5 +1,5 @@
 class Organization < ApplicationRecord
-  has_one_attached :file
+  has_one_attached :logo
 
   has_many :courses
   has_many :occupation_standards
