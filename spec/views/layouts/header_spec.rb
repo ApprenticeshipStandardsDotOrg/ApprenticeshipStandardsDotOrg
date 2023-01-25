@@ -6,7 +6,7 @@ RSpec.describe "layouts/_header.html.erb", type: :view do
 
     expect(rendered).to have_css "a[href='#{file_imports_path}']", text: "File imports"
     expect(rendered).to have_css "a[href='#{data_imports_path}']", text: "Data imports"
-    expect(rendered).to have_css "a[href='#{occupations_path}']", text: "Occupations"
+    expect(rendered).to have_css "a[href='#{occupation_standards_path}']", text: "Occupation Standards"
     expect(rendered).to have_css "a[href='#{edit_user_registration_path}']", text: "Edit account"
   end
 end
