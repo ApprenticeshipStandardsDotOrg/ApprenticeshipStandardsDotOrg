@@ -46,6 +46,10 @@ gem "aws-sdk-s3", require: false
 gem "after_party"
 gem "sidekiq", "~> 7"
 
+# For API documentation
+gem "rswag-api"
+gem "rswag-ui"
+
 # Use Sass to process CSS
 # gem "sassc-rails"
 
@@ -64,6 +68,7 @@ end
 group :development do
   gem "erb_lint", require: false
   gem "erblint-github"
+  gem "rswag-specs"
   gem "standardrb"
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
