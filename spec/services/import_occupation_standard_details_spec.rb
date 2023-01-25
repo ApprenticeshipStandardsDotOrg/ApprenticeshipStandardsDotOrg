@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe ImportOccupationStandardDetails do
   describe "#call" do
-    it "creates an occupation standards record" do
+    it "returns an occupation standards record" do
       ca = create(:state, abbreviation: "CA")
       ca_oa = create(:registration_agency, state: ca, agency_type: :oa)
       _ca_saa = create(:registration_agency, state: ca, agency_type: :saa)
