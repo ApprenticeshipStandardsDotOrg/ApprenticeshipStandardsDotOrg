@@ -1,7 +1,7 @@
 class OccupationStandard < ApplicationRecord
   belongs_to :occupation, optional: true
   belongs_to :registration_agency
-  belongs_to :organization
+  belongs_to :organization, optional: true
 
   has_many :related_instructions
   has_many :wage_steps

@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :organization do
-    title { "Computer Academy" }
+    sequence(:title) { |n| "Computer Academy #{n}" }
   end
 end
