@@ -5,5 +5,6 @@ FactoryBot.define do
     elective { false }
     sort_order { 1 }
     occupation_standard
+    course
   end
 end

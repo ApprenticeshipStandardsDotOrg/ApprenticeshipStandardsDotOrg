@@ -16,4 +16,25 @@ RSpec.describe RelatedInstruction, type: :model do
     new_related_instruction.sort_order = 2
     expect(new_related_instruction).to be_valid
   end
+
+  describe "#organization_title" do
+    context "when course organization exists" do
+      it "returns course organization title" do
+        org = build_stubbed(:organization, title: "Some org")
+        course = build_stubbed(:course, organization: org)
+        ri = build(:related_instruction, course: course)
+
+        expect(ri.organization_title).to eq "Some org"
+      end
+    end
+
+    context "when course organization does not exist" do
+      it "returns nil" do
+        course = build_stubbed(:course, organization: nil)
+        ri = build(:related_instruction, course: course)
+
+        expect(ri.organization_title).to be_nil
+      end
+    end
+  end
 end
