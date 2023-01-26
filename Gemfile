@@ -45,6 +45,7 @@ gem "roo", "~> 2.9.0"
 gem "aws-sdk-s3", require: false
 gem "after_party"
 gem "sidekiq", "~> 7"
+gem "jsonapi-resources"
 
 # For API documentation
 gem "rswag-api"
@@ -63,12 +64,12 @@ group :development, :test do
   gem "dotenv-rails"
   gem "factory_bot_rails"
   gem "rspec-rails"
+  gem "rswag-specs"
 end
 
 group :development do
   gem "erb_lint", require: false
   gem "erblint-github"
-  gem "rswag-specs"
   gem "standardrb"
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"

@@ -164,6 +164,10 @@ GEM
     json (2.6.2)
     json-schema (3.0.0)
       addressable (>= 2.8)
+    jsonapi-resources (0.10.7)
+      activerecord (>= 4.1)
+      concurrent-ruby
+      railties (>= 4.1)
     loofah (2.19.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -366,6 +370,7 @@ DEPENDENCIES
   erblint-github
   factory_bot_rails
   importmap-rails
+  jsonapi-resources
   pg (~> 1.1)
   puma (~> 5.0)
   rails (~> 7.0.4)
