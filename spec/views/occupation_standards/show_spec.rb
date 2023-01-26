@@ -24,5 +24,12 @@ RSpec.describe "occupation_standards/show.html.erb", type: :view do
     expect(rendered).to have_selector("dd", text: occupation_standard.onet_code)
     expect(rendered).to have_selector("dd", text: occupation_standard.created_at)
     expect(rendered).to have_selector("dd", text: occupation_standard.updated_at)
+
+    expect(rendered).to have_selector("h3", text: "Related Instructions")
+
+    expect(rendered).to have_columnheader("Title")
+    expect(rendered).to have_columnheader("Sort Order")
+    expect(rendered).to have_columnheader("Hours")
+    expect(rendered).to have_columnheader("Elective")
   end
 end
