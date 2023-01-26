@@ -1,0 +1,21 @@
+<table class="min-w-full" role="grid" aria-label="Related Instructions">
+  <thead class="border-b">
+    <tr>
+      <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+        Title
+      </th>
+      <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+        Sort Order
+      </th>
+      <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+        Hours
+      </th>
+      <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+        Elective
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render partial: "related_instructions/related_instruction", collection: related_instructions %>
+  </tbody>
+</table>
