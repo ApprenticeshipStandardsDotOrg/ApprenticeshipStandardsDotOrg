@@ -15,10 +15,10 @@ RSpec.describe OccupationStandard, type: :model do
       expect(occupation_standard.rapids_code).to eq "abc"
     end
 
-    it "returns nil when no occupation" do
-      occupation_standard = build(:occupation_standard, occupation: nil)
+    it "returns own rapids_code when no occupation" do
+      occupation_standard = build(:occupation_standard, occupation: nil, rapids_code: "def")
 
-      expect(occupation_standard.rapids_code).to be_nil
+      expect(occupation_standard.rapids_code).to eq "def"
     end
   end
 
@@ -38,10 +38,10 @@ RSpec.describe OccupationStandard, type: :model do
       expect(occupation_standard.onet_code).to be_nil
     end
 
-    it "returns nil when no occupation" do
-      occupation_standard = build(:occupation_standard, occupation: nil)
+    it "returns own onet_code when no occupation" do
+      occupation_standard = build(:occupation_standard, occupation: nil, onet_code: "123")
 
-      expect(occupation_standard.onet_code).to be_nil
+      expect(occupation_standard.onet_code).to eq "123"
     end
   end
 end
