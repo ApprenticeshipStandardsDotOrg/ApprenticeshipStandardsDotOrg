@@ -12,6 +12,7 @@
       <%= link_to "File imports", file_imports_path, class: "block mt-4 lg:inline-block lg:mt-0 text-blue-100 hover:text-white mr-4" %>
       <%= link_to "Data imports", data_imports_path, class: "block mt-4 lg:inline-block lg:mt-0 text-blue-100 hover:text-white mr-4" %>
       <%= link_to "Edit account", edit_user_registration_path, class: "block mt-4 lg:inline-block lg:mt-0 text-blue-100 hover:text-white mr-4" %>
+      <%= link_to "Sidekiq", sidekiq_path, class: "block mt-4 lg:inline-block lg:mt-0 text-blue-100 hover:text-white mr-4", target: :_blank %>
     </div>
     <div>
       <%= link_to "Logout", destroy_user_session_path, method: :delete, data: {turbo_method: :delete}, class: "inline-block text-md px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-blue-600 hover:bg-white mt-4 lg:mt-0" %>

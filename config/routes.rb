@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   constraints(Subdomain) do
+    require "sidekiq/web"
+
     devise_for :users,
       skip: :registrations,
       controllers: {
@@ -18,6 +20,7 @@ Rails.application.routes.draw do
 
       authenticated :user do
         root to: "file_imports#index"
+        mount Sidekiq::Web => "/sidekiq", :as => :sidekiq
       end
     end
 
