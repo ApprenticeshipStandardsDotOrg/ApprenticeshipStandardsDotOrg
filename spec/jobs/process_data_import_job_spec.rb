@@ -79,4 +79,15 @@ RSpec.describe ProcessDataImportJob, type: :job do
       expect(occupation_standard.rsi_hours_max).to be_nil
     end
   end
+
+  it "calls ImportOccupationStandardWageSchedule service" do
+    data_import = build_stubbed(:data_import)
+    occupation_standard = build_stubbed(:occupation_standard, data_import: data_import)
+    service = instance_double("ImportOccupationStandardWageSchedule")
+
+    expect(ImportOccupationStandardWageSchedule).to receive(:new).with(data_import: data_import, occupation_standard: occupation_standard).and_return(service)
+    expect(service).to receive(:call).and_return(build_list(:wage_step, 2))
+
+    described_class.new.perform(data_import)
+  end
 end
