@@ -50,6 +50,7 @@ gem "jsonapi-resources"
 # For API documentation
 gem "rswag-api"
 gem "rswag-ui"
+gem "rack-cors"
 
 # Use Sass to process CSS
 # gem "sassc-rails"
