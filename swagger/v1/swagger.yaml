@@ -14,20 +14,20 @@ paths:
             application/vnd.api+json:
               example:
                 data:
-                - id: 89e62581-322e-4164-be19-c3f492781327
+                - id: 8df86347-d95d-4dad-829d-a5b9d171d9ba
                   type: occupations
                   links:
-                    self: http://www.example.com/api/v1/occupations/89e62581-322e-4164-be19-c3f492781327
+                    self: http://www.example.com/api/v1/occupations/8df86347-d95d-4dad-829d-a5b9d171d9ba
                   attributes:
                     name: Accordion Maker
                     onet_code:
                     rapids_code: '0860'
                     time_based_hours: 8000
                     competency_based_hours: 8500
-                - id: 490079a7-f465-40d1-a6b5-6afc3d8980ef
+                - id: fa55b8c6-a97d-43df-8a2c-1715af5f69b7
                   type: occupations
                   links:
-                    self: http://www.example.com/api/v1/occupations/490079a7-f465-40d1-a6b5-6afc3d8980ef
+                    self: http://www.example.com/api/v1/occupations/fa55b8c6-a97d-43df-8a2c-1715af5f69b7
                   attributes:
                     name: Information Technology Specialist
                     onet_code: 51-7011.00
@@ -46,6 +46,13 @@ paths:
                           type: string
                         type:
                           type: string
+                        links:
+                          type: object
+                          properties:
+                            self:
+                              type: string
+                          required:
+                          - self
                         attributes:
                           type: object
                           properties:
@@ -69,6 +76,76 @@ paths:
                       - id
                       - type
                       - attributes
+                      - links
+                required:
+                - data
+  "/api/v1/occupations/{id}":
+    get:
+      summary: Retrieve occupation
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful
+          content:
+            application/vnd.api+json:
+              example:
+                data:
+                  id: 3f5b1a44-6149-48da-8363-94b60a3244e5
+                  type: occupations
+                  links:
+                    self: http://www.example.com/api/v1/occupations/3f5b1a44-6149-48da-8363-94b60a3244e5
+                  attributes:
+                    name: Information Technology Specialist
+                    onet_code: 51-7011.00
+                    rapids_code: '1132'
+                    time_based_hours: 2782
+                    competency_based_hours: 2000
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                      links:
+                        type: object
+                        properties:
+                          self:
+                            type: string
+                        required:
+                        - self
+                      attributes:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          onet_code:
+                            type: string
+                            nullable: true
+                          rapids_code:
+                            type: string
+                            nullable: true
+                          time_based_hours:
+                            type: integer
+                            nullable: true
+                          competency_based_hours:
+                            type: integer
+                            nullable: true
+                        required:
+                        - name
+                      required:
+                      - id
+                      - type
+                      - attributes
+                      - links
                 required:
                 - data
 servers:
