@@ -1,0 +1,83 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/api/v1/occupations":
+    get:
+      summary: List occupations
+      responses:
+        '200':
+          description: successful
+          content:
+            application/vnd.api+json:
+              example:
+                data:
+                - id: d9186843-dcb4-4868-84aa-4bde55971603
+                  type: occupations
+                  links:
+                    self: http://www.example.com/api/v1/occupations/d9186843-dcb4-4868-84aa-4bde55971603
+                  attributes:
+                    name: Bar
+                    description: Occ2 Desc
+                    onet_code:
+                    rapids_code: '4567'
+                    time_based_hours:
+                    competency_based_hours: 250
+                - id: 4839d4d9-9737-43b1-9242-b20f2962c0b8
+                  type: occupations
+                  links:
+                    self: http://www.example.com/api/v1/occupations/4839d4d9-9737-43b1-9242-b20f2962c0b8
+                  attributes:
+                    name: Foo
+                    description: Occ1 Desc
+                    onet_code: '123.4'
+                    rapids_code:
+                    time_based_hours: 400
+                    competency_based_hours:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        type:
+                          type: string
+                        attributes:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            description:
+                              type: string
+                              nullable: true
+                            onet_code:
+                              type: string
+                              nullable: true
+                            rapids_code:
+                              type: string
+                              nullable: true
+                            time_based_hours:
+                              type: integer
+                              nullable: true
+                            competency_based_hours:
+                              type: integer
+                              nullable: true
+                          required:
+                          - name
+                      required:
+                      - id
+                      - type
+                      - attributes
+                required:
+                - data
+servers:
+- url: http://{defaultHost}
+  variables:
+    defaultHost:
+      default: localhost:3000
