@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_24_155651) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_31_214712) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -160,11 +160,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_24_155651) do
     t.boolean "elective"
     t.integer "sort_order"
     t.uuid "occupation_standard_id", null: false
-    t.integer "default_course_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "course_id"
+    t.uuid "default_course_id"
     t.index ["course_id"], name: "index_related_instructions_on_course_id"
+    t.index ["default_course_id"], name: "index_related_instructions_on_default_course_id"
     t.index ["occupation_standard_id"], name: "index_related_instructions_on_occupation_standard_id"
   end
 
@@ -246,6 +247,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_24_155651) do
   add_foreign_key "occupations", "onet_codes"
   add_foreign_key "registration_agencies", "states"
   add_foreign_key "related_instructions", "courses"
+  add_foreign_key "related_instructions", "courses", column: "default_course_id"
   add_foreign_key "related_instructions", "occupation_standards"
   add_foreign_key "wage_steps", "occupation_standards"
   add_foreign_key "work_processes", "occupation_standards"
