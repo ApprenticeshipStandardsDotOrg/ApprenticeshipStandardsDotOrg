@@ -26,6 +26,10 @@ RSpec.configure do |config|
         {
           url: "http://localhost:3000",
           description: "Local development server (uses test data)"
+        },
+        {
+          url: "http://admin.example.localhost:3000",
+          description: "Local development server (uses test data)"
         }
       ]
     }

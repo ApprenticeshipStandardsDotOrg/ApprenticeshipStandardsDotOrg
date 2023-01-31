@@ -14,20 +14,20 @@ paths:
             application/vnd.api+json:
               example:
                 data:
-                - id: 183ddc14-69e3-49fc-a305-b06fe0b380de
+                - id: 89e62581-322e-4164-be19-c3f492781327
                   type: occupations
                   links:
-                    self: http://www.example.com/api/v1/occupations/183ddc14-69e3-49fc-a305-b06fe0b380de
+                    self: http://www.example.com/api/v1/occupations/89e62581-322e-4164-be19-c3f492781327
                   attributes:
                     name: Accordion Maker
                     onet_code:
                     rapids_code: '0860'
                     time_based_hours: 8000
                     competency_based_hours: 8500
-                - id: 8bdb4666-aaf9-437b-9379-e74c432cbd82
+                - id: 490079a7-f465-40d1-a6b5-6afc3d8980ef
                   type: occupations
                   links:
-                    self: http://www.example.com/api/v1/occupations/8bdb4666-aaf9-437b-9379-e74c432cbd82
+                    self: http://www.example.com/api/v1/occupations/490079a7-f465-40d1-a6b5-6afc3d8980ef
                   attributes:
                     name: Information Technology Specialist
                     onet_code: 51-7011.00
@@ -73,4 +73,6 @@ paths:
                 - data
 servers:
 - url: http://localhost:3000
+  description: Local development server (uses test data)
+- url: http://admin.example.localhost:3000
   description: Local development server (uses test data)
