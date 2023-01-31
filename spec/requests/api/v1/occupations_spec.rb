@@ -84,7 +84,7 @@ RSpec.describe "api/v1/occupations", type: :request do
             ]
           }
 
-          expect(json_response).to eq expected_resp
+          expect(response_json).to eq expected_resp
         end
       end
     end
@@ -155,7 +155,7 @@ RSpec.describe "api/v1/occupations", type: :request do
             }
           }
 
-          expect(json_response).to eq expected_resp
+          expect(response_json).to eq expected_resp
         end
       end
     end
