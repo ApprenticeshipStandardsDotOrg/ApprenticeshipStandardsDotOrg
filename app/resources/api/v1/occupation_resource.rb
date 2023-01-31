@@ -2,7 +2,7 @@ class API::V1::OccupationResource < JSONAPI::Resource
   immutable
   model_name "Occupation"
 
-  attributes :name, :description, :onet_code, :rapids_code, :time_based_hours, :competency_based_hours
+  attributes :name, :onet_code, :rapids_code, :time_based_hours, :competency_based_hours
 
   def onet_code
     @model.onet_soc_code

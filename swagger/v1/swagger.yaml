@@ -14,28 +14,26 @@ paths:
             application/vnd.api+json:
               example:
                 data:
-                - id: d9186843-dcb4-4868-84aa-4bde55971603
+                - id: 183ddc14-69e3-49fc-a305-b06fe0b380de
                   type: occupations
                   links:
-                    self: http://www.example.com/api/v1/occupations/d9186843-dcb4-4868-84aa-4bde55971603
+                    self: http://www.example.com/api/v1/occupations/183ddc14-69e3-49fc-a305-b06fe0b380de
                   attributes:
-                    name: Bar
-                    description: Occ2 Desc
+                    name: Accordion Maker
                     onet_code:
-                    rapids_code: '4567'
-                    time_based_hours:
-                    competency_based_hours: 250
-                - id: 4839d4d9-9737-43b1-9242-b20f2962c0b8
+                    rapids_code: '0860'
+                    time_based_hours: 8000
+                    competency_based_hours: 8500
+                - id: 8bdb4666-aaf9-437b-9379-e74c432cbd82
                   type: occupations
                   links:
-                    self: http://www.example.com/api/v1/occupations/4839d4d9-9737-43b1-9242-b20f2962c0b8
+                    self: http://www.example.com/api/v1/occupations/8bdb4666-aaf9-437b-9379-e74c432cbd82
                   attributes:
-                    name: Foo
-                    description: Occ1 Desc
-                    onet_code: '123.4'
-                    rapids_code:
-                    time_based_hours: 400
-                    competency_based_hours:
+                    name: Information Technology Specialist
+                    onet_code: 51-7011.00
+                    rapids_code: '1132'
+                    time_based_hours: 2782
+                    competency_based_hours: 2000
               schema:
                 type: object
                 properties:
@@ -53,9 +51,6 @@ paths:
                           properties:
                             name:
                               type: string
-                            description:
-                              type: string
-                              nullable: true
                             onet_code:
                               type: string
                               nullable: true
@@ -77,7 +72,5 @@ paths:
                 required:
                 - data
 servers:
-- url: http://{defaultHost}
-  variables:
-    defaultHost:
-      default: localhost:3000
+- url: http://localhost:3000
+  description: Local development server (uses test data)

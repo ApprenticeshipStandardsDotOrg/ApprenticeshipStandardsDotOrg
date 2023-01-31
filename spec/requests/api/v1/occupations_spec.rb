@@ -6,9 +6,9 @@ RSpec.describe "api/v1/occupations", type: :request do
       response(200, "successful") do
         produces "application/vnd.api+json"
 
-        let(:onet_code1) { create(:onet_code, code: "123.4") }
-        let!(:occ1) { create(:occupation, name: "Foo", description: "Occ1 Desc", onet_code: onet_code1, time_based_hours: 400) }
-        let!(:occ2) { create(:occupation, name: "Bar", description: "Occ2 Desc", rapids_code: "4567", competency_based_hours: 250) }
+        let(:onet_code1) { create(:onet_code, code: "51-7011.00") }
+        let!(:occ1) { create(:occupation, name: "Information Technology Specialist", onet_code: onet_code1, rapids_code: "1132", time_based_hours: 2782, competency_based_hours: 2000) }
+        let!(:occ2) { create(:occupation, name: "Accordion Maker", rapids_code: "0860", time_based_hours: 8000, competency_based_hours: 8500) }
 
         after do |example|
           example.metadata[:response][:content] = {
@@ -29,7 +29,6 @@ RSpec.describe "api/v1/occupations", type: :request do
                     type: :object,
                     properties: {
                       name: {type: :string},
-                      description: {type: :string, nullable: true},
                       onet_code: {type: :string, nullable: true},
                       rapids_code: {type: :string, nullable: true},
                       time_based_hours: {type: :integer, nullable: true},
@@ -55,11 +54,10 @@ RSpec.describe "api/v1/occupations", type: :request do
                 },
                 attributes: {
                   name: occ2.name,
-                  description: occ2.description,
                   onet_code: nil,
-                  rapids_code: "4567",
-                  time_based_hours: nil,
-                  competency_based_hours: 250
+                  rapids_code: "0860",
+                  time_based_hours: 8000,
+                  competency_based_hours: 8500
                 }
               },
               {
@@ -70,11 +68,10 @@ RSpec.describe "api/v1/occupations", type: :request do
                 },
                 attributes: {
                   name: occ1.name,
-                  description: occ1.description,
-                  onet_code: "123.4",
-                  rapids_code: nil,
-                  time_based_hours: 400,
-                  competency_based_hours: nil
+                  onet_code: "51-7011.00",
+                  rapids_code: "1132",
+                  time_based_hours: 2782,
+                  competency_based_hours: 2000
                 }
               }
             ]
