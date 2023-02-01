@@ -31,5 +31,14 @@ RSpec.describe "occupation_standards/show.html.erb", type: :view do
     expect(rendered).to have_columnheader("Sort Order")
     expect(rendered).to have_columnheader("Hours")
     expect(rendered).to have_columnheader("Elective")
+
+    expect(rendered).to have_selector("h3", text: "Work Processes")
+
+    expect(rendered).to have_columnheader("Title")
+    expect(rendered).to have_columnheader("Sort Order")
+    expect(rendered).to have_columnheader("Description")
+    expect(rendered).to have_columnheader("Default Hours")
+    expect(rendered).to have_columnheader("Minimum Hours")
+    expect(rendered).to have_columnheader("Maximum Hours")
   end
 end

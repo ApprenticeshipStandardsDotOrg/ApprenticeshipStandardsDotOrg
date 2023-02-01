@@ -6,6 +6,7 @@ class OccupationStandard < ApplicationRecord
 
   has_many :related_instructions
   has_many :wage_steps
+  has_many :work_processes
 
   delegate :rapids_code, to: :occupation, allow_nil: true
 
