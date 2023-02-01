@@ -35,6 +35,4 @@ class ImportOccupationStandardWageSchedule
 
     wage_schedules
   end
-
-  private
 end
