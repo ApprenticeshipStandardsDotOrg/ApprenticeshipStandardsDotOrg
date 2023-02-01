@@ -37,5 +37,4 @@ class ImportOccupationStandardWageSchedule
   end
 
   private
-
 end
