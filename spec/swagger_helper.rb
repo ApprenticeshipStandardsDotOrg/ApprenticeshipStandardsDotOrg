@@ -24,6 +24,10 @@ RSpec.configure do |config|
       paths: {},
       servers: [
         {
+          url: "https://admin.apprenticeshipstandards.org",
+          description: "Production server"
+        },
+        {
           url: "http://localhost:3000",
           description: "Local development server (uses test data)"
         },
