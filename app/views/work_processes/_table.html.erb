@@ -1,0 +1,27 @@
+<table class="min-w-full" role="grid" aria-label="Related Instructions">
+  <thead class="border-b">
+    <tr>
+      <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+        Title
+      </th>
+      <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+        Sort Order
+      </th>
+      <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+        Description
+      </th>
+      <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+        Default Hours
+      </th>
+      <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+        Minimum Hours
+      </th>
+      <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+        Maximum Hours
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render partial: "work_processes/work_process", collection: work_processes %>
+  </tbody>
+</table>

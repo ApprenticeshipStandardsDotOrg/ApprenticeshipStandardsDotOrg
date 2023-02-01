@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  mount Rswag::Ui::Engine => "/api-docs"
+  mount Rswag::Api::Engine => "/api-docs"
+
   constraints(Subdomain) do
     require "sidekiq/web"
 
@@ -26,9 +29,16 @@ Rails.application.routes.draw do
 
     resources :file_imports, only: [:index, :edit, :update]
     resources :data_imports
+    resources :occupation_standards, only: [:index, :show]
   end
 
   root to: "standards_imports#new", as: :guest_root
 
   resources :standards_imports, only: [:new, :create, :show]
+
+  namespace :api do
+    namespace :v1 do
+      jsonapi_resources :occupations
+    end
+  end
 end

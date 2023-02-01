@@ -45,6 +45,12 @@ gem "roo", "~> 2.9.0"
 gem "aws-sdk-s3", require: false
 gem "after_party"
 gem "sidekiq", "~> 7"
+gem "jsonapi-resources"
+
+# For API documentation
+gem "rswag-api"
+gem "rswag-ui"
+gem "rack-cors"
 
 # Use Sass to process CSS
 # gem "sassc-rails"
@@ -59,6 +65,7 @@ group :development, :test do
   gem "dotenv-rails"
   gem "factory_bot_rails"
   gem "rspec-rails"
+  gem "rswag-specs"
 end
 
 group :development do
@@ -74,6 +81,7 @@ end
 
 group :test do
   gem "capybara"
+  gem "capybara_accessible_selectors", git: "https://github.com/citizensadvice/capybara_accessible_selectors", tag: "v0.10.0"
   gem "selenium-webdriver"
   gem "webdrivers"
 end
