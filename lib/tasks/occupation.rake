@@ -15,11 +15,11 @@ namespace :occupation do
 
         if row["HYBRID"]
           hours = row["HYBRID"]
-          hybrid_hours = hours.match(/(\d{1,})\s*-\s*(\d{1,})/)
+          hybrid_hours = hours.match(/(?<hybrid_hours_min>\d{1,})\s*-\s*(?<hybrid_hours_max>\d{1,})/)
 
           if hybrid_hours
-            hybrid_hours_min = hybrid_hours[1]
-            hybrid_hours_max = hybrid_hours[2]
+            hybrid_hours_min = hybrid_hours[:hybrid_hours_min]
+            hybrid_hours_max = hybrid_hours[:hybrid_hours_max]
           else
             hybrid_hours_min = hours
             hybrid_hours_max = hours
