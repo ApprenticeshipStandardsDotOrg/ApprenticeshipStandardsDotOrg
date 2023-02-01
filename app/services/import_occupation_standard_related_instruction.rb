@@ -21,20 +21,19 @@ class ImportOccupationStandardRelatedInstruction
         )
 
         course = Course.where(
-          title: row["Course Name"],
           code: row["Course Code"],
           organization: organization
         ).first_or_create!(
-          description: row["Course Description"],
-          hours: row["Course Hours"]
-          
+          description: row["Course Description"]
         )
-
+        
         related_instruction = RelatedInstruction.where(
           occupation_standard: occupation_standard,
+          title: row["Course Name"],
           sort_order: row["Course Sort Order"]
         ).first_or_initialize(
-          course: course
+          course: course,
+          hours: row["Course Hours"]
         )
         related_instructions << related_instruction
       end
@@ -42,7 +41,4 @@ class ImportOccupationStandardRelatedInstruction
 
     related_instructions
   end
-
-  private
-
 end
