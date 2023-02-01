@@ -26,7 +26,7 @@ class ImportOccupationStandardRelatedInstruction
         ).first_or_create!(
           description: row["Course Description"]
         )
-        
+
         related_instruction = RelatedInstruction.where(
           occupation_standard: occupation_standard,
           title: row["Course Name"],
