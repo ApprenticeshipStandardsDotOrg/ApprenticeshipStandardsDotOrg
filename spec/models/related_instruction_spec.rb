@@ -22,7 +22,7 @@ RSpec.describe RelatedInstruction, type: :model do
       it "returns course organization title" do
         org = build_stubbed(:organization, title: "Some org")
         course = build_stubbed(:course, organization: org)
-        ri = build(:related_instruction, course: course)
+        ri = build(:related_instruction, default_course: course)
 
         expect(ri.organization_title).to eq "Some org"
       end
@@ -31,7 +31,7 @@ RSpec.describe RelatedInstruction, type: :model do
     context "when course organization does not exist" do
       it "returns nil" do
         course = build_stubbed(:course, organization: nil)
-        ri = build(:related_instruction, course: course)
+        ri = build(:related_instruction, default_course: course)
 
         expect(ri.organization_title).to be_nil
       end

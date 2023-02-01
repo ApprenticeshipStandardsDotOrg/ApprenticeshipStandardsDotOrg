@@ -5,6 +5,6 @@ FactoryBot.define do
     elective { false }
     sort_order { 1 }
     occupation_standard
-    course
+    association :default_course, factory: :course
   end
 end
