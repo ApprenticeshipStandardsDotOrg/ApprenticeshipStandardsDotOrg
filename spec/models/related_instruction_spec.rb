@@ -7,34 +7,15 @@ RSpec.describe RelatedInstruction, type: :model do
     expect(related_instruction).to be_valid
   end
 
-  it "has unique sort_order wrt occupation_standard" do
-    related_instruction = create(:related_instruction, sort_order: 1)
+  it "has unique sort_order, title, and code wrt occupation_standard" do
+    related_instruction = create(:related_instruction, sort_order: 1, title: "Typing", code: "T001")
     new_related_instruction = build(:related_instruction,
-      occupation_standard: related_instruction.occupation_standard, sort_order: 1)
+      occupation_standard: related_instruction.occupation_standard, sort_order: 1, title: "Typing", code: "T001")
 
     expect(new_related_instruction).to_not be_valid
     new_related_instruction.sort_order = 2
+    new_related_instruction.title = "Typing II"
+    new_related_instruction.code = "T002"
     expect(new_related_instruction).to be_valid
-  end
-
-  describe "#organization_title" do
-    context "when course organization exists" do
-      it "returns course organization title" do
-        org = build_stubbed(:organization, title: "Some org")
-        course = build_stubbed(:course, organization: org)
-        ri = build(:related_instruction, default_course: course)
-
-        expect(ri.organization_title).to eq "Some org"
-      end
-    end
-
-    context "when course organization does not exist" do
-      it "returns nil" do
-        course = build_stubbed(:course, organization: nil)
-        ri = build(:related_instruction, default_course: course)
-
-        expect(ri.organization_title).to be_nil
-      end
-    end
   end
 end
