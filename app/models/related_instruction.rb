@@ -1,6 +1,6 @@
 class RelatedInstruction < ApplicationRecord
   belongs_to :occupation_standard
-  belongs_to :organization
+  belongs_to :organization, optional: true
   belongs_to :default_course, class_name: "Course", optional: true
 
   validates :sort_order, :title, :code, uniqueness: {scope: :occupation_standard}
