@@ -24,11 +24,11 @@ class ImportOccupationStandardRelatedInstruction
           occupation_standard: occupation_standard,
           organization: organization,
           code: row["Course Code"],
-          title: row["Course Name"],
+          title: row["Course Name"]
         ).first_or_initialize(
           sort_order: row["Course Sort Order"],
           description: row["Course Description"],
-          hours: row["Course Hours"],
+          hours: row["Course Hours"]
         )
         related_instructions << related_instruction
       end
