@@ -8,14 +8,12 @@ class ImportOccupationStandardRelatedInstruction
   end
 
   def call
-    related_instructions = []
     data_import.file.open do |file|
       xlsx = Roo::Spreadsheet.open(file, extension: :xlsx)
       sheet = xlsx.sheet(2)
 
       sheet.parse(headers: true).each_with_index do |row, index|
         next if index.zero?
-
         organization = Organization.find_or_create_by!(
           title: row["Related Training Organization"]
         )
@@ -24,15 +22,13 @@ class ImportOccupationStandardRelatedInstruction
           occupation_standard: occupation_standard,
           organization: organization,
           code: row["Course Code"],
-          title: row["Course Name"]
-        ).first_or_initialize(
+          title: row["Course Name"],
           sort_order: row["Course Sort Order"],
-          description: row["Course Description"],
-          hours: row["Course Hours"]
-        )
-        related_instructions << related_instruction
+        ).first_or_initialize
+        related_instruction.description = row["Course Description"]
+        related_instruction.hours = row["Course Hours"]
+        related_instruction.save!
       end
     end
-    related_instructions
   end
 end

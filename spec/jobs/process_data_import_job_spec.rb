@@ -2,16 +2,6 @@ require "rails_helper"
 
 RSpec.describe ProcessDataImportJob, type: :job do
   describe "#perform" do
-    it "calls ImportOccupationStandardDetails service" do
-      data_import = build_stubbed(:data_import)
-      service = instance_double("ImportOccupationStandardDetails")
-
-      expect(ImportOccupationStandardDetails).to receive(:new).with(data_import).and_return(service)
-      expect(service).to receive(:call).and_return(build(:occupation))
-
-      described_class.new.perform(data_import)
-    end
-
     it "creates an occupation standard when new record" do
       ca = create(:state, abbreviation: "CA")
       ca_oa = create(:registration_agency, state: ca, agency_type: :oa)
@@ -26,7 +16,6 @@ RSpec.describe ProcessDataImportJob, type: :job do
       expect {
         described_class.new.perform(data_import)
       }.to change(OccupationStandard, :count).by(1)
-        .and change(Organization, :count).by(0)
 
       occupation_standard = OccupationStandard.last
       expect(occupation_standard.data_import).to eq data_import
@@ -77,6 +66,16 @@ RSpec.describe ProcessDataImportJob, type: :job do
       expect(occupation_standard.ojt_hours_max).to be_nil
       expect(occupation_standard.rsi_hours_min).to be_nil
       expect(occupation_standard.rsi_hours_max).to be_nil
+    end
+
+    it "calls ImportOccupationStandardRelatedInstruction service" do
+      data_import = create(:data_import)
+      ca = create(:state, abbreviation: "CA")
+      ca_oa = create(:registration_agency, state: ca, agency_type: :oa)
+
+      expect{
+      described_class.new.perform(data_import)
+      }.to change(RelatedInstruction, :count).by(3)
     end
   end
 end
