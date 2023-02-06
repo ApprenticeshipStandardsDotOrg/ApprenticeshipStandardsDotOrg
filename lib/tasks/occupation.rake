@@ -10,19 +10,19 @@ namespace :occupation do
         next if index.zero?
         occupation = Occupation.find_or_initialize_by(name: row["RAPIDS TITLE"])
         onet_code = OnetCode.find_by(code: row["ONET SOC CODE"].strip)
-        hybrid_start_hours = nil
-        hybrid_end_hours = nil
-        hybrid_hours = nil
+        hybrid_hours_min = nil
+        hybrid_hours_max = nil
 
         if row["HYBRID"]
           hours = row["HYBRID"]
-          hybrid_start_hours = hours.match(/(\d{1,})\s*-/)
-          hybrid_end_hours = hours.match(/-\s*(\d{1,})/)
+          hybrid_hours = hours.match(/(?<hybrid_hours_min>\d{1,})\s*-\s*(?<hybrid_hours_max>\d{1,})/)
 
-          hybrid_hours = if hybrid_start_hours && hybrid_end_hours
-            (hybrid_start_hours[1]..hybrid_end_hours[1])
+          if hybrid_hours
+            hybrid_hours_min = hybrid_hours[:hybrid_hours_min]
+            hybrid_hours_max = hybrid_hours[:hybrid_hours_max]
           else
-            (hours..hours)
+            hybrid_hours_min = hours
+            hybrid_hours_max = hours
           end
         end
 
@@ -30,7 +30,8 @@ namespace :occupation do
           rapids_code: row["RAPIDS CODE"],
           onet_code: onet_code,
           time_based_hours: row["TIME-BASED"],
-          hybrid_hours: hybrid_hours,
+          hybrid_hours_min: hybrid_hours_min,
+          hybrid_hours_max: hybrid_hours_max,
           competency_based_hours: row["COMPETENCY-BASED"]
         )
       end

@@ -124,9 +124,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_31_214712) do
     t.datetime "updated_at", null: false
     t.string "rapids_code"
     t.integer "time_based_hours"
-    t.int4range "hybrid_hours"
     t.integer "competency_based_hours"
     t.uuid "onet_code_id"
+    t.integer "hybrid_hours_min"
+    t.integer "hybrid_hours_max"
     t.index ["onet_code_id"], name: "index_occupations_on_onet_code_id"
   end
 
