@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_31_214712) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_02_182410) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -165,9 +165,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_31_214712) do
     t.datetime "updated_at", null: false
     t.uuid "course_id"
     t.uuid "default_course_id"
+    t.uuid "organization_id"
+    t.string "code"
+    t.string "description"
     t.index ["course_id"], name: "index_related_instructions_on_course_id"
     t.index ["default_course_id"], name: "index_related_instructions_on_default_course_id"
     t.index ["occupation_standard_id"], name: "index_related_instructions_on_occupation_standard_id"
+    t.index ["organization_id"], name: "index_related_instructions_on_organization_id"
   end
 
   create_table "standards_imports", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -250,6 +254,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_31_214712) do
   add_foreign_key "related_instructions", "courses"
   add_foreign_key "related_instructions", "courses", column: "default_course_id"
   add_foreign_key "related_instructions", "occupation_standards"
+  add_foreign_key "related_instructions", "organizations"
   add_foreign_key "wage_steps", "occupation_standards"
   add_foreign_key "work_processes", "occupation_standards"
 end
