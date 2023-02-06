@@ -4,9 +4,9 @@ class OccupationStandard < ApplicationRecord
   belongs_to :organization, optional: true
   belongs_to :data_import, optional: true
 
-  has_many :related_instructions
-  has_many :wage_steps
-  has_many :work_processes
+  has_many :related_instructions, dependent: :destroy
+  has_many :wage_steps, dependent: :destroy
+  has_many :work_processes, dependent: :destroy
 
   delegate :rapids_code, to: :occupation, allow_nil: true
 
