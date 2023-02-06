@@ -23,7 +23,7 @@ class ImportOccupationStandardRelatedInstruction
           organization: organization,
           code: row["Course Code"],
           title: row["Course Name"],
-          sort_order: row["Course Sort Order"],
+          sort_order: row["Course Sort Order"]
         ).first_or_initialize
         related_instruction.description = row["Course Description"]
         related_instruction.hours = row["Course Hours"]

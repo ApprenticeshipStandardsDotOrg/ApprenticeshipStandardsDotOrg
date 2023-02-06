@@ -71,10 +71,10 @@ RSpec.describe ProcessDataImportJob, type: :job do
     it "calls ImportOccupationStandardRelatedInstruction service" do
       data_import = create(:data_import)
       ca = create(:state, abbreviation: "CA")
-      ca_oa = create(:registration_agency, state: ca, agency_type: :oa)
+      create(:registration_agency, state: ca, agency_type: :oa)
 
-      expect{
-      described_class.new.perform(data_import)
+      expect {
+        described_class.new.perform(data_import)
       }.to change(RelatedInstruction, :count).by(3)
     end
   end
