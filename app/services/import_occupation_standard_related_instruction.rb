@@ -8,6 +8,7 @@ class ImportOccupationStandardRelatedInstruction
   end
 
   def call
+    related_instructions = []
     data_import.file.open do |file|
       xlsx = Roo::Spreadsheet.open(file, extension: :xlsx)
       sheet = xlsx.sheet(2)
@@ -28,7 +29,9 @@ class ImportOccupationStandardRelatedInstruction
         related_instruction.description = row["Course Description"]
         related_instruction.hours = row["Course Hours"]
         related_instruction.save!
+        related_instructions << related_instruction
       end
     end
+    related_instructions
   end
 end

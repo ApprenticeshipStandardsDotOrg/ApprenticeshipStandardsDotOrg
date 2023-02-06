@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe ImportOccupationStandardRelatedInstruction do
   describe "#call" do
-    it "return related instruction record and create course and organization" do
+    it "return related instruction record and create organization" do
       occupation_standard = create(:occupation_standard)
       data_import = create(:data_import)
 
