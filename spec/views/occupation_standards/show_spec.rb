@@ -7,7 +7,7 @@ RSpec.describe "occupation_standards/show.html.erb", type: :view do
 
     render
 
-    expect(rendered).to have_selector("h2", text: "Occupation Standard for #{occupation_standard.occupation.name}")
+    expect(rendered).to have_selector("h1", text: "Occupation Standard for #{occupation_standard.occupation.name}")
 
     expect(rendered).to have_selector("dt", text: "Occupation:")
     expect(rendered).to have_selector("dt", text: "URL:")
