@@ -77,5 +77,15 @@ RSpec.describe ProcessDataImportJob, type: :job do
         described_class.new.perform(data_import)
       }.to change(RelatedInstruction, :count).by(3)
     end
+
+    it "calls ImportOccupationStandardWageSchedule service" do
+      data_import = create(:data_import)
+      ca = create(:state, abbreviation: "CA")
+      create(:registration_agency, state: ca, agency_type: :oa)
+
+      expect {
+        described_class.new.perform(data_import)
+      }.to change(WageStep, :count).by(2)
+    end
   end
 end

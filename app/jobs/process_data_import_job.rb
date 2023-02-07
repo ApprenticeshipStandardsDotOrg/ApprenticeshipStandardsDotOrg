@@ -4,6 +4,7 @@ class ProcessDataImportJob < ApplicationJob
   def perform(data_import)
     occupation_standard = import_occupation_standard_details(data_import)
     import_occupation_standard_related_instruction(occupation_standard, data_import)
+    import_occupation_standard_wage_schedule(occupation_standard, data_import)
   end
 
   private
@@ -16,5 +17,9 @@ class ProcessDataImportJob < ApplicationJob
 
   def import_occupation_standard_related_instruction(occupation_standard, data_import)
     ImportOccupationStandardRelatedInstruction.new(occupation_standard: occupation_standard, data_import: data_import).call
+  end
+
+  def import_occupation_standard_wage_schedule(occupation_standard, data_import)
+    ImportOccupationStandardWageSchedule.new(occupation_standard: occupation_standard, data_import: data_import).call
   end
 end
