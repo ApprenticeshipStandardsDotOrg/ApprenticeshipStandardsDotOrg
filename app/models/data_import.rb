@@ -7,6 +7,8 @@ class DataImport < ApplicationRecord
 
   validate :file_presence
 
+  delegate :title, to: :occupation_standard, prefix: true, allow_nil: true
+
   private
 
   def file_presence
