@@ -8,7 +8,7 @@ RSpec.describe "occupation_standards/index.html.erb", type: :view do
 
     render
 
-    expect(rendered).to have_selector("h2", text: "Occupation Standards")
+    expect(rendered).to have_selector("h1", text: "Occupation Standards")
     expect(rendered).to have_columnheader("Title")
     expect(rendered).to have_columnheader("Occupation")
     expect(rendered).to have_columnheader("Registration Agency")

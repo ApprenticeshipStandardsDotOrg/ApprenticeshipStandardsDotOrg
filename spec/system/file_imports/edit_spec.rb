@@ -15,7 +15,7 @@ RSpec.describe "file_imports/edit" do
     expect(page).to have_content("Edit #{file.filename}")
     select("Processing", from: "file_import[status]").click
     click_on "Update"
-    within("h2") do
+    within("h1") do
       expect(page).to have_content("File Imports")
     end
     expect(page).to have_content("Processing")
