@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "occupation_standards/show.html.erb", type: :view do
-  it "displays name and description", :admin do
+  it "displays name and description" do
     occupation_standard = build(:occupation_standard)
     assign(:occupation_standard, occupation_standard)
 
