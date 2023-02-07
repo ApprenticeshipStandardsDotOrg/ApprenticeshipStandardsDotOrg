@@ -1,13 +1,13 @@
 require "rails_helper"
 
 RSpec.describe "occupation_standards/show.html.erb", type: :view do
-  it "displays name and description" do
-    occupation_standard = build(:occupation_standard)
+  it "displays title and description" do
+    occupation_standard = build(:occupation_standard, title: "Mechanic")
     assign(:occupation_standard, occupation_standard)
 
     render
 
-    expect(rendered).to have_selector("h1", text: "Occupation Standard for #{occupation_standard.occupation.name}")
+    expect(rendered).to have_selector("h1", text: "Occupation Standard for Mechanic")
 
     expect(rendered).to have_selector("dt", text: "Occupation:")
     expect(rendered).to have_selector("dt", text: "URL:")
@@ -40,5 +40,15 @@ RSpec.describe "occupation_standards/show.html.erb", type: :view do
     expect(rendered).to have_columnheader("Default Hours")
     expect(rendered).to have_columnheader("Minimum Hours")
     expect(rendered).to have_columnheader("Maximum Hours")
+  end
+
+  it "allows for occupation standard not linked to an occupation" do
+    occupation_standard = build(:occupation_standard, occupation: nil)
+    assign(:occupation_standard, occupation_standard)
+
+    render
+
+    expect(rendered).to have_selector("h1", text: "Occupation Standard for #{occupation_standard.title}")
+    expect(rendered).to have_selector("dt", text: "Occupation:")
   end
 end
