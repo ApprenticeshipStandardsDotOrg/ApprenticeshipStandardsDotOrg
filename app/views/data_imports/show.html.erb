@@ -7,14 +7,14 @@
     </div>
     <div class="mb-4">
       <div class="show-label">File</div>
-        <div class="w-full mb-1">
-          <%= link_to @data_import.file.filename.to_s, url_for(@data_import.file), class: "text-blue-600 hover:text-blue-800 visited:text-purple-600" %>
-        </div>
+      <div class="w-full mb-1">
+        <%= link_to @data_import.file.filename.to_s, url_for(@data_import.file), class: "text-blue-600 hover:text-blue-800 visited:text-purple-600" %>
+      </div>
     </div>
   </div>
   <div class=" max-w-prose mx-auto flex text-center space-x-2">
     <%= link_to "Upload more standards", new_data_import_path, class: "btn-primary" %>
-    <%= link_to "Edit occupation standard", edit_data_import_path(@data_import), class: "btn-primary" %>
-    <%= button_to "Delete occupation standard", data_import_path(@data_import), method: :delete, data: {turbo_method: :delete}, class: "btn-primary" %>
+    <%= link_to "Edit data import", edit_data_import_path(@data_import), class: "btn-primary" %>
+    <%= button_to "Delete data import", data_import_path(@data_import), method: :delete, data: {turbo_method: :delete}, class: "btn-primary" %>
   </div>
 </div>
