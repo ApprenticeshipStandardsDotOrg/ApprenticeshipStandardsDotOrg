@@ -7,9 +7,8 @@ RSpec.describe "data_imports/index.html.erb", type: :view do
 
     render
 
-    expect(rendered).to have_selector("h2", text: "Occupation Standard Data Import")
+    expect(rendered).to have_selector("h1", text: "Occupation Standard Data Import")
     expect(rendered).to have_text "DA Desc"
     expect(rendered).to have_link("Edit", href: edit_data_import_path(data_import))
   end
 end
-
