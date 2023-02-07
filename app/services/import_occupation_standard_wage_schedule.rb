@@ -28,7 +28,7 @@ class ImportOccupationStandardWageSchedule
           duration_in_months: row["Step Duration"],
           rsi_hours: row["Step RSI Hours"]
         )
-
+        wage_schedule.save!
         wage_schedules << wage_schedule
       end
     end
