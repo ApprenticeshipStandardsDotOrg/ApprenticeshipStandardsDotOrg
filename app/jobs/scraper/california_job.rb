@@ -7,8 +7,10 @@ class Scraper::CaliforniaJob < ApplicationJob
     uri = URI.parse(fetch_url)
     response = Net::HTTP.get_response(uri)
     html = response.body
+    doc = Nokogiri::HTML(html)
 
-    file_paths = html.scan(/="(.*\/.*.pdf)/).flatten
+    nodeset = doc.css(".main-primary a[href]")
+    file_paths = nodeset.map{|element| element["href"]}.select{|href| href.ends_with?(".pdf")}
 
     file_paths.each do |path|
       full_path = url_base + path
