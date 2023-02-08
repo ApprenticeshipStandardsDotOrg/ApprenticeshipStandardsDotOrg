@@ -14,6 +14,7 @@ class DataImportsController < ApplicationController
     @data_import.user = current_user
 
     if @data_import.save
+      ProcessDataImportJob.perform_later(@data_import)
       redirect_to data_import_path(@data_import)
     else
       render :new, status: :unprocessable_entity
