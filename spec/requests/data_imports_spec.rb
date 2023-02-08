@@ -14,10 +14,11 @@ RSpec.describe "DataImports", type: :request, admin: true do
 
   describe "POST /create" do
     context "with valid parameters" do
-      it "creates new data import record and redirects to show page" do
+      it "creates new data import record, calls parse job, and redirects to show page" do
         admin = create(:admin)
 
         sign_in admin
+        expect(ProcessDataImportJob).to receive(:perform_later).with(kind_of(DataImport))
         expect {
           post data_imports_path, params: {
             data_import: {
