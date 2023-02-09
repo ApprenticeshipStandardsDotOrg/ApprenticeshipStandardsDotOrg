@@ -8,7 +8,7 @@ RSpec.describe "related_instructions/index.html.erb", type: :view do
 
     render
 
-    expect(rendered).to have_selector("h2", text: "Related Instructions")
+    expect(rendered).to have_selector("h1", text: "Related Instructions")
 
     expect(rendered).to have_columnheader("Title")
     expect(rendered).to have_columnheader("Sort Order")

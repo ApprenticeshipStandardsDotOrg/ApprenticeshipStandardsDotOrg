@@ -3,7 +3,11 @@ class DataImport < ApplicationRecord
 
   belongs_to :user
 
+  has_one :occupation_standard
+
   validate :file_presence
+
+  delegate :title, to: :occupation_standard, prefix: true, allow_nil: true
 
   private
 

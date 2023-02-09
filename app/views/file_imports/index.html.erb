@@ -1,5 +1,5 @@
 <div id="file-imports" class="w-full flex flex-col mx-auto">
-  <h2 class="w-full max-w-prose mx-auto text-center font-semibold text-xl mb-4">File Imports</h2>
+  <h1 class="w-full max-w-prose mx-auto text-center font-semibold text-xl mb-4">File Imports</h1>
   <% @file_imports.find_each do |file_import| %>
     <div class="flex justify-between items-center bg-white shadow-md rounded mb-4 py-3 px-3">
       <p class="font-medium"><%= link_to file_import.filename, file_import.active_storage_attachment.blob.url %></p>

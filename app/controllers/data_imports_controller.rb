@@ -15,6 +15,7 @@ class DataImportsController < ApplicationController
 
     if @data_import.save
       ProcessDataImportJob.perform_later(@data_import)
+      flash[:notice] = "Thank you for submitting your occupation standard!"
       redirect_to data_import_path(@data_import)
     else
       render :new, status: :unprocessable_entity
