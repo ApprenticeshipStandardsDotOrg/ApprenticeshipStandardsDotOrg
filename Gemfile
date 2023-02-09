@@ -84,4 +84,5 @@ group :test do
   gem "capybara_accessible_selectors", git: "https://github.com/citizensadvice/capybara_accessible_selectors", tag: "v0.10.0"
   gem "selenium-webdriver"
   gem "webdrivers"
+  gem "webmock"
 end
