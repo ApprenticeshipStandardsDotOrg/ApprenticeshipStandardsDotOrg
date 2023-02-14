@@ -4,6 +4,237 @@ info:
   title: API V1
   version: v1
 paths:
+  "/api/v1/occupation-standards":
+    get:
+      summary: List occupation standards
+      responses:
+        '200':
+          description: successful
+          content:
+            application/vnd.api+json:
+              example:
+                data:
+                - id: 1ca388e4-0949-48d5-8be2-7879443441e8
+                  type: occupation_standards
+                  links:
+                    self: http://www.example.com/api/v1/occupation-standards/1ca388e4-0949-48d5-8be2-7879443441e8
+                  attributes:
+                    title: Automotive Technician Specialist
+                    existing_title:
+                    sponsor_name:
+                    registration_agency: California (SAA)
+                    onet_code: 49-3023.02
+                    rapids_code: '1034'
+                    occupation_type: competency_based
+                    term_months: 24
+                    probationary_period_months: 12
+                    apprenticeship_to_journeyworker_ratio: '1:1'
+                    ojt_hours_min: 1000
+                    ojt_hours_max: 1500
+                    rsi_hours_min: 200
+                    rsi_hours_max: 250
+                - id: bbc22a87-6f5c-4f2f-b12d-2205b133b102
+                  type: occupation_standards
+                  links:
+                    self: http://www.example.com/api/v1/occupation-standards/bbc22a87-6f5c-4f2f-b12d-2205b133b102
+                  attributes:
+                    title: Human Resource Specialist
+                    existing_title: Career Development Technician
+                    sponsor_name: HR Industries, Inc
+                    registration_agency: California (SAA)
+                    onet_code: 51-7011.00
+                    rapids_code: '0857'
+                    occupation_type: time_based
+                    term_months: 12
+                    probationary_period_months: 6
+                    apprenticeship_to_journeyworker_ratio: '5:1'
+                    ojt_hours_min: 100
+                    ojt_hours_max: 150
+                    rsi_hours_min: 300
+                    rsi_hours_max: 350
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        type:
+                          type: string
+                        links:
+                          type: object
+                          properties:
+                            self:
+                              type: string
+                          required:
+                          - self
+                        attributes:
+                          type: object
+                          properties:
+                            title:
+                              type: string
+                            existing_title:
+                              type: string
+                              nullable: true
+                            sponsor_name:
+                              type: string
+                              nullable: true
+                            registration_agency:
+                              type: string
+                            onet_code:
+                              type: string
+                              nullable: true
+                            rapids_code:
+                              type: string
+                              nullable: true
+                            occupation_type:
+                              type: string
+                            term_months:
+                              type: integer
+                              nullable: true
+                            probationary_period_months:
+                              type: integer
+                              nullable: true
+                            apprenticeship_to_journeyworker_ratio:
+                              type: string
+                              nullable: true
+                            ojt_hours_min:
+                              type: integer
+                              nullable: true
+                              description: Minimum on the job hours required
+                            ojt_hours_max:
+                              type: integer
+                              nullable: true
+                              description: Maximum on the job hours required
+                            rsi_hours_min:
+                              type: integer
+                              nullable: true
+                              description: Minimum related instruction hours required
+                            rsi_hours_max:
+                              type: integer
+                              nullable: true
+                              description: Maximum related instruction hours required
+                          required:
+                          - title
+                          - registration_agency
+                      required:
+                      - id
+                      - type
+                      - attributes
+                      - links
+                required:
+                - data
+  "/api/v1/occupation-standards/{id}":
+    get:
+      summary: Retrieve occupation
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful
+          content:
+            application/vnd.api+json:
+              example:
+                data:
+                  id: 8db0783c-9414-4f59-96bf-81d67a71f5c1
+                  type: occupation_standards
+                  links:
+                    self: http://www.example.com/api/v1/occupation-standards/8db0783c-9414-4f59-96bf-81d67a71f5c1
+                  attributes:
+                    title: Human Resource Specialist
+                    existing_title: Career Development Technician
+                    sponsor_name: HR Industries, Inc
+                    registration_agency: California (SAA)
+                    onet_code: 51-7011.00
+                    rapids_code: '0857'
+                    occupation_type: time_based
+                    term_months: 12
+                    probationary_period_months: 6
+                    apprenticeship_to_journeyworker_ratio: '5:1'
+                    ojt_hours_min: 100
+                    ojt_hours_max: 150
+                    rsi_hours_min: 300
+                    rsi_hours_max: 350
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                      links:
+                        type: object
+                        properties:
+                          self:
+                            type: string
+                        required:
+                        - self
+                      attributes:
+                        type: object
+                        properties:
+                          title:
+                            type: string
+                          existing_title:
+                            type: string
+                            nullable: true
+                          sponsor_name:
+                            type: string
+                            nullable: true
+                          registration_agency:
+                            type: string
+                          onet_code:
+                            type: string
+                            nullable: true
+                          rapids_code:
+                            type: string
+                            nullable: true
+                          occupation_type:
+                            type: string
+                          term_months:
+                            type: integer
+                            nullable: true
+                          probationary_period_months:
+                            type: integer
+                            nullable: true
+                          apprenticeship_to_journeyworker_ratio:
+                            type: string
+                            nullable: true
+                          ojt_hours_min:
+                            type: integer
+                            nullable: true
+                            description: Minimum on the job hours required
+                          ojt_hours_max:
+                            type: integer
+                            nullable: true
+                            description: Maximum on the job hours required
+                          rsi_hours_min:
+                            type: integer
+                            nullable: true
+                            description: Minimum related instruction hours required
+                          rsi_hours_max:
+                            type: integer
+                            nullable: true
+                            description: Maximum related instruction hours required
+                        required:
+                        - title
+                        - registration_agency
+                    required:
+                    - id
+                    - type
+                    - attributes
+                    - links
+                required:
+                - data
   "/api/v1/occupations":
     get:
       summary: List occupations
