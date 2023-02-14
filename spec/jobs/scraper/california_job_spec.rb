@@ -11,6 +11,9 @@ RSpec.describe Scraper::CaliforniaJob, type: :job do
 
         standard_import = StandardsImport.last
         expect(standard_import.files.count).to eq 1
+        expect(standard_import.name).to eq "https://www.dir.ca.gov/das/standards/101015_SB%20ECE_Standards.pdf"
+        expect(standard_import.organization).to eq "https://www.dir.ca.gov/das/ProgramStandards.htm"
+        expect(standard_import.notes).to eq "From Scraper::CaliforniaJob"
       end
     end
 
