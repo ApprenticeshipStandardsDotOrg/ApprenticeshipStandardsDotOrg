@@ -1,8 +1,8 @@
 require "swagger_helper"
 
-RSpec.describe "api/v1/occupation-standards", type: :request do
-  path "/api/v1/occupation-standards" do
-    get "List occupation standards" do
+RSpec.describe "api/v1/standards", type: :request do
+  path "/api/v1/standards" do
+    get "List standards" do
       produces "application/vnd.api+json"
 
       response(200, "successful") do
@@ -116,9 +116,9 @@ RSpec.describe "api/v1/occupation-standards", type: :request do
             data: [
               {
                 id: standard2.id.to_s,
-                type: "occupation_standards",
+                type: "standards",
                 links: {
-                  self: api_v1_occupation_standard_url(standard2)
+                  self: api_v1_standard_url(standard2)
                 },
                 attributes: {
                   title: "Automotive Technician Specialist",
@@ -139,9 +139,9 @@ RSpec.describe "api/v1/occupation-standards", type: :request do
               },
               {
                 id: standard1.id.to_s,
-                type: "occupation_standards",
+                type: "standards",
                 links: {
-                  self: api_v1_occupation_standard_url(standard1)
+                  self: api_v1_standard_url(standard1)
                 },
                 attributes: {
                   title: "Human Resource Specialist",
@@ -169,8 +169,8 @@ RSpec.describe "api/v1/occupation-standards", type: :request do
     end
   end
 
-  path "/api/v1/occupation-standards/{id}" do
-    get "Retrieve occupation standard" do
+  path "/api/v1/standards/{id}" do
+    get "Retrieve standard" do
       parameter name: :id, in: :path, type: :string
       produces "application/vnd.api+json"
 
@@ -264,9 +264,9 @@ RSpec.describe "api/v1/occupation-standards", type: :request do
           expected_resp = {
             data: {
               id: standard.id.to_s,
-              type: "occupation_standards",
+              type: "standards",
               links: {
-                self: api_v1_occupation_standard_url(standard)
+                self: api_v1_standard_url(standard)
               },
               attributes: {
                 title: "Human Resource Specialist",

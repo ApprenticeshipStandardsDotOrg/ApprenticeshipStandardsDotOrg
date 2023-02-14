@@ -1,4 +1,4 @@
-class API::V1::OccupationStandardResource < JSONAPI::Resource
+class API::V1::StandardResource < JSONAPI::Resource
   immutable
   model_name "OccupationStandard"
 

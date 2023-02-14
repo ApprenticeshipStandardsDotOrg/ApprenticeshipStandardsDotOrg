@@ -39,7 +39,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       jsonapi_resources :occupations
-      jsonapi_resources :occupation_standards
+      jsonapi_resources :standards
     end
   end
 end
