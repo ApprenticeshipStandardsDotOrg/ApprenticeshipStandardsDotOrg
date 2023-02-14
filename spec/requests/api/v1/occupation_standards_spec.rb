@@ -24,7 +24,8 @@ RSpec.describe "api/v1/occupation-standards", type: :request do
             ojt_hours_min: 100,
             ojt_hours_max: 150,
             rsi_hours_min: 300,
-            rsi_hours_max: 350)
+            rsi_hours_max: 350
+          )
         }
         let!(:standard2) {
           create(
@@ -41,7 +42,8 @@ RSpec.describe "api/v1/occupation-standards", type: :request do
             ojt_hours_min: 1000,
             ojt_hours_max: 1500,
             rsi_hours_min: 200,
-            rsi_hours_max: 250)
+            rsi_hours_max: 250
+          )
         }
 
         after do |example|
@@ -141,7 +143,7 @@ RSpec.describe "api/v1/occupation-standards", type: :request do
                   rsi_hours_min: 300,
                   rsi_hours_max: 350
                 }
-              },
+              }
             ]
           }
 
@@ -175,7 +177,8 @@ RSpec.describe "api/v1/occupation-standards", type: :request do
             ojt_hours_min: 100,
             ojt_hours_max: 150,
             rsi_hours_min: 300,
-            rsi_hours_max: 350)
+            rsi_hours_max: 350
+          )
         }
         let(:id) { standard.id }
 
