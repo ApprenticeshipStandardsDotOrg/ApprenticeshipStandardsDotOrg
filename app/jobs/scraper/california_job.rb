@@ -12,17 +12,17 @@ class Scraper::CaliforniaJob < ApplicationJob
 
     doc = Nokogiri::HTML(html)
     nodeset = doc.css(".main-primary a[href]")
-    file_paths = nodeset.map { |element| element["href"] }.select { |href| href.ends_with?(".pdf") }
+    file_paths = nodeset.map { |element| [element["href"], element.text.squish] }.select { |href, link_text| href.ends_with?(".pdf") }
 
-    file_paths.each do |path|
+    file_paths.each do |path, link_text|
       query = url_base + path
       query.gsub!(/\s/, "%20")
 
       standards_import = StandardsImport.where(
         name: protocol + query,
-        organization: fetch_url
+        organization: link_text
       ).first_or_create!(
-        notes: "From Scraper::CaliforniaJob"
+        notes: "From Scraper::CaliforniaJob: #{fetch_url}"
       )
 
       # protocol needs to be hardcoded to avoid Rubocop error:
