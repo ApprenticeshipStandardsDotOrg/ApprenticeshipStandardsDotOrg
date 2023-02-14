@@ -13,6 +13,8 @@ class OccupationStandard < ApplicationRecord
 
   enum occupation_type: [:time, :competency, :hybrid], _suffix: :based
 
+  validates :title, presence: true
+
   def onet_code
     occupation&.onet_code&.code || read_attribute(:onet_code)
   end
