@@ -21,4 +21,8 @@ class OccupationStandard < ApplicationRecord
   def rapids_code
     occupation&.rapids_code || read_attribute(:rapids_code)
   end
+
+  def sponsor_name
+    organization&.title
+  end
 end
