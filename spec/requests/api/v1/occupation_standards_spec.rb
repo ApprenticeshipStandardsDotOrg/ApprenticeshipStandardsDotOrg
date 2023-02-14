@@ -81,10 +81,26 @@ RSpec.describe "api/v1/occupation-standards", type: :request do
                       term_months: {type: :integer, nullable: true},
                       probationary_period_months: {type: :integer, nullable: true},
                       apprenticeship_to_journeyworker_ratio: {type: :string, nullable: true},
-                      ojt_hours_min: {type: :integer, nullable: true},
-                      ojt_hours_max: {type: :integer, nullable: true},
-                      rsi_hours_min: {type: :integer, nullable: true},
-                      rsi_hours_max: {type: :integer, nullable: true}
+                      ojt_hours_min: {
+                        type: :integer,
+                        nullable: true,
+                        description: "Minimum on the job hours required"
+                      },
+                      ojt_hours_max: {
+                        type: :integer,
+                        nullable: true,
+                        description: "Maximum on the job hours required"
+                      },
+                      rsi_hours_min: {
+                        type: :integer,
+                        nullable: true,
+                        description: "Minimum related instruction hours required"
+                      },
+                      rsi_hours_max: {
+                        type: :integer,
+                        nullable: true,
+                        description: "Maximum related instruction hours required"
+                      }
                     },
                     required: %w[title registration_agency]
                   }
@@ -215,10 +231,26 @@ RSpec.describe "api/v1/occupation-standards", type: :request do
                     term_months: {type: :integer, nullable: true},
                     probationary_period_months: {type: :integer, nullable: true},
                     apprenticeship_to_journeyworker_ratio: {type: :string, nullable: true},
-                    ojt_hours_min: {type: :integer, nullable: true},
-                    ojt_hours_max: {type: :integer, nullable: true},
-                    rsi_hours_min: {type: :integer, nullable: true},
-                    rsi_hours_max: {type: :integer, nullable: true}
+                    ojt_hours_min: {
+                      type: :integer,
+                      nullable: true,
+                      description: "Minimum on the job hours required"
+                    },
+                    ojt_hours_max: {
+                      type: :integer,
+                      nullable: true,
+                      description: "Maximum on the job hours required"
+                    },
+                    rsi_hours_min: {
+                      type: :integer,
+                      nullable: true,
+                      description: "Minimum related instruction hours required"
+                    },
+                    rsi_hours_max: {
+                      type: :integer,
+                      nullable: true,
+                      description: "Maximum related instruction hours required"
+                    }
                   },
                   required: %w[title registration_agency]
                 }
