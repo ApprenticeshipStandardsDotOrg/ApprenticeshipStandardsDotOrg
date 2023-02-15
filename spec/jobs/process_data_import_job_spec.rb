@@ -96,7 +96,6 @@ RSpec.describe ProcessDataImportJob, type: :job do
       expect {
         described_class.new.perform(data_import)
       }.to change(WorkProcess, :count).by(2)
-
     end
   end
 end
