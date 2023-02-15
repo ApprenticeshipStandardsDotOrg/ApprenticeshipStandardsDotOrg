@@ -56,6 +56,6 @@ class ImportOccupationStandardWorkProcesses
   end
 
   def competency_available?(row)
-    row["Skill Sort Order"] && row["Skill Title"]
+    row["Skill Sort Order"].presence && row["Skill Title"].presence
   end
 end
