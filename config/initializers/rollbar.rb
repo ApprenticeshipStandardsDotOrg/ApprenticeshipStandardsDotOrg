@@ -33,7 +33,13 @@ Rollbar.configure do |config|
   # You can also specify a callable, which will be called with the exception instance.
   # config.exception_level_filters.merge!('MyCriticalException' => lambda { |e| 'critical' })
   config.exception_level_filters["ActionController::RoutingError"] = "ignore"
-  config.exception_level_filters["Sidekiq::JobRetry::Skip"] = "ignore"
+
+  handler = proc do |options|
+    if options[:exception].is_a?(Sidekiq::JobRetry::Skip)
+      raise Rollbar::Ignore
+    end
+  end
+  config.before_process << handler
 
   # Enable asynchronous reporting (uses girl_friday or Threading if girl_friday
   # is not installed)
