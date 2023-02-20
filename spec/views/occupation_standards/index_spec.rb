@@ -24,6 +24,8 @@ RSpec.describe "occupation_standards/index.html.erb", type: :view do
       expect(rendered).to have_gridcell("California (OA)")
       expect(rendered).to have_gridcell("Dog Catching Human (11-12345.0)")
       expect(rendered).to have_gridcell("Importing")
+
+      expect(rendered).to have_link("Edit", href: edit_occupation_standard_path(occupation_standard))
     end
   end
 
@@ -48,6 +50,8 @@ RSpec.describe "occupation_standards/index.html.erb", type: :view do
       expect(rendered).to have_gridcell("California (OA)")
       expect(rendered).to have_gridcell("11-12345.0")
       expect(rendered).to have_gridcell("Importing")
+
+      expect(rendered).to have_link("Edit", href: edit_occupation_standard_path(occupation_standard))
     end
   end
 end
