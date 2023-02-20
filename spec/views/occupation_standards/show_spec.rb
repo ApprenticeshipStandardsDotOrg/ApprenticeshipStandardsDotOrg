@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "occupation_standards/show.html.erb", type: :view do
   it "displays title and description" do
-    occupation_standard = build(:occupation_standard, title: "Mechanic")
+    occupation_standard = create(:occupation_standard, title: "Mechanic")
     assign(:occupation_standard, occupation_standard)
 
     render
@@ -40,10 +40,12 @@ RSpec.describe "occupation_standards/show.html.erb", type: :view do
     expect(rendered).to have_columnheader("Default Hours")
     expect(rendered).to have_columnheader("Minimum Hours")
     expect(rendered).to have_columnheader("Maximum Hours")
+
+    expect(rendered).to have_link("Edit", href: edit_occupation_standard_path(occupation_standard))
   end
 
   it "allows for occupation standard not linked to an occupation" do
-    occupation_standard = build(:occupation_standard, occupation: nil)
+    occupation_standard = create(:occupation_standard, occupation: nil)
     assign(:occupation_standard, occupation_standard)
 
     render
