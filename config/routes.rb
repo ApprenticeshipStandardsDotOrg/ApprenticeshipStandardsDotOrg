@@ -30,7 +30,7 @@ Rails.application.routes.draw do
     resources :file_imports, only: [:index, :edit, :update] do
       resources :data_imports, except: [:index]
     end
-    resources :occupation_standards, only: [:index, :show]
+    resources :occupation_standards, only: [:index, :show, :edit, :update]
   end
 
   root to: "standards_imports#new", as: :guest_root
