@@ -80,6 +80,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_20_215700) do
     t.uuid "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "file_import_id", null: false
+    t.index ["file_import_id"], name: "index_data_imports_on_file_import_id"
     t.index ["user_id"], name: "index_data_imports_on_user_id"
   end
 
@@ -244,6 +246,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_20_215700) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "competencies", "work_processes"
   add_foreign_key "courses", "organizations"
+  add_foreign_key "data_imports", "file_imports"
   add_foreign_key "data_imports", "users"
   add_foreign_key "file_imports", "active_storage_attachments"
   add_foreign_key "occupation_standards", "data_imports"
