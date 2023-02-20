@@ -8,4 +8,8 @@ class Occupation < ApplicationRecord
   def onet_soc_code
     onet_code&.code
   end
+
+  def to_s
+    "#{name} (#{rapids_code})"
+  end
 end
