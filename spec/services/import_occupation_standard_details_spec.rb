@@ -26,7 +26,7 @@ RSpec.describe ImportOccupationStandardDetails do
       expect(os.onet_code).to eq "13-1071.01"
       expect(os.rapids_code).to eq "1057"
       expect(os.apprenticeship_to_journeyworker_ratio).to eq "5:1"
-      expect(os.organization).to be_nil
+      expect(os.organization_title).to eq "Hardy Corporation"
       expect(os.ojt_hours_min).to be_nil
       expect(os.ojt_hours_max).to be_nil
       expect(os.rsi_hours_min).to be_nil
