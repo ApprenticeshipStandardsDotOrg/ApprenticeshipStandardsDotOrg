@@ -12,6 +12,18 @@
     <%= occupation_standard.occupation.onet_code || occupation_standard.onet_code %>
   </td>
   <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-    <%= occupation_standard.status.titleize %>
+    <% if occupation_standard.importing? %>
+      <span class="pill bg-orange-500">
+        <%= occupation_standard.status.titleize %>
+      </span>
+    <% elsif occupation_standard.in_review? %>
+      <span class="pill bg-yellow-600">
+        <%= occupation_standard.status.titleize %>
+      </span>
+    <% elsif occupation_standard.published? %>
+      <span class="pill bg-green-700">
+        <%= occupation_standard.status.titleize %>
+      </span>
+    <% end %>
   </td>
 </tr>
