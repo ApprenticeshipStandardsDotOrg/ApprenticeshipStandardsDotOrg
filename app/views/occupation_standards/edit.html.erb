@@ -1,0 +1,23 @@
+<h1>Edit <%= @occupation_standard.title %></h1>
+
+<%= form_with model: @occupation_standard, class: "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" do |f| %>
+  <div class="mb-4">
+    <%= f.label :title, class: "form-label" %>
+    <%= f.text_field :title, class: "form-field" %>
+  </div>
+  <div class="mb-4">
+    <%= f.label :onet_code, "ONET Code", class: "form-label" %>
+    <%= f.text_field :onet_code, class: "form-field" %>
+  </div>
+  <div class="mb-4">
+    <%= f.label :rapids_code, "RAPIDS Code", class: "form-label" %>
+    <%= f.text_field :rapids_code, class: "form-field" %>
+  </div>
+  <div class="mb-4">
+    <%= f.label :status, class: "form-label" %>
+    <%= f.select :status, options_for_select(OccupationStandard.statuses.map { |k, v| [k.titleize, k] }), class: "form-field" %>
+  </div>
+  <div>
+    <%= f.submit "Update", class: "btn-primary" %>
+  </div>
+<% end %>
