@@ -2,6 +2,7 @@ FactoryBot.define do
   factory :data_import do
     description { "Here is a description" }
     user
+    file_import
     file { Rack::Test::UploadedFile.new(Rails.root.join("spec", "fixtures", "files", "occupation-standards-template.xlsx"), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") }
 
     factory :data_import_for_hybrid do

@@ -1,22 +1,19 @@
 class DataImportsController < ApplicationController
   before_action :authenticate_user!
-
-  def index
-    @data_imports = DataImport.all
-  end
+  before_action :set_file_import
 
   def new
-    @data_import = DataImport.new
+    @data_import = @file_import.build_data_import
   end
 
   def create
-    @data_import = DataImport.new(create_params)
+    @data_import = @file_import.build_data_import(create_params)
     @data_import.user = current_user
 
     if @data_import.save
       ProcessDataImportJob.perform_later(@data_import)
       flash[:notice] = "Thank you for submitting your occupation standard!"
-      redirect_to data_import_path(@data_import)
+      redirect_to file_import_data_import_path(@file_import, @data_import)
     else
       render :new, status: :unprocessable_entity
     end
@@ -33,7 +30,7 @@ class DataImportsController < ApplicationController
   def update
     @data_import = DataImport.find(params[:id])
     if @data_import.update(update_params)
-      redirect_to data_import_path(params[:id])
+      redirect_to file_import_data_import_path(@file_import, @data_import)
     else
       render :edit
     end
@@ -45,10 +42,14 @@ class DataImportsController < ApplicationController
     unless @data_import.destroy
       flash[:error] = "Occupation Standard could not be deleted"
     end
-    redirect_to new_data_import_path
+    redirect_to new_file_import_data_import_path(@file_import)
   end
 
   private
+
+  def set_file_import
+    @file_import = FileImport.find(params[:file_import_id])
+  end
 
   def create_params
     params.require(:data_import).permit(:description, :file)

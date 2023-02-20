@@ -27,8 +27,9 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :file_imports, only: [:index, :edit, :update]
-    resources :data_imports
+    resources :file_imports, only: [:index, :edit, :update] do
+      resources :data_imports, except: [:index]
+    end
     resources :occupation_standards, only: [:index, :show]
   end
 
