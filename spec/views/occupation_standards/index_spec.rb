@@ -2,9 +2,8 @@ require "rails_helper"
 
 RSpec.describe "occupation_standards/index.html.erb", type: :view do
   it "displays name and description", :admin do
-    occupation_standards = create_list(:occupation_standard, 1, title: "Mechanic")
-    occupation_standard = occupation_standards.first
-    assign(:occupation_standards, occupation_standards)
+    occupation_standard = create(:occupation_standard, title: "Mechanic")
+    assign(:occupation_standards, OccupationStandard.all)
 
     render
 
