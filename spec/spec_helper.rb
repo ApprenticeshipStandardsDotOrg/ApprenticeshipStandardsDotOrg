@@ -37,6 +37,12 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
   end
 
+  # Run specs in random order to surface order dependencies. If you find an
+  # order dependency and want to debug it, you can fix the order by providing
+  # the seed, which is printed after each run.
+  #     --seed 1234
+  config.order = :random
+
   # This option will default to `:apply_to_host_groups` in RSpec 4 (and will
   # have no way to turn it off -- the option exists only for backwards
   # compatibility in RSpec 3). It causes shared context metadata to be
@@ -77,12 +83,6 @@ RSpec.configure do |config|
   #   # end of the spec run, to help surface which specs are running
   #   # particularly slow.
   #   config.profile_examples = 10
-  #
-  #   # Run specs in random order to surface order dependencies. If you find an
-  #   # order dependency and want to debug it, you can fix the order by providing
-  #   # the seed, which is printed after each run.
-  #   #     --seed 1234
-  #   config.order = :random
   #
   #   # Seed global randomization in this process using the `--seed` CLI option.
   #   # Setting this allows you to use `--seed` to deterministically reproduce
