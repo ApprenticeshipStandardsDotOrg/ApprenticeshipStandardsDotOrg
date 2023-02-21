@@ -3,7 +3,7 @@ class FileImportsController < ApplicationController
   include ActiveStorage::SetCurrent
 
   def index
-    @file_imports = FileImport.includes(active_storage_attachment: :blob)
+    @file_imports = FileImport.includes(:data_import, active_storage_attachment: :blob)
   end
 
   def edit
