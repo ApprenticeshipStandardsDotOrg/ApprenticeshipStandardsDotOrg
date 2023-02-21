@@ -134,6 +134,9 @@ GEM
       responders
       warden (~> 1.2.3)
     diff-lcs (1.5.0)
+    docx (0.7.0)
+      nokogiri (~> 1.13, >= 1.13.0)
+      rubyzip (~> 2.0)
     dotenv (2.8.1)
     dotenv-rails (2.8.1)
       dotenv (= 2.8.1)
@@ -374,6 +377,7 @@ DEPENDENCIES
   capybara_accessible_selectors!
   debug
   devise
+  docx
   dotenv-rails
   erb_lint
   erblint-github

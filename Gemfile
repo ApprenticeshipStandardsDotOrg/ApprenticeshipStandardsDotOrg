@@ -46,6 +46,7 @@ gem "aws-sdk-s3", require: false
 gem "after_party"
 gem "sidekiq", "~> 7"
 gem "jsonapi-resources"
+gem "docx"
 
 # For API documentation
 gem "rswag-api"
