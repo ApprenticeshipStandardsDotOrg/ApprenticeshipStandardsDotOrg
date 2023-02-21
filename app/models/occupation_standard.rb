@@ -27,4 +27,8 @@ class OccupationStandard < ApplicationRecord
   def sponsor_name
     organization&.title
   end
+
+  def source_file
+    data_import.file_import
+  end
 end
