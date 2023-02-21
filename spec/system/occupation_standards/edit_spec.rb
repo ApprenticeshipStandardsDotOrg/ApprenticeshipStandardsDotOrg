@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "occupation_standards/edit" do
   it "allows admin user to edit occupation_standard", :admin do
-    occupation_standard = create(:occupation_standard)
+    create(:occupation_standard)
     admin = create(:admin)
 
     login_as admin
