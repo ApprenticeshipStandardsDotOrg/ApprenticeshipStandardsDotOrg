@@ -49,7 +49,6 @@ gem "jsonapi-resources"
 gem "watir", "~> 7.2"
 gem "docx"
 
-
 # For API documentation
 gem "rswag-api"
 gem "rswag-ui"
