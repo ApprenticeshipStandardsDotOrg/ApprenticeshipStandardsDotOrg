@@ -27,8 +27,7 @@ class Scraper::OregonJob < ApplicationJob
 
         standards = browser.element(css: "tbody").wait_until(&:present?)
         standards_table = Nokogiri::HTML(standards.inner_html)
-
-        standards_table.each do |row|
+        standards_table.css("tr").each do |row|
           file = row.css("td > a").first
           file_path = file["href"]
           file_name = file.content
@@ -41,10 +40,9 @@ class Scraper::OregonJob < ApplicationJob
           )
 
           standards_import.files.attach(io: URI.open("https://www.oregon.gov#{file_path}"), filename: File.basename(file_name))
-          puts "*" * 10
-          puts standards_import.inspect
         end
       end
     end
+    browser.close
   end
 end
