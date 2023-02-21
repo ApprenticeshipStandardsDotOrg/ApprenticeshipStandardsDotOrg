@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_02_182410) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_20_215700) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -80,6 +80,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_02_182410) do
     t.uuid "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "file_import_id", null: false
+    t.index ["file_import_id"], name: "index_data_imports_on_file_import_id"
     t.index ["user_id"], name: "index_data_imports_on_user_id"
   end
 
@@ -111,6 +113,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_02_182410) do
     t.integer "rsi_hours_max"
     t.uuid "data_import_id"
     t.uuid "organization_id"
+    t.integer "status", default: 0, null: false
     t.index ["data_import_id"], name: "index_occupation_standards_on_data_import_id"
     t.index ["occupation_id"], name: "index_occupation_standards_on_occupation_id"
     t.index ["organization_id"], name: "index_occupation_standards_on_organization_id"
@@ -243,6 +246,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_02_182410) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "competencies", "work_processes"
   add_foreign_key "courses", "organizations"
+  add_foreign_key "data_imports", "file_imports"
   add_foreign_key "data_imports", "users"
   add_foreign_key "file_imports", "active_storage_attachments"
   add_foreign_key "occupation_standards", "data_imports"

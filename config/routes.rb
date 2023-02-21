@@ -27,8 +27,9 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :file_imports, only: [:index, :edit, :update]
-    resources :data_imports
+    resources :file_imports, only: [:index, :edit, :update] do
+      resources :data_imports, except: [:index]
+    end
     resources :occupation_standards, only: [:index, :show]
   end
 
@@ -39,6 +40,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       jsonapi_resources :occupations
+      jsonapi_resources :standards
     end
   end
 end

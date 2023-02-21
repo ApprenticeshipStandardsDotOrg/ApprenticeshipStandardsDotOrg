@@ -46,7 +46,7 @@ class ImportOccupationStandardDetails
 
   def organization
     if (sponsor_name = row["Sponsor Name"])
-      Organization.find_or_create_by!(name: sponsor_name)
+      Organization.find_or_create_by!(title: sponsor_name)
     end
   end
 

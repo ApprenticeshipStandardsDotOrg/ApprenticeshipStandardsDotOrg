@@ -8,10 +8,13 @@ class OccupationStandard < ApplicationRecord
   has_many :wage_steps, dependent: :destroy
   has_many :work_processes, dependent: :destroy
 
-  delegate :rapids_code, to: :occupation, allow_nil: true
+  delegate :title, to: :organization, prefix: true, allow_nil: true
   delegate :name, to: :occupation, prefix: true, allow_nil: true
 
   enum occupation_type: [:time, :competency, :hybrid], _suffix: :based
+  enum :status, [:importing, :in_review, :published]
+
+  validates :title, presence: true
 
   def onet_code
     occupation&.onet_code&.code || read_attribute(:onet_code)
@@ -19,5 +22,9 @@ class OccupationStandard < ApplicationRecord
 
   def rapids_code
     occupation&.rapids_code || read_attribute(:rapids_code)
+  end
+
+  def sponsor_name
+    organization&.title
   end
 end
