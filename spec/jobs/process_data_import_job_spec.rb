@@ -18,6 +18,7 @@ RSpec.describe ProcessDataImportJob, type: :job do
       }.to change(OccupationStandard, :count).by(1)
 
       occupation_standard = OccupationStandard.last
+      organization = Organization.first
       expect(occupation_standard.data_import).to eq data_import
       expect(occupation_standard.occupation).to eq occupation1
       expect(occupation_standard.registration_agency).to eq ca_oa
@@ -29,7 +30,7 @@ RSpec.describe ProcessDataImportJob, type: :job do
       expect(occupation_standard.onet_code).to eq "13-1071.01"
       expect(occupation_standard.rapids_code).to eq "1057"
       expect(occupation_standard.apprenticeship_to_journeyworker_ratio).to eq "5:1"
-      expect(occupation_standard.organization).to be_nil
+      expect(occupation_standard.organization).to eq organization
       expect(occupation_standard.ojt_hours_min).to be_nil
       expect(occupation_standard.ojt_hours_max).to be_nil
       expect(occupation_standard.rsi_hours_min).to be_nil
@@ -50,6 +51,7 @@ RSpec.describe ProcessDataImportJob, type: :job do
       }.to_not change(OccupationStandard, :count)
 
       occupation_standard.reload
+      organization = Organization.first
       expect(occupation_standard.data_import).to eq data_import
       expect(occupation_standard.occupation).to eq occupation
       expect(occupation_standard.registration_agency).to eq ca_oa
@@ -61,7 +63,7 @@ RSpec.describe ProcessDataImportJob, type: :job do
       expect(occupation_standard.onet_code).to eq "13-1071.01"
       expect(occupation_standard.rapids_code).to eq "1057"
       expect(occupation_standard.apprenticeship_to_journeyworker_ratio).to eq "5:1"
-      expect(occupation_standard.organization).to be_nil
+      expect(occupation_standard.organization).to eq organization
       expect(occupation_standard.ojt_hours_min).to be_nil
       expect(occupation_standard.ojt_hours_max).to be_nil
       expect(occupation_standard.rsi_hours_min).to be_nil
