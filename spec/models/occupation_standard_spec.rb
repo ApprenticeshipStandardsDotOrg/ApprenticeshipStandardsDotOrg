@@ -44,4 +44,19 @@ RSpec.describe OccupationStandard, type: :model do
       expect(occupation_standard.onet_code).to eq "123"
     end
   end
+
+  describe "#sponsor_name" do
+    it "returns organization name when it exists" do
+      organization = build_stubbed(:organization, title: "Disney")
+      occupation_standard = build(:occupation_standard, organization: organization)
+
+      expect(occupation_standard.sponsor_name).to eq "Disney"
+    end
+
+    it "returns nil if no organization" do
+      occupation_standard = build(:occupation_standard, organization: nil)
+
+      expect(occupation_standard.sponsor_name).to be_nil
+    end
+  end
 end
