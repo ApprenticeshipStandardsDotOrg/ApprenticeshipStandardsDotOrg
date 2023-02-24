@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe Scraper::OregonJob, type: :job do
   xdescribe "#perform" do
-    # Skipping until we know how to mock the browser effectively 
+    # Skipping until we know how to mock the browser effectively
     context "when files have not been downloaded previously" do
       it "downloads pdf files to a standards import record" do
         # stub_responses
