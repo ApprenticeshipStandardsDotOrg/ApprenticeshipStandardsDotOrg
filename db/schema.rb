@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_20_215700) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_24_134654) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -90,6 +90,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_20_215700) do
     t.integer "status", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.jsonb "metadata"
     t.index ["active_storage_attachment_id"], name: "index_file_imports_on_active_storage_attachment_id"
   end
 
