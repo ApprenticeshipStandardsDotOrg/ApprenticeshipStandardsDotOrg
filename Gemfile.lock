@@ -342,6 +342,9 @@ GEM
     uniform_notifier (1.16.0)
     warden (1.2.9)
       rack (>= 2.0.9)
+    watir (7.2.2)
+      regexp_parser (>= 1.2, < 3)
+      selenium-webdriver (~> 4.2)
     web-console (4.2.0)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
@@ -402,6 +405,7 @@ DEPENDENCIES
   tailwindcss-rails
   turbo-rails
   tzinfo-data
+  watir (~> 7.2)
   web-console
   webdrivers
   webmock
