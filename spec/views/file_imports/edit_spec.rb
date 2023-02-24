@@ -9,6 +9,7 @@ RSpec.describe "file_imports/edit.html.erb", type: :view do
 
     expect(rendered).to have_selector("h1", text: "Edit #{file_import.filename}")
     expect(rendered).to have_field("Status")
+    expect(rendered).to have_field("Metadata", readonly: true, disabled: true)
     expect(rendered).to have_button("Update")
   end
 end
