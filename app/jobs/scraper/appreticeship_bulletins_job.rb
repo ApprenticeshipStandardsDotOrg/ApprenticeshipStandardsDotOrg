@@ -17,7 +17,14 @@ class Scraper::AppreticeshipBulletinsJob < ApplicationJob
         notes: "From Scraper::AppreticeshipBulletinsJob #{BULLETIN_LIST_URL}"
       )
 
-      standards_import.files.attach(io: URI.parse(file_uri).open, filename: File.basename(file_uri))
+      if standards_import.files.attach(io: URI.parse(file_uri).open, filename: File.basename(file_uri))
+        file_import = standards_import.files.last.file_import
+        file_import.update(
+          metadata: {
+            date: row["Date"]
+          }
+        )
+      end
     end
   rescue OpenURI::HTTPError
     Rails.logger.debug "Error while trying to download #{file_uri}"
