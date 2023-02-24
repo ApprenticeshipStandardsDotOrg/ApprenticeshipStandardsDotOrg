@@ -7,4 +7,8 @@ class FileImport < ApplicationRecord
   def filename
     active_storage_attachment.blob.filename
   end
+
+  def url
+    active_storage_attachment.blob.url
+  end
 end
