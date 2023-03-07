@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :occupation do
-    name { "MyString" }
+    title { "MyString" }
     description { "MyText" }
   end
 end

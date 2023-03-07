@@ -18,7 +18,7 @@ RSpec.describe "occupation_standards/show" do
     expect(page).to have_selector("dt", text: "Created at:")
     expect(page).to have_selector("dt", text: "Updated at:")
 
-    expect(page).to have_selector("dd", text: occupation_standard.occupation.name)
+    expect(page).to have_selector("dd", text: occupation_standard.occupation.title)
     expect(page).to have_selector("dd", text: occupation_standard.url)
     expect(page).to have_selector("dd", text: occupation_standard.registration_agency)
     expect(page).to have_selector("dd", text: occupation_standard.rapids_code)

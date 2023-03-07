@@ -9,7 +9,7 @@ class OccupationStandard < ApplicationRecord
   has_many :work_processes, dependent: :destroy
 
   delegate :title, to: :organization, prefix: true, allow_nil: true
-  delegate :name, to: :occupation, prefix: true, allow_nil: true
+  delegate :title, to: :occupation, prefix: true, allow_nil: true
 
   enum occupation_type: [:time, :competency, :hybrid], _suffix: :based
   enum :status, [:importing, :in_review, :published]
