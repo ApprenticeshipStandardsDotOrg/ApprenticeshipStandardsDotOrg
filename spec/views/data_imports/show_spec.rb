@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "data_imports/show.html.erb", type: :view do
   it "displays description and links", :admin do
-    data_import = create(:data_import, description: "DA Desc")
+    data_import = create(:data_import, :unprocessed, description: "DA Desc")
     file_import = data_import.file_import
     assign(:file_import, file_import)
     assign(:data_import, data_import)
@@ -17,9 +17,9 @@ RSpec.describe "data_imports/show.html.erb", type: :view do
   end
 
   it "displays link to occupation standard if it exists" do
-    data_import = create(:data_import, description: "DA Desc")
+    occupation_standard = create(:occupation_standard, title: "Mechanic")
+    data_import = create(:data_import, description: "DA Desc", occupation_standard: occupation_standard)
     file_import = data_import.file_import
-    occupation_standard = create(:occupation_standard, data_import: data_import, title: "Mechanic")
     assign(:file_import, file_import)
     assign(:data_import, data_import)
 

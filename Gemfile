@@ -46,6 +46,7 @@ gem "aws-sdk-s3", require: false
 gem "after_party"
 gem "sidekiq", "~> 7"
 gem "jsonapi-resources"
+gem "watir", "~> 7.2"
 gem "docx"
 
 # For API documentation

@@ -2,15 +2,12 @@ require "rails_helper"
 
 RSpec.describe "occupation_standards/edit" do
   it "allows admin user to edit occupation_standard", :admin do
-    create(:occupation_standard)
+    data_import = create(:data_import)
+    occupation_standard = data_import.occupation_standard
     admin = create(:admin)
 
     login_as admin
-    visit occupation_standards_path
-
-    within("main") do
-      click_on "Edit"
-    end
+    visit edit_occupation_standard_path(occupation_standard)
 
     expect(page).to have_selector("h1", text: "Edit Mechanic")
     expect(page).to have_field("Title")
@@ -50,6 +47,7 @@ RSpec.describe "occupation_standards/edit" do
 
   it "allows for occupation standard not linked to an occupation", :admin do
     occupation_standard = create(:occupation_standard, occupation: nil, title: "Mechanic")
+    create(:data_import, occupation_standard: occupation_standard)
     admin = create(:admin)
 
     login_as admin

@@ -11,6 +11,7 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2023_02_24_185125) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -81,7 +82,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_24_185125) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "file_import_id", null: false
+    t.uuid "occupation_standard_id"
     t.index ["file_import_id"], name: "index_data_imports_on_file_import_id"
+    t.index ["occupation_standard_id"], name: "index_data_imports_on_occupation_standard_id"
     t.index ["user_id"], name: "index_data_imports_on_user_id"
   end
 
@@ -112,10 +115,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_24_185125) do
     t.integer "ojt_hours_max"
     t.integer "rsi_hours_min"
     t.integer "rsi_hours_max"
-    t.uuid "data_import_id"
     t.uuid "organization_id"
     t.integer "status", default: 0, null: false
-    t.index ["data_import_id"], name: "index_occupation_standards_on_data_import_id"
     t.index ["occupation_id"], name: "index_occupation_standards_on_occupation_id"
     t.index ["organization_id"], name: "index_occupation_standards_on_organization_id"
     t.index ["registration_agency_id"], name: "index_occupation_standards_on_registration_agency_id"
@@ -248,9 +249,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_24_185125) do
   add_foreign_key "competencies", "work_processes"
   add_foreign_key "courses", "organizations"
   add_foreign_key "data_imports", "file_imports"
+  add_foreign_key "data_imports", "occupation_standards"
   add_foreign_key "data_imports", "users"
   add_foreign_key "file_imports", "active_storage_attachments"
-  add_foreign_key "occupation_standards", "data_imports"
   add_foreign_key "occupation_standards", "occupations"
   add_foreign_key "occupation_standards", "organizations"
   add_foreign_key "occupation_standards", "registration_agencies"
