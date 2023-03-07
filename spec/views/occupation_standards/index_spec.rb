@@ -6,7 +6,7 @@ RSpec.describe "occupation_standards/index.html.erb", type: :view do
       ca = create(:state, name: "California", abbreviation: "CA")
       agency = create(:registration_agency, state: ca, agency_type: :oa)
       onet_code = create(:onet_code, code: "11-12345.0", name: "Dog Catching Human")
-      occupation = create(:occupation, name: "Dog Catcher", rapids_code: "12345", onet_code: onet_code)
+      occupation = create(:occupation, title: "Dog Catcher", rapids_code: "12345", onet_code: onet_code)
       occupation_standard = create(:occupation_standard, occupation: occupation, title: "Dog Catching Technician", registration_agency: agency)
 
       assign(:occupation_standards, OccupationStandard.all)
