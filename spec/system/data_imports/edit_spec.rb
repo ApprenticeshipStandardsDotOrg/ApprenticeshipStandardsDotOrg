@@ -4,6 +4,7 @@ RSpec.describe "data_imports/edit" do
   it "allows admin user to edit data import", :admin do
     data_import = create(:data_import)
     file_import = data_import.file_import
+    occupation_standard = data_import.occupation_standard
     admin = create :admin
 
     login_as admin
@@ -11,8 +12,9 @@ RSpec.describe "data_imports/edit" do
 
     expect(page).to have_content("Edit #{data_import.file.filename}")
     fill_in "Description", with: "New desc"
+    attach_file "File", "spec/fixtures/files/pixel1x1.pdf"
 
-    click_on "Update"
+    click_on "Submit"
 
     within("h1") do
       expect(page).to have_content("Data Import")

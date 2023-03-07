@@ -14,7 +14,7 @@ RSpec.describe "data_imports/new" do
     fill_in "Description", with: "Some desc"
     attach_file "File", "spec/fixtures/files/pixel1x1.pdf"
 
-    click_on "Upload"
+    click_on "Submit"
 
     within("h1") do
       expect(page).to have_content("Data Import")
