@@ -53,7 +53,7 @@ RSpec.describe ImportOccupationStandardDetails do
         ca = create(:state, abbreviation: "CA")
         ca_oa = create(:registration_agency, state: ca, agency_type: :oa)
 
-        onet_code = create(:onet_code, code: "13-1071.01")
+        create(:onet_code, code: "13-1071.01")
         occupation = create(:occupation, rapids_code: "1057")
 
         data_import = create(:data_import)
