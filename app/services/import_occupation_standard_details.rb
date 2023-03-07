@@ -12,9 +12,7 @@ class ImportOccupationStandardDetails
       sheet = xlsx.sheet(0)
 
       @row = sheet.parse(headers: true)[1]
-      occupation_standard = OccupationStandard.find_or_initialize_by(
-        data_import: data_import
-      )
+      occupation_standard = data_import.occupation_standard || data_import.build_occupation_standard
 
       occupation_standard.assign_attributes(
         occupation: occupation,
@@ -33,6 +31,10 @@ class ImportOccupationStandardDetails
         rsi_hours_min: row["Minimum RSI Hours"],
         rsi_hours_max: row["Maximum RSI Hours"]
       )
+      DataImport.transaction do
+        data_import.save!
+        occupation_standard.save!
+      end
       occupation_standard
     end
   end
@@ -46,7 +48,7 @@ class ImportOccupationStandardDetails
 
   def organization
     if (sponsor_name = row["Sponsor Name"])
-      Organization.find_or_create_by!(name: sponsor_name)
+      Organization.find_or_create_by!(title: sponsor_name)
     end
   end
 

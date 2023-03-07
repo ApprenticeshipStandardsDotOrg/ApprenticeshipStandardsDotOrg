@@ -5,7 +5,12 @@
     <%= f.label :status, class: "form-label" %>
     <%= f.select :status, options_for_select(FileImport.statuses.map { |k, v| [k.titleize, k] }), class: "form-field" %>
   </div>
+  <div class="mb-4">
+    <%= f.label :metadata, class: "form-label" %>
+    <%= f.text_area :metadata, readonly: true, disabled: true %>
+  </div>
   <div>
     <%= f.submit "Update", class: "btn-primary" %>
+    <%= link_to "Cancel", :back, class: "btn-secondary" %>
   </div>
 <% end %>

@@ -8,7 +8,7 @@ namespace :occupation do
       xlsx = Roo::Spreadsheet.open("https://www.apprenticeship.gov/sites/default/files/wps/apprenticeship-occupations.xlsx")
       xlsx.sheet(0).parse(headers: true).each_with_index do |row, index|
         next if index.zero?
-        occupation = Occupation.find_or_initialize_by(name: row["RAPIDS TITLE"])
+        occupation = Occupation.find_or_initialize_by(title: row["RAPIDS TITLE"])
         onet_code = OnetCode.find_by(code: row["ONET SOC CODE"].strip)
         hybrid_hours_min = nil
         hybrid_hours_max = nil

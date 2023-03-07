@@ -2,7 +2,7 @@ class API::V1::OccupationResource < JSONAPI::Resource
   immutable
   model_name "Occupation"
 
-  attributes :name, :onet_code, :rapids_code, :time_based_hours, :competency_based_hours
+  attributes :title, :onet_code, :rapids_code, :time_based_hours, :competency_based_hours
 
   def onet_code
     @model.onet_soc_code
@@ -10,7 +10,7 @@ class API::V1::OccupationResource < JSONAPI::Resource
 
   class << self
     def default_sort
-      [{field: "name", direction: :asc}]
+      [{field: "title", direction: :asc}]
     end
 
     def records_for_populate(options = {})

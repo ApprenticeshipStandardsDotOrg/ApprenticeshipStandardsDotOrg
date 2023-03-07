@@ -7,8 +7,8 @@ RSpec.describe "api/v1/occupations", type: :request do
 
       response(200, "successful") do
         let(:onet_code1) { create(:onet_code, code: "51-7011.00") }
-        let!(:occ1) { create(:occupation, name: "Information Technology Specialist", onet_code: onet_code1, rapids_code: "1132", time_based_hours: 2782, competency_based_hours: 2000) }
-        let!(:occ2) { create(:occupation, name: "Accordion Maker", rapids_code: "0860", time_based_hours: 8000, competency_based_hours: 8500) }
+        let!(:occ1) { create(:occupation, title: "Information Technology Specialist", onet_code: onet_code1, rapids_code: "1132", time_based_hours: 2782, competency_based_hours: 2000) }
+        let!(:occ2) { create(:occupation, title: "Accordion Maker", rapids_code: "0860", time_based_hours: 8000, competency_based_hours: 8500) }
 
         after do |example|
           example.metadata[:response][:content] = {
@@ -35,13 +35,13 @@ RSpec.describe "api/v1/occupations", type: :request do
                   attributes: {
                     type: :object,
                     properties: {
-                      name: {type: :string},
+                      title: {type: :string},
                       onet_code: {type: :string, nullable: true},
                       rapids_code: {type: :string, nullable: true},
                       time_based_hours: {type: :integer, nullable: true},
                       competency_based_hours: {type: :integer, nullable: true}
                     },
-                    required: %w[name]
+                    required: %w[title]
                   }
                 },
                 required: %w[id type attributes links]
@@ -60,7 +60,7 @@ RSpec.describe "api/v1/occupations", type: :request do
                   self: api_v1_occupation_url(occ2)
                 },
                 attributes: {
-                  name: occ2.name,
+                  title: occ2.title,
                   onet_code: nil,
                   rapids_code: "0860",
                   time_based_hours: 8000,
@@ -74,7 +74,7 @@ RSpec.describe "api/v1/occupations", type: :request do
                   self: api_v1_occupation_url(occ1)
                 },
                 attributes: {
-                  name: occ1.name,
+                  title: occ1.title,
                   onet_code: "51-7011.00",
                   rapids_code: "1132",
                   time_based_hours: 2782,
@@ -97,7 +97,7 @@ RSpec.describe "api/v1/occupations", type: :request do
 
       response(200, "successful") do
         let(:onet_code1) { create(:onet_code, code: "51-7011.00") }
-        let!(:occ) { create(:occupation, name: "Information Technology Specialist", onet_code: onet_code1, rapids_code: "1132", time_based_hours: 2782, competency_based_hours: 2000) }
+        let!(:occ) { create(:occupation, title: "Information Technology Specialist", onet_code: onet_code1, rapids_code: "1132", time_based_hours: 2782, competency_based_hours: 2000) }
         let(:id) { occ.id }
 
         after do |example|
@@ -123,13 +123,13 @@ RSpec.describe "api/v1/occupations", type: :request do
                 attributes: {
                   type: :object,
                   properties: {
-                    name: {type: :string},
+                    title: {type: :string},
                     onet_code: {type: :string, nullable: true},
                     rapids_code: {type: :string, nullable: true},
                     time_based_hours: {type: :integer, nullable: true},
                     competency_based_hours: {type: :integer, nullable: true}
                   },
-                  required: %w[name]
+                  required: %w[title]
                 },
                 required: %w[id type attributes links]
               }
@@ -146,7 +146,7 @@ RSpec.describe "api/v1/occupations", type: :request do
                 self: api_v1_occupation_url(occ)
               },
               attributes: {
-                name: occ.name,
+                title: occ.title,
                 onet_code: "51-7011.00",
                 rapids_code: "1132",
                 time_based_hours: 2782,

@@ -1,11 +1,19 @@
 <div class="flex flex-col">
   <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
     <h1 class="w-full max-w-prose mx-auto text-center font-semibold text-xl mb-4">Occupation Standard for <%= @occupation_standard.title %></h1>
+    <div class="btn-primary align-right w-fit mb-2 ml-auto">
+      <%= link_to "Edit", edit_occupation_standard_path(@occupation_standard) %>
+    </div>
     <div class="border-t border-gray-200">
       <dl>
         <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt>Status:</dt>
+          <dd><%= @occupation_standard.status.titleize %></dd>
+        </div>
+
+        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
           <dt "text-sm font-medium text-gray-500">Occupation:</dt>
-          <dd "mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0"><%= @occupation_standard.occupation_name %></dd>
+          <dd "mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0"><%= @occupation_standard.occupation_title %></dd>
         </div>
 
         <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -39,13 +47,6 @@
         </div>
       </dl>
     </div>
-    <div class="my-6">
-      <h3 class="w-full max-w-prose mx-auto text-center font-semibold text-xl mb-4">Related Instructions</h3>
-      <%= render partial: "related_instructions/table", locals: {related_instructions: @occupation_standard.related_instructions} %>
-    </div>
-    <div class="my-6">
-      <h3 class="w-full max-w-prose mx-auto text-center font-semibold text-xl mb-4">Work Processes</h3>
-      <%= render partial: "work_processes/table", locals: {work_processes: @occupation_standard.work_processes} %>
-    </div>
+    <%= render partial: "subsections" %>
   </div>
 </div>

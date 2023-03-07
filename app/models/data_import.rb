@@ -2,8 +2,9 @@ class DataImport < ApplicationRecord
   has_one_attached :file
 
   belongs_to :user
+  belongs_to :file_import
 
-  has_one :occupation_standard
+  belongs_to :occupation_standard, optional: true
 
   validate :file_presence
 
