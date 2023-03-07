@@ -30,6 +30,7 @@ class DataImportsController < ApplicationController
   def update
     @data_import = DataImport.find(params[:id])
     if @data_import.update(permitted_params)
+      ProcessDataImportJob.perform_later(@data_import)
       redirect_to file_import_data_import_path(@file_import, @data_import)
     else
       render :edit

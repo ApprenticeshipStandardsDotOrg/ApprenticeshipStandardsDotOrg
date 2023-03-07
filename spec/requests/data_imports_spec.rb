@@ -124,6 +124,7 @@ RSpec.describe "DataImports", type: :request, admin: true do
           file_import = data_import.file_import
 
           sign_in admin
+          expect(ProcessDataImportJob).to receive(:perform_later).with(data_import)
           patch file_import_data_import_path(file_import, data_import),
             params: {
               data_import: {
