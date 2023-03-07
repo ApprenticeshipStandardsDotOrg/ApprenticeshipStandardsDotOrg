@@ -22,7 +22,7 @@ RSpec.describe "data_imports/edit" do
     expect(page).to have_content("Description")
     expect(page).to have_content("New desc")
     expect(page).to have_content("File")
-    expect(page).to have_content(data_import.file.filename)
+    expect(page).to have_content("pixel1x1.pdf")
     expect(page).to have_content("Occupation standard")
     expect(page).to have_content(data_import.occupation_standard.title)
   end
