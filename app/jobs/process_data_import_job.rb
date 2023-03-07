@@ -11,20 +11,24 @@ class ProcessDataImportJob < ApplicationJob
   private
 
   def import_occupation_standard_details(data_import)
-    occupation_standard = ImportOccupationStandardDetails.new(data_import).call
-    occupation_standard.save!
-    occupation_standard
+    ImportOccupationStandardDetails.new(data_import).call
   end
 
   def import_occupation_standard_related_instruction(occupation_standard, data_import)
-    ImportOccupationStandardRelatedInstruction.new(occupation_standard: occupation_standard, data_import: data_import).call
+    ImportOccupationStandardRelatedInstruction.new(
+      occupation_standard: occupation_standard, data_import: data_import
+    ).call
   end
 
   def import_occupation_standard_wage_schedule(occupation_standard, data_import)
-    ImportOccupationStandardWageSchedule.new(occupation_standard: occupation_standard, data_import: data_import).call
+    ImportOccupationStandardWageSchedule.new(
+      occupation_standard: occupation_standard, data_import: data_import
+    ).call
   end
 
   def import_occupation_standard_work_processes(occupation_standard, data_import)
-    ImportOccupationStandardWorkProcesses.new(occupation_standard: occupation_standard, data_import: data_import).call
+    ImportOccupationStandardWorkProcesses.new(
+      occupation_standard: occupation_standard, data_import: data_import
+    ).call
   end
 end

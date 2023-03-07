@@ -38,7 +38,8 @@ RSpec.describe "OccupationStandard", type: :request do
       context "when admin user" do
         it "returns http success" do
           admin = create(:admin)
-          occupation_standard = create(:occupation_standard)
+          data_import = create(:data_import)
+          occupation_standard = data_import.occupation_standard
 
           sign_in admin
           get occupation_standard_path(occupation_standard)
@@ -74,7 +75,8 @@ RSpec.describe "OccupationStandard", type: :request do
       context "when admin user" do
         it "returns http success" do
           admin = create(:admin)
-          occupation_standard = create(:occupation_standard)
+          data_import = create(:data_import)
+          occupation_standard = data_import.occupation_standard
 
           sign_in admin
           get edit_occupation_standard_path(occupation_standard)
@@ -137,6 +139,7 @@ RSpec.describe "OccupationStandard", type: :request do
           it "updates record and redirects to index" do
             admin = create(:admin)
             occupation_standard = create(:occupation_standard, occupation: nil)
+            create(:data_import, occupation_standard: occupation_standard)
 
             sign_in admin
             patch occupation_standard_path(occupation_standard),
