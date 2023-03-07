@@ -8,7 +8,6 @@ class ImportOccupationStandardWageSchedule
   end
 
   def call
-    wage_schedules = []
     data_import.file.open do |file|
       xlsx = Roo::Spreadsheet.open(file, extension: :xlsx)
       sheet = xlsx.sheet(3)
@@ -29,10 +28,7 @@ class ImportOccupationStandardWageSchedule
           rsi_hours: row["Step RSI Hours"]
         )
         wage_schedule.save!
-        wage_schedules << wage_schedule
       end
     end
-
-    wage_schedules
   end
 end
