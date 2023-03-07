@@ -3,6 +3,7 @@ require "rails_helper"
 RSpec.describe "occupation_standards/show" do
   it "displays title and description", :admin do
     occupation_standard = create(:occupation_standard, title: "Mechanic")
+    create(:data_import, occupation_standard: occupation_standard)
     admin = create(:admin)
 
     login_as admin
@@ -47,6 +48,7 @@ RSpec.describe "occupation_standards/show" do
 
   it "allows for occupation standard not linked to an occupation", :admin do
     occupation_standard = create(:occupation_standard, occupation: nil)
+    create(:data_import, occupation_standard: occupation_standard)
     admin = create(:admin)
 
     login_as admin

@@ -2,7 +2,7 @@ class OccupationStandard < ApplicationRecord
   belongs_to :occupation, optional: true
   belongs_to :registration_agency
   belongs_to :organization, optional: true
-  belongs_to :data_import
+  has_many :data_imports
 
   has_many :related_instructions, dependent: :destroy
   has_many :wage_steps, dependent: :destroy
@@ -26,6 +26,10 @@ class OccupationStandard < ApplicationRecord
 
   def sponsor_name
     organization&.title
+  end
+
+  def data_import
+    data_imports.last
   end
 
   def source_file
