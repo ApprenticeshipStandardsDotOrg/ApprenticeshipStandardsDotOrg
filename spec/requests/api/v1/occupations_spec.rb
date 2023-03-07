@@ -92,7 +92,7 @@ RSpec.describe "api/v1/occupations", type: :request do
 
   path "/api/v1/occupations/{id}" do
     get "Retrieve occupation" do
-      parameter title: :id, in: :path, type: :string
+      parameter name: :id, in: :path, type: :string
       produces "application/vnd.api+json"
 
       response(200, "successful") do
