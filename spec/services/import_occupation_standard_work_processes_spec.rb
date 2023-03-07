@@ -7,7 +7,7 @@ RSpec.describe ImportOccupationStandardWorkProcesses do
         occupation_standard = create(:occupation_standard)
         data_import = create(:data_import)
 
-        expect{
+        expect {
           described_class.new(
             occupation_standard: occupation_standard,
             data_import: data_import
@@ -37,7 +37,7 @@ RSpec.describe ImportOccupationStandardWorkProcesses do
         occupation_standard = create(:occupation_standard)
         data_import = create(:data_import_for_hybrid)
 
-        expect{
+        expect {
           described_class.new(
             occupation_standard: occupation_standard,
             data_import: data_import

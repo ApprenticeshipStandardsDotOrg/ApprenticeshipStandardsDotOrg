@@ -4,7 +4,6 @@ RSpec.describe "data_imports/edit" do
   it "allows admin user to edit data import", :admin do
     data_import = create(:data_import)
     file_import = data_import.file_import
-    occupation_standard = data_import.occupation_standard
     admin = create :admin
 
     login_as admin
