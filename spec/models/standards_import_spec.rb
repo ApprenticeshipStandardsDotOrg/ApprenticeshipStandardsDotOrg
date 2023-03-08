@@ -34,6 +34,7 @@ RSpec.describe StandardsImport, type: :model do
 
   describe "#notify_admin" do
     it "calls new_standards_import mailer on create" do
+      stub_const "ENV", ENV.to_h.merge("ENABLE_STANDARDS_IMPORTS_NOTIFICATIONS" => "true")
       si = build(:standards_import)
 
       mailer = double("mailer", deliver_later: nil)
