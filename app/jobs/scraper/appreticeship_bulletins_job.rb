@@ -13,17 +13,21 @@ class Scraper::AppreticeshipBulletinsJob < ApplicationJob
       standards_import = StandardsImport.where(
         name: file_uri,
         organization: row["Title"]
-      ).first_or_create!(
+      ).first_or_initialize(
         notes: "From Scraper::AppreticeshipBulletinsJob #{BULLETIN_LIST_URL}"
       )
 
-      if standards_import.files.attach(io: URI.parse(file_uri).open, filename: File.basename(file_uri))
-        file_import = standards_import.files.last.file_import
-        file_import.update(
-          metadata: {
-            date: row["Date"]
-          }
-        )
+      if standards_import.new_record?
+        standards_import.save!
+
+        if standards_import.files.attach(io: URI.parse(file_uri).open, filename: File.basename(file_uri))
+          file_import = standards_import.files.last.file_import
+          file_import.update!(
+            metadata: {
+              date: row["Date"]
+            }
+          )
+        end
       end
     end
   rescue OpenURI::HTTPError

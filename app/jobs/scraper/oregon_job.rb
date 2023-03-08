@@ -35,11 +35,18 @@ class Scraper::OregonJob < ApplicationJob
           standards_import = StandardsImport.where(
             name: base + file_path,
             organization: organization
-          ).first_or_create!(
+          ).first_or_initialize(
             notes: "From Scraper::OregonJob"
           )
 
-          standards_import.files.attach(io: URI.open("https://www.oregon.gov#{file_path}"), filename: File.basename(file_name))
+          if standards_import.new_record?
+            standards_import.save!
+
+            standards_import.files.attach(
+              io: URI.open("https://www.oregon.gov#{file_path}"),
+              filename: File.basename(file_name)
+            )
+          end
         end
       end
     end

@@ -21,14 +21,21 @@ class Scraper::CaliforniaJob < ApplicationJob
       standards_import = StandardsImport.where(
         name: protocol + query,
         organization: link_text
-      ).first_or_create!(
+      ).first_or_initialize(
         notes: "From Scraper::CaliforniaJob: #{fetch_url}"
       )
 
-      # protocol needs to be hardcoded to avoid Rubocop error:
-      # Security/Open: The use of `URI.open` is a serious security risk
-      # https://github.com/rubocop/rubocop/issues/6216#issuecomment-1252449855
-      standards_import.files.attach(io: URI.open("https://#{query}"), filename: File.basename(path))
+      if standards_import.new_record?
+        standards_import.save!
+
+        # protocol needs to be hardcoded to avoid Rubocop error:
+        # Security/Open: The use of `URI.open` is a serious security risk
+        # https://github.com/rubocop/rubocop/issues/6216#issuecomment-1252449855
+        standards_import.files.attach(
+          io: URI.open("https://#{query}"),
+          filename: File.basename(path)
+        )
+      end
     end
   end
 end
