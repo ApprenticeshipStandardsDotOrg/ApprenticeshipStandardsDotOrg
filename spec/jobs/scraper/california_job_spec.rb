@@ -9,24 +9,26 @@ RSpec.describe Scraper::CaliforniaJob, type: :job do
           described_class.new.perform
         }.to change(StandardsImport, :count).by(6)
 
-        standard_import = StandardsImport.last
-        expect(standard_import.files.count).to eq 1
-        expect(standard_import.name).to eq "https://www.dir.ca.gov/das/standards/101015_SB%20ECE_Standards.pdf"
-        expect(standard_import.organization).to eq "Santa Barbara County Education Office (SBCEO) Early Childhood Educator Apprenticeship Program"
-        expect(standard_import.notes).to eq "From Scraper::CaliforniaJob: https://www.dir.ca.gov/das/ProgramStandards.htm"
+        standards_import = StandardsImport.last
+        expect(standards_import.files.count).to eq 1
+        expect(standards_import.name).to eq "https://www.dir.ca.gov/das/standards/101015_SB%20ECE_Standards.pdf"
+        expect(standards_import.organization).to eq "Santa Barbara County Education Office (SBCEO) Early Childhood Educator Apprenticeship Program"
+        expect(standards_import.notes).to eq "From Scraper::CaliforniaJob: https://www.dir.ca.gov/das/ProgramStandards.htm"
       end
     end
 
     context "when some files have been downloaded previously" do
       it "downloads new pdf files to a standards import record" do
-        create(:standards_import, name: "https://www.dir.ca.gov/das/standards/100859_SETA%20ECE_Standards.pdf", organization: "Sacramento Employment and Training Agency (SETA) Early Childhood Education Apprenticeship Program")
+        old_standards_import = create(:standards_import, :with_files, name: "https://www.dir.ca.gov/das/standards/100859_SETA%20ECE_Standards.pdf", organization: "Sacramento Employment and Training Agency (SETA) Early Childhood Education Apprenticeship Program")
         stub_responses
         expect {
           described_class.new.perform
         }.to change(StandardsImport, :count).by(5)
 
-        standard_import = StandardsImport.last
-        expect(standard_import.files.count).to eq 1
+        standards_import = StandardsImport.last
+        expect(standards_import.files.count).to eq 1
+
+        expect(old_standards_import.reload.files.count).to eq 1
       end
     end
   end
