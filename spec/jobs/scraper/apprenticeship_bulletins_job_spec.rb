@@ -23,7 +23,7 @@ RSpec.describe Scraper::AppreticeshipBulletinsJob, type: :job do
 
   context "when some files have been downloaded previously" do
     it "downloads any new file to a standards import record" do
-      create(:standards_import,
+      old_import = create(:standards_import, :with_files,
         name: "https://www.apprenticeship.gov/sites/default/files/bulletins/Bulletin_2016-22.pdf",
         organization: "Wildland Fire Fighter Specialist")
       stub_responses
@@ -35,7 +35,9 @@ RSpec.describe Scraper::AppreticeshipBulletinsJob, type: :job do
       expect(standard_import.files.count).to eq 1
 
       file_import = FileImport.last
-      expect(file_import.metadata).to eq({"date" => "03/11/16"})
+      expect(file_import.metadata).to eq({"date" => "03/01/22"})
+
+      expect(old_import.reload.files.count).to eq 1
     end
   end
 
