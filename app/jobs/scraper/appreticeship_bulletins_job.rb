@@ -30,7 +30,5 @@ class Scraper::AppreticeshipBulletinsJob < ApplicationJob
         end
       end
     end
-  rescue OpenURI::HTTPError
-    Rails.logger.debug "Error while trying to download #{file_uri}"
   end
 end
