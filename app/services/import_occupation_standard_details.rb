@@ -14,6 +14,8 @@ class ImportOccupationStandardDetails
       @row = sheet.parse(headers: true)[1]
       occupation_standard = data_import.occupation_standard || data_import.build_occupation_standard
 
+      remove_existing_associations(occupation_standard)
+
       occupation_standard.assign_attributes(
         occupation: occupation,
         registration_agency: registration_agency,
@@ -75,6 +77,14 @@ class ImportOccupationStandardDetails
       if onet_code
         Occupation.find_by(onet_code: onet_code)
       end
+    end
+  end
+
+  def remove_existing_associations(occupation_standard)
+    if occupation_standard.persisted?
+      occupation_standard.related_instructions.destroy_all
+      occupation_standard.wage_steps.destroy_all
+      occupation_standard.work_processes.destroy_all
     end
   end
 end

@@ -6,12 +6,14 @@ RSpec.describe ImportOccupationStandardRelatedInstruction do
       occupation_standard = create(:occupation_standard)
       data_import = create(:data_import)
 
-      related_instructions = described_class.new(
-        occupation_standard: occupation_standard,
-        data_import: data_import
-      ).call
+      expect {
+        described_class.new(
+          occupation_standard: occupation_standard,
+          data_import: data_import
+        ).call
+      }.to change(RelatedInstruction, :count).by(3)
 
-      rsi1 = related_instructions.first
+      rsi1 = RelatedInstruction.first
       expect(rsi1.occupation_standard).to eq occupation_standard
       expect(rsi1.sort_order).to eq 1
       expect(rsi1.title).to eq "Welding"
@@ -20,7 +22,7 @@ RSpec.describe ImportOccupationStandardRelatedInstruction do
       expect(rsi1.hours).to eq 30
       expect(rsi1.organization_title).to eq "Welders R Us"
 
-      rsi2 = related_instructions.second
+      rsi2 = RelatedInstruction.second
       expect(rsi2.occupation_standard).to eq occupation_standard
       expect(rsi2.sort_order).to eq 2
       expect(rsi2.title).to eq "Welding"
@@ -29,7 +31,7 @@ RSpec.describe ImportOccupationStandardRelatedInstruction do
       expect(rsi2.hours).to eq 40
       expect(rsi2.organization_title).to eq "Welders R Us"
 
-      rsi3 = related_instructions.third
+      rsi3 = RelatedInstruction.third
       expect(rsi3.occupation_standard).to eq occupation_standard
       expect(rsi3.sort_order).to eq 3
       expect(rsi3.title).to eq "Intro to Tools"
