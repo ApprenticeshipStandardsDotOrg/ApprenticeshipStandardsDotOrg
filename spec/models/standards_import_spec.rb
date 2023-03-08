@@ -33,7 +33,7 @@ RSpec.describe StandardsImport, type: :model do
   end
 
   describe "#notify_admin" do
-    it "calls new_standards_import mailer on create" do
+    it "calls new_standards_import mailer on create but not update" do
       stub_const "ENV", ENV.to_h.merge("ENABLE_STANDARDS_IMPORTS_NOTIFICATIONS" => "true")
       si = build(:standards_import)
 
@@ -42,10 +42,6 @@ RSpec.describe StandardsImport, type: :model do
       expect(mailer).to receive(:deliver_later)
 
       si.save!
-    end
-
-    it "does not call mailer when updated" do
-      si = create(:standards_import)
 
       expect(AdminMailer).to_not receive(:new_standards_import)
 
