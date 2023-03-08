@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_07_142257) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_08_222931) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -178,6 +178,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_07_142257) do
     t.index ["organization_id"], name: "index_related_instructions_on_organization_id"
   end
 
+  create_table "source_files", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "active_storage_attachment_id", null: false
+    t.integer "status", default: 0, null: false
+    t.jsonb "metadata", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["active_storage_attachment_id"], name: "index_source_files_on_active_storage_attachment_id"
+  end
+
   create_table "standards_imports", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -260,6 +269,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_07_142257) do
   add_foreign_key "related_instructions", "courses", column: "default_course_id"
   add_foreign_key "related_instructions", "occupation_standards"
   add_foreign_key "related_instructions", "organizations"
+  add_foreign_key "source_files", "active_storage_attachments"
   add_foreign_key "wage_steps", "occupation_standards"
   add_foreign_key "work_processes", "occupation_standards"
 end
