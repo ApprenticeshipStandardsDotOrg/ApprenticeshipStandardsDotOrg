@@ -3,11 +3,11 @@ require "rails_helper"
 RSpec.describe "data_imports/edit" do
   it "allows admin user to edit data import", :admin do
     data_import = create(:data_import)
-    file_import = data_import.file_import
+    source_file = data_import.source_file
     admin = create :admin
 
     login_as admin
-    visit edit_file_import_data_import_path(file_import, data_import)
+    visit edit_source_file_data_import_path(source_file, data_import)
 
     expect(page).to have_content("Edit #{data_import.file.filename}")
     fill_in "Description", with: "New desc"

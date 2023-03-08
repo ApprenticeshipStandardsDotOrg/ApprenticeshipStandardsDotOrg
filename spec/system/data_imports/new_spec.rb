@@ -2,11 +2,11 @@ require "rails_helper"
 
 RSpec.describe "data_imports/new" do
   it "allows admin user to create data import", :admin do
-    file_import = create(:file_import)
+    source_file = create(:source_file)
     admin = create :admin
 
     login_as admin
-    visit new_file_import_data_import_path(file_import)
+    visit new_source_file_data_import_path(source_file)
 
     within("h1") do
       expect(page).to have_content("Upload Occupation Standards")

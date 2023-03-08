@@ -21,8 +21,8 @@ class Scraper::AppreticeshipBulletinsJob < ApplicationJob
         standards_import.save!
 
         if standards_import.files.attach(io: URI.parse(file_uri).open, filename: File.basename(file_uri))
-          file_import = standards_import.files.last.file_import
-          file_import.update!(
+          source_file = standards_import.files.last.source_file
+          source_file.update!(
             metadata: {
               date: row["Date"]
             }

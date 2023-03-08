@@ -22,12 +22,12 @@ Rails.application.routes.draw do
       end
 
       authenticated :user do
-        root to: "file_imports#index"
+        root to: "source_files#index"
         mount Sidekiq::Web => "/sidekiq", :as => :sidekiq
       end
     end
 
-    resources :file_imports, only: [:index, :edit, :update] do
+    resources :source_files, only: [:index, :edit, :update] do
       resources :data_imports, except: [:index]
     end
     resources :occupation_standards, only: [:index, :show, :edit, :update]

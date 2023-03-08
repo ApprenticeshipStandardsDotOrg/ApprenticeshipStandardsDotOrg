@@ -21,7 +21,7 @@
     <% end %>
   </div>
   <div class=" max-w-prose mx-auto flex text-center space-x-2">
-    <%= link_to "Edit data import", edit_file_import_data_import_path(@file_import, @data_import), class: "btn-primary" %>
-    <%= button_to "Delete data import", file_import_data_import_path(@file_import, @data_import), method: :delete, data: {turbo_method: :delete}, class: "btn-primary" %>
+    <%= link_to "Edit data import", edit_source_file_data_import_path(@source_file, @data_import), class: "btn-primary" %>
+    <%= button_to "Delete data import", source_file_data_import_path(@source_file, @data_import), method: :delete, data: {turbo_method: :delete}, class: "btn-primary" %>
   </div>
 </div>
