@@ -53,7 +53,7 @@ class DataImportsController < ApplicationController
   end
 
   def permitted_params
-    params.require(:data_import).permit(:description, :file, :last_file)
+    params.require(:data_import).permit(:description, :file)
   end
 
   def last_file_flag
