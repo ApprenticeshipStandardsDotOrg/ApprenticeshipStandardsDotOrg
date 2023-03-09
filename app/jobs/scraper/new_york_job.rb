@@ -14,14 +14,14 @@ class Scraper::NewYorkJob < ApplicationJob
       next unless row.css("a").present?
       file_name = row.css("a").first["href"]
       file_path = ""
-      if file_name.match(/https/)
+      if /https/.match?(file_name)
         file_path = file_name.gsub("https://dol.ny.gov/system/files/documents/2022/06", "").gsub(".pdf", "")
       else
-        file_path = file_name
+        file_name
       end
-      
+
       standards_import = StandardsImport.where(
-        name: file_name,
+        name: file_name
       ).first_or_initialize(
         notes: "From Scraper::NewYorkJob: #{url}"
       )
