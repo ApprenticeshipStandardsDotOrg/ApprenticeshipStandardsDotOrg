@@ -20,7 +20,7 @@ RSpec.describe "DataImports", type: :request, admin: true do
         source_file = create(:source_file)
 
         sign_in admin
-        expect(ProcessDataImportJob).to receive(:perform_later).with(kind_of(DataImport))
+        expect(ProcessDataImportJob).to receive(:perform_later).with(data_import: kind_of(DataImport))
         expect {
           post source_file_data_imports_path(source_file), params: {
             data_import: {
@@ -124,7 +124,7 @@ RSpec.describe "DataImports", type: :request, admin: true do
           source_file = data_import.source_file
 
           sign_in admin
-          expect(ProcessDataImportJob).to receive(:perform_later).with(data_import)
+          expect(ProcessDataImportJob).to receive(:perform_later).with(data_import: data_import)
           patch source_file_data_import_path(source_file, data_import),
             params: {
               data_import: {

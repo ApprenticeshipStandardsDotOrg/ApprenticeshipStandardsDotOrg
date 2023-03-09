@@ -29,7 +29,7 @@ RSpec.describe ProcessDataImportJob, type: :job do
       ).and_return(work_processes_mock)
       expect(work_processes_mock).to receive(:call)
 
-      described_class.new.perform(data_import)
+      described_class.new.perform(data_import: data_import)
     end
 
     it "deletes old related instructions, wage schedules, work processes when editing" do
@@ -42,7 +42,7 @@ RSpec.describe ProcessDataImportJob, type: :job do
       work_process = create(:work_process, occupation_standard: occupation_standard, sort_order: 99)
       create(:competency, work_process: work_process)
 
-      described_class.new.perform(data_import)
+      described_class.new.perform(data_import: data_import)
 
       occupation_standard.reload
       aggregate_failures do
