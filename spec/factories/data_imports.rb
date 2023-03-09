@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :data_import do
     user
     occupation_standard
-    file_import
+    source_file
     file { Rack::Test::UploadedFile.new(Rails.root.join("spec", "fixtures", "files", "occupation-standards-template.xlsx"), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") }
 
     trait :unprocessed do

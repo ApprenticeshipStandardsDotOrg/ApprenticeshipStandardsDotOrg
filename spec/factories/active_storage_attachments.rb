@@ -8,7 +8,7 @@ FactoryBot.define do
     factory :active_storage_attachment_without_callback do
       before(:create) do |attachment|
         class << attachment
-          def create_file_import
+          def create_source_file
           end
         end
       end

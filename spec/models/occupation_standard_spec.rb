@@ -61,13 +61,13 @@ RSpec.describe OccupationStandard, type: :model do
   end
 
   describe "#source_file" do
-    it "returns the linked file_import record" do
+    it "returns the linked source_file record" do
       create(:standards_import, :with_files)
-      file_import = FileImport.last
-      data_import = create(:data_import, file_import: file_import)
+      source_file = SourceFile.last
+      data_import = create(:data_import, source_file: source_file)
       occupation_standard = build(:occupation_standard, data_imports: [data_import])
 
-      expect(occupation_standard.source_file).to eq file_import
+      expect(occupation_standard.source_file).to eq source_file
     end
   end
 end

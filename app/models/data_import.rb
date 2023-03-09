@@ -2,7 +2,7 @@ class DataImport < ApplicationRecord
   has_one_attached :file
 
   belongs_to :user
-  belongs_to :file_import
+  belongs_to :source_file
 
   belongs_to :occupation_standard, optional: true
 

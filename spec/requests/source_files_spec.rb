@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "FileImports", type: :request do
+RSpec.describe "SourceFiles", type: :request do
   describe "GET /index" do
     context "on admin subdomain", :admin do
       context "when admin user" do
@@ -9,7 +9,7 @@ RSpec.describe "FileImports", type: :request do
           create_pair(:standards_import, :with_files)
 
           sign_in admin
-          get file_imports_path
+          get source_files_path
 
           expect(response).to be_successful
         end
@@ -17,7 +17,7 @@ RSpec.describe "FileImports", type: :request do
 
       context "when guest" do
         it "redirects to root path" do
-          get file_imports_path
+          get source_files_path
 
           expect(response).to redirect_to new_user_session_path
         end
@@ -27,7 +27,7 @@ RSpec.describe "FileImports", type: :request do
     context "on non-admin subdomain" do
       it "has 404 response" do
         expect {
-          get file_imports_path
+          get source_files_path
         }.to raise_error(ActionController::RoutingError)
       end
     end
@@ -38,10 +38,10 @@ RSpec.describe "FileImports", type: :request do
       context "when admin user" do
         it "returns http success" do
           admin = create(:admin)
-          file = create(:file_import)
+          file = create(:source_file)
 
           sign_in admin
-          get edit_file_import_path(file)
+          get edit_source_file_path(file)
 
           expect(response).to be_successful
         end
@@ -49,8 +49,8 @@ RSpec.describe "FileImports", type: :request do
 
       context "when guest" do
         it "redirects to root path" do
-          file = create(:file_import)
-          get edit_file_import_path(file)
+          file = create(:source_file)
+          get edit_source_file_path(file)
 
           expect(response).to redirect_to new_user_session_path
         end
@@ -59,9 +59,9 @@ RSpec.describe "FileImports", type: :request do
 
     context "on non-admin subdomain" do
       it "has 404 response" do
-        file = create(:file_import)
+        file = create(:source_file)
         expect {
-          get edit_file_import_path(file)
+          get edit_source_file_path(file)
         }.to raise_error(ActionController::RoutingError)
       end
     end
@@ -72,17 +72,17 @@ RSpec.describe "FileImports", type: :request do
       context "when admin user" do
         it "updates record and redirects to index" do
           admin = create(:admin)
-          file = create(:file_import)
+          file = create(:source_file)
 
           sign_in admin
           file_params = {
-            file_import: {
+            source_file: {
               status: "processing"
             }
           }
-          patch file_import_path(file), params: file_params
+          patch source_file_path(file), params: file_params
           expect(file.reload).to be_processing
-          expect(response).to redirect_to file_imports_path
+          expect(response).to redirect_to source_files_path
         end
       end
     end

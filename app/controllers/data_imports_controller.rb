@@ -1,19 +1,19 @@
 class DataImportsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_file_import
+  before_action :set_source_file
 
   def new
-    @data_import = @file_import.build_data_import
+    @data_import = @source_file.build_data_import
   end
 
   def create
-    @data_import = @file_import.build_data_import(permitted_params)
+    @data_import = @source_file.build_data_import(permitted_params)
     @data_import.user = current_user
 
     if @data_import.save
       ProcessDataImportJob.perform_later(@data_import)
       flash[:notice] = "Thank you for submitting your occupation standard!"
-      redirect_to file_import_data_import_path(@file_import, @data_import)
+      redirect_to source_file_data_import_path(@source_file, @data_import)
     else
       render :new, status: :unprocessable_entity
     end
@@ -31,7 +31,7 @@ class DataImportsController < ApplicationController
     @data_import = DataImport.find(params[:id])
     if @data_import.update(permitted_params)
       ProcessDataImportJob.perform_later(@data_import)
-      redirect_to file_import_data_import_path(@file_import, @data_import)
+      redirect_to source_file_data_import_path(@source_file, @data_import)
     else
       render :edit
     end
@@ -43,13 +43,13 @@ class DataImportsController < ApplicationController
     unless @data_import.destroy
       flash[:error] = "Occupation Standard could not be deleted"
     end
-    redirect_to new_file_import_data_import_path(@file_import)
+    redirect_to new_source_file_data_import_path(@source_file)
   end
 
   private
 
-  def set_file_import
-    @file_import = FileImport.find(params[:file_import_id])
+  def set_source_file
+    @source_file = SourceFile.find(params[:source_file_id])
   end
 
   def permitted_params
