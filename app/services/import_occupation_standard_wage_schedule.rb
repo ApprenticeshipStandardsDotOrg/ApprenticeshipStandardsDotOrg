@@ -20,14 +20,13 @@ class ImportOccupationStandardWageSchedule
           sort_order: row["Step Sort Order"]
         )
 
-        wage_schedule.assign_attributes(
+        wage_schedule.update!(
           title: row["Step Level Title"],
           minimum_hours: row["Step OJT Hours"],
           ojt_percentage: row["Step OJT Percentage"],
           duration_in_months: row["Step Duration"],
           rsi_hours: row["Step RSI Hours"]
         )
-        wage_schedule.save!
       end
     end
   end

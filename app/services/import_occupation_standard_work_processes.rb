@@ -20,14 +20,12 @@ class ImportOccupationStandardWorkProcesses
           sort_order: row["Work Process Sort Order"]
         )
 
-        work_process.assign_attributes(
+        work_process.update!(
           title: row["Work Process Title"],
           description: row["Work Process Description"],
           minimum_hours: row["Minimum Hours"],
           maximum_hours: row["Maximum Hours"]
         )
-
-        work_process.save!
 
         if competency_available?(row)
           work_process.competencies << create_or_update_competency(row, work_process)
