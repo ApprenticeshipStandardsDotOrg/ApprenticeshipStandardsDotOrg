@@ -8,6 +8,11 @@ namespace :after_party do
       standards_import.files.each_with_index do |attached_file, index|
         next if index.zero?
 
+        file_import = FileImport.find_by(active_storage_attachment_id: attached_file.id)
+        if file_import
+          file_import.destroy!
+        end
+
         attached_file.purge
       end
     end
