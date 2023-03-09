@@ -10,7 +10,7 @@ RSpec.describe "source_files/index" do
 
     source_file = SourceFile.last
     expect(page).to have_content("Pending").once
-    expect(page).to have_link("pixel1x1.jpg")
+    expect(page).to have_link("pixel1x1.pdf")
     expect(page).to have_link("Convert", href: source_file_path(source_file))
     expect(page).to have_link("Edit", href: edit_source_file_path(source_file))
   end
