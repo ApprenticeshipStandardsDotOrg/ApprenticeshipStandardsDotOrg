@@ -4,7 +4,7 @@ class Scraper::OregonJob < ApplicationJob
   def perform
     base = "https://www.oregon.gov"
     apprenticeship_url = base + "/boli/apprenticeship/Pages/"
-    browser = Watir::Browser.start(apprenticeship_url + "apprenticeship-opportunities.aspx", 
+    browser = Watir::Browser.start(apprenticeship_url + "apprenticeship-opportunities.aspx",
       :chrome, options: {args: %w[--headless --no-sandbox --disable-dev-shm-usage --disable-gpu]})
     js_doc = browser.element(css: "tbody").wait_until(&:present?)
     body = Nokogiri::HTML(js_doc.inner_html)
