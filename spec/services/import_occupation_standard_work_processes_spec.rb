@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe ImportOccupationStandardWorkProcesses do
   describe "#call" do
     context "when occupation standard is time-based" do
-      it "returns work process records" do
+      it "creates work process records" do
         occupation_standard = create(:occupation_standard)
         data_import = create(:data_import)
 
@@ -33,7 +33,7 @@ RSpec.describe ImportOccupationStandardWorkProcesses do
     end
 
     context "when occupation standard is hybrid with max and min hours" do
-      it "returns work process records with its corresponding competencies" do
+      it "creates work process records with its corresponding competencies" do
         occupation_standard = create(:occupation_standard)
         data_import = create(:data_import_for_hybrid)
 
@@ -43,6 +43,7 @@ RSpec.describe ImportOccupationStandardWorkProcesses do
             data_import: data_import
           ).call
         }.to change(WorkProcess, :count).by(2)
+          .and change(Competency, :count).by(5)
 
         work_process_1 = WorkProcess.first
         work_process_2 = WorkProcess.second
