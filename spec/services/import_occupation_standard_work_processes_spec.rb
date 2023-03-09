@@ -35,7 +35,7 @@ RSpec.describe ImportOccupationStandardWorkProcesses do
     context "when occupation standard is hybrid with max and min hours" do
       it "creates work process records with its corresponding competencies" do
         occupation_standard = create(:occupation_standard)
-        data_import = create(:data_import_for_hybrid)
+        data_import = create(:data_import, :hybrid)
 
         expect {
           described_class.new(

@@ -9,7 +9,7 @@ FactoryBot.define do
       occupation_standard { nil }
     end
 
-    factory :data_import_for_hybrid do
+    trait :hybrid do
       file { Rack::Test::UploadedFile.new(Rails.root.join("spec", "fixtures", "files", "comp-occupation-standards-template.xlsx"), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") }
     end
   end

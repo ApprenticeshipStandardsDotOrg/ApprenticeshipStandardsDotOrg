@@ -5,6 +5,10 @@ class SourceFilesController < ApplicationController
     @source_files = SourceFile.includes(:data_imports, active_storage_attachment: :blob)
   end
 
+  def show
+    @source_file = SourceFile.find(params[:id])
+  end
+
   def edit
     @source_file = SourceFile.find(params[:id])
   end
