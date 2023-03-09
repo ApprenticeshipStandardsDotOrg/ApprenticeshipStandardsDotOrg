@@ -2,8 +2,9 @@ class Scraper::NewYorkJob < ApplicationJob
   queue_as :default
 
   def perform
+    protocol = "https://"
     url = "https://dol.ny.gov/apprenticeship/apprenticeship-trades"
-    download_url = "https://dol.ny.gov/system/files/documents/2022/06"
+    download_url_base = "dol.ny.gov/system/files/documents/2022/06"
     uri = URI.parse(url)
     response = Net::HTTP.get_response(uri)
     html = response.body
@@ -13,13 +14,12 @@ class Scraper::NewYorkJob < ApplicationJob
     table.css("tr").each do |row|
       next unless row.css("a").present?
       file_name = row.css("a").first["href"]
-      file_path = ""
-      if /https/.match?(file_name)
-        file_path = file_name.gsub(/#{download_url}/, "").gsub(".pdf", "")
+      file_path = if /https/.match?(file_name)
+        file_name.gsub(/#{protocol}/, "").gsub(/#{download_url_base}/, "").gsub(".pdf", "")
       else
-        file_path = file_name
+        file_name
       end
-      
+
       standards_import = StandardsImport.where(
         name: file_name
       ).first_or_initialize(
@@ -29,7 +29,7 @@ class Scraper::NewYorkJob < ApplicationJob
       if standards_import.new_record?
         begin
           standards_import.files.attach(
-            io: URI.open("#{download_url}#{file_path}.pdf"),
+            io: URI.open("https://#{download_url_base}#{file_path}.pdf"),
             filename: File.basename(file_name)
           )
           standards_import.save!
