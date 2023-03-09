@@ -1,6 +1,6 @@
 class SourceFile < ApplicationRecord
   belongs_to :active_storage_attachment, class_name: "ActiveStorage::Attachment"
-  has_many :data_imports, -> { includes(file_attachment: :blob) }
+  has_many :data_imports, -> { includes(:occupation_standard, file_attachment: :blob) }
 
   enum :status, [:pending, :processing, :completed]
 
