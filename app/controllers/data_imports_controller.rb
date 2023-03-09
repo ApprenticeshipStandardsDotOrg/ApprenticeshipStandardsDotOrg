@@ -3,11 +3,11 @@ class DataImportsController < ApplicationController
   before_action :set_source_file
 
   def new
-    @data_import = @source_file.build_data_import
+    @data_import = @source_file.data_imports.build
   end
 
   def create
-    @data_import = @source_file.build_data_import(permitted_params)
+    @data_import = @source_file.data_imports.build(permitted_params)
     @data_import.user = current_user
 
     if @data_import.save
