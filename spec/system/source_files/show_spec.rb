@@ -16,9 +16,11 @@ RSpec.describe "source_files/show" do
 
     expect(page).to have_content "Source file: #{source_file.filename}" 
 
+    expect(page).to have_link "Edit", href: edit_source_file_data_import_path(source_file, data_import1)
     expect(page).to have_link "occupation-standards-template.xlsx", href: source_file_data_import_path(source_file, data_import1)
     expect(page).to have_link "Mechanic", href: occupation_standard_path(occupation_standard1)
 
+    expect(page).to have_link "Edit", href: edit_source_file_data_import_path(source_file, data_import2)
     expect(page).to have_link "comp-occupation-standards-template.xlsx", href: source_file_data_import_path(source_file, data_import2)
     expect(page).to have_link "Pipe Fitter", href: occupation_standard_path(occupation_standard2)
   end
