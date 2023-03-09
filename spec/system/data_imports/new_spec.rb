@@ -12,7 +12,7 @@ RSpec.describe "data_imports/new" do
     within("h1") do
       expect(page).to have_content("Import data for source file: pixel1x1.pdf")
     end
-    expect(page).to have_link("import template", href: "#")
+    expect(page).to have_link("import template", href: "https://www.notion.so/888b37991598495cb22d0dabc08ae3b2?v=f29055b156fa471ea9c30e9467238e66")
     expect(page).to have_link("ApprenticeshipStandards Notion", href: "https://www.notion.so/Instructions-060de1705e7d471fa8bee7a7c535a2d6")
 
     fill_in "Description", with: "Some desc"
