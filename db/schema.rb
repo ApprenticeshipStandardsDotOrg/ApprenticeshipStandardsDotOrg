@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_08_224946) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_09_161252) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -80,22 +80,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_08_224946) do
     t.uuid "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.uuid "file_import_id"
     t.uuid "occupation_standard_id"
     t.uuid "source_file_id", null: false
-    t.index ["file_import_id"], name: "index_data_imports_on_file_import_id"
     t.index ["occupation_standard_id"], name: "index_data_imports_on_occupation_standard_id"
     t.index ["source_file_id"], name: "index_data_imports_on_source_file_id"
     t.index ["user_id"], name: "index_data_imports_on_user_id"
-  end
-
-  create_table "file_imports", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "active_storage_attachment_id", null: false
-    t.integer "status", default: 0, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.jsonb "metadata"
-    t.index ["active_storage_attachment_id"], name: "index_file_imports_on_active_storage_attachment_id"
   end
 
   create_table "occupation_standards", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -258,11 +247,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_08_224946) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "competencies", "work_processes"
   add_foreign_key "courses", "organizations"
-  add_foreign_key "data_imports", "file_imports"
   add_foreign_key "data_imports", "occupation_standards"
   add_foreign_key "data_imports", "source_files"
   add_foreign_key "data_imports", "users"
-  add_foreign_key "file_imports", "active_storage_attachments"
   add_foreign_key "occupation_standards", "occupations"
   add_foreign_key "occupation_standards", "organizations"
   add_foreign_key "occupation_standards", "registration_agencies"
