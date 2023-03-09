@@ -20,13 +20,14 @@ RSpec.describe "DataImports", type: :request, admin: true do
         source_file = create(:source_file)
 
         sign_in admin
-        expect(ProcessDataImportJob).to receive(:perform_later).with(data_import: kind_of(DataImport))
+        expect(ProcessDataImportJob).to receive(:perform_later).with(data_import: kind_of(DataImport), last_file: true)
         expect {
           post source_file_data_imports_path(source_file), params: {
             data_import: {
               description: "A new occupation standard",
               file: fixture_file_upload("spec/fixtures/files/pixel1x1.jpg", "image/jpeg")
-            }
+            },
+            last_file: "1"
           }
         }.to change(DataImport, :count).by(1)
           .and change(ActiveStorage::Attachment, :count).by(1)

@@ -11,7 +11,7 @@ class DataImportsController < ApplicationController
     @data_import.user = current_user
 
     if @data_import.save
-      ProcessDataImportJob.perform_later(data_import: @data_import)
+      ProcessDataImportJob.perform_later(data_import: @data_import, last_file: last_file_flag)
       flash[:notice] = "Thank you for submitting your occupation standard!"
       redirect_to source_file_data_import_path(@source_file, @data_import)
     else
@@ -30,7 +30,7 @@ class DataImportsController < ApplicationController
   def update
     @data_import = DataImport.find(params[:id])
     if @data_import.update(permitted_params)
-      ProcessDataImportJob.perform_later(data_import: @data_import)
+      ProcessDataImportJob.perform_later(data_import: @data_import, last_file: last_file_flag)
       redirect_to source_file_data_import_path(@source_file, @data_import)
     else
       render :edit
@@ -53,6 +53,10 @@ class DataImportsController < ApplicationController
   end
 
   def permitted_params
-    params.require(:data_import).permit(:description, :file)
+    params.require(:data_import).permit(:description, :file, :last_file)
+  end
+
+  def last_file_flag
+    params[:last_file] == "1"
   end
 end

@@ -19,6 +19,10 @@
         <%= f.label :file, class: "form-label" %>
         <%= f.file_field :file, class: "form-field" %>
       </div>
+      <div class="mb-6">
+        <%= label_tag :last_file, "This is the last import for #{@source_file.filename}. Change its status to Completed.", class: "form-label" %>
+        <%= check_box_tag :last_file %>
+      </div>
       <div>
         <%= f.submit "Submit", class: "btn-primary" %>
         <%= link_to "Cancel", :back, class: "btn-secondary" %>

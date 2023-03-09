@@ -30,6 +30,8 @@ RSpec.describe ProcessDataImportJob, type: :job do
       expect(work_processes_mock).to receive(:call)
 
       described_class.new.perform(data_import: data_import)
+
+      expect(data_import.source_file).to be_pending
     end
 
     it "deletes old related instructions, wage schedules, work processes when editing" do
@@ -51,6 +53,38 @@ RSpec.describe ProcessDataImportJob, type: :job do
         expect(occupation_standard.work_processes.count).to eq 2
         expect(Competency.count).to eq 0
       end
+    end
+
+    it "marks the associated source file as complete if last_file is true" do
+      ca = create(:state, abbreviation: "CA")
+      create(:registration_agency, state: ca, agency_type: :oa)
+      data_import = create(:data_import, :unprocessed)
+
+      related_inst_mock = instance_double("ImportOccupationStandardRelatedInstruction")
+      wage_schedule_mock = instance_double("ImportOccupationStandardWageSchedule")
+      work_processes_mock = instance_double("ImportOccupationStandardWorkProcesses")
+
+      expect(ImportOccupationStandardRelatedInstruction).to receive(:new).with(
+        occupation_standard: kind_of(OccupationStandard),
+        data_import: data_import
+      ).and_return(related_inst_mock)
+      expect(related_inst_mock).to receive(:call)
+
+      expect(ImportOccupationStandardWageSchedule).to receive(:new).with(
+        occupation_standard: kind_of(OccupationStandard),
+        data_import: data_import
+      ).and_return(wage_schedule_mock)
+      expect(wage_schedule_mock).to receive(:call)
+
+      expect(ImportOccupationStandardWorkProcesses).to receive(:new).with(
+        occupation_standard: kind_of(OccupationStandard),
+        data_import: data_import
+      ).and_return(work_processes_mock)
+      expect(work_processes_mock).to receive(:call)
+
+      described_class.new.perform(data_import: data_import, last_file: true)
+
+      expect(data_import.source_file).to be_completed
     end
   end
 end
