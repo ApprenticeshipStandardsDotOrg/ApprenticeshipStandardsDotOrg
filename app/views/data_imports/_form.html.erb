@@ -20,7 +20,7 @@
         <%= f.file_field :file, class: "form-field" %>
       </div>
       <div class="mb-6">
-        <%= label_tag :last_file, "This is the last import for #{@source_file.filename}. Change its status to Completed.", class: "form-label" %>
+        <%= label_tag :last_file, "This is the last import for #{@source_file.filename}. Change its status to Completed after the import completes.", class: "form-label" %>
         <%= check_box_tag :last_file %>
       </div>
       <div>
