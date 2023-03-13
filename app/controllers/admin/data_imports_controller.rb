@@ -1,5 +1,4 @@
-class Admin::DataImportsController < ApplicationController
-  before_action :authenticate_user!
+class Admin::DataImportsController < Admin::BaseController
   before_action :set_source_file
 
   def new

@@ -1,6 +1,4 @@
-class Admin::SourceFilesController < ApplicationController
-  before_action :authenticate_user!
-
+class Admin::SourceFilesController < Admin::BaseController
   def index
     @source_files = SourceFile.includes(:data_imports, active_storage_attachment: :blob)
   end

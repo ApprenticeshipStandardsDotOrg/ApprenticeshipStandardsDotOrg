@@ -1,5 +1,4 @@
-class Admin::OccupationStandardsController < ApplicationController
-  before_action :authenticate_user!
+class Admin::OccupationStandardsController < Admin::BaseController
   before_action :find_occupation_standard, only: [:show, :edit, :update]
 
   def index
