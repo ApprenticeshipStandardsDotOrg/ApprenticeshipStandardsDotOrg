@@ -1,0 +1,17 @@
+<h1 class="w-full max-w-prose mx-auto text-center">Source file: <%= @source_file.filename %></h1>
+
+<div class="mt-5">
+  <% @source_file.data_imports.each do |data_import| %>
+    <div class="flex justify-between items-center bg-white shadow-md rounded mb-4 py-3 px-3">
+      <p class="font-medium"><%= link_to data_import.file.filename, source_file_data_import_path(@source_file, data_import) %></p>
+      <% if data_import.occupation_standard.present? %>
+        <p class="font-medium"><%= link_to data_import.occupation_standard_title, occupation_standard_path(data_import.occupation_standard) %></p>
+      <% end %>
+      <%= link_to "Edit", edit_source_file_data_import_path(@source_file, data_import) %>
+    </div>
+  <% end %>
+</div>
+
+<div class="mt-5">
+  <%= link_to "New data import", new_source_file_data_import_path(@source_file), class: "btn-primary" %>
+</div>

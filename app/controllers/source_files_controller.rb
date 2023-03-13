@@ -2,7 +2,11 @@ class SourceFilesController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @source_files = SourceFile.includes(:data_import, active_storage_attachment: :blob)
+    @source_files = SourceFile.includes(:data_imports, active_storage_attachment: :blob)
+  end
+
+  def show
+    @source_file = SourceFile.find(params[:id])
   end
 
   def edit
