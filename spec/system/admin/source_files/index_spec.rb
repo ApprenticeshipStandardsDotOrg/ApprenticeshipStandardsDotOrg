@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "source_files/index" do
+RSpec.describe "admin/source_files/index" do
   it "displays status, link to file, and option to convert or edit", :admin do
     create(:standards_import, :with_files)
     admin = create :admin

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "source_files/edit" do
+RSpec.describe "admin/source_files/edit" do
   it "allows admin user to edit file import", :admin do
     file = create :source_file
     admin = create :admin

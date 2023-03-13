@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "occupation_standards/show" do
+RSpec.describe "admin/occupation_standards/show" do
   it "displays title and description", :admin do
     occupation_standard = create(:occupation_standard, title: "Mechanic")
     create(:data_import, occupation_standard: occupation_standard)

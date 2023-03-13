@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "data_imports/edit" do
+RSpec.describe "admin/data_imports/edit" do
   it "allows admin user to edit data import", :admin do
     create(:standards_import, :with_files)
     source_file = SourceFile.first
