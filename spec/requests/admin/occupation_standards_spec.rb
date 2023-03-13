@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "OccupationStandard", type: :request do
+RSpec.describe "Admin::OccupationStandard", type: :request do
   describe "GET /index" do
     context "on admin subdomain", :admin do
       context "when admin user" do

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "DataImports", type: :request, admin: true do
+RSpec.describe "Admin::DataImports", type: :request, admin: true do
   describe "GET /new" do
     it "returns http success" do
       admin = create(:admin)
