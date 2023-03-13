@@ -39,6 +39,8 @@ Rails.application.routes.draw do
 
   resources :standards_imports, only: [:new, :create, :show]
   resources :occupation_standards, only: [:index, :show]
+  get "home", as: :home_page, to: "pages#home"
+  get "about", as: :about_page, to: "pages#about"
 
   namespace :api do
     namespace :v1 do
