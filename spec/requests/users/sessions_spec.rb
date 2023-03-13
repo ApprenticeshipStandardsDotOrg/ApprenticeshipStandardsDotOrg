@@ -27,7 +27,7 @@ RSpec.describe "Users::Sessions", type: :request do
         user: {email: user.email, password: user.password}
       }
 
-      expect(response).to redirect_to source_files_path
+      expect(response).to redirect_to admin_source_files_path
     end
   end
 end
