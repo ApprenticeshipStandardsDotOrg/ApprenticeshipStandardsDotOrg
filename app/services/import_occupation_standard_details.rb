@@ -55,9 +55,7 @@ class ImportOccupationStandardDetails
   end
 
   def rapids_code
-    @_rapids_code ||= if (match = row["RAPIDS Code"].match(/(.*)[A-Za-z]{2}\z/))
-      match.captures.first
-    end
+    row["RAPIDS Code"].gsub(/[A-Za-z]+\z/, "")
   end
 
   def occupation_type
