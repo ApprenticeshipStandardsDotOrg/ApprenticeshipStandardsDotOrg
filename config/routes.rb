@@ -38,6 +38,7 @@ Rails.application.routes.draw do
   root to: "standards_imports#new", as: :guest_root
 
   resources :standards_imports, only: [:new, :create, :show]
+  resources :occupation_standards, only: [:index, :show]
 
   namespace :api do
     namespace :v1 do
