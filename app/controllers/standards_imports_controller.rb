@@ -7,7 +7,11 @@ class StandardsImportsController < ApplicationController
     @standards_import = StandardsImport.new(create_params)
 
     if @standards_import.save
-      redirect_to standards_import_path(@standards_import)
+      if user_signed_in?
+        redirect_to admin_source_files_path
+      else
+        redirect_to standards_import_path(@standards_import)
+      end
     else
       render :new
     end
