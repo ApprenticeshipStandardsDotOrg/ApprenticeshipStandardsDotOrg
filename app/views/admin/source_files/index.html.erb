@@ -1,5 +1,10 @@
 <div id="file-imports" class="w-full flex flex-col mx-auto">
   <h1 class="w-full max-w-prose mx-auto text-center font-semibold text-xl mb-4">Source files</h1>
+
+  <div class="mb-5">
+    <%= link_to "New source file", new_standards_import_path, class: "btn-primary" %>
+  </div>
+
   <% @source_files.find_each do |source_file| %>
     <div class="flex justify-between items-center bg-white shadow-md rounded mb-4 py-3 px-3">
       <p class="font-medium"><%= link_to source_file.filename, source_file.url %></p>
