@@ -9,12 +9,12 @@
   </div>
 </div>
 
-<div class="mb-10">
+<section id="work-processes" class="mb-10">
   <h3 class="w-full max-w-prose text-left font-semibold text-xl mb-4">Work Processes</h3>
   <%= render partial: "work_processes/table", locals: {work_processes: @occupation_standard.work_processes} %>
-</div>
+</section>
 
-<div class="mb-10">
+<section id="related-instruction" class="mb-10">
   <h3 class="w-full max-w-prose text-left font-semibold text-xl mb-4">Related Instructions</h3>
   <%= render partial: "related_instructions/table", locals: {related_instructions: @occupation_standard.related_instructions} %>
-</div>
+</section>

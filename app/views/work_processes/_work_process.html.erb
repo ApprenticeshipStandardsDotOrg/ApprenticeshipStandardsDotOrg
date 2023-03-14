@@ -1,20 +1,15 @@
 <tr class="border-b">
   <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-    <%= work_process.title %>
+    <%= link_to work_process.title, "#", class: "default-colors" %>
   </td>
   <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-    <%= work_process.sort_order %>
+    <% if work_process.competencies.any? %>
+      <%= link_to work_process.competencies.count, "#" %>
+    <% else %>
+      0
+    <% end %>
   </td>
   <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-    <%= work_process.description %>
-  </td>
-  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-    <%= work_process.default_hours %>
-  </td>
-  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-    <%= work_process.minimum_hours %>
-  </td>
-  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-    <%= work_process.maximum_hours %>
+    <%= hours_range(work_process) %>
   </td>
 </tr>
