@@ -3,6 +3,6 @@ FactoryBot.define do
     work_process
     title { "Competency" }
     description { "Competency Description" }
-    sort_order { 1 }
+    sequence(:sort_order) { |n| n }
   end
 end

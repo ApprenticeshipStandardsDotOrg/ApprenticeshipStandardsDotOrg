@@ -3,6 +3,17 @@ require "rails_helper"
 RSpec.describe "admin/occupation_standards/show" do
   it "displays title and description", :admin do
     occupation_standard = create(:occupation_standard, title: "Mechanic")
+
+    work_process = create(:work_process, occupation_standard: occupation_standard, minimum_hours: 10, maximum_hours: 20, title: "WP1")
+    create_pair(:competency, work_process: work_process)
+    create(:work_process, occupation_standard: occupation_standard, minimum_hours: 4567, maximum_hours: 4567, title: "WP2")
+
+    create(:related_instruction, occupation_standard: occupation_standard, title: "RS1", hours: 1234)
+    create(:related_instruction, occupation_standard: occupation_standard, title: "RS2", hours: 5678)
+
+    create(:wage_step, occupation_standard: occupation_standard, title: "WS1", minimum_hours: 3456, ojt_percentage: 50)
+    create(:wage_step, occupation_standard: occupation_standard, title: "WS2", minimum_hours: 7890, ojt_percentage: 75)
+
     create(:data_import, occupation_standard: occupation_standard)
     admin = create(:admin)
 
@@ -27,21 +38,47 @@ RSpec.describe "admin/occupation_standards/show" do
     expect(page).to have_selector("dd", text: occupation_standard.created_at)
     expect(page).to have_selector("dd", text: occupation_standard.updated_at)
 
-    expect(page).to have_selector("h3", text: "Related Instructions")
+    within "#work-processes" do
+      expect(page).to have_selector("h3", text: "Work Processes")
+      expect(page).to have_columnheader("Title")
+      expect(page).to have_columnheader("Skills")
+      expect(page).to have_columnheader("Hours")
 
-    expect(page).to have_columnheader("Title")
-    expect(page).to have_columnheader("Sort Order")
-    expect(page).to have_columnheader("Hours")
-    expect(page).to have_columnheader("Elective")
+      expect(page).to have_link("WP1", href: "#")
+      expect(page).to have_link("2", href: "#")
+      expect(page).to have_text "10-20"
 
-    expect(page).to have_selector("h3", text: "Work Processes")
+      expect(page).to have_link("WP2", href: "#")
+      expect(page).to have_text("0")
+      expect(page).to_not have_link("0")
+      expect(page).to have_text "4567"
+    end
 
-    expect(page).to have_columnheader("Title")
-    expect(page).to have_columnheader("Sort Order")
-    expect(page).to have_columnheader("Description")
-    expect(page).to have_columnheader("Default Hours")
-    expect(page).to have_columnheader("Minimum Hours")
-    expect(page).to have_columnheader("Maximum Hours")
+    within "#related-instruction" do
+      expect(page).to have_selector("h3", text: "Related Instructions")
+      expect(page).to have_columnheader("Title")
+      expect(page).to have_columnheader("Hours")
+
+      expect(page).to have_link("RS1", href: "#")
+      expect(page).to have_text "1234"
+
+      expect(page).to have_link("RS2", href: "#")
+      expect(page).to have_text "5678"
+    end
+
+    within "#wage-schedule" do
+      expect(page).to have_selector("h3", text: "Wage Schedule")
+      expect(page).to have_columnheader("Step Title")
+      expect(page).to have_columnheader("Minimum Hours")
+      expect(page).to have_columnheader("Minimum OJT %")
+
+      expect(page).to have_link("WS1", href: "#")
+      expect(page).to have_text "3456"
+      expect(page).to have_text "50%"
+
+      expect(page).to have_link("WS2", href: "#")
+      expect(page).to have_text "75%"
+    end
 
     expect(page).to have_link("Edit", href: edit_admin_occupation_standard_path(occupation_standard))
   end

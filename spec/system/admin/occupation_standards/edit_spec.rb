@@ -17,19 +17,25 @@ RSpec.describe "admin/occupation_standards/edit" do
 
     expect(page).to have_selector("h3", text: "Source File")
 
-    expect(page).to have_selector("h3", text: "Work Processes")
-    expect(page).to have_columnheader("Title")
-    expect(page).to have_columnheader("Sort Order")
-    expect(page).to have_columnheader("Description")
-    expect(page).to have_columnheader("Default Hours")
-    expect(page).to have_columnheader("Minimum Hours")
-    expect(page).to have_columnheader("Maximum Hours")
+    within "#work-processes" do
+      expect(page).to have_selector("h3", text: "Work Processes")
+      expect(page).to have_columnheader("Title")
+      expect(page).to have_columnheader("Skills")
+      expect(page).to have_columnheader("Hours")
+    end
 
-    expect(page).to have_selector("h3", text: "Related Instructions")
-    expect(page).to have_columnheader("Title")
-    expect(page).to have_columnheader("Sort Order")
-    expect(page).to have_columnheader("Hours")
-    expect(page).to have_columnheader("Elective")
+    within "#related-instruction" do
+      expect(page).to have_selector("h3", text: "Related Instructions")
+      expect(page).to have_columnheader("Title")
+      expect(page).to have_columnheader("Hours")
+    end
+
+    within "#wage-schedule" do
+      expect(page).to have_selector("h3", text: "Wage Schedule")
+      expect(page).to have_columnheader("Step Title")
+      expect(page).to have_columnheader("Minimum Hours")
+      expect(page).to have_columnheader("Minimum OJT %")
+    end
 
     fill_in "Title", with: "New title"
     fill_in "ONET Code", with: "2345.67"
