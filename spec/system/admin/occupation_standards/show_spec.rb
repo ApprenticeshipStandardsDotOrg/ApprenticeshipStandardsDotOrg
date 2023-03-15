@@ -11,6 +11,9 @@ RSpec.describe "admin/occupation_standards/show" do
     create(:related_instruction, occupation_standard: occupation_standard, title: "RS1", hours: 1234)
     create(:related_instruction, occupation_standard: occupation_standard, title: "RS2", hours: 5678)
 
+    create(:wage_step, occupation_standard: occupation_standard, title: "WS1", minimum_hours: 3456, ojt_percentage: 50)
+    create(:wage_step, occupation_standard: occupation_standard, title: "WS2", minimum_hours: 7890, ojt_percentage: 75)
+
     create(:data_import, occupation_standard: occupation_standard)
     admin = create(:admin)
 
@@ -61,6 +64,20 @@ RSpec.describe "admin/occupation_standards/show" do
 
       expect(page).to have_link("RS2", href: "#")
       expect(page).to have_text "5678"
+    end
+
+    within "#wage-schedule" do
+      expect(page).to have_selector("h3", text: "Wage Schedule")
+      expect(page).to have_columnheader("Step Title")
+      expect(page).to have_columnheader("Minimum Hours")
+      expect(page).to have_columnheader("Minimum OJT %")
+
+      expect(page).to have_link("WS1", href: "#")
+      expect(page).to have_text "3456"
+      expect(page).to have_text "50%"
+
+      expect(page).to have_link("WS2", href: "#")
+      expect(page).to have_text "75%"
     end
 
     expect(page).to have_link("Edit", href: edit_admin_occupation_standard_path(occupation_standard))

@@ -18,3 +18,8 @@
   <h3 class="w-full max-w-prose text-left font-semibold text-xl mb-4">Related Instructions</h3>
   <%= render partial: "related_instructions/table", locals: {related_instructions: @occupation_standard.related_instructions} %>
 </section>
+
+<section id="wage-schedule" class="mb-10">
+  <h3 class="w-full max-w-prose text-left font-semibold text-xl mb-4">Wage Schedule</h3>
+  <%= render partial: "wage_steps/table", locals: {wage_steps: @occupation_standard.wage_steps} %>
+</section>

@@ -1,0 +1,11 @@
+<tr class="border-b">
+  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+    <%= link_to wage_step.title, "#", class: "default-colors" %>
+  </td>
+  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+    <%= wage_step.minimum_hours %>
+  </td>
+  <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
+    <%= number_to_percentage(wage_step.ojt_percentage, strip_insignificant_zeros: true) %>
+  </td>
+</tr>

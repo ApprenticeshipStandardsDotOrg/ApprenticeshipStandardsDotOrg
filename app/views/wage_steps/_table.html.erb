@@ -1,0 +1,18 @@
+<table class="min-w-full" role="grid" aria-label="Wage Schedule">
+  <thead class="border-b">
+    <tr>
+      <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+        Step Title
+      </th>
+      <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+        Minimum Hours
+      </th>
+      <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+        Minimum OJT %
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render partial: "wage_steps/wage_step", collection: wage_steps %>
+  </tbody>
+</table>
