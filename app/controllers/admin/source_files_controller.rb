@@ -1,6 +1,6 @@
 class Admin::SourceFilesController < Admin::BaseController
   def index
-    @source_files = SourceFile.includes(:data_imports, active_storage_attachment: :blob)
+    @source_files = SourceFile.includes(:data_imports, active_storage_attachment: :blob).order(created_at: :desc)
   end
 
   def show
