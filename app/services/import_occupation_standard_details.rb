@@ -71,9 +71,9 @@ class ImportOccupationStandardDetails
 
   def occupation
     Occupation.find_by(rapids_code: rapids_code) || begin
-      onet_code = OnetCode.find_by(code: row["Onet Code"])
-      if onet_code
-        Occupation.find_by(onet_code: onet_code)
+      onet = Onet.find_by(code: row["Onet Code"])
+      if onet
+        Occupation.find_by(onet: onet)
       end
     end
   end

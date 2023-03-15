@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :onet_code do
+  factory :onet do
     name { "Actors" }
     code { "27-2011.00" }
   end

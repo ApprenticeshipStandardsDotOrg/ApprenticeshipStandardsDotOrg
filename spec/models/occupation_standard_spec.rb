@@ -24,15 +24,15 @@ RSpec.describe OccupationStandard, type: :model do
 
   describe "#onet_code" do
     it "returns occupation onet_code string when occupation and onet_code exists" do
-      onet_code = build_stubbed(:onet_code, code: "abc")
-      occupation = build_stubbed(:occupation, onet_code: onet_code)
+      onet = build_stubbed(:onet, code: "abc")
+      occupation = build_stubbed(:occupation, onet: onet)
       occupation_standard = build(:occupation_standard, occupation: occupation)
 
       expect(occupation_standard.onet_code).to eq "abc"
     end
 
     it "returns nil when occupation exists but onet_code does not" do
-      occupation = build_stubbed(:occupation, onet_code: nil)
+      occupation = build_stubbed(:occupation, onet: nil)
       occupation_standard = build(:occupation_standard, occupation: occupation)
 
       expect(occupation_standard.onet_code).to be_nil
