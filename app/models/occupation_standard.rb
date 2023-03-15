@@ -17,7 +17,7 @@ class OccupationStandard < ApplicationRecord
   validates :title, presence: true
 
   def onet_code
-    occupation&.onet_code&.code || read_attribute(:onet_code)
+    occupation&.onet&.code || read_attribute(:onet_code)
   end
 
   def rapids_code

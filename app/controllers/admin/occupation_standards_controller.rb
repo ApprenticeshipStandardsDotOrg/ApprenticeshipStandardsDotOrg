@@ -2,7 +2,7 @@ class Admin::OccupationStandardsController < Admin::BaseController
   before_action :find_occupation_standard, only: [:show, :edit, :update]
 
   def index
-    @occupation_standards = OccupationStandard.includes(occupation: :onet_code, registration_agency: :state)
+    @occupation_standards = OccupationStandard.includes(occupation: :onet, registration_agency: :state)
   end
 
   def show
