@@ -3,9 +3,14 @@ require "rails_helper"
 RSpec.describe "admin/occupation_standards/show" do
   it "displays title and description", :admin do
     occupation_standard = create(:occupation_standard, title: "Mechanic")
-    work_process1 = create(:work_process, occupation_standard: occupation_standard, minimum_hours: 10, maximum_hours: 20, title: "WP1")
-    create_pair(:competency, work_process: work_process1)
+
+    work_process = create(:work_process, occupation_standard: occupation_standard, minimum_hours: 10, maximum_hours: 20, title: "WP1")
+    create_pair(:competency, work_process: work_process)
     create(:work_process, occupation_standard: occupation_standard, minimum_hours: 4567, maximum_hours: 4567, title: "WP2")
+
+    create(:related_instruction, occupation_standard: occupation_standard, title: "RS1", hours: 1234)
+    create(:related_instruction, occupation_standard: occupation_standard, title: "RS2", hours: 5678)
+
     create(:data_import, occupation_standard: occupation_standard)
     admin = create(:admin)
 
@@ -49,9 +54,13 @@ RSpec.describe "admin/occupation_standards/show" do
     within "#related-instruction" do
       expect(page).to have_selector("h3", text: "Related Instructions")
       expect(page).to have_columnheader("Title")
-      expect(page).to have_columnheader("Sort Order")
       expect(page).to have_columnheader("Hours")
-      expect(page).to have_columnheader("Elective")
+
+      expect(page).to have_link("RS1", href: "#")
+      expect(page).to have_text "1234"
+
+      expect(page).to have_link("RS2", href: "#")
+      expect(page).to have_text "5678"
     end
 
     expect(page).to have_link("Edit", href: edit_admin_occupation_standard_path(occupation_standard))
