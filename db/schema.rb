@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_09_161252) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_15_180050) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -126,7 +126,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_09_161252) do
     t.index ["onet_code_id"], name: "index_occupations_on_onet_code_id"
   end
 
-  create_table "onet_codes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "onets", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.string "code"
     t.datetime "created_at", null: false
@@ -253,7 +253,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_09_161252) do
   add_foreign_key "occupation_standards", "occupations"
   add_foreign_key "occupation_standards", "organizations"
   add_foreign_key "occupation_standards", "registration_agencies"
-  add_foreign_key "occupations", "onet_codes"
+  add_foreign_key "occupations", "onets", column: "onet_code_id"
   add_foreign_key "registration_agencies", "states"
   add_foreign_key "related_instructions", "courses"
   add_foreign_key "related_instructions", "courses", column: "default_course_id"
