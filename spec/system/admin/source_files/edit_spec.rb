@@ -13,13 +13,13 @@ RSpec.describe "admin/source_files/edit" do
     end
 
     expect(page).to have_content("Edit #{file.filename}")
-    select("Processing", from: "source_file[status]").click
+    select("Completed", from: "source_file[status]").click
     click_on "Update"
     within("h1") do
       expect(page).to have_content("Source files")
     end
-    expect(page).to have_content("Processing")
+    expect(page).to have_content("Completed")
     file.reload
-    expect(file.status).to eq "processing"
+    expect(file.status).to eq "completed"
   end
 end
