@@ -11,7 +11,7 @@ class OccupationStandard < ApplicationRecord
   delegate :title, to: :organization, prefix: true, allow_nil: true
   delegate :title, to: :occupation, prefix: true, allow_nil: true
 
-  enum occupation_type: [:time, :competency, :hybrid], _suffix: :based
+  enum ojt_type: [:time, :competency, :hybrid], _suffix: :based
   enum :status, [:importing, :in_review, :published]
 
   validates :title, presence: true
