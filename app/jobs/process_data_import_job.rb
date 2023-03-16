@@ -7,6 +7,7 @@ class ProcessDataImportJob < ApplicationJob
     import_occupation_standard_wage_schedule(occupation_standard, data_import)
     import_occupation_standard_work_processes(occupation_standard, data_import)
     mark_source_file_status(data_import, last_file)
+    occupation_standard.in_review!
   end
 
   private
