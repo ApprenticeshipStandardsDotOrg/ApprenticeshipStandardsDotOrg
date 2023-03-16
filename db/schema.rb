@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_15_181910) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_16_203508) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -95,7 +95,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_15_181910) do
     t.datetime "updated_at", null: false
     t.string "title"
     t.integer "term_months"
-    t.integer "occupation_type"
+    t.integer "ojt_type"
     t.integer "probationary_period_months"
     t.string "onet_code"
     t.string "rapids_code"
