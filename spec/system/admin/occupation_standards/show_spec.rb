@@ -11,13 +11,13 @@ RSpec.describe "admin/occupation_standards/show" do
 
     expect(page).to have_selector("h1", text: "Occupation Standard for Mechanic")
 
-    expect(page).to have_selector("dt", text: "Occupation:")
-    expect(page).to have_selector("dt", text: "URL:")
-    expect(page).to have_selector("dt", text: "Registration Agency:")
-    expect(page).to have_selector("dt", text: "RAPIDS code:")
-    expect(page).to have_selector("dt", text: "ONET code:")
-    expect(page).to have_selector("dt", text: "Created at:")
-    expect(page).to have_selector("dt", text: "Updated at:")
+    expect(page).to have_selector("dt", text: "Occupation")
+    expect(page).to have_selector("dt", text: "Url")
+    expect(page).to have_selector("dt", text: "Registration Agency")
+    expect(page).to have_selector("dt", text: "RAPIDS code")
+    expect(page).to have_selector("dt", text: "ONET code")
+    expect(page).to have_selector("dt", text: "Created at")
+    expect(page).to have_selector("dt", text: "Updated at")
 
     expect(page).to have_selector("dd", text: occupation_standard.occupation.title)
     expect(page).to have_selector("dd", text: occupation_standard.url)
@@ -55,6 +55,6 @@ RSpec.describe "admin/occupation_standards/show" do
     visit admin_occupation_standard_path(occupation_standard)
 
     expect(page).to have_selector("h1", text: "Occupation Standard for #{occupation_standard.title}")
-    expect(page).to have_selector("dt", text: "Occupation:")
+    expect(page).to have_selector("dt", text: "Occupation")
   end
 end

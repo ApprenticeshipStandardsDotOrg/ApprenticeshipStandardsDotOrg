@@ -1,4 +1,4 @@
-module Supervisor
+module Admin
   class ApplicationController < Administrate::ApplicationController
     include ActiveStorage::SetCurrent
 

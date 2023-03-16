@@ -34,13 +34,6 @@ Rails.application.routes.draw do
       end
       resources :occupation_standards, only: [:index, :show, :edit, :update]
     end
-
-    namespace :supervisor do
-      resources :source_files, only: [:index, :edit, :show, :update] do
-        resources :data_imports, except: [:index]
-      end
-      resources :occupation_standards, only: [:index, :show, :edit, :update]
-    end
   end
 
   root to: "standards_imports#new", as: :guest_root

@@ -86,6 +86,6 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
   # across all pages of the admin dashboard.
   #
   def display_resource(occupation_standard)
-    occupation_standard.title
+    "Occupation Standard for #{occupation_standard.title}"
   end
 end
