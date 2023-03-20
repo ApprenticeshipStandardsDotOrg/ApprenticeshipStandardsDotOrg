@@ -2,8 +2,7 @@ class Scraper::HcapJob < ApplicationJob
   queue_as :default
 
   def perform
-    data = do_request
-    retrieve_records(data["records"], data["offset"])
+    do_request
   end
 
   private
@@ -21,10 +20,16 @@ class Scraper::HcapJob < ApplicationJob
 
     uri.query = URI.encode_www_form(params)
     response = Net::HTTP.get(uri, headers)
-    JSON.parse(response)
+    data = JSON.parse(response)
+
+    collect_files(data["records"])
+
+    if data["offset"].present?
+      do_request(data["offset"])
+    end
   end
 
-  def retrieve_records(records, offset)
+  def collect_files(records)
     records.each do |record|
       fields = record["fields"]
 
@@ -46,11 +51,6 @@ class Scraper::HcapJob < ApplicationJob
           )
         end
       end
-    end
-
-    if offset
-      data = do_request(offset)
-      retrieve_records(data["records"], data["offset"])
     end
   end
 end
