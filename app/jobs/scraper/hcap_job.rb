@@ -1,13 +1,7 @@
 class Scraper::HcapJob < ApplicationJob
   queue_as :default
 
-  def perform
-    do_request
-  end
-
-  private
-
-  def do_request(offset = nil)
+  def perform(offset = nil)
     protocol = "https://"
     base = "appYV2tf9ynfAVQO5"
     table = "tblM9Bl9E4Fhddh7n"
@@ -25,9 +19,11 @@ class Scraper::HcapJob < ApplicationJob
     collect_files(data["records"])
 
     if data["offset"].present?
-      do_request(data["offset"])
+      perform(data["offset"])
     end
   end
+
+  private
 
   def collect_files(records)
     records.each do |record|
