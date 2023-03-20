@@ -81,9 +81,11 @@ RSpec.describe Scraper::HcapJob, type: :job do
   end
 
   def stub_responses
+    stub_const "ENV", ENV.to_h.merge("AIRTABLE_PERSONAL_ACCESS_TOKEN" => "abc123")
     json_file1 = file_fixture("scraper/hcap1.json")
     json_file2 = file_fixture("scraper/hcap2.json")
     stub_request(:get, /api.airtable.com/)
+      .with(headers: {Authorization: "Bearer abc123"})
       .to_return(
         {status: 200, body: json_file1.read, headers: {}},
         {status: 200, body: json_file2.read, headers: {}}
