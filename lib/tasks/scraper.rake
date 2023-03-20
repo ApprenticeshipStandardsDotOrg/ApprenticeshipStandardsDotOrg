@@ -6,6 +6,7 @@ namespace :scraper do
       Scraper::CaliforniaJob.perform_later
       Scraper::OregonJob.perform_later
       Scraper::NewYorkJob.perform_later
+      Scraper::HcapJob.perform_later
     else
       puts "Not Sunday, skipping"
       puts "Use FORCE=true to force this task"
