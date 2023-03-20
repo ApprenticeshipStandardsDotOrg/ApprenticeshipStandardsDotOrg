@@ -2,11 +2,9 @@ class Scraper::HcapJob < ApplicationJob
   queue_as :default
 
   def perform(offset = nil)
-    protocol = "https://"
     base = "appYV2tf9ynfAVQO5"
     table = "tblM9Bl9E4Fhddh7n"
-    url = "api.airtable.com/v0/#{base}/#{table}"
-    fetch_url = protocol + url
+    fetch_url = "https://api.airtable.com/v0/#{base}/#{table}"
     uri = URI.parse(fetch_url)
 
     headers = {Authorization: "Bearer #{ENV.fetch("AIRTABLE_PERSONAL_ACCESS_TOKEN")}"}
