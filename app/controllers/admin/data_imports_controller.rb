@@ -2,7 +2,6 @@ module Admin
   class DataImportsController < Admin::ApplicationController
     before_action :set_source_file
 
-
     def create
       data_import = @source_file.data_imports.build(resource_params)
       data_import.user = current_user
@@ -22,7 +21,6 @@ module Admin
     end
 
     def update
-      # data_import = DataImport.find(params[:id])
       if requested_resource.update(resource_params)
         ProcessDataImportJob.perform_later(data_import: requested_resource, last_file: last_file_flag)
         redirect_to(

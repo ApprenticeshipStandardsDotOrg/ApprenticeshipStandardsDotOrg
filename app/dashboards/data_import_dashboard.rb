@@ -62,7 +62,8 @@ class DataImportDashboard < Administrate::BaseDashboard
   # Overwrite this method to customize how data imports are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(data_import)
-  #   "DataImport ##{data_import.id}"
-  # end
+  def display_resource(data_import)
+    "Data Import"
+    # data_import.filename
+  end
 end

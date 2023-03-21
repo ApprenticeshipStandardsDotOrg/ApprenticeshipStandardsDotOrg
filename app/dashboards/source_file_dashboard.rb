@@ -13,7 +13,7 @@ class SourceFileDashboard < Administrate::BaseDashboard
     data_imports: Field::HasMany,
     url: Field::Url,
     metadata: Field::JSONB,
-    status: Field::Select.with_options(searchable: false, collection: ->(field) { field.resource.class.send(field.attribute.to_s.pluralize).keys }),
+    status: EnumField,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
   }.freeze
