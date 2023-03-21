@@ -2,10 +2,10 @@ class API::V1::StandardResource < JSONAPI::Resource
   immutable
   model_name "OccupationStandard"
 
-  attributes :title, :existing_title, :sponsor_name, :registration_agency, :onet_code, :rapids_code, :occupation_type, :term_months, :probationary_period_months, :apprenticeship_to_journeyworker_ratio, :ojt_hours_min, :ojt_hours_max, :rsi_hours_min, :rsi_hours_max
+  attributes :title, :existing_title, :sponsor_name, :registration_agency, :onet_code, :rapids_code, :ojt_type, :term_months, :probationary_period_months, :apprenticeship_to_journeyworker_ratio, :ojt_hours_min, :ojt_hours_max, :rsi_hours_min, :rsi_hours_max
 
-  def occupation_type
-    @model.occupation_type + "_based"
+  def ojt_type
+    @model.ojt_type + "_based"
   end
 
   class << self

@@ -24,7 +24,7 @@ class ImportOccupationStandardDetails
         term_months: row["Term (in months)"],
         onet_code: row["Onet Code"],
         rapids_code: rapids_code,
-        occupation_type: occupation_type,
+        ojt_type: ojt_type,
         probationary_period_months: row["Probationary Period"],
         apprenticeship_to_journeyworker_ratio: row["Ratio of Apprentice to Journeyworker"],
         organization: organization,
@@ -58,7 +58,7 @@ class ImportOccupationStandardDetails
     row["RAPIDS Code"].gsub(/[A-Za-z]+\z/, "")
   end
 
-  def occupation_type
+  def ojt_type
     case row["Type"]
     when /competency/i
       :competency
