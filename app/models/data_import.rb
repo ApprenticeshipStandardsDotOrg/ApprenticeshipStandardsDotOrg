@@ -10,6 +10,8 @@ class DataImport < ApplicationRecord
 
   delegate :title, to: :occupation_standard, prefix: true, allow_nil: true
 
+  enum :status, [:pending, :importing, :completed]
+
   private
 
   def file_presence

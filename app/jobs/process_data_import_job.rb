@@ -2,11 +2,18 @@ class ProcessDataImportJob < ApplicationJob
   queue_as :default
 
   def perform(data_import:, last_file: false)
+    data_import.importing!
+
     occupation_standard = import_occupation_standard_details(data_import)
     import_occupation_standard_related_instruction(occupation_standard, data_import)
     import_occupation_standard_wage_schedule(occupation_standard, data_import)
     import_occupation_standard_work_processes(occupation_standard, data_import)
-    mark_source_file_status(data_import, last_file)
+
+    update_status_fields(
+      data_import: data_import,
+      occupation_standard: occupation_standard,
+      last_file: last_file
+    )
   end
 
   private
@@ -33,7 +40,10 @@ class ProcessDataImportJob < ApplicationJob
     ).call
   end
 
-  def mark_source_file_status(data_import, last_file)
+  def update_status_fields(data_import:, occupation_standard:, last_file:)
+    data_import.completed!
+    occupation_standard.in_review!
+
     if last_file
       data_import.source_file.completed!
     end

@@ -151,6 +151,13 @@ paths:
   "/api/v1/standards":
     get:
       summary: List standards
+      parameters:
+      - name: filter[title]
+        in: query
+        required: false
+        description: Filter by title
+        schema:
+          type: string
       responses:
         '200':
           description: successful

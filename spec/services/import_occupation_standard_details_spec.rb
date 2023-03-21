@@ -6,7 +6,7 @@ RSpec.describe ImportOccupationStandardDetails do
       ca = create(:state, abbreviation: "CA")
       create(:registration_agency, state: ca, agency_type: :oa)
 
-      data_import = create(:data_import, :unprocessed)
+      data_import = create(:data_import, :pending)
 
       os = described_class.new(data_import).call
       expect(os).to be_a(OccupationStandard)
@@ -22,7 +22,7 @@ RSpec.describe ImportOccupationStandardDetails do
         occupation1 = create(:occupation, rapids_code: "0157")
         _occupation2 = create(:occupation, onet: onet)
 
-        data_import = create(:data_import, :unprocessed)
+        data_import = create(:data_import, :pending)
 
         expect {
           described_class.new(data_import).call
@@ -54,7 +54,7 @@ RSpec.describe ImportOccupationStandardDetails do
         create(:onet, code: "13-1071.01")
         occupation1 = create(:occupation, rapids_code: "0157")
 
-        data_import = create(:data_import, :hybrid, :unprocessed)
+        data_import = create(:data_import, :hybrid, :pending)
 
         expect {
           described_class.new(data_import).call
