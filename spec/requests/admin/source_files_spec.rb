@@ -89,11 +89,11 @@ RSpec.describe "Admin::SourceFiles", type: :request do
           sign_in admin
           file_params = {
             source_file: {
-              status: "processing"
+              status: "completed"
             }
           }
           patch admin_source_file_path(file), params: file_params
-          expect(file.reload).to be_processing
+          expect(file.reload).to be_completed
           expect(response).to redirect_to admin_source_files_path
         end
       end
