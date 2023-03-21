@@ -13,12 +13,17 @@
   <% end %>
 </div>
 
-<div class="mb-10">
-  <h3 class="w-full max-w-prose text-left font-semibold text-xl mb-4">Work Processes</h3>
+<section id="work-processes" class="mb-10" aria-labelledby="work-processes-id">
+  <h3 id="work-processes-id" class="w-full max-w-prose text-left font-semibold text-xl mb-4">Work Processes</h3>
   <%= render partial: "work_processes/table", locals: {work_processes: @occupation_standard.work_processes} %>
-</div>
+</section>
 
-<div class="mb-10">
-  <h3 class="w-full max-w-prose text-left font-semibold text-xl mb-4">Related Instructions</h3>
+<section id="related-instruction" class="mb-10" aria-labelledby="related-instructions-id">
+  <h3 id="related-instructions-id" class="w-full max-w-prose text-left font-semibold text-xl mb-4">Related Instructions</h3>
   <%= render partial: "related_instructions/table", locals: {related_instructions: @occupation_standard.related_instructions} %>
-</div>
+</section>
+
+<section id="wage-schedule" class="mb-10" aria-labelledby="wage-steps-id">
+  <h3 id="wage-steps-id" class="w-full max-w-prose text-left font-semibold text-xl mb-4">Wage Schedule</h3>
+  <%= render partial: "wage_steps/table", locals: {wage_steps: @occupation_standard.wage_steps} %>
+</section>

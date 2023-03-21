@@ -1,13 +1,11 @@
 class Occupation < ApplicationRecord
   has_many :competency_options, as: :resource
 
-  belongs_to :onet_code, optional: true
+  belongs_to :onet, optional: true
 
   validates :title, presence: true
 
-  def onet_soc_code
-    onet_code&.code
-  end
+  delegate :code, to: :onet, prefix: true, allow_nil: true
 
   def to_s
     "#{title} (#{rapids_code})"

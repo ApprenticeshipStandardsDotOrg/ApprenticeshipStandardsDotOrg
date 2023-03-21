@@ -14,7 +14,7 @@ class API::V1::StandardResource < JSONAPI::Resource
     end
 
     def records_for_populate(options = {})
-      super(options).includes(:organization, :registration_agency, occupation: :onet_code)
+      super(options).includes(:organization, :registration_agency, occupation: :onet)
     end
   end
 end

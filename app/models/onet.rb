@@ -1,4 +1,4 @@
-class OnetCode < ApplicationRecord
+class Onet < ApplicationRecord
   validates :name, :code, presence: true
   validates :code, uniqueness: true
 

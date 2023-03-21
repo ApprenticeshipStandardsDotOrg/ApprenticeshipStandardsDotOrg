@@ -1,15 +1,11 @@
 <tr class="border-b">
   <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-    <%= link_to work_process.title, "#", class: "default-colors" %>
+    <%= link_to wage_step.title, "#", class: "default-colors" %>
   </td>
   <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-    <% if work_process.competencies.any? %>
-      <%= link_to work_process.competencies.count, "#" %>
-    <% else %>
-      0
-    <% end %>
+    <%= wage_step.minimum_hours %>
   </td>
   <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap text-left">
-    <%= hours_range(work_process) %>
+    <%= number_to_percentage(wage_step.ojt_percentage, strip_insignificant_zeros: true) %>
   </td>
 </tr>

@@ -9,7 +9,7 @@ namespace :occupation do
       xlsx.sheet(0).parse(headers: true).each_with_index do |row, index|
         next if index.zero?
         occupation = Occupation.find_or_initialize_by(title: row["RAPIDS TITLE"])
-        onet_code = OnetCode.find_by(code: row["ONET SOC CODE"].strip)
+        onet = Onet.find_by(code: row["ONET SOC CODE"].strip)
         hybrid_hours_min = nil
         hybrid_hours_max = nil
 
@@ -28,7 +28,7 @@ namespace :occupation do
 
         occupation.update!(
           rapids_code: row["RAPIDS CODE"],
-          onet_code: onet_code,
+          onet: onet,
           time_based_hours: row["TIME-BASED"],
           hybrid_hours_min: hybrid_hours_min,
           hybrid_hours_max: hybrid_hours_max,
@@ -46,8 +46,8 @@ namespace :occupation do
       puts "Importing ONET codes"
       file = URI.open("https://www.onetonline.org/find/all/All_Occupations.csv?fmt=csv")
       CSV.parse(file, headers: true) do |row|
-        onet_code = OnetCode.find_or_initialize_by(name: row["Occupation"])
-        onet_code.update!(code: row["Code"])
+        onet = Onet.find_or_initialize_by(name: row["Occupation"])
+        onet.update!(code: row["Code"])
       end
     else
       puts "Not Sunday, skipping"
