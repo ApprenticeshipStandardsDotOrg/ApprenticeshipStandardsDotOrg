@@ -8,7 +8,6 @@ class ImportOccupationStandardWageSchedule
   end
 
   def call
-    wage_schedules = []
     data_import.file.open do |file|
       xlsx = Roo::Spreadsheet.open(file, extension: :xlsx)
       sheet = xlsx.sheet(3)
@@ -21,18 +20,14 @@ class ImportOccupationStandardWageSchedule
           sort_order: row["Step Sort Order"]
         )
 
-        wage_schedule.assign_attributes(
+        wage_schedule.update!(
           title: row["Step Level Title"],
           minimum_hours: row["Step OJT Hours"],
           ojt_percentage: row["Step OJT Percentage"],
           duration_in_months: row["Step Duration"],
           rsi_hours: row["Step RSI Hours"]
         )
-        wage_schedule.save!
-        wage_schedules << wage_schedule
       end
     end
-
-    wage_schedules
   end
 end

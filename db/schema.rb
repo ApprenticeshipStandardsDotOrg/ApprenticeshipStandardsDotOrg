@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_07_142257) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_16_210337) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -80,20 +80,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_07_142257) do
     t.uuid "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.uuid "file_import_id", null: false
     t.uuid "occupation_standard_id"
-    t.index ["file_import_id"], name: "index_data_imports_on_file_import_id"
-    t.index ["occupation_standard_id"], name: "index_data_imports_on_occupation_standard_id"
-    t.index ["user_id"], name: "index_data_imports_on_user_id"
-  end
-
-  create_table "file_imports", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "active_storage_attachment_id", null: false
+    t.uuid "source_file_id", null: false
     t.integer "status", default: 0, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.jsonb "metadata"
-    t.index ["active_storage_attachment_id"], name: "index_file_imports_on_active_storage_attachment_id"
+    t.index ["occupation_standard_id"], name: "index_data_imports_on_occupation_standard_id"
+    t.index ["source_file_id"], name: "index_data_imports_on_source_file_id"
+    t.index ["user_id"], name: "index_data_imports_on_user_id"
   end
 
   create_table "occupation_standards", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -104,7 +96,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_07_142257) do
     t.datetime "updated_at", null: false
     t.string "title"
     t.integer "term_months"
-    t.integer "occupation_type"
+    t.integer "ojt_type"
     t.integer "probationary_period_months"
     t.string "onet_code"
     t.string "rapids_code"
@@ -116,6 +108,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_07_142257) do
     t.integer "rsi_hours_max"
     t.uuid "organization_id"
     t.integer "status", default: 0, null: false
+    t.integer "national_standard_type"
     t.index ["occupation_id"], name: "index_occupation_standards_on_occupation_id"
     t.index ["organization_id"], name: "index_occupation_standards_on_organization_id"
     t.index ["registration_agency_id"], name: "index_occupation_standards_on_registration_agency_id"
@@ -129,13 +122,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_07_142257) do
     t.string "rapids_code"
     t.integer "time_based_hours"
     t.integer "competency_based_hours"
-    t.uuid "onet_code_id"
+    t.uuid "onet_id"
     t.integer "hybrid_hours_min"
     t.integer "hybrid_hours_max"
-    t.index ["onet_code_id"], name: "index_occupations_on_onet_code_id"
+    t.index ["onet_id"], name: "index_occupations_on_onet_id"
   end
 
-  create_table "onet_codes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "onets", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.string "code"
     t.datetime "created_at", null: false
@@ -176,6 +169,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_07_142257) do
     t.index ["default_course_id"], name: "index_related_instructions_on_default_course_id"
     t.index ["occupation_standard_id"], name: "index_related_instructions_on_occupation_standard_id"
     t.index ["organization_id"], name: "index_related_instructions_on_organization_id"
+  end
+
+  create_table "source_files", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "active_storage_attachment_id", null: false
+    t.integer "status", default: 0, null: false
+    t.jsonb "metadata", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["active_storage_attachment_id"], name: "index_source_files_on_active_storage_attachment_id"
   end
 
   create_table "standards_imports", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -247,19 +249,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_07_142257) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "competencies", "work_processes"
   add_foreign_key "courses", "organizations"
-  add_foreign_key "data_imports", "file_imports"
   add_foreign_key "data_imports", "occupation_standards"
+  add_foreign_key "data_imports", "source_files"
   add_foreign_key "data_imports", "users"
-  add_foreign_key "file_imports", "active_storage_attachments"
   add_foreign_key "occupation_standards", "occupations"
   add_foreign_key "occupation_standards", "organizations"
   add_foreign_key "occupation_standards", "registration_agencies"
-  add_foreign_key "occupations", "onet_codes"
+  add_foreign_key "occupations", "onets"
   add_foreign_key "registration_agencies", "states"
   add_foreign_key "related_instructions", "courses"
   add_foreign_key "related_instructions", "courses", column: "default_course_id"
   add_foreign_key "related_instructions", "occupation_standards"
   add_foreign_key "related_instructions", "organizations"
+  add_foreign_key "source_files", "active_storage_attachments"
   add_foreign_key "wage_steps", "occupation_standards"
   add_foreign_key "work_processes", "occupation_standards"
 end

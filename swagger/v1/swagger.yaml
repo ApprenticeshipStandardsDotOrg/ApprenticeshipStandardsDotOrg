@@ -14,22 +14,22 @@ paths:
             application/vnd.api+json:
               example:
                 data:
-                - id: 2196aebd-e780-4e80-b12c-629470e05b83
+                - id: 568e5f7b-4b14-484a-9346-eab2b2d4388e
                   type: occupations
                   links:
-                    self: http://www.example.com/api/v1/occupations/2196aebd-e780-4e80-b12c-629470e05b83
+                    self: http://www.example.com/api/v1/occupations/568e5f7b-4b14-484a-9346-eab2b2d4388e
                   attributes:
-                    name: Accordion Maker
+                    title: Accordion Maker
                     onet_code:
                     rapids_code: '0860'
                     time_based_hours: 8000
                     competency_based_hours: 8500
-                - id: 9426b915-f667-41b6-9f5f-77bc781d2fbd
+                - id: 8f0e5b3d-7ecc-4a55-b27f-a0ee72603acd
                   type: occupations
                   links:
-                    self: http://www.example.com/api/v1/occupations/9426b915-f667-41b6-9f5f-77bc781d2fbd
+                    self: http://www.example.com/api/v1/occupations/8f0e5b3d-7ecc-4a55-b27f-a0ee72603acd
                   attributes:
-                    name: Information Technology Specialist
+                    title: Information Technology Specialist
                     onet_code: 51-7011.00
                     rapids_code: '1132'
                     time_based_hours: 2782
@@ -56,7 +56,7 @@ paths:
                         attributes:
                           type: object
                           properties:
-                            name:
+                            title:
                               type: string
                             onet_code:
                               type: string
@@ -71,7 +71,7 @@ paths:
                               type: integer
                               nullable: true
                           required:
-                          - name
+                          - title
                       required:
                       - id
                       - type
@@ -95,12 +95,12 @@ paths:
             application/vnd.api+json:
               example:
                 data:
-                  id: fefffdbc-5c13-417a-80cc-d2b26221aa16
+                  id: 2a841ef3-58a0-474f-8f05-4fa20f5167dd
                   type: occupations
                   links:
-                    self: http://www.example.com/api/v1/occupations/fefffdbc-5c13-417a-80cc-d2b26221aa16
+                    self: http://www.example.com/api/v1/occupations/2a841ef3-58a0-474f-8f05-4fa20f5167dd
                   attributes:
-                    name: Information Technology Specialist
+                    title: Information Technology Specialist
                     onet_code: 51-7011.00
                     rapids_code: '1132'
                     time_based_hours: 2782
@@ -125,7 +125,7 @@ paths:
                       attributes:
                         type: object
                         properties:
-                          name:
+                          title:
                             type: string
                           onet_code:
                             type: string
@@ -140,7 +140,7 @@ paths:
                             type: integer
                             nullable: true
                         required:
-                        - name
+                        - title
                       required:
                       - id
                       - type
@@ -151,6 +151,13 @@ paths:
   "/api/v1/standards":
     get:
       summary: List standards
+      parameters:
+      - name: filter[title]
+        in: query
+        required: false
+        description: Filter by title
+        schema:
+          type: string
       responses:
         '200':
           description: successful
@@ -158,10 +165,10 @@ paths:
             application/vnd.api+json:
               example:
                 data:
-                - id: 484c98ae-8669-4db1-9d8c-d710d4b20f78
+                - id: 802f7b80-d795-4b50-944a-6b760b9c1a3f
                   type: standards
                   links:
-                    self: http://www.example.com/api/v1/standards/484c98ae-8669-4db1-9d8c-d710d4b20f78
+                    self: http://www.example.com/api/v1/standards/802f7b80-d795-4b50-944a-6b760b9c1a3f
                   attributes:
                     title: Automotive Technician Specialist
                     existing_title:
@@ -169,7 +176,7 @@ paths:
                     registration_agency: California (SAA)
                     onet_code: 49-3023.02
                     rapids_code: '1034'
-                    occupation_type: competency_based
+                    ojt_type: competency_based
                     term_months: 24
                     probationary_period_months: 12
                     apprenticeship_to_journeyworker_ratio: '1:1'
@@ -177,10 +184,10 @@ paths:
                     ojt_hours_max: 1500
                     rsi_hours_min: 200
                     rsi_hours_max: 250
-                - id: f4ec8908-e0b4-41a1-9289-98ca094240c7
+                - id: 82e0e87f-bfc2-4515-bc73-f9ad212a2997
                   type: standards
                   links:
-                    self: http://www.example.com/api/v1/standards/f4ec8908-e0b4-41a1-9289-98ca094240c7
+                    self: http://www.example.com/api/v1/standards/82e0e87f-bfc2-4515-bc73-f9ad212a2997
                   attributes:
                     title: Human Resource Specialist
                     existing_title: Career Development Technician
@@ -188,7 +195,7 @@ paths:
                     registration_agency: California (SAA)
                     onet_code: 51-7011.00
                     rapids_code: '0857'
-                    occupation_type: time_based
+                    ojt_type: time_based
                     term_months: 12
                     probationary_period_months: 6
                     apprenticeship_to_journeyworker_ratio: '5:1'
@@ -234,7 +241,7 @@ paths:
                             rapids_code:
                               type: string
                               nullable: true
-                            occupation_type:
+                            ojt_type:
                               type: string
                             term_months:
                               type: integer
@@ -287,10 +294,10 @@ paths:
             application/vnd.api+json:
               example:
                 data:
-                  id: 522945fa-1bd4-4bbc-923c-4fefeee0e29a
+                  id: 8d7ea8c3-7d14-4dfe-bc6e-2ff97eb6b0bf
                   type: standards
                   links:
-                    self: http://www.example.com/api/v1/standards/522945fa-1bd4-4bbc-923c-4fefeee0e29a
+                    self: http://www.example.com/api/v1/standards/8d7ea8c3-7d14-4dfe-bc6e-2ff97eb6b0bf
                   attributes:
                     title: Human Resource Specialist
                     existing_title: Career Development Technician
@@ -298,7 +305,7 @@ paths:
                     registration_agency: California (SAA)
                     onet_code: 51-7011.00
                     rapids_code: '0857'
-                    occupation_type: time_based
+                    ojt_type: time_based
                     term_months: 12
                     probationary_period_months: 6
                     apprenticeship_to_journeyworker_ratio: '5:1'
@@ -342,7 +349,7 @@ paths:
                           rapids_code:
                             type: string
                             nullable: true
-                          occupation_type:
+                          ojt_type:
                             type: string
                           term_months:
                             type: integer

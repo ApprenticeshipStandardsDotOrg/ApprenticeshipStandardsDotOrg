@@ -3,17 +3,18 @@ require "rails_helper"
 RSpec.describe ImportOccupationStandardWorkProcesses do
   describe "#call" do
     context "when occupation standard is time-based" do
-      it "returns work process records" do
+      it "creates work process records" do
         occupation_standard = create(:occupation_standard)
         data_import = create(:data_import)
 
-        work_processes = described_class.new(
-          occupation_standard: occupation_standard,
-          data_import: data_import
-        ).call
+        expect {
+          described_class.new(
+            occupation_standard: occupation_standard,
+            data_import: data_import
+          ).call
+        }.to change(WorkProcess, :count).by(2)
 
-        work_process_1, work_process_2 = work_processes
-
+        work_process_1 = WorkProcess.first
         expect(work_process_1.occupation_standard).to eq occupation_standard
         expect(work_process_1.sort_order).to eq 1
         expect(work_process_1.title).to eq "Safety"
@@ -21,6 +22,7 @@ RSpec.describe ImportOccupationStandardWorkProcesses do
         expect(work_process_1.maximum_hours).to eq 1000
         expect(work_process_1.minimum_hours).to eq 500
 
+        work_process_2 = WorkProcess.second
         expect(work_process_2.occupation_standard).to eq occupation_standard
         expect(work_process_2.sort_order).to eq 2
         expect(work_process_2.title).to eq "Basic Skills"
@@ -31,16 +33,20 @@ RSpec.describe ImportOccupationStandardWorkProcesses do
     end
 
     context "when occupation standard is hybrid with max and min hours" do
-      it "returns work process records with its corresponding competencies" do
+      it "creates work process records with its corresponding competencies" do
         occupation_standard = create(:occupation_standard)
-        data_import = create(:data_import_for_hybrid)
+        data_import = create(:data_import, :hybrid)
 
-        work_processes = described_class.new(
-          occupation_standard: occupation_standard,
-          data_import: data_import
-        ).call
+        expect {
+          described_class.new(
+            occupation_standard: occupation_standard,
+            data_import: data_import
+          ).call
+        }.to change(WorkProcess, :count).by(2)
+          .and change(Competency, :count).by(5)
 
-        work_process_1, work_process_2 = work_processes
+        work_process_1 = WorkProcess.first
+        work_process_2 = WorkProcess.second
 
         expect(work_process_1.competencies.count).to eq 2
         expect(work_process_2.competencies.count).to eq 3

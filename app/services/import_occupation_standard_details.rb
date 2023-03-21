@@ -14,6 +14,8 @@ class ImportOccupationStandardDetails
       @row = sheet.parse(headers: true)[1]
       occupation_standard = data_import.occupation_standard || data_import.build_occupation_standard
 
+      remove_existing_associations(occupation_standard)
+
       occupation_standard.assign_attributes(
         occupation: occupation,
         registration_agency: registration_agency,
@@ -22,7 +24,7 @@ class ImportOccupationStandardDetails
         term_months: row["Term (in months)"],
         onet_code: row["Onet Code"],
         rapids_code: rapids_code,
-        occupation_type: occupation_type,
+        ojt_type: ojt_type,
         probationary_period_months: row["Probationary Period"],
         apprenticeship_to_journeyworker_ratio: row["Ratio of Apprentice to Journeyworker"],
         organization: organization,
@@ -53,12 +55,10 @@ class ImportOccupationStandardDetails
   end
 
   def rapids_code
-    @_rapids_code ||= if (match = row["RAPIDS Code"].match(/(.*)[A-Za-z]{2}\z/))
-      match.captures.first
-    end
+    row["RAPIDS Code"].gsub(/[A-Za-z]+\z/, "")
   end
 
-  def occupation_type
+  def ojt_type
     case row["Type"]
     when /competency/i
       :competency
@@ -71,10 +71,18 @@ class ImportOccupationStandardDetails
 
   def occupation
     Occupation.find_by(rapids_code: rapids_code) || begin
-      onet_code = OnetCode.find_by(code: row["Onet Code"])
-      if onet_code
-        Occupation.find_by(onet_code: onet_code)
+      onet = Onet.find_by(code: row["Onet Code"])
+      if onet
+        Occupation.find_by(onet: onet)
       end
+    end
+  end
+
+  def remove_existing_associations(occupation_standard)
+    if occupation_standard.persisted?
+      occupation_standard.related_instructions.destroy_all
+      occupation_standard.wage_steps.destroy_all
+      occupation_standard.work_processes.destroy_all
     end
   end
 end

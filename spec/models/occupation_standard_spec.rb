@@ -24,15 +24,15 @@ RSpec.describe OccupationStandard, type: :model do
 
   describe "#onet_code" do
     it "returns occupation onet_code string when occupation and onet_code exists" do
-      onet_code = build_stubbed(:onet_code, code: "abc")
-      occupation = build_stubbed(:occupation, onet_code: onet_code)
+      onet = build_stubbed(:onet, code: "abc")
+      occupation = build_stubbed(:occupation, onet: onet)
       occupation_standard = build(:occupation_standard, occupation: occupation)
 
       expect(occupation_standard.onet_code).to eq "abc"
     end
 
     it "returns nil when occupation exists but onet_code does not" do
-      occupation = build_stubbed(:occupation, onet_code: nil)
+      occupation = build_stubbed(:occupation, onet: nil)
       occupation_standard = build(:occupation_standard, occupation: occupation)
 
       expect(occupation_standard.onet_code).to be_nil
@@ -61,13 +61,13 @@ RSpec.describe OccupationStandard, type: :model do
   end
 
   describe "#source_file" do
-    it "returns the linked file_import record" do
+    it "returns the linked source_file record" do
       create(:standards_import, :with_files)
-      file_import = FileImport.last
-      data_import = create(:data_import, file_import: file_import)
+      source_file = SourceFile.last
+      data_import = create(:data_import, source_file: source_file)
       occupation_standard = build(:occupation_standard, data_imports: [data_import])
 
-      expect(occupation_standard.source_file).to eq file_import
+      expect(occupation_standard.source_file).to eq source_file
     end
   end
 end

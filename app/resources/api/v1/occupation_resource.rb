@@ -4,17 +4,13 @@ class API::V1::OccupationResource < JSONAPI::Resource
 
   attributes :title, :onet_code, :rapids_code, :time_based_hours, :competency_based_hours
 
-  def onet_code
-    @model.onet_soc_code
-  end
-
   class << self
     def default_sort
       [{field: "title", direction: :asc}]
     end
 
     def records_for_populate(options = {})
-      super(options).includes(:onet_code)
+      super(options).includes(:onet)
     end
   end
 end

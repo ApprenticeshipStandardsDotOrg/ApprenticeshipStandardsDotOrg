@@ -1,0 +1,20 @@
+{
+  "records": [
+    {
+      "id": "rec0MeQSYnI310mKT",
+      "createdTime": "2020-06-11T20:16:22.000Z",
+      "fields": {
+        "Location": "New Jersey",
+        "Care Setting": "Ambulatory",
+        "Approval Date": "Signed in 2013",
+        "PDF Download Resource": "https://a687e559-f74f-4c1e-b81d-83ee37e94af3.usrfiles.com/ugd/a687e5_8034a3f4112d4956a11337333229a16e.pdf",
+        "Sponsor": "Institute for Wellness Education",
+        "Registration Level": "Federal",
+        "Document": "Wellness Coach",
+        "Resource Type": "Work Processes, Related Outline",
+        "Occupation": "Wellness Coach",
+        "Apprenticeship Type": "Hybrid"
+      }
+    }
+  ]
+}

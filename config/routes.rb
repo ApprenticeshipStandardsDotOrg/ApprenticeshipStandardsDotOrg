@@ -22,20 +22,25 @@ Rails.application.routes.draw do
       end
 
       authenticated :user do
-        root to: "file_imports#index"
+        root to: "admin/source_files#index"
         mount Sidekiq::Web => "/sidekiq", :as => :sidekiq
       end
     end
 
-    resources :file_imports, only: [:index, :edit, :update] do
-      resources :data_imports, except: [:index]
+    namespace :admin do
+      resources :source_files, only: [:index, :edit, :show, :update] do
+        resources :data_imports, except: [:index]
+      end
+      resources :occupation_standards, only: [:index, :show, :edit, :update]
     end
-    resources :occupation_standards, only: [:index, :show, :edit, :update]
   end
 
   root to: "standards_imports#new", as: :guest_root
 
   resources :standards_imports, only: [:new, :create, :show]
+  resources :occupation_standards, only: [:index, :show]
+  get "home", as: :home_page, to: "pages#home"
+  get "about", as: :about_page, to: "pages#about"
 
   namespace :api do
     namespace :v1 do

@@ -10,18 +10,18 @@ RSpec.describe StandardsImport, type: :model do
   it "deletes file import record when deleted" do
     standards_import = create(:standards_import, :with_files)
     attachment = standards_import.files.first
-    file_import = attachment.file_import
+    source_file = attachment.source_file
 
     expect(attachment).to be
-    expect(file_import).to be
+    expect(source_file).to be
 
     expect {
       standards_import.destroy!
     }.to change(ActiveStorage::Attachment, :count).by(-1)
-      .and change(FileImport, :count).by(-1)
+      .and change(SourceFile, :count).by(-1)
 
     expect { attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
-    expect { file_import.reload }.to raise_error(ActiveRecord::RecordNotFound)
+    expect { source_file.reload }.to raise_error(ActiveRecord::RecordNotFound)
   end
 
   describe "#file_count" do
@@ -33,7 +33,8 @@ RSpec.describe StandardsImport, type: :model do
   end
 
   describe "#notify_admin" do
-    it "calls new_standards_import mailer on create" do
+    it "calls new_standards_import mailer on create but not update" do
+      stub_const "ENV", ENV.to_h.merge("ENABLE_STANDARDS_IMPORTS_NOTIFICATIONS" => "true")
       si = build(:standards_import)
 
       mailer = double("mailer", deliver_later: nil)
@@ -41,10 +42,6 @@ RSpec.describe StandardsImport, type: :model do
       expect(mailer).to receive(:deliver_later)
 
       si.save!
-    end
-
-    it "does not call mailer when updated" do
-      si = create(:standards_import)
 
       expect(AdminMailer).to_not receive(:new_standards_import)
 

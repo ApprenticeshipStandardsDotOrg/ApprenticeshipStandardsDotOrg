@@ -10,7 +10,7 @@ RSpec.describe AdminMailer, type: :mailer do
 
       expect(mail.subject).to eq("New standards import uploaded")
       expect(mail.to).to eq(["jeanine@thoughtbot.com"])
-      expect(mail.from).to eq(["admin@example.com"])
+      expect(mail.from).to eq(["no-reply@apprenticeshipstandards.org"])
 
       mail.body.parts.each do |part|
         expect(part.body.encoded).to match si.name

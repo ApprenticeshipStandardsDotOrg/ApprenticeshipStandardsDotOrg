@@ -6,8 +6,8 @@ RSpec.describe "api/v1/occupations", type: :request do
       produces "application/vnd.api+json"
 
       response(200, "successful") do
-        let(:onet_code1) { create(:onet_code, code: "51-7011.00") }
-        let!(:occ1) { create(:occupation, title: "Information Technology Specialist", onet_code: onet_code1, rapids_code: "1132", time_based_hours: 2782, competency_based_hours: 2000) }
+        let(:onet1) { create(:onet, code: "51-7011.00") }
+        let!(:occ1) { create(:occupation, title: "Information Technology Specialist", onet: onet1, rapids_code: "1132", time_based_hours: 2782, competency_based_hours: 2000) }
         let!(:occ2) { create(:occupation, title: "Accordion Maker", rapids_code: "0860", time_based_hours: 8000, competency_based_hours: 8500) }
 
         after do |example|
@@ -96,8 +96,8 @@ RSpec.describe "api/v1/occupations", type: :request do
       produces "application/vnd.api+json"
 
       response(200, "successful") do
-        let(:onet_code1) { create(:onet_code, code: "51-7011.00") }
-        let!(:occ) { create(:occupation, title: "Information Technology Specialist", onet_code: onet_code1, rapids_code: "1132", time_based_hours: 2782, competency_based_hours: 2000) }
+        let(:onet1) { create(:onet, code: "51-7011.00") }
+        let!(:occ) { create(:occupation, title: "Information Technology Specialist", onet: onet1, rapids_code: "1132", time_based_hours: 2782, competency_based_hours: 2000) }
         let(:id) { occ.id }
 
         after do |example|

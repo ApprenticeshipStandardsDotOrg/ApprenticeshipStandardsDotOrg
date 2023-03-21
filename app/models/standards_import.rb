@@ -1,7 +1,7 @@
 class StandardsImport < ApplicationRecord
   has_many_attached :files
 
-  after_create :notify_admin
+  after_commit :notify_admin, on: :create
 
   def file_count
     files.count
@@ -10,6 +10,8 @@ class StandardsImport < ApplicationRecord
   private
 
   def notify_admin
-    AdminMailer.new_standards_import(self).deliver_later
+    if ENV.fetch("ENABLE_STANDARDS_IMPORTS_NOTIFICATIONS", "false") == "true"
+      AdminMailer.new_standards_import(self).deliver_later
+    end
   end
 end
