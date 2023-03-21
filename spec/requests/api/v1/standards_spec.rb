@@ -47,7 +47,7 @@ RSpec.describe "api/v1/standards", type: :request do
         )
       }
       let!(:onet3) { create(:onet, code: "49-3023.02") }
-      let!(:occupation3) { create(:occupation, onet: onet3) }
+      let!(:occupation3) { create(:occupation, onet: onet3, rapids_code: "0857") }
       let!(:standard3) {
         create(
           :occupation_standard,
@@ -59,7 +59,7 @@ RSpec.describe "api/v1/standards", type: :request do
           occupation_type: :hybrid,
           probationary_period_months: 24,
           onet_code: nil,
-          rapids_code: "1035",
+          rapids_code: nil,
           apprenticeship_to_journeyworker_ratio: "1:2",
           ojt_hours_min: 3000,
           ojt_hours_max: 3500,
@@ -68,7 +68,7 @@ RSpec.describe "api/v1/standards", type: :request do
         )
       }
       let!(:onet4) { create(:onet, code: "51-4121.06") }
-      let!(:occupation4) { create(:occupation, onet: onet4) }
+      let!(:occupation4) { create(:occupation, onet: onet4, rapids_code: "1234") }
       let!(:standard4) {
         create(
           :occupation_standard,
@@ -80,7 +80,7 @@ RSpec.describe "api/v1/standards", type: :request do
           occupation_type: :hybrid,
           probationary_period_months: 24,
           onet_code: "49-3023.02",
-          rapids_code: "1035",
+          rapids_code: "0857",
           apprenticeship_to_journeyworker_ratio: "1:2",
           ojt_hours_min: 3000,
           ojt_hours_max: 3500,
@@ -216,7 +216,7 @@ RSpec.describe "api/v1/standards", type: :request do
                   sponsor_name: nil,
                   registration_agency: "California (SAA)",
                   onet_code: "51-4121.06",
-                  rapids_code: "1035",
+                  rapids_code: "1234",
                   occupation_type: "hybrid_based",
                   term_months: 36,
                   probationary_period_months: 24,
@@ -239,7 +239,7 @@ RSpec.describe "api/v1/standards", type: :request do
                   sponsor_name: nil,
                   registration_agency: "California (SAA)",
                   onet_code: "49-3023.02",
-                  rapids_code: "1035",
+                  rapids_code: "0857",
                   occupation_type: "hybrid_based",
                   term_months: 36,
                   probationary_period_months: 24,
@@ -337,7 +337,7 @@ RSpec.describe "api/v1/standards", type: :request do
                     sponsor_name: nil,
                     registration_agency: "California (SAA)",
                     onet_code: "49-3023.02",
-                    rapids_code: "1035",
+                    rapids_code: "0857",
                     occupation_type: "hybrid_based",
                     term_months: 36,
                     probationary_period_months: 24,
