@@ -75,7 +75,7 @@ RSpec.describe "api/v1/standards", type: :request do
           :occupation_standard,
           occupation: occupation4,
           registration_agency: registration_agency,
-          title: "Super Welder",
+          title: "Ship Engineers",
           existing_title: nil,
           term_months: 36,
           occupation_type: :hybrid,
@@ -212,7 +212,7 @@ RSpec.describe "api/v1/standards", type: :request do
                   self: api_v1_standard_url(standard4)
                 },
                 attributes: {
-                  title: "Super Welder",
+                  title: "Ship Engineers",
                   existing_title: nil,
                   sponsor_name: nil,
                   registration_agency: "California (SAA)",
