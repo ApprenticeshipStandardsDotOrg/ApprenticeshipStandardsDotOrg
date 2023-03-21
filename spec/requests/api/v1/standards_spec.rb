@@ -45,6 +45,27 @@ RSpec.describe "api/v1/standards", type: :request do
           rsi_hours_max: 250
         )
       }
+      let!(:onet) { create(:onet, code: "49-3023.02") }
+      let!(:occupation) { create(:occupation, onet: onet) }
+      let!(:standard3) {
+        create(
+          :occupation_standard,
+          occupation: occupation,
+          registration_agency: registration_agency,
+          title: "Welder",
+          existing_title: nil,
+          term_months: 36,
+          occupation_type: :hybrid,
+          probationary_period_months: 24,
+          onet_code: nil,
+          rapids_code: "1035",
+          apprenticeship_to_journeyworker_ratio: "1:2",
+          ojt_hours_min: 3000,
+          ojt_hours_max: 3500,
+          rsi_hours_min: 400,
+          rsi_hours_max: 450
+        )
+      }
 
       response(200, "successful") do
         after do |example|
@@ -159,6 +180,29 @@ RSpec.describe "api/v1/standards", type: :request do
                   ojt_hours_max: 150,
                   rsi_hours_min: 300,
                   rsi_hours_max: 350
+                }
+              },
+              {
+                id: standard3.id.to_s,
+                type: "standards",
+                links: {
+                  self: api_v1_standard_url(standard3)
+                },
+                attributes: {
+                  title: "Welder",
+                  existing_title: nil,
+                  sponsor_name: nil,
+                  registration_agency: "California (SAA)",
+                  onet_code: "49-3023.02",
+                  rapids_code: "1035",
+                  occupation_type: "hybrid_based",
+                  term_months: 36,
+                  probationary_period_months: 24,
+                  apprenticeship_to_journeyworker_ratio: "1:2",
+                  ojt_hours_min: 3000,
+                  ojt_hours_max: 3500,
+                  rsi_hours_min: 400,
+                  rsi_hours_max: 450
                 }
               }
             ]
