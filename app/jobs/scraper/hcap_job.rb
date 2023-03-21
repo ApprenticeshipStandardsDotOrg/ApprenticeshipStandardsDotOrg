@@ -2,8 +2,8 @@ class Scraper::HcapJob < ApplicationJob
   queue_as :default
 
   def perform(offset = nil)
-    base = "appYV2tf9ynfAVQO5"
-    table = "tblM9Bl9E4Fhddh7n"
+    base = ENV.fetch("AIRTABLE_BASE_ID", "appYV2tf9ynfAVQO5")
+    table = ENV.fetch("AIRTABLE_TABLE_ID", "tblM9Bl9E4Fhddh7n")
     fetch_url = "https://api.airtable.com/v0/#{base}/#{table}"
     uri = URI.parse(fetch_url)
 
