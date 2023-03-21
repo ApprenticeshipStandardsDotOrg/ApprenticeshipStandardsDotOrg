@@ -67,6 +67,27 @@ RSpec.describe "api/v1/standards", type: :request do
           rsi_hours_max: 450
         )
       }
+      let!(:onet4) { create(:onet, code: "51-4121.06") }
+      let!(:occupation4) { create(:occupation, onet: onet4) }
+      let!(:standard4) {
+        create(
+          :occupation_standard,
+          occupation: occupation4,
+          registration_agency: registration_agency,
+          title: "Super Welder",
+          existing_title: nil,
+          term_months: 36,
+          occupation_type: :hybrid,
+          probationary_period_months: 24,
+          onet_code: "49-3023.02",
+          rapids_code: "1035",
+          apprenticeship_to_journeyworker_ratio: "1:2",
+          ojt_hours_min: 3000,
+          ojt_hours_max: 3500,
+          rsi_hours_min: 400,
+          rsi_hours_max: 450
+        )
+      }
 
       response(200, "successful") do
         after do |example|
@@ -181,6 +202,29 @@ RSpec.describe "api/v1/standards", type: :request do
                   ojt_hours_max: 150,
                   rsi_hours_min: 300,
                   rsi_hours_max: 350
+                }
+              },
+              {
+                id: standard4.id.to_s,
+                type: "standards",
+                links: {
+                  self: api_v1_standard_url(standard4)
+                },
+                attributes: {
+                  title: "Super Welder",
+                  existing_title: nil,
+                  sponsor_name: nil,
+                  registration_agency: "California (SAA)",
+                  onet_code: "51-4121.06",
+                  rapids_code: "1035",
+                  occupation_type: "hybrid_based",
+                  term_months: 36,
+                  probationary_period_months: 24,
+                  apprenticeship_to_journeyworker_ratio: "1:2",
+                  ojt_hours_min: 3000,
+                  ojt_hours_max: 3500,
+                  rsi_hours_min: 400,
+                  rsi_hours_max: 450
                 }
               },
               {

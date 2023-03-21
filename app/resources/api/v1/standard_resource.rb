@@ -9,7 +9,7 @@ class API::V1::StandardResource < JSONAPI::Resource
     records
       .joins("LEFT JOIN occupations ON (occupations.id = occupation_standards.occupation_id)")
       .joins("LEFT JOIN onets ON (occupations.onet_id = onets.id)")
-      .where("onets.code IN (?) OR occupation_standards.onet_code IN (?)", value, value)
+      .where("onets.code IN (?) OR (onets.id IS NULL AND occupation_standards.onet_code IN (?))", value, value)
   }
 
   def ojt_type
