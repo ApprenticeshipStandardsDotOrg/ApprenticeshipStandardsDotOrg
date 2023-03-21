@@ -10,8 +10,7 @@ class DataImportDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     id: Field::String,
     description: Field::String,
-    file_attachment: Field::HasOne,
-    file_blob: Field::HasOne,
+    file: Field::ActiveStorage,
     occupation_standard: Field::BelongsTo,
     source_file: Field::BelongsTo,
     user: Field::BelongsTo,
@@ -27,8 +26,6 @@ class DataImportDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = %i[
     id
     description
-    file_attachment
-    file_blob
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -36,10 +33,7 @@ class DataImportDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = %i[
     id
     description
-    file_attachment
-    file_blob
     occupation_standard
-    source_file
     user
     created_at
     updated_at
@@ -50,11 +44,7 @@ class DataImportDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
     description
-    file_attachment
-    file_blob
-    occupation_standard
-    source_file
-    user
+    file
   ].freeze
 
   # COLLECTION_FILTERS
