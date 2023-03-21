@@ -5,6 +5,7 @@ RSpec.describe "api/v1/standards", type: :request do
     get "List standards" do
       parameter name: :"filter[title]", in: :query, type: :string, required: false, description: "Filter by title"
       parameter name: :"filter[onet_code]", in: :query, type: :string, required: false, description: "Filter by ONET code"
+      parameter name: :"filter[rapids_code]", in: :query, type: :string, required: false, description: "Filter by RAPIDS code"
       produces "application/vnd.api+json"
 
       let(:ca_state) { create(:state, name: "California") }
@@ -323,6 +324,67 @@ RSpec.describe "api/v1/standards", type: :request do
                     ojt_hours_max: 1500,
                     rsi_hours_min: 200,
                     rsi_hours_max: 250
+                  }
+                },
+                {
+                  id: standard3.id.to_s,
+                  type: "standards",
+                  links: {
+                    self: api_v1_standard_url(standard3)
+                  },
+                  attributes: {
+                    title: "Welder",
+                    existing_title: nil,
+                    sponsor_name: nil,
+                    registration_agency: "California (SAA)",
+                    onet_code: "49-3023.02",
+                    rapids_code: "0857",
+                    occupation_type: "hybrid_based",
+                    term_months: 36,
+                    probationary_period_months: 24,
+                    apprenticeship_to_journeyworker_ratio: "1:2",
+                    ojt_hours_min: 3000,
+                    ojt_hours_max: 3500,
+                    rsi_hours_min: 400,
+                    rsi_hours_max: 450
+                  }
+                }
+              ]
+            }
+
+            expect(response_json).to eq expected_resp
+          end
+        end
+      end
+
+      context "filter by rapids_code" do
+        response(200, "success", document: false) do
+          let("filter[rapids_code]") { "0857" }
+
+          run_test! do |response|
+            expected_resp = {
+              data: [
+                {
+                  id: standard1.id.to_s,
+                  type: "standards",
+                  links: {
+                    self: api_v1_standard_url(standard1)
+                  },
+                  attributes: {
+                    title: "Human Resource Specialist",
+                    existing_title: "Career Development Technician",
+                    sponsor_name: "HR Industries, Inc",
+                    registration_agency: "California (SAA)",
+                    onet_code: "51-7011.00",
+                    rapids_code: "0857",
+                    occupation_type: "time_based",
+                    term_months: 12,
+                    probationary_period_months: 6,
+                    apprenticeship_to_journeyworker_ratio: "5:1",
+                    ojt_hours_min: 100,
+                    ojt_hours_max: 150,
+                    rsi_hours_min: 300,
+                    rsi_hours_max: 350
                   }
                 },
                 {

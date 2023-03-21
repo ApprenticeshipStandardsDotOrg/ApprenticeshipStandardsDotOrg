@@ -11,6 +11,11 @@ class API::V1::StandardResource < JSONAPI::Resource
       .joins("LEFT JOIN onets ON (occupations.onet_id = onets.id)")
       .where("onets.code IN (?) OR (onets.id IS NULL AND occupation_standards.onet_code IN (?))", value, value)
   }
+  filter :rapids_code, apply: ->(records, value, _options) {
+    records
+      .joins("LEFT JOIN occupations ON (occupations.id = occupation_standards.occupation_id)")
+      .where("occupations.rapids_code IN (?) OR (occupations.rapids_code IS NULL AND occupation_standards.rapids_code IN (?))", value, value)
+  }
 
   def ojt_type
     @model.ojt_type + "_based"
