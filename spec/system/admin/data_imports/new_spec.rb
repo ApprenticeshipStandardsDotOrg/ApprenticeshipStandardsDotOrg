@@ -32,7 +32,7 @@ RSpec.describe "admin/data_imports/new" do
     expect(page).to_not have_content("Occupation standard")
   end
 
-  it "allows admin user to process file with last_file flag", :admin do
+  it "allows admin user to process file with last_file flag", :admin, :debug do
     create(:standards_import, :with_files)
     source_file = SourceFile.first
     admin = create :admin
