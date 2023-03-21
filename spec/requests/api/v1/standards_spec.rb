@@ -4,6 +4,7 @@ RSpec.describe "api/v1/standards", type: :request do
   path "/api/v1/standards" do
     get "List standards" do
       parameter name: :"filter[title]", in: :query, type: :string, required: false, description: "Filter by title"
+      parameter name: :"filter[onet_code]", in: :query, type: :string, required: false, description: "Filter by ONET code"
       produces "application/vnd.api+json"
 
       let(:ca_state) { create(:state, name: "California") }
@@ -45,12 +46,12 @@ RSpec.describe "api/v1/standards", type: :request do
           rsi_hours_max: 250
         )
       }
-      let!(:onet) { create(:onet, code: "49-3023.02") }
-      let!(:occupation) { create(:occupation, onet: onet) }
+      let!(:onet3) { create(:onet, code: "49-3023.02") }
+      let!(:occupation3) { create(:occupation, onet: onet3) }
       let!(:standard3) {
         create(
           :occupation_standard,
-          occupation: occupation,
+          occupation: occupation3,
           registration_agency: registration_agency,
           title: "Welder",
           existing_title: nil,
@@ -240,6 +241,67 @@ RSpec.describe "api/v1/standards", type: :request do
                     ojt_hours_max: 150,
                     rsi_hours_min: 300,
                     rsi_hours_max: 350
+                  }
+                }
+              ]
+            }
+
+            expect(response_json).to eq expected_resp
+          end
+        end
+      end
+
+      context "filter by onet_code" do
+        response(200, "success", document: false) do
+          let("filter[onet_code]") { "49-3023.02" }
+
+          run_test! do |response|
+            expected_resp = {
+              data: [
+                {
+                  id: standard2.id.to_s,
+                  type: "standards",
+                  links: {
+                    self: api_v1_standard_url(standard2)
+                  },
+                  attributes: {
+                    title: "Automotive Technician Specialist",
+                    existing_title: nil,
+                    sponsor_name: nil,
+                    registration_agency: "California (SAA)",
+                    onet_code: "49-3023.02",
+                    rapids_code: "1034",
+                    occupation_type: "competency_based",
+                    term_months: 24,
+                    probationary_period_months: 12,
+                    apprenticeship_to_journeyworker_ratio: "1:1",
+                    ojt_hours_min: 1000,
+                    ojt_hours_max: 1500,
+                    rsi_hours_min: 200,
+                    rsi_hours_max: 250
+                  }
+                },
+                {
+                  id: standard3.id.to_s,
+                  type: "standards",
+                  links: {
+                    self: api_v1_standard_url(standard3)
+                  },
+                  attributes: {
+                    title: "Welder",
+                    existing_title: nil,
+                    sponsor_name: nil,
+                    registration_agency: "California (SAA)",
+                    onet_code: "49-3023.02",
+                    rapids_code: "1035",
+                    occupation_type: "hybrid_based",
+                    term_months: 36,
+                    probationary_period_months: 24,
+                    apprenticeship_to_journeyworker_ratio: "1:2",
+                    ojt_hours_min: 3000,
+                    ojt_hours_max: 3500,
+                    rsi_hours_min: 400,
+                    rsi_hours_max: 450
                   }
                 }
               ]
