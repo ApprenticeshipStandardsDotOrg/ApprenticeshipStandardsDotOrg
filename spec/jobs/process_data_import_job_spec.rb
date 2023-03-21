@@ -5,7 +5,7 @@ RSpec.describe ProcessDataImportJob, type: :job do
     it "calls the separate services to process each tab of the file" do
       ca = create(:state, abbreviation: "CA")
       create(:registration_agency, state: ca, agency_type: :oa)
-      data_import = create(:data_import, :unprocessed)
+      data_import = create(:data_import, :pending)
 
       related_inst_mock = instance_double("ImportOccupationStandardRelatedInstruction")
       wage_schedule_mock = instance_double("ImportOccupationStandardWageSchedule")
@@ -55,10 +55,10 @@ RSpec.describe ProcessDataImportJob, type: :job do
       end
     end
 
-    it "marks the associated source file as complete if last_file is true" do
+    it "marks the associated source file as complete if last_file is true, marks the occupation standard as in_review, and marks data_import as completed" do
       ca = create(:state, abbreviation: "CA")
       create(:registration_agency, state: ca, agency_type: :oa)
-      data_import = create(:data_import, :unprocessed)
+      data_import = create(:data_import, :pending)
 
       related_inst_mock = instance_double("ImportOccupationStandardRelatedInstruction")
       wage_schedule_mock = instance_double("ImportOccupationStandardWageSchedule")
@@ -84,7 +84,9 @@ RSpec.describe ProcessDataImportJob, type: :job do
 
       described_class.new.perform(data_import: data_import, last_file: true)
 
+      expect(data_import.reload).to be_completed
       expect(data_import.source_file).to be_completed
+      expect(OccupationStandard.last).to be_in_review
     end
   end
 end
