@@ -14,12 +14,13 @@ class Scraper::WashingtonJob < ApplicationJob
 
     loop do
       find_table = browser.element(css: "tbody").wait_until(&:present?)
-
       begin
+        attempts ||= 0
         table = Nokogiri::HTML(find_table.inner_html)
       rescue Watir::Wait::TimeoutError
+        attempts += 1
         sleep 60
-        retry
+        retry if attempts <= 5
       end
 
       table.css("tr").each do |row|
