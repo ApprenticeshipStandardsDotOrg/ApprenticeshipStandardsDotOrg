@@ -15,7 +15,7 @@ module Admin
         )
       else
         render :new, locals: {
-          page: Administrate::Page::Form.new(dashboard, data_import),
+          page: Administrate::Page::Form.new(dashboard, data_import)
         }, status: :unprocessable_entity
       end
     end
@@ -25,14 +25,13 @@ module Admin
         ProcessDataImportJob.perform_later(data_import: requested_resource, last_file: last_file_flag)
         redirect_to(
           after_resource_updated_path(@source_file, requested_resource),
-          notice: translate_with_resource("update.success"),
+          notice: translate_with_resource("update.success")
         )
       else
         render :edit, locals: {
-          page: Administrate::Page::Form.new(dashboard, requested_resource),
+          page: Administrate::Page::Form.new(dashboard, requested_resource)
         }, status: :unprocessable_entity
       end
-
     end
 
     def destroy

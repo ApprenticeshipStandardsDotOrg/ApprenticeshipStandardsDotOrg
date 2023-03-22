@@ -12,7 +12,7 @@ class StateDashboard < Administrate::BaseDashboard
     abbreviation: Field::String,
     name: Field::String,
     created_at: Field::DateTime,
-    updated_at: Field::DateTime,
+    updated_at: Field::DateTime
   }.freeze
 
   # COLLECTION_ATTRIBUTES

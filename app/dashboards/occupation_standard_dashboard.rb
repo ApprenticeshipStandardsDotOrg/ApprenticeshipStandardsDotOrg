@@ -13,7 +13,7 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
     data_imports: Field::HasMany,
     existing_title: Field::String,
     occupation: Field::BelongsTo,
-    occupation_type: Field::Select.with_options(searchable: false, collection: ->(field) { field.resource.class.send(field.attribute.to_s.pluralize).keys }),
+    occupation_type: EnumField,
     ojt_hours_max: Field::Number,
     ojt_hours_min: Field::Number,
     onet_code: Field::String,
@@ -24,14 +24,15 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
     related_instructions: Field::HasMany,
     rsi_hours_max: Field::Number,
     rsi_hours_min: Field::Number,
-    status: Field::Select.with_options(searchable: false, collection: ->(field) { field.resource.class.send(field.attribute.to_s.pluralize).keys }),
+    status: EnumField,
     term_months: Field::Number,
     title: Field::String,
     url: Field::String,
     wage_steps: Field::HasMany,
     work_processes: Field::HasMany,
-    created_at: Field::DateTime,
-    updated_at: Field::DateTime,
+    source_file: Field::String,
+    created_at: Field::DateTime.with_options(format: :short),
+    updated_at: Field::DateTime.with_options(format: :short)
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -50,14 +51,21 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
-  status
-  occupation
-  url
-  registration_agency
-  rapids_code
-  onet_code
-  created_at
-  updated_at
+    status
+    occupation
+    url
+    registration_agency
+    rapids_code
+    onet_code
+    created_at
+    updated_at
+
+    source_file
+    data_imports
+
+    work_processes
+    related_instructions
+    wage_steps
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -68,6 +76,10 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
     onet_code
     rapids_code
     status
+
+    work_processes
+    related_instructions
+    wage_steps
   ].freeze
 
   # COLLECTION_FILTERS

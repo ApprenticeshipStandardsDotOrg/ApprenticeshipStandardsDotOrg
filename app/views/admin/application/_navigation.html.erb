@@ -11,11 +11,13 @@ as defined by the routes in the `admin/` namespace
   <%= link_to(t("administrate.navigation.back_to_app"), root_url, class: "button button--alt button--nav") if defined?(root_url) %>
 
   <% Administrate::Namespace.new(namespace).resources_with_index_route.each do |resource| %>
-    <%= link_to(
-      display_resource_name(resource),
-      resource_index_route(resource),
-      class: "navigation__link navigation__link--#{nav_link_state(resource)}"
-    ) if accessible_action?(model_from_resource(resource), :index) %>
+    <%= if accessible_action?(model_from_resource(resource), :index)
+          link_to(
+            display_resource_name(resource),
+            resource_index_route(resource),
+            class: "navigation__link navigation__link--#{nav_link_state(resource)}"
+          )
+        end %>
   <% end %>
 
   <%= link_to "Edit account", edit_user_registration_path, class: "navigation__link " %>

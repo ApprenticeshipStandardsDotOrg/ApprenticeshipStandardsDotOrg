@@ -15,7 +15,7 @@ class SourceFileDashboard < Administrate::BaseDashboard
     metadata: Field::JSONB,
     status: EnumField,
     created_at: Field::DateTime,
-    updated_at: Field::DateTime,
+    updated_at: Field::DateTime
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -35,6 +35,8 @@ class SourceFileDashboard < Administrate::BaseDashboard
     metadata
     status
     url
+
+    data_imports
   ].freeze
 
   # FORM_ATTRIBUTES

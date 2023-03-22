@@ -16,7 +16,7 @@ class OrganizationDashboard < Administrate::BaseDashboard
     organization_type: Field::String,
     title: Field::String,
     created_at: Field::DateTime,
-    updated_at: Field::DateTime,
+    updated_at: Field::DateTime
   }.freeze
 
   # COLLECTION_ATTRIBUTES

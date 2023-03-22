@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "admin/data_imports/show.html.erb", type: :view do
+RSpec.describe "old_admin/data_imports/show.html.erb", type: :view do
   it "displays description and links", :admin do
     data_import = create(:data_import, :pending, description: "DA Desc")
     source_file = data_import.source_file

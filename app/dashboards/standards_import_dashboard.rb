@@ -16,7 +16,7 @@ class StandardsImportDashboard < Administrate::BaseDashboard
     notes: Field::Text,
     organization: Field::String,
     created_at: Field::DateTime,
-    updated_at: Field::DateTime,
+    updated_at: Field::DateTime
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -73,6 +73,6 @@ class StandardsImportDashboard < Administrate::BaseDashboard
   #   "StandardsImport ##{standards_import.id}"
   # end
   def permitted_attributes
-    super + [:attachments => []]
+    super + [attachments: []]
   end
 end

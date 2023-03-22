@@ -1,3 +1,4 @@
+<%# erblint:counter GitHub::Accessibility::LandmarkHasLabelCounter 1 %>
 <%#
 # Index
 
@@ -23,25 +24,24 @@ It renders the `_table` partial to display details about the resources.
 [1]: http://www.rubydoc.info/gems/administrate/Administrate/Page/Collection
 %>
 
-<%=
-  render(
+<%= render(
     "index_header",
     resources: resources,
     search_term: search_term,
     page: page,
-    show_search_bar: show_search_bar,
+    show_search_bar: show_search_bar
   )
 %>
 
 <section class="main-content__body main-content__body--flush">
   <%= render(
-    "collection",
-    collection_presenter: page,
-    collection_field_name: resource_name,
-    page: page,
-    resources: resources,
-    table_title: "page-title"
-  ) %>
+        "collection",
+        collection_presenter: page,
+        collection_field_name: resource_name,
+        page: page,
+        resources: resources,
+        table_title: "page-title"
+      ) %>
 
   <%= render("pagination", resources: resources) %>
 </section>

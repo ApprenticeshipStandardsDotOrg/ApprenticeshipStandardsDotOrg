@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "admin/occupation_standards/index.html.erb", type: :view do
+RSpec.describe "old_admin/occupation_standards/index.html.erb", type: :view do
   context "when occupation" do
     it "displays table with attributes" do
       ca = create(:state, name: "California", abbreviation: "CA")

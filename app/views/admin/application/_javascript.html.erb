@@ -14,7 +14,7 @@ by providing a `content_for(:javascript)` block.
 <%= yield :javascript %>
 
 <% if Rails.env.test? %>
-  <%= javascript_tag do %>
+  <%= content_tag(:javascript) do %>
     $.fx.off = true;
     $.ajaxSetup({ async: false });
   <% end %>

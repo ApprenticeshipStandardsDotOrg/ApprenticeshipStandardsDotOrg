@@ -7,7 +7,7 @@ module ActiveStorage
       name: Field::String,
       record: Field::Polymorphic,
       blob: Field::BelongsTo,
-      created_at: Field::DateTime,
+      created_at: Field::DateTime
     }.freeze
 
     COLLECTION_ATTRIBUTES = [
@@ -23,11 +23,11 @@ module ActiveStorage
       :name,
       :record,
       :blob,
-      :created_at,
+      :created_at
     ].freeze
 
     FORM_ATTRIBUTES = [
-      :name,
+      :name
     ].freeze
 
     def display_resource(attachment)

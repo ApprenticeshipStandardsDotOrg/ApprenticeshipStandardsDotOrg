@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "admin/source_files/edit.html.erb", type: :view do
+RSpec.describe "old_admin/source_files/edit.html.erb", type: :view do
   it "has heading text and form" do
     source_file = create(:source_file)
     assign(:source_file, source_file)

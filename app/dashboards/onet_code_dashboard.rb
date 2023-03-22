@@ -1,6 +1,6 @@
 require "administrate/base_dashboard"
 
-class OnetCodeDashboard < Administrate::BaseDashboard
+class OnetDashboard < Administrate::BaseDashboard
   # ATTRIBUTE_TYPES
   # a hash that describes the type of each of the model's fields.
   #
@@ -12,7 +12,7 @@ class OnetCodeDashboard < Administrate::BaseDashboard
     code: Field::String,
     name: Field::String,
     created_at: Field::DateTime,
-    updated_at: Field::DateTime,
+    updated_at: Field::DateTime
   }.freeze
 
   # COLLECTION_ATTRIBUTES
