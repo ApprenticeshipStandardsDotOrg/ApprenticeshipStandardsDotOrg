@@ -1,55 +1,19 @@
 <section class="bg-[url('https://flowbite.s3.amazonaws.com/blocks/marketing-ui/hero/coast-house-view.jpg')] bg-no-repeat bg-cover bg-center bg-gray-700 bg-blend-multiply">
-  <nav class="border-gray-200 px-2 sm:px-4 py-2.5">
-    <div class="container flex flex-wrap items-center justify-between mx-auto">
-      <a href="/home" class="flex items-center">
-          <span class="self-center text-xl font-semibold whitespace-nowrap text-white">ApprenticeshipStandards.org</span>
-      </a>
-      <button data-collapse-toggle="navbar-default" type="button" class="inline-flex items-center p-2 ml-3 text-sm rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 text-white dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-default" aria-expanded="false">
-        <span class="sr-only">Open main menu</span>
-        <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
-      </button>
-      <div class="hidden w-full md:block md:w-auto" id="navbar-default">
-        <ul class="flex flex-col p-4 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 dark:border-gray-700">
-          <li class="block border-b dark:border-gray-700 lg:inline lg:border-b-0">
-              <a href="#" class="block py-3 px-4 border-b-2 text-primary-500 hover:text-primary-500 dark:text-primary-400 dark:border-primary-400 border-primary-600" aria-current="page">Home</a>
-          </li>
-          <li class="block border-b dark:border-gray-700 lg:inline lg:border-b-0">
-              <a href="#" class="block py-3 px-4 text-gray-300 hover:text-primary-600 hover:border-b-2 dark:hover:text-primary-500 dark:hover:border-primary-500 hover:border-primary-600">Industry</a>
-          </li>
-          <li class="block border-b dark:border-gray-700 lg:inline lg:border-b-0">
-              <a href="#" class="block py-3 px-4 text-gray-300 hover:text-primary-600 hover:border-b-2 dark:hover:text-primary-500 dark:hover:border-primary-500 hover:border-primary-600">Occupation</a>
-          </li>
-          <li class="block border-b dark:border-gray-700 lg:inline lg:border-b-0">
-              <a href="#" class="block py-3 px-4 text-gray-300 hover:text-primary-600 hover:border-b-2 dark:hover:text-primary-500 dark:hover:border-primary-500 hover:border-primary-600">State</a>
-          </li>
-          <li class="block border-b dark:border-gray-700 lg:inline lg:border-b-0">
-              <a href="#" class="block py-3 px-4 text-gray-300 hover:text-primary-600 hover:border-b-2 dark:hover:text-primary-500 dark:hover:border-primary-500 hover:border-primary-600">National</a>
-          </li>
-
-          <span class="mx-2 w-px bg-primary-500 lg:inline"></span>
-
-          <li class="block lg:inline">
-              <a href="#" class="block py-3 px-4 text-gray-300 hover:text-primary-600 hover:border-b-2 dark:hover:text-primary-500 dark:hover:border-primary-500 hover:border-primary-600">Get Involved</a>
-          </li>
-        </ul>
-      </div>
+  <%= render partial: "layouts/nav" %>
+  <div class="max-w-screen-xl px-4 py-8 mx-auto lg:py-16">
+    <div class="items-center mb-8 lg:mb-16">
+        <div class="items-center text-center sm:mb-6 lg:text-left lg:mb-0">
+            <form class="max-w-lg mx-auto" action="#">
+                <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300">Search</label>
+                <div class="relative">
+                    <input type="search" id="default-search" class="block w-full p-2 text-sm text-gray-900 border border-gray-300  bg-gray-50 focus:ring-primary-500 focus:border-primary-500" value="Mechatronics Technician" placeholder="Search by occupation name, O*NET, or industry" required="">
+                    <button type="submit" class="text-white inline-flex items-center absolute right-0 bottom-0 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
+                    </button>
+                </div>
+            </form>                        
+        </div>
     </div>
-  </nav>
-
-    <div class="max-w-screen-xl px-4 py-8 mx-auto lg:py-16">
-      <div class="items-center mb-8 lg:mb-16">
-          <div class="items-center text-center sm:mb-6 lg:text-left lg:mb-0">
-              <form class="max-w-lg mx-auto" action="#">
-                  <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300">Search</label>
-                  <div class="relative">
-                      <input type="search" id="default-search" class="block w-full p-2 text-sm text-gray-900 border border-gray-300  bg-gray-50 focus:ring-primary-500 focus:border-primary-500" placeholder="Search by occupation name, O*NET, or industry" required="">
-                      <button type="submit" class="text-white inline-flex items-center absolute right-0 bottom-0 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
-                      </button>
-                  </div>
-              </form>                        
-          </div>
-      </div>
   </div>
 </section>
 
@@ -83,7 +47,7 @@
       <h2 class="mb-4 text-4xl font-bold tracking-tight text-gray-900 dark:text-white">Listing occupation standards</h2>
     </div>
     <div class="p-1">
-      <div class="rounded-lg bg-white p-6 hover:shadow-xl dark:bg-gray-800">
+      <div class="rounded-lg bg-white p-6 dark:bg-gray-800">
         <div class="flex justify-between">
           <div>
             <div class="inline">
@@ -139,9 +103,9 @@
           </div>
         </div>
 
-        <div class="rounded bg-gray-100 py-3 px-2 text-sm mt-4">
+        <div class="flex lg:flex-row flex-col rounded bg-gray-100 py-3 px-2 text-sm mt-4">
           There are 8 programs with similar or identical criteria.
-          <a class="font-bold underline" href="#">Expand duplicates</a>
+          <a class="font-bold underline lg:mx-1" href="#">Expand duplicates</a>
         </div>
       </div>
     </div>
