@@ -17,12 +17,12 @@ class Scraper::WashingtonJob < ApplicationJob
       begin
         attempts ||= 0
         table = Nokogiri::HTML(find_table.inner_html)
-        
+
         table.css("tr").each do |row|
           program_id = row.css("td.lni-u-text--center > a").first.content.strip
           program_ids << program_id
         end
-        
+
         next_button.click!
         break if browser.a(aria_label: "Next", disabled: true).present?
       rescue Watir::Wait::TimeoutError
