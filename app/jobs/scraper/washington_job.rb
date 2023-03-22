@@ -25,10 +25,14 @@ class Scraper::WashingtonJob < ApplicationJob
 
         next_button.click!
         break if browser.a(aria_label: "Next", disabled: true).present?
-      rescue Watir::Wait::TimeoutError
+      rescue Watir::Wait::TimeoutError => e
         attempts += 1
-        sleep 60
-        retry if attempts <= 5
+        if attempts <= 5
+          sleep 60
+          retry
+        else
+          Rails.error.report(e)
+        end
       end
     end
 
