@@ -158,6 +158,18 @@ paths:
         description: Filter by title
         schema:
           type: string
+      - name: filter[onet_code]
+        in: query
+        required: false
+        description: Filter by ONET code
+        schema:
+          type: string
+      - name: filter[rapids_code]
+        in: query
+        required: false
+        description: Filter by RAPIDS code
+        schema:
+          type: string
       responses:
         '200':
           description: successful
@@ -203,6 +215,44 @@ paths:
                     ojt_hours_max: 150
                     rsi_hours_min: 300
                     rsi_hours_max: 350
+                - id: e2c8991b-a737-438c-8ded-57f4c3445cd6
+                  type: standards
+                  links:
+                    self: http://www.example.com/api/v1/standards/e2c8991b-a737-438c-8ded-57f4c3445cd6
+                  attributes:
+                    title: Ship Engineers
+                    existing_title:
+                    sponsor_name:
+                    registration_agency: California (SAA)
+                    onet_code: 51-4121.06
+                    rapids_code: '1234'
+                    ojt_type:
+                    term_months: 36
+                    probationary_period_months: 24
+                    apprenticeship_to_journeyworker_ratio: '1:2'
+                    ojt_hours_min: 3000
+                    ojt_hours_max: 3500
+                    rsi_hours_min: 400
+                    rsi_hours_max: 450
+                - id: 687d8074-11b6-4d42-a601-dea79c3d3810
+                  type: standards
+                  links:
+                    self: http://www.example.com/api/v1/standards/687d8074-11b6-4d42-a601-dea79c3d3810
+                  attributes:
+                    title: Welder
+                    existing_title:
+                    sponsor_name:
+                    registration_agency: California (SAA)
+                    onet_code: 49-3023.02
+                    rapids_code: '0857'
+                    ojt_type: hybrid_based
+                    term_months: 36
+                    probationary_period_months: 24
+                    apprenticeship_to_journeyworker_ratio: '1:2'
+                    ojt_hours_min: 3000
+                    ojt_hours_max: 3500
+                    rsi_hours_min: 400
+                    rsi_hours_max: 450
               schema:
                 type: object
                 properties:
@@ -243,6 +293,7 @@ paths:
                               nullable: true
                             ojt_type:
                               type: string
+                              nullable: true
                             term_months:
                               type: integer
                               nullable: true
