@@ -18,7 +18,9 @@ class API::V1::StandardResource < JSONAPI::Resource
   }
 
   def ojt_type
-    @model.ojt_type + "_based"
+    if @model.ojt_type
+      @model.ojt_type + "_based"
+    end
   end
 
   class << self
