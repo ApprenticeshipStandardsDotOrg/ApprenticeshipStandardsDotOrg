@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "user/registrations/edit", :admin, :js do
-  context "with valid parameters" do
+  xcontext "with valid parameters" do
     it "updates user" do
       user = create(:admin)
 

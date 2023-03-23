@@ -15,7 +15,6 @@ class DataImportDashboard < Administrate::BaseDashboard
     occupation_standard: Field::BelongsTo,
     occupation_standard_title: Field::String,
     source_file: Field::BelongsTo,
-    user: Field::BelongsTo,
     created_at: Field::DateTime,
     updated_at: Field::DateTime
   }.freeze

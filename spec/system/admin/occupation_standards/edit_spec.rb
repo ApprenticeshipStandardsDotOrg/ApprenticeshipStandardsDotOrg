@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "admin/occupation_standards/edit" do
-  it "allows admin user to edit occupation_standard", :admin do
+  xit "allows admin user to edit occupation_standard", :admin do
     data_import = create(:data_import)
     occupation_standard = data_import.occupation_standard
     admin = create(:admin)

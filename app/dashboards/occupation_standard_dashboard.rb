@@ -60,7 +60,6 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
     created_at
     updated_at
 
-    source_file
     data_imports
 
     work_processes

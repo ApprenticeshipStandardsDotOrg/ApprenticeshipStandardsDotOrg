@@ -11,7 +11,6 @@ class StandardsImportDashboard < Administrate::BaseDashboard
     id: Field::String,
     email: Field::String,
     files: Field::ActiveStorage,
-    # files_blobs: Field::HasMany,
     name: Field::String,
     notes: Field::Text,
     organization: Field::String,

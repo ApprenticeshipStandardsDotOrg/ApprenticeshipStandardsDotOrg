@@ -76,7 +76,7 @@ class WorkProcessDashboard < Administrate::BaseDashboard
   # Overwrite this method to customize how work processes are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(work_process)
-  #   "WorkProcess ##{work_process.id}"
-  # end
+  def display_resource(work_process)
+    work_process.title
+  end
 end

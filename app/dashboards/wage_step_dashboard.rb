@@ -74,7 +74,7 @@ class WageStepDashboard < Administrate::BaseDashboard
   # Overwrite this method to customize how wage steps are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(wage_step)
-  #   "WageStep ##{wage_step.id}"
-  # end
+  def display_resource(wage_step)
+    wage_step.title
+  end
 end

@@ -82,7 +82,7 @@ class RelatedInstructionDashboard < Administrate::BaseDashboard
   # Overwrite this method to customize how related instructions are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(related_instruction)
-  #   "RelatedInstruction ##{related_instruction.id}"
-  # end
+  def display_resource(related_instruction)
+    related_instruction.title
+  end
 end

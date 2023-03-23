@@ -54,6 +54,10 @@ module Admin
 
     private
 
+    def set_source_file
+      @source_file = SourceFile.find(params[:source_file_id])
+    end
+
     def last_file_flag
       params[:last_file] == "1"
     end
@@ -69,44 +73,5 @@ module Admin
     def after_resource_destroyed_path(source_file)
       new_admin_source_file_data_import_path(source_file)
     end
-
-    def set_source_file
-      @source_file = SourceFile.find(params[:source_file_id])
-    end
-
-    # Override this method to specify custom lookup behavior.
-    # This will be used to set the data_import for the `show`, `edit`, and `update`
-    # actions.
-    #
-    # def find_data_import(param)
-    #   Foo.find_by!(slug: param)
-    # end
-
-    # The result of this lookup will be available as `requested_data_import`
-
-    # Override this if you have certain roles that require a subset
-    # this will be used to set the records shown on the `index` action.
-    #
-    # def scoped_data_import
-    #   if current_user.super_admin?
-    #     data_import_class
-    #   else
-    #     data_import_class.with_less_stuff
-    #   end
-    # end
-
-    # Override `data_import_params` if you want to transform the submitted
-    # data before it's persisted. For example, the following would turn all
-    # empty values into nil values. It uses other APIs such as `data_import_class`
-    # and `dashboard`:
-    #
-    # def data_import_params
-    #   params.require(data_import_class.model_name.param_key).
-    #     permit(dashboard.permitted_attributes).
-    #     transform_values { |value| value == "" ? nil : value }
-    # end
-
-    # See https://administrate-prototype.herokuapp.com/customizing_controller_actions
-    # for more information
   end
 end
