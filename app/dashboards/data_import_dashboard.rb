@@ -11,7 +11,9 @@ class DataImportDashboard < Administrate::BaseDashboard
     id: Field::String,
     description: Field::String,
     file: Field::ActiveStorage,
+    filename: Field::String,
     occupation_standard: Field::BelongsTo,
+    occupation_standard_title: Field::String,
     source_file: Field::BelongsTo,
     user: Field::BelongsTo,
     created_at: Field::DateTime,
@@ -24,7 +26,8 @@ class DataImportDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
-    description
+    filename
+    occupation_standard
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -32,6 +35,7 @@ class DataImportDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = %i[
     description
     file
+    occupation_standard
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -58,7 +62,6 @@ class DataImportDashboard < Administrate::BaseDashboard
   # across all pages of the admin dashboard.
   #
   def display_resource(data_import)
-    "Data Import"
-    # data_import.filename
+    "Data Import for #{data_import.file.filename}"
   end
 end

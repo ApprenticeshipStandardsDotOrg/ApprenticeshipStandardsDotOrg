@@ -10,7 +10,7 @@ class SourceFileDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     id: Field::String,
     active_storage_attachment: Field::BelongsTo,
-    data_imports: Field::HasMany,
+    data_imports: HasManyDataImportsField,
     url: Field::Url,
     metadata: Field::JSONB,
     status: EnumField,
@@ -32,10 +32,6 @@ class SourceFileDashboard < Administrate::BaseDashboard
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
-    metadata
-    status
-    url
-
     data_imports
   ].freeze
 

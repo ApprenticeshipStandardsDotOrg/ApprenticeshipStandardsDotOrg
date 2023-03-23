@@ -19,7 +19,7 @@ RSpec.describe "admin/source_files/show" do
     expect(page).to have_link "occupation-standards-template.xlsx", href: admin_source_file_data_import_path(source_file, data_import1)
     expect(page).to have_link "Mechanic", href: admin_occupation_standard_path(occupation_standard1)
 
-    expect(page).to have_link "Edit #{source_file.filename}", href: edit_admin_source_file_data_import_path(source_file, data_import2)
+    expect(page).to have_link "Edit", href: edit_admin_source_file_data_import_path(source_file, data_import2)
 
     expect(page).to have_link "New data import", href: new_admin_source_file_data_import_path(source_file)
   end

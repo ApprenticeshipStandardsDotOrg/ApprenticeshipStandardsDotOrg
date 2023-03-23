@@ -2,6 +2,15 @@ module Admin
   class DataImportsController < Admin::ApplicationController
     before_action :set_source_file
 
+    def new
+      resource = new_resource
+      resource.source_file = @source_file
+      authorize_resource(resource)
+      render locals: {
+        page: Administrate::Page::Form.new(dashboard, resource)
+      }
+    end
+
     def create
       data_import = @source_file.data_imports.build(resource_params)
       data_import.user = current_user

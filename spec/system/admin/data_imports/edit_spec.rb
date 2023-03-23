@@ -10,7 +10,7 @@ RSpec.describe "admin/data_imports/edit" do
     login_as admin
     visit edit_admin_source_file_data_import_path(source_file, data_import)
 
-    expect(page).to have_content("Edit #{data_import.file.filename}")
+    expect(page).to have_content("Edit Data Import for #{data_import.file.filename}")
     fill_in "Description", with: "New desc"
     attach_file "File", "spec/fixtures/files/pixel1x1.pdf"
     check "This is the last import for pixel1x1.pdf. Change its status to Completed"
@@ -20,7 +20,7 @@ RSpec.describe "admin/data_imports/edit" do
     click_on "Submit"
 
     within("h1") do
-      expect(page).to have_content("Data Import")
+      expect(page).to have_content("Show Data Import")
     end
     expect(page).to have_content("Description")
     expect(page).to have_content("New desc")
