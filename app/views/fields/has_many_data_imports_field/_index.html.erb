@@ -17,4 +17,3 @@ as a count of how many objects are associated through the relationship.
 %>
 
 <%= pluralize(field.data.size, t("activerecord.models.#{field.attribute.to_s.singularize}", default: field.attribute.to_s.humanize.downcase.singularize, count: field.data.size)) %>
-

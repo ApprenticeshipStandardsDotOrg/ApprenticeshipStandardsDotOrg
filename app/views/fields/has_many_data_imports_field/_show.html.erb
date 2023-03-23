@@ -22,13 +22,13 @@ from the associated resource class's dashboard.
   <% order = field.order_from_params(params.fetch(field.name, {})) %>
   <% page_number = params.fetch(field.name, {}).fetch(:page, nil) %>
   <%= render(
-    "admin/data_imports/collection",
-    collection_presenter: field.associated_collection(order),
-    collection_field_name: field.name,
-    page: page,
-    resources: field.resources(page_number, order),
-    table_title: field.name,
-  ) %>
+        "admin/data_imports/collection",
+        collection_presenter: field.associated_collection(order),
+        collection_field_name: field.name,
+        page: page,
+        resources: field.resources(page_number, order),
+        table_title: field.name
+      ) %>
   <% if field.more_than_limit? %>
     <%= paginate field.resources(page_number), param_name: "#{field.name}[page]" %>
   <% end %>
@@ -36,4 +36,3 @@ from the associated resource class's dashboard.
 <% else %>
   <%= t("administrate.fields.has_many.none", default: "–") %>
 <% end %>
-

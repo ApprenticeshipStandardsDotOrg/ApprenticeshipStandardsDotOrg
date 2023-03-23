@@ -1,7 +1,9 @@
 <% if existing_action?(collection_presenter.resource_name, :edit) %>
-  <td><%= link_to(
-    t("administrate.actions.edit"),
-    [:edit, namespace, resource.source_file, resource],
-    class: "action-edit",
-  ) if accessible_action?(resource, :edit) %></td>
+  <td><%= if accessible_action?(resource, :edit)
+            link_to(
+              t("administrate.actions.edit"),
+              [:edit, namespace, resource.source_file, resource],
+              class: "action-edit"
+            )
+          end %></td>
 <% end %>
