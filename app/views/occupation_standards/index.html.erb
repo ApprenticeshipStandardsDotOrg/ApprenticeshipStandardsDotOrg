@@ -1,21 +1,4 @@
-<section class="bg-[url('https://flowbite.s3.amazonaws.com/blocks/marketing-ui/hero/coast-house-view.jpg')] bg-no-repeat bg-cover bg-center bg-gray-700 bg-blend-multiply">
-  <%= render partial: "layouts/nav" %>
-  <div class="max-w-screen-xl px-4 py-8 mx-auto lg:py-16">
-    <div class="items-center mb-8 lg:mb-16">
-        <div class="items-center text-center sm:mb-6 lg:text-left lg:mb-0">
-            <form class="max-w-lg mx-auto" action="#">
-                <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300">Search</label>
-                <div class="relative">
-                    <input type="search" id="default-search" class="block w-full p-2 text-sm text-gray-900 border border-gray-300  bg-gray-50 focus:ring-primary-500 focus:border-primary-500" value="Mechatronics Technician" placeholder="Search by occupation name, O*NET, or industry" required="">
-                    <button type="submit" class="text-white inline-flex items-center absolute right-0 bottom-0 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
-                    </button>
-                </div>
-            </form>                        
-        </div>
-    </div>
-  </div>
-</section>
+<%= render partial: "occupation_standards/header" %>
 
 <nav class="flex px-5 py-3 text-gray-700 border bg-gray-800 border-gray-700" aria-label="Breadcrumb">
   <ol class="inline-flex items-center space-x-1 md:space-x-3">
@@ -40,76 +23,75 @@
   </ol>
 </nav>
 
-
 <section class="bg-gray-50 dark:bg-gray-900">
-  <div class="mx-auto max-w-screen-xl py-8 px-4 sm:py-16 lg:px-6">
-    <div class="mb-8 flex lg:mb-16">
-      <h2 class="mb-4 text-4xl font-bold tracking-tight text-gray-900 dark:text-white">Listing occupation standards</h2>
+  <div class="mx-auto max-w-screen-xl border border-dotted border-yellow-300 py-8 px-4 sm:py-16 lg:px-6">
+    <div class="mb-8 flex lg:mb-8">
+      <h2 class="mb-4 text-2xl tracking-tight text-gray-900 dark:text-white">
+        Showing Results for
+        <span class="font-bold">"Mechatronics Techinician"</span>
+      </h2>
     </div>
-    <div class="p-1">
-      <div class="rounded-lg bg-white p-6 dark:bg-gray-800">
-        <div class="flex justify-between">
-          <div>
-            <div class="inline">
-              <button type="button" class="mr-2 mb-2 rounded-lg border-2 border-blue-700 px-2 py-1 text-center text-sm font-bold text-blue-700 hover:bg-blue-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300 dark:border-blue-500 dark:text-blue-500 dark:hover:bg-blue-500 dark:hover:text-white dark:focus:ring-blue-800">Hybrid</button>
-              <button type="button" class="mr-2 mb-2 rounded-lg border-2 border-blue-700 px-2 py-1 text-center text-sm font-bold text-blue-700 hover:bg-blue-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300 dark:border-blue-500 dark:text-blue-500 dark:hover:bg-blue-500 dark:hover:text-white dark:focus:ring-blue-800">Hybrid</button>
-            </div>
-            <h3 class="text-2xl font-bold dark:text-white">Mechatronics Technician</h3>
-            <p class="mb-4 font-bold text-gray-500 dark:text-gray-400">Anonymous</p>
-            <div class="inline">
-              <button type="button" class="mr-2 mb-2 rounded-lg bg-yellow-200 px-2 py-1 text-sm font-medium text-orange-800 hover:bg-yellow-100 focus:outline-none focus:ring-4 focus:ring-yellow-300 dark:focus:ring-yellow-900">17-3024.00</button>
-              <button type="button" class="mr-2 mb-2 rounded-lg bg-yellow-200 px-2 py-1 text-sm font-medium text-orange-800 hover:bg-yellow-100 focus:outline-none focus:ring-4 focus:ring-yellow-300 dark:focus:ring-yellow-900">17-3024.00</button>
-            </div>
-            <div class="flex my-3">
-              <div class="flex mr-6 items-center">
-                <div>
-                  <img class="h-7 w-auto rounded mr-2" src="https://flowbite.com/docs/images/examples/image-1@2x.jpg" alt="image description">
-                </div>
-                <div class="font-bold">California DAS</div>
+    <div class="my-6 mb-8 rounded-lg border-2 border-dotted border-green-500 bg-white p-6 dark:bg-gray-800 lg:mb-16">
+      <div class="flex justify-between">
+        <div class="border-2 border-dotted border-pink-500">
+          <div class="inline">
+            <button type="button" class="mr-2 mb-2 rounded-lg border-2 border-blue-700 px-2 py-1 text-center text-sm font-bold text-blue-700 hover:bg-blue-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300 dark:border-blue-500 dark:text-blue-500 dark:hover:bg-blue-500 dark:hover:text-white dark:focus:ring-blue-800">Hybrid</button>
+            <button type="button" class="mr-2 mb-2 rounded-lg border-2 border-blue-700 px-2 py-1 text-center text-sm font-bold text-blue-700 hover:bg-blue-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300 dark:border-blue-500 dark:text-blue-500 dark:hover:bg-blue-500 dark:hover:text-white dark:focus:ring-blue-800">Hybrid</button>
+          </div>
+          <h3 class="text-2xl font-bold dark:text-white">Mechatronics Technician with an incredibly long name</h3>
+          <p class="mb-4 font-bold text-gray-500 dark:text-gray-400">Anonymous</p>
+          <div class="inline">
+            <button type="button" class="mr-2 mb-2 rounded-lg bg-yellow-200 px-2 py-1 text-sm font-medium text-orange-800 hover:bg-yellow-100 focus:outline-none focus:ring-4 focus:ring-yellow-300 dark:focus:ring-yellow-900">17-3024.00</button>
+            <button type="button" class="mr-2 mb-2 rounded-lg bg-yellow-200 px-2 py-1 text-sm font-medium text-orange-800 hover:bg-yellow-100 focus:outline-none focus:ring-4 focus:ring-yellow-300 dark:focus:ring-yellow-900">17-3024.00</button>
+          </div>
+          <div class="my-3 flex">
+            <div class="mr-6 flex items-center">
+              <div>
+                <img class="mr-2 h-7 w-auto rounded" src="https://flowbite.com/docs/images/examples/image-1@2x.jpg" alt="image description" />
               </div>
-              <div class="flex mr-6 items-center">
-                <div>
-                  <img class="h-7 w-auto rounded mr-2" src="https://flowbite.com/docs/images/examples/image-1@2x.jpg" alt="image description">
-                </div>
-                <div class="font-bold">DOL</div>
-              </div>
+              <div class="font-bold">California DAS</div>
             </div>
-            <div class="flex">
-              <div class="mr-2">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 15C15.866 15 19 11.866 19 8C19 4.13401 15.866 1 12 1C8.13401 1 5 4.13401 5 8C5 11.866 8.13401 15 12 15Z" stroke="#BA8718" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                  <path d="M8.21 13.8899L7 22.9999L12 19.9999L17 22.9999L15.79 13.8799" stroke="#BA8718" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
+            <div class="mr-6 flex items-center">
+              <div>
+                <img class="mr-2 h-7 w-auto rounded" src="https://flowbite.com/docs/images/examples/image-1@2x.jpg" alt="image description" />
               </div>
-              <div class="font-bold text-sm">National Occupational Frameworks</div>
+              <div class="font-bold">DOL</div>
             </div>
           </div>
-
-          <div class="flex items-center">
-            <div class="flex lg:flex-row flex-col">
-              <div class="rounded bg-gray-100 px-1 py-3 w-28 text-center m-1.5">
-                <div class="font-bold text-3xl">68</div>
-                <div class="text-sm">Skills</div>
-              </div>
-              <div class="rounded bg-gray-100 px-1 py-3 w-28 text-center m-1.5">
-                <div class="font-bold text-3xl">8K</div>
-                <div class="text-sm">OJT hours</div>
-              </div>
-              <div class="rounded bg-gray-100 px-1 py-3 w-28 text-center m-1.5">
-                <div class="font-bold text-3xl">600</div>
-                <div class="text-sm">RSI hours</div>
-              </div>
+          <div class="flex">
+            <div class="mr-2">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 15C15.866 15 19 11.866 19 8C19 4.13401 15.866 1 12 1C8.13401 1 5 4.13401 5 8C5 11.866 8.13401 15 12 15Z" stroke="#BA8718" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M8.21 13.8899L7 22.9999L12 19.9999L17 22.9999L15.79 13.8799" stroke="#BA8718" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
             </div>
+            <div class="text-sm font-bold">National Occupational Frameworks</div>
           </div>
         </div>
 
-        <div class="flex lg:flex-row flex-col rounded bg-gray-100 py-3 px-2 text-sm mt-4">
-          There are 8 programs with similar or identical criteria.
-          <a class="font-bold underline lg:mx-1" href="#">Expand duplicates</a>
+        <div class="flex items-center">
+          <div class="flex flex-col lg:flex-row">
+            <div class="m-1.5 w-28 rounded bg-gray-100 px-1 py-3 text-center">
+              <div class="text-3xl font-bold">68</div>
+              <div class="text-sm">Skills</div>
+            </div>
+            <div class="m-1.5 w-28 rounded bg-gray-100 px-1 py-3 text-center">
+              <div class="text-3xl font-bold">8K</div>
+              <div class="text-sm">OJT hours</div>
+            </div>
+            <div class="m-1.5 w-28 rounded bg-gray-100 px-1 py-3 text-center">
+              <div class="text-3xl font-bold">600</div>
+              <div class="text-sm">RSI hours</div>
+            </div>
+          </div>
         </div>
       </div>
+
+      <div class="mt-4 flex flex-col rounded bg-gray-100 py-3 px-2 text-sm lg:flex-row">
+        There are 8 programs with similar or identical criteria.
+        <a class="font-bold underline lg:mx-1" href="#">Expand duplicates</a>
+      </div>
     </div>
-  </div>
 </section>
 
 
