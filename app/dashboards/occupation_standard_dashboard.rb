@@ -46,9 +46,7 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
     onet_code
     created_at
     updated_at
-
     data_imports
-
     work_processes
     related_instructions
     wage_steps

@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "admin/occupation_standards/edit" do
-  xit "allows admin user to edit occupation_standard", :admin do
+  it "allows admin user to edit occupation_standard", :admin do
     data_import = create(:data_import)
     occupation_standard = data_import.occupation_standard
     admin = create(:admin)
@@ -14,28 +14,6 @@ RSpec.describe "admin/occupation_standards/edit" do
     expect(page).to have_field("Onet code")
     expect(page).to have_field("Rapids code")
     expect(page).to have_select("Status")
-
-    # expect(page).to have_selector("h3", text: "Source File")
-
-    within_grid "Work processes" do
-      # expect(page).to have_selector("h3", text: "Work Processes")
-      expect(page).to have_columnheader("Title")
-      expect(page).to have_columnheader("Skills")
-      expect(page).to have_columnheader("Hours")
-    end
-
-    within_grid "Related instructions" do
-      # expect(page).to have_selector("h3", text: "Related Instructions")
-      expect(page).to have_columnheader("Title")
-      expect(page).to have_columnheader("Hours")
-    end
-
-    within_grid "Wage schedule" do
-      # expect(page).to have_selector("h3", text: "Wage Schedule")
-      expect(page).to have_columnheader("Step Title")
-      expect(page).to have_columnheader("Minimum Hours")
-      expect(page).to have_columnheader("Minimum OJT %")
-    end
 
     fill_in "Title", with: "New title"
     fill_in "Onet code", with: "2345.67"

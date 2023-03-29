@@ -39,19 +39,19 @@ RSpec.describe "admin/occupation_standards/show" do
     expect(page).to have_selector("dd", text: occupation_standard.updated_at.to_s(:short))
 
     within_grid "Work processes" do
-      # expect(page).to have_selector("h3", text: "Work Processes")
       expect(page).to have_columnheader("Title")
-      # expect(page).to have_columnheader("Skills")
-      expect(page).to have_columnheader("Hours")
+      expect(page).to have_columnheader("Competencies")
+      expect(page).to have_columnheader("Minimum Hours")
+      expect(page).to have_columnheader("Maximum Hours")
 
       expect(page).to have_gridcell("WP1")
-      # expect(page).to have_link("2", href: "#")
-      # expect(page).to have_text "10-20"
+      expect(page).to have_text("2 competencies")
+      expect(page).to have_gridcell "10"
+      expect(page).to have_gridcell "20"
 
       expect(page).to have_gridcell("WP2")
-      # expect(page).to have_text("0")
-      expect(page).to_not have_link("0")
-      # expect(page).to have_text "4567"
+      expect(page).to have_text("0 competencies")
+      expect(page).to have_gridcell "4567"
     end
 
     within_grid "Related instructions" do
@@ -59,10 +59,10 @@ RSpec.describe "admin/occupation_standards/show" do
       expect(page).to have_columnheader("Hours")
 
       expect(page).to have_gridcell("RS1")
-      expect(page).to have_text "1234"
+      expect(page).to have_gridcell "1234"
 
       expect(page).to have_gridcell("RS2")
-      expect(page).to have_text "5678"
+      expect(page).to have_gridcell "5678"
     end
 
     within_grid "Wage steps" do
