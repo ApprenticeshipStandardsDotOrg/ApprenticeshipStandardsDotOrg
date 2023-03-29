@@ -75,10 +75,6 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
     onet_code
     rapids_code
     status
-
-    work_processes
-    related_instructions
-    wage_steps
   ].freeze
 
   # COLLECTION_FILTERS
