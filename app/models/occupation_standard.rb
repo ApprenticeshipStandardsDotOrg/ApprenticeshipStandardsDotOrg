@@ -34,6 +34,6 @@ class OccupationStandard < ApplicationRecord
   end
 
   def source_file
-    data_import&.source_file
+    data_import.source_file
   end
 end

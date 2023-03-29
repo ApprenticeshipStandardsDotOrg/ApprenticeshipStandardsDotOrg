@@ -59,8 +59,8 @@ jobs:
           POSTGRES_DB_TEST: app_test
           CI: true
         run: |
-          bundle exec rake assets:precompile
           bundle exec rails db:schema:load
+          bundle exec rake assets:precompile
           bundle exec rspec spec
 
       - name: Archive selenium screenshots
