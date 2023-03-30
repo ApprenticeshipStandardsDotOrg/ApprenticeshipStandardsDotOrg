@@ -45,7 +45,6 @@ gem "roo", "~> 2.9.0"
 gem "aws-sdk-s3", require: false
 gem "after_party"
 gem "sidekiq", "~> 7"
-gem "jsonapi-resources"
 gem "watir", "~> 7.2"
 gem "docx"
 gem "administrate"
@@ -53,7 +52,11 @@ gem "administrate-field-active_storage"
 gem "administrate-field-jsonb"
 gem "image_processing"
 
-# For API documentation
+# For API
+gem "jsonapi-resources"
+gem "jwt"
+
+# For Swagger API documentation (non-public)
 gem "rswag-api"
 gem "rswag-ui"
 gem "rack-cors"
