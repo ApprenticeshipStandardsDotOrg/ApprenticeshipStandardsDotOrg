@@ -23,10 +23,10 @@ RSpec.describe "admin/occupation_standards/show" do
     expect(page).to have_selector("h1", text: "Occupation Standard for Mechanic")
 
     expect(page).to have_selector("dt", text: "Occupation")
-    expect(page).to have_selector("dt", text: "Url")
-    expect(page).to have_selector("dt", text: "Registration agency")
-    expect(page).to have_selector("dt", text: "Rapids code")
-    expect(page).to have_selector("dt", text: "Onet code")
+    expect(page).to have_selector("dt", text: "URL")
+    expect(page).to have_selector("dt", text: "Registration Agency")
+    expect(page).to have_selector("dt", text: "RAPIDS Code")
+    expect(page).to have_selector("dt", text: "ONET Code")
     expect(page).to have_selector("dt", text: "Created at")
     expect(page).to have_selector("dt", text: "Updated at")
 
