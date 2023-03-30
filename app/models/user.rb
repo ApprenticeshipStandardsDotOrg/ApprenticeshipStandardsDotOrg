@@ -13,4 +13,8 @@ class User < ApplicationRecord
     api_key = api_keys.create
     APIBearerToken.create(user: self, key_identifier: api_key.id)
   end
+
+  def destroy_api_key!(key_identifier)
+    api_keys.where(id: key_identifier).destroy_all
+  end
 end
