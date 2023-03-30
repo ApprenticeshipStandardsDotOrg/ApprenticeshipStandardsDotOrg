@@ -6,8 +6,19 @@ RSpec.describe "api/v1/standards", type: :request do
       parameter name: :"filter[title]", in: :query, type: :string, required: false, description: "Filter by title"
       parameter name: :"filter[onet_code]", in: :query, type: :string, required: false, description: "Filter by ONET code"
       parameter name: :"filter[rapids_code]", in: :query, type: :string, required: false, description: "Filter by RAPIDS code"
+      parameter(
+        name: :Authorization,
+        in: :header,
+        type: :string,
+        required: true,
+        description: "Bearer token"
+      )
+      security [bearer: []]
       produces "application/vnd.api+json"
 
+      let(:user) { create(:user) }
+      let(:token) { user.create_api_access_token!.jwt_token }
+      let(:Authorization) { "Bearer #{token}"}
       let(:ca_state) { create(:state, name: "California") }
       let(:registration_agency) { create(:registration_agency, agency_type: :saa, state: ca_state) }
       let!(:standard1) {
@@ -423,9 +434,20 @@ RSpec.describe "api/v1/standards", type: :request do
   path "/api/v1/standards/{id}" do
     get "Retrieve standard" do
       parameter name: :id, in: :path, type: :string
+      parameter(
+        name: :Authorization,
+        in: :header,
+        type: :string,
+        required: true,
+        description: "Bearer token"
+      )
+      security [bearer: []]
       produces "application/vnd.api+json"
 
       response(200, "successful") do
+        let(:user) { create(:user) }
+        let(:token) { user.create_api_access_token!.jwt_token }
+        let(:Authorization) { "Bearer #{token}"}
         let(:ca_state) { create(:state, name: "California") }
         let(:registration_agency) { create(:registration_agency, agency_type: :saa, state: ca_state) }
         let!(:standard) {
