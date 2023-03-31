@@ -1,27 +1,41 @@
-<div class="flex flex-col w-full mx-auto">
-  <h1 class="w-full max-w-prose mx-auto text-center mb-3">Data Import</h1>
-  <div class="w-full max-w-prose mx-auto mb-4">
-    <div class="mb-4">
-      <div class="show-label">Description</div>
-      <div class="show-field"><%= @data_import.description %></div>
-    </div>
-    <div class="mb-4">
-      <div class="show-label">File</div>
-      <div class="w-full mb-1">
-        <%= link_to @data_import.file.filename.to_s, url_for(@data_import.file), class: "text-blue-600 hover:text-blue-800 visited:text-purple-600" %>
-      </div>
-    </div>
-    <% if @data_import.occupation_standard %>
-      <div class="mb-4">
-        <div class="show-label">Occupation standard</div>
-        <div class="w-full mb-1">
-          <%= link_to @data_import.occupation_standard_title, admin_occupation_standard_path(@data_import.occupation_standard), class: "text-blue-600 hover:text-blue-800 visited:text-purple-600" %>
-        </div>
-      </div>
+<% content_for(:title) { t("administrate.actions.show_resource", name: page.page_title) } %>
+<header class="main-content__header" role="banner">
+  <h1 id="title_id" class="main-content__page-title">
+    <%= content_for(:title) %>
+  </h1>
+
+  <div>
+    <%= if accessible_action?(page.resource, :edit)
+          link_to(
+            t("administrate.actions.edit_resource", name: page.page_title),
+            [:edit, namespace, page.resource.source_file, page.resource],
+            class: "button"
+          )
+        end %>
+
+    <%= if accessible_action?(page.resource, :destroy)
+          link_to(
+            t("administrate.actions.destroy"),
+            [namespace, page.resource.source_file, page.resource],
+            class: "button button--danger",
+            method: :delete,
+            data: {confirm: t("administrate.actions.confirm")}
+          )
+        end %>
+  </div>
+</header>
+
+<section aria-labelledby="title_id" class="main-content__body">
+  <dl>
+    <% page.attributes.each do |attribute| %>
+      <dt class="attribute-label" id="<%= attribute.name %>">
+      <%= t(
+            "helpers.label.#{resource_name}.#{attribute.name}",
+            default: page.resource.class.human_attribute_name(attribute.name)
+          ) %>
+      </dt>
+
+      <dd class="attribute-data attribute-data--<%= attribute.html_class %>"><%= render_field attribute, page: page %></dd>
     <% end %>
-  </div>
-  <div class=" max-w-prose mx-auto flex text-center space-x-2">
-    <%= link_to "Edit data import", edit_admin_source_file_data_import_path(@source_file, @data_import), class: "btn-primary" %>
-    <%= button_to "Delete data import", admin_source_file_data_import_path(@source_file, @data_import), method: :delete, data: {turbo_method: :delete}, class: "btn-primary" %>
-  </div>
-</div>
+  </dl>
+</section>

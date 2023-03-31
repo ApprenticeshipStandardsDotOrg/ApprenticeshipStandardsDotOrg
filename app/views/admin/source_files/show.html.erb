@@ -1,17 +1,48 @@
-<h1 class="w-full max-w-prose mx-auto text-center">Source file: <%= @source_file.filename %></h1>
+<% content_for(:title) { t("administrate.actions.show_resource", name: page.page_title) } %>
 
-<div class="mt-5">
-  <% @source_file.data_imports.each do |data_import| %>
-    <div class="flex justify-between items-center bg-white shadow-md rounded mb-4 py-3 px-3">
-      <p class="font-medium"><%= link_to data_import.file.filename, admin_source_file_data_import_path(@source_file, data_import) %></p>
-      <% if data_import.occupation_standard.present? %>
-        <p class="font-medium"><%= link_to data_import.occupation_standard_title, admin_occupation_standard_path(data_import.occupation_standard) %></p>
-      <% end %>
-      <%= link_to "Edit", edit_admin_source_file_data_import_path(@source_file, data_import) %>
-    </div>
-  <% end %>
-</div>
+<header class="main-content__header" role="banner">
+  <h1 id="title_id" class="main-content__page-title">
+    <%= content_for(:title) %>
+  </h1>
 
-<div class="mt-5">
-  <%= link_to "New data import", new_admin_source_file_data_import_path(@source_file), class: "btn-primary" %>
-</div>
+  <div>
+    <%= link_to(
+          "New data import",
+          new_admin_source_file_data_import_path(page.resource),
+          class: "button"
+        ) %>
+
+    <%= if accessible_action?(page.resource, :edit)
+          link_to(
+            t("administrate.actions.edit_resource", name: page.page_title),
+            [:edit, namespace, page.resource],
+            class: "button"
+          )
+        end %>
+
+    <%= if accessible_action?(page.resource, :destroy)
+          link_to(
+            t("administrate.actions.destroy"),
+            [namespace, page.resource],
+            class: "button button--danger",
+            method: :delete,
+            data: {confirm: t("administrate.actions.confirm")}
+          )
+        end %>
+  </div>
+</header>
+
+<section aria-labelledby="title_id" class="main-content__body">
+  <dl>
+    <% page.attributes.each do |attribute| %>
+      <dt class="attribute-label" id="<%= attribute.name %>">
+      <%= t(
+            "helpers.label.#{resource_name}.#{attribute.name}",
+            default: page.resource.class.human_attribute_name(attribute.name)
+          ) %>
+      </dt>
+
+      <dd class="attribute-data attribute-data--<%= attribute.html_class %>"><%= render_field attribute, page: page %></dd>
+    <% end %>
+  </dl>
+</section>

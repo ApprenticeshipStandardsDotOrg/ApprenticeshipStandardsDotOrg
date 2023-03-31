@@ -1,3 +1,17 @@
-<h1 class="w-full max-w-prose mx-auto text-center">Import data for source file: <%= @source_file.filename %></h1>
+<% content_for(:title) do %>
+  <%= "Import data for source file: #{@source_file.filename}" %>
+<% end %>
 
-<%= render "form" %>
+<header class="main-content__header" role="banner">
+  <h1 id="title_id" class="main-content__page-title">
+    <%= content_for(:title) %>
+  </h1>
+
+  <div>
+    <%= link_to t("administrate.actions.back"), :back, class: "button" %>
+  </div>
+</header>
+
+<section aria-labelledby="title_id" class="main-content__body">
+  <%= render "form", page: page %>
+</section>

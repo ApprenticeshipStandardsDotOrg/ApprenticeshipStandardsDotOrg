@@ -64,4 +64,6 @@ Rails.application.configure do
     Bullet.unused_eager_loading_enable = false
     Bullet.raise = true # raise an error if n+1 query occurs
   end
+
+  config.assets.css_compressor = nil
 end
