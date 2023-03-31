@@ -1,8 +1,7 @@
-<%# erblint:counter GitHub::Accessibility::LandmarkHasLabelCounter 1 %>
 <% content_for(:title) { t("administrate.actions.edit_resource", name: page.page_title) } %>
 
 <header class="main-content__header" role="banner">
-  <h1 class="main-content__page-title">
+  <h1 id="title_id" class="main-content__page-title">
     <%= content_for(:title) %>
   </h1>
 
@@ -10,13 +9,13 @@
     <%= if accessible_action?(page.resource, :show)
           link_to(
             t("administrate.actions.show_resource", name: page.page_title),
-            [namespace, page.resource.source_file, page.resource],
+            [namespace, page.reource.source_file, page.resource],
             class: "button"
           )
         end %>
   </div>
 </header>
 
-<section class="main-content__body">
+<section aria-labelledby="title_id" class="main-content__body">
   <%= render "form", page: page %>
 </section>
