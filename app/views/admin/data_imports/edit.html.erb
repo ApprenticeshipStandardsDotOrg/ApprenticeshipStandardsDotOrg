@@ -9,7 +9,7 @@
     <%= if accessible_action?(page.resource, :show)
           link_to(
             t("administrate.actions.show_resource", name: page.page_title),
-            [namespace, page.reource.source_file, page.resource],
+            [namespace, page.resource.source_file, page.resource],
             class: "button"
           )
         end %>
