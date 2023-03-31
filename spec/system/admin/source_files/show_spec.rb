@@ -13,7 +13,7 @@ RSpec.describe "admin/source_files/show" do
     login_as admin
     visit admin_source_file_path(source_file)
 
-    expect(page).to have_content "Source file: #{source_file.filename}"
+    expect(page).to have_content "Show #{source_file.filename}"
 
     expect(page).to have_link "Edit", href: edit_admin_source_file_data_import_path(source_file, data_import1)
     expect(page).to have_link "occupation-standards-template.xlsx", href: admin_source_file_data_import_path(source_file, data_import1)

@@ -48,6 +48,10 @@ gem "sidekiq", "~> 7"
 gem "jsonapi-resources"
 gem "watir", "~> 7.2"
 gem "docx"
+gem "administrate"
+gem "administrate-field-active_storage"
+gem "administrate-field-jsonb"
+gem "image_processing"
 
 # For API documentation
 gem "rswag-api"

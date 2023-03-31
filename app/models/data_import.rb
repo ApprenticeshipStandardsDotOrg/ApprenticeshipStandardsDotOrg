@@ -9,6 +9,7 @@ class DataImport < ApplicationRecord
   validate :file_presence
 
   delegate :title, to: :occupation_standard, prefix: true, allow_nil: true
+  delegate :filename, to: :file, allow_nil: true
 
   enum :status, [:pending, :importing, :completed]
 

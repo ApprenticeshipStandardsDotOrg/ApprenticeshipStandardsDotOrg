@@ -9,33 +9,11 @@ RSpec.describe "admin/occupation_standards/edit" do
     login_as admin
     visit edit_admin_occupation_standard_path(occupation_standard)
 
-    expect(page).to have_selector("h1", text: "Edit Mechanic")
+    expect(page).to have_selector("h1", text: "Edit Occupation Standard for Mechanic")
     expect(page).to have_field("Title")
     expect(page).to have_field("ONET Code")
     expect(page).to have_field("RAPIDS Code")
     expect(page).to have_select("Status")
-
-    expect(page).to have_selector("h3", text: "Source File")
-
-    within "#work-processes" do
-      expect(page).to have_selector("h3", text: "Work Processes")
-      expect(page).to have_columnheader("Title")
-      expect(page).to have_columnheader("Skills")
-      expect(page).to have_columnheader("Hours")
-    end
-
-    within "#related-instruction" do
-      expect(page).to have_selector("h3", text: "Related Instructions")
-      expect(page).to have_columnheader("Title")
-      expect(page).to have_columnheader("Hours")
-    end
-
-    within "#wage-schedule" do
-      expect(page).to have_selector("h3", text: "Wage Schedule")
-      expect(page).to have_columnheader("Step Title")
-      expect(page).to have_columnheader("Minimum Hours")
-      expect(page).to have_columnheader("Minimum OJT %")
-    end
 
     fill_in "Title", with: "New title"
     fill_in "ONET Code", with: "2345.67"
@@ -59,6 +37,6 @@ RSpec.describe "admin/occupation_standards/edit" do
     login_as admin
     visit edit_admin_occupation_standard_path(occupation_standard)
 
-    expect(page).to have_selector("h1", text: "Edit Mechanic")
+    expect(page).to have_selector("h1", text: "Edit Occupation Standard for Mechanic")
   end
 end

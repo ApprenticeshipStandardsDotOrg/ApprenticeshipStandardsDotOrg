@@ -22,62 +22,60 @@ RSpec.describe "admin/occupation_standards/show" do
 
     expect(page).to have_selector("h1", text: "Occupation Standard for Mechanic")
 
-    expect(page).to have_selector("dt", text: "Occupation:")
-    expect(page).to have_selector("dt", text: "URL:")
-    expect(page).to have_selector("dt", text: "Registration Agency:")
-    expect(page).to have_selector("dt", text: "RAPIDS code:")
-    expect(page).to have_selector("dt", text: "ONET code:")
-    expect(page).to have_selector("dt", text: "Created at:")
-    expect(page).to have_selector("dt", text: "Updated at:")
+    expect(page).to have_selector("dt", text: "Occupation")
+    expect(page).to have_selector("dt", text: "URL")
+    expect(page).to have_selector("dt", text: "Registration Agency")
+    expect(page).to have_selector("dt", text: "RAPIDS Code")
+    expect(page).to have_selector("dt", text: "ONET Code")
+    expect(page).to have_selector("dt", text: "Created at")
+    expect(page).to have_selector("dt", text: "Updated at")
 
     expect(page).to have_selector("dd", text: occupation_standard.occupation.title)
     expect(page).to have_selector("dd", text: occupation_standard.url)
     expect(page).to have_selector("dd", text: occupation_standard.registration_agency)
     expect(page).to have_selector("dd", text: occupation_standard.rapids_code)
     expect(page).to have_selector("dd", text: occupation_standard.onet_code)
-    expect(page).to have_selector("dd", text: occupation_standard.created_at)
-    expect(page).to have_selector("dd", text: occupation_standard.updated_at)
+    expect(page).to have_selector("dd", text: occupation_standard.created_at.to_s(:short))
+    expect(page).to have_selector("dd", text: occupation_standard.updated_at.to_s(:short))
 
-    within "#work-processes" do
-      expect(page).to have_selector("h3", text: "Work Processes")
+    within_grid "Work processes" do
       expect(page).to have_columnheader("Title")
-      expect(page).to have_columnheader("Skills")
-      expect(page).to have_columnheader("Hours")
-
-      expect(page).to have_link("WP1", href: "#")
-      expect(page).to have_link("2", href: "#")
-      expect(page).to have_text "10-20"
-
-      expect(page).to have_link("WP2", href: "#")
-      expect(page).to have_text("0")
-      expect(page).to_not have_link("0")
-      expect(page).to have_text "4567"
-    end
-
-    within "#related-instruction" do
-      expect(page).to have_selector("h3", text: "Related Instructions")
-      expect(page).to have_columnheader("Title")
-      expect(page).to have_columnheader("Hours")
-
-      expect(page).to have_link("RS1", href: "#")
-      expect(page).to have_text "1234"
-
-      expect(page).to have_link("RS2", href: "#")
-      expect(page).to have_text "5678"
-    end
-
-    within "#wage-schedule" do
-      expect(page).to have_selector("h3", text: "Wage Schedule")
-      expect(page).to have_columnheader("Step Title")
+      expect(page).to have_columnheader("Competencies")
       expect(page).to have_columnheader("Minimum Hours")
-      expect(page).to have_columnheader("Minimum OJT %")
+      expect(page).to have_columnheader("Maximum Hours")
 
-      expect(page).to have_link("WS1", href: "#")
+      expect(page).to have_gridcell("WP1")
+      expect(page).to have_text("2 competencies")
+      expect(page).to have_gridcell "10"
+      expect(page).to have_gridcell "20"
+
+      expect(page).to have_gridcell("WP2")
+      expect(page).to have_text("0 competencies")
+      expect(page).to have_gridcell "4567"
+    end
+
+    within_grid "Related instructions" do
+      expect(page).to have_columnheader("Title")
+      expect(page).to have_columnheader("Hours")
+
+      expect(page).to have_gridcell("RS1")
+      expect(page).to have_gridcell "1234"
+
+      expect(page).to have_gridcell("RS2")
+      expect(page).to have_gridcell "5678"
+    end
+
+    within_grid "Wage steps" do
+      expect(page).to have_columnheader("Title")
+      expect(page).to have_columnheader("Minimum Hours")
+      expect(page).to have_columnheader("Ojt Percentage")
+
+      expect(page).to have_gridcell("WS1")
       expect(page).to have_text "3456"
-      expect(page).to have_text "50%"
+      expect(page).to have_text "50"
 
-      expect(page).to have_link("WS2", href: "#")
-      expect(page).to have_text "75%"
+      expect(page).to have_gridcell("WS2")
+      expect(page).to have_text "75"
     end
 
     expect(page).to have_link("Edit", href: edit_admin_occupation_standard_path(occupation_standard))
@@ -92,6 +90,6 @@ RSpec.describe "admin/occupation_standards/show" do
     visit admin_occupation_standard_path(occupation_standard)
 
     expect(page).to have_selector("h1", text: "Occupation Standard for #{occupation_standard.title}")
-    expect(page).to have_selector("dt", text: "Occupation:")
+    expect(page).to have_selector("dt", text: "Occupation")
   end
 end

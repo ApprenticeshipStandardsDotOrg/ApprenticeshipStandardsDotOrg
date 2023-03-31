@@ -8,15 +8,15 @@ RSpec.describe "admin/source_files/edit" do
     login_as admin
     visit admin_source_files_path
 
-    within("div#file-imports") do
+    within(:grid) do
       first("a", text: "Edit").click
     end
 
     expect(page).to have_content("Edit #{file.filename}")
     select("Completed", from: "source_file[status]").click
-    click_on "Update"
+    click_on "Update Source file"
     within("h1") do
-      expect(page).to have_content("Source files")
+      expect(page).to have_content("Source Files")
     end
     expect(page).to have_content("Completed")
     file.reload

@@ -1,52 +1,42 @@
-<div class="flex flex-col">
-  <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-    <h1 class="w-full max-w-prose mx-auto text-center font-semibold text-xl mb-4">Occupation Standard for <%= @occupation_standard.title %></h1>
-    <div class="btn-primary align-right w-fit mb-2 ml-auto">
-      <%= link_to "Edit", edit_admin_occupation_standard_path(@occupation_standard) %>
-    </div>
-    <div class="border-t border-gray-200">
-      <dl>
-        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-          <dt>Status:</dt>
-          <dd><%= @occupation_standard.status.titleize %></dd>
-        </div>
+<% content_for(:title) { t("administrate.actions.show_resource", name: page.page_title) } %>
 
-        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-          <dt "text-sm font-medium text-gray-500">Occupation:</dt>
-          <dd "mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0"><%= @occupation_standard.occupation_title %></dd>
-        </div>
+<header class="main-content__header" role="banner">
+  <h1 id="title_id" class="main-content__page-title">
+    <%= content_for(:title) %>
+  </h1>
 
-        <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-          <dt>URL:</dt>
-          <dd><%= @occupation_standard.url %></dd>
-        </div>
+  <div>
+    <%= if accessible_action?(page.resource, :edit)
+          link_to(
+            t("administrate.actions.edit_resource", name: page.page_title),
+            [:edit, namespace, page.resource],
+            class: "button"
+          )
+        end %>
 
-        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-          <dt>Registration Agency:</dt>
-          <dd><%= @occupation_standard.registration_agency %></dd>
-        </div>
-
-        <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-          <dt>RAPIDS code:</dt>
-          <dd><%= @occupation_standard.rapids_code %></dd>
-        </div>
-
-        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-          <dt>ONET code:</dt>
-          <dd><%= @occupation_standard.onet_code %></dd>
-        </div>
-
-        <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-          <dt>Created at:</dt>
-          <dd><%= @occupation_standard.created_at %></dd>
-        </div>
-
-        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-          <dt>Updated at:</dt>
-          <dd><%= @occupation_standard.updated_at %></dd>
-        </div>
-      </dl>
-    </div>
-    <%= render partial: "subsections" %>
+    <%= if accessible_action?(page.resource, :destroy)
+          link_to(
+            t("administrate.actions.destroy"),
+            [namespace, page.resource],
+            class: "button button--danger",
+            method: :delete,
+            data: {confirm: t("administrate.actions.confirm")}
+          )
+        end %>
   </div>
-</div>
+</header>
+
+<section aria-labelledby="title_id" class="main-content__body">
+  <dl>
+    <% page.attributes.each do |attribute| %>
+      <dt class="attribute-label" id="<%= attribute.name %>">
+      <%= t(
+            "helpers.label.#{resource_name}.#{attribute.name}",
+            default: page.resource.class.human_attribute_name(attribute.name)
+          ) %>
+      </dt>
+
+      <dd class="attribute-data attribute-data--<%= attribute.html_class %>"><%= render_field attribute, page: page %></dd>
+    <% end %>
+  </dl>
+</section>

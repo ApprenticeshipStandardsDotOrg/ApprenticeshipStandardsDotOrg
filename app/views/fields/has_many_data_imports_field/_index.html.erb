@@ -1,0 +1,1 @@
+<%= pluralize(field.data.size, t("activerecord.models.#{field.attribute.to_s.singularize}", default: field.attribute.to_s.humanize.downcase.singularize, count: field.data.size)) %>
