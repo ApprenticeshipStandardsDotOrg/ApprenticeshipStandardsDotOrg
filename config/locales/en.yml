@@ -3,6 +3,7 @@ en:
     attributes:
       occupation_standard:
         national_standard_type: National Standard Type
+        ojt_type: OJT type
         ojt_hours_max: Max OJT hours
         ojt_hours_min: Min OJT hours
         onet_code: ONET Code
