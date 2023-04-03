@@ -53,6 +53,8 @@ class Scraper::WashingtonJob < ApplicationJob
         standards_import.files.attach(io: URI.open("https://#{file_path}"), filename: File.basename(file))
       rescue OpenURI::HTTPError
         next
+      rescue Watir::Exception::UnknownObjectException => e
+        Rails.error.report(e, context: {program_id: id})
       end
     end
     browser.close
