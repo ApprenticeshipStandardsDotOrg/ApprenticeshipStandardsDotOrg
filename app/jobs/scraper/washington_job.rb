@@ -1,10 +1,10 @@
-class Scraper::WashingtonJob < ApplicationJob
+class Scraper::WashingtonJob < Scraper::WatirJob
   queue_as :default
 
   def perform
     url_base = "https://secure.lni.wa.gov/arts-public/"
-    browser = Watir::Browser.new :chrome,
-      options: {args: %w[--headless --no-sandbox --disable-dev-shm-usage --disable-gpu]}
+
+    browser = configure_watir_browser
     browser.goto(url_base + "#/program-search")
     js_doc = browser.element(css: "div.lni-u-flex.lni-u-flex-wrap.lni-u-items-end").wait_until(&:present?)
     js_doc.button(text: "Search").click
