@@ -15,7 +15,7 @@ RSpec.describe User, type: :model do
 
       expect(jwt.user_id).to eq user.id
       expect(jwt.encrypted_password).to eq user.encrypted_password
-      expect(jwt.key_identifier).to eq api_key.id
+      expect(jwt.api_key_id).to eq api_key.id
     end
   end
 

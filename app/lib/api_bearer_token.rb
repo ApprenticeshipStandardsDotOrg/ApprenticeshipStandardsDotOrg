@@ -1,10 +1,10 @@
 class APIBearerToken < Token
   class << self
-    def create(user:, key_identifier:)
+    def create(user:, api_key_id:)
       payload = {
         user_id: user.id,
         encrypted_password: user.encrypted_password,
-        key_identifier: key_identifier
+        api_key_id: api_key_id
       }
 
       super(payload)

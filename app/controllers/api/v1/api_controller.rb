@@ -13,7 +13,7 @@ class API::V1::APIController < ApplicationController
     authenticate_with_http_token do |token, options|
       api_bearer_token = APIBearerToken.new(token)
       if api_bearer_token.user_id
-        api_key_id = api_bearer_token.key_identifier
+        api_key_id = api_bearer_token.api_key_id
         @user = User
           .joins(:api_keys)
           .where(

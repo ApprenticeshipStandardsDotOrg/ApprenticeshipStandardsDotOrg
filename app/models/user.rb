@@ -11,10 +11,10 @@ class User < ApplicationRecord
 
   def create_api_access_token!
     api_key = api_keys.create
-    APIBearerToken.create(user: self, key_identifier: api_key.id)
+    APIBearerToken.create(user: self, api_key_id: api_key.id)
   end
 
-  def destroy_api_key!(key_identifier)
-    api_keys.where(id: key_identifier).destroy_all
+  def destroy_api_key!(api_key_id)
+    api_keys.where(id: api_key_id).destroy_all
   end
 end
