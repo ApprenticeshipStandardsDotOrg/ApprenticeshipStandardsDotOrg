@@ -3,7 +3,7 @@
 <nav class="flex px-5 py-3 text-gray-700 bg-seafoam-900" aria-label="Breadcrumb">
   <ol class="inline-flex items-center space-x-1 md:space-x-3">
     <li class="inline-flex items-center">
-      <a href="#" class="inline-flex items-center text-sm font-medium text-gray-50 hover:text-white">
+      <a href="/home" class="inline-flex items-center text-sm font-medium text-gray-50 hover:text-white">
         <svg aria-hidden="true" class="mr-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
         Home
       </a>
@@ -11,7 +11,7 @@
     <li>
       <div class="flex items-center">
         <svg aria-hidden="true" class="h-6 w-6 text-gray-50" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
-        <a href="#" class="ml-1 text-sm font-medium text-gray-50 hover:text-white md:ml-2">Search Results</a>
+        <a href="/occupation_standards" class="ml-1 text-sm font-medium text-gray-50 hover:text-white md:ml-2">Search Results</a>
       </div>
     </li>
     <li aria-current="page">
@@ -23,7 +23,7 @@
   </ol>
 </nav>
 
-<section class="bg-seafoam-50">
+<section aria-labelledby="occupation-title" class="bg-seafoam-50">
   <div class="mx-auto max-w-screen-xl border border-dotted border-yellow-300 px-4 py-8 sm:py-16 lg:px-6">
     <div class="my-6 mb-8 border-2 border-dotted lg:mb-16">
       <div class="flex flex-col justify-between space-y-6 md:flex-row md:space-y-0">
@@ -32,7 +32,7 @@
             <button type="button" class="mb-2 mr-2 rounded-lg border-2 border-blue-700 px-2 py-1 text-center text-sm font-bold text-blue-700 hover:bg-blue-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300"><%= ojt_type_display(@occupation_standard) %></button>
             <button type="button" class="mb-2 mr-2 rounded-lg border-2 border-blue-700 px-2 py-1 text-center text-sm font-bold text-blue-700 hover:bg-blue-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300"><%= ojt_type_display(@occupation_standard) %></button>
           </div>
-          <h3 class="text-2xl font-bold"><%= @occupation_standard.title %></h3>
+          <h3 class="occupation-title text-2xl font-bold">Mechatronics Technician with an incredibly long name</h3>
           <p class="mb-4 font-bold text-gray-500">Anonymous</p>
           <div class="inline">
             <button type="button" class="mb-2 mr-2 rounded-lg bg-yellow-200 px-2 py-1 text-sm font-medium text-orange-800 hover:bg-yellow-100 focus:outline-none focus:ring-4 focus:ring-yellow-300"><%= @occupation_standard.onet_code %></button>
@@ -41,20 +41,20 @@
           <div class="my-3 flex">
             <div class="mr-6 flex items-center">
               <div>
-                <img class="mr-2 h-7 w-auto rounded" src="https://flowbite.com/docs/images/examples/image-1@2x.jpg" alt="image description" />
+                <img class="mr-2 h-7 w-auto rounded" src="https://flowbite.com/docs/images/examples/image-1@2x.jpg" alt="organization logo">
               </div>
               <div class="font-bold">California DAS</div>
             </div>
             <div class="mr-6 flex items-center">
               <div>
-                <img class="mr-2 h-7 w-auto rounded" src="https://flowbite.com/docs/images/examples/image-1@2x.jpg" alt="image description" />
+                <img class="mr-2 h-7 w-auto rounded" src="https://flowbite.com/docs/images/examples/image-1@2x.jpg" alt="organization logo">
               </div>
               <div class="font-bold">DOL</div>
             </div>
           </div>
           <div class="flex">
             <div class="mr-2">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg aria-label="ribbon icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 15C15.866 15 19 11.866 19 8C19 4.13401 15.866 1 12 1C8.13401 1 5 4.13401 5 8C5 11.866 8.13401 15 12 15Z" stroke="#BA8718" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 <path d="M8.21 13.8899L7 22.9999L12 19.9999L17 22.9999L15.79 13.8799" stroke="#BA8718" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
@@ -68,7 +68,7 @@
             <div class="text-center text-lg font-bold text-slate-300">Documents</div>
             <button class="flex w-full items-center space-x-4 rounded bg-slate-700 p-2 text-left text-white hover:bg-slate-600">
               <div>
-                <svg xmlns="http://www.w3.org/2000/svg" width="49" height="48" fill="none">
+                <svg aria-label="pdf icon" xmlns="http://www.w3.org/2000/svg" width="49" height="48" fill="none">
                   <path stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M8.5 22V8a4 4 0 0 1 4-4h16l12 12v24a4 4 0 0 1-4 4h-24a4 4 0 0 1-4-4v-2" />
                   <path stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M28.5 4v12h12" />
                   <path fill="#fff" d="M4.927 27.213v3.168c0 .068.044.111.13.13.33.04.592.059.786.059.697 0 1.235-.16 1.613-.48.387-.329.581-.784.581-1.366 0-1.153-.731-1.73-2.194-1.73-.243 0-.51.025-.8.073-.077.02-.116.068-.116.146Zm-1.599 8.661a.795.795 0 0 1-.58-.247.795.795 0 0 1-.248-.58v-8.88c0-.233.078-.441.233-.625a.824.824 0 0 1 .58-.306 25.456 25.456 0 0 1 2.384-.116c3.1 0 4.65 1.153 4.65 3.459 0 1.25-.362 2.2-1.09 2.848-.716.64-1.772.96-3.167.96-.369 0-.712-.015-1.032-.044-.087 0-.131.039-.131.116v2.587a.795.795 0 0 1-.247.581.795.795 0 0 1-.581.247h-.77ZM14.237 27.271v6.598c0 .087.043.14.13.16.194.039.427.058.698.058.979 0 1.7-.286 2.166-.858.474-.571.712-1.506.712-2.804 0-1.163-.238-2.016-.712-2.558-.475-.543-1.197-.814-2.166-.814-.271 0-.504.02-.697.058-.088.02-.131.073-.131.16Zm-1.599 8.633a.845.845 0 0 1-.581-.291.963.963 0 0 1-.233-.64v-8.806c0-.243.078-.451.233-.625a.824.824 0 0 1 .581-.306 21.931 21.931 0 0 1 2.238-.116c1.735 0 3.072.46 4.011 1.38.94.921 1.41 2.23 1.41 3.925 0 1.84-.47 3.236-1.41 4.185-.94.94-2.276 1.41-4.01 1.41-.737 0-1.483-.039-2.239-.116ZM22.687 35.874a.795.795 0 0 1-.582-.247.796.796 0 0 1-.247-.58v-8.953c0-.223.083-.417.247-.582a.796.796 0 0 1 .582-.247h4.985c.223 0 .416.083.58.247a.796.796 0 0 1 .248.582v.334a.796.796 0 0 1-.247.581.795.795 0 0 1-.581.247H24.46c-.087 0-.131.04-.131.117v2.165c0 .087.044.13.13.13h2.922c.223 0 .417.083.581.248a.749.749 0 0 1 .247.567v.232a.82.82 0 0 1-.828.814H24.46c-.087 0-.131.044-.131.131v3.386a.795.795 0 0 1-.247.581.75.75 0 0 1-.567.247h-.828Z" />
@@ -81,14 +81,14 @@
             </button>
             <button class="flex w-full items-center space-x-4 rounded bg-slate-700 p-2 text-left text-white hover:bg-slate-600">
               <div>
-                <svg xmlns="http://www.w3.org/2000/svg" width="49" height="48" fill="none"><path stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M42.5 30v8a4 4 0 0 1-4 4h-28a4 4 0 0 1-4-4v-8M14.5 20l10 10 10-10M24.5 30V6" /></svg>
+                <svg aria-label="download icon" xmlns="http://www.w3.org/2000/svg" width="49" height="48" fill="none"><path stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M42.5 30v8a4 4 0 0 1-4 4h-28a4 4 0 0 1-4-4v-8M14.5 20l10 10 10-10M24.5 30V6" /></svg>
               </div>
               <div>
                 <div class="font-bold">View Original Document</div>
                 <div class="text-sm text-slate-300">Personal and employer info redacted</div>
               </div>
             </button>
-            <hr class="border-slate-300" />
+            <hr class="border-slate-300">
             <div class="text-sm text-slate-300">Individual state requirements may vary. Please contact your local apprenticeship office to ensure this version is suitable to your state’s requirements.</div>
           </div>
         </div>
@@ -97,29 +97,25 @@
       <div class="mt-4 flex flex-col border border-dotted border-pink-500 bg-gray-100 px-2 py-3 text-sm lg:flex-row">
         <ul class="occupation-tabs w-full border-2 border-b-cyan-200">
           <li class="tab h-full mr-4">
-            <input type="radio" name="tabs" checked="checked" id="tab1" />
+            <input type="radio" name="tabs" checked="checked" id="tab1">
             <label class="py-2 block" for="tab1">Work Process Schedule</label>
             <div id="tab-content1" class="content">
 
-
-
-
-              
               <h1 class="text-xl font-bold py-4">Work Process Schedule</h1>
-              <hr />
+              <hr>
               <h3>Aliquam tristique orci non facilisis lobortis</h3>
               <p>Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque commodo tortor ante, sed consequat nulla ultrices sit amet. Integer ornare aliquet metus, vitae volutpat dui bibendum eu. Integer eget eleifend ipsum. Aliquam tristique orci non facilisis lobortis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Cras sagittis vehicula sollicitudin.</p>
             </div>
           </li>
 
           <li class="tab h-full mr-4">
-            <input type="radio" name="tabs" id="tab2" />
+            <input type="radio" name="tabs" id="tab2">
             <label class="py-2 block" for="tab2">Related Instruction Outline</label>
             <div id="tab-content2" class="content">
               <h1 class="text-xl font-bold py-4">Tab content 2</h1>
-              <hr />
+              <hr>
               <h3>Ut bibendum augue vel magna rhoncus</h3>
-              <br />
+              <br>
               <p>Nam cursus, massa ac imperdiet posuere, mauris metus gravida ligula, et rutrum ligula mi ut tellus. Quisque elit dolor, sagittis ac purus accumsan, sagittis rhoncus felis. Morbi nec bibendum arcu, sit amet pharetra orci. Nulla pulvinar ultrices quam. Cras nulla erat, eleifend non euismod vel, accumsan quis lacus. Ut bibendum augue vel magna rhoncus, sed rutrum massa vulputate. Nullam lectus diam, venenatis vel elit vel, ornare fermentum metus. Praesent euismod non mauris et dignissim. Sed in diam nec diam pellentesque lacinia at vitae lorem. Quisque et neque condimentum, viverra dolor mollis, feugiat justo.</p>
             </div>
           </li>

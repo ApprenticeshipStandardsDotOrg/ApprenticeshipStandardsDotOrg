@@ -3,7 +3,7 @@
 <nav class="flex px-5 py-3 text-gray-700 bg-seafoam-900" aria-label="Breadcrumb">
   <ol class="inline-flex items-center space-x-1 md:space-x-3">
     <li class="inline-flex items-center">
-      <a href="#" class="inline-flex items-center text-sm font-medium text-gray-50 hover:text-white">
+      <a href="/home" class="inline-flex items-center text-sm font-medium text-gray-50 hover:text-white">
         <svg aria-hidden="true" class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
         Home
       </a>
@@ -11,13 +11,13 @@
     <li aria-current="page">
       <div class="flex items-center">
         <svg aria-hidden="true" class="w-6 h-6 text-gray-50" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
-        <a href="#" class="ml-1 text-sm font-medium md:ml-2 text-gray-50 hover:text-white">Search Results</a>
+        <a href="/occupation_standards" class="ml-1 text-sm font-medium md:ml-2 text-gray-50 hover:text-white">Search Results</a>
       </div>
     </li>
   </ol>
 </nav>
 
-<section class="bg-seafoam-50 dark:bg-gray-900">
+<section aria-labelledby="occupation-title" class="bg-seafoam-50 dark:bg-gray-900">
   <div class="mx-auto max-w-screen-xl py-8 px-4 sm:py-16 lg:px-6">
     <div class="mb-8 flex lg:mb-8">
       <h2 class="mb-4 text-2xl tracking-tight text-gray-900 dark:text-white">
@@ -31,7 +31,7 @@
           <div class="inline">
             <button type="button" class="mr-2 mb-2 rounded-lg border-2 border-primary-400 px-2 py-1 text-center text-sm font-bold text-primary-400 hover:bg-primary-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-primary-300">Hybrid</button>
           </div>
-          <h3 class="text-2xl font-bold dark:text-white">Mechatronics Technician</h3>
+          <h3 class="occupation-title text-2xl font-bold dark:text-white">Mechatronics Technician</h3>
           <p class="mb-4 font-bold text-seafoam-600">Anonymous</p>
           <div class="inline">
             <button type="button" class="mr-2 mb-2 rounded-lg bg-yellow-100 px-2 py-1 text-sm font-bold text-goldenrod-600 hover:bg-yellow-200 hover:text-goldenrod-700 focus:outline-none focus:ring-4 focus:ring-orange-300">17-3024.00</button>
@@ -40,20 +40,20 @@
           <div class="my-3 flex">
             <div class="mr-6 flex items-center">
               <div>
-                <img class="mr-2 h-7 w-auto rounded" src="https://placehold.co/600x400/D1E1E1/D1E1E1" alt="Institution Logo" />
+                <img class="mr-2 h-7 w-auto rounded" src="https://placehold.co/600x400/D1E1E1/D1E1E1" alt="Institution Logo">
               </div>
               <div class="font-bold">California DAS</div>
             </div>
             <div class="mr-6 flex items-center">
               <div>
-                <img class="mr-2 h-7 w-auto rounded" src="https://placehold.co/600x400/D1E1E1/D1E1E1" alt="Institution Logo" />
+                <img class="mr-2 h-7 w-auto rounded" src="https://placehold.co/600x400/D1E1E1/D1E1E1" alt="Institution Logo">
               </div>
               <div class="font-bold">DOL</div>
             </div>
           </div>
           <div class="flex">
             <div class="mr-2">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg aria-label="ribbon icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 15C15.866 15 19 11.866 19 8C19 4.13401 15.866 1 12 1C8.13401 1 5 4.13401 5 8C5 11.866 8.13401 15 12 15Z" stroke="#BA8718" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 <path d="M8.21 13.8899L7 22.9999L12 19.9999L17 22.9999L15.79 13.8799" stroke="#BA8718" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
@@ -82,12 +82,10 @@
 
       <div class="mt-4 flex flex-col rounded bg-gray-100 py-3 px-2 text-sm lg:flex-row">
         There are 8 programs with similar or identical criteria.
-        <a class="font-bold underline lg:mx-1" href="#">Expand duplicates</a>
+        <button class="font-bold underline lg:mx-1" href="#">Expand duplicates</button>
       </div>
     </div>
 </section>
-
-
 
 <% @occupation_standards.each do |occupation_standard| %>
   <div><%= link_to occupation_standard.title, occupation_standard, class: "default-colors" %></div>

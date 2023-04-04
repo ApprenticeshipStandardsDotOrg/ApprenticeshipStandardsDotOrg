@@ -1,4 +1,4 @@
-<section class="bg-[url('/assets/header-background.png')] bg-no-repeat bg-cover bg-center bg-gray-700">
+<section aria-label="hero section" class="bg-[url('/assets/header-background.png')] bg-no-repeat bg-cover bg-center bg-gray-700">
   <%= render partial: "layouts/nav" %>
 
   <div class="px-4 py-8 mx-auto lg:py-16">
@@ -13,50 +13,50 @@
               <form class="max-w-lg mx-auto lg:ml-0" action="#">
                   <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300">Search</label>
                   <div class="relative">
-                      <input type="search" id="default-search" class="block w-full p-2 text-sm text-gray-900 border border-gray-300  bg-gray-50 focus:ring-primary-500 focus:border-primary-500" placeholder="Search by occupation name, O*NET, or industry" required="">
+                      <input type="search" id="default-search" class="block w-full p-2 text-sm text-gray-900 border border-gray-300  bg-gray-50 focus:ring-primary-500 focus:border-primary-500" placeholder="Search by occupation name, O*NET, or industry" required="" autocomplete="off">
                       <button type="submit" class="text-white inline-flex items-center absolute right-0 bottom-0 bg-seafoam-700 hover:bg-seafoam-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium text-sm px-4 py-2">
-                          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
+                          <svg aria-label="search icon" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
                       </button>
                   </div>
-              </form>                        
+              </form>
           </div>
       </div>
   </div>
 </section>
 
-<section class="bg-seafoam-50">
+<section aria-labelledby="section-title" class="bg-seafoam-50">
   <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
       <div class="mb-8 lg:mb-16 flex justify-between">
-          <h2 class="mb-4 text-4xl tracking-tight font-bold text-gray-900 dark:text-white">Popular Industries</h2>
-          <a href="#" class="font-bold text-seafoam-600 sm:text-xl uppercase">See All
-            <svg class="inline ml-2 mb-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-arrow-right"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </a>
+        <h2 class="section-title mb-4 text-4xl tracking-tight font-bold text-gray-900 dark:text-white">Popular Industries</h2>
+        <a href="/home" class="font-bold text-seafoam-600 sm:text-xl uppercase">See All
+            <svg aria-label="right arrow" class="inline ml-2 mb-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-arrow-right"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
       </div>
       <div class="text-center space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:gap-8 xl:gap-8 md:space-y-0">
           <div class="p-6 hover:bg-white rounded-lg hover:shadow-xl dark:bg-gray-800">
               <div class="mx-auto flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-seafoam-100 lg:h-12 lg:w-12 dark:bg-primary-900">
-                  <svg class="w-5 h-5 text-primary-600 lg:w-6 lg:h-6 dark:text-primary-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path></svg>
+                  <svg aria-label="briefcase icon" class="w-5 h-5 text-primary-600 lg:w-6 lg:h-6 dark:text-primary-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path></svg>
               </div>
               <h3 class="text-xl font-bold dark:text-white">Trucking</h3>
               <p class="font-bold text-seafoam-600">000 Apprenticeships</p>
           </div>
           <div class="p-6 hover:bg-white rounded-lg hover:shadow-xl dark:bg-gray-800">
               <div class="mx-auto flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-seafoam-100 lg:h-12 lg:w-12 dark:bg-primary-900">
-                  <svg class="w-5 h-5 text-primary-600 lg:w-6 lg:h-6 dark:text-primary-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path></svg>
+                  <svg aria-label="briefcase icon" class="w-5 h-5 text-primary-600 lg:w-6 lg:h-6 dark:text-primary-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path></svg>
               </div>
               <h3 class="text-xl font-bold dark:text-white">Building Trades</h3>
               <p class="font-bold text-seafoam-600">000 Apprenticeships</p>
           </div>
           <div class="p-6 hover:bg-white rounded-lg hover:shadow-xl dark:bg-gray-800">
-              <div class="mx-auto flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-seafoam-100 lg:h-12 lg:w-12 dark:bg-primary-900">
-                  <svg class="w-5 h-5 text-primary-600 lg:w-6 lg:h-6 dark:text-primary-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path></svg>                
-              </div>
+                <div class="mx-auto flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-seafoam-100 lg:h-12 lg:w-12 dark:bg-primary-900">
+                  <svg aria-label="briefcase icon" class="w-5 h-5 text-primary-600 lg:w-6 lg:h-6 dark:text-primary-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path></svg>
+                </div>
               <h3 class="text-xl font-bold dark:text-white">Utility Electrical</h3>
               <p class="font-bold text-seafoam-600">000 Apprenticeships</p>
           </div>
           <div class="p-6 hover:bg-white rounded-lg hover:shadow-xl dark:bg-gray-800">
               <div class="mx-auto flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-seafoam-100 lg:h-12 lg:w-12 dark:bg-primary-900">
-                 <svg class="w-5 h-5 text-primary-600 lg:w-6 lg:h-6 dark:text-primary-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path></svg>
+                 <svg aria-label="briefcase icon" class="w-5 h-5 text-primary-600 lg:w-6 lg:h-6 dark:text-primary-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path></svg>
               </div>
               <h3 class="text-xl font-bold dark:text-white">Solution & IT</h3>
               <p class="font-bold text-seafoam-600">000 Apprenticeships</p>
@@ -65,39 +65,39 @@
   </div>
 </section>
 
-<section class="bg-seafoam-50">
+<section aria-labelledby="section-title" class="bg-seafoam-50">
   <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
       <div class="mb-8 lg:mb-16 flex justify-between">
-          <h2 class="mb-4 text-4xl tracking-tight font-bold text-gray-900 dark:text-white">Popular Occupations</h2>
-          <a href="#" class="font-bold text-seafoam-600 sm:text-xl uppercase">See All
-            <svg class="inline ml-2 mb-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-arrow-right"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </a>
+        <h2 class="section-title mb-4 text-4xl tracking-tight font-bold text-gray-900 dark:text-white">Popular Occupations</h2>
+        <a href="/home" class="font-bold text-seafoam-600 sm:text-xl uppercase">See All
+            <svg aria-label="right arrow" class="inline ml-2 mb-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-arrow-right"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
       </div>
       <div class="text-center space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:gap-8 xl:gap-8 md:space-y-0">
           <div class="p-6 hover:bg-white rounded-lg hover:shadow-xl dark:bg-gray-800">
               <div class="mx-auto flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-seafoam-100 lg:h-12 lg:w-12 dark:bg-primary-900">
-                  <svg class="w-5 h-5 text-primary-600 lg:w-6 lg:h-6 dark:text-primary-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path></svg>
+                <svg aria-label="briefcase icon" class="w-5 h-5 text-primary-600 lg:w-6 lg:h-6 dark:text-primary-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path></svg>
               </div>
               <h3 class="text-xl font-bold dark:text-white">Mechatronics Technician</h3>
               <p class="font-bold text-seafoam-600">000 Apprenticeships</p>
           </div>
           <div class="p-6 hover:bg-white rounded-lg hover:shadow-xl dark:bg-gray-800">
               <div class="mx-auto flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-seafoam-100 lg:h-12 lg:w-12 dark:bg-primary-900">
-                  <svg class="w-5 h-5 text-primary-600 lg:w-6 lg:h-6 dark:text-primary-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path></svg>
+                  <svg aria-label="briefcase icon" class="w-5 h-5 text-primary-600 lg:w-6 lg:h-6 dark:text-primary-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path></svg>
               </div>
               <h3 class="text-xl font-bold dark:text-white">Medical Assistant</h3>
               <p class="font-bold text-seafoam-600">000 Apprenticeships</p>
           </div>
           <div class="p-6 hover:bg-white rounded-lg hover:shadow-xl dark:bg-gray-800">
               <div class="mx-auto flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-seafoam-100 lg:h-12 lg:w-12 dark:bg-primary-900">
-                  <svg class="w-5 h-5 text-primary-600 lg:w-6 lg:h-6 dark:text-primary-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path></svg>
+                  <svg aria-label="briefcase icon" class="w-5 h-5 text-primary-600 lg:w-6 lg:h-6 dark:text-primary-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path></svg>
               </div>
               <h3 class="text-xl font-bold dark:text-white">Power Lineman</h3>
               <p class="font-bold text-seafoam-600">000 Apprenticeships</p>
           </div>
           <div class="p-6 hover:bg-white rounded-lg hover:shadow-xl dark:bg-gray-800">
               <div class="mx-auto flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-seafoam-100 lg:h-12 lg:w-12 dark:bg-primary-900">
-                  <svg class="w-5 h-5 text-primary-600 lg:w-6 lg:h-6 dark:text-primary-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path></svg>
+                  <svg aria-label="briefcase icon" class="w-5 h-5 text-primary-600 lg:w-6 lg:h-6 dark:text-primary-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path></svg>
               </div>
               <h3 class="text-xl font-bold dark:text-white">Customer Support Rep</h3>
               <p class="font-bold text-seafoam-600">000 Apprenticeships</p>
@@ -110,9 +110,8 @@
   <div class="p-4 py-6 mx-auto max-w-screen-xl md:p-8 lg:-10">
       <div class="grid grid-cols-2 gap-8 lg:grid-cols-6">
           <div class="col-span-5">
-              <a href="#" class="flex items-center mb-2 text-2xl font-semibold sm:mb-0 text-white">
-                  
-                 ApprenticeshipStandards.org  
+              <a href="/home" class="flex items-center mb-2 text-2xl font-semibold sm:mb-0 text-white">
+                 ApprenticeshipStandards.org
               </a>
               <p class="my-4 font-light text-gray-100">Funding info here</p>
 
@@ -121,23 +120,22 @@
               <!-- <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Company</h2> -->
               <ul class="text-gray-200">
                   <li class="mb-4">
-                      <a href="#" class=" hover:underline">About</a>
+                      <a href="/home" class=" hover:underline">About</a>
                   </li>
                   <li class="mb-4">
-                      <a href="#" class="hover:underline">Definitions</a>
+                      <a href="/home" class="hover:underline">Definitions</a>
                   </li>
                   <li class="mb-4">
-                      <a href="#" class="hover:underline">Contact</a>
+                      <a href="/home" class="hover:underline">Contact</a>
                   </li>
                   <li class="mb-4">
-                      <a href="#" class="hover:underline">Privacy/Terms</a>
+                      <a href="/home" class="hover:underline">Privacy/Terms</a>
                   </li>
               </ul>
           </div>
 
       </div>
       <hr class="my-6 sm:mx-auto border-gray-600 lg:my-8">
-      <span class="block text-sm text-center text-gray-500">© 2022-2023 <a href="#" class="hover:underline"> ApprenticeshipStandards.org™</a>. All Rights Reserved.</span>
+      <span class="block text-sm text-center text-gray-500">© 2022-2023 <a href="/home" class="hover:underline"> ApprenticeshipStandards.org™</a>. All Rights Reserved.</span>
   </div>
 </footer>
-
