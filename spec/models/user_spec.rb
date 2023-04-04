@@ -18,15 +18,4 @@ RSpec.describe User, type: :model do
       expect(jwt.api_key_id).to eq api_key.id
     end
   end
-
-  describe "#destroy_api_key!" do
-    it "deletes api_key" do
-      api_key = create(:api_key)
-      user = api_key.user
-
-      expect {
-        user.destroy_api_key!(api_key.id)
-      }.to change(user.api_keys, :count).by(-1)
-    end
-  end
 end
