@@ -16,7 +16,7 @@ RSpec.describe "api/v1/occupations", type: :request do
       response(200, "successful") do
         let(:user) { create(:user) }
         let(:token) { user.create_api_access_token!.jwt_token }
-        let(:Authorization) { "Bearer #{token}"}
+        let(:Authorization) { "Bearer #{token}" }
         let(:onet1) { create(:onet, code: "51-7011.00") }
         let!(:occ1) { create(:occupation, title: "Information Technology Specialist", onet: onet1, rapids_code: "1132", time_based_hours: 2782, competency_based_hours: 2000) }
         let!(:occ2) { create(:occupation, title: "Accordion Maker", rapids_code: "0860", time_based_hours: 8000, competency_based_hours: 8500) }
@@ -122,7 +122,7 @@ RSpec.describe "api/v1/occupations", type: :request do
       response(200, "successful") do
         let(:user) { create(:user) }
         let(:token) { user.create_api_access_token!.jwt_token }
-        let(:Authorization) { "Bearer #{token}"}
+        let(:Authorization) { "Bearer #{token}" }
         let(:onet1) { create(:onet, code: "51-7011.00") }
         let!(:occ) { create(:occupation, title: "Information Technology Specialist", onet: onet1, rapids_code: "1132", time_based_hours: 2782, competency_based_hours: 2000) }
         let(:id) { occ.id }

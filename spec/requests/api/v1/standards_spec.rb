@@ -18,7 +18,7 @@ RSpec.describe "api/v1/standards", type: :request do
 
       let(:user) { create(:user) }
       let(:token) { user.create_api_access_token!.jwt_token }
-      let(:Authorization) { "Bearer #{token}"}
+      let(:Authorization) { "Bearer #{token}" }
       let(:ca_state) { create(:state, name: "California") }
       let(:registration_agency) { create(:registration_agency, agency_type: :saa, state: ca_state) }
       let!(:standard1) {
@@ -452,7 +452,7 @@ RSpec.describe "api/v1/standards", type: :request do
       response(200, "successful") do
         let(:user) { create(:user) }
         let(:token) { user.create_api_access_token!.jwt_token }
-        let(:Authorization) { "Bearer #{token}"}
+        let(:Authorization) { "Bearer #{token}" }
         let(:ca_state) { create(:state, name: "California") }
         let(:registration_agency) { create(:registration_agency, agency_type: :saa, state: ca_state) }
         let!(:standard) {
