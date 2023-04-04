@@ -428,6 +428,11 @@ RSpec.describe "api/v1/standards", type: :request do
           end
         end
       end
+
+      response(401, "unauthorized") do
+        let(:Authorization) { "Bearer badtoken" }
+        run_test!
+      end
     end
   end
 
@@ -562,6 +567,13 @@ RSpec.describe "api/v1/standards", type: :request do
 
           expect(response_json).to eq expected_resp
         end
+      end
+
+      response(401, "unauthorized") do
+        let(:Authorization) { "Bearer badtoken" }
+        let!(:standard) { create(:occupation_standard) }
+        let(:id) { standard.id }
+        run_test!
       end
     end
   end

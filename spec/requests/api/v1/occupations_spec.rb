@@ -98,6 +98,11 @@ RSpec.describe "api/v1/occupations", type: :request do
           expect(response_json).to eq expected_resp
         end
       end
+
+      response(401, "unauthorized") do
+        let(:Authorization) { "Bearer badtoken" }
+        run_test!
+      end
     end
   end
 
@@ -179,6 +184,13 @@ RSpec.describe "api/v1/occupations", type: :request do
 
           expect(response_json).to eq expected_resp
         end
+      end
+
+      response(401, "unauthorized") do
+        let(:Authorization) { "Bearer badtoken" }
+        let!(:occ) { create(:occupation) }
+        let(:id) { occ.id }
+        run_test!
       end
     end
   end
