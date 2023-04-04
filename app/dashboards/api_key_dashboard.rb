@@ -1,6 +1,6 @@
 require "administrate/base_dashboard"
 
-class UserDashboard < Administrate::BaseDashboard
+class APIKeyDashboard < Administrate::BaseDashboard
   # ATTRIBUTE_TYPES
   # a hash that describes the type of each of the model's fields.
   #
@@ -9,19 +9,7 @@ class UserDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     id: Field::String,
-    api_keys: Field::HasMany,
-    current_sign_in_at: Field::DateTime,
-    current_sign_in_ip: Field::String,
-    email: Field::String,
-    encrypted_password: Field::String,
-    last_sign_in_at: Field::DateTime,
-    last_sign_in_ip: Field::String,
-    name: Field::String,
-    remember_created_at: Field::DateTime,
-    reset_password_sent_at: Field::DateTime,
-    reset_password_token: Field::String,
-    role: Field::Select.with_options(searchable: false, collection: ->(field) { field.resource.class.send(field.attribute.to_s.pluralize).keys }),
-    sign_in_count: Field::Number,
+    user: Field::BelongsTo,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
   }.freeze
@@ -32,11 +20,8 @@ class UserDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
-    name
-    email
-    role
-    api_keys
-    current_sign_in_at
+    id
+    user
     created_at
   ].freeze
 
@@ -44,27 +29,16 @@ class UserDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
     id
-    name
-    email
-    role
-    current_sign_in_at
-    current_sign_in_ip
-    last_sign_in_at
-    last_sign_in_ip
-    reset_password_sent_at
-    sign_in_count
+    user
     created_at
     updated_at
-    api_keys
   ].freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
-    name
-    email
-    role
+    user
   ].freeze
 
   # COLLECTION_FILTERS
@@ -79,10 +53,10 @@ class UserDashboard < Administrate::BaseDashboard
   #   }.freeze
   COLLECTION_FILTERS = {}.freeze
 
-  # Overwrite this method to customize how users are displayed
+  # Overwrite this method to customize how api keys are displayed
   # across all pages of the admin dashboard.
   #
-  def display_resource(user)
-    user.name
-  end
+  # def display_resource(api_key)
+  #   "APIKey ##{api_key.id}"
+  # end
 end
