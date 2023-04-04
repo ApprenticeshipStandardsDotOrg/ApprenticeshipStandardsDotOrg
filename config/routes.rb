@@ -29,6 +29,7 @@ Rails.application.routes.draw do
 
     namespace :admin do
       resources :data_imports, except: [:index]
+      resources :users
       resources :source_files, only: [:index, :edit, :show, :update] do
         resources :data_imports, except: [:index]
       end
