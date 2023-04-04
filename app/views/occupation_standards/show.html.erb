@@ -29,14 +29,14 @@
       <div class="flex flex-col justify-between space-y-6 md:flex-row md:space-y-0">
         <div class="border-2 border-dotted border-pink-500">
           <div class="inline">
-            <button type="button" class="mb-2 mr-2 rounded-lg border-2 border-blue-700 px-2 py-1 text-center text-sm font-bold text-blue-700 hover:bg-blue-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300">Hybrid</button>
-            <button type="button" class="mb-2 mr-2 rounded-lg border-2 border-blue-700 px-2 py-1 text-center text-sm font-bold text-blue-700 hover:bg-blue-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300">Hybrid</button>
+            <button type="button" class="mb-2 mr-2 rounded-lg border-2 border-blue-700 px-2 py-1 text-center text-sm font-bold text-blue-700 hover:bg-blue-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300"><%= ojt_type_display(@occupation_standard) %></button>
+            <button type="button" class="mb-2 mr-2 rounded-lg border-2 border-blue-700 px-2 py-1 text-center text-sm font-bold text-blue-700 hover:bg-blue-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300"><%= ojt_type_display(@occupation_standard) %></button>
           </div>
-          <h3 class="text-2xl font-bold">Mechatronics Technician with an incredibly long name</h3>
+          <h3 class="text-2xl font-bold"><%= @occupation_standard.title %></h3>
           <p class="mb-4 font-bold text-gray-500">Anonymous</p>
           <div class="inline">
-            <button type="button" class="mb-2 mr-2 rounded-lg bg-yellow-200 px-2 py-1 text-sm font-medium text-orange-800 hover:bg-yellow-100 focus:outline-none focus:ring-4 focus:ring-yellow-300">17-3024.00</button>
-            <button type="button" class="mb-2 mr-2 rounded-lg bg-yellow-200 px-2 py-1 text-sm font-medium text-orange-800 hover:bg-yellow-100 focus:outline-none focus:ring-4 focus:ring-yellow-300">17-3024.00</button>
+            <button type="button" class="mb-2 mr-2 rounded-lg bg-yellow-200 px-2 py-1 text-sm font-medium text-orange-800 hover:bg-yellow-100 focus:outline-none focus:ring-4 focus:ring-yellow-300"><%= @occupation_standard.onet_code %></button>
+            <button type="button" class="mb-2 mr-2 rounded-lg bg-yellow-200 px-2 py-1 text-sm font-medium text-orange-800 hover:bg-yellow-100 focus:outline-none focus:ring-4 focus:ring-yellow-300"><%= @occupation_standard.onet_code %></button>
           </div>
           <div class="my-3 flex">
             <div class="mr-6 flex items-center">
