@@ -6,9 +6,8 @@ RSpec.describe "Admin::User", type: :request do
       context "when admin user" do
         it "returns http success" do
           admin = create(:admin)
-          user1 = create(:user)
-          user2 = create(:user)
-          create_pair(:api_key, user: user1)
+          create_pair(:user)
+          create_pair(:api_key, user: User.first)
 
           sign_in admin
           get admin_users_path

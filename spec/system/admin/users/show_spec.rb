@@ -8,7 +8,7 @@ RSpec.describe "admin/users/show" do
     login_as admin
     visit admin_user_path(user)
 
-    expect{
+    expect {
       click_on "Create API key"
     }.to change(APIKey, :count).by(1)
 
