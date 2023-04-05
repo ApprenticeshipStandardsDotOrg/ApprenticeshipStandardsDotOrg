@@ -17,10 +17,7 @@ class API::V1::APIController < ApplicationController
         @user = User
           .joins(:api_keys)
           .where(
-            users: {
-              id: api_bearer_token.user_id,
-              encrypted_password: api_bearer_token.encrypted_password
-            },
+            users: {id: api_bearer_token.user_id},
             api_keys: {id: api_key_id}
           )
           .first
