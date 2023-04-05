@@ -1,5 +1,78 @@
+$base-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+  "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+  sans-serif !default;
+
+$base-font-size: 1em !default;
+
+$bold-font-weight: 700 !default;
+
+$base-line-height: 1.5 !default;
+
+// Other Sizes
+$base-border-radius: 4px !default;
+$base-spacing: $base-line-height * 1em !default;
+$small-spacing: $base-spacing * 0.5 !default;
+
+// Colors
+$white: #fff !default;
+$black: #000 !default;
+$blue: #1976d2 !default;
+
+// Font Colors
+$action-color: $blue !default;
+
+// Focus
+$focus-outline-color: transparentize($action-color, 0.4);
+$focus-outline-width: 3px;
+$focus-outline: $focus-outline-width solid $focus-outline-color;
+$focus-outline-offset: 1px;
+
+// Transitions
+$base-duration: 250ms !default;
+$base-timing: ease-in-out !default;
+
 div.app-container main.main-content {
   form.form-button {
     display: inline;
+  }
+
+  button.button {
+    appearance: none;
+    background-color: $action-color;
+    border: 0;
+    border-radius: $base-border-radius;
+    color: $white;
+    cursor: pointer;
+    display: inline-block;
+    font-family: $base-font-family;
+    font-size: $base-font-size;
+    -webkit-font-smoothing: antialiased;
+    font-weight: $bold-font-weight;
+    line-height: 1;
+    padding: $small-spacing $base-spacing;
+    text-decoration: none;
+    transition: background-color $base-duration $base-timing;
+    user-select: none;
+    vertical-align: middle;
+    white-space: nowrap;
+
+    &:hover {
+      background-color: mix($black, $action-color, 20%);
+      color: $white;
+    }
+
+    &:focus {
+      outline: $focus-outline;
+      outline-offset: $focus-outline-offset;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+
+      &:hover {
+        background-color: $action-color;
+      }
+    }
   }
 }
