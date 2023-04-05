@@ -27,7 +27,8 @@ as well as a link to its edit page.
     <%= button_to(
           "New API key",
           admin_api_keys_path, params: { api_key: { user_id: page.resource.id }},
-          class: "button foo"
+          class: "button",
+          form_class: "form-button"
         ) %>
     <%= link_to(
       t("administrate.actions.edit_resource", name: page.page_title),
