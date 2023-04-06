@@ -28,9 +28,10 @@
   <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
       <div class="mb-8 lg:mb-16 flex justify-between">
         <h2 class="section-title mb-4 text-4xl tracking-tight font-bold text-gray-900 dark:text-white">Popular Industries</h2>
-        <a href="/home" class="font-bold text-seafoam-600 sm:text-xl uppercase">See All
-            <svg aria-label="right arrow" class="inline ml-2 mb-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-arrow-right"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-        </a>
+        <%= link_to home_page_path, class: "font-bold text-seafoam-600 sm:text-xl uppercase" do %>
+          See All
+          <svg aria-label="right arrow" class="inline ml-2 mb-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-arrow-right"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+        <% end %>
       </div>
       <div class="text-center space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:gap-8 xl:gap-8 md:space-y-0">
           <div class="p-6 hover:bg-white rounded-lg hover:shadow-xl dark:bg-gray-800">
@@ -69,9 +70,10 @@
   <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
       <div class="mb-8 lg:mb-16 flex justify-between">
         <h2 class="section-title mb-4 text-4xl tracking-tight font-bold text-gray-900 dark:text-white">Popular Occupations</h2>
-        <a href="/home" class="font-bold text-seafoam-600 sm:text-xl uppercase">See All
-            <svg aria-label="right arrow" class="inline ml-2 mb-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-arrow-right"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-        </a>
+        <%= link_to home_page_path, class: "font-bold text-seafoam-600 sm:text-xl uppercase" do %>
+          See All
+          <svg aria-label="right arrow" class="inline ml-2 mb-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-arrow-right"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+        <% end %>
       </div>
       <div class="text-center space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:gap-8 xl:gap-8 md:space-y-0">
           <div class="p-6 hover:bg-white rounded-lg hover:shadow-xl dark:bg-gray-800">
@@ -110,9 +112,7 @@
   <div class="p-4 py-6 mx-auto max-w-screen-xl md:p-8 lg:-10">
       <div class="grid grid-cols-2 gap-8 lg:grid-cols-6">
           <div class="col-span-5">
-              <a href="/home" class="flex items-center mb-2 text-2xl font-semibold sm:mb-0 text-white">
-                 ApprenticeshipStandards.org
-              </a>
+              <%= link_to "ApprenticeshipStandards.org", home_page_path, class: "flex items-center mb-2 text-2xl font-semibold sm:mb-0 text-white" %>
               <p class="my-4 font-light text-gray-100">Funding info here</p>
 
           </div>
@@ -120,16 +120,16 @@
               <!-- <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Company</h2> -->
               <ul class="text-gray-200">
                   <li class="mb-4">
-                      <a href="/home" class=" hover:underline">About</a>
+                      <%= link_to "About", home_page_path, class: "hover:underline" %>
                   </li>
                   <li class="mb-4">
-                      <a href="/home" class="hover:underline">Definitions</a>
+                      <%= link_to "Definitions", home_page_path, class: "hover:underline" %>
                   </li>
                   <li class="mb-4">
-                      <a href="/home" class="hover:underline">Contact</a>
+                      <%= link_to "Contact", home_page_path, class: "hover:underline" %>
                   </li>
                   <li class="mb-4">
-                      <a href="/home" class="hover:underline">Privacy/Terms</a>
+                      <%= link_to "Privacy/Terms", home_page_path, class: "hover:underline" %>
                   </li>
               </ul>
           </div>
