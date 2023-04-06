@@ -36,7 +36,7 @@ Rails.application.routes.draw do
     end
   end
 
-  root to: "standards_imports#new", as: :guest_root
+  root to: "pages#home", as: :guest_root
 
   resources :standards_imports, only: [:new, :create, :show]
   resources :occupation_standards, only: [:index, :show]
