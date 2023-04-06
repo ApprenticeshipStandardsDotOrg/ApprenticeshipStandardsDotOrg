@@ -70,4 +70,17 @@ RSpec.describe OccupationStandard, type: :model do
       expect(occupation_standard.source_file).to eq source_file
     end
   end
+
+  describe "#compentencies_count" do
+    it "sums competencies from all the work processes" do
+      occupation_standard = create(:occupation_standard)
+      wp1 = create(:work_process, occupation_standard: occupation_standard)
+      wp2 = create(:work_process, occupation_standard: occupation_standard)
+      create_list(:competency, 2, work_process: wp1)
+      create_list(:competency, 1, work_process: wp2)
+      create(:competency)
+
+      expect(occupation_standard.competencies_count).to eq 3
+    end
+  end
 end

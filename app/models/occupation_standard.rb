@@ -36,4 +36,8 @@ class OccupationStandard < ApplicationRecord
   def source_file
     data_import.source_file
   end
+
+  def competencies_count
+    Competency.joins(work_process: :occupation_standard).where(occupation_standards: {id: id}).count
+  end
 end
