@@ -1,0 +1,36 @@
+<nav aria-label="navigation" class="border-gray-200 px-2 sm:px-4 py-2.5" role="Navigation">
+    <div class="container flex flex-wrap items-center justify-between mx-auto">
+      <%= link_to home_page_path, class: "flex items-center" do %>
+        <span class="self-center text-xl font-semibold whitespace-nowrap text-white">ApprenticeshipStandards.org</span>
+      <% end %>
+        <button data-collapse-toggle="navbar-default" type="button" class="ml-3 inline-flex items-center rounded-lg p-2 text-sm text-white focus:outline-none focus:ring-2 hover:bg-gray-700 focus:ring-gray-600 md:hidden" aria-controls="navbar-default" aria-expanded="false">
+            <span class="sr-only">Open main menu</span>
+            <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
+        </button>
+        <div class="hidden w-full md:block md:w-auto" id="navbar-default">
+            <ul class="flex flex-col p-4 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 dark:border-gray-700">
+                <li class="block border-b lg:inline md:border-b-0">
+                  <%= link_to "Home", home_page_path, class: "block py-3 px-4 text-white border-primary-600 border-b-2 hover:font-bold hover:border-b-2 hover:border-rust-600", "aria-current": "page" %>
+                </li>
+                <li class="block border-b lg:inline md:border-b-0">
+                  <%= link_to "Industry", home_page_path, class: "block py-3 px-4 text-white border-primary-600 border-b-2 hover:font-bold hover:border-b-2 hover:border-rust-600", "aria-current": "page" %>
+                </li>
+                <li class="block border-b lg:inline md:border-b-0">
+                  <%= link_to "Occupation", home_page_path, class: "block py-3 px-4 text-white border-primary-600 border-b-2 hover:font-bold hover:border-b-2 hover:border-rust-600", "aria-current": "page" %>
+                </li>
+                <li class="block border-b lg:inline md:border-b-0">
+                  <%= link_to "State", home_page_path, class: "block py-3 px-4 text-white border-primary-600 border-b-2 hover:font-bold hover:border-b-2 hover:border-rust-600", "aria-current": "page" %>
+                </li>
+                <li class="block border-b lg:inline md:border-b-0">
+                  <%= link_to "National", home_page_path, class: "block py-3 px-4 text-white border-primary-600 border-b-2 hover:font-bold hover:border-b-2 hover:border-rust-600", "aria-current": "page" %>
+                </li>
+
+                <span class="mx-2 w-px bg-seafoam-500 lg:inline"></span>
+
+                <li class="block lg:inline">
+                  <%= link_to "Get Involved", home_page_path, class: "block py-3 px-4 text-white border-primary-600 border-b-2 hover:font-bold hover:border-b-2 hover:border-rust-600" %>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

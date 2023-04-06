@@ -13,3 +13,50 @@
  *= require_tree .
  *= require_self
  */
+
+ @tailwind base;
+ @tailwind components;
+ @tailwind utilities;
+ 
+  .occupation-tabs{
+     display: block;
+     position: relative;
+ }
+ 
+ .occupation-tabs .tab{
+     float: left;
+     display: block;
+ }
+ 
+ .occupation-tabs .tab>input[type="radio"] {
+     position: absolute;
+     top: -9999px;
+     left: -9999px;
+ }
+ 
+ .occupation-tabs .tab>label {
+     cursor: pointer;
+     position: relative;
+ }
+ 
+ .occupation-tabs .content {
+     z-index: 0;/* or display: none; */
+     overflow: hidden;
+     position: absolute;
+     left: 0;
+     opacity:0;
+     transition: opacity 400ms ease-out;
+ }
+ 
+ .occupation-tabs>.tab>[id^="tab"]:checked + label {
+     top: 0;
+     font-weight: bold;
+     border-bottom: solid 2px green;
+ }
+ 
+ .occupation-tabs>.tab>[id^="tab"]:checked ~ [id^="tab-content"] {
+     z-index: 1;/* or display: block; */
+    
+     opacity: 1;
+     transition: opacity 400ms ease-out;
+ }
