@@ -35,7 +35,16 @@ RSpec.configure do |config|
           url: "http://admin.example.localhost:3000",
           description: "Local development server (uses test data)"
         }
-      ]
+      ],
+      components: {
+        securitySchemes: {
+          bearer: {
+            type: :http,
+            scheme: :bearer,
+            bearerFormat: "JWT"
+          }
+        }
+      }
     }
   }
 

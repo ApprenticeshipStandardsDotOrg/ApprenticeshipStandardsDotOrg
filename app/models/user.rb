@@ -6,4 +6,11 @@ class User < ApplicationRecord
     :trackable
 
   enum :role, [:basic, :admin]
+
+  has_many :api_keys, dependent: :destroy
+
+  def create_api_access_token!
+    api_key = api_keys.create
+    APIBearerToken.create(user: self, api_key_id: api_key.id)
+  end
 end
