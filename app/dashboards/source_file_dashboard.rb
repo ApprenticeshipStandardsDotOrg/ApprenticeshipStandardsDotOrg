@@ -5,7 +5,6 @@ class SourceFileDashboard < Administrate::BaseDashboard
     id: Field::String,
     active_storage_attachment: Field::BelongsTo,
     data_imports: HasManyDataImportsField,
-    url: Field::Url,
     metadata: Field::JSONB,
     status: EnumField,
     created_at: Field::DateTime,
@@ -20,6 +19,7 @@ class SourceFileDashboard < Administrate::BaseDashboard
 
   SHOW_PAGE_ATTRIBUTES = %i[
     data_imports
+    active_storage_attachment
   ].freeze
 
   FORM_ATTRIBUTES = %i[
