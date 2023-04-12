@@ -31,7 +31,7 @@ Rails.application.routes.draw do
       resources :data_imports, except: [:index]
       resources :users
       resources :api_keys, only: [:create, :index, :show, :destroy]
-      resources :source_files, only: [:index, :edit, :show, :update] do
+      resources :source_files, only: [:index, :edit, :show, :update, :destroy] do
         resources :data_imports, except: [:index]
       end
       resources :occupation_standards, only: [:index, :show, :edit, :update]
