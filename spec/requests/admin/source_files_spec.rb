@@ -99,4 +99,20 @@ RSpec.describe "Admin::SourceFiles", type: :request do
       end
     end
   end
+
+  describe "DELETE /destroy" do
+    context "on admin subdomain", :admin do
+      context "when admin user" do
+        it "deletes record" do
+          admin = create(:admin)
+          file = create(:source_file)
+
+          sign_in admin
+          expect {
+            delete admin_source_file_path(file)
+          }.to change(SourceFile, :count).by(-1)
+        end
+      end
+    end
+  end
 end
