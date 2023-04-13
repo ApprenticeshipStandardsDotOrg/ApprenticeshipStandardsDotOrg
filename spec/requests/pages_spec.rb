@@ -16,4 +16,12 @@ RSpec.describe "Pages", type: :request do
       expect(response).to be_successful
     end
   end
+
+  describe "GET /definitions" do
+    it "returns http success" do
+      get definitions_page_path
+
+      expect(response).to be_successful
+    end
+  end
 end
