@@ -54,14 +54,21 @@
     display: none;
 }
 
- 
 .accordion details[open] summary {
-    background: blue;
-    color: white
+    background: #415262;
 }
 
-.accordion details[open] summary::after {
+.accordion details[open] summary .skill-title {
+    color: #F3F7F8;
+}
+
+.accordion details[open] summary .skill-code {
+    color: #C6D3DB;
+}
+
+.accordion details[open] summary::before {
     content: "-";
+    color: #FF7169;
 }
 
 .accordion details[open] summary ~ * {

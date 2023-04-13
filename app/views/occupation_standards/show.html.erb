@@ -24,10 +24,10 @@
 </nav>
 
 <section aria-labelledby="occupation-title" class="bg-seafoam-50">
-  <div class="mx-auto max-w-screen-xl border-2 border-dotted border-green-500 px-4 py-8 sm:py-16 lg:px-6">
-    <div class="my-6 mb-8 border-4 border-dotted border-purple-700 lg:mb-16">
+  <div class="mx-auto max-w-screen-xl px-4 py-8 sm:py-16 lg:px-6">
+    <div>
       <div class="flex flex-col justify-between space-y-6 md:flex-row md:space-y-0">
-        <div class="border-2 border-dotted border-pink-500">
+        <div>
           <div class="inline">
             <button type="button" class="mb-2 mr-2 rounded-lg border-2 border-blue-700 px-2 py-1 text-center text-sm font-bold text-blue-700 hover:bg-blue-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300">
               <%#= ojt_type_display(@occupation_standard) %>OJT Type
@@ -72,7 +72,7 @@
         </div>
 
         <div class="flex h-full w-full md:w-1/3 items-center rounded bg-slate-700 p-4">
-          <div class="w-full space-y-6 border border-dotted border-blue-400">
+          <div class="w-full space-y-6">
             <div class="text-center text-lg font-bold text-slate-300">Documents</div>
             <button class="flex w-full items-center space-x-4 rounded bg-slate-700 p-2 text-left text-white hover:bg-slate-600">
               <div>
@@ -105,10 +105,10 @@
      
      
 
-<div class="occupation-tabs border-2 border-dashed border-blue-400 py-4 flex flex-wrap items-center">
+<div class="occupation-tabs py-4 flex flex-wrap items-center">
   <input class="radiotab" name="tabs" tabindex="1" type="radio" id="tab1" checked="checked" />
-  <label class="label py-3 mr-4 md:mr-2 order-first text-center hover:border-b-3px hover:border-gray-400 active:bg-gray-100" for="tab1">Work Process Schedule</label>
-  <div class="-mt-0.5 py-6 px-4 border-t-2 border-seafoam-700 border-opacity-30 panel hidden w-full" tabindex="1">
+  <label class="label py-3 mr-4 order-first text-center hover:border-b-3px hover:border-gray-400 active:bg-gray-100" for="tab1">Work Process Schedule</label>
+  <div class="-mt-0.5 border-t-2 border-seafoam-700 border-opacity-30 panel hidden w-full" tabindex="1">
     <div class="flex justify-between">
 
       <div>
@@ -132,8 +132,8 @@
       </div>
       </div>
       
-      <div class="flex items-center">
-        <div class="flex flex-col lg:flex-row">
+      <div class="flex items-center mr-4">
+        <div class="flex flex-row">
           <div class="m-1.5 w-28 rounded bg-yonder-100 px-1 py-3 text-center">
             <div class="text-3xl font-bold text-yonder-600">68</div>
             <div class="text-sm font-bold text-yonder-400">Skills</div>
@@ -148,30 +148,112 @@
 
     </div>
 
-    <div class="w-full my-6 border-4 border-dotted border-orange-400">
+    <div class="w-full my-6">
     <div class='flex items-center justify-center'>
-    <div class='w-full mx-auto bg-seafoam rounded-lg shadow-xl'>
-        <details class="w-full bg-white border border-blue-500 cursor-pointer mb-3">
-            <summary class="w-full bg-seafoam-700 bg-opacity-5 text-dark flex justify-between px-4 py-3  after:content-['+']">Technical Math</summary>
-            <p class="px-4 py-3">
-            Nunc posuere dapibus urna quis cursus. Mauris malesuada tincidunt diam vel placerat mi tincidunt ac. Nullam augue urna, venenatis ut blandit eget, auctor vel eros. In ut dolor ante
-            </p>
-        </details>
+    <div class='accordion w-full mx-auto'>
+        <details class="w-full bg-white border-b-2 border-seafoam-300 cursor-pointer">
+            <summary class="w-full items-center bg-seafoam-200 flex space-x-4 px-4 py-2 before:content-['+'] before:mr-4 before:font-bold before:text-3xl before:text-secondary-600">
+              
+              <div class="flex w-full items-center justify-between">
+                <div class="space-x-3">
+                  <span class="skill-title text-xl text-primary-900 font-bold">Technical Math</span>
+                  <span class="skill-code text-primary-600">15.0501</span>
+                </div>
+                
+                <div class="flex items-center">
+                  <div class="flex flex-row">
+                    <div class="m-1.5 w-28 rounded bg-yonder-100 px-1 py-3 text-center">
+                      <div class="text-3xl font-bold text-yonder-600">4</div>
+                    </div>
+                    <div class="m-1.5 w-28 rounded bg-rust-100 px-1 py-3 text-center">
+                      <div class="text-3xl font-bold text-rust-700">150</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-        <details class="w-full bg-white border border-blue-500 cursor-pointer mb-3">
-            <summary class="w-full bg-seafoam-700 bg-opacity-5 text-dark flex justify-between px-4 py-3 after:content-['+']">Drives and Motor Controls</summary>
-            <p class="px-4 py-3">
-            Fusce sed laoreet ex. Aenean justo nisl, eleifend eget eleifend sit amet, imperdiet id libero. Suspendisse et tempus leo, et lacinia arcu. Etiam at ante in est efficitur fringilla eleifend nec tellus. Integer sed auctor lectus, nec ullamcorper arcu. Nullam nec eros elit. Nulla tempor massa ut quam elementum dignissim. Sed eu pulvinar est, vel vehicula dolor. Pellentesque in ante vel elit facilisis consectetur eu id felis
-            </p>
-        </details>
-
-        <details class="w-full bg-white border border-blue-500 cursor-pointer mb-3">
-            <summary class="w-full bg-seafoam-700 bg-opacity-5 text-dark flex justify-between px-4 py-3  after:content-['+']">
-            Low Pressure Chiller Systems
             </summary>
-            <p class="px-4 py-3">
-            Etiam maximus vitae eros eu vestibulum. Donec posuere, magna non tincidunt dignissim, magna tortor mollis augue, at maximus ante lacus vel tellus. Vestibulum vestibulum consectetur tortor id sagittis. Suspendisse nisi ipsum, pretium a lorem at, laoreet condimentum arcu
-            </p>
+            <div class="accordion-content space-y-4 p-8 text-primary-600">
+              <p>
+              Nunc posuere dapibus urna quis cursus. Mauris malesuada tincidunt diam vel placerat mi tincidunt ac. Nullam augue urna, venenatis ut blandit eget, auctor vel eros. In ut dolor ante
+              </p>
+              <ol class="list-decimal list-inside space-y-1" role="list">
+                <li>Skill One</li>
+                <li>Skill Two</li>
+                <li>Skill Three</li>
+                <li>Skill Four</li>
+              </ol>
+            </div>
+           
+        </details>
+
+        <details class="w-full bg-white border-b-2 border-seafoam-300 cursor-pointer">
+            <summary class="w-full items-center bg-seafoam-200 flex space-x-4 px-4 py-2 before:content-['+'] before:mr-4 before:font-bold before:text-3xl before:text-secondary-600">
+              <div class="flex w-full items-center justify-between">
+
+                <div class="space-x-3">
+                  <span class="skill-title text-xl text-primary-900 font-bold">Drives and Motor Controls</span>
+                  <span class="skill-code text-primary-600">Skill Code</span>
+                </div>
+
+                <div class="flex items-center">
+                  <div class="flex flex-row">
+                    <div class="m-1.5 w-28 rounded bg-yonder-100 px-1 py-3 text-center">
+                      <div class="text-3xl font-bold text-yonder-600">4</div>
+                    </div>
+                    <div class="m-1.5 w-28 rounded bg-rust-100 px-1 py-3 text-center">
+                      <div class="text-3xl font-bold text-rust-700">150</div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </summary>
+            <div class="accordion-content space-y-4 p-8 text-primary-600">
+              <p>
+              Nunc posuere dapibus urna quis cursus. Mauris malesuada tincidunt diam vel placerat mi tincidunt ac. Nullam augue urna, venenatis ut blandit eget, auctor vel eros. In ut dolor ante
+              </p>
+              <ol class="list-decimal list-inside space-y-1" role="list">
+                <li>Skill One</li>
+                <li>Skill Two</li>
+                <li>Skill Three</li>
+                <li>Skill Four</li>
+              </ol>
+            </div>
+        </details>
+
+        <details class="w-full bg-white border-b-2 border-seafoam-300 cursor-pointer">
+            <summary class="w-full items-center bg-seafoam-200 flex space-x-4 px-4 py-2 before:content-['+'] before:mr-4 before:font-bold before:text-3xl before:text-secondary-600">
+              <div class="flex w-full items-center justify-between">
+                <div class="space-x-3">
+                  <span class="skill-title text-xl text-primary-900 font-bold">Low Pressure Chiller Systems</span>
+                  <span class="skill-code text-primary-600">Skill Code</span>
+                </div>
+
+                <div class="flex items-center">
+                  <div class="flex flex-row">
+                    <div class="m-1.5 w-28 rounded bg-yonder-100 px-1 py-3 text-center">
+                      <div class="text-3xl font-bold text-yonder-600">4</div>
+                    </div>
+                    <div class="m-1.5 w-28 rounded bg-rust-100 px-1 py-3 text-center">
+                      <div class="text-3xl font-bold text-rust-700">150</div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </summary>
+            <div class="accordion-content space-y-4 p-8 text-primary-600">
+              <p>
+              Nunc posuere dapibus urna quis cursus. Mauris malesuada tincidunt diam vel placerat mi tincidunt ac. Nullam augue urna, venenatis ut blandit eget, auctor vel eros. In ut dolor ante
+              </p>
+              <ol class="list-decimal list-inside space-y-1" role="list">
+                <li>Skill One</li>
+                <li>Skill Two</li>
+                <li>Skill Three</li>
+                <li>Skill Four</li>
+              </ol>
+            </div>
         </details>
         </div>
         </div>
@@ -181,8 +263,8 @@
   </div>
 
   <input class="radiotab" tabindex="1" name="tabs" type="radio" id="tab2" />
-  <label class="label py-3 mr-4 md:mr-2 order-first text-center hover:border-b-3px hover:border-gray-400 active:bg-gray-100" for="tab2">Related Instruction Outline</label>
-  <div class="-mt-0.5 py-6 px-4 border-t-2 border-seafoam-700 border-opacity-30 panel hidden w-full" tabindex="1">
+  <label class="label py-3 mr-4 order-first text-center hover:border-b-3px hover:border-gray-400 active:bg-gray-100" for="tab2">Related Instruction Outline</label>
+  <div class="-mt-0.5 border-t-2 border-seafoam-700 border-opacity-30 panel hidden w-full" tabindex="1">
 
   <div class="flex justify-between">
     
@@ -226,24 +308,48 @@
 
       </div>
 
-      <div class="similar-programs border-2 border-dashed border-blue-400">
-        <h3 class="font-bold text-2xl pt-4">Similar Programs</h3>
+      <div class="similar-programs">
+        <h3 class="font-bold text-2xl text-primary-600 pt-4">Similar Programs</h3>
         <div class="py-4 flex flex-col md:flex-row md:justify-between">
-          <div class="w-full h-full rounded py-4 px-2 mr-4 mb-4 bg-gray-100">
-            <div class="font-bold">Mechatronics Technician</div>
-            <div>Hybrid &#x2022; 17-3024.00</div>
+          <div class="w-full h-full rounded py-4 px-2 mr-4 mb-4 border-2 border-seafoam-200 bg-white">
+            <div class="text-primary-600 font-bold">
+              Mechatronics Technician
+            </div>
+            <div class="text-orange-800">
+            <span class="text-yonder-500">Hybrid</span>
+            <span>&#x2022;</span>
+            <span>17-3024.00</span>
+            </div>
           </div>
-          <div class="w-full h-full rounded py-4 px-2 mr-4 mb-4 bg-gray-100">
-            <div class="font-bold">Mechatronics Technician</div>
-            <div>Hybrid &#x2022; 17-3024.00</div>
+          <div class="w-full h-full rounded py-4 px-2 mr-4 mb-4 border-2 border-seafoam-200 bg-white">
+            <div class="text-primary-600 font-bold">
+              Mechatronics Technician
+            </div>
+            <div class="text-orange-800">
+            <span class="text-yonder-500">Hybrid</span>
+            <span>&#x2022;</span>
+            <span>17-3024.00</span>
+            </div>
           </div>
-          <div class="w-full h-full rounded py-4 px-2 mr-4 mb-4 bg-gray-100">
-            <div class="font-bold">Mechatronics Technician</div>
-            <div>Hybrid &#x2022; 17-3024.00</div>
+          <div class="w-full h-full rounded py-4 px-2 mr-4 mb-4 border-2 border-seafoam-200 bg-white">
+            <div class="text-primary-600 font-bold">
+              Mechatronics Technician
+            </div>
+            <div class="text-orange-800">
+            <span class="text-yonder-500">Hybrid</span>
+            <span>&#x2022;</span>
+            <span>17-3024.00</span>
+            </div>
           </div>
-          <div class="w-full h-full rounded py-4 px-2 mr-4 mb-4 bg-gray-100">
-            <div class="font-bold">Mechatronics Technician</div>
-            <div>Hybrid &#x2022; 17-3024.00</div>
+          <div class="w-full h-full rounded py-4 px-2 mr-4 mb-4 border-2 border-seafoam-200 bg-white">
+            <div class="text-primary-600 font-bold">
+              Mechatronics Technician
+            </div>
+            <div class="text-orange-800">
+            <span class="text-yonder-500">Hybrid</span>
+            <span>&#x2022;</span>
+            <span>17-3024.00</span>
+            </div>
           </div>
         </div>
       </div>

@@ -39,7 +39,7 @@ module.exports = {
         seafoam: {
           '50': '#eefffd',
           '100': '#DEEEED',
-          '200': '#CFE0E0',
+          '200': '#D1E1E1',
           '300': '#9AC1C1',
           '400': '#66A2A3',
           '500': '#66A2A3',
