@@ -44,6 +44,7 @@ Rails.application.routes.draw do
   resources :occupation_standards, only: [:index, :show]
   get "home", as: :home_page, to: "pages#home"
   get "about", as: :about_page, to: "pages#about"
+  get "definitions", as: :definitions_page, to: "pages#definitions"
 
   namespace :api do
     namespace :v1 do
