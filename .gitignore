@@ -37,3 +37,5 @@
 
 # Ignore spec file to track failures for --only-failures flag
 spec/examples.txt
+
+.DS_Store
