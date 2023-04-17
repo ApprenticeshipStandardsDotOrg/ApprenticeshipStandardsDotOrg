@@ -46,11 +46,18 @@ class Scraper::WashingtonJob < Scraper::WatirJob
       begin
         standards_import = StandardsImport.where(
           name: file
-        ).first_or_create!(
+        ).first_or_initialize(
           notes: "From Scraper::WashingtonJob: #{program_link}"
         )
 
-        standards_import.files.attach(io: URI.open("https://#{file_path}"), filename: File.basename(file))
+        if standards_import.new_record?
+          standards_import.save!
+
+          standards_import.files.attach(
+            io: URI.open("https://#{file_path}"),
+            filename: File.basename(file)
+          )
+        end
       rescue OpenURI::HTTPError
         next
       rescue Watir::Exception::UnknownObjectException => e
