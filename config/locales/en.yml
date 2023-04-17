@@ -12,3 +12,6 @@ en:
         rsi_hours_max: Max RSI hours
         rsi_hours_min: Min RSI hours
         url: URL
+  time:
+    formats:
+      default: "%Y-%m-%d %H:%M:%S %Z"
