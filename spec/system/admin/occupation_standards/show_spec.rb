@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "admin/occupation_standards/show" do
   it "displays title and description", :admin do
-    occupation_standard = create(:occupation_standard, title: "Mechanic", created_at: Time.zone.local(2022,1,15,1,2,3), updated_at: Time.zone.local(2022,6,17,10,11,12))
+    occupation_standard = create(:occupation_standard, title: "Mechanic", created_at: Time.zone.local(2022, 1, 15, 1, 2, 3), updated_at: Time.zone.local(2022, 6, 17, 10, 11, 12))
 
     work_process = create(:work_process, occupation_standard: occupation_standard, minimum_hours: 10, maximum_hours: 20, title: "WP1")
     create_pair(:competency, work_process: work_process)
