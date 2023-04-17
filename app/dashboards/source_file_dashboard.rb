@@ -7,6 +7,7 @@ class SourceFileDashboard < Administrate::BaseDashboard
     data_imports: HasManyDataImportsField,
     metadata: Field::JSONB,
     status: EnumField,
+    url: Field::Url.with_options(searchable: false),
     created_at: Field::DateTime,
     updated_at: Field::DateTime
   }.freeze
@@ -21,6 +22,7 @@ class SourceFileDashboard < Administrate::BaseDashboard
     data_imports
     metadata
     active_storage_attachment
+    url
   ].freeze
 
   FORM_ATTRIBUTES = %i[
