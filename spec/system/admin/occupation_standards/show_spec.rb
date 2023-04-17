@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "admin/occupation_standards/show" do
   it "displays title and description", :admin do
-    occupation_standard = create(:occupation_standard, title: "Mechanic")
+    occupation_standard = create(:occupation_standard, title: "Mechanic", created_at: Time.zone.local(2022,1,15,1,2,3), updated_at: Time.zone.local(2022,6,17,10,11,12))
 
     work_process = create(:work_process, occupation_standard: occupation_standard, minimum_hours: 10, maximum_hours: 20, title: "WP1")
     create_pair(:competency, work_process: work_process)
@@ -51,8 +51,8 @@ RSpec.describe "admin/occupation_standards/show" do
     expect(page).to have_selector("dd", text: occupation_standard.term_months)
     expect(page).to have_selector("dd", text: occupation_standard.url)
     expect(page).to have_selector("dd", text: occupation_standard.status.titleize)
-    expect(page).to have_selector("dd", text: occupation_standard.created_at.to_s(:short))
-    expect(page).to have_selector("dd", text: occupation_standard.updated_at.to_s(:short))
+    expect(page).to have_selector("dd", text: "2022-01-15 01:02:03 EST")
+    expect(page).to have_selector("dd", text: "2022-06-17 10:11:12 EDT")
 
     expect(page).to have_selector("dd", text: occupation_standard.apprenticeship_to_journeyworker_ratio)
     expect(page).to have_selector("dd", text: occupation_standard.existing_title)
