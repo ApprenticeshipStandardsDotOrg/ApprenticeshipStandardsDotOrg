@@ -17,4 +17,18 @@ class SourceFile < ApplicationRecord
   def metadata=(value)
     self[:metadata] = value.is_a?(String) ? JSON.parse(value) : value
   end
+
+  def organization
+    standards_import.organization
+  end
+
+  def notes
+    standards_import.notes
+  end
+
+  private
+
+  def standards_import
+    active_storage_attachment.record
+  end
 end
