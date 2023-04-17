@@ -19,6 +19,7 @@ class SourceFileDashboard < Administrate::BaseDashboard
 
   SHOW_PAGE_ATTRIBUTES = %i[
     data_imports
+    metadata
     active_storage_attachment
   ].freeze
 
