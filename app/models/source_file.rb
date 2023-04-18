@@ -11,4 +11,10 @@ class SourceFile < ApplicationRecord
   def url
     active_storage_attachment.blob.url
   end
+
+  # This saves the metadata as JSON instead of string.
+  # See https://github.com/codica2/administrate-field-jsonb/issues/1
+  def metadata=(value)
+    self[:metadata] = value.is_a?(String) ? JSON.parse(value) : value
+  end
 end
