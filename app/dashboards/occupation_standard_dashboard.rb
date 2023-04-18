@@ -3,7 +3,7 @@ require "administrate/base_dashboard"
 class OccupationStandardDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     apprenticeship_to_journeyworker_ratio: Field::String,
-    created_at: Field::DateTime.with_options(format: :short),
+    created_at: Field::DateTime,
     data_imports: Field::HasMany,
     existing_title: Field::String,
     id: Field::String,
@@ -24,7 +24,7 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
     status: EnumField,
     term_months: Field::Number,
     title: Field::String,
-    updated_at: Field::DateTime.with_options(format: :short),
+    updated_at: Field::DateTime,
     url: Field::Url,
     wage_steps: Field::HasMany,
     work_processes: Field::HasMany
@@ -39,7 +39,6 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
   ].freeze
 
   SHOW_PAGE_ATTRIBUTES = %i[
-
     title
     onet_code
     rapids_code
