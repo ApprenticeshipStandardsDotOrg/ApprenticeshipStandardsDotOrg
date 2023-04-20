@@ -1,0 +1,31 @@
+<footer class="bg-primary-900">
+  <div class="p-4 py-6 mx-auto max-w-screen-xl md:p-8 lg:-10">
+      <div class="grid grid-cols-2 gap-8 lg:grid-cols-6">
+          <div class="col-span-5">
+              <%= link_to "ApprenticeshipStandards.org", home_page_path, class: "flex items-center mb-2 text-2xl font-semibold sm:mb-0 text-white" %>
+              <p class="my-4 font-light text-gray-100">Funding info here</p>
+
+          </div>
+          <div class="lg:mx-auto">
+              <!-- <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Company</h2> -->
+              <ul class="text-gray-200">
+                  <li class="mb-4">
+                      <%= link_to "About", about_page_path, class: "hover:underline" %>
+                  </li>
+                  <li class="mb-4">
+                      <%= link_to "Definitions", definitions_page_path, class: "hover:underline" %>
+                  </li>
+                  <li class="mb-4">
+                      <%= link_to "Contact", home_page_path, class: "hover:underline" %>
+                  </li>
+                  <li class="mb-4">
+                      <%= link_to "Privacy/Terms", home_page_path, class: "hover:underline" %>
+                  </li>
+              </ul>
+          </div>
+
+      </div>
+      <hr class="my-6 sm:mx-auto border-gray-600 lg:my-8">
+      <span class="block text-sm text-center text-gray-500">© 2022-2023 <a href="/home" class="hover:underline"> ApprenticeshipStandards.org™</a>. All Rights Reserved.</span>
+  </div>
+</footer>
