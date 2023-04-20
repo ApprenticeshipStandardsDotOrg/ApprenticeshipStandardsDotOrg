@@ -140,7 +140,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_17_144051) do
     t.string "code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "version"
     t.index ["code"], name: "unique_code", unique: true
   end
 
