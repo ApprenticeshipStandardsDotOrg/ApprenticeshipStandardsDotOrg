@@ -46,14 +46,14 @@
                 <div>
                     <div class="inline">
                         <% if occupation_standard.ojt_type %>
-                        <button type="button" class="mr-2 mb-2 rounded-lg border-2 border-primary-400 px-2 py-1 text-center text-sm font-bold text-primary-400 hover:bg-primary-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-primary-300"><%= ojt_type_display(occupation_standard) %></button>
+                        <button type="button" class="mr-2 mb-2 rounded-lg border-2 border-primary-700 px-2 py-1 text-center text-sm font-bold text-primary-700 hover:bg-primary-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-primary-300"><%= ojt_type_display(occupation_standard) %></button>
                         <% end %>
                     </div>
                     <h3 class="occupation-title text-2xl font-bold dark:text-white"><%= occupation_standard.title %></h3>
-                    <p class="mb-4 font-bold text-seafoam-600">Anonymous</p>
+                    <p class="mb-4 font-bold text-seafoam-900">Anonymous</p>
                     <div class="inline">
-                        <button type="button" class="mr-2 mb-2 rounded-lg bg-yellow-100 px-2 py-1 text-sm font-bold text-goldenrod-600 hover:bg-yellow-200 hover:text-goldenrod-700 focus:outline-none focus:ring-4 focus:ring-orange-300"><%= occupation_standard.onet_code %></button>
-                        <button type="button" class="mr-2 mb-2 rounded-lg bg-yellow-100 px-2 py-1 text-sm font-bold text-goldenrod-600 hover:bg-yellow-200 hover:text-goldenrod-700 focus:outline-none focus:ring-4 focus:ring-orange-300"><%= occupation_standard.onet_code %><span> • </span>2014</button>
+                        <button type="button" class="mr-2 mb-2 rounded-lg bg-yellow-100 px-2 py-1 text-sm font-bold text-goldenrod-800 hover:bg-yellow-200 hover:text-goldenrod-900 focus:outline-none focus:ring-4 focus:ring-orange-300"><%= occupation_standard.onet_code %></button>
+                        <button type="button" class="mr-2 mb-2 rounded-lg bg-yellow-100 px-2 py-1 text-sm font-bold text-goldenrod-800 hover:bg-yellow-200 hover:text-goldenrod-900 focus:outline-none focus:ring-4 focus:ring-orange-300"><%= occupation_standard.onet_code %><span> • </span>2014</button>
                     </div>
                     <div class="my-3 flex flex-col lg:flex-row">
                         <div class="flex items-center lg:mr-4 mr-0 mb-4 lg:mb-0">
@@ -76,7 +76,7 @@
                                 <path d="M8.21 13.8899L7 22.9999L12 19.9999L17 22.9999L15.79 13.8799" stroke="#BA8718" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </div>
-                        <div class="text-sm text-goldenrod-600 font-bold">National Occupational Frameworks</div>
+                        <div class="text-sm text-goldenrod-700 font-bold">National Occupational Frameworks</div>
                     </div>
                 </div>
 
@@ -84,15 +84,15 @@
                     <div class="flex flex-col lg:flex-row">
                         <div class="m-1.5 w-28 rounded bg-yonder-100 px-1 py-3 text-center">
                             <div class="text-3xl font-bold text-yonder-600"><%= occupation_standard.competencies_count %></div>
-                            <div class="text-sm font-bold text-yonder-400">Skills</div>
+                            <div class="text-sm font-bold text-yonder-600">Skills</div>
                         </div>
                         <div class="m-1.5 w-28 rounded bg-rust-100 px-1 py-3 text-center">
                             <div class="text-3xl font-bold text-rust-700">8K</div>
-                            <div class="text-sm font-bold text-rust-500">OJT hours</div>
+                            <div class="text-sm font-bold text-rust-700">OJT hours</div>
                         </div>
                         <div class="m-1.5 w-28 rounded bg-pear-100 px-1 py-3 text-center">
-                            <div class="text-3xl font-bold text-pear-600">600</div>
-                            <div class="text-sm font-bold text-pear-500">RSI hours</div>
+                            <div class="text-3xl font-bold text-pear-700">600</div>
+                            <div class="text-sm font-bold text-pear-800">RSI hours</div>
                         </div>
                     </div>
                 </div>
