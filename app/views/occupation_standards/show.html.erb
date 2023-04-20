@@ -24,19 +24,27 @@
 </nav>
 
 <section aria-labelledby="occupation-title" class="bg-seafoam-50">
-  <div class="mx-auto max-w-screen-xl border border-dotted border-yellow-300 px-4 py-8 sm:py-16 lg:px-6">
-    <div class="my-6 mb-8 border-2 border-dotted lg:mb-16">
+  <div class="mx-auto max-w-screen-xl border-2 border-dotted border-green-500 px-4 py-8 sm:py-16 lg:px-6">
+    <div class="my-6 mb-8 border-4 border-dotted border-purple-700 lg:mb-16">
       <div class="flex flex-col justify-between space-y-6 md:flex-row md:space-y-0">
         <div class="border-2 border-dotted border-pink-500">
           <div class="inline">
-            <button type="button" class="mb-2 mr-2 rounded-lg border-2 border-blue-700 px-2 py-1 text-center text-sm font-bold text-blue-700 hover:bg-blue-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300"><%= ojt_type_display(@occupation_standard) %></button>
-            <button type="button" class="mb-2 mr-2 rounded-lg border-2 border-blue-700 px-2 py-1 text-center text-sm font-bold text-blue-700 hover:bg-blue-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300"><%= ojt_type_display(@occupation_standard) %></button>
+            <button type="button" class="mb-2 mr-2 rounded-lg border-2 border-blue-700 px-2 py-1 text-center text-sm font-bold text-blue-700 hover:bg-blue-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300">
+              <%#= ojt_type_display(@occupation_standard) %>OJT Type
+            </button>
+            <button type="button" class="mb-2 mr-2 rounded-lg border-2 border-blue-700 px-2 py-1 text-center text-sm font-bold text-blue-700 hover:bg-blue-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300">
+              <%#= ojt_type_display(@occupation_standard) %>OJT Type
+            </button>
           </div>
           <h3 class="occupation-title text-2xl font-bold"><%= @occupation_standard.title %></h3>
           <p class="mb-4 font-bold text-gray-500">Anonymous</p>
           <div class="inline">
-            <button type="button" class="mb-2 mr-2 rounded-lg bg-yellow-200 px-2 py-1 text-sm font-medium text-orange-800 hover:bg-yellow-100 focus:outline-none focus:ring-4 focus:ring-yellow-300"><%= @occupation_standard.onet_code %></button>
-            <button type="button" class="mb-2 mr-2 rounded-lg bg-yellow-200 px-2 py-1 text-sm font-medium text-orange-800 hover:bg-yellow-100 focus:outline-none focus:ring-4 focus:ring-yellow-300"><%= @occupation_standard.onet_code %></button>
+            <button type="button" class="mb-2 mr-2 rounded-lg bg-yellow-200 px-2 py-1 text-sm font-medium text-orange-800 hover:bg-yellow-100 focus:outline-none focus:ring-4 focus:ring-yellow-300">
+              <%#= @occupation_standard.onet_code %>Onet Code
+            </button>
+            <button type="button" class="mb-2 mr-2 rounded-lg bg-yellow-200 px-2 py-1 text-sm font-medium text-orange-800 hover:bg-yellow-100 focus:outline-none focus:ring-4 focus:ring-yellow-300">
+              <%#= @occupation_standard.onet_code %>Onet Code
+            </button>
           </div>
           <div class="my-3 flex">
             <div class="mr-6 flex items-center">
@@ -63,8 +71,8 @@
           </div>
         </div>
 
-        <div class="flex h-full w-full items-center rounded bg-slate-700 p-4 md:w-1/3">
-          <div class="space-y-6 border border-dotted border-pink-400">
+        <div class="flex h-full w-full md:w-1/3 items-center rounded bg-slate-700 p-4">
+          <div class="w-full space-y-6 border border-dotted border-blue-400">
             <div class="text-center text-lg font-bold text-slate-300">Documents</div>
             <button class="flex w-full items-center space-x-4 rounded bg-slate-700 p-2 text-left text-white hover:bg-slate-600">
               <div>
@@ -94,33 +102,157 @@
         </div>
       </div>
 
-      <div class="mt-4 flex flex-col border border-dotted border-pink-500 bg-gray-100 px-2 py-3 text-sm lg:flex-row">
-        <ul class="occupation-tabs w-full border-2 border-b-cyan-200">
-          <li class="tab h-full mr-4">
-            <input type="radio" name="tabs" checked="checked" id="tab1">
-            <label class="py-2 block" for="tab1">Work Process Schedule</label>
-            <div id="tab-content1" class="content">
+     
+     
 
-              <h1 class="text-xl font-bold py-4">Work Process Schedule</h1>
-              <hr>
-              <h3>Aliquam tristique orci non facilisis lobortis</h3>
-              <p>Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque commodo tortor ante, sed consequat nulla ultrices sit amet. Integer ornare aliquet metus, vitae volutpat dui bibendum eu. Integer eget eleifend ipsum. Aliquam tristique orci non facilisis lobortis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Cras sagittis vehicula sollicitudin.</p>
-            </div>
-          </li>
+<div class="occupation-tabs border-2 border-dashed border-blue-400 py-4 flex flex-wrap items-center">
+  <input class="radiotab" name="tabs" tabindex="1" type="radio" id="tab1" checked="checked" />
+  <label class="label py-3 mr-4 md:mr-2 order-first text-center hover:border-b-3px hover:border-gray-400 active:bg-gray-100" for="tab1">Work Process Schedule</label>
+  <div class="-mt-0.5 py-6 px-4 border-t-2 border-seafoam-700 border-opacity-30 panel hidden w-full" tabindex="1">
+    <div class="flex justify-between">
 
-          <li class="tab h-full mr-4">
-            <input type="radio" name="tabs" id="tab2">
-            <label class="py-2 block" for="tab2">Related Instruction Outline</label>
-            <div id="tab-content2" class="content">
-              <h1 class="text-xl font-bold py-4">Tab content 2</h1>
-              <hr>
-              <h3>Ut bibendum augue vel magna rhoncus</h3>
-              <br>
-              <p>Nam cursus, massa ac imperdiet posuere, mauris metus gravida ligula, et rutrum ligula mi ut tellus. Quisque elit dolor, sagittis ac purus accumsan, sagittis rhoncus felis. Morbi nec bibendum arcu, sit amet pharetra orci. Nulla pulvinar ultrices quam. Cras nulla erat, eleifend non euismod vel, accumsan quis lacus. Ut bibendum augue vel magna rhoncus, sed rutrum massa vulputate. Nullam lectus diam, venenatis vel elit vel, ornare fermentum metus. Praesent euismod non mauris et dignissim. Sed in diam nec diam pellentesque lacinia at vitae lorem. Quisque et neque condimentum, viverra dolor mollis, feugiat justo.</p>
-            </div>
-          </li>
-        </ul>
+      <div>
+        <h2 class="py-2 text-2xl font-bold">Work Process Content</h2>
+        <p>On the Job Training</p>
+
+        
+      <div class="my-3 flex">
+        <div class="mr-6 flex flex-col md:flex-row md:items-center">
+          <div>
+            <img class="mr-2 h-7 w-auto rounded" src="https://flowbite.com/docs/images/examples/image-1@2x.jpg" alt="organization logo">
+          </div>
+          <div class="font-bold">Institution 1</div>
+        </div>
+        <div class="mr-6 flex flex-col md:flex-row md:items-center">
+          <div>
+            <img class="mr-2 h-7 w-auto rounded" src="https://flowbite.com/docs/images/examples/image-1@2x.jpg" alt="organization logo">
+          </div>
+          <div class="font-bold">Institution 2</div>
+        </div>
+      </div>
+      </div>
+      
+      <div class="flex items-center">
+        <div class="flex flex-col lg:flex-row">
+          <div class="m-1.5 w-28 rounded bg-yonder-100 px-1 py-3 text-center">
+            <div class="text-3xl font-bold text-yonder-600">68</div>
+            <div class="text-sm font-bold text-yonder-400">Skills</div>
+          </div>
+          <div class="m-1.5 w-28 rounded bg-rust-100 px-1 py-3 text-center">
+            <div class="text-3xl font-bold text-rust-700">8K</div>
+            <div class="text-sm font-bold text-rust-500">OJT hours</div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+    <div class="w-full my-6 border-4 border-dotted border-orange-400">
+    <div class='flex items-center justify-center'>
+    <div class='w-full mx-auto bg-seafoam rounded-lg shadow-xl'>
+        <details class="w-full bg-white border border-blue-500 cursor-pointer mb-3">
+            <summary class="w-full bg-seafoam-700 bg-opacity-5 text-dark flex justify-between px-4 py-3  after:content-['+']">Technical Math</summary>
+            <p class="px-4 py-3">
+            Nunc posuere dapibus urna quis cursus. Mauris malesuada tincidunt diam vel placerat mi tincidunt ac. Nullam augue urna, venenatis ut blandit eget, auctor vel eros. In ut dolor ante
+            </p>
+        </details>
+
+        <details class="w-full bg-white border border-blue-500 cursor-pointer mb-3">
+            <summary class="w-full bg-seafoam-700 bg-opacity-5 text-dark flex justify-between px-4 py-3 after:content-['+']">Drives and Motor Controls</summary>
+            <p class="px-4 py-3">
+            Fusce sed laoreet ex. Aenean justo nisl, eleifend eget eleifend sit amet, imperdiet id libero. Suspendisse et tempus leo, et lacinia arcu. Etiam at ante in est efficitur fringilla eleifend nec tellus. Integer sed auctor lectus, nec ullamcorper arcu. Nullam nec eros elit. Nulla tempor massa ut quam elementum dignissim. Sed eu pulvinar est, vel vehicula dolor. Pellentesque in ante vel elit facilisis consectetur eu id felis
+            </p>
+        </details>
+
+        <details class="w-full bg-white border border-blue-500 cursor-pointer mb-3">
+            <summary class="w-full bg-seafoam-700 bg-opacity-5 text-dark flex justify-between px-4 py-3  after:content-['+']">
+            Low Pressure Chiller Systems
+            </summary>
+            <p class="px-4 py-3">
+            Etiam maximus vitae eros eu vestibulum. Donec posuere, magna non tincidunt dignissim, magna tortor mollis augue, at maximus ante lacus vel tellus. Vestibulum vestibulum consectetur tortor id sagittis. Suspendisse nisi ipsum, pretium a lorem at, laoreet condimentum arcu
+            </p>
+        </details>
+        </div>
+        </div>
+    </div>
+
+
+  </div>
+
+  <input class="radiotab" tabindex="1" name="tabs" type="radio" id="tab2" />
+  <label class="label py-3 mr-4 md:mr-2 order-first text-center hover:border-b-3px hover:border-gray-400 active:bg-gray-100" for="tab2">Related Instruction Outline</label>
+  <div class="-mt-0.5 py-6 px-4 border-t-2 border-seafoam-700 border-opacity-30 panel hidden w-full" tabindex="1">
+
+  <div class="flex justify-between">
+    
+    <div>
+      <h2 class="py-2 text-2xl font-bold">Related Instruction Content</h2>
+      <p>Training Provider(s):</p>
+      <div class="my-3 flex">
+        <div class="mr-6 flex flex-col md:flex-row md:items-center">
+          <div>
+            <img class="mr-2 h-7 w-auto rounded" src="https://flowbite.com/docs/images/examples/image-1@2x.jpg" alt="organization logo">
+          </div>
+          <div class="font-bold">Laney College</div>
+        </div>
+        <div class="mr-6 flex flex-col md:flex-row md:items-center">
+          <div>
+            <img class="mr-2 h-7 w-auto rounded" src="https://flowbite.com/docs/images/examples/image-1@2x.jpg" alt="organization logo">
+          </div>
+          <div class="font-bold">ABC Technical School</div>
+        </div>
       </div>
     </div>
+    
+    <div class="flex items-center">
+      <div class="flex flex-col lg:flex-row">
+        <div class="m-1.5 w-28 rounded bg-pear-100 px-1 py-3 text-center">
+          <div class="text-3xl font-bold text-pear-600">600</div>
+          <div class="text-sm font-bold text-pear-500">RSI hours</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  
+
+  </div>
+</div>
+
+
+
+
+      </div>
+
+      <div class="similar-programs border-2 border-dashed border-blue-400">
+        <h3 class="font-bold text-2xl pt-4">Similar Programs</h3>
+        <div class="py-4 flex flex-col md:flex-row md:justify-between">
+          <div class="w-full h-full rounded py-4 px-2 mr-4 mb-4 bg-gray-100">
+            <div class="font-bold">Mechatronics Technician</div>
+            <div>Hybrid &#x2022; 17-3024.00</div>
+          </div>
+          <div class="w-full h-full rounded py-4 px-2 mr-4 mb-4 bg-gray-100">
+            <div class="font-bold">Mechatronics Technician</div>
+            <div>Hybrid &#x2022; 17-3024.00</div>
+          </div>
+          <div class="w-full h-full rounded py-4 px-2 mr-4 mb-4 bg-gray-100">
+            <div class="font-bold">Mechatronics Technician</div>
+            <div>Hybrid &#x2022; 17-3024.00</div>
+          </div>
+          <div class="w-full h-full rounded py-4 px-2 mr-4 mb-4 bg-gray-100">
+            <div class="font-bold">Mechatronics Technician</div>
+            <div>Hybrid &#x2022; 17-3024.00</div>
+          </div>
+        </div>
+      </div>
+
+
+
+    </div>
+
+
+
   </div>
 </section>
