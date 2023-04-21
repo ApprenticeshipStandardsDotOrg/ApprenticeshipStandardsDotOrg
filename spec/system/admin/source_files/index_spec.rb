@@ -11,7 +11,7 @@ RSpec.describe "admin/source_files/index", :admin do
     source_file = SourceFile.last
     expect(page).to have_content("Pending").once
     expect(page).to have_link("pixel1x1.pdf")
-    expect(page).to have_link("Convert", href: admin_source_file_path(source_file))
+    expect(page).to have_link("Convert", href: new_admin_source_file_data_import_path(source_file))
     expect(page).to have_link("Edit", href: edit_admin_source_file_path(source_file))
     expect(page).to have_link("New source file", href: new_standards_import_path)
   end
@@ -26,7 +26,7 @@ RSpec.describe "admin/source_files/index", :admin do
 
     expect(page).to have_content("Pending").once
     expect(page).to have_link("pixel1x1.pdf")
-    expect(page).to have_link("Convert", href: admin_source_file_path(source_file))
+    expect(page).to have_link("Convert", href: new_admin_source_file_data_import_path(source_file))
     expect(page).to have_link("Edit", href: edit_admin_source_file_path(source_file))
     expect(page).to have_link("New source file", href: new_standards_import_path)
 
