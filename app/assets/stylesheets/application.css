@@ -73,13 +73,12 @@
     animation: slideDown 0.3s ease-in-out;
 }
 
-.accordion details[open] summary p {
+.accordion details[open] summary div {
     opacity: 0;
     animation-name: showContent;
     animation-duration: 0.6s;
     animation-delay: 0.2s;
     animation-fill-mode: forwards;
-    /* margin: 0; */
 }
 
 @keyframes showContent {
@@ -96,7 +95,6 @@
     from {
     opacity: 0;
     height: 0;
-    padding: 0;
     }
 
     to {
