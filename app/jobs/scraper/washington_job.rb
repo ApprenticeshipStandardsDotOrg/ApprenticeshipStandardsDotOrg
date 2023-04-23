@@ -42,11 +42,13 @@ class Scraper::WashingtonJob < Scraper::WatirJob
       browser.refresh
       file = browser.a(text: "Review the Program Standards").href
       file_path = file.gsub("https://", "")
+      organization = browser.h3(class: "lni-u-heading--3").text
 
       begin
         standards_import = StandardsImport.where(
           name: file
         ).first_or_initialize(
+          organization: organization,
           notes: "From Scraper::WashingtonJob: #{program_link}"
         )
 
