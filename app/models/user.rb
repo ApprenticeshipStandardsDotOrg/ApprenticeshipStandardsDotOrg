@@ -5,7 +5,7 @@ class User < ApplicationRecord
     :recoverable, :rememberable, :validatable,
     :trackable
 
-  enum :role, [:basic, :admin]
+  enum :role, {basic: 0, admin: 1, converter: 2}
 
   has_many :api_keys, dependent: :destroy
 
