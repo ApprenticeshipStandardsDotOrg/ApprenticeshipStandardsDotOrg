@@ -50,6 +50,7 @@ gem "docx"
 gem "administrate"
 gem "administrate-field-active_storage"
 gem "administrate-field-jsonb"
+gem "pundit"
 gem "image_processing"
 
 # For API

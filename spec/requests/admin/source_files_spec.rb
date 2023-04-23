@@ -15,6 +15,18 @@ RSpec.describe "Admin::SourceFiles", type: :request do
         end
       end
 
+      context "when converter" do
+        it "returns http success" do
+          admin = create(:user, :converter)
+          create_pair(:standards_import, :with_files)
+
+          sign_in admin
+          get admin_source_files_path
+
+          expect(response).to be_successful
+        end
+      end
+
       context "when guest" do
         it "redirects to root path" do
           get admin_source_files_path
@@ -33,15 +45,17 @@ RSpec.describe "Admin::SourceFiles", type: :request do
     end
   end
 
-  describe "GET /show" do
-    it "returns http success", :admin do
-      admin = create(:admin)
-      file = create(:source_file)
+  describe "GET /show", :admin do
+    context "when admin" do
+      it "returns http success" do
+        admin = create(:admin)
+        file = create(:source_file)
 
-      sign_in admin
-      get edit_admin_source_file_path(file)
+        sign_in admin
+        get edit_admin_source_file_path(file)
 
-      expect(response).to be_successful
+        expect(response).to be_successful
+      end
     end
   end
 
@@ -50,6 +64,18 @@ RSpec.describe "Admin::SourceFiles", type: :request do
       context "when admin user" do
         it "returns http success" do
           admin = create(:admin)
+          file = create(:source_file)
+
+          sign_in admin
+          get edit_admin_source_file_path(file)
+
+          expect(response).to be_successful
+        end
+      end
+
+      context "when converter" do
+        it "returns http success" do
+          admin = create(:user, :converter)
           file = create(:source_file)
 
           sign_in admin
@@ -97,6 +123,23 @@ RSpec.describe "Admin::SourceFiles", type: :request do
           expect(response).to redirect_to admin_source_files_path
         end
       end
+
+      context "when converter" do
+        it "updates record and redirects to index" do
+          admin = create(:user, :converter)
+          file = create(:source_file)
+
+          sign_in admin
+          file_params = {
+            source_file: {
+              status: "completed"
+            }
+          }
+          patch admin_source_file_path(file), params: file_params
+          expect(file.reload).to be_completed
+          expect(response).to redirect_to admin_source_files_path
+        end
+      end
     end
   end
 
@@ -111,6 +154,20 @@ RSpec.describe "Admin::SourceFiles", type: :request do
           expect {
             delete admin_source_file_path(file)
           }.to change(SourceFile, :count).by(-1)
+          expect(response).to redirect_to root_path
+        end
+      end
+
+      context "when converter" do
+        it "deletes record" do
+          admin = create(:user, :converter)
+          file = create(:source_file)
+
+          sign_in admin
+          expect {
+            delete admin_source_file_path(file)
+          }.to_not change(SourceFile, :count)
+          expect(response).to redirect_to admin_homes_path
         end
       end
     end

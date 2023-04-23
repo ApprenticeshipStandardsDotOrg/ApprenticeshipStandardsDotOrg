@@ -28,6 +28,7 @@ Rails.application.routes.draw do
     end
 
     namespace :admin do
+      resources :homes, only: [:index], path: "home"
       resources :data_imports, except: [:index]
       resources :users
       resources :api_keys, only: [:create, :index, :show, :destroy]
