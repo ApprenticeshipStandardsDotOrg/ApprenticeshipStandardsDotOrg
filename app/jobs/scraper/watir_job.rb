@@ -7,7 +7,7 @@ class Scraper::WatirJob < ApplicationJob
     end
 
     options = {
-      args: %w[--headless --no-sandbox --disable-dev-shm-usage --disable-gpu]
+      args: %w[--no-sandbox --headless --disable-dev-shm-usage --disable-gpu]
     }
     if (chrome_bin = ENV.fetch("GOOGLE_CHROME_SHIM", nil))
       options[:binary] = chrome_bin
