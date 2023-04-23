@@ -13,6 +13,7 @@ class UserDashboard < Administrate::BaseDashboard
     current_sign_in_at: Field::DateTime,
     current_sign_in_ip: Field::String,
     email: Field::String,
+    password: Field::Password,
     encrypted_password: Field::String,
     last_sign_in_at: Field::DateTime,
     last_sign_in_ip: Field::String,
@@ -65,6 +66,7 @@ class UserDashboard < Administrate::BaseDashboard
     name
     email
     role
+    password
   ].freeze
 
   # COLLECTION_FILTERS
