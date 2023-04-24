@@ -74,14 +74,14 @@ RSpec.describe "Admin::SourceFiles", type: :request do
       end
 
       context "when converter" do
-        it "returns http success" do
+        it "redirects" do
           admin = create(:user, :converter)
           file = create(:source_file)
 
           sign_in admin
           get edit_admin_source_file_path(file)
 
-          expect(response).to be_successful
+          expect(response).to redirect_to admin_homes_path
         end
       end
 
@@ -125,7 +125,7 @@ RSpec.describe "Admin::SourceFiles", type: :request do
       end
 
       context "when converter" do
-        it "updates record and redirects to index" do
+        it "redirects" do
           admin = create(:user, :converter)
           file = create(:source_file)
 
@@ -136,8 +136,8 @@ RSpec.describe "Admin::SourceFiles", type: :request do
             }
           }
           patch admin_source_file_path(file), params: file_params
-          expect(file.reload).to be_completed
-          expect(response).to redirect_to admin_source_files_path
+          expect(file.reload).to be_pending
+          expect(response).to redirect_to admin_homes_path
         end
       end
     end
