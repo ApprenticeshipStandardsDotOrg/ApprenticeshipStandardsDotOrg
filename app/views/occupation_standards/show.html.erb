@@ -33,20 +33,20 @@
 
                     <div class="inline">
                         <button type="button" class="mb-2 mr-2 rounded-lg border-2 border-primary-700 px-2 py-1 text-center text-sm font-bold text-primary-700 hover:bg-primary-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-primary-300">
-                            <%#= ojt_type_display(@occupation_standard) %>OJT Type
+                            <%= ojt_type_display(@occupation_standard) %>
                         </button>
                         <button type="button" class="mb-2 mr-2 rounded-lg border-2 border-primary-700 px-2 py-1 text-center text-sm font-bold text-primary-700 hover:bg-primary-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-primary-300">
-                            <%#= ojt_type_display(@occupation_standard) %>OJT Type
+                            <%= ojt_type_display(@occupation_standard) %>
                         </button>
                     </div>
-                    <h3 class="occupation-title text-2xl font-bold"><%#= @occupation_standard.title %>Occupation Title</h3>
+                    <h3 class="occupation-title text-2xl font-bold"><%= @occupation_standard.title %></h3>
                     <p class="mb-4 font-bold text-gray-500">Anonymous</p>
                     <div class="inline">
                         <button type="button" class="mb-2 mr-2 rounded-lg bg-yellow-100 px-2 py-1 text-sm font-medium text-goldenrod-800 hover:bg-yellow-200 hover:text-goldenrod-900 focus:outline-none focus:ring-4 focus:ring-orange-300">
-                            <%#= @occupation_standard.onet_code %>Onet Code
+                            <%= @occupation_standard.onet_code %>
                         </button>
                         <button type="button" class="mb-2 mr-2 rounded-lg bg-yellow-100 px-2 py-1 text-sm font-medium text-goldenrod-800 hover:bg-yellow-200 hover:text-goldenrod-900 focus:outline-none focus:ring-4 focus:ring-orange-300">
-                            <%#= @occupation_standard.onet_code %>Onet Code
+                            <%= @occupation_standard.onet_code %>
                         </button>
                     </div>
 
