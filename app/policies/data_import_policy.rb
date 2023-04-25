@@ -1,29 +1,22 @@
 class DataImportPolicy < ApplicationPolicy
-  attr_reader :user, :data_import
-
-  def initialize(user, data_import)
-    @user = user
-    @data_import = data_import
-  end
-
   def show?
     admin_or_converter?
   end
 
-  def create?
-    show?
-  end
-
   def new?
-    show?
+    admin_or_converter?
   end
 
-  def update?
-    user.admin?
+  def create?
+    new?
   end
 
   def edit?
     user.admin?
+  end
+
+  def update?
+    edit?
   end
 
   def destroy?

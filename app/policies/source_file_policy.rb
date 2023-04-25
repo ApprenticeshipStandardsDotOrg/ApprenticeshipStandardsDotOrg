@@ -1,11 +1,4 @@
 class SourceFilePolicy < ApplicationPolicy
-  attr_reader :user, :source_file
-
-  def initialize(user, source_file)
-    @user = user
-    @source_file = source_file
-  end
-
   def index?
     admin_or_converter?
   end
