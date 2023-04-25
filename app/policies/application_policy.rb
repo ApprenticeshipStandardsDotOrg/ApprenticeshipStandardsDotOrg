@@ -50,4 +50,10 @@ class ApplicationPolicy
 
     attr_reader :user, :scope
   end
+
+  private
+
+  def admin_or_converter?
+    %w[admin converter].include?(user.role)
+  end
 end
