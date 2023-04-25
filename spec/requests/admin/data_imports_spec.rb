@@ -157,7 +157,7 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
         expect {
           delete admin_source_file_data_import_path(source_file, data_import)
         }.to_not change(DataImport, :count)
-        expect(response).to redirect_to admin_homes_path
+        expect(response).to redirect_to root_path
       end
     end
   end
@@ -186,7 +186,7 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
           sign_in admin
           get edit_admin_source_file_data_import_path(source_file, data_import)
 
-          expect(response).to redirect_to admin_homes_path
+          expect(response).to redirect_to root_path
         end
       end
 
@@ -241,7 +241,7 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
             }
 
           expect(data_import.reload.description).to eq "old description"
-          expect(response).to redirect_to admin_homes_path
+          expect(response).to redirect_to root_path
         end
       end
     end

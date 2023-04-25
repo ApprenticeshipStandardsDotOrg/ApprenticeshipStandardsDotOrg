@@ -81,7 +81,7 @@ RSpec.describe "Admin::SourceFiles", type: :request do
           sign_in admin
           get edit_admin_source_file_path(file)
 
-          expect(response).to redirect_to admin_homes_path
+          expect(response).to redirect_to root_path
         end
       end
 
@@ -137,7 +137,7 @@ RSpec.describe "Admin::SourceFiles", type: :request do
           }
           patch admin_source_file_path(file), params: file_params
           expect(file.reload).to be_pending
-          expect(response).to redirect_to admin_homes_path
+          expect(response).to redirect_to root_path
         end
       end
     end
@@ -167,7 +167,7 @@ RSpec.describe "Admin::SourceFiles", type: :request do
           expect {
             delete admin_source_file_path(file)
           }.to_not change(SourceFile, :count)
-          expect(response).to redirect_to admin_homes_path
+          expect(response).to redirect_to root_path
         end
       end
     end
