@@ -4,6 +4,6 @@ class OccupationStandardsController < ApplicationController
   end
 
   def show
-    #@occupation_standard = OccupationStandard.find(params[:id])
+    @occupation_standard = OccupationStandard.find(params[:id])
   end
 end
