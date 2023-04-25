@@ -1,6 +1,6 @@
 module Admin
   class DataImportsController < Admin::ApplicationController
-    before_action :set_source_file
+    before_action :set_source_file, except: [:show]
 
     def new
       resource = new_resource
