@@ -148,7 +148,7 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
     end
 
     context "when converter" do
-      it "does not deletes record" do
+      it "does not delete record" do
         admin = create(:user, :converter)
         data_import = create(:data_import)
         source_file = data_import.source_file
@@ -178,7 +178,7 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
       end
 
       context "when converter" do
-        it "returns redirects" do
+        it "redirects" do
           admin = create(:user, :converter)
           data_import = create(:data_import)
           source_file = data_import.source_file

@@ -159,7 +159,7 @@ RSpec.describe "Admin::SourceFiles", type: :request do
       end
 
       context "when converter" do
-        it "deletes record" do
+        it "does not delete record" do
           admin = create(:user, :converter)
           file = create(:source_file)
 
