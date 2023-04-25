@@ -27,6 +27,10 @@ class SourceFile < ApplicationRecord
     standards_import.notes
   end
 
+  def claimed?
+    assignee.present?
+  end
+
   private
 
   def standards_import
