@@ -1,9 +1,9 @@
 <% if field.data %>
   <% if accessible_action?(field.data, :show) %>
     <%= link_to(
-      field.display_associated_resource,
-      [namespace, field.data],
-    ) %>
+          field.display_associated_resource,
+          [namespace, field.data]
+        ) %>
   <% else %>
     <%= field.display_associated_resource %>
   <% end %>

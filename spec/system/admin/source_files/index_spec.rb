@@ -58,8 +58,8 @@ RSpec.describe "admin/source_files/index", :admin do
 
     it "can claim a source file" do
       converter = create(:user, :converter, name: "Mickey Mouse")
-      source_file1 = create(:source_file)
-      source_file2 = create(:source_file, assignee: converter)
+      create(:source_file)
+      create(:source_file, assignee: converter)
       admin = create(:admin, name: "Amy Applebaum")
 
       login_as admin
