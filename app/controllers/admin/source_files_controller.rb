@@ -15,6 +15,12 @@ module Admin
         search_term
       ).run
     end
+
+    private
+
+    def resource_params
+      super.permit(policy(requested_resource).permitted_attributes)
+    end
   end
 end
 

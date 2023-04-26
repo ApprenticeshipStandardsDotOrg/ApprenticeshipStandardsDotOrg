@@ -20,4 +20,12 @@ class SourceFilePolicy < ApplicationPolicy
   def destroy?
     user.admin?
   end
+
+  def permitted_attributes
+    if user.converter?
+      [:assignee_id]
+    else
+      super
+    end
+  end
 end
