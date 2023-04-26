@@ -4,23 +4,15 @@ class SourceFilePolicy < ApplicationPolicy
   end
 
   def show?
-    index?
-  end
-
-  def create?
-    user.admin?
-  end
-
-  def new?
-    index?
-  end
-
-  def update?
-    user.admin?
+    admin_or_converter?
   end
 
   def edit?
     user.admin?
+  end
+
+  def update?
+    edit?
   end
 
   def destroy?
