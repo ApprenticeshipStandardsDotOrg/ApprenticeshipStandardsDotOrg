@@ -55,6 +55,24 @@ RSpec.describe "admin/source_files/index", :admin do
       expect(page).to_not have_link("Edit", href: edit_admin_source_file_path(source_file))
       expect(page).to_not have_link("Destroy")
     end
+
+    it "can claim a source file" do
+      converter = create(:user, :converter, name: "Mickey Mouse")
+      source_file1 = create(:source_file)
+      source_file2 = create(:source_file, assignee: converter)
+      admin = create(:admin, name: "Amy Applebaum")
+
+      login_as admin
+      visit admin_source_files_path
+
+      expect(page).to have_text "Mickey Mouse"
+      expect(page).to have_button("Claim").once
+
+      click_button "Claim"
+
+      expect(page).to have_text "Amy Applebaum"
+      expect(page).to_not have_button "Claim"
+    end
   end
 
   context "when converter" do
@@ -107,6 +125,21 @@ RSpec.describe "admin/source_files/index", :admin do
       expect(page).to_not have_link("Convert")
       expect(page).to_not have_link("Edit", href: edit_admin_source_file_path(source_file))
       expect(page).to_not have_link("Destroy")
+    end
+
+    it "can claim a source file" do
+      create(:source_file)
+      admin = create(:user, :converter, name: "Amy Applebaum")
+
+      login_as admin
+      visit admin_source_files_path
+
+      expect(page).to have_button("Claim").once
+
+      click_button "Claim"
+
+      expect(page).to have_text "Amy Applebaum"
+      expect(page).to_not have_button "Claim"
     end
   end
 end

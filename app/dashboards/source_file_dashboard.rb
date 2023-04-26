@@ -10,6 +10,7 @@ class SourceFileDashboard < Administrate::BaseDashboard
     organization: Field::String.with_options(searchable: false),
     status: EnumField,
     url: Field::Url.with_options(searchable: false),
+    assignee: AssigneeField,
     created_at: Field::DateTime,
     updated_at: Field::DateTime
   }.freeze
@@ -19,6 +20,7 @@ class SourceFileDashboard < Administrate::BaseDashboard
     organization
     active_storage_attachment
     status
+    assignee
   ].freeze
 
   SHOW_PAGE_ATTRIBUTES = %i[
@@ -28,6 +30,7 @@ class SourceFileDashboard < Administrate::BaseDashboard
     active_storage_attachment
     url
     notes
+    assignee
     created_at
     updated_at
   ].freeze
@@ -35,6 +38,7 @@ class SourceFileDashboard < Administrate::BaseDashboard
   FORM_ATTRIBUTES = %i[
     metadata
     status
+    assignee
   ].freeze
 
   COLLECTION_FILTERS = {}.freeze
