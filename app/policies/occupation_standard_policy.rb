@@ -1,0 +1,2 @@
+class OccupationStandardPolicy < AdminPolicy
+end

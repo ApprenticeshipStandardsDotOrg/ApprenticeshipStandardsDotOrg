@@ -12,7 +12,9 @@
   <% end %>
 
   <%= link_to "Edit account", edit_user_registration_path, class: "navigation__link " %>
-  <%= link_to "Sidekiq", sidekiq_path, class: "navigation__link", target: :_blank %>
-  <%= link_to "Swagger API docs", "/api-docs", class: "navigation__link", target: :_blank %>
+  <% if current_user.admin? %>
+    <%= link_to "Sidekiq", sidekiq_path, class: "navigation__link", target: :_blank %>
+    <%= link_to "Swagger API docs", "/api-docs", class: "navigation__link", target: :_blank %>
+  <% end %>
   <%= link_to "Logout", destroy_user_session_path, method: :delete, data: {turbo_method: :delete} %>
 </nav>

@@ -1,0 +1,2 @@
+class APIKeyPolicy < AdminPolicy
+end

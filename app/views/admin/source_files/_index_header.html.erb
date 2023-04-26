@@ -16,11 +16,13 @@
   <% end %>
 
   <div>
-    <%= link_to(
-          "New source file",
-          new_standards_import_path,
-          class: "button"
-        ) %>
+    <% if current_user.admin? %>
+      <%= link_to(
+            "New source file",
+            new_standards_import_path,
+            class: "button"
+          ) %>
+    <% end %>
   </div>
 
 </header>

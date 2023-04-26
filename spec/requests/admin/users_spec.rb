@@ -16,6 +16,17 @@ RSpec.describe "Admin::User", type: :request do
         end
       end
 
+      context "when converter" do
+        it "redirects to root path" do
+          admin = create(:user, :converter)
+
+          sign_in admin
+          get admin_users_path
+
+          expect(response).to redirect_to root_path
+        end
+      end
+
       context "when guest" do
         it "redirects to root path" do
           get admin_users_path

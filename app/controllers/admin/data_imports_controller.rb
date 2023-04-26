@@ -14,6 +14,7 @@ module Admin
     def create
       data_import = @source_file.data_imports.build(resource_params)
       data_import.user = current_user
+      authorize_resource(data_import)
 
       if data_import.save
         ProcessDataImportJob.perform_later(data_import: data_import, last_file: last_file_flag)

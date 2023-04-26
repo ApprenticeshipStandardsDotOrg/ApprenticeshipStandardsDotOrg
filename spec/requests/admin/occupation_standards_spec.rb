@@ -15,6 +15,17 @@ RSpec.describe "Admin::OccupationStandard", type: :request do
         end
       end
 
+      context "when converter" do
+        it "redirects to root path" do
+          admin = create(:user, :converter)
+
+          sign_in admin
+          get admin_occupation_standards_path
+
+          expect(response).to redirect_to root_path
+        end
+      end
+
       context "when guest" do
         it "redirects to root path" do
           get admin_occupation_standards_path
@@ -45,6 +56,19 @@ RSpec.describe "Admin::OccupationStandard", type: :request do
           get admin_occupation_standard_path(occupation_standard)
 
           expect(response).to be_successful
+        end
+      end
+
+      context "when converter" do
+        it "redirects to root path" do
+          admin = create(:user, :converter)
+          data_import = create(:data_import)
+          occupation_standard = data_import.occupation_standard
+
+          sign_in admin
+          get admin_occupation_standard_path(occupation_standard)
+
+          expect(response).to redirect_to root_path
         end
       end
 
@@ -82,6 +106,19 @@ RSpec.describe "Admin::OccupationStandard", type: :request do
           get edit_admin_occupation_standard_path(occupation_standard)
 
           expect(response).to be_successful
+        end
+      end
+
+      context "when converter" do
+        it "redirects to root path" do
+          admin = create(:user, :converter)
+          data_import = create(:data_import)
+          occupation_standard = data_import.occupation_standard
+
+          sign_in admin
+          get edit_admin_occupation_standard_path(occupation_standard)
+
+          expect(response).to redirect_to root_path
         end
       end
 
