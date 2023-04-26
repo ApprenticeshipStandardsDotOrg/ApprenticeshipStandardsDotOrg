@@ -25,7 +25,7 @@ class SourceFilePolicy < ApplicationPolicy
     if user.converter?
       [:assignee_id]
     else
-      super
+      [:metadata, :status, :assignee_id]
     end
   end
 end
