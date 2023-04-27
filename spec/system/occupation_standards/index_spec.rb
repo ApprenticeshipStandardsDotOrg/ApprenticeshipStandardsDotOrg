@@ -19,7 +19,7 @@ RSpec.describe "occupation_standards/index" do
 
     fill_in "q", with: "Mechanic"
 
-    click_button "button"
+    find("#search").click
 
     expect(page).to have_text "Showing Results for Mechanic"
 

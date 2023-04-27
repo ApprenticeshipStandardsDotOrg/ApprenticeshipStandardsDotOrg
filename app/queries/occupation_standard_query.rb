@@ -1,6 +1,6 @@
 class OccupationStandardQuery
   ATTRIBUTES = %i[
-    search_term
+    q
   ]
 
   # Container is a wrapper for the params involved in the search
@@ -11,6 +11,6 @@ class OccupationStandardQuery
     return occupation_standards if search_term_params.blank?
 
     occupation_standards
-      .by_title(search_term_params[:search_term])
+      .by_title(search_term_params[:q])
   end
 end
