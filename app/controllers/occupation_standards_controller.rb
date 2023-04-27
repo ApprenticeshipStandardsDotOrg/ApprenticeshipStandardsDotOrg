@@ -1,11 +1,24 @@
 class OccupationStandardsController < ApplicationController
   def index
-    @pagy, @occupation_standards = pagy(
-      OccupationStandard.includes(:organization, occupation: :onet)
+    @occupation_standards_search = OccupationStandardQuery::Container.new(search_term: search_term_params)
+
+    @occupation_standards = OccupationStandardQuery.run(
+      OccupationStandard.includes(:organization, occupation: :onet),
+      search_term_params
     )
+
+    @pagy, @occupation_standards = pagy(@occupation_standards)
   end
 
   def show
     @occupation_standard = OccupationStandard.find(params[:id])
+  end
+
+  private
+
+  def search_term_params
+    {
+      search_term: params[:q]
+    }
   end
 end

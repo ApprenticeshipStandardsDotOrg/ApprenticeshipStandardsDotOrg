@@ -23,12 +23,14 @@
 
 <section aria-labelledby="occupation-title" class="bg-seafoam-50 dark:bg-gray-900">
     <div class="mx-auto max-w-screen-xl py-8 px-4 sm:py-16 lg:px-6">
-        <div class="mb-8 flex lg:mb-8">
-            <h2 class="mb-4 text-2xl tracking-tight text-gray-900 dark:text-white">
-                Showing Results for
-                <span class="font-bold">"Mechatronics Technician"</span>
-            </h2>
-        </div>
+        <% if @occupation_standards_search.search_term[:search_term].present? %>
+            <div class="mb-8 flex lg:mb-8">
+                <h2 class="mb-4 text-2xl tracking-tight text-gray-900 dark:text-white">
+                    Showing Results for
+                    <span class="font-bold"><%= @occupation_standards_search.search_term[:search_term] %></span>
+                </h2>
+            </div>
+        <% end %>
 
         <% @occupation_standards.each do |occupation_standard| %>
         <div class="my-6 border border-primary-200 rounded-lg bg-white p-6 lg:mb-8">
