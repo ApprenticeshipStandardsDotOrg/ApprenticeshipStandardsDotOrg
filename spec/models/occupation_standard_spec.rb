@@ -98,5 +98,12 @@ RSpec.describe OccupationStandard, type: :model do
 
       expect(described_class.by_title("").pluck(:id)).to match_array([first_occupation.id, second_occupation.id])
     end
+
+    it "returns records that match multiple words" do
+      first_occupation = create(:occupation_standard, title: "Pipe Fitter")
+      create(:occupation_standard, title: "Mechanic")
+
+      expect(described_class.by_title("Pipe Fitter").pluck(:id)).to match_array([first_occupation.id])
+    end
   end
 end
