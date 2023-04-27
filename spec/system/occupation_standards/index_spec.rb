@@ -21,7 +21,7 @@ RSpec.describe "occupation_standards/index" do
 
     click_button "button"
 
-    expect(page).to have_text "Showing Results for Mec"
+    expect(page).to have_text "Showing Results for Mechanic"
 
     expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
     expect(page).to_not have_link "Pipe Fitter", href: occupation_standard_path(pipe_fitter)
