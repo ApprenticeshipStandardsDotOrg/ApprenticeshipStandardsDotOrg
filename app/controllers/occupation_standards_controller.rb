@@ -1,6 +1,8 @@
 class OccupationStandardsController < ApplicationController
   def index
-    @occupation_standards = OccupationStandard.includes(:organization, occupation: :onet)
+    @pagy, @occupation_standards = pagy(
+      OccupationStandard.includes(:organization, occupation: :onet)
+    )
   end
 
   def show
