@@ -52,6 +52,7 @@ gem "administrate-field-active_storage"
 gem "administrate-field-jsonb"
 gem "pundit"
 gem "image_processing"
+gem "pagy"
 
 # For API
 gem "jsonapi-resources"
