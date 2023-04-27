@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe SourceFilePolicy do
-  permissions :index?, :show? do
+  permissions :index?, :show?, :update? do
     it "grants access if user is an admin" do
       admin = build(:admin)
       source_file = build(:source_file)
@@ -17,7 +17,7 @@ describe SourceFilePolicy do
     end
   end
 
-  permissions :edit?, :update?, :destroy? do
+  permissions :edit?, :destroy? do
     it "grants access if user is an admin" do
       admin = build(:admin)
       source_file = build(:source_file)

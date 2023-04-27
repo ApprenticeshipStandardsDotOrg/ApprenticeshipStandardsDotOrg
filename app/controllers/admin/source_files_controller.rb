@@ -1,7 +1,7 @@
 module Admin
   class SourceFilesController < Admin::ApplicationController
     def scoped_resource
-      SourceFile.includes(:data_imports, active_storage_attachment: [:blob, :record]).order(created_at: :desc)
+      SourceFile.includes(:assignee, :data_imports, active_storage_attachment: [:blob, :record]).order(created_at: :desc)
     end
 
     def after_resource_updated_path(resource)
@@ -14,6 +14,12 @@ module Admin
         dashboard,
         search_term
       ).run
+    end
+
+    private
+
+    def resource_params
+      super.permit(policy(requested_resource).permitted_attributes)
     end
   end
 end

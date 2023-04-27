@@ -1,7 +1,7 @@
 require "rails_helper"
 
-RSpec.describe "admin/source_files/show" do
-  it "displays existing data imports and button to upload another", :admin do
+RSpec.describe "admin/source_files/show", :admin do
+  it "displays existing data imports and button to upload another" do
     admin = create(:admin)
     source_file = create(:source_file)
 

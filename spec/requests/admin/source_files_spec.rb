@@ -52,7 +52,19 @@ RSpec.describe "Admin::SourceFiles", type: :request do
         file = create(:source_file)
 
         sign_in admin
-        get edit_admin_source_file_path(file)
+        get admin_source_file_path(file)
+
+        expect(response).to be_successful
+      end
+    end
+
+    context "when converter" do
+      it "returns http success" do
+        admin = create(:user, :converter)
+        file = create(:source_file)
+
+        sign_in admin
+        get admin_source_file_path(file)
 
         expect(response).to be_successful
       end
@@ -125,19 +137,24 @@ RSpec.describe "Admin::SourceFiles", type: :request do
       end
 
       context "when converter" do
-        it "redirects" do
+        it "can update assignee only" do
+          assignee = create(:user, :converter)
           admin = create(:user, :converter)
           file = create(:source_file)
 
           sign_in admin
           file_params = {
             source_file: {
-              status: "completed"
+              status: "completed",
+              assignee_id: assignee.id
             }
           }
           patch admin_source_file_path(file), params: file_params
-          expect(file.reload).to be_pending
-          expect(response).to redirect_to root_path
+
+          file.reload
+          expect(file).to be_pending
+          expect(file.assignee).to eq assignee
+          expect(response).to redirect_to admin_source_files_path
         end
       end
     end

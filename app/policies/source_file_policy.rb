@@ -11,11 +11,21 @@ class SourceFilePolicy < ApplicationPolicy
     user.admin?
   end
 
+  # Allowing converters to update so they can claim a source file. But we do not
+  # currently want them to access the edit page.
   def update?
-    edit?
+    admin_or_converter?
   end
 
   def destroy?
     user.admin?
+  end
+
+  def permitted_attributes
+    if user.converter?
+      [:assignee_id]
+    else
+      [:metadata, :status, :assignee_id]
+    end
   end
 end

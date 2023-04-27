@@ -33,4 +33,19 @@ RSpec.describe SourceFile, type: :model do
       expect(source_file.notes).to eq "From scraper job"
     end
   end
+
+  describe "#claimed?" do
+    it "returns true if there is an assignee" do
+      admin = build_stubbed(:admin)
+      source_file = build_stubbed(:source_file, assignee: admin)
+
+      expect(source_file).to be_claimed
+    end
+
+    it "returns false if there is no assignee" do
+      source_file = build_stubbed(:source_file, assignee: nil)
+
+      expect(source_file).to_not be_claimed
+    end
+  end
 end
