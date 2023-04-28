@@ -1,6 +1,6 @@
 class OccupationStandardsController < ApplicationController
   def index
-    @occupation_standards_search = OccupationStandardQuery::Container.new(q: params[:q])
+    @occupation_standards_search = OccupationStandardQuery::Container.new(search_term_params: search_term_params)
 
     @occupation_standards = OccupationStandardQuery.run(
       OccupationStandard.includes(:organization, occupation: :onet),

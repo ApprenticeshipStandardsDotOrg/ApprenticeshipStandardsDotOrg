@@ -1,6 +1,6 @@
 class OccupationStandardQuery
   ATTRIBUTES = %i[
-    q
+    search_term_params
   ]
 
   # Container is a wrapper for the params involved in the search
