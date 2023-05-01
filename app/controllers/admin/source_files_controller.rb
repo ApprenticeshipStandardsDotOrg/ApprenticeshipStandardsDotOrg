@@ -5,7 +5,7 @@ module Admin
     end
 
     def after_resource_updated_path(resource)
-      admin_source_files_path
+      params[:redirect_back_to].presence || admin_source_files_path
     end
 
     def filter_resources(resources, search_term:)
