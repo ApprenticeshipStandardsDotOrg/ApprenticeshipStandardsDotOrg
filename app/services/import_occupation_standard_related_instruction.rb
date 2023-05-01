@@ -14,9 +14,13 @@ class ImportOccupationStandardRelatedInstruction
 
       sheet.parse(headers: true).each_with_index do |row, index|
         next if index.zero?
-        organization = Organization.find_or_create_by!(
-          title: row["Related Training Organization"]
-        )
+        organization = nil
+
+        if row["Related Training Organization"]
+          organization = Organization.find_or_create_by!(
+            title: row["Related Training Organization"]
+          )
+        end
 
         related_instruction = RelatedInstruction.where(
           occupation_standard: occupation_standard,
