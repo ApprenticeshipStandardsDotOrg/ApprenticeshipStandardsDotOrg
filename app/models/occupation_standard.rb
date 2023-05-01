@@ -17,6 +17,10 @@ class OccupationStandard < ApplicationRecord
 
   validates :title, presence: true
 
+  scope :by_title, ->(title) do
+    where("title ILIKE ?", "%#{sanitize_sql_like(title).split.join("%")}%") if title.present?
+  end
+
   def onet_code
     occupation&.onet&.code || read_attribute(:onet_code)
   end
