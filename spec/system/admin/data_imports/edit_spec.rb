@@ -45,6 +45,6 @@ RSpec.describe "admin/data_imports/edit" do
 
     click_on "Submit"
 
-    expect(page).to have_content "File with these extensions only are accepted" 
+    expect(page).to have_content "File with these extensions only are accepted"
   end
 end

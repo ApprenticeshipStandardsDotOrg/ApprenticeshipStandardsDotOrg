@@ -45,7 +45,7 @@ RSpec.describe "admin/data_imports/new" do
 
     click_on "Submit"
 
-    expect(page).to have_content "File with these extensions only are accepted" 
+    expect(page).to have_content "File with these extensions only are accepted"
   end
 
   it "allows admin user to process file with last_file flag", :admin do
