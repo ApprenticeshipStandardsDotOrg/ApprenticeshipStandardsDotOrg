@@ -16,7 +16,7 @@ RSpec.describe "admin/data_imports/new" do
     expect(page).to have_link("ApprenticeshipStandards Notion", href: "https://www.notion.so/Instructions-060de1705e7d471fa8bee7a7c535a2d6")
 
     fill_in "Description", with: "Some desc"
-    attach_file "File", "spec/fixtures/files/pixel1x1.pdf"
+    attach_file "File", file_fixture("comp-occupation-standards-template.xlsx")
 
     expect(ProcessDataImportJob).to receive(:perform_later).with(data_import: kind_of(DataImport), last_file: false)
 
@@ -28,7 +28,7 @@ RSpec.describe "admin/data_imports/new" do
     expect(page).to have_content("Description")
     expect(page).to have_content("Some desc")
     expect(page).to have_content("File")
-    expect(page).to have_content("pixel1x1.pdf")
+    expect(page).to have_content("comp-occupation-standards-template.xlsx")
   end
 
   it "allows admin user to process file with last_file flag", :admin do
@@ -46,7 +46,7 @@ RSpec.describe "admin/data_imports/new" do
     expect(page).to have_link("ApprenticeshipStandards Notion", href: "https://www.notion.so/Instructions-060de1705e7d471fa8bee7a7c535a2d6")
 
     fill_in "Description", with: "Some desc"
-    attach_file "File", "spec/fixtures/files/pixel1x1.pdf"
+    attach_file "File", file_fixture("comp-occupation-standards-template.xlsx")
     check "This is the last import for pixel1x1.pdf. Change its status to Completed"
 
     expect(ProcessDataImportJob).to receive(:perform_later).with(data_import: kind_of(DataImport), last_file: true)
@@ -59,6 +59,6 @@ RSpec.describe "admin/data_imports/new" do
     expect(page).to have_content("Description")
     expect(page).to have_content("Some desc")
     expect(page).to have_content("File")
-    expect(page).to have_content("pixel1x1.pdf")
+    expect(page).to have_content("comp-occupation-standards-template.xlsx")
   end
 end
