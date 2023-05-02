@@ -1,4 +1,6 @@
 class OccupationStandardsController < ApplicationController
+  include Searchable
+
   def index
     @occupation_standards_search = OccupationStandardQuery::Container.new(search_term_params: search_term_params)
 
@@ -12,13 +14,5 @@ class OccupationStandardsController < ApplicationController
 
   def show
     @occupation_standard = OccupationStandard.find(params[:id])
-  end
-
-  private
-
-  def search_term_params
-    {
-      q: params[:q]
-    }
   end
 end
