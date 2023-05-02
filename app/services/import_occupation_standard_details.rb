@@ -18,7 +18,7 @@ class ImportOccupationStandardDetails
 
       occupation_standard.assign_attributes(
         occupation: occupation,
-        national: national,
+        national: row["National"].present?,
         registration_agency: registration_agency,
         title: row["Occupation Title"],
         existing_title: row["Existing Title"],
@@ -47,10 +47,6 @@ class ImportOccupationStandardDetails
   def registration_agency
     state = State.find_by(abbreviation: row["Registration State"])
     RegistrationAgency.find_by(state: state, agency_type: row["OA or SAA"].downcase.to_sym)
-  end
-
-  def national
-    row["National"]&.eql?("National Program Standards")
   end
 
   def organization
