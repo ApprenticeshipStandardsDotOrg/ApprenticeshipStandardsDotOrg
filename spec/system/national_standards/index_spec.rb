@@ -15,7 +15,7 @@ RSpec.describe "national_standards/index" do
     expect(page).to_not have_link "Medical Assistant"
   end
 
-  it "filters occupations based on search term" do
+  it "filters national standards based on search term" do
     mechanic = create(:occupation_standard, :program_standard, title: "Mechanic")
     create(:occupation_standard, :guideline_standard, title: "Pipe Fitter")
     create(:occupation_standard, :occupational_framework, title: "HR")
