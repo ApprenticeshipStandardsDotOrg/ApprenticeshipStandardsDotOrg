@@ -17,8 +17,8 @@ RSpec.describe "national_standards/index" do
 
   it "filters occupations based on search term" do
     mechanic = create(:occupation_standard, :program_standard, title: "Mechanic")
-    pipe_fitter = create(:occupation_standard, :guideline_standard, title: "Pipe Fitter")
-    hr = create(:occupation_standard, :occupational_framework, title: "HR")
+    create(:occupation_standard, :guideline_standard, title: "Pipe Fitter")
+    create(:occupation_standard, :occupational_framework, title: "HR")
     create(:occupation_standard, national_standard_type: nil, title: "Medical Assistant")
 
     visit national_standards_path
