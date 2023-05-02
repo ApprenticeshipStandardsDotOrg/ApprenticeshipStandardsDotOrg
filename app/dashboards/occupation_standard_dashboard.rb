@@ -27,7 +27,7 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
     updated_at: Field::DateTime,
     url: Field::Url,
     wage_steps: Field::HasMany,
-    work_processes: Field::HasMany,
+    work_processes: Field::HasMany
   }.freeze
 
   COLLECTION_ATTRIBUTES = %i[

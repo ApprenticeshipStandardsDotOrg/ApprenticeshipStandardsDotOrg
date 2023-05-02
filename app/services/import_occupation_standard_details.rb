@@ -34,9 +34,6 @@ class ImportOccupationStandardDetails
         rsi_hours_min: row["Minimum RSI Hours"],
         rsi_hours_max: row["Maximum RSI Hours"]
       )
-
-      puts "*"*30
-      puts occupation_standard.inspect
       DataImport.transaction do
         data_import.save!
         occupation_standard.save!
