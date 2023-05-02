@@ -48,7 +48,7 @@ RSpec.describe ProcessDataImportJob, type: :job do
 
       occupation_standard.reload
       aggregate_failures do
-        expect(occupation_standard.related_instructions.count).to eq 3
+        expect(occupation_standard.related_instructions.count).to eq 4
         expect(occupation_standard.wage_steps.count).to eq 3
         expect(occupation_standard.work_processes.count).to eq 2
         expect(Competency.count).to eq 0
