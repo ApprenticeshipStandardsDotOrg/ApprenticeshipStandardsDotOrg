@@ -98,7 +98,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_03_132536) do
   create_table "occupation_standards", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "occupation_id"
     t.string "url"
-    t.uuid "registration_agency_id", null: false
+    t.uuid "registration_agency_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "title"
@@ -116,6 +116,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_03_132536) do
     t.uuid "organization_id"
     t.integer "status", default: 0, null: false
     t.integer "national_standard_type"
+    t.boolean "national"
     t.index ["occupation_id"], name: "index_occupation_standards_on_occupation_id"
     t.index ["organization_id"], name: "index_occupation_standards_on_organization_id"
     t.index ["registration_agency_id"], name: "index_occupation_standards_on_registration_agency_id"

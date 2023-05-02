@@ -1,6 +1,6 @@
 class OccupationStandard < ApplicationRecord
   belongs_to :occupation, optional: true
-  belongs_to :registration_agency
+  belongs_to :registration_agency, optional: true
   belongs_to :organization, optional: true
   has_many :data_imports
 
@@ -17,6 +17,7 @@ class OccupationStandard < ApplicationRecord
   enum status: [:importing, :in_review, :published]
 
   validates :title, presence: true
+  validates :registration_agency, presence: true, unless: :national?
 
   scope :by_title, ->(title) do
     if title.present?

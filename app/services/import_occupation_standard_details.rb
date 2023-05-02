@@ -18,6 +18,7 @@ class ImportOccupationStandardDetails
 
       occupation_standard.assign_attributes(
         occupation: occupation,
+        national: national,
         registration_agency: registration_agency,
         title: row["Occupation Title"],
         existing_title: row["Existing Title"],
@@ -33,6 +34,9 @@ class ImportOccupationStandardDetails
         rsi_hours_min: row["Minimum RSI Hours"],
         rsi_hours_max: row["Maximum RSI Hours"]
       )
+
+      puts "*"*30
+      puts occupation_standard.inspect
       DataImport.transaction do
         data_import.save!
         occupation_standard.save!
@@ -46,6 +50,10 @@ class ImportOccupationStandardDetails
   def registration_agency
     state = State.find_by(abbreviation: row["Registration State"])
     RegistrationAgency.find_by(state: state, agency_type: row["OA or SAA"].downcase.to_sym)
+  end
+
+  def national
+    row["National"]&.eql?("National Program Standards")
   end
 
   def organization
