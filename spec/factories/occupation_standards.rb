@@ -6,5 +6,9 @@ FactoryBot.define do
     occupation
     url { "http://example.com" }
     registration_agency
+
+    trait :state_standard do
+      national_standard_type { nil }
+    end
   end
 end

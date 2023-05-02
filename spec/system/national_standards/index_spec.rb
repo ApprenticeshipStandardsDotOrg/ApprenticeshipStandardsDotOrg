@@ -5,7 +5,7 @@ RSpec.describe "national_standards/index" do
     mechanic = create(:occupation_standard, :program_standard, title: "Mechanic")
     pipe_fitter = create(:occupation_standard, :guideline_standard, title: "Pipe Fitter")
     hr = create(:occupation_standard, :occupational_framework, title: "HR")
-    create(:occupation_standard, national_standard_type: nil, title: "Medical Assistant")
+    create(:occupation_standard, :state_standard, title: "Medical Assistant")
 
     visit national_standards_path
 
@@ -19,7 +19,7 @@ RSpec.describe "national_standards/index" do
     dental = create(:occupation_standard, :program_standard, title: "Dental Assistant")
     create(:occupation_standard, :guideline_standard, title: "Pipe Fitter")
     create(:occupation_standard, :occupational_framework, title: "HR")
-    create(:occupation_standard, national_standard_type: nil, title: "Medical Assistant")
+    create(:occupation_standard, :state_standard, title: "Medical Assistant")
 
     visit national_standards_path
 
