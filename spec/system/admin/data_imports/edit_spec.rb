@@ -12,7 +12,7 @@ RSpec.describe "admin/data_imports/edit" do
 
     expect(page).to have_content("Edit Data Import for #{data_import.file.filename}")
     fill_in "Description", with: "New desc"
-    attach_file "File", "spec/fixtures/files/pixel1x1.pdf"
+    attach_file "File", file_fixture("comp-occupation-standards-template.xlsx")
     check "This is the last import for pixel1x1.pdf. Change its status to Completed"
 
     expect(ProcessDataImportJob).to receive(:perform_later).with(data_import: kind_of(DataImport), last_file: true)
@@ -25,8 +25,26 @@ RSpec.describe "admin/data_imports/edit" do
     expect(page).to have_content("Description")
     expect(page).to have_content("New desc")
     expect(page).to have_content("File")
-    expect(page).to have_content("pixel1x1.pdf")
+    expect(page).to have_content("comp-occupation-standards-template.xlsx")
     expect(page).to have_content("Occupation standard")
     expect(page).to have_content(data_import.occupation_standard.title)
+  end
+
+  it "does not allow invalid file types", :admin do
+    create(:standards_import, :with_files)
+    source_file = SourceFile.first
+    data_import = create(:data_import, source_file: source_file)
+    admin = create :admin
+
+    login_as admin
+    visit edit_admin_source_file_data_import_path(source_file, data_import)
+
+    attach_file "File", file_fixture("pixel1x1.jpg")
+
+    expect(ProcessDataImportJob).to_not receive(:perform_later)
+
+    click_on "Submit"
+
+    expect(page).to have_content "File with these extensions only are accepted"
   end
 end

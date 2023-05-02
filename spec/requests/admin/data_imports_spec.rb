@@ -40,7 +40,7 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
             post admin_source_file_data_imports_path(source_file), params: {
               data_import: {
                 description: "A new occupation standard",
-                file: fixture_file_upload("spec/fixtures/files/pixel1x1.jpg", "image/jpeg")
+                file: fixture_file_upload("comp-occupation-standards-template.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
               },
               last_file: "1"
             }
@@ -67,7 +67,7 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
             post admin_source_file_data_imports_path(source_file), params: {
               data_import: {
                 description: "A new occupation standard",
-                file: fixture_file_upload("spec/fixtures/files/pixel1x1.jpg", "image/jpeg")
+                file: fixture_file_upload("comp-occupation-standards-template.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
               },
               last_file: "1"
             }
