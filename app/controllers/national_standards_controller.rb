@@ -10,6 +10,7 @@ class NationalStandardsController < ApplicationController
     )
 
     @pagy, @occupation_standards = pagy(@occupation_standards)
+    render "occupation_standards/index"
   end
 
   def show
