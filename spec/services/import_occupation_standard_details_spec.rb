@@ -18,15 +18,16 @@ RSpec.describe ImportOccupationStandardDetails do
         ca_oa = create(:registration_agency, state: ca, agency_type: :oa)
         _ca_saa = create(:registration_agency, state: ca, agency_type: :saa)
         onet = create(:onet, code: "13-1071.01")
-        occupation1 = create(:occupation)
+
+        _occupation1 = create(:occupation, rapids_code: "")
         occupation2 = create(:occupation, onet: onet)
-        
+
         data_import = create(:data_import, :pending)
-        
+
         expect {
           described_class.new(data_import).call
         }.to change(OccupationStandard, :count).by(1)
-        
+
         os = OccupationStandard.last
         expect(os.data_import).to eq data_import
         expect(os.occupation).to eq occupation2
