@@ -79,10 +79,7 @@ RSpec.describe ImportOccupationStandardDetails do
         expect(os.rsi_hours_max).to be_nil
       end
 
-      it "creates an occupation standards record when there is no RAPIDS code" do
-        ca = create(:state, abbreviation: "CA")
-        ca_oa = create(:registration_agency, state: ca, agency_type: :oa)
-
+      it "creates an occupation standards record when there is no RAPIDS code or registration agency" do
         onet = create(:onet, code: "31-1071.01")
         occupation = create(:occupation, onet: onet)
 
@@ -95,7 +92,8 @@ RSpec.describe ImportOccupationStandardDetails do
         os = OccupationStandard.last
         expect(os.data_import).to eq data_import
         expect(os.occupation).to eq occupation
-        expect(os.registration_agency).to eq ca_oa
+        expect(os.registration_agency).to be_nil
+        expect(os.national).to eq true
         expect(os.title).to eq "HUMAN RESOURCE MANAGER"
         expect(os.existing_title).to be_nil
         expect(os.term_months).to eq 12
