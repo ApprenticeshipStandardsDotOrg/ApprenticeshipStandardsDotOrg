@@ -16,20 +16,20 @@ RSpec.describe "national_standards/index" do
   end
 
   it "filters national standards based on search term" do
-    mechanic = create(:occupation_standard, :program_standard, title: "Mechanic")
+    dental = create(:occupation_standard, :program_standard, title: "Dental Assistant")
     create(:occupation_standard, :guideline_standard, title: "Pipe Fitter")
     create(:occupation_standard, :occupational_framework, title: "HR")
     create(:occupation_standard, national_standard_type: nil, title: "Medical Assistant")
 
     visit national_standards_path
 
-    fill_in "q", with: "Mechanic"
+    fill_in "q", with: "Assistant"
     find("#search").click
 
-    expect(page).to have_text "Showing Results for Mechanic"
-    expect(page).to have_field("q", with: "Mechanic")
+    expect(page).to have_text "Showing Results for Assistant"
+    expect(page).to have_field("q", with: "Assistant")
 
-    expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
+    expect(page).to have_link "Dental Assistant", href: occupation_standard_path(dental)
     expect(page).to_not have_link "Pipe Fitter"
     expect(page).to_not have_link "HR"
     expect(page).to_not have_link "Medical Assistant"
@@ -37,7 +37,7 @@ RSpec.describe "national_standards/index" do
     fill_in "q", with: "Medical Assistant"
     find("#search").click
 
-    expect(page).to_not have_link "Mechanic"
+    expect(page).to_not have_link "Dental Assistant"
     expect(page).to_not have_link "Pipe Fitter"
     expect(page).to_not have_link "HR"
     expect(page).to_not have_link "Medical Assistant"
