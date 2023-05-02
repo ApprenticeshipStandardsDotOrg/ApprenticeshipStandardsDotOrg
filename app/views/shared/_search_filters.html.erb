@@ -1,90 +1,113 @@
-  <div class="border-2 border-orange-400 py-2">
-    <div class="flex justify-between">
-      <button class="flex items-center">
-        <span class="text-sm">More Filters</span>
-        <div>
-          <svg aria-label="arrow down icon" class="h-5 w-5" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3.5 5.75L7 9.25L10.5 5.75" stroke="#7E868F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-        </div>
-      </button>
-      <button class="text-sm font-bold">Clear All</button>
-    </div>
-  </div>
-
-  <!--filter content -->
-  <div class="flex border-2 border-pink-500 py-2">
-    <div class="w-1/2">
-      <div class="font-bold">Program Type</div>
-      <button class="my-2 mr-2 flex items-center space-x-2 rounded bg-gray-100 px-2 py-2.5 text-center font-bold text-gray-900 hover:bg-gray-200 focus:outline-none focus:ring-4 focus:ring-gray-100">
-        <div>Hybrid</div>
-        <div class="flex h-6 w-6 items-center rounded-full bg-slate-600 text-white">
-          <div class="w-full text-center">2</div>
-        </div>
+<div class="py-2">
+  <div class="flex justify-between">
+    <button class="flex items-center" data-collapse-toggle="search-filters" type="button" aria-controls="search-filters" aria-expanded="false">
+      <span class="text-sm">Expand Filters</span>
+      <div>
         <svg aria-label="arrow down icon" class="h-5 w-5" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M3.5 5.75L7 9.25L10.5 5.75" stroke="#7E868F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
-      </button>
-    </div>
+      </div>
+    </button>
+  </div>
 
-    <div class="border-l-3 w-full border-black">
-      <div class="font-bold">Locale</div>
+  
 
-      <div class="flex justify-between">
-        <div>
-          <button>State</button>
-        </div>
-
-        <div> <!-- begin flowbite button -->
-
-<button id="dropdownBgHoverButton" data-dropdown-toggle="dropdownBgHover" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">Dropdown checkbox <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
-
-<!-- Dropdown menu -->
-<div id="dropdownBgHover" class="z-10 hidden w-48 bg-white rounded-lg shadow dark:bg-gray-700">
-    <ul class="p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownBgHoverButton">
-      <li>
-        <div class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-          <input id="checkbox-item-4" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-          <label for="checkbox-item-4" class="w-full ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">Default checkbox</label>
-        </div>
-      </li>
-      <li>
-        <div class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-            <input checked id="checkbox-item-5" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-            <label for="checkbox-item-5" class="w-full ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">Checked state</label>
+  <div id="search-filters" class="hidden">
+    <button class="block text-sm font-bold my-3">Clear All</button>
+    <!-- begin filter options -->
+    <div class="flex flex-col py-2 lg:space-x-2 lg:flex-row lg:divide-x divide-seafoam-600">
+      <div>
+        <div class="font-bold">Program Type</div>
+        <button id="dropdownPrgrmTypeButton" data-dropdown-toggle="dropdownPrgrmType" class="my-2 mr-2 flex items-center space-x-2 rounded border border-primary-200 bg-white px-2 py-2.5 text-center font-bold text-seafoam-900 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-200">
+          <div class="flex">Type</div>
+          <div class="flex h-5 w-5 items-center rounded-full bg-seafoam-800 text-white">
+            <div class="w-full text-center text-sm">2</div>
           </div>
-      </li>
-      <li>
-        <div class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-          <input id="checkbox-item-6" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-          <label for="checkbox-item-6" class="w-full ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">Default checkbox</label>
-        </div>
-      </li>
-    </ul>
-</div>
+          <svg aria-label="arrow down icon" class="h-5 w-5" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3.5 5.75L7 9.25L10.5 5.75" stroke="#066b6e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
 
-        </div> <!-- end flowbite button -->
-
-        <span>or</span>
-
-        <div>
-          <div>
-            <button class="my-2 mr-2 flex items-center space-x-2 rounded bg-gray-100 px-2 py-2.5 text-center font-bold text-gray-900 hover:bg-gray-200 focus:outline-none focus:ring-4 focus:ring-gray-100">
-              <div>National</div>
-              <div class="flex h-6 w-6 items-center rounded-full bg-slate-600 text-white">
-                <div class="w-full text-center">1</div>
+        <!-- PrgrmTypeButton Dropdown menu -->
+        <div id="dropdownPrgrmType" class="z-10 hidden rounded-b bg-white shadow">
+          <ul class="space-y-1 p-2 text-sm text-gray-700" aria-labelledby="dropdownPrgrmTypeButton">
+            <li>
+              <div class="flex items-center rounded p-2">
+                <input id="checkbox-item-1" type="checkbox" value="" class="h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500" checked />
+                <label for="checkbox-item-1" class="ml-3 w-full rounded text-left text-sm font-medium text-seafoam-900">Hybrid</label>
               </div>
-              <svg aria-label="arrow down icon" class="h-5 w-5" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M3.5 5.75L7 9.25L10.5 5.75" stroke="#7E868F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-            </button>
+            </li>
+            <li>
+              <div class="flex items-center rounded p-2">
+                <input id="checkbox-item-2" type="checkbox" value="" class="h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500" checked />
+                <label for="checkbox-item-2" class="ml-3 w-full rounded text-left text-sm font-medium text-seafoam-900">Competency</label>
+              </div>
+            </li>
+            <li>
+              <div class="flex items-center rounded p-2">
+                <input id="checkbox-item-3" type="checkbox" value="" class="h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500" />
+                <label for="checkbox-item-3" class="ml-3 w-full rounded text-left text-sm font-medium text-seafoam-900">Time</label>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lg:pl-4 w-full">
+        <div class="font-bold">Locale</div>
+
+        <div class="flex items-start justify-between">
+          <div class="flex grow">
+            <label for="locale-state" class="mb-2 hidden font-medium text-gray-900">State</label>
+            <div class="my-2 mr-2 flex w-full">
+              <span class="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-seafoam-200 px-2 py-2.5 font-bold text-seafoam-900"> State </span>
+              <input type="text" id="locale-state" class="block w-full min-w-0 rounded-none rounded-r border border-gray-300 bg-white px-2 py-2.5 text-gray-900 focus:border-primary-200 focus:ring-primary-200" placeholder="Ex: Pennslyvania" />
+            </div>
           </div>
-          <button data-tooltip-target="national-standards-info" data-tooltip-trigger="click" type="button" class="text-center text-sm font-medium text-primary-800 focus:outline-none focus:ring-4 focus:ring-slate-300">What is this?</button>
+
+          <span class="my-4 mr-2">or</span>
+
+          <div>
+            <div>
+              <button id="dropdownNationalButton" data-dropdown-toggle="dropdownNational" class="my-2 mr-2 flex items-center space-x-2 rounded border border-primary-200 bg-white px-2 py-2.5 text-center font-bold text-seafoam-900 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-200">
+                <div>National</div>
+                <div class="flex h-5 w-5 items-center rounded-full bg-seafoam-800 text-white">
+                  <div class="w-full text-center text-sm">1</div>
+                </div>
+                <svg aria-label="arrow down icon" class="h-5 w-5" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3.5 5.75L7 9.25L10.5 5.75" stroke="#066b6e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </button>
+
+              <!-- National Dropdown menu -->
+              <div id="dropdownNational" class="z-10 hidden rounded-b bg-white shadow">
+                <ul class="space-y-1 p-2 text-sm text-gray-700" aria-labelledby="dropdownNationalButton">
+                  <li>
+                    <div class="flex items-center rounded p-2">
+                      <input id="checkbox-item-1" type="checkbox" value="" class="h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500"/>
+                      <label for="checkbox-item-1" class="ml-3 w-full rounded text-left text-sm font-medium text-seafoam-900">National Guideline Standards</label>
+                    </div>
+                    <div class="flex items-center rounded p-2">
+                      <input id="checkbox-item-2" type="checkbox" value="" class="h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500"/>
+                      <label for="checkbox-item-2" class="ml-3 w-full rounded text-left text-sm font-medium text-seafoam-900">National Program Standards</label>
+                    </div>
+                    <div class="flex items-center rounded p-2">
+                      <input id="checkbox-item-3" type="checkbox" value="" class="h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500" checked/>
+                      <label for="checkbox-item-3" class="ml-3 w-full rounded text-left text-sm font-medium text-seafoam-900">National Occupational Frameworks</label>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <button data-tooltip-target="national-standards-info" data-tooltip-trigger="click" type="button" class="text-center text-sm font-medium text-primary-800 focus:outline-none focus:ring-4 focus:ring-slate-300">What is this?</button>
             <div id="national-standards-info" role="tooltip" class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm">
-            National standards are...
-            <div class="tooltip-arrow" data-popper-arrow></div>
+              National standards are...
+              <div class="tooltip-arrow" data-popper-arrow></div>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <!-- end filter options -->
   </div>
+</div>

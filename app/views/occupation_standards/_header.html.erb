@@ -7,10 +7,10 @@
 
     <! -- If Occupation Standards Page -->
     <div class="mb-8 lg:mb-16">
-      <div class="items-center text-center sm:mb-6 lg:text-left lg:mb-0">
+      <div class="items-center sm:mb-6 lg:mb-0">
 
-        <div class="mx-auto max-w-lg rounded bg-slate-300 p-4">
-          <%= form_with url: occupation_standards_path, method: :get, class: "max-w-lg mx-auto" do |f| %>
+        <div class="mx-auto max-w-2xl rounded bg-seafoam-100 p-4">
+          <%= form_with url: occupation_standards_path, method: :get, class: "mx-auto" do |f| %>
             <%= f.label :q, class: "mb-2 text-sm font-medium text-white sr-only" %>
             <div class="relative">
               <%= f.text_field :q, value: params[:q], class: "block w-full p-2 text-sm text-gray-900 border border-gray-300  bg-gray-50 focus:ring-primary-500 focus:border-primary-500", placeholder: "Search by occupation name, O*NET, or industry", autocomplete: :off %>
