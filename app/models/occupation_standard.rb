@@ -30,6 +30,12 @@ class OccupationStandard < ApplicationRecord
     end
   end
 
+  scope :by_onet_code, ->(onet_code) do
+    if onet_code.present?
+      where("onet_code ILIKE ?", "%#{sanitize_sql_like(onet_code).split.join("%")}%")
+    end
+  end
+
   def sponsor_name
     organization&.title
   end

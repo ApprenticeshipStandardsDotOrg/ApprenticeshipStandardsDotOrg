@@ -46,6 +46,22 @@ RSpec.describe OccupationStandard, type: :model do
     end
   end
 
+  describe ".by_onet_code" do
+    it "returns records that match the argument in onet_code" do
+      os1 = create(:occupation_standard, onet_code: "12.3456")
+      os2 = create(:occupation_standard, onet_code: "12.34567")
+      create(:occupation_standard, title: "HR", onet_code: "12.3")
+
+      expect(described_class.by_onet_code("12.3456")).to contain_exactly(os1, os2)
+    end
+
+    it "returns all records if onet_code not provided" do
+      standards = create_pair(:occupation_standard, onet_code: "12.345")
+
+      expect(described_class.by_onet_code("")).to match_array standards
+    end
+  end
+
   describe "#sponsor_name" do
     it "returns organization name when it exists" do
       organization = build_stubbed(:organization, title: "Disney")
