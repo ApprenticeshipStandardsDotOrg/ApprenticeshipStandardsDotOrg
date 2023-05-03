@@ -156,6 +156,24 @@ RSpec.describe "Admin::SourceFiles", type: :request do
           expect(file.assignee).to eq assignee
           expect(response).to redirect_to admin_source_files_path
         end
+
+        it "will redirect back to redirect_to param" do
+          assignee = create(:user, :converter)
+          admin = create(:user, :converter)
+          file = create(:source_file)
+
+          sign_in admin
+          file_params = {
+            source_file: {
+              status: "completed",
+              assignee_id: assignee.id
+            },
+            redirect_back_to: admin_source_files_path(_page: 3)
+          }
+          patch admin_source_file_path(file), params: file_params
+
+          expect(response).to redirect_to admin_source_files_path(_page: 3)
+        end
       end
     end
   end

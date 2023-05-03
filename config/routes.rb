@@ -40,6 +40,10 @@ Rails.application.routes.draw do
 
   root to: "pages#home", as: :guest_root
 
+  scope :occupation_standards do
+    resources :national_standards, only: [:index]
+    resources :state_standards, only: [:index]
+  end
   resources :standards_imports, only: [:new, :create, :show]
   resources :occupation_standards, only: [:index, :show]
   get "home", as: :home_page, to: "pages#home"
