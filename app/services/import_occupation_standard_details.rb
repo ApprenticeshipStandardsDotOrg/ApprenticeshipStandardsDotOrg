@@ -55,7 +55,7 @@ class ImportOccupationStandardDetails
   end
 
   def rapids_code
-    parsed_rapids_code || occupation.rapids_code
+    parsed_rapids_code || occupation&.rapids_code
   end
 
   def parsed_rapids_code
@@ -66,7 +66,7 @@ class ImportOccupationStandardDetails
   end
 
   def onet_code
-    row["Onet Code"].presence || occupation.onet_code
+    row["Onet Code"].presence || occupation&.onet_code
   end
 
   def ojt_type

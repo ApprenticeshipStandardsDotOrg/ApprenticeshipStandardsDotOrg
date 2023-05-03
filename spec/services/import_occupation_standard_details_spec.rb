@@ -128,6 +128,20 @@ RSpec.describe ImportOccupationStandardDetails do
         expect(os.rapids_code).to eq "8765"
       end
 
+      it "does not set RAPIDS code if blank and occupation does not exist" do
+        ca = create(:state, abbreviation: "CA")
+        create(:registration_agency, state: ca, agency_type: :oa)
+
+        data_import = create(:data_import, :no_rapids, :pending)
+
+        expect {
+          described_class.new(data_import).call
+        }.to change(OccupationStandard, :count).by(1)
+
+        os = OccupationStandard.last
+        expect(os.rapids_code).to be_nil
+      end
+
       it "uses occupation's ONET code if no ONET code" do
         ca = create(:state, abbreviation: "CA")
         create(:registration_agency, state: ca, agency_type: :oa)
@@ -143,6 +157,20 @@ RSpec.describe ImportOccupationStandardDetails do
 
         os = OccupationStandard.last
         expect(os.onet_code).to eq "13-1081.01"
+      end
+
+      it "does not set ONET code if blank and occupation does not exist" do
+        ca = create(:state, abbreviation: "CA")
+        create(:registration_agency, state: ca, agency_type: :oa)
+
+        data_import = create(:data_import, :no_onet, :pending)
+
+        expect {
+          described_class.new(data_import).call
+        }.to change(OccupationStandard, :count).by(1)
+
+        os = OccupationStandard.last
+        expect(os.onet_code).to be_nil
       end
     end
 
