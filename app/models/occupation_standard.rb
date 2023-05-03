@@ -39,15 +39,15 @@ class OccupationStandard < ApplicationRecord
   end
 
   def source_file
-    data_import&.source_file
+    data_import.source_file
   end
 
   def public_document?
-    standards_import&.public_document
+    standards_import.public_document
   end
 
   def original_file_url
-    standards_import&.url
+    standards_import.url
   end
 
   def competencies_count

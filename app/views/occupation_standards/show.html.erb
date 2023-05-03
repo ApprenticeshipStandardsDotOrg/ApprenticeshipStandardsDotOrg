@@ -81,7 +81,7 @@
                     <div class="w-full space-y-6">
                         <div class="text-center text-lg font-bold text-slate-300">Documents</div>
                         <% if @occupation_standard.public_document? %>
-                            <a href="<%= @occupation_standard.original_file_url %>">
+                            <%= link_to @occupation_standard.original_file_url do %>
                                 <div class="flex w-full items-center space-x-4 rounded bg-slate-700 p-2 text-left text-white hover:bg-slate-600">
                                     <span>
                                         <svg aria-label="pdf icon" xmlns="http://www.w3.org/2000/svg" width="49" height="48" fill="none">
@@ -95,7 +95,7 @@
                                         View Original Document
                                     </div>
                                 </div>
-                            </a>
+                            <% end %>
                         <% end %>
                         <button class="flex w-full items-center space-x-4 rounded bg-slate-700 p-2 text-left text-white hover:bg-slate-600">
                             <div>
