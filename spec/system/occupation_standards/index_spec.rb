@@ -48,4 +48,23 @@ RSpec.describe "occupation_standards/index" do
     expect(page).to have_link "Pipe Fitter", href: occupation_standard_path(pipe_fitter)
     expect(page).to_not have_link "HR"
   end
+
+  it "filters occupations based on onet_code search term" do
+    mechanic = create(:occupation_standard, title: "Mechanic", onet_code: "12.3456")
+    pipe_fitter = create(:occupation_standard, title: "Pipe Fitter", onet_code: "12.34567")
+    create(:occupation_standard, title: "HR", onet_code: "12.34")
+
+    visit occupation_standards_path
+
+    fill_in "q", with: "12.3456"
+
+    find("#search").click
+
+    expect(page).to have_text "Showing Results for 12.3456"
+    expect(page).to have_field("q", with: "12.3456")
+
+    expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
+    expect(page).to have_link "Pipe Fitter", href: occupation_standard_path(pipe_fitter)
+    expect(page).to_not have_link "HR"
+  end
 end
