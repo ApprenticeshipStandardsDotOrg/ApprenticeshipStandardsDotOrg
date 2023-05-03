@@ -127,6 +127,23 @@ RSpec.describe ImportOccupationStandardDetails do
         os = OccupationStandard.last
         expect(os.rapids_code).to eq "8765"
       end
+
+      it "uses occupation's ONET code if no ONET code" do
+        ca = create(:state, abbreviation: "CA")
+        create(:registration_agency, state: ca, agency_type: :oa)
+
+        onet = create(:onet, code: "13-1081.01")
+        create(:occupation, onet: onet, rapids_code: "1057")
+
+        data_import = create(:data_import, :no_onet, :pending)
+
+        expect {
+          described_class.new(data_import).call
+        }.to change(OccupationStandard, :count).by(1)
+
+        os = OccupationStandard.last
+        expect(os.onet_code).to eq "13-1081.01"
+      end
     end
 
     context "when data_import already has an occupation_standard associated" do

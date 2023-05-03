@@ -30,10 +30,6 @@ class OccupationStandard < ApplicationRecord
     end
   end
 
-  def onet_code
-    occupation&.onet&.code || read_attribute(:onet_code)
-  end
-
   def sponsor_name
     organization&.title
   end

@@ -46,29 +46,6 @@ RSpec.describe OccupationStandard, type: :model do
     end
   end
 
-  describe "#onet_code" do
-    it "returns occupation onet_code string when occupation and onet_code exists" do
-      onet = build_stubbed(:onet, code: "abc")
-      occupation = build_stubbed(:occupation, onet: onet)
-      occupation_standard = build(:occupation_standard, occupation: occupation)
-
-      expect(occupation_standard.onet_code).to eq "abc"
-    end
-
-    it "returns nil when occupation exists but onet_code does not" do
-      occupation = build_stubbed(:occupation, onet: nil)
-      occupation_standard = build(:occupation_standard, occupation: occupation)
-
-      expect(occupation_standard.onet_code).to be_nil
-    end
-
-    it "returns own onet_code when no occupation" do
-      occupation_standard = build(:occupation_standard, occupation: nil, onet_code: "123")
-
-      expect(occupation_standard.onet_code).to eq "123"
-    end
-  end
-
   describe "#sponsor_name" do
     it "returns organization name when it exists" do
       organization = build_stubbed(:organization, title: "Disney")
