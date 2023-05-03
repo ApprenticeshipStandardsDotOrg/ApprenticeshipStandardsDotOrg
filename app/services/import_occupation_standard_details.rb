@@ -55,10 +55,11 @@ class ImportOccupationStandardDetails
   end
 
   def rapids_code
-    if (rapids = row["RAPIDS Code"])
+    rc = if (rapids = row["RAPIDS Code"])
       rapids = rapids.to_s.gsub(/[A-Za-z]+\z/, "").to_i
       sprintf("%04d", rapids)
     end
+    rc || occupation.rapids_code
   end
 
   def ojt_type
@@ -73,7 +74,7 @@ class ImportOccupationStandardDetails
   end
 
   def occupation
-    Occupation.find_by(rapids_code: rapids_code) || begin
+    @_occupation ||= Occupation.find_by(rapids_code: row["RAPIDS Code"]) || begin
       onet = Onet.find_by(code: row["Onet Code"])
       if onet
         Occupation.find_by(onet: onet)

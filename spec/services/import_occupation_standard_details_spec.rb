@@ -110,6 +110,23 @@ RSpec.describe ImportOccupationStandardDetails do
         expect(os.rsi_hours_min).to be_nil
         expect(os.rsi_hours_max).to eq 100
       end
+
+      it "uses occupation's RAPIDS code if no RAPIDS code" do
+        ca = create(:state, abbreviation: "CA")
+        ca_oa = create(:registration_agency, state: ca, agency_type: :oa)
+
+        onet = create(:onet, code: "31-1071.01")
+        occupation = create(:occupation, onet: onet, rapids_code: "8765")
+
+        data_import = create(:data_import, :no_rapids, :pending)
+
+        expect {
+          described_class.new(data_import).call
+        }.to change(OccupationStandard, :count).by(1)
+
+        os = OccupationStandard.last
+        expect(os.rapids_code).to eq "8765"
+      end
     end
 
     context "when data_import already has an occupation_standard associated" do

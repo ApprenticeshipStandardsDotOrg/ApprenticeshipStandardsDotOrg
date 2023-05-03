@@ -7,18 +7,42 @@ RSpec.describe OccupationStandard, type: :model do
     expect(occupation_standard).to be_valid
   end
 
-  describe "#rapids_code" do
-    it "returns occupation rapids_code when occupation exists" do
-      occupation = build_stubbed(:occupation, rapids_code: "abc")
-      occupation_standard = build(:occupation_standard, occupation: occupation)
+  describe ".by_title" do
+    it "returns records that match the argument in title" do
+      first_occupation = create(:occupation_standard, title: "AAAAAA")
+      create(:occupation_standard, title: "ZZZZZZ")
 
-      expect(occupation_standard.rapids_code).to eq "abc"
+      expect(described_class.by_title("A")).to match_array([first_occupation])
     end
 
-    it "returns own rapids_code when no occupation" do
-      occupation_standard = build(:occupation_standard, occupation: nil, rapids_code: "def")
+    it "returns all records if title not provided" do
+      first_occupation = create(:occupation_standard, title: "AAAAAA")
+      second_occupation = create(:occupation_standard, title: "ZZZZZZ")
 
-      expect(occupation_standard.rapids_code).to eq "def"
+      expect(described_class.by_title("")).to match_array([first_occupation, second_occupation])
+    end
+
+    it "returns records that match multiple words" do
+      first_occupation = create(:occupation_standard, title: "Pipe Fitter")
+      create(:occupation_standard, title: "Mechanic")
+
+      expect(described_class.by_title("Pipe Fitter")).to match_array([first_occupation])
+    end
+  end
+
+  describe ".by_rapids_code" do
+    it "returns records that match the argument in rapids_code" do
+      os1 = create(:occupation_standard, rapids_code: "1234")
+      os2 = create(:occupation_standard, rapids_code: "1234CB")
+      create(:occupation_standard, title: "HR", rapids_code: "123")
+
+      expect(described_class.by_rapids_code("1234")).to contain_exactly(os1, os2)
+    end
+
+    it "returns all records if rapids_code not provided" do
+      standards = create_pair(:occupation_standard, rapids_code: "1234")
+
+      expect(described_class.by_rapids_code("")).to match_array standards
     end
   end
 
@@ -81,29 +105,6 @@ RSpec.describe OccupationStandard, type: :model do
       create(:competency)
 
       expect(occupation_standard.competencies_count).to eq 3
-    end
-  end
-
-  describe ".by_title" do
-    it "returns records that match the argument in title" do
-      first_occupation = create(:occupation_standard, title: "AAAAAA")
-      create(:occupation_standard, title: "ZZZZZZ")
-
-      expect(described_class.by_title("A").pluck(:id)).to match_array([first_occupation.id])
-    end
-
-    it "returns all records if title not provided" do
-      first_occupation = create(:occupation_standard, title: "AAAAAA")
-      second_occupation = create(:occupation_standard, title: "ZZZZZZ")
-
-      expect(described_class.by_title("").pluck(:id)).to match_array([first_occupation.id, second_occupation.id])
-    end
-
-    it "returns records that match multiple words" do
-      first_occupation = create(:occupation_standard, title: "Pipe Fitter")
-      create(:occupation_standard, title: "Mechanic")
-
-      expect(described_class.by_title("Pipe Fitter").pluck(:id)).to match_array([first_occupation.id])
     end
   end
 end
