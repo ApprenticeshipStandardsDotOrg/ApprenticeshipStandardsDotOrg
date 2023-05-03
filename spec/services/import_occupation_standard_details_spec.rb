@@ -113,10 +113,10 @@ RSpec.describe ImportOccupationStandardDetails do
 
       it "uses occupation's RAPIDS code if no RAPIDS code" do
         ca = create(:state, abbreviation: "CA")
-        ca_oa = create(:registration_agency, state: ca, agency_type: :oa)
+        create(:registration_agency, state: ca, agency_type: :oa)
 
         onet = create(:onet, code: "31-1071.01")
-        occupation = create(:occupation, onet: onet, rapids_code: "8765")
+        create(:occupation, onet: onet, rapids_code: "8765")
 
         data_import = create(:data_import, :no_rapids, :pending)
 
