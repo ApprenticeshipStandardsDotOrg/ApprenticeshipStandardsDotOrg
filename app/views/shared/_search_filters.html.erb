@@ -1,0 +1,111 @@
+<div class="py-2">
+  <div class="flex justify-between">
+    <button class="flex items-center" data-collapse-toggle="search-filters" type="button" aria-controls="search-filters" aria-expanded="false">
+      <span class="text-sm">Expand Filters</span>
+      <div>
+        <svg aria-label="arrow down icon" class="h-5 w-5" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3.5 5.75L7 9.25L10.5 5.75" stroke="#7E868F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </div>
+    </button>
+  </div>
+
+  <div id="search-filters" class="hidden">
+    <button class="block text-sm font-bold my-3">Clear All</button>
+    <!-- begin filter options -->
+    <div class="flex flex-col py-2 lg:space-x-2 lg:flex-row lg:divide-x divide-seafoam-600">
+      <div>
+        <div class="font-bold">Program Type</div>
+        <button id="dropdownPrgrmTypeButton" data-dropdown-toggle="dropdownPrgrmType" class="my-2 mr-2 flex items-center space-x-2 rounded border border-primary-200 bg-white px-2 py-2.5 text-center font-bold text-seafoam-900 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-200">
+          <div class="flex">Type</div>
+          <div class="flex h-5 w-5 items-center rounded-full bg-seafoam-800 text-white">
+            <div class="w-full text-center text-sm">2</div>
+          </div>
+          <svg aria-label="arrow down icon" class="h-5 w-5" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3.5 5.75L7 9.25L10.5 5.75" stroke="#066b6e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+
+        <!-- PrgrmTypeButton Dropdown menu -->
+        <div id="dropdownPrgrmType" class="z-10 hidden rounded-b bg-white shadow">
+          <ul class="space-y-1 p-2 text-sm text-gray-700" aria-labelledby="dropdownPrgrmTypeButton">
+            <li>
+              <div class="flex items-center rounded p-2">
+                <input id="checkbox-item-1" type="checkbox" value="" class="h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500" checked>
+                <label for="checkbox-item-1" class="ml-3 w-full rounded text-left text-sm font-medium text-seafoam-900">Hybrid</label>
+              </div>
+            </li>
+            <li>
+              <div class="flex items-center rounded p-2">
+                <input id="checkbox-item-2" type="checkbox" value="" class="h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500" checked>
+                <label for="checkbox-item-2" class="ml-3 w-full rounded text-left text-sm font-medium text-seafoam-900">Competency</label>
+              </div>
+            </li>
+            <li>
+              <div class="flex items-center rounded p-2">
+                <input id="checkbox-item-3" type="checkbox" value="" class="h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500">
+                <label for="checkbox-item-3" class="ml-3 w-full rounded text-left text-sm font-medium text-seafoam-900">Time</label>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="lg:pl-4 w-full">
+        <div class="font-bold">Locale</div>
+
+        <div class="flex items-start justify-between">
+          <div class="flex grow">
+            <label for="locale-state" class="mb-2 hidden font-medium text-gray-900">State</label>
+            <div class="my-2 mr-2 flex w-full">
+              <span class="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-seafoam-200 px-2 py-2.5 font-bold text-seafoam-900"> State </span>
+              <input type="text" id="locale-state" class="block w-full min-w-0 rounded-none rounded-r border border-gray-300 bg-white px-2 py-2.5 text-gray-900 focus:border-primary-200 focus:ring-primary-200" placeholder="Ex: Pennslyvania" autocomplete="address-level1">
+            </div>
+          </div>
+
+          <span class="my-4 mr-2">or</span>
+
+          <div>
+            <div>
+              <button id="dropdownNationalButton" data-dropdown-toggle="dropdownNational" class="my-2 mr-2 flex items-center space-x-2 rounded border border-primary-200 bg-white px-2 py-2.5 text-center font-bold text-seafoam-900 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-200">
+                <div>National</div>
+                <div class="flex h-5 w-5 items-center rounded-full bg-seafoam-800 text-white">
+                  <div class="w-full text-center text-sm">1</div>
+                </div>
+                <svg aria-label="arrow down icon" class="h-5 w-5" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3.5 5.75L7 9.25L10.5 5.75" stroke="#066b6e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </button>
+
+              <!-- National Dropdown menu -->
+              <div id="dropdownNational" class="z-10 hidden rounded-b bg-white shadow">
+                <ul class="space-y-1 p-2 text-sm text-gray-700" aria-labelledby="dropdownNationalButton">
+                  <li>
+                    <div class="flex items-center rounded p-2">
+                      <input id="checkbox-item-1" type="checkbox" value="" class="h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500">
+                      <label for="checkbox-item-1" class="ml-3 w-full rounded text-left text-sm font-medium text-seafoam-900">National Guideline Standards</label>
+                    </div>
+                    <div class="flex items-center rounded p-2">
+                      <input id="checkbox-item-2" type="checkbox" value="" class="h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500">
+                      <label for="checkbox-item-2" class="ml-3 w-full rounded text-left text-sm font-medium text-seafoam-900">National Program Standards</label>
+                    </div>
+                    <div class="flex items-center rounded p-2">
+                      <input id="checkbox-item-3" type="checkbox" value="" class="h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500" checked>
+                      <label for="checkbox-item-3" class="ml-3 w-full rounded text-left text-sm font-medium text-seafoam-900">National Occupational Frameworks</label>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <button data-tooltip-target="national-standards-info" data-tooltip-placement="bottom" data-tooltip-trigger="click" type="button" class="text-center text-sm font-medium text-seafoam-800 focus:outline-none focus:ring-4 focus:ring-slate-300">What is this?</button>
+            <div id="national-standards-info" role="tooltip" class="tooltip invisible absolute z-10 inline-block rounded-lg bg-primary-800 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm">
+              National standards are...
+              <div class="tooltip-arrow" data-popper-arrow></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end filter options -->
+  </div>
+</div>
