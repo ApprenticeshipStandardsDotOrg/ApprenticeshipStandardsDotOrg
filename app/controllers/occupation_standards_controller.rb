@@ -3,7 +3,7 @@ class OccupationStandardsController < ApplicationController
     @occupation_standards_search = OccupationStandardQuery::Container.new(search_term_params: search_term_params)
 
     @occupation_standards = OccupationStandardQuery.run(
-      OccupationStandard.includes(:organization, occupation: :onet),
+      standards_scope,
       search_term_params
     )
 
@@ -20,5 +20,9 @@ class OccupationStandardsController < ApplicationController
     {
       q: params[:q]
     }
+  end
+
+  def standards_scope
+    OccupationStandard.includes(:organization, occupation: :onet)
   end
 end
