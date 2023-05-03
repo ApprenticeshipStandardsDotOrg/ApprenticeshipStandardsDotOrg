@@ -116,7 +116,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_03_132536) do
     t.uuid "organization_id"
     t.integer "status", default: 0, null: false
     t.integer "national_standard_type"
-    t.boolean "national"
     t.index ["occupation_id"], name: "index_occupation_standards_on_occupation_id"
     t.index ["organization_id"], name: "index_occupation_standards_on_organization_id"
     t.index ["registration_agency_id"], name: "index_occupation_standards_on_registration_agency_id"
