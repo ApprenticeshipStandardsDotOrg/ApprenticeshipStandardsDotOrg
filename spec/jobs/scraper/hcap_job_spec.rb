@@ -14,6 +14,7 @@ RSpec.describe Scraper::HcapJob, type: :job do
         expect(standards_import1.name).to eq "https://a687e559-f74f-4c1e-b81d-83ee37e94af3.usrfiles.com/ugd/a687e5_f76fa7a5877742dd9cca8653d2fd6264.pdf"
         expect(standards_import1.organization).to eq "National Center for Healthcare Apprenticeships"
         expect(standards_import1.notes).to eq "From Scraper::HcapJob"
+        expect(standards_import1.public_document).to be true
         source_file1 = standards_import1.files.last.source_file
         metadata1 = source_file1.metadata
         expect(metadata1["Location"]).to eq "California"
@@ -32,6 +33,7 @@ RSpec.describe Scraper::HcapJob, type: :job do
         expect(standards_import2.name).to eq "https://a687e559-f74f-4c1e-b81d-83ee37e94af3.usrfiles.com/ugd/a687e5_534fc5bb0217460d8d49a49b25841762.pdf"
         expect(standards_import2.organization).to eq "AHIMA Foundation"
         expect(standards_import2.notes).to eq "From Scraper::HcapJob"
+        expect(standards_import2.public_document).to be true
         source_file2 = standards_import2.files.last.source_file
         metadata2 = source_file2.metadata
         expect(metadata2["Location"]).to eq "No results"
@@ -50,6 +52,7 @@ RSpec.describe Scraper::HcapJob, type: :job do
         expect(standards_import3.name).to eq "https://a687e559-f74f-4c1e-b81d-83ee37e94af3.usrfiles.com/ugd/a687e5_8034a3f4112d4956a11337333229a16e.pdf"
         expect(standards_import3.organization).to eq "Institute for Wellness Education"
         expect(standards_import3.notes).to eq "From Scraper::HcapJob"
+        expect(standards_import3.public_document).to be true
         source_file3 = standards_import3.files.last.source_file
         metadata3 = source_file3.metadata
         expect(metadata3["Location"]).to eq "New Jersey"

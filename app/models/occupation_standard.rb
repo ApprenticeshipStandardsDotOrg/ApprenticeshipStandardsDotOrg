@@ -10,6 +10,7 @@ class OccupationStandard < ApplicationRecord
 
   delegate :title, to: :organization, prefix: true, allow_nil: true
   delegate :title, to: :occupation, prefix: true, allow_nil: true
+  delegate :standards_import, to: :source_file, allow_nil: true
 
   enum ojt_type: [:time, :competency, :hybrid], _suffix: :based
   enum national_standard_type: [:program_standard, :guideline_standard, :occupational_framework], _prefix: :national
@@ -38,7 +39,15 @@ class OccupationStandard < ApplicationRecord
   end
 
   def source_file
-    data_import.source_file
+    data_import&.source_file
+  end
+
+  def public_document?
+    standards_import&.public_document
+  end
+
+  def original_file_url
+    standards_import&.url
   end
 
   def competencies_count
