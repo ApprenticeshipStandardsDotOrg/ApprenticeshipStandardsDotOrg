@@ -31,20 +31,20 @@
           <ul class="space-y-1 p-2 text-sm text-gray-700" aria-labelledby="dropdownPrgrmTypeButton">
             <li>
               <div class="flex items-center rounded p-2">
-                <input id="checkbox-item-1" type="checkbox" value="" class="h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500" checked>
-                <label for="checkbox-item-1" class="ml-3 w-full rounded text-left text-sm font-medium text-seafoam-900">Hybrid</label>
+                <%= check_box_tag "hybrid", "", true, class: "h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500" %>
+                <%= label_tag "hybrid", "Hybrid", class: "ml-3 w-full rounded text-left text-sm font-medium text-seafoam-900" %>
               </div>
             </li>
             <li>
               <div class="flex items-center rounded p-2">
-                <input id="checkbox-item-2" type="checkbox" value="" class="h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500" checked>
-                <label for="checkbox-item-2" class="ml-3 w-full rounded text-left text-sm font-medium text-seafoam-900">Competency</label>
+                <%= check_box_tag "competency", "", true, class: "h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500" %>
+                <%= label_tag "competency", "Competency", class: "ml-3 w-full rounded text-left text-sm font-medium text-seafoam-900" %>
               </div>
             </li>
             <li>
               <div class="flex items-center rounded p-2">
-                <input id="checkbox-item-3" type="checkbox" value="" class="h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500">
-                <label for="checkbox-item-3" class="ml-3 w-full rounded text-left text-sm font-medium text-seafoam-900">Time</label>
+                <%= check_box_tag "time", "", true, class: "h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500" %>
+                <%= label_tag "time", "Time", class: "ml-3 w-full rounded text-left text-sm font-medium text-seafoam-900" %>
               </div>
             </li>
           </ul>
@@ -82,16 +82,16 @@
                 <ul class="space-y-1 p-2 text-sm text-gray-700" aria-labelledby="dropdownNationalButton">
                   <li>
                     <div class="flex items-center rounded p-2">
-                      <input id="checkbox-item-1" type="checkbox" value="" class="h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500">
-                      <label for="checkbox-item-1" class="ml-3 w-full rounded text-left text-sm font-medium text-seafoam-900">National Guideline Standards</label>
+                      <%= check_box_tag "guideline_standards", "", false, class: "h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500" %>
+                      <%= label_tag "guideline_standards", "National Guideline Standards", class: "ml-3 w-full rounded text-left text-sm font-medium text-seafoam-900" %>
                     </div>
                     <div class="flex items-center rounded p-2">
-                      <input id="checkbox-item-2" type="checkbox" value="" class="h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500">
-                      <label for="checkbox-item-2" class="ml-3 w-full rounded text-left text-sm font-medium text-seafoam-900">National Program Standards</label>
+                      <%= check_box_tag "program_standards", "", false, class: "h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500" %>
+                      <%= label_tag "program_standards", "National Program Standards", class: "ml-3 w-full rounded text-left text-sm font-medium text-seafoam-900" %>
                     </div>
                     <div class="flex items-center rounded p-2">
-                      <input id="checkbox-item-3" type="checkbox" value="" class="h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500" checked>
-                      <label for="checkbox-item-3" class="ml-3 w-full rounded text-left text-sm font-medium text-seafoam-900">National Occupational Frameworks</label>
+                      <%= check_box_tag "occupational_frameworks", "", true, class: "h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500" %>
+                      <%= label_tag "occupational_frameworks", "National Occupational Frameworks", class: "ml-3 w-full rounded text-left text-sm font-medium text-seafoam-900" %>
                     </div>
                   </li>
                 </ul>
