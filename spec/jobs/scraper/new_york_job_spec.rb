@@ -13,6 +13,7 @@ RSpec.describe Scraper::NewYorkJob, type: :job do
         expect(standards_import.files.count).to eq 1
         expect(standards_import.name).to eq "https://dol.ny.gov/system/files/documents/2022/06/cnc-tool-and-cutter-grinder-time.pdf"
         expect(standards_import.notes).to eq "From Scraper::NewYorkJob: https://dol.ny.gov/apprenticeship/apprenticeship-trades"
+        expect(standards_import.public_document).to be true
       end
     end
 

@@ -33,7 +33,8 @@ class Scraper::HcapJob < ApplicationJob
           name: pdf_uri,
           organization: fields["Sponsor"]
         ).first_or_initialize(
-          notes: "From Scraper::HcapJob"
+          notes: "From Scraper::HcapJob",
+          public_document: true
         )
 
         if standards_import.new_record?

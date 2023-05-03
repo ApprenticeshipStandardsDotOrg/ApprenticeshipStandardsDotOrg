@@ -7,6 +7,10 @@ class StandardsImport < ApplicationRecord
     files.count
   end
 
+  def url
+    files&.last&.url
+  end
+
   private
 
   def notify_admin
