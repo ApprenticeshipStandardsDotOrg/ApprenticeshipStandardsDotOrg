@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe ImportOccupationStandardRelatedInstruction do
   describe "#call" do
-    it "return related instruction record and create organization" do
+    it "return related instruction record and create organization when present" do
       occupation_standard = create(:occupation_standard)
       data_import = create(:data_import)
 
@@ -11,7 +11,7 @@ RSpec.describe ImportOccupationStandardRelatedInstruction do
           occupation_standard: occupation_standard,
           data_import: data_import
         ).call
-      }.to change(RelatedInstruction, :count).by(3)
+      }.to change(RelatedInstruction, :count).by(4)
 
       rsi1 = RelatedInstruction.first
       expect(rsi1.occupation_standard).to eq occupation_standard
@@ -39,6 +39,15 @@ RSpec.describe ImportOccupationStandardRelatedInstruction do
       expect(rsi3.code).to eq "T001"
       expect(rsi3.hours).to eq 50
       expect(rsi3.organization_title).to eq "Tools R Us"
+
+      rsi4 = RelatedInstruction.fourth
+      expect(rsi4.occupation_standard).to eq occupation_standard
+      expect(rsi4.sort_order).to eq 4
+      expect(rsi4.title).to eq "Intro to Computers"
+      expect(rsi4.description).to eq "Learn about computers"
+      expect(rsi4.code).to eq "C001"
+      expect(rsi4.hours).to eq 50
+      expect(rsi4.organization).to be_nil
     end
   end
 end
