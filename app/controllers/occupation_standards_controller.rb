@@ -17,11 +17,13 @@ class OccupationStandardsController < ApplicationController
   private
 
   def search_term_params
-    {
-      q: params[:q],
-      state_id: params[:state_id],
-      national_standard_type: params[:national_standard_type]
-    }
+    params.permit(
+      :q,
+      :state_id,
+      national_standard_type: [
+        :program_standard, :guideline_standard, :occupational_framework
+      ]
+    )
   end
 
   def standards_scope
