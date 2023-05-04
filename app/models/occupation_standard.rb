@@ -76,13 +76,9 @@ class OccupationStandard < ApplicationRecord
   end
 
   def work_processes_hours
-    maximum_hours = work_processes.sum(&:maximum_hours)
-    minimum_hours = work_processes.sum(&:minimum_hours)
-    [maximum_hours, minimum_hours].compact.first
-  end
-
-  def related_instructions_organization_names
-    related_instructions
+    maximum_hours = work_processes.sum(:maximum_hours)
+    minimum_hours = work_processes.sum(:minimum_hours)
+    ([maximum_hours, minimum_hours] - [0]).first
   end
 
   private

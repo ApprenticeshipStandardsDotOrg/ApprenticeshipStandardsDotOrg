@@ -139,7 +139,7 @@
                                       <div class="text-sm font-bold text-yonder-600">Skills</div>
                                   </div>
                               <% end %>
-                              <% unless @occupation_standard.work_processes_hours.zero? %>
+                              <% unless @occupation_standard.work_processes_hours.nil? %>
                                   <div class="m-1.5 w-28 rounded bg-rust-100 px-1 py-3 text-center">
                                       <div class="text-3xl font-bold text-rust-700">
                                           <%= hours_in_human_format(@occupation_standard.work_processes_hours) %>
