@@ -4,7 +4,7 @@ module OccupationStandardsHelper
   end
 
   def filters_class
-    unless params[:state_id].present?
+    if params[:state_id].blank? && params[:national_standard_type].blank?
       "hidden"
     end
   end

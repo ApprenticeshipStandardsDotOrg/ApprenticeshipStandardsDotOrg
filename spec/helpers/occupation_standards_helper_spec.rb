@@ -30,8 +30,15 @@ RSpec.describe OccupationStandardsHelper, type: :helper do
       expect(helper.filters_class).to eq "hidden"
     end
 
-    it "returns nil if filter params" do
+    it "returns nil if state filter params" do
       controller.params[:state_id] = "abc123"
+
+      expect(helper.filters_class).to be_nil
+    end
+
+    it "returns nil if national_standard_type filter params" do
+      params = {national_standard_type: {program_standard: "1"}}
+      controller.params = params
 
       expect(helper.filters_class).to be_nil
     end

@@ -91,4 +91,31 @@ RSpec.describe "occupation_standards/index" do
     expect(page).to_not have_link "Pipe Fitter"
     expect(page).to_not have_link "HR"
   end
+
+  it "filters occupations based on onet_code search term and national_standard_type filter", :js do
+    mechanic = create(:occupation_standard, :program_standard, title: "Mechanic", onet_code: "12.3456")
+    ma = create(:occupation_standard, :occupational_framework, title: "Medical Assistant", onet_code: "12.34567")
+    create(:occupation_standard, :guideline_standard, title: "Pipe Fitter", onet_code: "12.34567")
+    create(:occupation_standard, title: "HR", onet_code: "12.3456")
+
+    visit occupation_standards_path
+
+    fill_in "q", with: "12.3456"
+    click_on "Expand Filters"
+    find("#dropdownNationalButton").click
+    check "National Program Standards"
+    check "National Occupational Frameworks"
+
+    find("#search").click
+
+    expect(page).to have_text "Showing Results for 12.3456"
+    expect(page).to have_field("q", with: "12.3456")
+    find("#dropdownNationalButton").click
+    expect(page).to have_checked_field("National Program Standards")
+    expect(page).to have_checked_field("National Occupational Frameworks")
+
+    expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
+    expect(page).to_not have_link "Pipe Fitter"
+    expect(page).to_not have_link "HR"
+  end
 end
