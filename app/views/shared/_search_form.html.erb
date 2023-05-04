@@ -1,5 +1,5 @@
 <%= form_with url: search_form_url, method: :get do |f| %>
-  <%= f.label :q, class: "mb-2 text-sm font-medium text-white sr-only" %>
+  <%= f.label :q, "Search term", class: "mb-2 text-sm font-medium text-white sr-only" %>
   <div class="relative">
     <%= f.text_field :q, value: params[:q], class: "block w-full p-2 text-sm text-gray-900 border border-gray-300  bg-gray-50 focus:ring-primary-500 focus:border-primary-500", placeholder: "Search by occupation name, O*NET, or industry", autocomplete: :off %>
     <%= f.button name: nil, class: "text-white inline-flex items-center absolute right-0 bottom-0 bg-seafoam-700 hover:bg-seafoam-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium text-sm px-4 py-2", id: "search" do %>
