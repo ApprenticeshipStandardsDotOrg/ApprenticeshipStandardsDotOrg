@@ -79,11 +79,11 @@ RSpec.describe ImportOccupationStandardDetails do
         expect(os.rsi_hours_max).to be_nil
       end
 
-      it "creates an occupation standards record when there is no RAPIDS code or registration agency" do
-        onet = create(:onet, code: "31-1071.01")
-        occupation = create(:occupation, onet: onet)
+      it "sets national standard type when no registration agency" do
+        onet = create(:onet, code: "13-1071.01")
+        occupation1 = create(:occupation, rapids_code: "0157")
 
-        data_import = create(:data_import, :no_rapids, :pending)
+        data_import = create(:data_import, :national_program_standard, :pending)
 
         expect {
           described_class.new(data_import).call
@@ -91,22 +91,22 @@ RSpec.describe ImportOccupationStandardDetails do
 
         os = OccupationStandard.last
         expect(os.data_import).to eq data_import
-        expect(os.occupation).to eq occupation
+        expect(os.occupation).to eq occupation1
         expect(os.registration_agency).to be_nil
-        expect(os.national).to eq true
-        expect(os.title).to eq "HUMAN RESOURCE MANAGER"
-        expect(os.existing_title).to be_nil
+        expect(os).to be_national_program_standard
+        expect(os.title).to eq "HUMAN RESOURCE SPECIALIST"
+        expect(os.existing_title).to eq "Career Development Technician"
         expect(os.term_months).to eq 12
-        expect(os).to be_time_based
-        expect(os.probationary_period_months).to eq 7
-        expect(os.onet_code).to eq "31-1071.01"
-        expect(os.rapids_code).to be_nil
+        expect(os).to be_competency_based
+        expect(os.probationary_period_months).to eq 3
+        expect(os.onet_code).to eq "13-1071.01"
+        expect(os.rapids_code).to eq "0157"
         expect(os.apprenticeship_to_journeyworker_ratio).to eq "5:1"
         expect(os.organization_title).to eq "Hardy Corporation"
         expect(os.ojt_hours_min).to be_nil
-        expect(os.ojt_hours_max).to eq 200
+        expect(os.ojt_hours_max).to be_nil
         expect(os.rsi_hours_min).to be_nil
-        expect(os.rsi_hours_max).to eq 100
+        expect(os.rsi_hours_max).to be_nil
       end
 
       it "uses occupation's RAPIDS code if no RAPIDS code" do

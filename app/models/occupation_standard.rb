@@ -60,4 +60,10 @@ class OccupationStandard < ApplicationRecord
   def competencies_count
     Competency.joins(work_process: :occupation_standard).where(occupation_standards: {id: id}).count
   end
+
+  private
+
+  def national?
+    national_standard_type.present?
+  end
 end
