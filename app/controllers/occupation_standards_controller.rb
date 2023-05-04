@@ -18,7 +18,8 @@ class OccupationStandardsController < ApplicationController
 
   def search_term_params
     {
-      q: params[:q]
+      q: params[:q],
+      state_id: params[:state_id]
     }
   end
 
