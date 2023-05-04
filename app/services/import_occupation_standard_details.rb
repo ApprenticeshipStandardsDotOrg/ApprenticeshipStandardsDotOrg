@@ -55,7 +55,10 @@ class ImportOccupationStandardDetails
   end
 
   def rapids_code
-    row["RAPIDS Code"]&.gsub(/[A-Za-z]+\z/, "")
+    if (rapids = row["RAPIDS Code"])
+      rapids = rapids.to_s.gsub(/[A-Za-z]+\z/, "").to_i
+      sprintf("%04d", rapids)
+    end
   end
 
   def ojt_type
