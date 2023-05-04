@@ -36,4 +36,18 @@ RSpec.describe WorkProcessesHelper, type: :helper do
       expect(helper.hours_range(work_process)).to eq "10"
     end
   end
+
+  describe "#hours_in_human_format" do
+    it "returns 1K for 1,000" do
+      expect(helper.hours_in_human_format(1000)).to eq "1K"
+    end
+
+    it "returns number with precision of 2" do
+      expect(helper.hours_in_human_format(1234)).to eq "1.2K"
+    end
+
+    it "returns number without letter if lesser than 1,000" do
+      expect(helper.hours_in_human_format(500)).to eq "500"
+    end
+  end
 end

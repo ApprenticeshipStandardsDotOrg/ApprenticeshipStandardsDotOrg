@@ -135,4 +135,70 @@ RSpec.describe OccupationStandard, type: :model do
       expect(occupation_standard.competencies_count).to eq 3
     end
   end
+
+  describe "#rsi_hours" do
+    it "returns rsi_hours_max if present" do
+      occupation_standard = build(:occupation_standard, rsi_hours_max: 1000, rsi_hours_min: 500)
+
+      expect(occupation_standard.rsi_hours).to eq 1000
+    end
+
+    it "returns rsi_hours_min if rsi_hours_max is not present" do
+      occupation_standard = build(:occupation_standard, rsi_hours_max: nil, rsi_hours_min: 500)
+
+      expect(occupation_standard.rsi_hours).to eq 500
+    end
+
+    it "returns nil if rsi_hours_max or rsi_hours_min are not present" do
+      occupation_standard = build(:occupation_standard, rsi_hours_max: nil, rsi_hours_min: nil)
+
+      expect(occupation_standard.rsi_hours).to eq nil
+    end
+  end
+
+  describe "#ojt_hours" do
+    it "returns ojt_hours_max if present" do
+      occupation_standard = build(:occupation_standard, ojt_hours_max: 1000, ojt_hours_min: 500)
+
+      expect(occupation_standard.ojt_hours).to eq 1000
+    end
+
+    it "returns ojt_hours_min if ojt_hours_max is not present" do
+      occupation_standard = build(:occupation_standard, ojt_hours_max: nil, ojt_hours_min: 500)
+
+      expect(occupation_standard.ojt_hours).to eq 500
+    end
+
+    it "returns nil if ojt_hours_max or ojt_hours_min are not present" do
+      occupation_standard = build(:occupation_standard, ojt_hours_max: nil, ojt_hours_min: nil)
+
+      expect(occupation_standard.ojt_hours).to eq nil
+    end
+  end
+
+  describe "#work_processes_hours" do
+    it "returns sum of maximum hours if available" do
+      occupation_standard = create(:occupation_standard)
+      create(:work_process, occupation_standard: occupation_standard, maximum_hours: 1000, minimum_hours: 400)
+      create(:work_process, occupation_standard: occupation_standard, maximum_hours: 1000, minimum_hours: 400)
+
+      expect(occupation_standard.work_processes_hours).to eq 2000
+    end
+
+    it "returns sum of minimum hours if maximum hours not available" do
+      occupation_standard = create(:occupation_standard)
+      create(:work_process, occupation_standard: occupation_standard, maximum_hours: nil, minimum_hours: 400)
+      create(:work_process, occupation_standard: occupation_standard, maximum_hours: nil, minimum_hours: 400)
+
+      expect(occupation_standard.work_processes_hours).to eq 800
+    end
+
+    it "returns nil if maximum hours and minimum hours are not present" do
+      occupation_standard = create(:occupation_standard)
+      create(:work_process, occupation_standard: occupation_standard, maximum_hours: nil, minimum_hours: nil)
+      create(:work_process, occupation_standard: occupation_standard, maximum_hours: nil, minimum_hours: nil)
+
+      expect(occupation_standard.work_processes_hours).to eq nil
+    end
+  end
 end

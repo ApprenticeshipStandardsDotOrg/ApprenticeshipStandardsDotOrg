@@ -67,6 +67,20 @@ class OccupationStandard < ApplicationRecord
     Competency.joins(work_process: :occupation_standard).where(occupation_standards: {id: id}).count
   end
 
+  def rsi_hours
+    [rsi_hours_max, rsi_hours_min].compact.first
+  end
+
+  def ojt_hours
+    [ojt_hours_max, ojt_hours_min].compact.first
+  end
+
+  def work_processes_hours
+    maximum_hours = work_processes.sum(:maximum_hours)
+    minimum_hours = work_processes.sum(:minimum_hours)
+    ([maximum_hours, minimum_hours] - [0]).first
+  end
+
   private
 
   def national?
