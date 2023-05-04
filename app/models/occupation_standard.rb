@@ -75,6 +75,12 @@ class OccupationStandard < ApplicationRecord
     [ojt_hours_max, ojt_hours_min].compact.first
   end
 
+  def work_processes_hours
+    maximum_hours = work_processes.sum(&:maximum_hours)
+    minimum_hours = work_processes.sum(&:minimum_hours)
+    [maximum_hours, minimum_hours].compact.first
+  end
+
   def related_instructions_organization_names
     related_instructions
   end

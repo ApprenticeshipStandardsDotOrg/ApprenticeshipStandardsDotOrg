@@ -6,17 +6,8 @@ module WorkProcessesHelper
       precision: 2,
       units:
       {
-        thousand: 'K',
-        million: 'M',
-        billion: 'B'
+        thousand: 'K'
       }
     )
-  end
-
-  def hours_range_for_occupation(occupation_standard)
-    minimum_hours = occupation_standard.work_processes.sum(&:minimum_hours)
-    maximum_hours = occupation_standard.work_processes.sum(&:maximum_hours)
-    hours = [maximum_hours, minimum_hours].compact.first
-    hours_in_human_format(hours)
   end
 end
