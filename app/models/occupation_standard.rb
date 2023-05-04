@@ -19,15 +19,21 @@ class OccupationStandard < ApplicationRecord
   validates :title, presence: true
 
   scope :by_title, ->(title) do
-    where("title ILIKE ?", "%#{sanitize_sql_like(title).split.join("%")}%") if title.present?
+    if title.present?
+      where("title ILIKE ?", "%#{sanitize_sql_like(title).split.join("%")}%")
+    end
   end
 
-  def onet_code
-    occupation&.onet&.code || read_attribute(:onet_code)
+  scope :by_rapids_code, ->(rapids_code) do
+    if rapids_code.present?
+      where("rapids_code ILIKE ?", "%#{sanitize_sql_like(rapids_code).split.join("%")}%")
+    end
   end
 
-  def rapids_code
-    occupation&.rapids_code || read_attribute(:rapids_code)
+  scope :by_onet_code, ->(onet_code) do
+    if onet_code.present?
+      where("onet_code ILIKE ?", "%#{sanitize_sql_like(onet_code).split.join("%")}%")
+    end
   end
 
   def sponsor_name

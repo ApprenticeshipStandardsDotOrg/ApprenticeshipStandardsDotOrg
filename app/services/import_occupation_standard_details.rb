@@ -22,7 +22,7 @@ class ImportOccupationStandardDetails
         title: row["Occupation Title"],
         existing_title: row["Existing Title"],
         term_months: row["Term (in months)"],
-        onet_code: row["Onet Code"],
+        onet_code: onet_code,
         rapids_code: rapids_code,
         ojt_type: ojt_type,
         probationary_period_months: row["Probationary Period"],
@@ -55,10 +55,18 @@ class ImportOccupationStandardDetails
   end
 
   def rapids_code
+    parsed_rapids_code || occupation&.rapids_code
+  end
+
+  def parsed_rapids_code
     if (rapids = row["RAPIDS Code"])
       rapids = rapids.to_s.gsub(/[A-Za-z]+\z/, "").to_i
       sprintf("%04d", rapids)
     end
+  end
+
+  def onet_code
+    row["Onet Code"].presence || occupation&.onet_code
   end
 
   def ojt_type
@@ -73,7 +81,7 @@ class ImportOccupationStandardDetails
   end
 
   def occupation
-    Occupation.find_by(rapids_code: rapids_code) || begin
+    @_occupation ||= Occupation.find_by(rapids_code: parsed_rapids_code) || begin
       onet = Onet.find_by(code: row["Onet Code"])
       if onet
         Occupation.find_by(onet: onet)
