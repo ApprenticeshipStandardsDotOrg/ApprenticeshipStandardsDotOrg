@@ -20,6 +20,7 @@ class OccupationStandardsController < ApplicationController
     params.permit(
       :q,
       :state_id,
+      ojt_type: [:time, :hybrid, :competency],
       national_standard_type: [
         :program_standard, :guideline_standard, :occupational_framework
       ]

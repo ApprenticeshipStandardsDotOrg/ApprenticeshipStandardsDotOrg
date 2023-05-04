@@ -113,6 +113,36 @@ RSpec.describe "occupation_standards/index" do
     find("#dropdownNationalButton").click
     expect(page).to have_checked_field("National Program Standards")
     expect(page).to have_checked_field("National Occupational Frameworks")
+    expect(page).to_not have_checked_field("National Guideline Standards")
+
+    expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
+    expect(page).to have_link "Medical Assistant", href: occupation_standard_path(ma)
+    expect(page).to_not have_link "Pipe Fitter"
+    expect(page).to_not have_link "HR"
+  end
+
+  it "filters occupations based on onet_code search term and ojt_type filter", :js do
+    mechanic = create(:occupation_standard, :hybrid, title: "Mechanic", onet_code: "12.3456")
+    ma = create(:occupation_standard, :time, title: "Medical Assistant", onet_code: "12.34567")
+    create(:occupation_standard, :competency, title: "Pipe Fitter", onet_code: "12.34567")
+    create(:occupation_standard, title: "HR", onet_code: "12.3456")
+
+    visit occupation_standards_path
+
+    fill_in "q", with: "12.3456"
+    click_on "Expand Filters"
+    find("#dropdownPrgrmTypeButton").click
+    check "Hybrid"
+    check "Time"
+
+    find("#search").click
+
+    expect(page).to have_text "Showing Results for 12.3456"
+    expect(page).to have_field("q", with: "12.3456")
+    find("#dropdownPrgrmTypeButton").click
+    expect(page).to have_checked_field("Hybrid")
+    expect(page).to have_checked_field("Time")
+    expect(page).to_not have_checked_field("Competency")
 
     expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
     expect(page).to have_link "Medical Assistant", href: occupation_standard_path(ma)

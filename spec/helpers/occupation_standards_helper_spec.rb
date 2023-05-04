@@ -42,6 +42,13 @@ RSpec.describe OccupationStandardsHelper, type: :helper do
 
       expect(helper.filters_class).to be_nil
     end
+
+    it "returns nil if ojt_type filter params" do
+      params = {ojt_type: {hybrid: "1"}}
+      controller.params = params
+
+      expect(helper.filters_class).to be_nil
+    end
   end
 
   describe "#filters_aria_expanded" do
