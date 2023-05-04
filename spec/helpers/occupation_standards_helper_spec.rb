@@ -56,6 +56,7 @@ RSpec.describe OccupationStandardsHelper, type: :helper do
 
       expect(helper.sponsor_name(occupation_standard)).to eq "Anonymous"
     end
+
     it "returns organization name when standard does not come from public document" do
       occupation_standard = build(:occupation_standard)
       allow(occupation_standard).to receive(:public_document?).and_return(true)

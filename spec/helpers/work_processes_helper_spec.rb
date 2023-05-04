@@ -22,7 +22,6 @@ RSpec.describe WorkProcessesHelper, type: :helper do
       work_process = build(:work_process, minimum_hours: 10, maximum_hours: 10)
 
       expect(helper.hours_range(work_process)).to eq "10"
-
     end
 
     it "returns a single value when min is present and max is nil" do
