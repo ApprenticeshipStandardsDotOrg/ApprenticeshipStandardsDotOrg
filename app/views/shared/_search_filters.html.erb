@@ -1,6 +1,6 @@
 <div class="py-2">
   <div class="flex justify-between">
-    <button class="flex items-center" data-collapse-toggle="search-filters" type="button" aria-controls="search-filters" aria-expanded="false">
+    <button class="flex items-center" data-collapse-toggle="search-filters" type="button" aria-controls="search-filters" aria-expanded="<%= filters_aria_expanded %>">
       <span class="text-sm">Expand Filters</span>
       <div>
         <svg aria-label="arrow down icon" class="h-5 w-5" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -10,7 +10,7 @@
     </button>
   </div>
 
-  <div id="search-filters" class=<%= filters_class %>>
+  <div id="search-filters" class="<%= filters_class %>">
     <button class="block text-sm font-bold my-3" type="button">Clear All</button>
     <!-- begin filter options -->
     <div class="flex flex-col py-2 lg:space-x-2 lg:flex-row lg:divide-x divide-seafoam-600">

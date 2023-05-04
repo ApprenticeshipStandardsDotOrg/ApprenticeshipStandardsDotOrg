@@ -36,4 +36,16 @@ RSpec.describe OccupationStandardsHelper, type: :helper do
       expect(helper.filters_class).to be_nil
     end
   end
+
+  describe "#filters_aria_expanded" do
+    it "returns false if no filter params" do
+      expect(helper.filters_aria_expanded).to eq "false"
+    end
+
+    it "returns true if filter params" do
+      controller.params[:state_id] = "abc123"
+
+      expect(helper.filters_aria_expanded).to eq "true"
+    end
+  end
 end
