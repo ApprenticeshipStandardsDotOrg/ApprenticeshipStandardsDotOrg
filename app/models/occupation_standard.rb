@@ -37,6 +37,12 @@ class OccupationStandard < ApplicationRecord
     end
   end
 
+  scope :by_state_id, ->(state_id) do
+    if state_id.present?
+      joins(:registration_agency).where(registration_agencies: {state_id: state_id})
+    end
+  end
+
   def sponsor_name
     organization&.title
   end

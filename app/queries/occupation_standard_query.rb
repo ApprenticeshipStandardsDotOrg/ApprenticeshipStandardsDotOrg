@@ -11,12 +11,15 @@ class OccupationStandardQuery
     return occupation_standards if search_term_params.blank?
 
     occupation_standards
-      .by_title(search_term_params[:q])
-      .or(
-        occupation_standards.by_rapids_code(search_term_params[:q])
-      )
-      .or(
-        occupation_standards.by_onet_code(search_term_params[:q])
+      .by_state_id(search_term_params[:state_id])
+      .and(
+        occupation_standards.by_title(search_term_params[:q])
+        .or(
+          occupation_standards.by_rapids_code(search_term_params[:q])
+        )
+        .or(
+          occupation_standards.by_onet_code(search_term_params[:q])
+        )
       )
   end
 end

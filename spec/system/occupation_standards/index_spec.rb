@@ -67,4 +67,28 @@ RSpec.describe "occupation_standards/index" do
     expect(page).to have_link "Pipe Fitter", href: occupation_standard_path(pipe_fitter)
     expect(page).to_not have_link "HR"
   end
+
+  it "filters occupations based on onet_code search term and state filter", :js do
+    wa = create(:state, name: "Washington")
+    ra = create(:registration_agency, state: wa)
+    mechanic = create(:occupation_standard, title: "Mechanic", onet_code: "12.3456", registration_agency: ra)
+    create(:occupation_standard, title: "Pipe Fitter", onet_code: "12.34567")
+    create(:occupation_standard, title: "HR", onet_code: "12.34")
+
+    visit occupation_standards_path
+
+    fill_in "q", with: "12.3456"
+    click_on "Expand Filters"
+    select "Washington"
+
+    find("#search").click
+
+    expect(page).to have_text "Showing Results for 12.3456"
+    expect(page).to have_field("q", with: "12.3456")
+    expect(page).to have_field("state_id", with: wa.id)
+
+    expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
+    expect(page).to_not have_link "Pipe Fitter"
+    expect(page).to_not have_link "HR"
+  end
 end
