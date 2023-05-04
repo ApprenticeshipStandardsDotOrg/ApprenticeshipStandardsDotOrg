@@ -12,7 +12,7 @@ class OccupationStandardQuery
 
     occupation_standards
       .by_state_id(search_term_params[:state_id])
-      .by_national_standard_type(search_term_params[:national_standard_type])
+      .by_national_standard_type(search_term_params[:national_standard_type]&.keys)
       .and(
         occupation_standards.by_title(search_term_params[:q])
         .or(

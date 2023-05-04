@@ -59,12 +59,17 @@ RSpec.describe OccupationStandardQuery do
     expect(occupation_standard_search.pluck(:id)).to contain_exactly(os1.id, os2.id)
   end
 
-  it "allows filtering occupation standards by national_standard_type" do
+  it "allows filtering occupation standards by multiple national_standard_types" do
     os1 = create(:occupation_standard, :program_standard)
-    os2 = create(:occupation_standard, :program_standard)
+    os2 = create(:occupation_standard, :guideline_standard)
     create(:occupation_standard, :occupational_framework)
 
-    params = {national_standard_type: "program_standard"}
+    params = {
+      national_standard_type: {
+        program_standard: "1",
+        guideline_standard: "1"
+      }
+    }
 
     occupation_standard_search = OccupationStandardQuery.run(
       OccupationStandard.all, params
@@ -82,7 +87,11 @@ RSpec.describe OccupationStandardQuery do
     create(:occupation_standard, :program_standard, registration_agency: ra_ca, title: "HR")
     create(:occupation_standard, registration_agency: ra_wa)
 
-    params = {q: "mech", state_id: ca.id, national_standard_type: "program_standard"}
+    params = {
+      q: "mech",
+      state_id: ca.id,
+      national_standard_type: {program_standard: "1"}
+    }
 
     occupation_standard_search = OccupationStandardQuery.run(
       OccupationStandard.all, params
