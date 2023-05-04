@@ -83,7 +83,7 @@ class ImportOccupationStandardDetails
 
   def national_standard_type
     if (national_type = row["National"])
-      national_type.downcase.gsub(/National\s*/i, "").gsub(/\s+/, "_").singularize
+      national_type.downcase.gsub(/national\s*/, "").gsub(/\s+/, "_").singularize
     end
   end
 
