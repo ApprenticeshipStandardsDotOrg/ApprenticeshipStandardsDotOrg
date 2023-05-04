@@ -46,7 +46,6 @@
                             <%= @occupation_standard.onet_code %><span> • </span>2014
                         </button>
 
-
                     </div>
 
                     <% if @occupation_standard.registration_agency %>
@@ -153,11 +152,9 @@
                   </div>
 
                   <%= render partial: "occupation_standards/ojt_accordion",
-                      locals: {
+                        locals: {
                           work_processes: @occupation_standard.work_processes
-                      }
-                  %>
-
+                        } %>
 
                 </div><!-- end content tab 1 -->
 

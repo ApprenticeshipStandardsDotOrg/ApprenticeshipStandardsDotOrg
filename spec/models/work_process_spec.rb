@@ -7,7 +7,6 @@ RSpec.describe WorkProcess, type: :model do
     expect(wp).to be_valid
   end
 
-
   describe "#hours" do
     it "returns maximum hours if present" do
       work_process = build(:work_process, maximum_hours: 1000, minimum_hours: 500)
