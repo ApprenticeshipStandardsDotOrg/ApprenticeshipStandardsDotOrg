@@ -62,6 +62,26 @@ RSpec.describe OccupationStandard, type: :model do
     end
   end
 
+  describe ".by_state_id" do
+    it "returns records that have a registration agency for that state" do
+      ca = create(:state)
+      wa = create(:state)
+      ra_ca = create(:registration_agency, state: ca)
+      ra_wa = create(:registration_agency, state: wa)
+      os1 = create(:occupation_standard, registration_agency: ra_ca)
+      os2 = create(:occupation_standard, registration_agency: ra_ca)
+      create(:occupation_standard, registration_agency: ra_wa)
+
+      expect(described_class.by_state_id(ca.id)).to contain_exactly(os1, os2)
+    end
+
+    it "returns all records if state_id not provided" do
+      standards = create_pair(:occupation_standard)
+
+      expect(described_class.by_state_id("")).to match_array standards
+    end
+  end
+
   describe "#sponsor_name" do
     it "returns organization name when it exists" do
       organization = build_stubbed(:organization, title: "Disney")
