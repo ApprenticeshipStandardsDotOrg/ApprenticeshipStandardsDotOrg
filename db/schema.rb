@@ -98,7 +98,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_03_132536) do
   create_table "occupation_standards", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "occupation_id"
     t.string "url"
-    t.uuid "registration_agency_id", null: false
+    t.uuid "registration_agency_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "title"

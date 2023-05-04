@@ -18,6 +18,7 @@ class ImportOccupationStandardDetails
 
       occupation_standard.assign_attributes(
         occupation: occupation,
+        national_standard_type: national_standard_type,
         registration_agency: registration_agency,
         title: row["Occupation Title"],
         existing_title: row["Existing Title"],
@@ -77,6 +78,12 @@ class ImportOccupationStandardDetails
       :time
     when /hybrid/i
       :hybrid
+    end
+  end
+
+  def national_standard_type
+    if (national_type = row["National"])
+      national_type.downcase.gsub(/\Anational\s*/, "").gsub(/\s+/, "_").singularize
     end
   end
 
