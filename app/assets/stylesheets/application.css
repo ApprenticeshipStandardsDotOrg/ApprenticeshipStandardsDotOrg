@@ -102,3 +102,41 @@
     height: auto;
     }
 }
+
+.pagy-nav.pagination {
+  font-family: 'Montserrat', sans-serif;
+  color: #066B6E;
+  font-weight: bold;
+}
+
+.pagy-nav.pagination a {
+  text-decoration: none;
+  color: #066B6E;
+}
+
+.pagy-nav.pagination a:hover {
+  color: #018083;
+}
+
+.pagy-nav.pagination .page {
+  padding: 7px 10px;
+  text-align: center;
+}
+
+.pagy-nav.pagination .active {
+  color: #fff;
+  background-color: #018083;
+  border-radius: 7px;
+}
+
+.pagy-nav.pagination .disabled {
+  color: #9AC1C1;
+}
+
+.pagy-nav.pagination .prev {
+  margin-right: 15px
+}
+
+.pagy-nav.pagination .next {
+  margin-left: 15px
+}
