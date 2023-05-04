@@ -115,6 +115,7 @@ RSpec.describe "occupation_standards/index" do
     expect(page).to have_checked_field("National Occupational Frameworks")
 
     expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
+    expect(page).to have_link "Medical Assistant", href: occupation_standard_path(ma)
     expect(page).to_not have_link "Pipe Fitter"
     expect(page).to_not have_link "HR"
   end
