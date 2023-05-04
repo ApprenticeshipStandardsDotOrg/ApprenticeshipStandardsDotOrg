@@ -98,7 +98,15 @@ RSpec.describe OccupationStandard, type: :model do
   end
 
   describe ".by_national_standard_type" do
-    it "returns records that match the national_standard_type" do
+    it "returns records that match any of the national_standard_types passed" do
+      os1 = create(:occupation_standard, :program_standard)
+      os2 = create(:occupation_standard, :guideline_standard)
+      create(:occupation_standard, :occupational_framework)
+
+      expect(described_class.by_national_standard_type(%w[program_standard guideline_standard])).to contain_exactly(os1, os2)
+    end
+
+    it "can match on a string national_standard_type passed" do
       os1 = create(:occupation_standard, :program_standard)
       os2 = create(:occupation_standard, :program_standard)
       create(:occupation_standard, :occupational_framework)
@@ -106,10 +114,16 @@ RSpec.describe OccupationStandard, type: :model do
       expect(described_class.by_national_standard_type("program_standard")).to contain_exactly(os1, os2)
     end
 
-    it "returns all records if national_standard_type not provided" do
+    it "returns all records if empty string provided" do
       standards = create_pair(:occupation_standard, :program_standard)
 
       expect(described_class.by_onet_code("")).to match_array standards
+    end
+
+    it "returns all records if empty array provided" do
+      standards = create_pair(:occupation_standard, :program_standard)
+
+      expect(described_class.by_onet_code([])).to match_array standards
     end
   end
 

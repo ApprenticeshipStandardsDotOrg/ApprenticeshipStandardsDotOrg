@@ -43,9 +43,9 @@ class OccupationStandard < ApplicationRecord
     end
   end
 
-  scope :by_national_standard_type, ->(standard_type) do
-    if standard_type.present?
-      send("national_#{standard_type}")
+  scope :by_national_standard_type, ->(standard_types) do
+    if standard_types.present?
+      where(national_standard_type: standard_types)
     end
   end
 
