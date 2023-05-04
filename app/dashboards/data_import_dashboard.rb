@@ -21,6 +21,7 @@ class DataImportDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = %i[
     description
     file
+    source_file
     occupation_standard
   ].freeze
 
