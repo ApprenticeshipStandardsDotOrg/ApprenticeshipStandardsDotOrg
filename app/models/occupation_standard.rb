@@ -49,6 +49,12 @@ class OccupationStandard < ApplicationRecord
     end
   end
 
+  scope :by_ojt_type, ->(ojt_types) do
+    if ojt_types.present?
+      where(ojt_type: ojt_types)
+    end
+  end
+
   def sponsor_name
     organization&.title
   end
