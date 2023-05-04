@@ -43,6 +43,12 @@ class OccupationStandard < ApplicationRecord
     end
   end
 
+  scope :by_national_standard_type, ->(standard_type) do
+    if standard_type.present?
+      send("national_#{standard_type}")
+    end
+  end
+
   def sponsor_name
     organization&.title
   end

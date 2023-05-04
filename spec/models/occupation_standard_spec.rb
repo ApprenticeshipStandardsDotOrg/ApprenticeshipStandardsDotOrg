@@ -97,6 +97,22 @@ RSpec.describe OccupationStandard, type: :model do
     end
   end
 
+  describe ".by_national_standard_type" do
+    it "returns records that match the national_standard_type" do
+      os1 = create(:occupation_standard, :program_standard)
+      os2 = create(:occupation_standard, :program_standard)
+      create(:occupation_standard, :occupational_framework)
+
+      expect(described_class.by_national_standard_type("program_standard")).to contain_exactly(os1, os2)
+    end
+
+    it "returns all records if national_standard_type not provided" do
+      standards = create_pair(:occupation_standard, :program_standard)
+
+      expect(described_class.by_onet_code("")).to match_array standards
+    end
+  end
+
   describe "#sponsor_name" do
     it "returns organization name when it exists" do
       organization = build_stubbed(:organization, title: "Disney")
