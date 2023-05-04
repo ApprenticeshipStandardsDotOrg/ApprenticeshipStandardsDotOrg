@@ -10,6 +10,6 @@ module OccupationStandardsHelper
   end
 
   def filters_aria_expanded
-    filters_class == "hidden" ? "false" : "true"
+    (filters_class == "hidden") ? "false" : "true"
   end
 end
