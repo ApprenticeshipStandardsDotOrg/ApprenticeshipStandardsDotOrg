@@ -12,9 +12,6 @@ module.exports = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        'header-swirl': "url('header-background.png')",
-      },
       colors: {
         primary: {
           '50': '#f3f7f8',
