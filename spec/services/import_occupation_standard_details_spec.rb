@@ -80,9 +80,7 @@ RSpec.describe ImportOccupationStandardDetails do
       end
 
       it "sets national standard type when no registration agency" do
-        onet = create(:onet, code: "13-1071.01")
-        occupation1 = create(:occupation, rapids_code: "0157")
-
+        occupation = create(:occupation, rapids_code: "0157")
         data_import = create(:data_import, :national_program_standard, :pending)
 
         expect {
@@ -91,7 +89,7 @@ RSpec.describe ImportOccupationStandardDetails do
 
         os = OccupationStandard.last
         expect(os.data_import).to eq data_import
-        expect(os.occupation).to eq occupation1
+        expect(os.occupation).to eq occupation
         expect(os.registration_agency).to be_nil
         expect(os).to be_national_program_standard
         expect(os.title).to eq "HUMAN RESOURCE SPECIALIST"
