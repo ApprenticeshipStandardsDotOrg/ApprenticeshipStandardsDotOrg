@@ -85,6 +85,7 @@ RSpec.describe "occupation_standards/index" do
 
     expect(page).to have_text "Showing Results for 12.3456"
     expect(page).to have_field("q", with: "12.3456")
+    expect(page).to have_field("state_id", with: wa.id)
 
     expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
     expect(page).to_not have_link "Pipe Fitter"

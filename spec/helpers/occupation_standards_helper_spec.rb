@@ -24,4 +24,16 @@ RSpec.describe OccupationStandardsHelper, type: :helper do
       expect(helper.ojt_type_display(occupation_standard)).to eq "Hybrid"
     end
   end
+
+  describe "#filters_class" do
+    it "returns hidden if no filter params" do
+      expect(helper.filters_class).to eq "hidden"
+    end
+
+    it "returns nil if filter params" do
+      controller.params[:state_id] = "abc123"
+
+      expect(helper.filters_class).to be_nil
+    end
+  end
 end
