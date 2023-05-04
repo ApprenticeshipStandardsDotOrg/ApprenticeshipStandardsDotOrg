@@ -65,7 +65,7 @@ RSpec.describe OccupationStandardQuery do
     ra_ca = create(:registration_agency, state: ca)
     ra_wa = create(:registration_agency, state: wa)
     os1 = create(:occupation_standard, registration_agency: ra_ca, title: "Mechanic")
-    os2 = create(:occupation_standard, registration_agency: ra_ca, title: "HR")
+    create(:occupation_standard, registration_agency: ra_ca, title: "HR")
     create(:occupation_standard, registration_agency: ra_wa)
 
     params = {state_id: ca.id, q: "mech"}
