@@ -15,8 +15,8 @@ module WorkProcessesHelper
   end
 
   def hours_range_for_occupation(occupation_standard)
-    minimum_hours = occupation_standard.work_processes.sum(:minimum_hours)
-    maximum_hours = occupation_standard.work_processes.sum(:maximum_hours)
+    minimum_hours = occupation_standard.work_processes.sum(&:minimum_hours)
+    maximum_hours = occupation_standard.work_processes.sum(&:maximum_hours)
     hours_range(maximum_hours, minimum_hours)
   end
 end

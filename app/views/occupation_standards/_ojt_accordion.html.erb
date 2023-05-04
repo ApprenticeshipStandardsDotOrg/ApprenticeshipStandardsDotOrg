@@ -6,14 +6,16 @@
                 <div class="flex w-full items-center justify-between">
                     <div class="space-x-3 flex-col md:flex-row">
                         <span class="skill-title text-xl text-primary-900 font-bold"><%= work_process.title %></span>
-                        <span class="skill-code text-primary-600">skill code</span>
+                        <span class="skill-code text-primary-600"></span>
                     </div>
 
                     <div class="flex items-center">
                         <div class="flex flex-col md:flex-row">
+                            <% unless work_process.competencies.count.zero? %>
                             <div class="m-1.5 w-28 rounded bg-yonder-100 px-1 py-3 text-center">
                                 <div class="text-3xl font-bold text-yonder-600"><%= work_process.competencies.count %></div>
                             </div>
+                            <% end %>
                             <div class="m-1.5 w-28 rounded bg-rust-100 px-1 py-3 text-center">
                                 <div class="text-3xl font-bold text-rust-700"><%= hours_range(work_process.maximum_hours, work_process.minimum_hours) %></div>
                             </div>
@@ -24,16 +26,7 @@
             <div class="accordion-content space-y-4 p-8 text-primary-600">
                 <p>
                     <%= work_process.description %>
-
                 </p>
-                <!--
-                <ol class="list-decimal list-inside space-y-1" role="list">
-                    <li>Skill One</li>
-                    <li>Skill Two</li>
-                    <li>Skill Three</li>
-                    <li>Skill Four</li>
-                    </ol>
-                -->
             </div>
         </details>
     <% end %>
