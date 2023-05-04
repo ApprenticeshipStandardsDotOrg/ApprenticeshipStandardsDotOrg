@@ -59,16 +59,30 @@ RSpec.describe OccupationStandardQuery do
     expect(occupation_standard_search.pluck(:id)).to contain_exactly(os1.id, os2.id)
   end
 
-  it "allows searching by title and filtering occupation standards by state" do
+  it "allows filtering occupation standards by national_standard_type" do
+    os1 = create(:occupation_standard, :program_standard)
+    os2 = create(:occupation_standard, :program_standard)
+    create(:occupation_standard, :occupational_framework)
+
+    params = {national_standard_type: "program_standard"}
+
+    occupation_standard_search = OccupationStandardQuery.run(
+      OccupationStandard.all, params
+    )
+
+    expect(occupation_standard_search.pluck(:id)).to contain_exactly(os1.id, os2.id)
+  end
+
+  it "allows searching by title and filtering occupation standards by state and national_standard_type" do
     ca = create(:state)
     wa = create(:state)
     ra_ca = create(:registration_agency, state: ca)
     ra_wa = create(:registration_agency, state: wa)
-    os1 = create(:occupation_standard, registration_agency: ra_ca, title: "Mechanic")
-    create(:occupation_standard, registration_agency: ra_ca, title: "HR")
+    os1 = create(:occupation_standard, :program_standard, registration_agency: ra_ca, title: "Mechanic")
+    create(:occupation_standard, :program_standard, registration_agency: ra_ca, title: "HR")
     create(:occupation_standard, registration_agency: ra_wa)
 
-    params = {state_id: ca.id, q: "mech"}
+    params = {q: "mech", state_id: ca.id, national_standard_type: "program_standard"}
 
     occupation_standard_search = OccupationStandardQuery.run(
       OccupationStandard.all, params
