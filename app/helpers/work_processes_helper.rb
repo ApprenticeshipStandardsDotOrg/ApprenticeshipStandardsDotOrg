@@ -1,6 +1,5 @@
 module WorkProcessesHelper
-  def hours_range(hours, fallback)
-    hours = [hours, fallback].compact.first
+  def hours_in_human_format(hours)
     number_to_human(
       hours,
       format: '%n%u',
@@ -17,6 +16,7 @@ module WorkProcessesHelper
   def hours_range_for_occupation(occupation_standard)
     minimum_hours = occupation_standard.work_processes.sum(&:minimum_hours)
     maximum_hours = occupation_standard.work_processes.sum(&:maximum_hours)
-    hours_range(maximum_hours, minimum_hours)
+    hours = [maximum_hours, minimum_hours].compact.first
+    hours_in_human_format(hours)
   end
 end

@@ -110,6 +110,96 @@ RSpec.describe ImportOccupationStandardDetails do
         expect(os.rsi_hours_min).to be_nil
         expect(os.rsi_hours_max).to eq 100
       end
+
+      it "sets national standard type when no registration agency" do
+        occupation = create(:occupation, rapids_code: "0157")
+        data_import = create(:data_import, :national_program_standard, :pending)
+
+        expect {
+          described_class.new(data_import).call
+        }.to change(OccupationStandard, :count).by(1)
+
+        os = OccupationStandard.last
+        expect(os.data_import).to eq data_import
+        expect(os.occupation).to eq occupation
+        expect(os.registration_agency).to be_nil
+        expect(os).to be_national_program_standard
+        expect(os.title).to eq "HUMAN RESOURCE SPECIALIST"
+        expect(os.existing_title).to eq "Career Development Technician"
+        expect(os.term_months).to eq 12
+        expect(os).to be_competency_based
+        expect(os.probationary_period_months).to eq 3
+        expect(os.onet_code).to eq "13-1071.01"
+        expect(os.rapids_code).to eq "0157"
+        expect(os.apprenticeship_to_journeyworker_ratio).to eq "5:1"
+        expect(os.organization_title).to eq "Hardy Corporation"
+        expect(os.ojt_hours_min).to be_nil
+        expect(os.ojt_hours_max).to be_nil
+        expect(os.rsi_hours_min).to be_nil
+        expect(os.rsi_hours_max).to be_nil
+      end
+
+      it "uses occupation's RAPIDS code if no RAPIDS code" do
+        ca = create(:state, abbreviation: "CA")
+        create(:registration_agency, state: ca, agency_type: :oa)
+
+        onet = create(:onet, code: "31-1071.01")
+        create(:occupation, onet: onet, rapids_code: "8765")
+
+        data_import = create(:data_import, :no_rapids, :pending)
+
+        expect {
+          described_class.new(data_import).call
+        }.to change(OccupationStandard, :count).by(1)
+
+        os = OccupationStandard.last
+        expect(os.rapids_code).to eq "8765"
+      end
+
+      it "does not set RAPIDS code if blank and occupation does not exist" do
+        ca = create(:state, abbreviation: "CA")
+        create(:registration_agency, state: ca, agency_type: :oa)
+
+        data_import = create(:data_import, :no_rapids, :pending)
+
+        expect {
+          described_class.new(data_import).call
+        }.to change(OccupationStandard, :count).by(1)
+
+        os = OccupationStandard.last
+        expect(os.rapids_code).to be_nil
+      end
+
+      it "uses occupation's ONET code if no ONET code" do
+        ca = create(:state, abbreviation: "CA")
+        create(:registration_agency, state: ca, agency_type: :oa)
+
+        onet = create(:onet, code: "13-1081.01")
+        create(:occupation, onet: onet, rapids_code: "1057")
+
+        data_import = create(:data_import, :no_onet, :pending)
+
+        expect {
+          described_class.new(data_import).call
+        }.to change(OccupationStandard, :count).by(1)
+
+        os = OccupationStandard.last
+        expect(os.onet_code).to eq "13-1081.01"
+      end
+
+      it "does not set ONET code if blank and occupation does not exist" do
+        ca = create(:state, abbreviation: "CA")
+        create(:registration_agency, state: ca, agency_type: :oa)
+
+        data_import = create(:data_import, :no_onet, :pending)
+
+        expect {
+          described_class.new(data_import).call
+        }.to change(OccupationStandard, :count).by(1)
+
+        os = OccupationStandard.last
+        expect(os.onet_code).to be_nil
+      end
     end
 
     context "when data_import already has an occupation_standard associated" do

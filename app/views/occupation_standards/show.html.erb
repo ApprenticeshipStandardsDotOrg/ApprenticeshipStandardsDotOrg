@@ -42,16 +42,23 @@
                         <button type="button" class="mb-2 mr-2 rounded-lg bg-yellow-100 px-2 py-1 text-sm font-medium text-goldenrod-800 hover:bg-yellow-200 hover:text-goldenrod-900 focus:outline-none focus:ring-4 focus:ring-orange-300">
                             <%= @occupation_standard.onet_code %>
                         </button>
+                        <button type="button" class="mb-2 mr-2 rounded-lg bg-yellow-100 px-2 py-1 text-sm font-medium text-goldenrod-800 hover:bg-yellow-200 hover:text-goldenrod-900 focus:outline-none focus:ring-4 focus:ring-orange-300">
+                            <%= @occupation_standard.onet_code %><span> • </span>2014
+                        </button>
+
+
                     </div>
 
-                    <div class="my-3 flex">
-                        <div class="mr-6 flex items-center">
-                            <div>
-                                <img class="mr-2 h-7 w-auto rounded" src="https://flowbite.com/docs/images/examples/image-1@2x.jpg" alt="organization logo">
+                    <% if @occupation_standard.registration_agency_id %>
+                        <div class="my-3 flex">
+                            <div class="mr-6 flex items-center">
+                                <div>
+                                    <img class="mr-2 h-7 w-auto rounded" src="https://flowbite.com/docs/images/examples/image-1@2x.jpg" alt="organization logo">
+                                </div>
+                                <div class="font-bold"><%= @occupation_standard.registration_agency %></div>
                             </div>
-                            <div class="font-bold"><%= @occupation_standard.registration_agency %></div>
                         </div>
-                    </div>
+                    <% end %>
 
                     <% if @occupation_standard.national_occupational_framework?%>
                         <div class="flex">

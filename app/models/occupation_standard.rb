@@ -1,6 +1,6 @@
 class OccupationStandard < ApplicationRecord
   belongs_to :occupation, optional: true
-  belongs_to :registration_agency
+  belongs_to :registration_agency, optional: true
   belongs_to :organization, optional: true
   has_many :data_imports
 
@@ -17,17 +17,30 @@ class OccupationStandard < ApplicationRecord
   enum status: [:importing, :in_review, :published]
 
   validates :title, presence: true
+  validates :registration_agency, presence: true, unless: :national?
 
   scope :by_title, ->(title) do
-    where("title ILIKE ?", "%#{sanitize_sql_like(title).split.join("%")}%") if title.present?
+    if title.present?
+      where("title ILIKE ?", "%#{sanitize_sql_like(title).split.join("%")}%")
+    end
   end
 
-  def onet_code
-    occupation&.onet&.code || read_attribute(:onet_code)
+  scope :by_rapids_code, ->(rapids_code) do
+    if rapids_code.present?
+      where("rapids_code ILIKE ?", "%#{sanitize_sql_like(rapids_code).split.join("%")}%")
+    end
   end
 
-  def rapids_code
-    occupation&.rapids_code || read_attribute(:rapids_code)
+  scope :by_onet_code, ->(onet_code) do
+    if onet_code.present?
+      where("onet_code ILIKE ?", "%#{sanitize_sql_like(onet_code).split.join("%")}%")
+    end
+  end
+
+  scope :by_state_id, ->(state_id) do
+    if state_id.present?
+      joins(:registration_agency).where(registration_agencies: {state_id: state_id})
+    end
   end
 
   def sponsor_name
@@ -52,5 +65,23 @@ class OccupationStandard < ApplicationRecord
 
   def competencies_count
     Competency.joins(work_process: :occupation_standard).where(occupation_standards: {id: id}).count
+  end
+
+  def rsi_hours
+    [rsi_hours_max, rsi_hours_min].compact.first
+  end
+
+  def ojt_hours
+    [ojt_hours_max, ojt_hours_min].compact.first
+  end
+
+  def related_instructions_organization_names
+    related_instructions
+  end
+
+  private
+
+  def national?
+    national_standard_type.present?
   end
 end

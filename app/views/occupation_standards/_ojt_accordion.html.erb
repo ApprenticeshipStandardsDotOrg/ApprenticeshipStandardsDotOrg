@@ -17,7 +17,7 @@
                             </div>
                             <% end %>
                             <div class="m-1.5 w-28 rounded bg-rust-100 px-1 py-3 text-center">
-                                <div class="text-3xl font-bold text-rust-700"><%= hours_range(work_process.maximum_hours, work_process.minimum_hours) %></div>
+                                <div class="text-3xl font-bold text-rust-700"><%= hours_in_human_format(work_process.hours) %></div>
                             </div>
                         </div>
                     </div>
