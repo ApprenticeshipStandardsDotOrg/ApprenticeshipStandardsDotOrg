@@ -10,7 +10,10 @@
 <% else %>
   <%= button_to "Claim",
         admin_source_file_path(field.resource),
-        params: {source_file: {assignee_id: current_user.id}},
+        params: {
+          source_file: {assignee_id: current_user.id},
+          redirect_back_to: url_for(_page: params[:_page])
+        },
         method: :patch,
         class: "button",
         form_class: "form-button" %>

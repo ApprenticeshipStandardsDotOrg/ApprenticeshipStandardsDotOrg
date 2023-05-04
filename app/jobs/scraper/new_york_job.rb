@@ -23,7 +23,8 @@ class Scraper::NewYorkJob < ApplicationJob
       standards_import = StandardsImport.where(
         name: file_name
       ).first_or_initialize(
-        notes: "From Scraper::NewYorkJob: #{url}"
+        notes: "From Scraper::NewYorkJob: #{url}",
+        public_document: true
       )
 
       if standards_import.new_record?

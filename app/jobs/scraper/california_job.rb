@@ -22,7 +22,8 @@ class Scraper::CaliforniaJob < ApplicationJob
         name: protocol + query,
         organization: link_text
       ).first_or_initialize(
-        notes: "From Scraper::CaliforniaJob: #{fetch_url}"
+        notes: "From Scraper::CaliforniaJob: #{fetch_url}",
+        public_document: true
       )
 
       if standards_import.new_record?

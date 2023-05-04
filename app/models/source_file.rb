@@ -31,8 +31,6 @@ class SourceFile < ApplicationRecord
     assignee.present?
   end
 
-  private
-
   def standards_import
     active_storage_attachment.record
   end

@@ -19,6 +19,7 @@ RSpec.describe Scraper::OregonJob, type: :job do
 
         standard_import = StandardsImport.last
         expect(standard_import.files.count).to eq 1
+        expect(standard_import.public_document).to be true
       end
     end
 
