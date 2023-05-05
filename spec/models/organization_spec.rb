@@ -13,16 +13,14 @@ RSpec.describe Organization, type: :model do
       organization = create(:organization)
 
       create(:related_instruction,
-             occupation_standard: occupation_standard,
-             organization: organization,
-             sort_order: 1
-            )
+        occupation_standard: occupation_standard,
+        organization: organization,
+        sort_order: 1)
 
       create(:related_instruction,
-             occupation_standard: occupation_standard,
-             organization: organization,
-             sort_order: 2
-            )
+        occupation_standard: occupation_standard,
+        organization: organization,
+        sort_order: 2)
 
       expect(
         described_class.related_instructions_organizations(occupation_standard).pluck(:id)

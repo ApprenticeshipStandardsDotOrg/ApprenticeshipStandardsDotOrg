@@ -152,10 +152,9 @@
                   </div>
 
                   <%= render partial: "occupation_standards/ojt_accordion",
-                      locals: {
+                        locals: {
                           work_processes: @occupation_standard.work_processes
-                      }
-                  %>
+                        } %>
 
                 </div><!-- end content tab 1 -->
 
@@ -193,16 +192,14 @@
                     </div>
 
                   <%= render partial: "occupation_standards/related_instructions_accordion",
-                      locals: {
+                        locals: {
                           related_instructions: @occupation_standard.related_instructions
-                      }
-                  %>
+                        } %>
               </div>
 
             </div><!-- end occupation tabs -->
 
         </div><!-- end purple border -->
-
 
         <% if @occupation_standard.similar_programs.any? %>
             <div class="similar-programs">
