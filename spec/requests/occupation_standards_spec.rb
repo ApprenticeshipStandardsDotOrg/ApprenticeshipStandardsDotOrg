@@ -4,7 +4,7 @@ RSpec.describe "OccupationStandard", type: :request do
   describe "GET /index" do
     context "when guest" do
       it "returns http success" do
-        create_pair(:occupation_standard)
+        create_pair(:occupation_standard, :with_data_import)
 
         get occupation_standards_path
 
@@ -16,8 +16,7 @@ RSpec.describe "OccupationStandard", type: :request do
   describe "GET /show/:id" do
     context "when guest" do
       it "returns http success" do
-        data_import = create(:data_import)
-        occupation_standard = data_import.occupation_standard
+        occupation_standard = create(:occupation_standard, :with_data_import)
 
         get occupation_standard_path(occupation_standard)
 

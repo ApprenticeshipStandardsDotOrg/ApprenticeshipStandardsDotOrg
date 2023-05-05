@@ -10,5 +10,11 @@ FactoryBot.define do
     trait :state_standard do
       national_standard_type { nil }
     end
+
+    trait :with_data_import do
+      after :create do |occupation_standard|
+        create(:data_import, occupation_standard: occupation_standard)
+      end
+    end
   end
 end
