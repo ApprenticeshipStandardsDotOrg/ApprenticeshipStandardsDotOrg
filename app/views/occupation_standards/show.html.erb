@@ -152,95 +152,77 @@
                   </div>
 
                   <%= render partial: "occupation_standards/ojt_accordion",
-                        locals: {
+                      locals: {
                           work_processes: @occupation_standard.work_processes
-                        } %>
+                      }
+                  %>
 
                 </div><!-- end content tab 1 -->
 
                 <input class="radiotab" tabindex="0" name="tabs" type="radio" id="tab2">
                 <label class="label py-3 mr-4 md:mr-2 order-first text-center hover:border-b-3px hover:border-gray-400 active:bg-gray-100" for="tab2">Related Instruction Outline</label>
+
                 <div class="-mt-0.5 border-t-2 border-seafoam-700 border-opacity-30 panel hidden w-full" tabindex="0"> <!-- begin content tab 2 -->
-                      <div class="flex justify-between p-4">
+                    <div class="flex justify-between p-4">
                         <div>
                             <h2 class="py-2 text-2xl font-bold">Related Instruction Content</h2>
                             <p>Training Provider(s):</p>
                             <div class="my-3 flex flex-col md:flex-row">
-                                <div class="mr-6 mb-4 flex md:items-center">
-                                    <div>
-                                        <img class="mr-2 h-7 w-auto rounded" src="https://flowbite.com/docs/images/examples/image-1@2x.jpg" alt="organization logo">
+
+                                <% Organization.related_instructions_organizations(@occupation_standard).pluck(:title).each do |related_instruction_organization| %>
+                                    <div class="mr-6 mb-4 flex md:items-center">
+                                        <div>
+                                            <img class="mr-2 h-7 w-auto rounded" src="https://flowbite.com/docs/images/examples/image-1@2x.jpg" alt="organization logo">
+                                        </div>
+                                        <div class="font-bold"><%= related_instruction_organization %></div>
                                     </div>
-                                    <div class="font-bold">Laney College</div>
-                                </div>
-                                <div class="mr-6 mb-4 flex md:items-center">
-                                    <div>
-                                        <img class="mr-2 h-7 w-auto rounded" src="https://flowbite.com/docs/images/examples/image-1@2x.jpg" alt="organization logo">
-                                    </div>
-                                    <div class="font-bold">ABC Technical School</div>
-                                </div>
+                                <% end %>
                             </div>
                         </div>
 
                         <div class="flex items-center">
                             <div class="flex flex-col md:flex-row">
-                                <div class="m-1.5 w-28 rounded bg-pear-100 px-1 py-3 text-center">
-                                    <div class="text-3xl font-bold text-pear-700">600</div>
-                                    <div class="text-sm font-bold text-pear-800">RSI hours</div>
-                                </div>
+                                <% unless @occupation_standard.related_instructions_hours.zero? %>
+                                    <div class="m-1.5 w-28 rounded bg-pear-100 px-1 py-3 text-center">
+                                        <div class="text-3xl font-bold text-pear-700"><%= hours_in_human_format(@occupation_standard.related_instructions_hours) %></div>
+                                        <div class="text-sm font-bold text-pear-800">RSI hours</div>
+                                    </div>
+                                <% end %>
                             </div>
                         </div>
-                      </div>
-                </div><!-- end content tab 2 -->
+                    </div>
+
+                  <%= render partial: "occupation_standards/related_instructions_accordion",
+                      locals: {
+                          related_instructions: @occupation_standard.related_instructions
+                      }
+                  %>
+              </div>
 
             </div><!-- end occupation tabs -->
 
         </div><!-- end purple border -->
 
-        <div class="similar-programs">
-            <h3 class="font-bold text-2xl text-primary-600 pt-4">Similar Programs</h3>
-            <div class="py-4 flex flex-col md:flex-row md:justify-between">
-                <%= link_to "#", class: "block w-full h-full rounded py-4 px-2 mr-4 mb-4 border-2 border-seafoam-200 bg-white" do %>
-                    <div class="text-primary-600 font-bold">
-                        <span>Mechatronics Technician</span>
-                    </div>
-                    <div class="text-orange-800">
-                        <span class="text-yonder-500">Hybrid</span>
-                        <span>&#x2022;</span>
-                        <span>17-3024.00</span>
-                    </div>
-                <% end %>
-                <%= link_to "#", class: "block w-full h-full rounded py-4 px-2 mr-4 mb-4 border-2 border-seafoam-200 bg-white" do %>
-                    <div class="text-primary-600 font-bold">
-                        <span>Mechatronics Technician</span>
-                    </div>
-                    <div class="text-orange-800">
-                        <span class="text-yonder-500">Hybrid</span>
-                        <span>&#x2022;</span>
-                        <span>17-3024.00</span>
-                    </div>
-                <% end %>
-                <%= link_to "#", class: "block w-full h-full rounded py-4 px-2 mr-4 mb-4 border-2 border-seafoam-200 bg-white" do %>
-                    <div class="text-primary-600 font-bold">
-                        <span>Mechatronics Technician</span>
-                    </div>
-                    <div class="text-orange-800">
-                        <span class="text-yonder-500">Hybrid</span>
-                        <span>&#x2022;</span>
-                        <span>17-3024.00</span>
-                    </div>
-                <% end %>
-                <%= link_to "#", class: "block w-full h-full rounded py-4 px-2 mr-4 mb-4 border-2 border-seafoam-200 bg-white" do %>
-                    <div class="text-primary-600 font-bold">
-                        <span>Mechatronics Technician</span>
-                    </div>
-                    <div class="text-orange-800">
-                        <span class="text-yonder-500">Hybrid</span>
-                        <span>&#x2022;</span>
-                        <span>17-3024.00</span>
-                    </div>
-                <% end %>
+
+        <% if @occupation_standard.similar_programs.any? %>
+            <div class="similar-programs">
+                <h3 class="font-bold text-2xl text-primary-600 pt-4">Similar Programs</h3>
+                <div class="py-4 flex flex-col md:flex-row md:justify-between">
+                    <% @occupation_standard.similar_programs.each do |similar_program| %>
+                        <%= link_to "#", class: "block w-full h-full rounded py-4 px-2 mr-4 mb-4 border-2 border-seafoam-200 bg-white" do %>
+                            <div class="text-primary-600 font-bold">
+                                <span><%= similar_program.title %></span>
+                            </div>
+                            <div class="text-orange-800">
+                                <span class="text-yonder-500"><%= ojt_type_display(similar_program) %></span>
+                                <span>&#x2022;</span>
+                                <span><%= similar_program.onet_code %></span>
+                            </div>
+                        <% end %>
+                    <% end %>
+                </div>
             </div>
-        </div>
+        <% end %>
 
     </div><!-- end green border border -->
 
