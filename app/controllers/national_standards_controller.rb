@@ -4,6 +4,6 @@ class NationalStandardsController < OccupationStandardsController
   def standards_scope
     OccupationStandard
       .where.not(national_standard_type: nil)
-      .includes(:organization, occupation: :onet)
+      .includes(:organization, registration_agency: :state, occupation: :onet)
   end
 end

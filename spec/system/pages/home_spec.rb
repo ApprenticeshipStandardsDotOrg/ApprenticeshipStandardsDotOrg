@@ -2,8 +2,8 @@ require "rails_helper"
 
 RSpec.describe "pages/home" do
   it "filters occupations based on search term" do
-    mechanic = create(:occupation_standard, title: "Mechanic")
-    pipe_fitter = create(:occupation_standard, title: "Pipe Fitter")
+    mechanic = create(:occupation_standard, :with_data_import, title: "Mechanic")
+    pipe_fitter = create(:occupation_standard, :with_data_import, title: "Pipe Fitter")
 
     visit home_page_path
 
