@@ -12,13 +12,15 @@
                     <div class="flex items-center">
                         <div class="flex flex-col md:flex-row">
                             <% unless work_process.competencies.count.zero? %>
-                            <div class="m-1.5 w-28 rounded bg-yonder-100 px-1 py-3 text-center">
-                                <div class="text-3xl font-bold text-yonder-600"><%= work_process.competencies.count %></div>
-                            </div>
+                                <div class="m-1.5 w-28 rounded bg-yonder-100 px-1 py-3 text-center">
+                                    <div class="text-3xl font-bold text-yonder-600"><%= work_process.competencies.count %></div>
+                                </div>
                             <% end %>
-                            <div class="m-1.5 w-28 rounded bg-rust-100 px-1 py-3 text-center">
-                                <div class="text-3xl font-bold text-rust-700"><%= hours_in_human_format(work_process.hours) %></div>
-                            </div>
+                            <% unless work_process.hours.nil? %>
+                                <div class="m-1.5 w-28 rounded bg-rust-100 px-1 py-3 text-center">
+                                    <div class="text-3xl font-bold text-rust-700"><%= hours_in_human_format(work_process.hours) %></div>
+                                </div>
+                            <% end %>
                         </div>
                     </div>
                 </div>
