@@ -26,5 +26,9 @@ FactoryBot.define do
     trait :national_program_standard do
       file { Rack::Test::UploadedFile.new(Rails.root.join("spec", "fixtures", "files", "occupation-standards-national-program-standards-template.xlsx"), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") }
     end
+
+    trait :with_multiple_work_processes_with_same_title do
+      file { Rack::Test::UploadedFile.new(Rails.root.join("spec", "fixtures", "files", "apprenticeship-standards-nurse-standard-template.xlsx"), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") }
+    end
   end
 end
