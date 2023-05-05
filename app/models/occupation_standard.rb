@@ -55,6 +55,12 @@ class OccupationStandard < ApplicationRecord
     end
   end
 
+  class << self
+    def industry_count(onet_prefix)
+      where("SPLIT_PART(onet_code, '-', 1) = ?", onet_prefix.to_s).count
+    end
+  end
+
   def sponsor_name
     organization&.title
   end
