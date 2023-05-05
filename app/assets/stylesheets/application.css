@@ -17,7 +17,7 @@
  @tailwind base;
  @tailwind components;
  @tailwind utilities;
- 
+
 
 
  .occupation-tabs *:focus, .occupation-tabs input:focus + label {
@@ -33,22 +33,22 @@
     position: absolute;
     opacity: 0;
   }
-  
+
   .occupation-tabs .label {
     cursor: pointer;
     transition: background .3s, color .3s;
     /* margin-right: 20px; */
   }
-  
+
   .occupation-tabs .label:active {
-    background: #f3f3f3;  
+    background: #f3f3f3;
   }
-  
+
   .occupation-tabs .radiotab:checked + .label {
     border-bottom: solid 3px #007F82;
     font-weight: bold;
   }
-  
+
   .occupation-tabs .radiotab:checked + .label + .panel {
     display: block;
   }
@@ -75,37 +75,12 @@
 }
 
 .accordion details[open] summary ~ * {
-    animation: slideDown 0.3s ease-in-out;
 }
 
 .accordion details[open] summary div {
-    opacity: 0;
-    animation-name: showContent;
     animation-duration: 0.6s;
     animation-delay: 0.2s;
     animation-fill-mode: forwards;
-}
-
-@keyframes showContent {
-    from {
-    opacity: 0;
-    height: 0;
-    }
-    to {
-    opacity: 1;
-    height: auto;
-    }
-}
-@keyframes slideDown {
-    from {
-    opacity: 0;
-    height: 0;
-    }
-
-    to {
-    opacity: 1;
-    height: auto;
-    }
 }
 
 .pagy-nav.pagination {
