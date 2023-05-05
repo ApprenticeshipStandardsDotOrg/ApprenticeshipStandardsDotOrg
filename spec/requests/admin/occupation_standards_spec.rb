@@ -13,6 +13,15 @@ RSpec.describe "Admin::OccupationStandard", type: :request do
 
           expect(response).to be_successful
         end
+
+        it "can search" do
+          admin = create(:admin)
+
+          sign_in admin
+          get admin_occupation_standards_path(search: "foo")
+
+          expect(response).to be_successful
+        end
       end
 
       context "when converter" do
