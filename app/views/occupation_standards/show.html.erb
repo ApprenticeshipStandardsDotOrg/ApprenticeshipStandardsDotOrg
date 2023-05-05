@@ -132,13 +132,13 @@
 
                       <div class="flex items-center">
                           <div class="flex flex-col md:flex-row">
-                              <% unless @occupation_standard.competencies_count.zero? %>
+                              <% if @occupation_standard.competencies_count.positive? %>
                                   <div class="m-1.5 w-28 rounded bg-yonder-100 px-1 py-3 text-center">
                                       <div class="text-3xl font-bold text-yonder-600"><%= @occupation_standard.competencies_count %></div>
                                       <div class="text-sm font-bold text-yonder-600">Skills</div>
                                   </div>
                               <% end %>
-                              <% unless @occupation_standard.work_processes_hours.nil? %>
+                              <% if @occupation_standard.work_processes_hours.present? %>
                                   <div class="m-1.5 w-28 rounded bg-rust-100 px-1 py-3 text-center">
                                       <div class="text-3xl font-bold text-rust-700">
                                           <%= hours_in_human_format(@occupation_standard.work_processes_hours) %>
@@ -181,7 +181,7 @@
 
                         <div class="flex items-center">
                             <div class="flex flex-col md:flex-row">
-                                <% unless @occupation_standard.related_instructions_hours.zero? %>
+                                <% if @occupation_standard.related_instructions_hours.positive? %>
                                     <div class="m-1.5 w-28 rounded bg-pear-100 px-1 py-3 text-center">
                                         <div class="text-3xl font-bold text-pear-700"><%= hours_in_human_format(@occupation_standard.related_instructions_hours) %></div>
                                         <div class="text-sm font-bold text-pear-800">RSI hours</div>
