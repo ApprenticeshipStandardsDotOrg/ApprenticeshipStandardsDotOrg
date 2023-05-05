@@ -28,6 +28,6 @@ class OccupationStandardsController < ApplicationController
   end
 
   def standards_scope
-    OccupationStandard.includes(:organization, occupation: :onet)
+    OccupationStandard.includes(:organization, :registration_agency, occupation: :onet)
   end
 end

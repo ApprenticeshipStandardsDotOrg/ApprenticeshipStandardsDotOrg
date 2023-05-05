@@ -45,7 +45,9 @@
                         <button type="button" class="mb-2 mr-2 rounded-lg bg-yellow-100 px-2 py-1 text-sm font-medium text-goldenrod-800 hover:bg-yellow-200 hover:text-goldenrod-900 focus:outline-none focus:ring-4 focus:ring-orange-300">
                             <%= @occupation_standard.onet_code %><span> • </span>2014
                         </button>
-
+                        <button type="button" class="mb-2 mr-2 rounded-lg bg-blue-100 px-2 py-1 text-sm font-medium text-sky-800 hover:bg-blue-200 hover:text-sky-900 focus:outline-none focus:ring-4 focus:ring-orange-300">
+                            <%= @occupation_standard.rapids_code %>
+                        </button>
                     </div>
 
                     <% if @occupation_standard.registration_agency %>
