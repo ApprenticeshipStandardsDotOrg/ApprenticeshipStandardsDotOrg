@@ -74,7 +74,7 @@ class ImportOccupationStandardDetails
     case row["Type"]
     when /competency/i
       :competency
-    when /time/i
+    when /time|hour/i
       :time
     when /hybrid/i
       :hybrid
