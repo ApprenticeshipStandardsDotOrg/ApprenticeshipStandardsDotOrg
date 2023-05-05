@@ -167,5 +167,28 @@ RSpec.describe "pages/home" do
       expect(page).to have_link "HR", href: occupation_standard_path(hr)
       expect(page).to_not have_link "Pipe Fitter"
     end
+
+    it "displays Installation etc. industry box" do
+      create(:state, name: "New York")
+      create(:state, name: "Washington")
+      create(:state, name: "Oregon")
+
+      mechanic = create(:occupation_standard, onet_code: "49-1234", title: "Mechanic")
+      hr = create(:occupation_standard, onet_code: "49.5678", title: "HR")
+      create(:occupation_standard, onet_code: "35-1234", title: "Pipe Fitter")
+
+      visit home_page_path
+
+      expect(page).to have_link "Installation, Maintenance, and Repair", href: occupation_standards_path(q: "49-")
+      within("#industry-1") do
+        expect(page).to have_text "2 Apprenticeships"
+      end
+
+      click_on "Installation"
+
+      expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
+#      expect(page).to have_link "HR", href: occupation_standard_path(hr)
+      expect(page).to_not have_link "Pipe Fitter"
+    end
   end
 end
