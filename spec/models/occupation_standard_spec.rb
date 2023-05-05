@@ -200,5 +200,46 @@ RSpec.describe OccupationStandard, type: :model do
 
       expect(occupation_standard.work_processes_hours).to eq nil
     end
+
+    describe "#related_instructions_hours" do
+      it "returns 0 if no related instructions available" do
+        occupation_standard = build(:occupation_standard)
+
+        expect(occupation_standard.related_instructions_hours).to eq 0
+      end
+
+      it "returns 0 if related instructions does not have hours set" do
+        occupation_standard = create(:occupation_standard)
+        create(:related_instruction, hours: nil, occupation_standard: occupation_standard)
+
+        expect(occupation_standard.related_instructions_hours).to eq 0
+      end
+
+      it "returns sum of related instructions hours" do
+        occupation_standard = create(:occupation_standard)
+        create(:related_instruction, hours: 100, occupation_standard: occupation_standard, sort_order: 1)
+        create(:related_instruction, hours: 200, occupation_standard: occupation_standard, sort_order: 2)
+        create(:related_instruction, hours: nil, occupation_standard: occupation_standard, sort_order: 3)
+
+        expect(occupation_standard.related_instructions_hours).to eq 300
+      end
+    end
+
+    describe "#similar_programs" do
+      it "returns all occupation that match the title regardless of capitalization" do
+        occupation_standard = create(:occupation_standard, title: "Human Resource Specialist")
+        similar_program1 = create(:occupation_standard, title: "HUMAN RESOURCE SPECIALIST")
+        similar_program2 = create(:occupation_standard, title: "human resource specialist")
+        create(:occupation_standard, title: "Mechanic")
+
+        expect(occupation_standard.similar_programs.pluck(:id)).to match_array [similar_program1.id, similar_program2.id]
+      end
+
+      it "excludes itself" do
+        occupation_standard = create(:occupation_standard, title: "Human Resource Specialist")
+
+        expect(occupation_standard.similar_programs).to be_empty
+      end
+    end
   end
 end
