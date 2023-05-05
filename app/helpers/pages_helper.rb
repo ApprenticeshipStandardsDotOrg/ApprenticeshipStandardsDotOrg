@@ -1,18 +1,18 @@
 module PagesHelper
   def washington_state
-    State.find_by(name: "Washington")
+    @_wa ||= State.find_by(name: "Washington")
   end
 
   def new_york_state
-    State.find_by(name: "New York")
+    @_ny ||= State.find_by(name: "New York")
   end
 
   def california_state
-    State.find_by(name: "California")
+    @_ca ||= State.find_by(name: "California")
   end
 
   def oregon_state
-    State.find_by(name: "Oregon")
+    @_or ||= State.find_by(name: "Oregon")
   end
 
   def standards_by_state_count(state)
