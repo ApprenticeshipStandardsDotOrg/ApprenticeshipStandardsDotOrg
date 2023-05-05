@@ -157,6 +157,18 @@ RSpec.describe OccupationStandard, type: :model do
     end
   end
 
+  describe ".industry_count" do
+    it "returns count of standards with industry prefix" do
+      create(:occupation_standard, onet_code: "49-1234")
+      create(:occupation_standard, onet_code: "49.5678")
+      create(:occupation_standard, onet_code: "49-0987")
+      create(:occupation_standard, onet_code: "39-0987")
+
+      expect(described_class.industry_count("49")).to eq 3
+      expect(described_class.industry_count(49)).to eq 3
+    end
+  end
+
   describe "#sponsor_name" do
     it "returns organization name when it exists" do
       organization = build_stubbed(:organization, title: "Disney")
