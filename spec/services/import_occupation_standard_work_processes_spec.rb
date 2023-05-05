@@ -32,6 +32,29 @@ RSpec.describe ImportOccupationStandardWorkProcesses do
       end
     end
 
+    it "does not duplicate work processes if they have the same title" do
+      occupation_standard = create(:occupation_standard)
+      data_import = create(:data_import, :with_multiple_work_processes_with_same_title)
+
+      expect {
+        described_class.new(
+          occupation_standard: occupation_standard,
+          data_import: data_import
+        ).call
+      }.to change(WorkProcess, :count).by(4)
+        .and change(Competency, :count).by(23)
+
+      work_process_1 = WorkProcess.first
+      work_process_2 = WorkProcess.second
+      work_process_3 = WorkProcess.third
+      work_process_4 = WorkProcess.fourth
+
+      expect(work_process_1.competencies.count).to eq 5
+      expect(work_process_2.competencies.count).to eq 14
+      expect(work_process_3.competencies.count).to eq 2
+      expect(work_process_4.competencies.count).to eq 2
+    end
+
     context "when occupation standard is hybrid with max and min hours" do
       it "creates work process records with its corresponding competencies" do
         occupation_standard = create(:occupation_standard)
