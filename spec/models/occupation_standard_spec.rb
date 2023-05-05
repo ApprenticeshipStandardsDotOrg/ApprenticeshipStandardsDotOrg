@@ -97,6 +97,66 @@ RSpec.describe OccupationStandard, type: :model do
     end
   end
 
+  describe ".by_national_standard_type" do
+    it "returns records that match any of the national_standard_types passed" do
+      os1 = create(:occupation_standard, :program_standard)
+      os2 = create(:occupation_standard, :guideline_standard)
+      create(:occupation_standard, :occupational_framework)
+
+      expect(described_class.by_national_standard_type(%w[program_standard guideline_standard])).to contain_exactly(os1, os2)
+    end
+
+    it "can match on a string national_standard_type passed" do
+      os1 = create(:occupation_standard, :program_standard)
+      os2 = create(:occupation_standard, :program_standard)
+      create(:occupation_standard, :occupational_framework)
+
+      expect(described_class.by_national_standard_type("program_standard")).to contain_exactly(os1, os2)
+    end
+
+    it "returns all records if empty string provided" do
+      standards = create_pair(:occupation_standard, :program_standard)
+
+      expect(described_class.by_onet_code("")).to match_array standards
+    end
+
+    it "returns all records if empty array provided" do
+      standards = create_pair(:occupation_standard, :program_standard)
+
+      expect(described_class.by_onet_code([])).to match_array standards
+    end
+  end
+
+  describe ".by_ojt_type" do
+    it "returns records that match any of the ojt_types passed" do
+      os1 = create(:occupation_standard, :hybrid)
+      os2 = create(:occupation_standard, :time)
+      create(:occupation_standard, :competency)
+
+      expect(described_class.by_ojt_type(%w[time hybrid])).to contain_exactly(os1, os2)
+    end
+
+    it "can match on a string ojt_type passed" do
+      os1 = create(:occupation_standard, :hybrid)
+      os2 = create(:occupation_standard, :hybrid)
+      create(:occupation_standard, :competency)
+
+      expect(described_class.by_ojt_type("hybrid")).to contain_exactly(os1, os2)
+    end
+
+    it "returns all records if empty string provided" do
+      standards = create_pair(:occupation_standard)
+
+      expect(described_class.by_onet_code("")).to match_array standards
+    end
+
+    it "returns all records if empty array provided" do
+      standards = create_pair(:occupation_standard)
+
+      expect(described_class.by_onet_code([])).to match_array standards
+    end
+  end
+
   describe "#sponsor_name" do
     it "returns organization name when it exists" do
       organization = build_stubbed(:organization, title: "Disney")
@@ -199,6 +259,47 @@ RSpec.describe OccupationStandard, type: :model do
       create(:work_process, occupation_standard: occupation_standard, maximum_hours: nil, minimum_hours: nil)
 
       expect(occupation_standard.work_processes_hours).to eq nil
+    end
+
+    describe "#related_instructions_hours" do
+      it "returns 0 if no related instructions available" do
+        occupation_standard = build(:occupation_standard)
+
+        expect(occupation_standard.related_instructions_hours).to eq 0
+      end
+
+      it "returns 0 if related instructions does not have hours set" do
+        occupation_standard = create(:occupation_standard)
+        create(:related_instruction, hours: nil, occupation_standard: occupation_standard)
+
+        expect(occupation_standard.related_instructions_hours).to eq 0
+      end
+
+      it "returns sum of related instructions hours" do
+        occupation_standard = create(:occupation_standard)
+        create(:related_instruction, hours: 100, occupation_standard: occupation_standard, sort_order: 1)
+        create(:related_instruction, hours: 200, occupation_standard: occupation_standard, sort_order: 2)
+        create(:related_instruction, hours: nil, occupation_standard: occupation_standard, sort_order: 3)
+
+        expect(occupation_standard.related_instructions_hours).to eq 300
+      end
+    end
+
+    describe "#similar_programs" do
+      it "returns all occupation that match the title regardless of capitalization" do
+        occupation_standard = create(:occupation_standard, title: "Human Resource Specialist")
+        similar_program1 = create(:occupation_standard, title: "HUMAN RESOURCE SPECIALIST")
+        similar_program2 = create(:occupation_standard, title: "human resource specialist")
+        create(:occupation_standard, title: "Mechanic")
+
+        expect(occupation_standard.similar_programs.pluck(:id)).to match_array [similar_program1.id, similar_program2.id]
+      end
+
+      it "excludes itself" do
+        occupation_standard = create(:occupation_standard, title: "Human Resource Specialist")
+
+        expect(occupation_standard.similar_programs).to be_empty
+      end
     end
   end
 end

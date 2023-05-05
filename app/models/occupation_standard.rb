@@ -43,6 +43,18 @@ class OccupationStandard < ApplicationRecord
     end
   end
 
+  scope :by_national_standard_type, ->(standard_types) do
+    if standard_types.present?
+      where(national_standard_type: standard_types)
+    end
+  end
+
+  scope :by_ojt_type, ->(ojt_types) do
+    if ojt_types.present?
+      where(ojt_type: ojt_types)
+    end
+  end
+
   def sponsor_name
     organization&.title
   end
@@ -79,6 +91,14 @@ class OccupationStandard < ApplicationRecord
     maximum_hours = work_processes.sum(:maximum_hours)
     minimum_hours = work_processes.sum(:minimum_hours)
     ([maximum_hours, minimum_hours] - [0]).first
+  end
+
+  def related_instructions_hours
+    related_instructions.sum(:hours)
+  end
+
+  def similar_programs
+    OccupationStandard.where("title ILIKE ?", "%#{self.class.sanitize_sql_like(title).split.join("%")}%") - [self]
   end
 
   private

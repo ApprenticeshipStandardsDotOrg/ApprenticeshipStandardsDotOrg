@@ -59,16 +59,62 @@ RSpec.describe OccupationStandardQuery do
     expect(occupation_standard_search.pluck(:id)).to contain_exactly(os1.id, os2.id)
   end
 
-  it "allows searching by title and filtering occupation standards by state" do
+  it "allows filtering occupation standards by multiple national_standard_types" do
+    os1 = create(:occupation_standard, :program_standard)
+    os2 = create(:occupation_standard, :guideline_standard)
+    create(:occupation_standard, :occupational_framework)
+
+    params = {
+      national_standard_type: {
+        program_standard: "1",
+        guideline_standard: "1"
+      }
+    }
+
+    occupation_standard_search = OccupationStandardQuery.run(
+      OccupationStandard.all, params
+    )
+
+    expect(occupation_standard_search.pluck(:id)).to contain_exactly(os1.id, os2.id)
+  end
+
+  it "allows filtering occupation standards by multiple ojt_types" do
+    os1 = create(:occupation_standard, :time)
+    os2 = create(:occupation_standard, :hybrid)
+    create(:occupation_standard, :competency)
+
+    params = {
+      ojt_type: {
+        time: "1",
+        hybrid: "1"
+      }
+    }
+
+    occupation_standard_search = OccupationStandardQuery.run(
+      OccupationStandard.all, params
+    )
+
+    expect(occupation_standard_search.pluck(:id)).to contain_exactly(os1.id, os2.id)
+  end
+
+  it "allows searching by title and filtering occupation standards by state and national_standard_type and ojt_type" do
     ca = create(:state)
     wa = create(:state)
     ra_ca = create(:registration_agency, state: ca)
     ra_wa = create(:registration_agency, state: wa)
-    os1 = create(:occupation_standard, registration_agency: ra_ca, title: "Mechanic")
-    create(:occupation_standard, registration_agency: ra_ca, title: "HR")
-    create(:occupation_standard, registration_agency: ra_wa)
 
-    params = {state_id: ca.id, q: "mech"}
+    os1 = create(:occupation_standard, :program_standard, :hybrid, registration_agency: ra_wa, title: "Mechanic")
+    create(:occupation_standard, :program_standard, :hybrid, registration_agency: ra_wa, title: "HR")
+    create(:occupation_standard, :program_standard, :hybrid, registration_agency: ra_ca, title: "Mechanic")
+    create(:occupation_standard, :program_standard, :time, registration_agency: ra_wa, title: "Mechanic")
+    create(:occupation_standard, :guideline_standard, :hybrid, registration_agency: ra_wa, title: "Mechanic")
+
+    params = {
+      q: "mech",
+      state_id: wa.id,
+      national_standard_type: {program_standard: "1"},
+      ojt_type: {hybrid: "1"}
+    }
 
     occupation_standard_search = OccupationStandardQuery.run(
       OccupationStandard.all, params
