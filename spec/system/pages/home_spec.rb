@@ -28,8 +28,8 @@ RSpec.describe "pages/home" do
       create(:state, name: "New York")
       create(:state, name: "Oregon")
 
-      mechanic = create(:occupation_standard, :guideline_standard, title: "Mechanic")
-      hr = create(:occupation_standard, :guideline_standard, title: "HR")
+      mechanic = create(:occupation_standard, :with_data_import, :guideline_standard, title: "Mechanic")
+      hr = create(:occupation_standard, :with_data_import, :guideline_standard, title: "HR")
       create(:occupation_standard, :occupational_framework, title: "Pipe Fitter")
 
       visit home_page_path
@@ -53,8 +53,8 @@ RSpec.describe "pages/home" do
       create(:state, name: "New York")
       create(:state, name: "Oregon")
 
-      mechanic = create(:occupation_standard, :occupational_framework, title: "Mechanic")
-      hr = create(:occupation_standard, :occupational_framework, title: "HR")
+      mechanic = create(:occupation_standard, :with_data_import, :occupational_framework, title: "Mechanic")
+      hr = create(:occupation_standard, :with_data_import, :occupational_framework, title: "HR")
       create(:occupation_standard, :guideline_standard, title: "Pipe Fitter")
 
       visit home_page_path
@@ -77,8 +77,8 @@ RSpec.describe "pages/home" do
 
       wa = create(:state, name: "Washington")
       ra = create(:registration_agency, state: wa)
-      mechanic = create(:occupation_standard, registration_agency: ra, title: "Mechanic")
-      hr = create(:occupation_standard, registration_agency: ra, title: "HR")
+      mechanic = create(:occupation_standard, :with_data_import, registration_agency: ra, title: "Mechanic")
+      hr = create(:occupation_standard, :with_data_import, registration_agency: ra, title: "HR")
       create(:occupation_standard, title: "Pipe Fitter")
 
       visit home_page_path
@@ -101,8 +101,8 @@ RSpec.describe "pages/home" do
 
       ny = create(:state, name: "New York")
       ra = create(:registration_agency, state: ny)
-      mechanic = create(:occupation_standard, registration_agency: ra, title: "Mechanic")
-      hr = create(:occupation_standard, registration_agency: ra, title: "HR")
+      mechanic = create(:occupation_standard, :with_data_import, registration_agency: ra, title: "Mechanic")
+      hr = create(:occupation_standard, :with_data_import, registration_agency: ra, title: "HR")
       create(:occupation_standard, title: "Pipe Fitter")
 
       visit home_page_path
@@ -126,8 +126,8 @@ RSpec.describe "pages/home" do
 
       ca = create(:state, name: "California")
       ra = create(:registration_agency, state: ca)
-      mechanic = create(:occupation_standard, registration_agency: ra, title: "Mechanic")
-      hr = create(:occupation_standard, registration_agency: ra, title: "HR")
+      mechanic = create(:occupation_standard, :with_data_import, registration_agency: ra, title: "Mechanic")
+      hr = create(:occupation_standard, :with_data_import, registration_agency: ra, title: "HR")
       create(:occupation_standard, title: "Pipe Fitter")
 
       visit home_page_path
@@ -150,8 +150,8 @@ RSpec.describe "pages/home" do
 
       ore = create(:state, name: "Oregon")
       ra = create(:registration_agency, state: ore)
-      mechanic = create(:occupation_standard, registration_agency: ra, title: "Mechanic")
-      hr = create(:occupation_standard, registration_agency: ra, title: "HR")
+      mechanic = create(:occupation_standard, :with_data_import, registration_agency: ra, title: "Mechanic")
+      hr = create(:occupation_standard, :with_data_import, registration_agency: ra, title: "HR")
       create(:occupation_standard, title: "Pipe Fitter")
 
       visit home_page_path
@@ -173,8 +173,8 @@ RSpec.describe "pages/home" do
       create(:state, name: "Washington")
       create(:state, name: "Oregon")
 
-      mechanic = create(:occupation_standard, onet_code: "49-1234", title: "Mechanic")
-      hr = create(:occupation_standard, onet_code: "49.5678", title: "HR")
+      mechanic = create(:occupation_standard, :with_data_import, onet_code: "49-1234", title: "Mechanic")
+      hr = create(:occupation_standard, :with_data_import, onet_code: "49-5678", title: "HR")
       create(:occupation_standard, onet_code: "35-1234", title: "Pipe Fitter")
 
       visit home_page_path
@@ -187,7 +187,7 @@ RSpec.describe "pages/home" do
       click_on "Installation"
 
       expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
-#      expect(page).to have_link "HR", href: occupation_standard_path(hr)
+      expect(page).to have_link "HR", href: occupation_standard_path(hr)
       expect(page).to_not have_link "Pipe Fitter"
     end
 
@@ -196,8 +196,8 @@ RSpec.describe "pages/home" do
       create(:state, name: "Washington")
       create(:state, name: "Oregon")
 
-      mechanic = create(:occupation_standard, onet_code: "31-1234", title: "Mechanic")
-      hr = create(:occupation_standard, onet_code: "31.5678", title: "HR")
+      mechanic = create(:occupation_standard, :with_data_import, onet_code: "31-1234", title: "Mechanic")
+      hr = create(:occupation_standard, :with_data_import, onet_code: "31-5678", title: "HR")
       create(:occupation_standard, onet_code: "35-1234", title: "Pipe Fitter")
 
       visit home_page_path
@@ -210,7 +210,7 @@ RSpec.describe "pages/home" do
       click_on "Healthcare Support"
 
       expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
-#      expect(page).to have_link "HR", href: occupation_standard_path(hr)
+      expect(page).to have_link "HR", href: occupation_standard_path(hr)
       expect(page).to_not have_link "Pipe Fitter"
     end
   end
