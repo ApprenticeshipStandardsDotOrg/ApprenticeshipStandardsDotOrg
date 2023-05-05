@@ -255,7 +255,7 @@ paths:
                     registration_agency: California (SAA)
                     onet_code: 51-4121.06
                     rapids_code: '1234'
-                    ojt_type:
+                    ojt_type: hybrid_based
                     term_months: 36
                     probationary_period_months: 24
                     apprenticeship_to_journeyworker_ratio: '1:2'
@@ -322,7 +322,6 @@ paths:
                               nullable: true
                             ojt_type:
                               type: string
-                              nullable: true
                             term_months:
                               type: integer
                               nullable: true
