@@ -57,8 +57,7 @@ class OccupationStandard < ApplicationRecord
 
   class << self
     def industry_count(onet_prefix)
-      where("(REGEXP_SPLIT_TO_ARRAY(onet_code, E'[-\.]'))[1] = ?", onet_prefix.to_s)
-      .count
+      where("SPLIT_PART(onet_code, '-', 1) = ?", onet_prefix.to_s).count
     end
   end
 
