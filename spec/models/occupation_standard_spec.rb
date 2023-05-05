@@ -97,6 +97,66 @@ RSpec.describe OccupationStandard, type: :model do
     end
   end
 
+  describe ".by_national_standard_type" do
+    it "returns records that match any of the national_standard_types passed" do
+      os1 = create(:occupation_standard, :program_standard)
+      os2 = create(:occupation_standard, :guideline_standard)
+      create(:occupation_standard, :occupational_framework)
+
+      expect(described_class.by_national_standard_type(%w[program_standard guideline_standard])).to contain_exactly(os1, os2)
+    end
+
+    it "can match on a string national_standard_type passed" do
+      os1 = create(:occupation_standard, :program_standard)
+      os2 = create(:occupation_standard, :program_standard)
+      create(:occupation_standard, :occupational_framework)
+
+      expect(described_class.by_national_standard_type("program_standard")).to contain_exactly(os1, os2)
+    end
+
+    it "returns all records if empty string provided" do
+      standards = create_pair(:occupation_standard, :program_standard)
+
+      expect(described_class.by_onet_code("")).to match_array standards
+    end
+
+    it "returns all records if empty array provided" do
+      standards = create_pair(:occupation_standard, :program_standard)
+
+      expect(described_class.by_onet_code([])).to match_array standards
+    end
+  end
+
+  describe ".by_ojt_type" do
+    it "returns records that match any of the ojt_types passed" do
+      os1 = create(:occupation_standard, :hybrid)
+      os2 = create(:occupation_standard, :time)
+      create(:occupation_standard, :competency)
+
+      expect(described_class.by_ojt_type(%w[time hybrid])).to contain_exactly(os1, os2)
+    end
+
+    it "can match on a string ojt_type passed" do
+      os1 = create(:occupation_standard, :hybrid)
+      os2 = create(:occupation_standard, :hybrid)
+      create(:occupation_standard, :competency)
+
+      expect(described_class.by_ojt_type("hybrid")).to contain_exactly(os1, os2)
+    end
+
+    it "returns all records if empty string provided" do
+      standards = create_pair(:occupation_standard)
+
+      expect(described_class.by_onet_code("")).to match_array standards
+    end
+
+    it "returns all records if empty array provided" do
+      standards = create_pair(:occupation_standard)
+
+      expect(described_class.by_onet_code([])).to match_array standards
+    end
+  end
+
   describe "#sponsor_name" do
     it "returns organization name when it exists" do
       organization = build_stubbed(:organization, title: "Disney")
