@@ -19,11 +19,16 @@
  @tailwind utilities;
  
 
+
  .occupation-tabs *:focus, .occupation-tabs input:focus + label {
     outline: none;
     box-shadow: 0px 1px 0px 0px #007F82;
   }
-  
+
+  .occ-hero {
+    background-image: url('header-background.png');
+  }
+
   .occupation-tabs .radiotab {
     position: absolute;
     opacity: 0;
