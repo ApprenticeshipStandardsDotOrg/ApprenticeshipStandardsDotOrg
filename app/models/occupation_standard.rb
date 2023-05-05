@@ -93,6 +93,14 @@ class OccupationStandard < ApplicationRecord
     ([maximum_hours, minimum_hours] - [0]).first
   end
 
+  def related_instructions_hours
+    related_instructions.sum(:hours)
+  end
+
+  def similar_programs
+    OccupationStandard.where("title ILIKE ?", "%#{self.class.sanitize_sql_like(title).split.join("%")}%") - [self]
+  end
+
   private
 
   def national?
