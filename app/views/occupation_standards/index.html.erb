@@ -42,50 +42,60 @@
                         <% end %>
                     </div>
                     <h3 class="occupation-title text-2xl font-bold dark:text-white"><%= link_to occupation_standard.title, occupation_standard %></h3>
-                    <p class="mb-4 font-bold text-seafoam-900">Anonymous</p>
+                    <p class="mb-4 font-bold text-seafoam-900"><%= sponsor_name(occupation_standard) %></p>
                     <div class="inline">
                         <button type="button" class="mr-2 mb-2 rounded-lg bg-yellow-100 px-2 py-1 text-sm font-bold text-goldenrod-800 hover:bg-yellow-200 hover:text-goldenrod-900 focus:outline-none focus:ring-4 focus:ring-orange-300"><%= occupation_standard.onet_code %></button>
                         <button type="button" class="mr-2 mb-2 rounded-lg bg-yellow-100 px-2 py-1 text-sm font-bold text-goldenrod-800 hover:bg-yellow-200 hover:text-goldenrod-900 focus:outline-none focus:ring-4 focus:ring-orange-300"><%= occupation_standard.onet_code %><span> • </span>2014</button>
+                        <button type="button" class="mr-2 mb-2 rounded-lg bg-blue-100 px-2 py-1 text-sm font-bold text-sky-800 hover:bg-blue-200 hover:text-sky-900 focus:outline-none focus:ring-4 focus:ring-orange-300"><%= occupation_standard.rapids_code %></button>
                     </div>
                     <div class="my-3 flex flex-col lg:flex-row">
-                        <div class="flex items-center lg:mr-4 mr-0 mb-4 lg:mb-0">
-                            <div>
-                                <img class="mr-2 h-7 w-auto rounded" src="https://placehold.co/600x400/D1E1E1/D1E1E1" alt="Institution Logo">
+                        <% if occupation_standard.registration_agency %>
+                            <div class="flex items-center lg:mr-4 mr-0 mb-4 lg:mb-0">
+                                <div>
+                                    <img class="mr-2 h-7 w-auto rounded" src="https://placehold.co/600x400/D1E1E1/D1E1E1" alt="Institution Logo">
+                                </div>
+                                <div class="font-bold"><%= occupation_standard.registration_agency %></div>
                             </div>
-                            <div class="font-bold"><%= occupation_standard.organization_title %></div>
-                        </div>
-                        <div class="flex items-center lg:mr-4 mr-0 mb-4 lg:mb-0">
-                            <div>
-                                <img class="mr-2 h-7 w-auto rounded" src="https://placehold.co/600x400/D1E1E1/D1E1E1" alt="Institution Logo">
-                            </div>
-                            <div class="font-bold">DOL</div>
-                        </div>
+                        <% end %>
                     </div>
+
                     <div class="flex">
-                        <div class="mr-2">
-                            <svg aria-label="ribbon icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 15C15.866 15 19 11.866 19 8C19 4.13401 15.866 1 12 1C8.13401 1 5 4.13401 5 8C5 11.866 8.13401 15 12 15Z" stroke="#BA8718" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                <path d="M8.21 13.8899L7 22.9999L12 19.9999L17 22.9999L15.79 13.8799" stroke="#BA8718" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </div>
-                        <div class="text-sm text-goldenrod-700 font-bold">National Occupational Frameworks</div>
+                        <% if occupation_standard.national_occupational_framework? %>
+                            <div class="mr-2">
+                                <svg aria-label="ribbon icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 15C15.866 15 19 11.866 19 8C19 4.13401 15.866 1 12 1C8.13401 1 5 4.13401 5 8C5 11.866 8.13401 15 12 15Z" stroke="#BA8718" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M8.21 13.8899L7 22.9999L12 19.9999L17 22.9999L15.79 13.8799" stroke="#BA8718" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </div>
+                            <div class="text-sm text-goldenrod-700 font-bold">National Occupational Frameworks</div>
+                        <% end %>
                     </div>
                 </div>
 
                 <div class="flex items-center">
                     <div class="flex flex-col lg:flex-row">
-                        <div class="m-1.5 w-28 rounded bg-yonder-100 px-1 py-3 text-center">
-                            <div class="text-3xl font-bold text-yonder-600"><%= occupation_standard.competencies_count %></div>
-                            <div class="text-sm font-bold text-yonder-600">Skills</div>
-                        </div>
-                        <div class="m-1.5 w-28 rounded bg-rust-100 px-1 py-3 text-center">
-                            <div class="text-3xl font-bold text-rust-700">8K</div>
-                            <div class="text-sm font-bold text-rust-700">OJT hours</div>
-                        </div>
-                        <div class="m-1.5 w-28 rounded bg-pear-100 px-1 py-3 text-center">
-                            <div class="text-3xl font-bold text-pear-700">600</div>
-                            <div class="text-sm font-bold text-pear-800">RSI hours</div>
-                        </div>
+                        <% if occupation_standard.competencies_count.positive? %>
+                            <div class="m-1.5 w-28 rounded bg-yonder-100 px-1 py-3 text-center">
+                                <div class="text-3xl font-bold text-yonder-600"><%= occupation_standard.competencies_count %></div>
+                                <div class="text-sm font-bold text-yonder-600">Skills</div>
+                            </div>
+                        <% end %>
+                        <% if occupation_standard.work_processes_hours.present? %>
+                            <div class="m-1.5 w-28 rounded bg-rust-100 px-1 py-3 text-center">
+                                <div class="text-3xl font-bold text-rust-700">
+                                    <%= hours_in_human_format(occupation_standard.work_processes_hours) %>
+                                </div>
+                                <div class="text-sm font-bold text-rust-700">OJT hours</div>
+                            </div>
+                        <% end %>
+                        <% if occupation_standard.related_instructions_hours.positive? %>
+                            <div class="m-1.5 w-28 rounded bg-pear-100 px-1 py-3 text-center">
+                                <div class="text-3xl font-bold text-pear-700">
+                                    <%= hours_in_human_format(occupation_standard.related_instructions_hours) %>
+                                </div>
+                                <div class="text-sm font-bold text-pear-800">RSI hours</div>
+                            </div>
+                        <% end %>
                     </div>
                 </div>
             </div>

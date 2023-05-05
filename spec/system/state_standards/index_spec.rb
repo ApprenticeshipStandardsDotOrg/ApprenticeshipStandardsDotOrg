@@ -2,8 +2,8 @@ require "rails_helper"
 
 RSpec.describe "state_standards/index" do
   it "displays state standards only" do
-    mechanic = create(:occupation_standard, :state_standard, title: "Mechanic")
-    pipe_fitter = create(:occupation_standard, :state_standard, title: "Pipe Fitter")
+    mechanic = create(:occupation_standard, :state_standard, :with_data_import, title: "Mechanic")
+    pipe_fitter = create(:occupation_standard, :state_standard, :with_data_import, title: "Pipe Fitter")
     create(:occupation_standard, :program_standard, title: "Medical Assistant")
 
     visit state_standards_path
@@ -14,9 +14,9 @@ RSpec.describe "state_standards/index" do
   end
 
   it "filters state standards based on search term" do
-    dental = create(:occupation_standard, :state_standard, title: "Dental Assistant")
-    create(:occupation_standard, :state_standard, title: "Pipe Fitter")
-    create(:occupation_standard, :program_standard, title: "Medical Assistant")
+    dental = create(:occupation_standard, :state_standard, :with_data_import, title: "Dental Assistant")
+    create(:occupation_standard, :state_standard, :with_data_import, title: "Pipe Fitter")
+    create(:occupation_standard, :program_standard, :with_data_import, title: "Medical Assistant")
 
     visit state_standards_path
 
