@@ -2,9 +2,7 @@ require "rails_helper"
 
 RSpec.describe "pages/home" do
   it "filters occupations based on search term" do
-    create(:state, name: "Washington")
-    create(:state, name: "New York")
-    create(:state, name: "Oregon")
+    allow(State).to receive(:find_by).and_return(build_stubbed(:state))
     mechanic = create(:occupation_standard, :with_data_import, title: "Mechanic")
     pipe_fitter = create(:occupation_standard, :with_data_import, title: "Pipe Fitter")
 
@@ -24,10 +22,7 @@ RSpec.describe "pages/home" do
 
   describe "featured section" do
     it "displays National Guidelines box" do
-      create(:state, name: "Washington")
-      create(:state, name: "New York")
-      create(:state, name: "Oregon")
-
+      allow(State).to receive(:find_by).and_return(build_stubbed(:state))
       mechanic = create(:occupation_standard, :with_data_import, :guideline_standard, title: "Mechanic")
       hr = create(:occupation_standard, :with_data_import, :guideline_standard, title: "HR")
       create(:occupation_standard, :occupational_framework, title: "Pipe Fitter")
@@ -49,9 +44,7 @@ RSpec.describe "pages/home" do
     end
 
     it "displays Occupational Frameworks box" do
-      create(:state, name: "Washington")
-      create(:state, name: "New York")
-      create(:state, name: "Oregon")
+      allow(State).to receive(:find_by).and_return(build_stubbed(:state))
 
       mechanic = create(:occupation_standard, :with_data_import, :occupational_framework, title: "Mechanic")
       hr = create(:occupation_standard, :with_data_import, :occupational_framework, title: "HR")
@@ -72,10 +65,13 @@ RSpec.describe "pages/home" do
     end
 
     it "displays Washington box" do
-      create(:state, name: "New York")
-      create(:state, name: "Oregon")
-
       wa = create(:state, name: "Washington")
+      state = build_stubbed(:state)
+      allow(State).to receive(:find_by).with(name: "Washington").and_return(wa)
+      allow(State).to receive(:find_by).with(name: "New York").and_return(state)
+      allow(State).to receive(:find_by).with(name: "Oregon").and_return(state)
+      allow(State).to receive(:find_by).with(name: "California").and_return(state)
+
       ra = create(:registration_agency, state: wa)
       mechanic = create(:occupation_standard, :with_data_import, registration_agency: ra, title: "Mechanic")
       hr = create(:occupation_standard, :with_data_import, registration_agency: ra, title: "HR")
@@ -96,10 +92,13 @@ RSpec.describe "pages/home" do
     end
 
     it "displays New York box" do
-      create(:state, name: "Washington")
-      create(:state, name: "Oregon")
-
       ny = create(:state, name: "New York")
+      state = build_stubbed(:state)
+      allow(State).to receive(:find_by).with(name: "Washington").and_return(state)
+      allow(State).to receive(:find_by).with(name: "New York").and_return(ny)
+      allow(State).to receive(:find_by).with(name: "Oregon").and_return(state)
+      allow(State).to receive(:find_by).with(name: "California").and_return(state)
+
       ra = create(:registration_agency, state: ny)
       mechanic = create(:occupation_standard, :with_data_import, registration_agency: ra, title: "Mechanic")
       hr = create(:occupation_standard, :with_data_import, registration_agency: ra, title: "HR")
@@ -120,11 +119,13 @@ RSpec.describe "pages/home" do
     end
 
     it "displays California box" do
-      create(:state, name: "New York")
-      create(:state, name: "Oregon")
-      create(:state, name: "Washington")
-
       ca = create(:state, name: "California")
+      state = build_stubbed(:state)
+      allow(State).to receive(:find_by).with(name: "Washington").and_return(state)
+      allow(State).to receive(:find_by).with(name: "New York").and_return(state)
+      allow(State).to receive(:find_by).with(name: "Oregon").and_return(state)
+      allow(State).to receive(:find_by).with(name: "California").and_return(ca)
+
       ra = create(:registration_agency, state: ca)
       mechanic = create(:occupation_standard, :with_data_import, registration_agency: ra, title: "Mechanic")
       hr = create(:occupation_standard, :with_data_import, registration_agency: ra, title: "HR")
@@ -145,10 +146,13 @@ RSpec.describe "pages/home" do
     end
 
     it "displays Oregon box" do
-      create(:state, name: "New York")
-      create(:state, name: "Washington")
-
       ore = create(:state, name: "Oregon")
+      state = build_stubbed(:state)
+      allow(State).to receive(:find_by).with(name: "Washington").and_return(state)
+      allow(State).to receive(:find_by).with(name: "New York").and_return(state)
+      allow(State).to receive(:find_by).with(name: "Oregon").and_return(ore)
+      allow(State).to receive(:find_by).with(name: "California").and_return(state)
+
       ra = create(:registration_agency, state: ore)
       mechanic = create(:occupation_standard, :with_data_import, registration_agency: ra, title: "Mechanic")
       hr = create(:occupation_standard, :with_data_import, registration_agency: ra, title: "HR")
@@ -169,9 +173,7 @@ RSpec.describe "pages/home" do
     end
 
     it "displays Installation etc. industry box" do
-      create(:state, name: "New York")
-      create(:state, name: "Washington")
-      create(:state, name: "Oregon")
+      allow(State).to receive(:find_by).and_return(build_stubbed(:state))
 
       mechanic = create(:occupation_standard, :with_data_import, onet_code: "49-1234", title: "Mechanic")
       hr = create(:occupation_standard, :with_data_import, onet_code: "49-5678", title: "HR")
@@ -192,9 +194,7 @@ RSpec.describe "pages/home" do
     end
 
     it "displays Healthcare Support industry box" do
-      create(:state, name: "New York")
-      create(:state, name: "Washington")
-      create(:state, name: "Oregon")
+      allow(State).to receive(:find_by).and_return(build_stubbed(:state))
 
       mechanic = create(:occupation_standard, :with_data_import, onet_code: "31-1234", title: "Mechanic")
       hr = create(:occupation_standard, :with_data_import, onet_code: "31-5678", title: "HR")
