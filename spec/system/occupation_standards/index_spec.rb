@@ -125,7 +125,6 @@ RSpec.describe "occupation_standards/index" do
     mechanic = create(:occupation_standard, :hybrid, :with_data_import, title: "Mechanic", onet_code: "12.3456")
     ma = create(:occupation_standard, :time, :with_data_import, title: "Medical Assistant", onet_code: "12.34567")
     create(:occupation_standard, :competency, :with_data_import, title: "Pipe Fitter", onet_code: "12.34567")
-    create(:occupation_standard, :with_data_import, title: "HR", onet_code: "12.3456")
 
     visit occupation_standards_path
 

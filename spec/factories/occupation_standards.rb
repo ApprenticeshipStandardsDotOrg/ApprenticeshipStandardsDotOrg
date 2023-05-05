@@ -5,6 +5,7 @@ FactoryBot.define do
     title { "Mechanic" }
     occupation
     url { "http://example.com" }
+    ojt_type { :hybrid }
     registration_agency
 
     trait :state_standard do

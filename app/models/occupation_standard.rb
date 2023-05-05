@@ -16,7 +16,7 @@ class OccupationStandard < ApplicationRecord
   enum national_standard_type: [:program_standard, :guideline_standard, :occupational_framework], _prefix: :national
   enum status: [:importing, :in_review, :published]
 
-  validates :title, presence: true
+  validates :title, :ojt_type, presence: true
   validates :registration_agency, presence: true, unless: :national?
 
   scope :by_title, ->(title) do

@@ -58,7 +58,7 @@ RSpec.describe "admin/occupation_standards/show" do
     expect(page).to have_selector("dd", text: occupation_standard.existing_title)
     expect(page).to have_selector("dd", text: occupation_standard.occupation.title)
     expect(page).to have_selector("dd", text: occupation_standard.national_standard_type&.titleize)
-    expect(page).to have_selector("dd", text: occupation_standard.ojt_type)
+    expect(page).to have_selector("dd", text: "Hybrid")
     expect(page).to have_selector("dd", text: occupation_standard.ojt_hours_max)
     expect(page).to have_selector("dd", text: occupation_standard.ojt_hours_min)
     expect(page).to have_selector("dd", text: occupation_standard.organization&.title)
