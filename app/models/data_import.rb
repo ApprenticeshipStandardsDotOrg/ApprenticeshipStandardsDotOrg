@@ -21,6 +21,14 @@ class DataImport < ApplicationRecord
     text/csv
   ]
 
+  def related_occupation_standard(title)
+    source_file
+      .data_imports
+      .where.not(id: id)
+      .detect{|di| di.occupation_standard.title == title}
+      &.occupation_standard
+  end
+
   private
 
   def file_presence
