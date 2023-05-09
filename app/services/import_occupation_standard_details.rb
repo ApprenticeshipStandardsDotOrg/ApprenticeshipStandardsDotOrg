@@ -13,6 +13,7 @@ class ImportOccupationStandardDetails
 
       @row = sheet.parse(headers: true)[1]
       occupation_standard = build_or_retrieve_occupation_standard
+      data_import.occupation_standard = occupation_standard
 
       remove_existing_associations(occupation_standard)
 
@@ -45,15 +46,9 @@ class ImportOccupationStandardDetails
   private
 
   def build_or_retrieve_occupation_standard
-    standard = data_import.occupation_standard ||
+    data_import.occupation_standard ||
       data_import.related_occupation_standard(row["Occupation Title"]) ||
       data_import.build_occupation_standard
-
-    if standard.persisted? && standard.data_imports.exclude?(data_import)
-      standard.data_imports << data_import
-    end
-
-    standard
   end
 
   def registration_agency
