@@ -12,7 +12,8 @@ class ImportOccupationStandardDetails
       sheet = xlsx.sheet(0)
 
       @row = sheet.parse(headers: true)[1]
-      occupation_standard = data_import.occupation_standard || data_import.build_occupation_standard
+      occupation_standard = build_or_retrieve_occupation_standard
+      data_import.occupation_standard = occupation_standard
 
       remove_existing_associations(occupation_standard)
 
@@ -43,6 +44,12 @@ class ImportOccupationStandardDetails
   end
 
   private
+
+  def build_or_retrieve_occupation_standard
+    data_import.occupation_standard ||
+      data_import.related_occupation_standard(row["Occupation Title"]) ||
+      data_import.build_occupation_standard
+  end
 
   def registration_agency
     state = State.find_by(abbreviation: row["Registration State"])

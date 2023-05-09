@@ -21,6 +21,14 @@ class DataImport < ApplicationRecord
     text/csv
   ]
 
+  def related_occupation_standard(title)
+    OccupationStandard
+      .joins(data_imports: :source_file)
+      .where.not(data_imports: {id: id})
+      .where(source_files: {id: source_file_id})
+      .first
+  end
+
   private
 
   def file_presence

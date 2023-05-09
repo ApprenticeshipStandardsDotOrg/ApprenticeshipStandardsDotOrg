@@ -28,4 +28,22 @@ RSpec.describe DataImport, type: :model do
       expect(data_import).to_not be_valid
     end
   end
+
+  describe "#related_occupation_standard" do
+    it "returns occupation standard linked to same source file with same name" do
+      os_original = create(:occupation_standard, title: "HUMAN RESOURCE SPECIALIST")
+      data_import_with_some_errors = create(:data_import, occupation_standard: os_original)
+      source_file = data_import_with_some_errors.source_file
+
+      os_from_same_source_file = create(:occupation_standard, title: "NOT HUMAN RESOURCE SPECIALIST")
+      _data_import_from_same_source_file = create(:data_import, occupation_standard: os_from_same_source_file, source_file: source_file)
+
+      os_from_a_different_source_file = create(:occupation_standard, title: "HUMAN RESOURCE SPECIALIST")
+      create(:data_import, occupation_standard: os_from_a_different_source_file)
+
+      data_import_corrected = create(:data_import, occupation_standard: nil, source_file: source_file)
+
+      expect(data_import_corrected.related_occupation_standard("HUMAN RESOURCE SPECIALIST")).to eq os_original
+    end
+  end
 end
