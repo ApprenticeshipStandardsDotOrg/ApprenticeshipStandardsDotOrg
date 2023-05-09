@@ -22,11 +22,11 @@ class DataImport < ApplicationRecord
   ]
 
   def related_occupation_standard(title)
-    source_file
-      .data_imports
-      .where.not(id: id)
-      .detect{|di| di.occupation_standard.title == title}
-      &.occupation_standard
+    OccupationStandard
+      .joins(data_imports: :source_file)
+      .where.not(data_imports: {id: id})
+      .where(source_files: {id: source_file_id})
+      .first
   end
 
   private
