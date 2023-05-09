@@ -46,11 +46,7 @@ class ImportOccupationStandardDetails
 
   def build_or_retrieve_occupation_standard
     standard = data_import.occupation_standard ||
-      data_import
-        .source_file
-        .data_imports
-        .where.not(id: data_import.id)
-      .detect{|di| di.occupation_standard.title == row["Occupation Title"]}&.occupation_standard ||
+      data_import.related_occupation_standard(row["Occupation Title"]) ||
       data_import.build_occupation_standard
 
     if standard.persisted? && standard.data_imports.exclude?(data_import)
