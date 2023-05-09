@@ -8,7 +8,7 @@
             <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
         </button>
         <div class="hidden w-full md:block md:w-auto" id="navbar-default">
-            <ul class="flex flex-col p-4 mt-4 bg-[#33575e] rounded-lg md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
+            <ul class="flex flex-col items-center p-4 mt-4 bg-[#33575e] rounded-lg md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
                 <li class="block lg:inline hover:font-bold hover:shadow-[0_3px_0_0_rgba(249,111,0,1)]">
                   <%= link_to "Home", home_page_path, class: "block py-3 px-4 text-white", "aria-current": "page" %>
                 </li>
@@ -27,9 +27,9 @@
                   <%= link_to "National", national_standards_path, class: "block py-3 px-4 text-white", "aria-current": "page" %>
                 </li>
                 <li>
-                <span class="mx-2 w-px bg-seafoam-500 lg:inline"></span>
+                  <span class="block w-0 h-0 md:h-6 md:w-px bg-seafoam-400"></span>
                 </li>
-                <li class="block lg:inline hover:font-bold hover:shadow-[0_3px_0_0_rgba(249,111,0,1)]">
+                <li class="block border-t border-1 border-seafoam-400 md:border-none lg:inline hover:font-bold hover:shadow-[0_3px_0_0_rgba(249,111,0,1)]">
                   <%= link_to "Get Involved", home_page_path, class: "block py-3 px-4 text-white hover:shadow-[0_3px_0_0_rgba(249,111,0,1)]" %>
                 </li>
             </ul>
