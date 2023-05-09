@@ -237,7 +237,7 @@ RSpec.describe ImportOccupationStandardDetails do
         expect(os.ojt_hours_max).to be_nil
         expect(os.rsi_hours_min).to be_nil
         expect(os.rsi_hours_max).to be_nil
-    end
+      end
     end
 
     context "when data_import already has an occupation_standard associated" do
