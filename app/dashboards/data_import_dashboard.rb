@@ -9,12 +9,14 @@ class DataImportDashboard < Administrate::BaseDashboard
     occupation_standard: Field::BelongsTo,
     occupation_standard_title: Field::String,
     source_file: Field::BelongsTo,
+    status: Field::String,
     created_at: Field::DateTime,
     updated_at: Field::DateTime
   }.freeze
 
   COLLECTION_ATTRIBUTES = %i[
     filename
+    status
     occupation_standard
   ].freeze
 
@@ -23,6 +25,8 @@ class DataImportDashboard < Administrate::BaseDashboard
     file
     source_file
     occupation_standard
+    created_at
+    updated_at
   ].freeze
 
   FORM_ATTRIBUTES = %i[
