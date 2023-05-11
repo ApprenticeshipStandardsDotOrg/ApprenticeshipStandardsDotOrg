@@ -31,7 +31,7 @@
                 </p>
                 <ol class="list-decimal list-inside space-y-1" role="list">
                     <% work_process.competencies.each do |competency| %>
-                        <li><%= competency.title %></li>
+                        <li><%= strip_tags competency.title %></li>
                     <% end %>
                 </ol>
             </div>

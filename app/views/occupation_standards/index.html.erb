@@ -22,7 +22,7 @@
 </nav>
 
 <section aria-labelledby="occupation-title" class="bg-seafoam-50">
-    <div class="mx-auto max-w-screen-xl py-8 px-4 sm:py-16 lg:px-6">
+    <div class="mx-auto max-w-screen-xl py-10 px-4 sm:py-16 lg:px-6">
         <% if @occupation_standards_search.search_term_params[:q].present? %>
             <div class="mb-8 flex lg:mb-8">
                 <h2 class="mb-4 text-2xl tracking-tight text-gray-900">
@@ -38,7 +38,12 @@
                 <div>
                     <div class="inline">
                         <% if occupation_standard.ojt_type %>
-                        <button type="button" class="mr-2 mb-2 rounded-lg border-2 border-primary-700 px-2 py-1 text-center text-sm font-bold text-primary-700 hover:bg-primary-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-primary-300"><%= ojt_type_display(occupation_standard) %></button>
+                            <button data-tooltip-target="<%= occupation_standard.ojt_type %>-occupation-standard" type="button" class="mr-2 mb-2 rounded-lg border-2 border-primary-700 px-2 py-1 text-center text-sm font-bold text-primary-700 hover:bg-primary-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-primary-300"><%= ojt_type_display(occupation_standard) %></button>
+
+                            <div id="<%= occupation_standard.ojt_type %>-occupation-standard" role="tooltip" class="tooltip invisible absolute z-10 inline-block rounded-lg bg-primary-800 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm">
+                                <%= t("activerecord.attributes.occupation_standard.definitions.#{occupation_standard.ojt_type}").html_safe %>
+                                <div class="tooltip-arrow" data-popper-arrow></div>
+                            </div>
                         <% end %>
                     </div>
                     <h3 class="occupation-title text-2xl font-bold"><%= link_to occupation_standard.title, occupation_standard %></h3>
