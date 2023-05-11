@@ -24,6 +24,7 @@ class DataImport < ApplicationRecord
   def related_occupation_standard(title)
     OccupationStandard
       .joins(data_imports: :source_file)
+      .where(occupation_standards: {title: title})
       .where.not(data_imports: {id: id})
       .where(source_files: {id: source_file_id})
       .first
