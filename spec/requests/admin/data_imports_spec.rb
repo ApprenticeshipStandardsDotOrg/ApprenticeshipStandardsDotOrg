@@ -143,7 +143,7 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
         expect {
           delete admin_source_file_data_import_path(source_file, data_import)
         }.to change(DataImport, :count).by(-1)
-        expect(response).to redirect_to(new_admin_source_file_data_import_path(source_file))
+        expect(response).to redirect_to(admin_source_file_path(source_file))
       end
     end
 
@@ -263,7 +263,7 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
           }.to change(DataImport, :count).by(-1)
             .and change(OccupationStandard, :count).by(0)
 
-          expect(response).to redirect_to new_admin_source_file_data_import_path(source_file)
+          expect(response).to redirect_to(admin_source_file_path(source_file))
         end
       end
 
@@ -280,7 +280,7 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
           }.to change(DataImport, :count).by(-1)
             .and change(OccupationStandard, :count).by(-1)
 
-          expect(response).to redirect_to new_admin_source_file_data_import_path(source_file)
+          expect(response).to redirect_to(admin_source_file_path(source_file))
         end
       end
 
@@ -296,7 +296,7 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
           }.to change(DataImport, :count).by(-1)
             .and change(OccupationStandard, :count).by(0)
 
-          expect(response).to redirect_to new_admin_source_file_data_import_path(source_file)
+          expect(response).to redirect_to(admin_source_file_path(source_file))
         end
       end
     end
