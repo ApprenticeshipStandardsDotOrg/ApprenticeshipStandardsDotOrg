@@ -4,9 +4,9 @@ class OccupationStandard < ApplicationRecord
   belongs_to :organization, optional: true
   has_many :data_imports
 
-  has_many :related_instructions, dependent: :destroy
-  has_many :wage_steps, dependent: :destroy
-  has_many :work_processes, -> { includes(:competencies) }, dependent: :destroy
+  has_many :related_instructions, -> { order(:sort_order) }, dependent: :destroy
+  has_many :wage_steps, -> { order(:sort_order) }, dependent: :destroy
+  has_many :work_processes, -> { order(:sort_order).includes(:competencies) }, dependent: :destroy
 
   delegate :title, to: :organization, prefix: true, allow_nil: true
   delegate :title, to: :occupation, prefix: true, allow_nil: true

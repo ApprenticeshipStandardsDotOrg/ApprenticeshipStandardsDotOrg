@@ -16,6 +16,7 @@ class WorkProcessDashboard < Administrate::BaseDashboard
   }.freeze
 
   COLLECTION_ATTRIBUTES = %i[
+    sort_order
     title
     competencies
     minimum_hours
