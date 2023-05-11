@@ -3,9 +3,9 @@ en:
     attributes:
       occupation_standard:
         definitions:
-          hybrid: Hybrid programs blend both competency- and time-based strategies, using a minimum and maximum range of hours for each major job function and the successful demonstration of identified competencies.
-          competency: Apprentices progress at their own pace – they demonstrate competency in skills and knowledge through assessment tests, but are not required to complete a specific number of hours.
-          time: Apprentices complete a required number of hours in on-the-job training and related instruction.
+          hybrid: "Hybrid programs blend both competency- and time-based strategies, <br/>using a minimum and maximum range of hours for each major job<br/> function and the successful demonstration of identified competencies."
+          competency: "Apprentices progress at their own pace – they demonstrate<br/> competency in skills and knowledge through assessment tests, <br/>but are not required to complete a specific number of hours."
+          time: "Apprentices complete a required number of hours<br/> in on-the-job training and related instruction."
         national_standard_type: National Standard Type
         ojt_type: OJT type
         ojt_hours_max: Max OJT hours
