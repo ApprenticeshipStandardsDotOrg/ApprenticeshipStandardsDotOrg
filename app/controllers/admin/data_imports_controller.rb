@@ -45,7 +45,12 @@ module Admin
     end
 
     def destroy
+      authorize(requested_resource)
       if requested_resource.destroy
+        occupation_standard = requested_resource.occupation_standard
+        if occupation_standard && occupation_standard.data_imports.empty?
+          occupation_standard.destroy!
+        end
         flash[:notice] = translate_with_resource("destroy.success")
       else
         flash[:error] = requested_resource.errors.full_messages.join("<br/>")
