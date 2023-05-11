@@ -36,7 +36,7 @@ RSpec.describe DataImport, type: :model do
       source_file = data_import.source_file
 
       different_os_for_same_source_file = create(:occupation_standard, title: "HUMAN RESOURCE SPECIALIST")
-      data_import_with_some_errors = create(:data_import, occupation_standard: different_os_for_same_source_file, source_file: source_file)
+      _data_import_with_some_errors = create(:data_import, occupation_standard: different_os_for_same_source_file, source_file: source_file)
 
       os_from_a_different_source_file = create(:occupation_standard, title: "HUMAN RESOURCE SPECIALIST")
       create(:data_import, occupation_standard: os_from_a_different_source_file)
