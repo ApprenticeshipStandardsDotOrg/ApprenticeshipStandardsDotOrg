@@ -18,7 +18,7 @@
                             <% end %>
                             <% if work_process.hours.present? %>
                                 <div class="m-1.5 w-28 rounded bg-rust-100 px-1 py-3 text-center">
-                                    <div class="text-3xl font-bold text-rust-700"><%= hours_in_human_format(work_process.hours) %></div>
+                                    <div class="text-3xl font-bold text-rust-800"><%= hours_in_human_format(work_process.hours) %></div>
                                 </div>
                             <% end %>
                         </div>
@@ -31,7 +31,7 @@
                 </p>
                 <ol class="list-decimal list-inside space-y-1" role="list">
                     <% work_process.competencies.each do |competency| %>
-                        <li><%= competency.title %></li>
+                        <li><%= strip_tags competency.title %></li>
                     <% end %>
                 </ol>
             </div>

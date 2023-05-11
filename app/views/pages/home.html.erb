@@ -8,8 +8,8 @@
         <%= image_tag("icon-illustration.png", alt: "An illustration of industry-related icons") %>
       </div>
       <div class="col-span-6 text-center sm:mb-6 lg:text-left lg:mb-0">
-        <h1 class="mb-3 text-3xl font-bold leading-none tracking-tight text-gray-100 md:text-4xl xl:text-5xl dark:text-white">Jumpstart Your Apprenticeship with the Registered Apprenticeship Standards Library</h1>
-        <!-- <p class="max-w-xl mx-auto mb-6 font-light text-gray-500 lg:mx-0 xl:mb-8 md:text-lg xl:text-xl dark:text-gray-400">Here we can include a subtitle to accompany the header text</p> -->
+        <h1 class="mb-3 text-3xl font-bold leading-none tracking-tight text-gray-100 md:text-4xl xl:text-5xl">Jumpstart Your Apprenticeship with the Registered Apprenticeship Standards Library</h1>
+        <!-- <p class="max-w-xl mx-auto mb-6 font-light text-gray-500 lg:mx-0 xl:mb-8 md:text-lg xl:text-xl">Here we can include a subtitle to accompany the header text</p> -->
         <div class="max-w-lg lg:ml-0 mx-auto">
           <%= render partial: "shared/search_form", locals: {show_filter: false} %>
         </div>
@@ -21,7 +21,7 @@
 <section aria-labelledby="section-title" class="bg-seafoam-50">
   <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
     <div class="mb-8 lg:mb-16 flex justify-between">
-      <h2 class="section-title mb-4 text-4xl tracking-tight font-bold text-gray-900 dark:text-white">Featured</h2>
+      <h2 class="section-title mb-4 text-4xl tracking-tight font-bold text-gray-900">Featured</h2>
       <!--
         <%= link_to home_page_path, class: "font-bold text-seafoam-900 sm:text-xl uppercase" do %>
           See All
@@ -31,74 +31,74 @@
     </div>
     <div class="text-center space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:gap-8 xl:gap-8 md:space-y-0">
       <%= link_to occupation_standards_path(national_standard_type: {guideline_standard: 1}), id: "guideline-standards" do %>
-        <div class="p-6 hover:bg-white rounded-lg hover:shadow-xl dark:bg-gray-800">
-          <div class="mx-auto flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-seafoam-100 lg:h-12 lg:w-12 dark:bg-primary-900">
-            <svg aria-label="briefcase icon" class="w-5 h-5 text-primary-600 lg:w-6 lg:h-6 dark:text-primary-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path></svg>
+        <div class="p-6 hover:bg-white rounded-lg hover:shadow-xl">
+          <div class="mx-auto flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-seafoam-100 lg:h-12 lg:w-12">
+            <svg aria-label="briefcase icon" class="w-5 h-5 text-primary-600 lg:w-6 lg:h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path></svg>
           </div>
-          <h3 class="text-xl font-bold dark:text-white">National Guidelines</h3>
+          <h3 class="text-xl font-bold">National Guidelines</h3>
           <p class="font-bold text-seafoam-900"><%= OccupationStandard.national_guideline_standard.count %> Apprenticeships</p>
         </div>
       <% end %>
       <%= link_to occupation_standards_path(national_standard_type: {occupational_framework: 1}), id: "occupational-frameworks" do %>
-        <div class="p-6 hover:bg-white rounded-lg hover:shadow-xl dark:bg-gray-800">
-          <div class="mx-auto flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-seafoam-100 lg:h-12 lg:w-12 dark:bg-primary-900">
-            <svg aria-label="briefcase icon" class="w-5 h-5 text-primary-600 lg:w-6 lg:h-6 dark:text-primary-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path></svg>
+        <div class="p-6 hover:bg-white rounded-lg hover:shadow-xl">
+          <div class="mx-auto flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-seafoam-100 lg:h-12 lg:w-12">
+            <svg aria-label="briefcase icon" class="w-5 h-5 text-primary-600 lg:w-6 lg:h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path></svg>
           </div>
-          <h3 class="text-xl font-bold dark:text-white">Occupational Frameworks</h3>
+          <h3 class="text-xl font-bold">Occupational Frameworks</h3>
           <p class="font-bold text-seafoam-900"><%= OccupationStandard.national_occupational_framework.count %> Apprenticeships</p>
         </div>
       <% end %>
       <%= link_to occupation_standards_path(state_id: washington_state.id), id: "washington" do %>
-        <div class="p-6 hover:bg-white rounded-lg hover:shadow-xl dark:bg-gray-800">
-          <div class="mx-auto flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-seafoam-100 lg:h-12 lg:w-12 dark:bg-primary-900">
-            <svg aria-label="briefcase icon" class="w-5 h-5 text-primary-600 lg:w-6 lg:h-6 dark:text-primary-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path></svg>
+        <div class="p-6 hover:bg-white rounded-lg hover:shadow-xl">
+          <div class="mx-auto flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-seafoam-100 lg:h-12 lg:w-12">
+            <svg aria-label="briefcase icon" class="w-5 h-5 text-primary-600 lg:w-6 lg:h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path></svg>
           </div>
-          <h3 class="text-xl font-bold dark:text-white">Washington</h3>
+          <h3 class="text-xl font-bold">Washington</h3>
           <p class="font-bold text-seafoam-900"><%= standards_by_state_count(washington_state) %> Apprenticeships</p>
         </div>
       <% end %>
       <%= link_to occupation_standards_path(state_id: new_york_state.id), id: "new-york" do %>
-        <div class="p-6 hover:bg-white rounded-lg hover:shadow-xl dark:bg-gray-800">
-          <div class="mx-auto flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-seafoam-100 lg:h-12 lg:w-12 dark:bg-primary-900">
-            <svg aria-label="briefcase icon" class="w-5 h-5 text-primary-600 lg:w-6 lg:h-6 dark:text-primary-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path></svg>
+        <div class="p-6 hover:bg-white rounded-lg hover:shadow-xl">
+          <div class="mx-auto flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-seafoam-100 lg:h-12 lg:w-12">
+            <svg aria-label="briefcase icon" class="w-5 h-5 text-primary-600 lg:w-6 lg:h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path></svg>
           </div>
-          <h3 class="text-xl font-bold dark:text-white">New York</h3>
+          <h3 class="text-xl font-bold">New York</h3>
           <p class="font-bold text-seafoam-900"><%= standards_by_state_count(new_york_state) %> Apprenticeships</p>
         </div>
       <% end %>
       <%= link_to occupation_standards_path(state_id: california_state.id), id: "california" do %>
-        <div class="p-6 hover:bg-white rounded-lg hover:shadow-xl dark:bg-gray-800">
-          <div class="mx-auto flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-seafoam-100 lg:h-12 lg:w-12 dark:bg-primary-900">
-            <svg aria-label="briefcase icon" class="w-5 h-5 text-primary-600 lg:w-6 lg:h-6 dark:text-primary-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path></svg>
+        <div class="p-6 hover:bg-white rounded-lg hover:shadow-xl">
+          <div class="mx-auto flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-seafoam-100 lg:h-12 lg:w-12">
+            <svg aria-label="briefcase icon" class="w-5 h-5 text-primary-600 lg:w-6 lg:h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path></svg>
           </div>
-          <h3 class="text-xl font-bold dark:text-white">California</h3>
+          <h3 class="text-xl font-bold">California</h3>
           <p class="font-bold text-seafoam-900"><%= standards_by_state_count(california_state) %> Apprenticeships</p>
         </div>
       <% end %>
       <%= link_to occupation_standards_path(state_id: oregon_state.id), id: "oregon" do %>
-        <div class="p-6 hover:bg-white rounded-lg hover:shadow-xl dark:bg-gray-800">
-          <div class="mx-auto flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-seafoam-100 lg:h-12 lg:w-12 dark:bg-primary-900">
-            <svg aria-label="briefcase icon" class="w-5 h-5 text-primary-600 lg:w-6 lg:h-6 dark:text-primary-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path></svg>
+        <div class="p-6 hover:bg-white rounded-lg hover:shadow-xl">
+          <div class="mx-auto flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-seafoam-100 lg:h-12 lg:w-12">
+            <svg aria-label="briefcase icon" class="w-5 h-5 text-primary-600 lg:w-6 lg:h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path></svg>
           </div>
-          <h3 class="text-xl font-bold dark:text-white">Oregon</h3>
+          <h3 class="text-xl font-bold">Oregon</h3>
           <p class="font-bold text-seafoam-900"><%= standards_by_state_count(oregon_state) %> Apprenticeships</p>
         </div>
       <% end %>
       <%= link_to occupation_standards_path(q: "49-"), id: "industry-1" do %>
-        <div class="p-6 hover:bg-white rounded-lg hover:shadow-xl dark:bg-gray-800">
-          <div class="mx-auto flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-seafoam-100 lg:h-12 lg:w-12 dark:bg-primary-900">
-            <svg aria-label="briefcase icon" class="w-5 h-5 text-primary-600 lg:w-6 lg:h-6 dark:text-primary-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path></svg>
+        <div class="p-6 hover:bg-white rounded-lg hover:shadow-xl">
+          <div class="mx-auto flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-seafoam-100 lg:h-12 lg:w-12">
+            <svg aria-label="briefcase icon" class="w-5 h-5 text-primary-600 lg:w-6 lg:h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path></svg>
           </div>
-          <h3 class="text-xl font-bold dark:text-white">Installation, Maintenance, and Repair</h3>
+          <h3 class="text-xl font-bold">Installation, Maintenance, and Repair</h3>
           <p class="font-bold text-seafoam-900"><%= OccupationStandard.industry_count(49) %> Apprenticeships</p>
         </div>
       <% end %>
       <%= link_to occupation_standards_path(q: "31-"), id: "industry-2" do %>
-        <div class="p-6 hover:bg-white rounded-lg hover:shadow-xl dark:bg-gray-800">
-          <div class="mx-auto flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-seafoam-100 lg:h-12 lg:w-12 dark:bg-primary-900">
-            <svg aria-label="briefcase icon" class="w-5 h-5 text-primary-600 lg:w-6 lg:h-6 dark:text-primary-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path></svg>
+        <div class="p-6 hover:bg-white rounded-lg hover:shadow-xl">
+          <div class="mx-auto flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-seafoam-100 lg:h-12 lg:w-12">
+            <svg aria-label="briefcase icon" class="w-5 h-5 text-primary-600 lg:w-6 lg:h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path></svg>
           </div>
-          <h3 class="text-xl font-bold dark:text-white">Healthcare Support</h3>
+          <h3 class="text-xl font-bold">Healthcare Support</h3>
           <p class="font-bold text-seafoam-900"><%= OccupationStandard.industry_count(31) %> Apprenticeships</p>
         </div>
       <% end %>

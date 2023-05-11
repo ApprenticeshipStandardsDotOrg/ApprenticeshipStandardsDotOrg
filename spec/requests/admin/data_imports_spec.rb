@@ -246,4 +246,75 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
       end
     end
   end
+
+  describe "DELETE /destroy/:id" do
+    context "when admin user" do
+      context "when occupation standard has other data imports" do
+        it "destroys record and leaves occupation standard unchanged" do
+          admin = create(:admin)
+          occupation_standard = create(:occupation_standard)
+          data_import = create(:data_import, occupation_standard: occupation_standard)
+          source_file = data_import.source_file
+          create(:data_import, occupation_standard: occupation_standard, source_file: source_file)
+
+          sign_in admin
+          expect {
+            delete admin_source_file_data_import_path(source_file, data_import)
+          }.to change(DataImport, :count).by(-1)
+            .and change(OccupationStandard, :count).by(0)
+
+          expect(response).to redirect_to new_admin_source_file_data_import_path(source_file)
+        end
+      end
+
+      context "when occupation standard has no other data imports" do
+        it "destroys record and destroys occupation standard" do
+          admin = create(:admin)
+          occupation_standard = create(:occupation_standard)
+          data_import = create(:data_import, occupation_standard: occupation_standard)
+          source_file = data_import.source_file
+
+          sign_in admin
+          expect {
+            delete admin_source_file_data_import_path(source_file, data_import)
+          }.to change(DataImport, :count).by(-1)
+            .and change(OccupationStandard, :count).by(-1)
+
+          expect(response).to redirect_to new_admin_source_file_data_import_path(source_file)
+        end
+      end
+
+      context "when data_import is not linked to occupation standard" do
+        it "destroys record" do
+          admin = create(:admin)
+          data_import = create(:data_import, occupation_standard: nil)
+          source_file = data_import.source_file
+
+          sign_in admin
+          expect {
+            delete admin_source_file_data_import_path(source_file, data_import)
+          }.to change(DataImport, :count).by(-1)
+            .and change(OccupationStandard, :count).by(0)
+
+          expect(response).to redirect_to new_admin_source_file_data_import_path(source_file)
+        end
+      end
+    end
+
+    context "when converter" do
+      it "does not destroy and redirects" do
+        admin = create(:user, :converter)
+        data_import = create(:data_import)
+        source_file = data_import.source_file
+
+        sign_in admin
+        expect {
+          delete admin_source_file_data_import_path(source_file, data_import)
+        }.to change(DataImport, :count).by(0)
+          .and change(OccupationStandard, :count).by(0)
+
+        expect(response).to redirect_to root_path
+      end
+    end
+  end
 end

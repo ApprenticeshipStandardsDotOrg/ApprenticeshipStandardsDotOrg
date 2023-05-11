@@ -26,27 +26,34 @@
 </nav>
 
 <section aria-labelledby="occupation-title" class="bg-seafoam-50">
-    <div class="mx-auto max-w-screen-xl px-4 py-8 sm:py-16 lg:px-6">
+    <div class="mx-auto max-w-screen-xl px-4 py-10 sm:py-16 lg:px-6">
         <div class="my-6 mb-8 lg:mb-16">
             <div class="flex flex-col justify-between space-y-6 md:flex-row md:space-y-0">
                 <div>
 
-                    <div class="inline">
-                        <button type="button" class="mb-2 mr-2 rounded-lg border-2 border-primary-700 px-2 py-1 text-center text-sm font-bold text-primary-700 hover:bg-primary-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-primary-300">
-                            <%= ojt_type_display(@occupation_standard) %>
-                        </button>
-                    </div>
+                  <div class="inline">
+                    <% if @occupation_standard.ojt_type %>
+                      <button data-tooltip-target="<%= @occupation_standard.ojt_type %>-occupation-standard" type="button" class="mb-2 mr-2 rounded-lg border-2 border-primary-700 px-2 py-1 text-center text-sm font-bold text-primary-700 hover:bg-primary-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-primary-300">
+                        <%= ojt_type_display(@occupation_standard) %>
+                      </button>
+
+                      <div id="<%= @occupation_standard.ojt_type %>-occupation-standard" role="tooltip" class="tooltip invisible absolute z-10 inline-block rounded-lg bg-primary-800 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm">
+                        <%= t("activerecord.attributes.occupation_standard.definitions.#{@occupation_standard.ojt_type}").html_safe %>
+                        <div class="tooltip-arrow" data-popper-arrow></div>
+                      </div>
+                    <% end %>
+                  </div>
                     <h3 class="occupation-title text-2xl font-bold"><%= @occupation_standard.title %></h3>
-                    <p class="mb-4 font-bold text-gray-500"><%= sponsor_name(@occupation_standard) %></p>
+                    <p class="mb-4 font-bold text-seafoam-900"><%= sponsor_name(@occupation_standard) %></p>
                     <div class="inline">
                       <% if @occupation_standard.onet_code.present? %>
-                        <button type="button" class="mb-2 mr-2 rounded-lg bg-yellow-100 px-2 py-1 text-sm font-medium text-goldenrod-800 hover:bg-yellow-200 hover:text-goldenrod-900 focus:outline-none focus:ring-4 focus:ring-orange-300">
+                        <button type="button" class="mr-2 mb-2 rounded-lg bg-yellow-100 px-2 py-1 text-sm font-bold text-goldenrod-800 hover:bg-yellow-200 hover:text-goldenrod-900 focus:outline-none focus:ring-4 focus:ring-orange-300">
                           <%= @occupation_standard.onet_code %>
                         </button>
                       <% end %>
 
                       <% if @occupation_standard.rapids_code.present? %>
-                        <button type="button" class="mb-2 mr-2 rounded-lg bg-blue-100 px-2 py-1 text-sm font-medium text-sky-800 hover:bg-blue-200 hover:text-sky-900 focus:outline-none focus:ring-4 focus:ring-orange-300">
+                        <button type="button" class="mr-2 mb-2 rounded-lg bg-blue-100 px-2 py-1 text-sm font-bold text-sky-800 hover:bg-blue-200 hover:text-sky-900 focus:outline-none focus:ring-4 focus:ring-orange-300">
                           <%= @occupation_standard.rapids_code %>
                         </button>
                       <% end %>
@@ -133,7 +140,7 @@
                                   <div>
                                       <img class="mr-2 h-7 w-auto rounded" src="https://flowbite.com/docs/images/examples/image-1@2x.jpg" alt="organization logo">
                                   </div>
-                                  <div class="font-bold">Anonymous</div>
+                                  <div class="font-bold px-2">Anonymous</div>
                               </div>
                           </div>
                       </div>
@@ -148,10 +155,10 @@
                               <% end %>
                               <% if @occupation_standard.work_processes_hours.present? %>
                                   <div class="m-1.5 w-28 rounded bg-rust-100 px-1 py-3 text-center">
-                                      <div class="text-3xl font-bold text-rust-700">
+                                      <div class="text-3xl font-bold text-rust-800">
                                           <%= hours_in_human_format(@occupation_standard.work_processes_hours) %>
                                       </div>
-                                      <div class="text-sm font-bold text-rust-700">OJT hours</div>
+                                      <div class="text-sm font-bold text-rust-800">OJT hours</div>
                                   </div>
                               <% end %>
                           </div>
@@ -181,7 +188,7 @@
                                         <div>
                                             <img class="mr-2 h-7 w-auto rounded" src="https://flowbite.com/docs/images/examples/image-1@2x.jpg" alt="organization logo">
                                         </div>
-                                        <div class="font-bold"><%= related_instruction_organization %></div>
+                                        <div class="font-bold px-2"><%= related_instruction_organization %></div>
                                     </div>
                                 <% end %>
                             </div>
@@ -218,8 +225,8 @@
                             <div class="text-primary-600 font-bold">
                                 <span><%= similar_program.title %></span>
                             </div>
-                            <div class="text-orange-800">
-                                <span class="text-yonder-500"><%= ojt_type_display(similar_program) %></span>
+                            <div class="text-goldenrod-800">
+                                <span class="text-sky-800"><%= ojt_type_display(similar_program) %></span>
                                 <span>&#x2022;</span>
                                 <span><%= similar_program.onet_code %></span>
                             </div>

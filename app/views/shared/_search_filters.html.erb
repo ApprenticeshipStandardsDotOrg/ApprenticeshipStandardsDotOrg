@@ -1,6 +1,6 @@
-<div class="py-2">
+<div class="relative">
   <div class="flex justify-between">
-    <button class="flex items-center" data-collapse-toggle="search-filters" type="button" aria-controls="search-filters" aria-expanded="<%= filters_aria_expanded %>">
+    <button class="px-4 flex items-center" data-collapse-toggle="search-filters" type="button" aria-controls="search-filters" aria-expanded="<%= filters_aria_expanded %>">
       <span class="text-sm">Expand Filters</span>
       <div>
         <svg aria-label="arrow down icon" class="h-5 w-5" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -8,12 +8,12 @@
         </svg>
       </div>
     </button>
+    <button class="px-4 block text-sm font-bold my-3" type="button">Clear All</button>
   </div>
 
-  <div id="search-filters" class="<%= filters_class %>">
-    <button class="block text-sm font-bold my-3" type="button">Clear All</button>
+  <div id="search-filters" class="-mt-[2px] rounded-b shadow-xl w-full px-4 bg-seafoam-100 absolute <%= filters_class %>">
     <!-- begin filter options -->
-    <div class="flex flex-col py-2 lg:space-x-2 lg:flex-row lg:divide-x divide-seafoam-600">
+    <div class="flex flex-col lg:space-x-2 lg:flex-row lg:divide-x divide-seafoam-600">
       <div>
         <div class="font-bold">Program Type</div>
         <button id="dropdownPrgrmTypeButton" data-dropdown-toggle="dropdownPrgrmType" class="my-2 mr-2 flex items-center space-x-2 rounded border border-primary-200 bg-white px-2 py-2.5 text-center font-bold text-seafoam-900 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-200" type="button">
@@ -97,7 +97,7 @@
                 </ul>
               </div>
             </div>
-            <button data-tooltip-target="national-standards-info" data-tooltip-placement="bottom" data-tooltip-trigger="click" type="button" class="text-center text-sm font-medium text-seafoam-800 focus:outline-none focus:ring-4 focus:ring-slate-300" type="button">What is this?</button>
+            <button data-tooltip-target="national-standards-info" data-tooltip-placement="bottom" data-tooltip-trigger="click" type="button" class="py-0 mb-2 text-center text-sm font-medium text-seafoam-800 focus:outline-none focus:ring-4 focus:ring-slate-300" type="button">What is this?</button>
             <div id="national-standards-info" role="tooltip" class="tooltip invisible absolute z-10 inline-block rounded-lg bg-primary-800 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm">
               National standards are...
               <div class="tooltip-arrow" data-popper-arrow></div>
