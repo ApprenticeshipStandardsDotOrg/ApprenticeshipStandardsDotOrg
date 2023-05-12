@@ -18,6 +18,7 @@ class RelatedInstructionDashboard < Administrate::BaseDashboard
   }.freeze
 
   COLLECTION_ATTRIBUTES = %i[
+    sort_order
     title
     hours
   ].freeze

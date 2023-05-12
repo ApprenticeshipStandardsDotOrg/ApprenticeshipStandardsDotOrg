@@ -9,7 +9,7 @@ RSpec.describe "admin/occupation_standards/edit" do
     login_as admin
     visit edit_admin_occupation_standard_path(occupation_standard)
 
-    expect(page).to have_selector("h1", text: "Edit Occupation Standard for Mechanic")
+    expect(page).to have_selector("h1", text: "Edit Mechanic")
     expect(page).to have_field("Title")
     expect(page).to have_field("ONET Code")
     expect(page).to have_field("RAPIDS Code")
@@ -22,7 +22,7 @@ RSpec.describe "admin/occupation_standards/edit" do
     click_on "Update"
 
     within("h1") do
-      expect(page).to have_content("Occupation Standard for New title")
+      expect(page).to have_content("New title")
     end
     expect(page).to have_content "2345.67"
     expect(page).to have_content "98765"
@@ -37,6 +37,6 @@ RSpec.describe "admin/occupation_standards/edit" do
     login_as admin
     visit edit_admin_occupation_standard_path(occupation_standard)
 
-    expect(page).to have_selector("h1", text: "Edit Occupation Standard for Mechanic")
+    expect(page).to have_selector("h1", text: "Edit Mechanic")
   end
 end

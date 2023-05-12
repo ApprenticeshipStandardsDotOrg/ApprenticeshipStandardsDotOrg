@@ -92,6 +92,6 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
   COLLECTION_FILTERS = {}.freeze
 
   def display_resource(occupation_standard)
-    "Occupation Standard for #{occupation_standard.title}"
+    occupation_standard.title
   end
 end

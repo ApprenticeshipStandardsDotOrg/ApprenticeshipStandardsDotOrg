@@ -15,6 +15,7 @@ class WageStepDashboard < Administrate::BaseDashboard
   }.freeze
 
   COLLECTION_ATTRIBUTES = %i[
+    sort_order
     title
     minimum_hours
     ojt_percentage

@@ -23,7 +23,7 @@ RSpec.describe "admin/data_imports/new" do
     click_on "Submit"
 
     within("h1") do
-      expect(page).to have_content("Data Import")
+      expect(page).to have_content("comp-occupation")
     end
     expect(page).to have_content("Description")
     expect(page).to have_content("Some desc")
@@ -71,7 +71,7 @@ RSpec.describe "admin/data_imports/new" do
     click_on "Submit"
 
     within("h1") do
-      expect(page).to have_content("Data Import")
+      expect(page).to have_content("comp-occupation")
     end
     expect(page).to have_content("Description")
     expect(page).to have_content("Some desc")

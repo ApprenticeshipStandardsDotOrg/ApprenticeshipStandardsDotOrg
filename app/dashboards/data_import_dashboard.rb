@@ -37,6 +37,6 @@ class DataImportDashboard < Administrate::BaseDashboard
   COLLECTION_FILTERS = {}.freeze
 
   def display_resource(data_import)
-    "Data Import for #{data_import.file.filename}"
+    data_import.file.filename.to_s.truncate(50)
   end
 end

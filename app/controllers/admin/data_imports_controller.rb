@@ -77,7 +77,7 @@ module Admin
     end
 
     def after_resource_destroyed_path(source_file)
-      new_admin_source_file_data_import_path(source_file)
+      admin_source_file_path(source_file)
     end
   end
 end
