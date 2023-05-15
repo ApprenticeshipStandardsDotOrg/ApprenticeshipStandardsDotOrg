@@ -45,6 +45,8 @@ RSpec.describe ImportOccupationStandardDetails do
         expect(os.ojt_hours_max).to be_nil
         expect(os.rsi_hours_min).to be_nil
         expect(os.rsi_hours_max).to be_nil
+        expect(os.registration_date.to_s).to eq "1987-01-15"
+        expect(os.latest_update_date.to_s).to eq "2022-10-20"
       end
 
       it "creates an occupation standards record for competency-based" do

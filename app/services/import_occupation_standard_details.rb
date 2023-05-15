@@ -33,7 +33,9 @@ class ImportOccupationStandardDetails
         ojt_hours_min: row["Minimum OJT Hours"],
         ojt_hours_max: row["Maximum OJT Hours"],
         rsi_hours_min: row["Minimum RSI Hours"],
-        rsi_hours_max: row["Maximum RSI Hours"]
+        rsi_hours_max: row["Maximum RSI Hours"],
+        registration_date: parse_date(row["Registration Date"]),
+        latest_update_date: parse_date(row["Latest Registration Update"])
       )
       DataImport.transaction do
         data_import.save!
@@ -109,5 +111,11 @@ class ImportOccupationStandardDetails
       occupation_standard.wage_steps.destroy_all
       occupation_standard.work_processes.destroy_all
     end
+  end
+
+  def parse_date(date)
+    Date.parse(date.to_s)
+  rescue Date::Error
+    nil
   end
 end
