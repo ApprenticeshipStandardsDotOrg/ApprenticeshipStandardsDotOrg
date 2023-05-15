@@ -26,4 +26,20 @@ RSpec.describe "occupation_standards/show" do
 
     expect(page).to have_content "Title with HTML"
   end
+
+  it "shows registration date if available" do
+    occupation_standard = create(:occupation_standard, :with_data_import, registration_date: Date.parse("October 17, 1989"))
+
+    visit occupation_standard_path(occupation_standard)
+
+    expect(page).to have_text "Registered 1989"
+  end
+
+  it "shows latest updated date if available" do
+    occupation_standard = create(:occupation_standard, :with_data_import, latest_update_date: Date.parse("October 17, 1989"))
+
+    visit occupation_standard_path(occupation_standard)
+
+    expect(page).to have_text "Updated 1989"
+  end
 end

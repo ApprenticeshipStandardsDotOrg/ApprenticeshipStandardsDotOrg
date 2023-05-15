@@ -148,4 +148,20 @@ RSpec.describe "occupation_standards/index" do
     expect(page).to_not have_link "Pipe Fitter"
     expect(page).to_not have_link "HR"
   end
+
+  it "shows registration date if available" do
+    create(:occupation_standard, :with_data_import, title: "Mechanic", registration_date: Date.parse("October 17, 1989"))
+
+    visit occupation_standards_path
+
+    expect(page).to have_text "Registered 1989"
+  end
+
+  it "shows latest updated date if available" do
+    create(:occupation_standard, :with_data_import, title: "Mechanic", latest_update_date: Date.parse("October 17, 1989"))
+
+    visit occupation_standards_path
+
+    expect(page).to have_text "Updated 1989"
+  end
 end

@@ -47,7 +47,15 @@
                         <% end %>
                     </div>
                     <h3 class="occupation-title text-2xl font-bold"><%= link_to occupation_standard.title, occupation_standard %></h3>
-                    <p class="mb-4 font-bold text-seafoam-900"><%= sponsor_name(occupation_standard) %></p>
+                    <p class="mb-1 font-bold text-seafoam-900"><%= sponsor_name(occupation_standard) %></p>
+                    <div class="text-primary-700 text-xs mb-4">
+                        <% if occupation_standard.latest_update_date %>
+                            <span class="mr-4">Updated <%= occupation_standard.latest_update_date.year %> </span>
+                        <% end %>
+                        <% if occupation_standard.registration_date %>
+                            <span>Registered <%= occupation_standard.registration_date.year %></span>
+                        <% end %>
+                    </div>
                     <div class="inline">
                         <% if occupation_standard.onet_code.present? %>
                             <button type="button" class="mr-2 mb-2 rounded-lg bg-yellow-100 px-2 py-1 text-sm font-bold text-goldenrod-800 hover:bg-yellow-200 hover:text-goldenrod-900 focus:outline-none focus:ring-4 focus:ring-orange-300"><%= occupation_standard.onet_code %></button>
