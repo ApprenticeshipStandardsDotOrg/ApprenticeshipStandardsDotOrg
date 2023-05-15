@@ -8,7 +8,7 @@
         </svg>
       </div>
     </button>
-    <button class="px-4 block text-sm font-bold my-3" type="button">Clear All</button>
+    <button class="px-4 block text-sm font-bold my-3" type="button" data-action="search#clearForm">Clear All</button>
   </div>
 
   <div id="search-filters" class="-mt-[2px] rounded-b shadow-xl w-full px-4 bg-seafoam-100 absolute <%= filters_class %>">
@@ -31,19 +31,19 @@
           <ul class="space-y-1 p-2 text-sm text-gray-700" aria-labelledby="dropdownPrgrmTypeButton">
             <li>
               <div class="flex items-center rounded p-2">
-                <%= check_box_tag "ojt_type[hybrid]", "1", params.dig(:ojt_type, :hybrid), id: "hybrid", class: "h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500" %>
+                <%= check_box_tag "ojt_type[hybrid]", "1", params.dig(:ojt_type, :hybrid), id: "hybrid", class: "h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500", "data-search-target": "checkBox" %>
                 <%= label_tag "hybrid", "Hybrid", class: "ml-3 w-full rounded text-left text-sm font-medium text-seafoam-900" %>
               </div>
             </li>
             <li>
               <div class="flex items-center rounded p-2">
-                <%= check_box_tag "ojt_type[competency]", "1", params.dig(:ojt_type, :competency), id: "competency", class: "h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500" %>
+                <%= check_box_tag "ojt_type[competency]", "1", params.dig(:ojt_type, :competency), id: "competency", class: "h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500", "data-search-target": "checkBox" %>
                 <%= label_tag "competency", "Competency", class: "ml-3 w-full rounded text-left text-sm font-medium text-seafoam-900" %>
               </div>
             </li>
             <li>
               <div class="flex items-center rounded p-2">
-                <%= check_box_tag "ojt_type[time]", "1", params.dig(:ojt_type, :time), id: "time", class: "h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500" %>
+                <%= check_box_tag "ojt_type[time]", "1", params.dig(:ojt_type, :time), id: "time", class: "h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500", "data-search-target": "checkBox" %>
                 <%= label_tag "time", "Time", class: "ml-3 w-full rounded text-left text-sm font-medium text-seafoam-900" %>
               </div>
             </li>
@@ -59,7 +59,7 @@
             <%= label_tag :state_id, "State", class: "mb-2 hidden font-medium text-gray-900" %>
             <div class="my-2 mr-2 flex w-full">
               <span class="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-seafoam-200 px-2 py-2.5 font-bold text-seafoam-900"> State </span>
-              <%= select_tag :state_id, options_from_collection_for_select(State.all, :id, :name, params[:state_id]), class: "block w-full min-w-0 rounded-none rounded-r border border-gray-300 bg-white px-2 py-2.5 text-gray-900 focus:border-primary-200 focus:ring-primary-200", include_blank: true %>
+              <%= select_tag :state_id, options_from_collection_for_select(State.all, :id, :name, params[:state_id]), class: "block w-full min-w-0 rounded-none rounded-r border border-gray-300 bg-white px-2 py-2.5 text-gray-900 focus:border-primary-200 focus:ring-primary-200", include_blank: true, "data-search-target": "textField" %>
             </div>
           </div>
 
@@ -82,15 +82,15 @@
                 <ul class="space-y-1 p-2 text-sm text-gray-700" aria-labelledby="dropdownNationalButton">
                   <li>
                     <div class="flex items-center rounded p-2">
-                      <%= check_box_tag "national_standard_type[guideline_standard]", "1", params.dig(:national_standard_type, :guideline_standard), id: "guideline_standards", class: "h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500" %>
+                      <%= check_box_tag "national_standard_type[guideline_standard]", "1", params.dig(:national_standard_type, :guideline_standard), id: "guideline_standards", class: "h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500", "data-search-target": "checkBox" %>
                       <%= label_tag "guideline_standards", "National Guideline Standards", class: "ml-3 w-full rounded text-left text-sm font-medium text-seafoam-900" %>
                     </div>
                     <div class="flex items-center rounded p-2">
-                      <%= check_box_tag "national_standard_type[program_standard]", "1", params.dig(:national_standard_type, :program_standard), id: "program_standards", class: "h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500" %>
+                      <%= check_box_tag "national_standard_type[program_standard]", "1", params.dig(:national_standard_type, :program_standard), id: "program_standards", class: "h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500", "data-search-target": "checkBox" %>
                       <%= label_tag "program_standards", "National Program Standards", class: "ml-3 w-full rounded text-left text-sm font-medium text-seafoam-900" %>
                     </div>
                     <div class="flex items-center rounded p-2">
-                      <%= check_box_tag "national_standard_type[occupational_framework]", "1", params.dig(:national_standard_type, :occupational_framework), id: "occupational_frameworks", class: "h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500" %>
+                      <%= check_box_tag "national_standard_type[occupational_framework]", "1", params.dig(:national_standard_type, :occupational_framework), id: "occupational_frameworks", class: "h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500", "data-search-target": "checkBox" %>
                       <%= label_tag "occupational_frameworks", "National Occupational Frameworks", class: "ml-3 w-full rounded text-left text-sm font-medium text-seafoam-900" %>
                     </div>
                   </li>

@@ -150,8 +150,10 @@ RSpec.describe "occupation_standards/index" do
   end
 
   it "can clear form", :js do
-    mechanic = create(:occupation_standard, :hybrid, :with_data_import, title: "Mechanic", onet_code: "12.3456")
-    ma = create(:occupation_standard, :program_standard, :time, :with_data_import, title: "Medical Assistant", onet_code: "12.34567")
+    wa = create(:state, name: "Washington")
+    ra = create(:registration_agency, state: wa)
+    mechanic = create(:occupation_standard, :hybrid, :with_data_import, title: "Mechanic", onet_code: "12.3456", registration_agency: ra)
+    ma = create(:occupation_standard, :program_standard, :time, :with_data_import, title: "Medical Assistant", onet_code: "12.34567", registration_agency: ra)
     create(:occupation_standard, :competency, :with_data_import, title: "Pipe Fitter", onet_code: "12.34567")
 
     visit occupation_standards_path
@@ -161,6 +163,7 @@ RSpec.describe "occupation_standards/index" do
     find("#dropdownPrgrmTypeButton").click
     check "Hybrid"
     check "Time"
+    select "Washington"
     find("#dropdownNationalButton").click
     check "National Program Standards"
 
