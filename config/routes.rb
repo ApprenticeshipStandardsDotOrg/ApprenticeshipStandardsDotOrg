@@ -35,7 +35,6 @@ Rails.application.routes.draw do
         resources :data_imports, except: [:index]
       end
       resources :occupation_standards, only: [:index, :show, :edit, :update]
-      resources :occupation_standard_exports, only: [:show]
     end
   end
 

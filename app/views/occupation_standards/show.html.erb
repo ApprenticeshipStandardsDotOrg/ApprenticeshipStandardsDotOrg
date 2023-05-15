@@ -114,19 +114,19 @@
                         <% else %>
                           <p class="text-white">No documents available at the moment</p>
                         <% end %>
-                        <!--
-                        <button class="flex w-full items-center space-x-4 rounded bg-slate-700 p-2 text-left text-white hover:bg-slate-600">
+                        <%= link_to occupation_standard_path(@occupation_standard, format: :docx) do %>
+                          <button class="flex w-full items-center space-x-4 rounded bg-slate-700 p-2 text-left text-white hover:bg-slate-600">
                             <div>
                                 <svg aria-label="download icon" xmlns="http://www.w3.org/2000/svg" width="49" height="48" fill="none">
                                     <path stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M42.5 30v8a4 4 0 0 1-4 4h-28a4 4 0 0 1-4-4v-8M14.5 20l10 10 10-10M24.5 30V6" />
                                 </svg>
                             </div>
                             <div>
-                                <div class="font-bold">View Redacted Document</div>
+                                <div class="font-bold">Download Working Copy</div>
                                 <div class="text-sm text-slate-300">Personal and employer info redacted</div>
                             </div>
-                            </button>
-                          -->
+                          </button>
+                        <% end %>
                         <hr class="border-slate-300">
                         <div class="text-sm text-slate-300">Individual state requirements may vary. Please contact your local apprenticeship office to ensure this version is suitable to your state’s requirements.</div>
                     </div>
