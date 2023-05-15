@@ -32,12 +32,14 @@ module Administrate
       super
         .split(" OR ")
         .push("LOWER(active_storage_blobs.filename) LIKE ?")
+        .push("status = ?")
         .join(" OR ")
     end
 
     def query_values
       array = super
-      array + [array.first]
+      term = array.first
+      array + [term, SourceFile.statuses[term.parameterize(separator: "_")]]
     end
 
     def search_results(resources)

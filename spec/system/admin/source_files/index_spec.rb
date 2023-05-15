@@ -56,6 +56,38 @@ RSpec.describe "admin/source_files/index", :admin do
       expect(page).to_not have_link("Destroy")
     end
 
+    it "can search on status" do
+      create(:source_file, :pending)
+      create(:source_file, :completed)
+      create(:source_file, :needs_support)
+      admin = create(:admin)
+
+      login_as admin
+      visit admin_source_files_path
+
+      expect(page).to have_text "Pending"
+      expect(page).to have_text "Completed"
+      expect(page).to have_text "Needs Support"
+
+      visit admin_source_files_path(search: "needs support")
+
+      expect(page).to_not have_text "Pending"
+      expect(page).to_not have_text "Completed"
+      expect(page).to have_text "Needs Support"
+
+      visit admin_source_files_path(search: "Needs Support")
+
+      expect(page).to_not have_text "Pending"
+      expect(page).to_not have_text "Completed"
+      expect(page).to have_text "Needs Support"
+
+      visit admin_source_files_path(search: "needs_support")
+
+      expect(page).to_not have_text "Pending"
+      expect(page).to_not have_text "Completed"
+      expect(page).to have_text "Needs Support"
+    end
+
     it "can claim a source file" do
       converter = create(:user, :converter, name: "Mickey Mouse")
       create(:source_file)
