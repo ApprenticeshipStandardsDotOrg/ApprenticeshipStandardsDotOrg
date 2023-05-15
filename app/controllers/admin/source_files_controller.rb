@@ -37,13 +37,17 @@ module Administrate
     end
 
     def query_values
-      array = super
-      term = array.first
-      array + [term, SourceFile.statuses[term.parameterize(separator: "_")]]
+      values = super
+      term = values.first
+      values + [term, db_value_for_status(term)]
     end
 
     def search_results(resources)
       super.left_joins(active_storage_attachment: :blob)
+    end
+
+    def db_value_for_status(term)
+      SourceFile.statuses[term.parameterize(separator: "_")]
     end
   end
 end
