@@ -175,6 +175,7 @@ RSpec.describe "occupation_standards/index" do
     expect(page).to have_checked_field("Hybrid")
     expect(page).to have_checked_field("Time")
     expect(page).to_not have_checked_field("Competency")
+    expect(page).to have_select("state_id", selected: "Washington")
     find("#dropdownNationalButton").click
     expect(page).to have_checked_field("National Program Standards")
     expect(page).to_not have_checked_field("National Occupational Frameworks")
@@ -185,6 +186,17 @@ RSpec.describe "occupation_standards/index" do
     expect(page).to_not have_link "Pipe Fitter"
 
     click_on "Clear All"
+    expect(page).to have_field("q", with: "")
+    find("#dropdownPrgrmTypeButton").click
+    expect(page).to_not have_checked_field("Hybrid")
+    expect(page).to_not have_checked_field("Time")
+    expect(page).to_not have_checked_field("Competency")
+    expect(page).to have_select("state_id", selected: "")
+    find("#dropdownNationalButton").click
+    expect(page).to_not have_checked_field("National Program Standards")
+    expect(page).to_not have_checked_field("National Occupational Frameworks")
+    expect(page).to_not have_checked_field("National Guideline Standards")
+
     find("#search").click
 
     expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
