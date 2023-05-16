@@ -9,6 +9,7 @@ export default class extends Controller {
   }
 
   updateCount() {
+    console.log('in update count')
     const length = this.inputTargets.filter(checkbox => checkbox.checked).length
     this.setCountValue(length)
   }
