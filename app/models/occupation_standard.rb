@@ -2,11 +2,13 @@ class OccupationStandard < ApplicationRecord
   belongs_to :occupation, optional: true
   belongs_to :registration_agency, optional: true
   belongs_to :organization, optional: true
-  has_many :data_imports
 
+  has_many :data_imports
   has_many :related_instructions, -> { order(:sort_order) }, dependent: :destroy
   has_many :wage_steps, -> { order(:sort_order) }, dependent: :destroy
   has_many :work_processes, -> { order(:sort_order).includes(:competencies) }, dependent: :destroy
+
+  has_one_attached :redacted_document
 
   delegate :title, to: :organization, prefix: true, allow_nil: true
   delegate :title, to: :occupation, prefix: true, allow_nil: true
