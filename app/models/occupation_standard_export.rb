@@ -8,7 +8,8 @@ class OccupationStandardExport
   end
 
   def call
-    template = Sablon.template(File.expand_path(DOCX_TEMPLATE_PATH))
+    template_path = File.expand_path(DOCX_TEMPLATE_PATH)
+    template = Sablon.template(template_path)
     template.render_to_string(context_hash)
   end
 

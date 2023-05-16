@@ -26,7 +26,7 @@ RSpec.describe "OccupationStandard", type: :request do
   end
 
   describe "GET /show/:id.docx" do
-    it "returns http ok" do
+    it "returns a docx document" do
       occupation_standard = create(:occupation_standard, :with_data_import)
 
       get occupation_standard_path(occupation_standard), params: {format: "docx"}
