@@ -6,7 +6,7 @@ export default class extends Controller {
   static values = { count: Number }
 
   connect() {
-    this.setCountValue()
+    this.updateCount()
   }
 
   updateCount() {
