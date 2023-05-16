@@ -94,7 +94,7 @@ RSpec.describe "occupation_standards/index" do
 
   it "filters occupations based on onet_code search term and national_standard_type filter", :js do
     mechanic = create(:occupation_standard, :program_standard, :with_data_import, title: "Mechanic", onet_code: "12.3456")
-    ma = create(:occupation_standard, :occupational_framework, :with_data_import, title: "Medical Assistant", onet_code: "12.34567")
+    medical_assistant = create(:occupation_standard, :occupational_framework, :with_data_import, title: "Medical Assistant", onet_code: "12.34567")
     create(:occupation_standard, :guideline_standard, :with_data_import, title: "Pipe Fitter", onet_code: "12.34567")
     create(:occupation_standard, :with_data_import, title: "HR", onet_code: "12.3456")
 
@@ -116,14 +116,14 @@ RSpec.describe "occupation_standards/index" do
     expect(page).to_not have_checked_field("National Guideline Standards")
 
     expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
-    expect(page).to have_link "Medical Assistant", href: occupation_standard_path(ma)
+    expect(page).to have_link "Medical Assistant", href: occupation_standard_path(medical_assistant)
     expect(page).to_not have_link "Pipe Fitter"
     expect(page).to_not have_link "HR"
   end
 
   it "filters occupations based on onet_code search term and ojt_type filter", :js do
     mechanic = create(:occupation_standard, :hybrid, :with_data_import, title: "Mechanic", onet_code: "12.3456")
-    ma = create(:occupation_standard, :time, :with_data_import, title: "Medical Assistant", onet_code: "12.34567")
+    medical_assistant = create(:occupation_standard, :time, :with_data_import, title: "Medical Assistant", onet_code: "12.34567")
     create(:occupation_standard, :competency, :with_data_import, title: "Pipe Fitter", onet_code: "12.34567")
 
     visit occupation_standards_path
@@ -144,7 +144,7 @@ RSpec.describe "occupation_standards/index" do
     expect(page).to_not have_checked_field("Competency")
 
     expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
-    expect(page).to have_link "Medical Assistant", href: occupation_standard_path(ma)
+    expect(page).to have_link "Medical Assistant", href: occupation_standard_path(medical_assistant)
     expect(page).to_not have_link "Pipe Fitter"
     expect(page).to_not have_link "HR"
   end
@@ -153,7 +153,7 @@ RSpec.describe "occupation_standards/index" do
     wa = create(:state, name: "Washington")
     ra = create(:registration_agency, state: wa)
     mechanic = create(:occupation_standard, :hybrid, :with_data_import, title: "Mechanic", onet_code: "12.3456", registration_agency: ra)
-    ma = create(:occupation_standard, :program_standard, :time, :with_data_import, title: "Medical Assistant", onet_code: "12.34567", registration_agency: ra)
+    medical_assistant = create(:occupation_standard, :program_standard, :time, :with_data_import, title: "Medical Assistant", onet_code: "12.34567", registration_agency: ra)
     create(:occupation_standard, :competency, :with_data_import, title: "Pipe Fitter", onet_code: "12.34567")
 
     visit occupation_standards_path
@@ -182,7 +182,7 @@ RSpec.describe "occupation_standards/index" do
     expect(page).to_not have_checked_field("National Guideline Standards")
 
     expect(page).to_not have_link "Mechanic", href: occupation_standard_path(mechanic)
-    expect(page).to have_link "Medical Assistant", href: occupation_standard_path(ma)
+    expect(page).to have_link "Medical Assistant", href: occupation_standard_path(medical_assistant)
     expect(page).to_not have_link "Pipe Fitter"
 
     click_on "Clear All"
@@ -200,7 +200,7 @@ RSpec.describe "occupation_standards/index" do
     find("#search").click
 
     expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
-    expect(page).to have_link "Medical Assistant", href: occupation_standard_path(ma)
+    expect(page).to have_link "Medical Assistant", href: occupation_standard_path(medical_assistant)
     expect(page).to have_link "Pipe Fitter"
   end
 
