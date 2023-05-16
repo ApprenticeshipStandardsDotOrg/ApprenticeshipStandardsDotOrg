@@ -8,7 +8,7 @@ class SourceFileDashboard < Administrate::BaseDashboard
     metadata: Field::JSONB,
     notes: Field::String.with_options(searchable: false),
     organization: Field::String.with_options(searchable: false),
-    status: EnumField,
+    status: EnumField.with_options(searchable: false),
     url: Field::Url.with_options(searchable: false),
     assignee: AssigneeField,
     created_at: Field::DateTime,

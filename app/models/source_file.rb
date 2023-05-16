@@ -3,7 +3,7 @@ class SourceFile < ApplicationRecord
   belongs_to :assignee, class_name: "User", optional: true
   has_many :data_imports, -> { includes(:occupation_standard, file_attachment: :blob) }
 
-  enum :status, [:pending, :completed]
+  enum :status, [:pending, :completed, :needs_support]
 
   def filename
     active_storage_attachment.blob.filename
