@@ -104,7 +104,11 @@ class OccupationStandard < ApplicationRecord
   end
 
   def similar_programs
-    OccupationStandard.where("title ILIKE ?", "%#{self.class.sanitize_sql_like(title).split.join("%")}%") - [self]
+    OccupationStandard.where(
+      "title ILIKE ?", "%#{self.class.sanitize_sql_like(title).split.join("%")}%"
+    ).where.not(
+      id: id
+    ).limit(5)
   end
 
   private

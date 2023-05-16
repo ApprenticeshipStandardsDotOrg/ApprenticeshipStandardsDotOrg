@@ -225,23 +225,23 @@
         </div><!-- end purple border -->
 
         <% if @occupation_standard.similar_programs.any? %>
-            <div class="similar-programs">
-                <h3 class="font-bold text-2xl text-primary-600 pt-4">Similar Programs</h3>
-                <div class="py-4 flex flex-col md:flex-row md:justify-between">
-                    <% @occupation_standard.similar_programs.each do |similar_program| %>
-                        <%= link_to similar_program, class: "block w-full h-full rounded py-4 px-2 mr-4 mb-4 border-2 border-seafoam-200 bg-white" do %>
-                            <div class="text-primary-600 font-bold">
-                                <span><%= similar_program.title %></span>
-                            </div>
-                            <div class="text-goldenrod-800">
-                                <span class="text-sky-800"><%= ojt_type_display(similar_program) %></span>
-                                <span>&#x2022;</span>
-                                <span><%= similar_program.onet_code %></span>
-                            </div>
-                        <% end %>
-                    <% end %>
-                </div>
+          <div class="similar-programs">
+            <h3 class="font-bold text-2xl text-primary-600 pt-4">Similar Programs</h3>
+            <div class="py-4 grid-cols-5">
+              <% @occupation_standard.similar_programs.each do |similar_program| %>
+                <%= link_to similar_program, class: "inline-block rounded py-4 px-2 mr-4 mb-4 border-2 border-seafoam-200 bg-white" do %>
+                  <div class="text-primary-600 font-bold">
+                    <span><%= similar_program.title %></span>
+                  </div>
+                  <div class="text-goldenrod-800">
+                    <span class="text-sky-800"><%= ojt_type_display(similar_program) %></span>
+                    <span>&#x2022;</span>
+                    <span><%= similar_program.onet_code %></span>
+                  </div>
+                <% end %>
+              <% end %>
             </div>
+          </div>
         <% end %>
 
     </div><!-- end green border border -->

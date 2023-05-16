@@ -307,13 +307,20 @@ RSpec.describe OccupationStandard, type: :model do
   end
 
   describe "#similar_programs" do
-    it "returns all occupation that match the title regardless of capitalization" do
+    it "returns occupations that match the title regardless of capitalization" do
       occupation_standard = create(:occupation_standard, title: "Human Resource Specialist")
       similar_program1 = create(:occupation_standard, title: "HUMAN RESOURCE SPECIALIST")
       similar_program2 = create(:occupation_standard, title: "human resource specialist")
       create(:occupation_standard, title: "Mechanic")
 
       expect(occupation_standard.similar_programs.pluck(:id)).to match_array [similar_program1.id, similar_program2.id]
+    end
+
+    it "returns up to 5 occupations" do
+      occupation_standard = create(:occupation_standard, title: "Human Resource Specialist")
+      create_list(:occupation_standard, 10, title: "Human Resource Specialist")
+
+      expect(occupation_standard.similar_programs.count).to eq 5
     end
 
     it "excludes itself" do
