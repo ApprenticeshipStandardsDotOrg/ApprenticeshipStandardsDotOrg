@@ -227,9 +227,9 @@
         <% if @occupation_standard.similar_programs.any? %>
           <div class="similar-programs">
             <h3 class="font-bold text-2xl text-primary-600 pt-4">Similar Programs</h3>
-            <div class="py-4 grid-cols-5">
+            <div class="py-4 flex flex-col lg:flex-row">
               <% @occupation_standard.similar_programs.each do |similar_program| %>
-                <%= link_to similar_program, class: "inline-block rounded py-4 px-2 mr-4 mb-4 border-2 border-seafoam-200 bg-white" do %>
+                <%= link_to similar_program, class: "lg:w-1/5 rounded py-4 px-2 mr-4 mb-4 border-2 border-seafoam-200 bg-white" do %>
                   <div class="text-primary-600 font-bold">
                     <span><%= similar_program.title %></span>
                   </div>
