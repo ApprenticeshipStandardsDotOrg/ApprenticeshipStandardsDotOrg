@@ -127,10 +127,10 @@ nav li.active a {
   font-weight: bold;
 }
 
-.check-box-filter-count {
+.checkbox-filter-count {
   visibility: hidden;
 }
 
-.check-box-filter-count.check-box-filter-count--displayable {
+.checkbox-filter-count.checkbox-filter-count--displayable {
   visibility: visible;
 }
