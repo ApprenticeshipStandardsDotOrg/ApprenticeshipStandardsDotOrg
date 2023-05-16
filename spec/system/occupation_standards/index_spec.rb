@@ -94,7 +94,7 @@ RSpec.describe "occupation_standards/index" do
 
   it "filters occupations based on onet_code search term and national_standard_type filter", :js do
     mechanic = create(:occupation_standard, :program_standard, :with_data_import, title: "Mechanic", onet_code: "12.3456")
-    ma = create(:occupation_standard, :occupational_framework, :with_data_import, title: "Medical Assistant", onet_code: "12.34567")
+    medical_assistant = create(:occupation_standard, :occupational_framework, :with_data_import, title: "Medical Assistant", onet_code: "12.34567")
     create(:occupation_standard, :guideline_standard, :with_data_import, title: "Pipe Fitter", onet_code: "12.34567")
     create(:occupation_standard, :with_data_import, title: "HR", onet_code: "12.3456")
 
@@ -116,14 +116,14 @@ RSpec.describe "occupation_standards/index" do
     expect(page).to_not have_checked_field("National Guideline Standards")
 
     expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
-    expect(page).to have_link "Medical Assistant", href: occupation_standard_path(ma)
+    expect(page).to have_link "Medical Assistant", href: occupation_standard_path(medical_assistant)
     expect(page).to_not have_link "Pipe Fitter"
     expect(page).to_not have_link "HR"
   end
 
   it "filters occupations based on onet_code search term and ojt_type filter", :js do
     mechanic = create(:occupation_standard, :hybrid, :with_data_import, title: "Mechanic", onet_code: "12.3456")
-    ma = create(:occupation_standard, :time, :with_data_import, title: "Medical Assistant", onet_code: "12.34567")
+    medical_assistant = create(:occupation_standard, :time, :with_data_import, title: "Medical Assistant", onet_code: "12.34567")
     create(:occupation_standard, :competency, :with_data_import, title: "Pipe Fitter", onet_code: "12.34567")
 
     visit occupation_standards_path
@@ -144,9 +144,64 @@ RSpec.describe "occupation_standards/index" do
     expect(page).to_not have_checked_field("Competency")
 
     expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
-    expect(page).to have_link "Medical Assistant", href: occupation_standard_path(ma)
+    expect(page).to have_link "Medical Assistant", href: occupation_standard_path(medical_assistant)
     expect(page).to_not have_link "Pipe Fitter"
     expect(page).to_not have_link "HR"
+  end
+
+  it "can clear form", :js do
+    wa = create(:state, name: "Washington")
+    ra = create(:registration_agency, state: wa)
+    mechanic = create(:occupation_standard, :hybrid, :with_data_import, title: "Mechanic", onet_code: "12.3456", registration_agency: ra)
+    medical_assistant = create(:occupation_standard, :program_standard, :time, :with_data_import, title: "Medical Assistant", onet_code: "12.34567", registration_agency: ra)
+    create(:occupation_standard, :competency, :with_data_import, title: "Pipe Fitter", onet_code: "12.34567")
+
+    visit occupation_standards_path
+
+    fill_in "q", with: "12.3456"
+    click_on "Expand Filters"
+    find("#dropdownPrgrmTypeButton").click
+    check "Hybrid"
+    check "Time"
+    select "Washington"
+    find("#dropdownNationalButton").click
+    check "National Program Standards"
+
+    find("#search").click
+
+    expect(page).to have_text "Showing Results for 12.3456"
+    expect(page).to have_field("q", with: "12.3456")
+    find("#dropdownPrgrmTypeButton").click
+    expect(page).to have_checked_field("Hybrid")
+    expect(page).to have_checked_field("Time")
+    expect(page).to_not have_checked_field("Competency")
+    expect(page).to have_select("state_id", selected: "Washington")
+    find("#dropdownNationalButton").click
+    expect(page).to have_checked_field("National Program Standards")
+    expect(page).to_not have_checked_field("National Occupational Frameworks")
+    expect(page).to_not have_checked_field("National Guideline Standards")
+
+    expect(page).to_not have_link "Mechanic", href: occupation_standard_path(mechanic)
+    expect(page).to have_link "Medical Assistant", href: occupation_standard_path(medical_assistant)
+    expect(page).to_not have_link "Pipe Fitter"
+
+    click_on "Clear All"
+    expect(page).to have_field("q", with: "")
+    find("#dropdownPrgrmTypeButton").click
+    expect(page).to_not have_checked_field("Hybrid")
+    expect(page).to_not have_checked_field("Time")
+    expect(page).to_not have_checked_field("Competency")
+    expect(page).to have_select("state_id", selected: "")
+    find("#dropdownNationalButton").click
+    expect(page).to_not have_checked_field("National Program Standards")
+    expect(page).to_not have_checked_field("National Occupational Frameworks")
+    expect(page).to_not have_checked_field("National Guideline Standards")
+
+    find("#search").click
+
+    expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
+    expect(page).to have_link "Medical Assistant", href: occupation_standard_path(medical_assistant)
+    expect(page).to have_link "Pipe Fitter"
   end
 
   it "shows registration date if available" do
