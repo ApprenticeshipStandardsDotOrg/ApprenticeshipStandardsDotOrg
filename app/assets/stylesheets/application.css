@@ -18,44 +18,42 @@
  @tailwind components;
  @tailwind utilities;
 
-
-
  .occupation-tabs *:focus, .occupation-tabs input:focus + label {
-    outline: none;
-    box-shadow: 0px 1px 0px 0px #007F82;
-  }
+   outline: none;
+   box-shadow: 0px 1px 0px 0px #007F82;
+ }
 
-  .occ-hero {
-    background-image: url('header-background.png');
-  }
+ .occ-hero {
+   background-image: url('header-background.png');
+ }
 
-  .occupation-tabs .radiotab {
-    position: absolute;
-    opacity: 0;
-  }
+ .occupation-tabs .radiotab {
+   position: absolute;
+   opacity: 0;
+ }
 
-  .occupation-tabs .label {
-    cursor: pointer;
-    transition: background .3s, color .3s;
-    /* margin-right: 20px; */
-  }
+ .occupation-tabs .label {
+   cursor: pointer;
+   transition: background .3s, color .3s;
+   /* margin-right: 20px; */
+ }
 
-  .occupation-tabs .label:active {
-    background: #f3f3f3;
-  }
+ .occupation-tabs .label:active {
+   background: #f3f3f3;
+ }
 
-  .occupation-tabs .radiotab:checked + .label {
-    border-bottom: solid 3px #007F82;
-    font-weight: bold;
-  }
+ .occupation-tabs .radiotab:checked + .label {
+   border-bottom: solid 3px #007F82;
+   font-weight: bold;
+ }
 
-  .occupation-tabs .radiotab:checked + .label + .panel {
-    display: block;
-  }
+ .occupation-tabs .radiotab:checked + .label + .panel {
+   display: block;
+ }
 
-  .accordion details summary::-webkit-details-marker {
-    display: none;
-}
+ .accordion details summary::-webkit-details-marker {
+   display: none;
+ }
 
 .accordion details[open] summary {
     background: #415262;
