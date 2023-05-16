@@ -316,12 +316,12 @@ RSpec.describe OccupationStandard, type: :model do
       expect(occupation_standard.similar_programs.pluck(:id)).to match_array [similar_program1.id, similar_program2.id]
     end
 
-    it "returns up to MAX_SIMILAR_PROGRAM_TO_DISPLAY occupations" do
-      stub_const("OccupationStandard::MAX_SIMILAR_PROGRAM_TO_DISPLAY", 1)
+    it "returns up to MAX_SIMILAR_PROGRAMS_TO_DISPLAY occupations" do
+      stub_const("OccupationStandard::MAX_SIMILAR_PROGRAMS_TO_DISPLAY", 1)
       occupation_standard = create(:occupation_standard, title: "Human Resource Specialist")
       create_list(:occupation_standard, 2, title: "Human Resource Specialist")
 
-      expect(occupation_standard.similar_programs.count).to eq OccupationStandard::MAX_SIMILAR_PROGRAM_TO_DISPLAY
+      expect(occupation_standard.similar_programs.count).to eq OccupationStandard::MAX_SIMILAR_PROGRAMS_TO_DISPLAY
     end
 
     it "excludes itself" do
