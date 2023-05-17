@@ -27,7 +27,8 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
     updated_at: Field::DateTime,
     url: Field::Url,
     wage_steps: Field::HasMany,
-    work_processes: Field::HasMany
+    work_processes: Field::HasMany,
+    redacted_document: Field::ActiveStorage
   }.freeze
 
   COLLECTION_ATTRIBUTES = %i[
@@ -62,6 +63,7 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
     rsi_hours_min
 
     data_imports
+    redacted_document
     work_processes
     related_instructions
     wage_steps
@@ -87,6 +89,7 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
     registration_agency
     rsi_hours_max
     rsi_hours_min
+    redacted_document
   ].freeze
 
   COLLECTION_FILTERS = {}.freeze

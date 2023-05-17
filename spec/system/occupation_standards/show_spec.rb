@@ -42,4 +42,35 @@ RSpec.describe "occupation_standards/show" do
 
     expect(page).to have_text "Updated 1989"
   end
+
+  it "shows only redacted document if both public and redacted are available" do
+    occupation_standard = create(:occupation_standard, :with_data_import, :with_redacted_document)
+    allow_any_instance_of(OccupationStandard).to receive(:public_document?).and_return(true)
+
+    visit occupation_standard_path(occupation_standard)
+
+    expect(page).to have_text "View Redacted Document"
+    expect(page).to have_no_text "View Original Document"
+  end
+
+  it "shows public document if standards import comes from a public source" do
+    occupation_standard = create(:occupation_standard, :with_data_import)
+    allow_any_instance_of(OccupationStandard).to receive(:public_document?).and_return(true)
+
+    visit occupation_standard_path(occupation_standard)
+
+    expect(page).to have_text "View Original Document"
+    expect(page).to have_no_text "View Redacted Document"
+  end
+
+  it "shows message if neither public nor redacted document are available" do
+    occupation_standard = create(:occupation_standard, :with_data_import)
+    allow_any_instance_of(OccupationStandard).to receive(:public_document?).and_return(false)
+
+    visit occupation_standard_path(occupation_standard)
+
+    expect(page).to have_text "No documents available at this time"
+    expect(page).to have_no_text "View Original Document"
+    expect(page).to have_no_text "View Redacted Document"
+  end
 end

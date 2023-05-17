@@ -17,5 +17,9 @@ FactoryBot.define do
         create(:data_import, occupation_standard: occupation_standard)
       end
     end
+
+    trait :with_redacted_document do
+      redacted_document { Rack::Test::UploadedFile.new(Rails.root.join("spec", "fixtures", "files", "pixel1x1.pdf"), "application/pdf") }
+    end
   end
 end
