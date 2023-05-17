@@ -1,4 +1,6 @@
 class Industry < ApplicationRecord
+  CURRENT_VERSION = "2018"
+
   has_many :occupation_standards
 
   validates :name, :version, presence: true

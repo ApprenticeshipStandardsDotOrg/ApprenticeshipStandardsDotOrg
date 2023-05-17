@@ -6,6 +6,7 @@ RSpec.describe ProcessDataImportJob, type: :job do
       ca = create(:state, abbreviation: "CA")
       create(:registration_agency, state: ca, agency_type: :oa)
       data_import = create(:data_import, :pending)
+      create(:industry, prefix: "13")
 
       related_inst_mock = instance_double("ImportOccupationStandardRelatedInstruction")
       wage_schedule_mock = instance_double("ImportOccupationStandardWageSchedule")
@@ -43,6 +44,7 @@ RSpec.describe ProcessDataImportJob, type: :job do
       create(:wage_step, occupation_standard: occupation_standard, sort_order: 99)
       work_process = create(:work_process, occupation_standard: occupation_standard, sort_order: 99)
       create(:competency, work_process: work_process)
+      create(:industry, prefix: "13")
 
       described_class.new.perform(data_import: data_import)
 
@@ -59,6 +61,7 @@ RSpec.describe ProcessDataImportJob, type: :job do
       ca = create(:state, abbreviation: "CA")
       create(:registration_agency, state: ca, agency_type: :oa)
       data_import = create(:data_import, :pending)
+      create(:industry, prefix: "13")
 
       related_inst_mock = instance_double("ImportOccupationStandardRelatedInstruction")
       wage_schedule_mock = instance_double("ImportOccupationStandardWageSchedule")

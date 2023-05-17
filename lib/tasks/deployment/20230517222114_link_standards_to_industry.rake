@@ -6,7 +6,7 @@ namespace :after_party do
     OccupationStandard.where("onet_code IS NOT NULL AND onet_code != ''").find_each do |standard|
       if (matches = standard.onet_code.match(/\A(?<prefix>\d{2})/))
         Rails.error.handle(context: {standard_id: standard.id}) do
-          industry = Industry.where(prefix: matches[:prefix], version: "2018").sole
+          industry = Industry.where(prefix: matches[:prefix], version: Industry::CURRENT_VERSION).sole
           standard.update_columns(industry_id: industry.id)
         end
       else
