@@ -6,7 +6,6 @@ export default class extends Controller {
   clearForm() {
     this.textFieldTargets.forEach(input => input.value = "")
     this.checkboxTargets.forEach(input => input.checked = false)
-    //this.dispatch("clearForm")
 
     const event = new CustomEvent("clearForm");
     window.dispatchEvent(event);
