@@ -21,6 +21,8 @@ class OccupationStandard < ApplicationRecord
   validates :title, :ojt_type, presence: true
   validates :registration_agency, presence: true, unless: :national?
 
+  MAX_SIMILAR_PROGRAMS_TO_DISPLAY = 5
+
   scope :by_title, ->(title) do
     if title.present?
       where("title ILIKE ?", "%#{sanitize_sql_like(title).split.join("%")}%")
@@ -106,7 +108,15 @@ class OccupationStandard < ApplicationRecord
   end
 
   def similar_programs
-    OccupationStandard.where("title ILIKE ?", "%#{self.class.sanitize_sql_like(title).split.join("%")}%") - [self]
+    OccupationStandard.where(
+      "title ILIKE ?", "%#{self.class.sanitize_sql_like(title).split.join("%")}%"
+    ).where.not(
+      id: id
+    ).limit(MAX_SIMILAR_PROGRAMS_TO_DISPLAY)
+  end
+
+  def ojt_type_display
+    ojt_type&.titleize
   end
 
   private

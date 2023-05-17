@@ -307,7 +307,7 @@ RSpec.describe OccupationStandard, type: :model do
   end
 
   describe "#similar_programs" do
-    it "returns all occupation that match the title regardless of capitalization" do
+    it "returns occupations that match the title regardless of capitalization" do
       occupation_standard = create(:occupation_standard, title: "Human Resource Specialist")
       similar_program1 = create(:occupation_standard, title: "HUMAN RESOURCE SPECIALIST")
       similar_program2 = create(:occupation_standard, title: "human resource specialist")
@@ -316,10 +316,32 @@ RSpec.describe OccupationStandard, type: :model do
       expect(occupation_standard.similar_programs.pluck(:id)).to match_array [similar_program1.id, similar_program2.id]
     end
 
+    it "returns up to MAX_SIMILAR_PROGRAMS_TO_DISPLAY occupations" do
+      stub_const("OccupationStandard::MAX_SIMILAR_PROGRAMS_TO_DISPLAY", 1)
+      occupation_standard = create(:occupation_standard, title: "Human Resource Specialist")
+      create_list(:occupation_standard, 2, title: "Human Resource Specialist")
+
+      expect(occupation_standard.similar_programs.count).to eq OccupationStandard::MAX_SIMILAR_PROGRAMS_TO_DISPLAY
+    end
+
     it "excludes itself" do
       occupation_standard = create(:occupation_standard, title: "Human Resource Specialist")
 
       expect(occupation_standard.similar_programs).to be_empty
+    end
+  end
+
+  describe "#ojt_type_display" do
+    it "returns the ojt_type field titleized" do
+      occupation_standard = build(:occupation_standard, ojt_type: "competency")
+
+      expect(occupation_standard.ojt_type_display).to eq "Competency"
+    end
+
+    it "returns nil when ojt_type is nil" do
+      occupation_standard = build(:occupation_standard, ojt_type: nil)
+
+      expect(occupation_standard.ojt_type_display).to eq nil
     end
   end
 end

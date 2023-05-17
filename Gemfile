@@ -63,6 +63,8 @@ gem "rswag-api"
 gem "rswag-ui"
 gem "rack-cors"
 
+gem "sablon" # Word document templating tool
+
 # Use Sass to process CSS
 # gem "sassc-rails"
 
