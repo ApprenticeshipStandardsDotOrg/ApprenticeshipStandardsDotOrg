@@ -107,6 +107,10 @@ class OccupationStandard < ApplicationRecord
     OccupationStandard.where("title ILIKE ?", "%#{self.class.sanitize_sql_like(title).split.join("%")}%") - [self]
   end
 
+  def ojt_type_display
+    ojt_type&.titleize
+  end
+
   private
 
   def national?

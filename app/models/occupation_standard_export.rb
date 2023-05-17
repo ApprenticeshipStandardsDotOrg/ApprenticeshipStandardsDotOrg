@@ -23,7 +23,8 @@ class OccupationStandardExport
   def context_hash
     {
       occupation_standard: occupation_standard,
-      ojt_type: occupation_standard.ojt_type&.titleize
+      ojt_type: occupation_standard.ojt_type_display,
+      work_processes: occupation_standard.work_processes
     }
   end
 end
