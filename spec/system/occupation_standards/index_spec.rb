@@ -163,9 +163,15 @@ RSpec.describe "occupation_standards/index" do
     find("#dropdownPrgrmTypeButton").click
     check "Hybrid"
     check "Time"
+    within("#dropdownPrgrmTypeButton") do
+      expect(page).to have_text "2"
+    end
     select "Washington"
     find("#dropdownNationalButton").click
     check "National Program Standards"
+    within("#dropdownNationalButton") do
+      expect(page).to have_text "1"
+    end
 
     find("#search").click
 
@@ -192,10 +198,18 @@ RSpec.describe "occupation_standards/index" do
     expect(page).to_not have_checked_field("Time")
     expect(page).to_not have_checked_field("Competency")
     expect(page).to have_select("state_id", selected: "")
+    within("#dropdownPrgrmTypeButton") do
+      expect(page).to_not have_text "2"
+      expect(page).to_not have_text "0"
+    end
     find("#dropdownNationalButton").click
     expect(page).to_not have_checked_field("National Program Standards")
     expect(page).to_not have_checked_field("National Occupational Frameworks")
     expect(page).to_not have_checked_field("National Guideline Standards")
+    within("#dropdownNationalButton") do
+      expect(page).to_not have_text "1"
+      expect(page).to_not have_text "0"
+    end
 
     find("#search").click
 
