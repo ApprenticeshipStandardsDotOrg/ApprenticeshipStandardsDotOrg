@@ -339,6 +339,9 @@ GEM
     ruby-vips (2.1.4)
       ffi (~> 1.12)
     rubyzip (2.3.2)
+    sablon (0.3.2)
+      nokogiri (>= 1.8.5)
+      rubyzip (>= 1.1.1)
     sassc (2.4.0)
       ffi (~> 1.9)
     sassc-rails (2.1.2)
@@ -454,6 +457,7 @@ DEPENDENCIES
   rswag-api
   rswag-specs
   rswag-ui
+  sablon
   selenium-webdriver
   sidekiq (~> 7)
   sprockets-rails

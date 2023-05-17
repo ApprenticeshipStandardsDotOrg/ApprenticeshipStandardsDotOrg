@@ -12,6 +12,15 @@ class OccupationStandardsController < ApplicationController
 
   def show
     @occupation_standard = OccupationStandard.find(params[:id])
+
+    respond_to do |format|
+      format.html {}
+      format.docx do
+        export = OccupationStandardExport.new(@occupation_standard)
+
+        send_data(export.call, filename: export.filename)
+      end
+    end
   end
 
   private

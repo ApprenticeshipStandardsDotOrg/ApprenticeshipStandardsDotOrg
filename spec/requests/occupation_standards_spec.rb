@@ -24,4 +24,17 @@ RSpec.describe "OccupationStandard", type: :request do
       end
     end
   end
+
+  describe "GET /show/:id.docx" do
+    it "returns a docx document" do
+      occupation_standard = create(:occupation_standard, :with_data_import)
+
+      get occupation_standard_path(occupation_standard), params: {format: "docx"}
+
+      docx_mime_type = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+
+      expect(response).to be_successful
+      expect(response.content_type).to eq docx_mime_type
+    end
+  end
 end

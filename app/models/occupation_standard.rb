@@ -113,6 +113,10 @@ class OccupationStandard < ApplicationRecord
     ).limit(MAX_SIMILAR_PROGRAMS_TO_DISPLAY)
   end
 
+  def ojt_type_display
+    ojt_type&.titleize
+  end
+
   private
 
   def national?
