@@ -24,7 +24,10 @@ class OccupationStandardExport
     {
       occupation_standard: occupation_standard,
       ojt_type: occupation_standard.ojt_type_display,
-      work_processes: occupation_standard.work_processes
+      work_processes: occupation_standard.work_processes,
+      render_related_instructions: !occupation_standard.competency_based?,
+      time_based: occupation_standard.time_based?,
+      related_instructions: occupation_standard.related_instructions
     }
   end
 end
