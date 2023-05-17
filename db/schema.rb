@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_17_170559) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_17_222024) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -126,6 +126,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_17_170559) do
     t.integer "national_standard_type"
     t.date "registration_date"
     t.date "latest_update_date"
+    t.uuid "industry_id"
+    t.index ["industry_id"], name: "index_occupation_standards_on_industry_id"
     t.index ["occupation_id"], name: "index_occupation_standards_on_occupation_id"
     t.index ["organization_id"], name: "index_occupation_standards_on_organization_id"
     t.index ["registration_agency_id"], name: "index_occupation_standards_on_registration_agency_id"
@@ -273,6 +275,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_17_170559) do
   add_foreign_key "data_imports", "occupation_standards"
   add_foreign_key "data_imports", "source_files"
   add_foreign_key "data_imports", "users"
+  add_foreign_key "occupation_standards", "industries"
   add_foreign_key "occupation_standards", "occupations"
   add_foreign_key "occupation_standards", "organizations"
   add_foreign_key "occupation_standards", "registration_agencies"
