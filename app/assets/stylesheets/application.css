@@ -128,3 +128,11 @@ nav li.active {
 nav li.active a {
   font-weight: bold;
 }
+
+.checkbox-filter-count {
+  visibility: hidden;
+}
+
+.checkbox-filter-count.checkbox-filter-count--displayable {
+  visibility: visible;
+}
