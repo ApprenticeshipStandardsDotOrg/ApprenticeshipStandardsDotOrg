@@ -69,7 +69,7 @@ RSpec.describe "occupation_standards/show" do
 
     visit occupation_standard_path(occupation_standard)
 
-    expect(page).to have_text "No documents available at the moment"
+    expect(page).to have_text "No documents available at this time"
     expect(page).to have_no_text "View Original Document"
     expect(page).to have_no_text "View Redacted Document"
   end
