@@ -120,3 +120,11 @@
 .pagy-nav.pagination .next {
   margin-left: 15px
 }
+
+nav li.active {
+  box-shadow: 0 3px 0 0 rgba(249, 111, 0, 1);
+}
+
+nav li.active a {
+  font-weight: bold;
+}
