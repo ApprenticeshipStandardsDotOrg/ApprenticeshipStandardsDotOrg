@@ -322,4 +322,18 @@ RSpec.describe OccupationStandard, type: :model do
       expect(occupation_standard.similar_programs).to be_empty
     end
   end
+
+  describe "#ojt_type_display" do
+    it "returns the ojt_type field titleized" do
+      occupation_standard = build(:occupation_standard, ojt_type: "competency")
+
+      expect(occupation_standard.ojt_type_display).to eq "Competency"
+    end
+
+    it "returns nil when ojt_type is nil" do
+      occupation_standard = build(:occupation_standard, ojt_type: nil)
+
+      expect(occupation_standard.ojt_type_display).to eq nil
+    end
+  end
 end
