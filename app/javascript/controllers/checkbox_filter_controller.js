@@ -15,10 +15,6 @@ export default class extends Controller {
 
   setCountValue(length) {
     this.countTarget.innerHTML = length
-    if (length > 0) {
-      this.countWrapperTarget.classList.add(this.displayableClass)
-    } else {
-      this.countWrapperTarget.classList.remove(this.displayableClass)
-    }
+    this.countWrapperTarget.classList.toggle(this.displayableClass, length > 0)
   }
 }
