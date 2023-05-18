@@ -50,6 +50,8 @@ Rails.application.routes.draw do
   get "home", as: :home_page, to: "pages#home"
   get "about", as: :about_page, to: "pages#about"
   get "definitions", as: :definitions_page, to: "pages#definitions"
+  get "contact", as: :contact_page, to: "contact_requests#new"
+  resources :contact_requests, only: [:create]
 
   namespace :api do
     namespace :v1 do
