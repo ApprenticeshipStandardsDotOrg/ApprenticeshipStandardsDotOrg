@@ -295,7 +295,6 @@ RSpec.describe OccupationStandard, type: :model do
 
       expect(occupation_standard.work_processes_hours).to eq 0
     end
-
   end
 
   describe "#related_instructions_hours" do
