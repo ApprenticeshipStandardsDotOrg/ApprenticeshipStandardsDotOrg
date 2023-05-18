@@ -1,0 +1,5 @@
+<% @industries.each do |industry| %>
+  <div>
+    <%= link_to industry.name, occupation_standards_path(q: "#{industry.prefix}-") %>
+  </div>
+<% end %>
