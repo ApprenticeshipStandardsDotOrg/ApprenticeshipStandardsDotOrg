@@ -108,7 +108,7 @@ class OccupationStandard < ApplicationRecord
     else
       maximum_hours = work_processes.uniq(&:title).pluck(:maximum_hours).compact.sum
       minimum_hours = work_processes.uniq(&:title).pluck(:minimum_hours).compact.sum
-      ([maximum_hours, minimum_hours] - [0]).first
+      ([maximum_hours, minimum_hours] - [0]).first || 0
     end
   end
 

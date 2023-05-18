@@ -99,7 +99,7 @@
                                 <div class="text-sm font-bold text-yonder-600">Skills</div>
                             </div>
                         <% end %>
-                        <% if occupation_standard.work_processes_hours.present? %>
+                        <% if occupation_standard.work_processes_hours.positive? %>
                             <div class="m-1.5 w-28 rounded bg-rust-100 px-1 py-3 text-center">
                                 <div class="text-3xl font-bold text-rust-800">
                                     <%= hours_in_human_format(occupation_standard.work_processes_hours) %>

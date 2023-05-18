@@ -11,6 +11,42 @@ RSpec.describe "occupation_standards/index" do
     expect(page).to have_link "Pipe Fitter", href: occupation_standard_path(pipe_fitter)
   end
 
+  it "displays only OJT hours and not skills for time-based standards" do
+    mechanic = create(:occupation_standard, :time, :with_data_import, title: "Mechanic")
+    work_process = create(:work_process, occupation_standard: mechanic, maximum_hours: 200)
+    create(:competency, work_process: work_process)
+
+    visit occupation_standards_path
+
+    expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
+    expect(page).to have_text "OJT hours"
+    expect(page).to_not have_text "Skills"
+  end
+
+  it "displays only skills and not OJT hours for competency-based standards" do
+    mechanic = create(:occupation_standard, :competency, :with_data_import, title: "Mechanic")
+    work_process = create(:work_process, occupation_standard: mechanic, maximum_hours: 200)
+    create(:competency, work_process: work_process)
+
+    visit occupation_standards_path
+
+    expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
+    expect(page).to_not have_text "OJT hours"
+    expect(page).to have_text "Skills"
+  end
+
+  it "displays skills and OJT hours for hybrid-based standards" do
+    mechanic = create(:occupation_standard, :hybrid, :with_data_import, title: "Mechanic")
+    work_process = create(:work_process, occupation_standard: mechanic, maximum_hours: 200)
+    create(:competency, work_process: work_process)
+
+    visit occupation_standards_path
+
+    expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
+    expect(page).to have_text "OJT hours"
+    expect(page).to have_text "Skills"
+  end
+
   it "filters occupations based on search term" do
     dental = create(:occupation_standard, :with_data_import, title: "Dental Assistant")
     medical = create(:occupation_standard, :program_standard, :with_data_import, title: "Medical Assistant")

@@ -272,12 +272,12 @@ RSpec.describe OccupationStandard, type: :model do
       expect(occupation_standard.work_processes_hours).to eq 800
     end
 
-    it "returns nil if maximum hours and minimum hours are not present" do
+    it "returns 0 if maximum hours and minimum hours are not present" do
       occupation_standard = create(:occupation_standard)
       create(:work_process, occupation_standard: occupation_standard, maximum_hours: nil, minimum_hours: nil)
       create(:work_process, occupation_standard: occupation_standard, maximum_hours: nil, minimum_hours: nil)
 
-      expect(occupation_standard.work_processes_hours).to eq nil
+      expect(occupation_standard.work_processes_hours).to eq 0
     end
 
     it "sums only one work process with the same title" do
