@@ -11,6 +11,6 @@ class Organization < ApplicationRecord
   end
 
   def self.urban_institute
-    @@urban_institute ||= Organization.find_by(title: "Urban Institute")
+    Organization.find_by(title: "Urban Institute")
   end
 end
