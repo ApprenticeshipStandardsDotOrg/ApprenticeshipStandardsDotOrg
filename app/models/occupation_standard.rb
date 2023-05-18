@@ -49,10 +49,15 @@ class OccupationStandard < ApplicationRecord
   end
 
   scope :by_national_standard_type, ->(standard_types) do
-    if standard_types.present? && standard_types == ["occupational_framework"]
-      occupational_framework_from_urban_institute
-    elsif standard_types.present?
-      where(national_standard_type: standard_types)
+    if standard_types.present?
+      types = [standard_types].flatten
+      occupational_framework = types.delete("occupational_framework")
+
+      query = where(national_standard_type: types)
+      if occupational_framework
+        query = query.or(occupational_framework_from_urban_institute)
+      end
+      query
     end
   end
 
