@@ -30,10 +30,7 @@
       <div>
 
         <div class="grid grid-flow-row grid-cols-3">
-        <% state_info = State.all.pluck(:name, :id) %>
-        <% names_by_letter = state_info.group_by { |state| state[0][0] } %>
-
-            <% names_by_letter.each do |letter, names| %>
+            <% @names_by_letter.each do |letter, names| %>
             <div class="letter-group flex items-start py-4">
                 <div class="w-14 bg-seafoam-800 text-white uppercase font-bold text-xl text-center py-2 rounded">
                 <%= letter.first %>
