@@ -359,4 +359,43 @@ RSpec.describe OccupationStandard, type: :model do
       expect(occupation_standard.ojt_type_display).to eq nil
     end
   end
+
+  describe "#show_national_occupational_framework_badge?" do
+    context "when occupation is part of national occupational framework" do
+      it "returns true if organization is Urban Institute" do
+        organization = Organization.urban_institute || create(:organization, title: "Urban Institute")
+        occupation_standard = build(
+          :occupation_standard,
+          :occupational_framework,
+          organization: organization
+        )
+
+        expect(occupation_standard.show_national_occupational_framework_badge?).to be true
+      end
+
+      it "returns false for any other organization" do
+        Organization.urban_institute || create(:organization, title: "Urban Institute")
+        organization = create(:organization, title: "Another Organization")
+        occupation_standard = build(
+          :occupation_standard,
+          :occupational_framework,
+          organization: organization
+        )
+
+        expect(occupation_standard.show_national_occupational_framework_badge?).to be false
+      end
+
+      it "returns false if organization is nil" do
+        Organization.urban_institute || create(:organization, title: "Urban Institute")
+
+        occupation_standard = build(
+          :occupation_standard,
+          :occupational_framework,
+          organization: nil
+        )
+
+        expect(occupation_standard.show_national_occupational_framework_badge?).to be false
+      end
+    end
+  end
 end
