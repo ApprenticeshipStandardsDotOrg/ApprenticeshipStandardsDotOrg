@@ -42,7 +42,6 @@ Rails.application.routes.draw do
 
   scope :occupation_standards do
     resources :national_standards, only: [:index]
-    resources :state_standards, only: [:index]
   end
   resources :standards_imports, only: [:new, :create, :show]
   resources :occupation_standards, only: [:index, :show]
