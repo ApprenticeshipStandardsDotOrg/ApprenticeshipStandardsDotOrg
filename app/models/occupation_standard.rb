@@ -103,9 +103,13 @@ class OccupationStandard < ApplicationRecord
   end
 
   def work_processes_hours
-    maximum_hours = work_processes.uniq(&:title).pluck(:maximum_hours).compact.sum
-    minimum_hours = work_processes.uniq(&:title).pluck(:minimum_hours).compact.sum
-    ([maximum_hours, minimum_hours] - [0]).first
+    if competency_based?
+      0
+    else
+      maximum_hours = work_processes.uniq(&:title).pluck(:maximum_hours).compact.sum
+      minimum_hours = work_processes.uniq(&:title).pluck(:minimum_hours).compact.sum
+      ([maximum_hours, minimum_hours] - [0]).first
+    end
   end
 
   def related_instructions_hours

@@ -288,6 +288,14 @@ RSpec.describe OccupationStandard, type: :model do
 
       expect(occupation_standard.work_processes_hours).to eq 2000
     end
+
+    it "returns 0 for competency-based standard" do
+      occupation_standard = create(:occupation_standard, :competency)
+      create(:work_process, occupation_standard: occupation_standard, maximum_hours: 1000, minimum_hours: 400)
+
+      expect(occupation_standard.work_processes_hours).to eq 0
+    end
+
   end
 
   describe "#related_instructions_hours" do
