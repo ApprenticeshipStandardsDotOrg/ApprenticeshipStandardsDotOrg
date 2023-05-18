@@ -205,6 +205,14 @@ RSpec.describe OccupationStandard, type: :model do
 
       expect(occupation_standard.competencies_count).to eq 3
     end
+
+    it "is 0 if standard is time-based" do
+      occupation_standard = create(:occupation_standard, :time)
+      wp = create(:work_process, occupation_standard: occupation_standard)
+      create(:competency, work_process: wp)
+
+      expect(occupation_standard.competencies_count).to eq 0
+    end
   end
 
   describe "#rsi_hours" do
@@ -264,12 +272,12 @@ RSpec.describe OccupationStandard, type: :model do
       expect(occupation_standard.work_processes_hours).to eq 800
     end
 
-    it "returns nil if maximum hours and minimum hours are not present" do
+    it "returns 0 if maximum hours and minimum hours are not present" do
       occupation_standard = create(:occupation_standard)
       create(:work_process, occupation_standard: occupation_standard, maximum_hours: nil, minimum_hours: nil)
       create(:work_process, occupation_standard: occupation_standard, maximum_hours: nil, minimum_hours: nil)
 
-      expect(occupation_standard.work_processes_hours).to eq nil
+      expect(occupation_standard.work_processes_hours).to eq 0
     end
 
     it "sums only one work process with the same title" do
@@ -279,6 +287,13 @@ RSpec.describe OccupationStandard, type: :model do
       create(:work_process, occupation_standard: occupation_standard, maximum_hours: 1000, title: "Process B")
 
       expect(occupation_standard.work_processes_hours).to eq 2000
+    end
+
+    it "returns 0 for competency-based standard" do
+      occupation_standard = create(:occupation_standard, :competency)
+      create(:work_process, occupation_standard: occupation_standard, maximum_hours: 1000, minimum_hours: 400)
+
+      expect(occupation_standard.work_processes_hours).to eq 0
     end
   end
 
