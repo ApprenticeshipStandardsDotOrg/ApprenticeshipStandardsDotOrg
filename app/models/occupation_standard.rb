@@ -123,7 +123,7 @@ class OccupationStandard < ApplicationRecord
   def show_national_occupational_framework_badge?
     national_occupational_framework? &&
       organization_id.present? &&
-      organization_id == Organization&.urban_institute&.id
+      organization_id == Organization.urban_institute&.id
   end
 
   private
