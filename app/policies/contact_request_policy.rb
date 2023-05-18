@@ -1,0 +1,2 @@
+class ContactRequestPolicy < AdminPolicy
+end
