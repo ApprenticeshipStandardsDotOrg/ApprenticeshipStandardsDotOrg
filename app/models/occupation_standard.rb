@@ -120,6 +120,12 @@ class OccupationStandard < ApplicationRecord
     ojt_type&.titleize
   end
 
+  def show_national_occupational_framework_badge?
+    national_occupational_framework? &&
+      organization_id.present? &&
+      organization_id == Organization&.urban_institute&.id
+  end
+
   private
 
   def national?
