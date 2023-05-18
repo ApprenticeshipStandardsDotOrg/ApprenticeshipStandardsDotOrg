@@ -205,6 +205,14 @@ RSpec.describe OccupationStandard, type: :model do
 
       expect(occupation_standard.competencies_count).to eq 3
     end
+
+    it "is 0 if standard is time-based" do
+      occupation_standard = create(:occupation_standard, :time)
+      wp = create(:work_process, occupation_standard: occupation_standard)
+      create(:competency, work_process: wp)
+
+      expect(occupation_standard.competencies_count).to eq 0
+    end
   end
 
   describe "#rsi_hours" do

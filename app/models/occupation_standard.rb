@@ -87,7 +87,11 @@ class OccupationStandard < ApplicationRecord
   end
 
   def competencies_count
-    Competency.joins(work_process: :occupation_standard).where(occupation_standards: {id: id}).count
+    if time_based?
+      0
+    else
+      Competency.joins(work_process: :occupation_standard).where(occupation_standards: {id: id}).count
+    end
   end
 
   def rsi_hours
