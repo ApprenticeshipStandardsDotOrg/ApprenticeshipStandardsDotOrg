@@ -8,7 +8,7 @@
                     <svg aria-hidden="true" class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
                     </svg>
-                    Home
+                    Browse by Industry
                 </a>
             </li>
             <li aria-current="page">
@@ -33,19 +33,17 @@
       </div>
     <% end %> -->
 
-        <div class="grid grid-flow-row grid-cols-3">
-        <% industry_info = ["Management", "Business and Financial Operations", "Computer and Mathematical", "Architecture and Engineering", "Life, Physical, and Social Science", "Community and Social Service", "Legal", "Educational Instruction and Library", "Arts, Design, Entertainment, Sports, and Media", "Healthcare Practitioners and Technical", "Healthcare Support", "Protective Service", "Food Preparation and Serving Related", "Building and Grounds Cleaning and Maintenance", "Personal Care and Service", "Sales and Related", "Office and Administrative Support", "Farming, Fishing, and Forestry", "Construction and Extraction", "Installation, Maintenance, and Repair", "Production", "Transportation and Material Moving", "Military Specific"] %>
-        <% industries_by_letter = industry_info.group_by { |name| name[0] }.sort %>
+        <div class="columns-3">
 
-            <% industries_by_letter.each do |letter, names| %>
+            <% @names_by_letter.each do |letter, names| %>
             <div class="letter-group flex items-start py-4">
-                <div class="w-14 bg-seafoam-800 text-white uppercase font-bold text-xl text-center py-2 rounded">
+                <div class="flex-none w-14 bg-seafoam-800 text-white uppercase font-bold text-xl text-center py-2 rounded">
                 <%= letter.first %>
                 </div>
                     <div class="px-4 flex-grow">
-                    <% names.each do |name, id| %>
-                        <%= link_to industries_path, class: "hover:font-bold" do %>
-                            <span class="block"><%= name %></span>
+                    <% names.each do |name, id, prefix| %>
+                       <%= link_to occupation_standards_path(q: "#{prefix}-"), class: "hover:font-bold" do %>
+                            <span class="mb-2 block"><%= name %></span>
                         <% end %>
                     <% end %>
                     </div>
