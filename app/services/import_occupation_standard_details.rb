@@ -25,6 +25,7 @@ class ImportOccupationStandardDetails
         existing_title: row["Existing Title"],
         term_months: row["Term (in months)"],
         onet_code: onet_code,
+        industry: industry,
         rapids_code: rapids_code,
         ojt_type: ojt_type,
         probationary_period_months: row["Probationary Period"],
@@ -76,7 +77,16 @@ class ImportOccupationStandardDetails
   end
 
   def onet_code
-    row["Onet Code"].presence || occupation&.onet_code
+    @_onet_code ||= row["Onet Code"].presence || occupation&.onet_code
+  end
+
+  def industry
+    if onet_code
+      matches = onet_code.match(/\A(?<prefix>\d{2})/)
+      if matches
+        Industry.where(prefix: matches[:prefix], version: Industry::CURRENT_VERSION).sole
+      end
+    end
   end
 
   def ojt_type

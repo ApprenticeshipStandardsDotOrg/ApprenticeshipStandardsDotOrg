@@ -2,6 +2,7 @@ class OccupationStandard < ApplicationRecord
   belongs_to :occupation, optional: true
   belongs_to :registration_agency, optional: true
   belongs_to :organization, optional: true
+  belongs_to :industry, optional: true
 
   has_many :data_imports
   has_many :related_instructions, -> { order(:sort_order) }, dependent: :destroy

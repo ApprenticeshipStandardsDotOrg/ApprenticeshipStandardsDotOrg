@@ -5,6 +5,7 @@ RSpec.describe ImportOccupationStandardDetails do
     it "returns an occupation standards record" do
       ca = create(:state, abbreviation: "CA")
       create(:registration_agency, state: ca, agency_type: :oa)
+      create(:industry, prefix: "13")
 
       data_import = create(:data_import, :pending)
 
@@ -18,6 +19,7 @@ RSpec.describe ImportOccupationStandardDetails do
         ca_oa = create(:registration_agency, state: ca, agency_type: :oa)
         _ca_saa = create(:registration_agency, state: ca, agency_type: :saa)
         onet = create(:onet, code: "13-1071.01")
+        industry = create(:industry, prefix: "13")
 
         occupation1 = create(:occupation, rapids_code: "0157")
         _occupation2 = create(:occupation, onet: onet)
@@ -38,6 +40,7 @@ RSpec.describe ImportOccupationStandardDetails do
         expect(os).to be_competency_based
         expect(os.probationary_period_months).to eq 3
         expect(os.onet_code).to eq "13-1071.01"
+        expect(os.industry).to eq industry
         expect(os.rapids_code).to eq "0157"
         expect(os.apprenticeship_to_journeyworker_ratio).to eq "5:1"
         expect(os.organization_title).to eq "Hardy Corporation"
@@ -54,6 +57,7 @@ RSpec.describe ImportOccupationStandardDetails do
         ca_oa = create(:registration_agency, state: ca, agency_type: :oa)
 
         create(:onet, code: "13-1071.01")
+        industry = create(:industry, prefix: "13")
         occupation = create(:occupation, rapids_code: "0157")
 
         data_import = create(:data_import, :hybrid, :pending)
@@ -72,6 +76,7 @@ RSpec.describe ImportOccupationStandardDetails do
         expect(os).to be_competency_based
         expect(os.probationary_period_months).to eq 3
         expect(os.onet_code).to eq "13-1071.01"
+        expect(os.industry).to eq industry
         expect(os.rapids_code).to eq "0157"
         expect(os.apprenticeship_to_journeyworker_ratio).to eq "5:1"
         expect(os.organization_title).to eq "Hardy Corporation"
@@ -86,6 +91,7 @@ RSpec.describe ImportOccupationStandardDetails do
         ca_oa = create(:registration_agency, state: ca, agency_type: :oa)
 
         onet = create(:onet, code: "31-1071.01")
+        industry = create(:industry, prefix: "31")
         occupation = create(:occupation, onet: onet)
 
         data_import = create(:data_import, :no_rapids, :pending)
@@ -104,6 +110,7 @@ RSpec.describe ImportOccupationStandardDetails do
         expect(os).to be_time_based
         expect(os.probationary_period_months).to eq 7
         expect(os.onet_code).to eq "31-1071.01"
+        expect(os.industry).to eq industry
         expect(os.rapids_code).to be_nil
         expect(os.apprenticeship_to_journeyworker_ratio).to eq "5:1"
         expect(os.organization_title).to eq "Hardy Corporation"
@@ -116,6 +123,7 @@ RSpec.describe ImportOccupationStandardDetails do
       it "sets national standard type when no registration agency" do
         occupation = create(:occupation, rapids_code: "0157")
         data_import = create(:data_import, :national_program_standard, :pending)
+        industry = create(:industry, prefix: "13")
 
         expect {
           described_class.new(data_import).call
@@ -132,6 +140,7 @@ RSpec.describe ImportOccupationStandardDetails do
         expect(os).to be_competency_based
         expect(os.probationary_period_months).to eq 3
         expect(os.onet_code).to eq "13-1071.01"
+        expect(os.industry).to eq industry
         expect(os.rapids_code).to eq "0157"
         expect(os.apprenticeship_to_journeyworker_ratio).to eq "5:1"
         expect(os.organization_title).to eq "Hardy Corporation"
@@ -146,6 +155,7 @@ RSpec.describe ImportOccupationStandardDetails do
         create(:registration_agency, state: ca, agency_type: :oa)
 
         onet = create(:onet, code: "31-1071.01")
+        create(:industry, prefix: "31")
         create(:occupation, onet: onet, rapids_code: "8765")
 
         data_import = create(:data_import, :no_rapids, :pending)
@@ -161,6 +171,7 @@ RSpec.describe ImportOccupationStandardDetails do
       it "does not set RAPIDS code if blank and occupation does not exist" do
         ca = create(:state, abbreviation: "CA")
         create(:registration_agency, state: ca, agency_type: :oa)
+        create(:industry, prefix: "31")
 
         data_import = create(:data_import, :no_rapids, :pending)
 
@@ -177,6 +188,7 @@ RSpec.describe ImportOccupationStandardDetails do
         create(:registration_agency, state: ca, agency_type: :oa)
 
         onet = create(:onet, code: "13-1081.01")
+        create(:industry, prefix: "13")
         create(:occupation, onet: onet, rapids_code: "1057")
 
         data_import = create(:data_import, :no_onet, :pending)
@@ -208,6 +220,7 @@ RSpec.describe ImportOccupationStandardDetails do
         ca_oa = create(:registration_agency, state: ca, agency_type: :oa)
 
         create(:onet, code: "13-1071.01")
+        industry = create(:industry, prefix: "13")
         occupation = create(:occupation, rapids_code: "0157")
 
         os = create(:occupation_standard, title: "HUMAN RESOURCE SPECIALIST")
@@ -232,6 +245,7 @@ RSpec.describe ImportOccupationStandardDetails do
         expect(os).to be_competency_based
         expect(os.probationary_period_months).to eq 3
         expect(os.onet_code).to eq "13-1071.01"
+        expect(os.industry).to eq industry
         expect(os.rapids_code).to eq "0157"
         expect(os.apprenticeship_to_journeyworker_ratio).to eq "5:1"
         expect(os.organization_title).to eq "Hardy Corporation"
@@ -248,6 +262,7 @@ RSpec.describe ImportOccupationStandardDetails do
         ca_oa = create(:registration_agency, state: ca, agency_type: :oa)
 
         create(:onet, code: "13-1071.01")
+        industry = create(:industry, prefix: "13")
         occupation = create(:occupation, rapids_code: "0157")
 
         data_import = create(:data_import)
@@ -267,6 +282,7 @@ RSpec.describe ImportOccupationStandardDetails do
         expect(os).to be_competency_based
         expect(os.probationary_period_months).to eq 3
         expect(os.onet_code).to eq "13-1071.01"
+        expect(os.industry).to eq industry
         expect(os.rapids_code).to eq "0157"
         expect(os.apprenticeship_to_journeyworker_ratio).to eq "5:1"
         expect(os.organization_title).to eq "Hardy Corporation"
