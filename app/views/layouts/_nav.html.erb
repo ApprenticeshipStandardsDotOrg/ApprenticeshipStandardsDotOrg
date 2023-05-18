@@ -10,11 +10,9 @@
         <div class="hidden w-full md:block md:w-auto" id="navbar-default">
             <ul class="flex flex-col items-center p-4 mt-4 bg-[#33575e] md:bg-transparent rounded-lg md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
                 <%= content_tag(:li, link_to("Home", home_page_path, class: class_names("block py-3 px-4 text-white"), "aria-current": "page"), class: class_names("block lg:inline hover:shadow-[0_3px_0_0_rgba(249,111,0,1)]", {active: current_page?(home_page_path)})) %>
-                <!--
                 <li class="block lg:inline hover:shadow-[0_3px_0_0_rgba(249,111,0,1)]">
-                  <%= link_to "Industry", home_page_path, class: "block py-3 px-4 text-white", "aria-current": "page" %>
+                  <%= link_to "Industry", industries_path, class: "block py-3 px-4 text-white", "aria-current": "page" %>
                 </li>
-                -->
                 <%= content_tag(:li, link_to("Occupation", occupation_standards_path, class: class_names("block py-3 px-4 text-white"), "aria-current": "page"), class: class_names("block lg:inline hover:shadow-[0_3px_0_0_rgba(249,111,0,1)]", {active: current_page?(occupation_standards_path)})) %>
                 <%= content_tag(:li, link_to("State", state_standards_path, class: class_names("block py-3 px-4 text-white"), "aria-current": "page"), class: class_names("block lg:inline hover:shadow-[0_3px_0_0_rgba(249,111,0,1)]", {active: current_page?(state_standards_path)})) %>
                 <%= content_tag(:li, link_to("National", national_standards_path, class: class_names("block py-3 px-4 text-white"), "aria-current": "page"), class: class_names("block lg:inline hover:shadow-[0_3px_0_0_rgba(249,111,0,1)]", {active: current_page?(national_standards_path)})) %>
