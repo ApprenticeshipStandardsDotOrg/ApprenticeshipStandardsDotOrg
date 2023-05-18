@@ -46,8 +46,9 @@ RSpec.describe "pages/home" do
     it "displays Occupational Frameworks box" do
       allow(State).to receive(:find_by).and_return(build_stubbed(:state))
 
-      mechanic = create(:occupation_standard, :with_data_import, :occupational_framework, title: "Mechanic")
-      hr = create(:occupation_standard, :with_data_import, :occupational_framework, title: "HR")
+      organization = Organization.urban_institute || create(:organization, title: "Urban Institute")
+      mechanic = create(:occupation_standard, :with_data_import, :occupational_framework, title: "Mechanic", organization: organization)
+      hr = create(:occupation_standard, :with_data_import, :occupational_framework, title: "HR", organization: organization)
       create(:occupation_standard, :guideline_standard, title: "Pipe Fitter")
 
       visit home_page_path

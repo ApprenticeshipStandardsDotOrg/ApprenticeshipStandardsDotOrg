@@ -49,9 +49,18 @@ class OccupationStandard < ApplicationRecord
   end
 
   scope :by_national_standard_type, ->(standard_types) do
-    if standard_types.present?
+    if standard_types.present? && standard_types == ["occupational_framework"]
+      occupational_framework_from_urban_institute
+    elsif standard_types.present?
       where(national_standard_type: standard_types)
     end
+  end
+
+  scope :occupational_framework_from_urban_institute, -> do
+    where(
+      national_standard_type: :occupational_framework,
+      organization: Organization.urban_institute
+    )
   end
 
   scope :by_ojt_type, ->(ojt_types) do
