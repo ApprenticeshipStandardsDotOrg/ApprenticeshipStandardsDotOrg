@@ -4,7 +4,7 @@ class Competency < ApplicationRecord
 
   validates :sort_order, uniqueness: {scope: :work_process}
 
-  def raw_title
+  def sanitized_title
     ActionView::Base.full_sanitizer.sanitize(title)
   end
 end
