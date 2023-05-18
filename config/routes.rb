@@ -43,11 +43,11 @@ Rails.application.routes.draw do
 
   scope :occupation_standards do
     resources :national_standards, only: [:index]
-    resources :state_standards, only: [:index]
   end
   resources :standards_imports, only: [:new, :create, :show]
   resources :occupation_standards, only: [:index, :show]
   resources :industries, only: [:index]
+  resources :states, only: [:index]
   get "home", as: :home_page, to: "pages#home"
   get "about", as: :about_page, to: "pages#about"
   get "definitions", as: :definitions_page, to: "pages#definitions"

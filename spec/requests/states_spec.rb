@@ -1,12 +1,12 @@
 require "rails_helper"
 
-RSpec.describe "StateStandards", type: :request do
+RSpec.describe "State", type: :request do
   describe "GET /index" do
     context "when guest" do
       it "returns http success" do
-        create_pair(:occupation_standard, :state_standard, :with_data_import)
+        create_pair(:state)
 
-        get state_standards_path
+        get states_path
 
         expect(response).to be_successful
       end
