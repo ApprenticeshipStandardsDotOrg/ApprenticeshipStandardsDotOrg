@@ -49,6 +49,7 @@ RSpec.describe "pages/home" do
       organization = Organization.urban_institute || create(:organization, title: "Urban Institute")
       mechanic = create(:occupation_standard, :with_data_import, :occupational_framework, title: "Mechanic", organization: organization)
       hr = create(:occupation_standard, :with_data_import, :occupational_framework, title: "HR", organization: organization)
+      create(:occupation_standard, :with_data_import, :occupational_framework, title: "Dental Assistant")
       create(:occupation_standard, :guideline_standard, title: "Pipe Fitter")
 
       visit home_page_path
@@ -62,6 +63,7 @@ RSpec.describe "pages/home" do
 
       expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
       expect(page).to have_link "HR", href: occupation_standard_path(hr)
+      expect(page).to_not have_link "Dental Assistant"
       expect(page).to_not have_link "Pipe Fitter"
     end
 
