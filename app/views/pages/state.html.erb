@@ -35,13 +35,13 @@
 
             <% names_by_letter.each do |letter, names| %>
             <div class="letter-group flex items-start py-4">
-                <div class="w-14 bg-green-700 text-white uppercase font-bold text-xl text-center py-2 rounded">
+                <div class="w-14 bg-seafoam-800 text-white uppercase font-bold text-xl text-center py-2 rounded">
                 <%= letter.first %>
                 </div>
                     <div class="px-4 flex-grow">
                     <% names.each do |name, id| %>
-                        <%= link_to occupation_standards_path(state_id: id), class: "flex items-center" do %>
-                        <span class="block"><%= name %></span>
+                        <%= link_to occupation_standards_path(state_id: id), class: "hover:font-bold" do %>
+                            <span class="block"><%= name %></span>
                         <% end %>
                     <% end %>
                     </div>
