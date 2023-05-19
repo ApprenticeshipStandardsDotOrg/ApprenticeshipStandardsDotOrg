@@ -55,7 +55,6 @@ Rails.application.routes.draw do
   get "contact", as: :contact_page, to: "contact_requests#new"
   resources :contact_requests, only: [:create]
 
-
   namespace :api do
     namespace :v1 do
       jsonapi_resources :occupations
