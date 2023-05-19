@@ -15,7 +15,7 @@ Rails.application.configure do
     # Specify URI for violation reports
     # policy.report_uri "/csp-violation-report-endpoint"
 
-    policy.frame_ancestors :self, "apps-staging.urban.org"
+    policy.frame_ancestors :self, "apps.urban.org"
   end
 
   # Generate session nonces for permitted importmap and inline scripts
