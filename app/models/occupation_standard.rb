@@ -50,8 +50,22 @@ class OccupationStandard < ApplicationRecord
 
   scope :by_national_standard_type, ->(standard_types) do
     if standard_types.present?
-      where(national_standard_type: standard_types)
+      types = [standard_types].flatten
+      occupational_framework = types.delete("occupational_framework")
+
+      query = where(national_standard_type: types)
+      if occupational_framework
+        query = query.or(occupational_framework_from_urban_institute)
+      end
+      query
     end
+  end
+
+  scope :occupational_framework_from_urban_institute, -> do
+    where(
+      national_standard_type: :occupational_framework,
+      organization: Organization.urban_institute
+    )
   end
 
   scope :by_ojt_type, ->(ojt_types) do
@@ -87,7 +101,11 @@ class OccupationStandard < ApplicationRecord
   end
 
   def competencies_count
-    Competency.joins(work_process: :occupation_standard).where(occupation_standards: {id: id}).count
+    if time_based?
+      0
+    else
+      Competency.joins(work_process: :occupation_standard).where(occupation_standards: {id: id}).count
+    end
   end
 
   def rsi_hours
@@ -99,9 +117,13 @@ class OccupationStandard < ApplicationRecord
   end
 
   def work_processes_hours
-    maximum_hours = work_processes.uniq(&:title).pluck(:maximum_hours).compact.sum
-    minimum_hours = work_processes.uniq(&:title).pluck(:minimum_hours).compact.sum
-    ([maximum_hours, minimum_hours] - [0]).first
+    if competency_based?
+      0
+    else
+      maximum_hours = work_processes.uniq(&:title).pluck(:maximum_hours).compact.sum
+      minimum_hours = work_processes.uniq(&:title).pluck(:minimum_hours).compact.sum
+      ([maximum_hours, minimum_hours] - [0]).first || 0
+    end
   end
 
   def related_instructions_hours
@@ -118,6 +140,12 @@ class OccupationStandard < ApplicationRecord
 
   def ojt_type_display
     ojt_type&.titleize
+  end
+
+  def show_national_occupational_framework_badge?
+    national_occupational_framework? &&
+      organization_id.present? &&
+      organization_id == Organization.urban_institute&.id
   end
 
   private

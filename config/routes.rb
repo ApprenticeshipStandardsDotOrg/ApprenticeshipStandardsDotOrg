@@ -35,6 +35,7 @@ Rails.application.routes.draw do
         resources :data_imports, except: [:index]
       end
       resources :occupation_standards, only: [:index, :show, :edit, :update]
+      resources :contact_requests, only: [:index, :show]
     end
   end
 
@@ -42,15 +43,18 @@ Rails.application.routes.draw do
 
   scope :occupation_standards do
     resources :national_standards, only: [:index]
-    resources :state_standards, only: [:index]
   end
   resources :standards_imports, only: [:new, :create, :show]
   resources :occupation_standards, only: [:index, :show]
   resources :industries, only: [:index]
+  resources :states, only: [:index]
   get "home", as: :home_page, to: "pages#home"
   get "about", as: :about_page, to: "pages#about"
   get "definitions", as: :definitions_page, to: "pages#definitions"
   get "terms", as: :terms_page, to: "pages#terms"
+  get "contact", as: :contact_page, to: "contact_requests#new"
+  resources :contact_requests, only: [:create]
+
 
   namespace :api do
     namespace :v1 do

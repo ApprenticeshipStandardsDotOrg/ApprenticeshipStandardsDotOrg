@@ -114,6 +114,33 @@ RSpec.describe OccupationStandard, type: :model do
       expect(described_class.by_national_standard_type("program_standard")).to contain_exactly(os1, os2)
     end
 
+    it "if only occupational_framework passed as string, returns Urban Institute standards only" do
+      org = create(:organization, title: "Urban Institute")
+      os1 = create(:occupation_standard, :occupational_framework, organization: org)
+      create(:occupation_standard, :occupational_framework)
+      create(:occupation_standard, :program_standard)
+
+      expect(described_class.by_national_standard_type("occupational_framework")).to contain_exactly(os1)
+    end
+
+    it "if only occupational_framework passed as array, returns Urban Institute standards only" do
+      org = create(:organization, title: "Urban Institute")
+      os1 = create(:occupation_standard, :occupational_framework, organization: org)
+      create(:occupation_standard, :occupational_framework)
+      create(:occupation_standard, :program_standard)
+
+      expect(described_class.by_national_standard_type(%w[occupational_framework])).to contain_exactly(os1)
+    end
+
+    it "never includes non-Urban occupational_framework standards" do
+      org = create(:organization, title: "Urban Institute")
+      os1 = create(:occupation_standard, :occupational_framework, organization: org)
+      os2 = create(:occupation_standard, :program_standard)
+      create(:occupation_standard, :occupational_framework)
+
+      expect(described_class.by_national_standard_type(%w[program_standard occupational_framework])).to contain_exactly(os1, os2)
+    end
+
     it "returns all records if empty string provided" do
       standards = create_pair(:occupation_standard, :program_standard)
 
@@ -205,6 +232,14 @@ RSpec.describe OccupationStandard, type: :model do
 
       expect(occupation_standard.competencies_count).to eq 3
     end
+
+    it "is 0 if standard is time-based" do
+      occupation_standard = create(:occupation_standard, :time)
+      wp = create(:work_process, occupation_standard: occupation_standard)
+      create(:competency, work_process: wp)
+
+      expect(occupation_standard.competencies_count).to eq 0
+    end
   end
 
   describe "#rsi_hours" do
@@ -264,12 +299,12 @@ RSpec.describe OccupationStandard, type: :model do
       expect(occupation_standard.work_processes_hours).to eq 800
     end
 
-    it "returns nil if maximum hours and minimum hours are not present" do
+    it "returns 0 if maximum hours and minimum hours are not present" do
       occupation_standard = create(:occupation_standard)
       create(:work_process, occupation_standard: occupation_standard, maximum_hours: nil, minimum_hours: nil)
       create(:work_process, occupation_standard: occupation_standard, maximum_hours: nil, minimum_hours: nil)
 
-      expect(occupation_standard.work_processes_hours).to eq nil
+      expect(occupation_standard.work_processes_hours).to eq 0
     end
 
     it "sums only one work process with the same title" do
@@ -279,6 +314,13 @@ RSpec.describe OccupationStandard, type: :model do
       create(:work_process, occupation_standard: occupation_standard, maximum_hours: 1000, title: "Process B")
 
       expect(occupation_standard.work_processes_hours).to eq 2000
+    end
+
+    it "returns 0 for competency-based standard" do
+      occupation_standard = create(:occupation_standard, :competency)
+      create(:work_process, occupation_standard: occupation_standard, maximum_hours: 1000, minimum_hours: 400)
+
+      expect(occupation_standard.work_processes_hours).to eq 0
     end
   end
 
@@ -342,6 +384,45 @@ RSpec.describe OccupationStandard, type: :model do
       occupation_standard = build(:occupation_standard, ojt_type: nil)
 
       expect(occupation_standard.ojt_type_display).to eq nil
+    end
+  end
+
+  describe "#show_national_occupational_framework_badge?" do
+    context "when occupation is part of national occupational framework" do
+      it "returns true if organization is Urban Institute" do
+        organization = Organization.urban_institute || create(:organization, title: "Urban Institute")
+        occupation_standard = build(
+          :occupation_standard,
+          :occupational_framework,
+          organization: organization
+        )
+
+        expect(occupation_standard.show_national_occupational_framework_badge?).to be true
+      end
+
+      it "returns false for any other organization" do
+        Organization.urban_institute || create(:organization, title: "Urban Institute")
+        organization = create(:organization, title: "Another Organization")
+        occupation_standard = build(
+          :occupation_standard,
+          :occupational_framework,
+          organization: organization
+        )
+
+        expect(occupation_standard.show_national_occupational_framework_badge?).to be false
+      end
+
+      it "returns false if organization is nil" do
+        Organization.urban_institute || create(:organization, title: "Urban Institute")
+
+        occupation_standard = build(
+          :occupation_standard,
+          :occupational_framework,
+          organization: nil
+        )
+
+        expect(occupation_standard.show_national_occupational_framework_badge?).to be false
+      end
     end
   end
 end

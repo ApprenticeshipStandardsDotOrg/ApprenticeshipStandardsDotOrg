@@ -69,8 +69,9 @@ RSpec.describe "occupation_standards/show" do
 
     visit occupation_standard_path(occupation_standard)
 
-    expect(page).to have_text "No documents available at this time"
-    expect(page).to have_no_text "View Original Document"
-    expect(page).to have_no_text "View Redacted Document"
+    within("button[disabled]") do
+      expect(page).to have_text "View Original Document"
+      expect(page).to have_text "Personal and employer info redacted"
+    end
   end
 end

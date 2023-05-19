@@ -79,7 +79,7 @@
                     </div>
 
                     <div class="flex">
-                        <% if occupation_standard.national_occupational_framework? %>
+                        <% if occupation_standard.show_national_occupational_framework_badge? %>
                             <div class="mr-2">
                                 <svg aria-label="ribbon icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M12 15C15.866 15 19 11.866 19 8C19 4.13401 15.866 1 12 1C8.13401 1 5 4.13401 5 8C5 11.866 8.13401 15 12 15Z" stroke="#BA8718" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -99,7 +99,7 @@
                                 <div class="text-sm font-bold text-yonder-600">Skills</div>
                             </div>
                         <% end %>
-                        <% if occupation_standard.work_processes_hours.present? %>
+                        <% if occupation_standard.work_processes_hours.positive? %>
                             <div class="m-1.5 w-28 rounded bg-rust-100 px-1 py-3 text-center">
                                 <div class="text-3xl font-bold text-rust-800">
                                     <%= hours_in_human_format(occupation_standard.work_processes_hours) %>
