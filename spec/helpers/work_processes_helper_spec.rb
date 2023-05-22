@@ -49,5 +49,9 @@ RSpec.describe WorkProcessesHelper, type: :helper do
     it "returns number without letter if lesser than 1,000" do
       expect(helper.hours_in_human_format(500)).to eq "500"
     end
+
+    it "returns number with precision of 2 for significant digits" do
+      expect(helper.hours_in_human_format(144)).to eq "140"
+    end
   end
 end
