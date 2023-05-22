@@ -26,4 +26,12 @@ RSpec.describe "Pages", type: :request do
       expect(response).to be_successful
     end
   end
+
+  describe "GET /terms" do
+    it "returns http success" do
+      get terms_page_path
+
+      expect(response).to be_successful
+    end
+  end
 end
