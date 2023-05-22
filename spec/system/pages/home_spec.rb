@@ -3,8 +3,8 @@ require "rails_helper"
 RSpec.describe "pages/home" do
   it "filters occupations based on search term" do
     allow(State).to receive(:find_by).and_return(build_stubbed(:state))
-    mechanic = create(:occupation_standard, :with_data_import, title: "Mechanic")
-    pipe_fitter = create(:occupation_standard, :with_data_import, title: "Pipe Fitter")
+    mechanic = create(:occupation_standard, :with_wp_and_ri, :with_data_import, title: "Mechanic")
+    pipe_fitter = create(:occupation_standard, :with_wp_and_ri, :with_data_import, title: "Pipe Fitter")
 
     visit home_page_path
 
@@ -23,9 +23,9 @@ RSpec.describe "pages/home" do
   describe "featured section" do
     it "displays National Guidelines box" do
       allow(State).to receive(:find_by).and_return(build_stubbed(:state))
-      mechanic = create(:occupation_standard, :with_data_import, :guideline_standard, title: "Mechanic")
-      hr = create(:occupation_standard, :with_data_import, :guideline_standard, title: "HR")
-      create(:occupation_standard, :occupational_framework, title: "Pipe Fitter")
+      mechanic = create(:occupation_standard, :with_wp_and_ri, :with_data_import, :guideline_standard, title: "Mechanic")
+      hr = create(:occupation_standard, :with_wp_and_ri, :with_data_import, :guideline_standard, title: "HR")
+      create(:occupation_standard, :with_wp_and_ri, :occupational_framework, title: "Pipe Fitter")
 
       visit home_page_path
 
@@ -47,10 +47,10 @@ RSpec.describe "pages/home" do
       allow(State).to receive(:find_by).and_return(build_stubbed(:state))
 
       organization = Organization.urban_institute || create(:organization, title: "Urban Institute")
-      mechanic = create(:occupation_standard, :with_data_import, :occupational_framework, title: "Mechanic", organization: organization)
-      hr = create(:occupation_standard, :with_data_import, :occupational_framework, title: "HR", organization: organization)
-      create(:occupation_standard, :with_data_import, :occupational_framework, title: "Dental Assistant")
-      create(:occupation_standard, :guideline_standard, title: "Pipe Fitter")
+      mechanic = create(:occupation_standard, :with_wp_and_ri, :with_data_import, :occupational_framework, title: "Mechanic", organization: organization)
+      hr = create(:occupation_standard, :with_wp_and_ri, :with_data_import, :occupational_framework, title: "HR", organization: organization)
+      create(:occupation_standard, :with_wp_and_ri, :with_data_import, :occupational_framework, title: "Dental Assistant")
+      create(:occupation_standard, :with_wp_and_ri, :guideline_standard, title: "Pipe Fitter")
 
       visit home_page_path
 
@@ -76,9 +76,9 @@ RSpec.describe "pages/home" do
       allow(State).to receive(:find_by).with(name: "California").and_return(state)
 
       ra = create(:registration_agency, state: wa)
-      mechanic = create(:occupation_standard, :with_data_import, registration_agency: ra, title: "Mechanic")
-      hr = create(:occupation_standard, :with_data_import, registration_agency: ra, title: "HR")
-      create(:occupation_standard, title: "Pipe Fitter")
+      mechanic = create(:occupation_standard, :with_wp_and_ri, :with_data_import, registration_agency: ra, title: "Mechanic")
+      hr = create(:occupation_standard, :with_wp_and_ri, :with_data_import, registration_agency: ra, title: "HR")
+      create(:occupation_standard, :with_wp_and_ri, title: "Pipe Fitter")
 
       visit home_page_path
 
@@ -103,9 +103,9 @@ RSpec.describe "pages/home" do
       allow(State).to receive(:find_by).with(name: "California").and_return(state)
 
       ra = create(:registration_agency, state: ny)
-      mechanic = create(:occupation_standard, :with_data_import, registration_agency: ra, title: "Mechanic")
-      hr = create(:occupation_standard, :with_data_import, registration_agency: ra, title: "HR")
-      create(:occupation_standard, title: "Pipe Fitter")
+      mechanic = create(:occupation_standard, :with_wp_and_ri, :with_data_import, registration_agency: ra, title: "Mechanic")
+      hr = create(:occupation_standard, :with_wp_and_ri, :with_data_import, registration_agency: ra, title: "HR")
+      create(:occupation_standard, :with_wp_and_ri, title: "Pipe Fitter")
 
       visit home_page_path
 
@@ -130,9 +130,9 @@ RSpec.describe "pages/home" do
       allow(State).to receive(:find_by).with(name: "California").and_return(ca)
 
       ra = create(:registration_agency, state: ca)
-      mechanic = create(:occupation_standard, :with_data_import, registration_agency: ra, title: "Mechanic")
-      hr = create(:occupation_standard, :with_data_import, registration_agency: ra, title: "HR")
-      create(:occupation_standard, title: "Pipe Fitter")
+      mechanic = create(:occupation_standard, :with_wp_and_ri, :with_data_import, registration_agency: ra, title: "Mechanic")
+      hr = create(:occupation_standard, :with_wp_and_ri, :with_data_import, registration_agency: ra, title: "HR")
+      create(:occupation_standard, :with_wp_and_ri, title: "Pipe Fitter")
 
       visit home_page_path
 
@@ -157,9 +157,9 @@ RSpec.describe "pages/home" do
       allow(State).to receive(:find_by).with(name: "California").and_return(state)
 
       ra = create(:registration_agency, state: ore)
-      mechanic = create(:occupation_standard, :with_data_import, registration_agency: ra, title: "Mechanic")
-      hr = create(:occupation_standard, :with_data_import, registration_agency: ra, title: "HR")
-      create(:occupation_standard, title: "Pipe Fitter")
+      mechanic = create(:occupation_standard, :with_wp_and_ri, :with_data_import, registration_agency: ra, title: "Mechanic")
+      hr = create(:occupation_standard, :with_wp_and_ri, :with_data_import, registration_agency: ra, title: "HR")
+      create(:occupation_standard, :with_wp_and_ri, title: "Pipe Fitter")
 
       visit home_page_path
 
@@ -178,9 +178,9 @@ RSpec.describe "pages/home" do
     it "displays Installation etc. industry box" do
       allow(State).to receive(:find_by).and_return(build_stubbed(:state))
 
-      mechanic = create(:occupation_standard, :with_data_import, onet_code: "49-1234", title: "Mechanic")
-      hr = create(:occupation_standard, :with_data_import, onet_code: "49-5678", title: "HR")
-      create(:occupation_standard, onet_code: "35-1234", title: "Pipe Fitter")
+      mechanic = create(:occupation_standard, :with_wp_and_ri, :with_data_import, onet_code: "49-1234", title: "Mechanic")
+      hr = create(:occupation_standard, :with_wp_and_ri, :with_data_import, onet_code: "49-5678", title: "HR")
+      create(:occupation_standard, :with_wp_and_ri, onet_code: "35-1234", title: "Pipe Fitter")
 
       visit home_page_path
 
@@ -199,9 +199,9 @@ RSpec.describe "pages/home" do
     it "displays Healthcare Support industry box" do
       allow(State).to receive(:find_by).and_return(build_stubbed(:state))
 
-      mechanic = create(:occupation_standard, :with_data_import, onet_code: "31-1234", title: "Mechanic")
-      hr = create(:occupation_standard, :with_data_import, onet_code: "31-5678", title: "HR")
-      create(:occupation_standard, onet_code: "35-1234", title: "Pipe Fitter")
+      mechanic = create(:occupation_standard, :with_wp_and_ri, :with_data_import, onet_code: "31-1234", title: "Mechanic")
+      hr = create(:occupation_standard, :with_wp_and_ri, :with_data_import, onet_code: "31-5678", title: "HR")
+      create(:occupation_standard, :with_wp_and_ri, onet_code: "35-1234", title: "Pipe Fitter")
 
       visit home_page_path
 
