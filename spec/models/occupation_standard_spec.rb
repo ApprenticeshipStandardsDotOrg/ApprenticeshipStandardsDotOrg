@@ -425,4 +425,13 @@ RSpec.describe OccupationStandard, type: :model do
       end
     end
   end
+
+  describe "#related_instructions_human_format_hours" do
+    it "returns the related instructions hours formatted with precision 2" do
+      occupation_standard = build(:occupation_standard)
+      allow(occupation_standard).to receive(:related_instructions_hours).and_return(144)
+
+      expect(occupation_standard.related_instructions_human_format_hours).to eq "140"
+    end
+  end
 end

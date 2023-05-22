@@ -1,4 +1,6 @@
 class OccupationStandard < ApplicationRecord
+  include ActionView::Helpers::NumberHelper
+
   belongs_to :occupation, optional: true
   belongs_to :registration_agency, optional: true
   belongs_to :organization, optional: true
@@ -128,6 +130,18 @@ class OccupationStandard < ApplicationRecord
 
   def related_instructions_hours
     related_instructions.sum(:hours)
+  end
+
+  def related_instructions_human_format_hours
+    number_to_human(
+      related_instructions_hours,
+      format: "%n%u",
+      precision: 2,
+      units:
+      {
+        thousand: "K"
+      }
+    )
   end
 
   def similar_programs
