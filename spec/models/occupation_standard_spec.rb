@@ -431,7 +431,16 @@ RSpec.describe OccupationStandard, type: :model do
       occupation_standard = build(:occupation_standard)
       allow(occupation_standard).to receive(:related_instructions_hours).and_return(144)
 
-      expect(occupation_standard.related_instructions_human_format_hours).to eq "140"
+      expect(occupation_standard.related_instructions_hours_in_human_format).to eq "140"
+    end
+  end
+
+  describe "#work_processes_hours_in_human_format" do
+    it "returns the work processes hours formatted with precision 2 for significant digits" do
+      occupation_standard = build(:occupation_standard)
+      allow(occupation_standard).to receive(:work_processes_hours).and_return(155)
+
+      expect(occupation_standard.work_processes_hours_in_human_format).to eq "160"
     end
   end
 end
