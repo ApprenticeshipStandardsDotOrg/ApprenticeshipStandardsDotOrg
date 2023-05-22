@@ -427,7 +427,7 @@ RSpec.describe OccupationStandard, type: :model do
   end
 
   describe "#related_instructions_human_format_hours" do
-    it "returns the related instructions hours formatted with precision 2" do
+    it "returns the related instructions hours formatted with precision 2 for significant digits" do
       occupation_standard = build(:occupation_standard)
       allow(occupation_standard).to receive(:related_instructions_hours).and_return(144)
 
