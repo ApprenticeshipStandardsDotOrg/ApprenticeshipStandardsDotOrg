@@ -2,10 +2,10 @@ require "rails_helper"
 
 RSpec.describe "national_standards/index" do
   it "displays national standards only" do
-    mechanic = create(:occupation_standard, :with_wp_and_ri, :program_standard, :with_data_import, title: "Mechanic")
-    pipe_fitter = create(:occupation_standard, :with_wp_and_ri, :guideline_standard, :with_data_import, title: "Pipe Fitter")
-    hr = create(:occupation_standard, :with_wp_and_ri, :occupational_framework, :with_data_import, title: "HR")
-    create(:occupation_standard, :with_wp_and_ri, :state_standard, :with_data_import, title: "Medical Assistant")
+    mechanic = create(:occupation_standard, :with_work_processes, :program_standard, :with_data_import, title: "Mechanic")
+    pipe_fitter = create(:occupation_standard, :with_work_processes, :guideline_standard, :with_data_import, title: "Pipe Fitter")
+    hr = create(:occupation_standard, :with_work_processes, :occupational_framework, :with_data_import, title: "HR")
+    create(:occupation_standard, :with_work_processes, :state_standard, :with_data_import, title: "Medical Assistant")
 
     visit national_standards_path
 
@@ -16,10 +16,10 @@ RSpec.describe "national_standards/index" do
   end
 
   it "filters national standards based on search term" do
-    dental = create(:occupation_standard, :with_wp_and_ri, :program_standard, :with_data_import, title: "Dental Assistant")
-    create(:occupation_standard, :with_wp_and_ri, :guideline_standard, :with_data_import, title: "Pipe Fitter")
-    create(:occupation_standard, :with_wp_and_ri, :occupational_framework, :with_data_import, title: "HR")
-    create(:occupation_standard, :with_wp_and_ri, :state_standard, :with_data_import, title: "Medical Assistant")
+    dental = create(:occupation_standard, :with_work_processes, :program_standard, :with_data_import, title: "Dental Assistant")
+    create(:occupation_standard, :with_work_processes, :guideline_standard, :with_data_import, title: "Pipe Fitter")
+    create(:occupation_standard, :with_work_processes, :occupational_framework, :with_data_import, title: "HR")
+    create(:occupation_standard, :with_work_processes, :state_standard, :with_data_import, title: "Medical Assistant")
 
     visit national_standards_path
 
