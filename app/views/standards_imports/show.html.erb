@@ -1,32 +1,65 @@
-<div class="flex flex-col w-full mx-auto">
-  <h1 class="w-full max-w-prose mx-auto text-center mb-3">Thank you for submitting your apprenticeship standards!</h1>
-  <div class="w-full max-w-prose mx-auto mb-4">
-    <div class="mb-4">
-      <div class="show-label">Name</div>
-      <div class="show-field"><%= @standards_import.name %></div>
+<section aria-labelledby="page-title" class="occ-hero bg-no-repeat bg-cover bg-center bg-gray-700">
+  <%= render partial: "layouts/nav" %>
+</section>
+
+<nav class="flex px-5 py-3 text-gray-700 bg-seafoam-900" aria-label="Breadcrumb">
+    <div class="max-w-screen-xl mx-auto w-full px-4 lg:px-8">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <li class="inline-flex items-center">
+                <a href="/home" class="inline-flex items-center text-sm font-medium text-gray-50 hover:text-white">
+                    <svg aria-hidden="true" class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+                    </svg>
+                    Home
+                </a>
+            </li>
+            <li aria-current="page">
+                <div class="flex items-center">
+                    <svg aria-hidden="true" class="w-6 h-6 text-gray-50" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="ml-1 text-sm font-medium md:ml-2 text-gray-50">Upload Apprenticeship Standards</span>
+                </div>
+            </li>
+        </ol>
     </div>
-    <div class="mb-4">
-      <div class="show-label">Email</div>
-      <div class="show-field"><%= @standards_import.email %></div>
-    </div>
-    <div class="mb-4">
-      <div class="show-label">Organization</div>
-      <div class="show-field"><%= @standards_import.organization %></div>
-    </div>
-    <div class="mb-4">
-      <div class="show-label">Notes</div>
-      <div class="show-field"><%= @standards_import.notes %></div>
-    </div>
-    <div class="mb-4">
-      <div class="show-label">Files</div>
-      <% @standards_import.files.each do |file| %>
-        <div class="w-full mb-1">
-          <%= link_to file.filename.to_s, url_for(file), class: "text-blue-600 hover:text-blue-800 visited:text-purple-600" %>
+</nav>
+
+<section aria-labelledby="section-title" class="bg-seafoam-50">
+  <div class="mx-auto max-w-screen-xl py-10 px-4 sm:py-16 lg:px-6">
+      <h3 class="font-bold text-2xl mt-4 mb-2">
+          Thank you for submitting your apprenticeship standards!
+      </h3>
+      <div class="flex flex-col w-full">
+        <div class="w-full max-w-prose mb-4">
+          <div class="mb-4">
+            <div class="show-label">Name</div>
+            <div class="show-field"><%= @standards_import.name %></div>
+          </div>
+          <div class="mb-4">
+            <div class="show-label">Email</div>
+            <div class="show-field"><%= @standards_import.email %></div>
+          </div>
+          <div class="mb-4">
+            <div class="show-label">Organization</div>
+            <div class="show-field"><%= @standards_import.organization %></div>
+          </div>
+          <div class="mb-4">
+            <div class="show-label">Notes</div>
+            <div class="show-field"><%= @standards_import.notes %></div>
+          </div>
+          <div class="mb-4">
+            <div class="show-label">Files</div>
+            <% @standards_import.files.each do |file| %>
+              <div class="w-full mb-1">
+                <%= link_to file.filename.to_s, url_for(file), class: "text-blue-600 hover:text-blue-800 visited:text-purple-600" %>
+              </div>
+            <% end %>
+          </div>
         </div>
-      <% end %>
-    </div>
+        <div>
+          <%= link_to "Upload more standards", new_standards_import_path, class: "flex-none text-white inline-flex items-center bg-seafoam-700 hover:bg-seafoam-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium text-sm px-4 py-2" %>
+        </div>
+      </div>
   </div>
-  <div class="w-full max-w-prose mx-auto">
-    <%= link_to "Upload more standards", new_standards_import_path, class: "btn-primary" %>
-  </div>
-</div>
+</section>
