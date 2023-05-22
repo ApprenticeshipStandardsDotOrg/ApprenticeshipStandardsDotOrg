@@ -9,7 +9,7 @@ RSpec.describe AdminMailer, type: :mailer do
       mail = AdminMailer.new_standards_import(si)
 
       expect(mail.subject).to eq("New standards import uploaded")
-      expect(mail.to).to eq(["jeanine@thoughtbot.com"])
+      expect(mail.to).to eq(["patrick@workhands.us"])
       expect(mail.from).to eq(["no-reply@apprenticeshipstandards.org"])
 
       mail.body.parts.each do |part|
