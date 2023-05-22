@@ -1,30 +1,60 @@
-<div class="flex flex-col w-full mx-auto">
-  <h1 class="w-full max-w-prose mx-auto text-center">Upload Apprenticeship Standards</h1>
-  <div class="w-full max-w-prose mx-auto">
-    <%= form_with model: @standards_import, class: "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" do |f| %>
-      <div class="mb-4">
-        <%= f.label :name, class: "form-label" %>
-        <%= f.text_field :name, class: "form-field" %>
-      </div>
-      <div class="mb-4">
-        <%= f.label :email, class: "form-label" %>
-        <%= f.email_field :email, class: "form-field" %>
-      </div>
-      <div class="mb-4">
-        <%= f.label :organization, class: "form-label" %>
-        <%= f.text_field :organization, class: "form-field" %>
-      </div>
-      <div class="mb-4">
-        <%= f.label :notes, class: "form-label" %>
-        <%= f.text_area :notes, class: "form-field" %>
-      </div>
-      <div class="mb-6">
-        <%= f.label :files, class: "form-label" %>
-        <%= f.file_field :files, multiple: true, class: "form-field" %>
-      </div>
-      <div>
-        <%= f.submit "Upload", class: "btn-primary" %>
-      </div>
-    <% end %>
+<section aria-labelledby="page-title" class="occ-hero bg-no-repeat bg-cover bg-center bg-gray-700">
+  <%= render partial: "layouts/nav" %> 
+</section>
+
+<nav class="flex px-5 py-3 text-gray-700 bg-seafoam-900" aria-label="Breadcrumb">
+  <div class="max-w-screen-xl mx-auto w-full px-4 lg:px-8">
+    <ol class="inline-flex items-center space-x-1 md:space-x-3">
+      <li class="inline-flex items-center">
+        <a href="/home" class="inline-flex items-center text-sm font-medium text-gray-50 hover:text-white">
+          <svg aria-hidden="true" class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+          </svg>
+          Home
+        </a>
+      </li>
+      <li aria-current="page">
+          <div class="flex items-center">
+              <svg aria-hidden="true" class="w-6 h-6 text-gray-50" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+              </svg>
+              <span class="ml-1 text-sm font-medium md:ml-2 text-gray-50">Upload Apprenticeship Standards</span>
+          </div>
+      </li>
+    </ol>
   </div>
-</div>
+</nav>
+
+<section aria-labelledby="section-title" class="bg-seafoam-50">
+  <div class="mx-auto max-w-screen-xl py-10 px-4 sm:py-16 lg:px-6">
+      <h3 class="font-bold text-2xl mt-4 mb-2">
+          Upload Apprenticeship Standards
+      </h3>
+      <%= form_with model: @standards_import, class: "bg-seafoam-50" do |f| %>
+        <div class="mb-4">
+          <%= f.label :name, class: "form-label" %>
+          <%= f.text_field :name, class: "form-field" %>
+        </div>
+        <div class="mb-4">
+          <%= f.label :email, class: "form-label" %>
+          <%= f.email_field :email, class: "form-field" %>
+        </div>
+        <div class="mb-4">
+          <%= f.label :organization, class: "form-label" %>
+          <%= f.text_field :organization, class: "form-field" %>
+        </div>
+        <div class="mb-4">
+          <%= f.label :notes, class: "form-label" %>
+          <%= f.text_area :notes, class: "form-field" %>
+        </div>
+        <div class="mb-6">
+          <%= f.label :files, class: "form-label" %>
+          <%= f.file_field :files, multiple: true, class: "form-field bg-white px-6" %>
+        </div>
+        <div>
+          <%= f.submit "Upload", class: "flex-none text-white inline-flex items-center bg-seafoam-700 hover:bg-seafoam-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium text-sm px-4 py-2" %>
+        </div>
+      <% end %>
+  </div>
+</section>
+
