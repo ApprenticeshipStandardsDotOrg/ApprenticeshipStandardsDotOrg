@@ -2,8 +2,8 @@ require "rails_helper"
 
 RSpec.describe "occupation_standards/index" do
   it "displays titles" do
-    mechanic = create(:occupation_standard, :with_wp_and_ri, :with_data_import, title: "Mechanic")
-    pipe_fitter = create(:occupation_standard, :with_wp_and_ri, :with_data_import, :program_standard, title: "Pipe Fitter")
+    mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
+    pipe_fitter = create(:occupation_standard, :with_work_processes, :with_data_import, :program_standard, title: "Pipe Fitter")
 
     visit occupation_standards_path
 
@@ -14,7 +14,6 @@ RSpec.describe "occupation_standards/index" do
   it "displays only OJT hours and not skills for time-based standards" do
     mechanic = create(:occupation_standard, :time, :with_data_import, title: "Mechanic")
     work_process = create(:work_process, occupation_standard: mechanic, maximum_hours: 200)
-    create(:related_instruction, occupation_standard: mechanic)
     create(:competency, work_process: work_process)
 
     visit occupation_standards_path
@@ -27,7 +26,6 @@ RSpec.describe "occupation_standards/index" do
   it "displays only skills and not OJT hours for competency-based standards" do
     mechanic = create(:occupation_standard, :competency, :with_data_import, title: "Mechanic")
     work_process = create(:work_process, occupation_standard: mechanic, maximum_hours: 200)
-    create(:related_instruction, occupation_standard: mechanic)
     create(:competency, work_process: work_process)
 
     visit occupation_standards_path
@@ -40,7 +38,6 @@ RSpec.describe "occupation_standards/index" do
   it "displays skills and OJT hours for hybrid-based standards" do
     mechanic = create(:occupation_standard, :hybrid, :with_data_import, title: "Mechanic")
     work_process = create(:work_process, occupation_standard: mechanic, maximum_hours: 200)
-    create(:related_instruction, occupation_standard: mechanic)
     create(:competency, work_process: work_process)
 
     visit occupation_standards_path
@@ -51,9 +48,9 @@ RSpec.describe "occupation_standards/index" do
   end
 
   it "filters occupations based on search term" do
-    dental = create(:occupation_standard, :with_wp_and_ri, :with_data_import, title: "Dental Assistant")
-    medical = create(:occupation_standard, :with_wp_and_ri, :program_standard, :with_data_import, title: "Medical Assistant")
-    create(:occupation_standard, :with_wp_and_ri, :with_data_import, title: "Pipe Fitter")
+    dental = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Dental Assistant")
+    medical = create(:occupation_standard, :with_work_processes, :program_standard, :with_data_import, title: "Medical Assistant")
+    create(:occupation_standard, :with_work_processes, :with_data_import, title: "Pipe Fitter")
 
     visit occupation_standards_path
 
@@ -70,9 +67,9 @@ RSpec.describe "occupation_standards/index" do
   end
 
   it "filters occupations based on rapids_code search term" do
-    mechanic = create(:occupation_standard, :with_wp_and_ri, :with_data_import, title: "Mechanic", rapids_code: "1234")
-    pipe_fitter = create(:occupation_standard, :with_wp_and_ri, :with_data_import, title: "Pipe Fitter", rapids_code: "1234CB")
-    create(:occupation_standard, :with_wp_and_ri, :with_data_import, title: "HR", rapids_code: "9876")
+    mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", rapids_code: "1234")
+    pipe_fitter = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Pipe Fitter", rapids_code: "1234CB")
+    create(:occupation_standard, :with_work_processes, :with_data_import, title: "HR", rapids_code: "9876")
 
     visit occupation_standards_path
 
@@ -89,9 +86,9 @@ RSpec.describe "occupation_standards/index" do
   end
 
   it "filters occupations based on onet_code search term" do
-    mechanic = create(:occupation_standard, :with_wp_and_ri, :with_data_import, title: "Mechanic", onet_code: "12.3456")
-    pipe_fitter = create(:occupation_standard, :with_wp_and_ri, :with_data_import, title: "Pipe Fitter", onet_code: "12.34567")
-    create(:occupation_standard, :with_wp_and_ri, :with_data_import, title: "HR", onet_code: "12.34")
+    mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", onet_code: "12.3456")
+    pipe_fitter = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Pipe Fitter", onet_code: "12.34567")
+    create(:occupation_standard, :with_work_processes, :with_data_import, title: "HR", onet_code: "12.34")
 
     visit occupation_standards_path
 
@@ -110,9 +107,9 @@ RSpec.describe "occupation_standards/index" do
   it "filters occupations based on onet_code search term and state filter", :js do
     wa = create(:state, name: "Washington")
     ra = create(:registration_agency, state: wa)
-    mechanic = create(:occupation_standard, :with_wp_and_ri, :with_data_import, title: "Mechanic", onet_code: "12.3456", registration_agency: ra)
-    create(:occupation_standard, :with_wp_and_ri, :with_data_import, title: "Pipe Fitter", onet_code: "12.34567")
-    create(:occupation_standard, :with_wp_and_ri, :with_data_import, title: "HR", onet_code: "12.34")
+    mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", onet_code: "12.3456", registration_agency: ra)
+    create(:occupation_standard, :with_work_processes, :with_data_import, title: "Pipe Fitter", onet_code: "12.34567")
+    create(:occupation_standard, :with_work_processes, :with_data_import, title: "HR", onet_code: "12.34")
 
     visit occupation_standards_path
 
@@ -132,10 +129,10 @@ RSpec.describe "occupation_standards/index" do
   end
 
   it "filters occupations based on onet_code search term and national_standard_type filter", :js do
-    mechanic = create(:occupation_standard, :with_wp_and_ri, :program_standard, :with_data_import, title: "Mechanic", onet_code: "12.3456")
-    medical_assistant = create(:occupation_standard, :with_wp_and_ri, :occupational_framework, :with_data_import, title: "Medical Assistant", onet_code: "12.34567")
-    create(:occupation_standard, :with_wp_and_ri, :guideline_standard, :with_data_import, title: "Pipe Fitter", onet_code: "12.34567")
-    create(:occupation_standard, :with_wp_and_ri, :with_data_import, title: "HR", onet_code: "12.3456")
+    mechanic = create(:occupation_standard, :with_work_processes, :program_standard, :with_data_import, title: "Mechanic", onet_code: "12.3456")
+    medical_assistant = create(:occupation_standard, :with_work_processes, :occupational_framework, :with_data_import, title: "Medical Assistant", onet_code: "12.34567")
+    create(:occupation_standard, :with_work_processes, :guideline_standard, :with_data_import, title: "Pipe Fitter", onet_code: "12.34567")
+    create(:occupation_standard, :with_work_processes, :with_data_import, title: "HR", onet_code: "12.3456")
 
     visit occupation_standards_path
 
@@ -161,9 +158,9 @@ RSpec.describe "occupation_standards/index" do
   end
 
   it "filters occupations based on onet_code search term and ojt_type filter", :js do
-    mechanic = create(:occupation_standard, :with_wp_and_ri, :hybrid, :with_data_import, title: "Mechanic", onet_code: "12.3456")
-    medical_assistant = create(:occupation_standard, :with_wp_and_ri, :time, :with_data_import, title: "Medical Assistant", onet_code: "12.34567")
-    create(:occupation_standard, :with_wp_and_ri, :competency, :with_data_import, title: "Pipe Fitter", onet_code: "12.34567")
+    mechanic = create(:occupation_standard, :with_work_processes, :hybrid, :with_data_import, title: "Mechanic", onet_code: "12.3456")
+    medical_assistant = create(:occupation_standard, :with_work_processes, :time, :with_data_import, title: "Medical Assistant", onet_code: "12.34567")
+    create(:occupation_standard, :with_work_processes, :competency, :with_data_import, title: "Pipe Fitter", onet_code: "12.34567")
 
     visit occupation_standards_path
 
@@ -191,9 +188,9 @@ RSpec.describe "occupation_standards/index" do
   it "can clear form", :js do
     wa = create(:state, name: "Washington")
     ra = create(:registration_agency, state: wa)
-    mechanic = create(:occupation_standard, :with_wp_and_ri, :hybrid, :with_data_import, title: "Mechanic", onet_code: "12.3456", registration_agency: ra)
-    medical_assistant = create(:occupation_standard, :with_wp_and_ri, :program_standard, :time, :with_data_import, title: "Medical Assistant", onet_code: "12.34567", registration_agency: ra)
-    create(:occupation_standard, :with_wp_and_ri, :competency, :with_data_import, title: "Pipe Fitter", onet_code: "12.34567")
+    mechanic = create(:occupation_standard, :with_work_processes, :hybrid, :with_data_import, title: "Mechanic", onet_code: "12.3456", registration_agency: ra)
+    medical_assistant = create(:occupation_standard, :with_work_processes, :program_standard, :time, :with_data_import, title: "Medical Assistant", onet_code: "12.34567", registration_agency: ra)
+    create(:occupation_standard, :with_work_processes, :competency, :with_data_import, title: "Pipe Fitter", onet_code: "12.34567")
 
     visit occupation_standards_path
 
@@ -258,7 +255,7 @@ RSpec.describe "occupation_standards/index" do
   end
 
   it "shows registration date if available" do
-    create(:occupation_standard, :with_wp_and_ri, :with_data_import, title: "Mechanic", registration_date: Date.parse("October 17, 1989"))
+    create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", registration_date: Date.parse("October 17, 1989"))
 
     visit occupation_standards_path
 
@@ -266,7 +263,7 @@ RSpec.describe "occupation_standards/index" do
   end
 
   it "shows latest updated date if available" do
-    create(:occupation_standard, :with_wp_and_ri, :with_data_import, title: "Mechanic", latest_update_date: Date.parse("October 17, 1989"))
+    create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", latest_update_date: Date.parse("October 17, 1989"))
 
     visit occupation_standards_path
 

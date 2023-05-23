@@ -8,9 +8,8 @@ FactoryBot.define do
     ojt_type { :hybrid }
     registration_agency
 
-    trait :with_wp_and_ri do
+    trait :with_work_processes do
       work_processes { build_list(:work_process, 1) }
-      related_instructions { build_list(:related_instruction, 1) }
     end
 
     trait :state_standard do
