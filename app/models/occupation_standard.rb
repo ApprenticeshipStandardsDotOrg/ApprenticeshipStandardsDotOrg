@@ -34,10 +34,6 @@ class OccupationStandard < ApplicationRecord
     end
   end
 
-  after_commit on: [:create] do
-    __elasticsearch__.index_document
-  end
-
   scope :by_title, ->(title) do
     if title.present?
       where("title ILIKE ?", "%#{sanitize_sql_like(title).split.join("%")}%")
