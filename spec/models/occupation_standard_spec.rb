@@ -196,7 +196,7 @@ RSpec.describe OccupationStandard, type: :model do
   end
 
   describe ".search", :elasticsearch do
-    it "returns something" do
+    it "returns occupation standards that match the given query" do
       _mechanic = create(:occupation_standard, title: "Mechanic")
       medical_assistant = create(:occupation_standard, title: "Medical Assistant")
       sleep 1
