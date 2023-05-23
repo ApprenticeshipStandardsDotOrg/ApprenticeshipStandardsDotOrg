@@ -55,6 +55,29 @@ RSpec.configure do |config|
   # you configure your source control system to ignore this file.
   config.example_status_persistence_file_path = "spec/examples.txt"
 
+  config.around(:each, elasticsearch: true) do |example|
+    reset_elasticsearch
+    example.run
+  end
+
+  def reset_elasticsearch
+    ActiveRecord::Base.descendants.each do |model|
+      if model.respond_to?(:__elasticsearch__)
+        begin
+          model.__elasticsearch__.create_index!(force: true)
+          model.__elasticsearch__.refresh_index!
+          puts "CRIADO \n\n"
+        rescue Elasticsearch::Transport::Transport::Errors::NotFound => _e
+          # This kills "Index does not exist" errors being written to console
+          # by this: https://github.com/elastic/elasticsearch-rails/blob/738c63efacc167b6e8faae3b01a1a0135cfc8bbb/elasticsearch-model/lib/elasticsearch/model/indexing.rb#L268
+        rescue => e
+          puts "There was an error creating the elasticsearch index for #{model.name}: #{e.inspect}"
+        end
+      end
+    end
+  end
+
+
   # The settings below are suggested to provide a good initial experience
   # with RSpec, but feel free to customize to your heart's content.
   #   # This allows you to limit a spec run to individual examples or groups

@@ -173,6 +173,13 @@ GEM
       elasticsearch-transport (= 7.17.7)
     elasticsearch-api (7.17.7)
       multi_json
+<<<<<<< HEAD
+=======
+    elasticsearch-model (7.2.1)
+      activesupport (> 3)
+      elasticsearch (~> 7)
+      hashie
+>>>>>>> 791fbc3 (Configure ES, add a searchable module)
     elasticsearch-transport (7.17.7)
       faraday (~> 1)
       multi_json
@@ -488,8 +495,12 @@ DEPENDENCIES
   devise
   docx
   dotenv-rails
+<<<<<<< HEAD
   elasticsearch-model!
   elasticsearch-rails!
+=======
+  elasticsearch-model
+>>>>>>> 791fbc3 (Configure ES, add a searchable module)
   erb_lint
   erblint-github
   factory_bot_rails

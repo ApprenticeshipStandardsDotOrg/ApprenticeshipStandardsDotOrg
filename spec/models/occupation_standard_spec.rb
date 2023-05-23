@@ -195,6 +195,19 @@ RSpec.describe OccupationStandard, type: :model do
     end
   end
 
+  describe ".search", :elasticsearch do
+    it "returns something" do
+      create(:occupation_standard, title: "my standard")
+      create(:occupation_standard, title: "some other string")
+
+      OccupationStandard.import force: true
+
+      result = OccupationStandard.search("my standard")
+
+      expect(result.size).not_to eq 0
+    end
+  end
+
   describe "#sponsor_name" do
     it "returns organization name when it exists" do
       organization = build_stubbed(:organization, title: "Disney")

@@ -1,5 +1,6 @@
 class OccupationStandard < ApplicationRecord
   include ActionView::Helpers::NumberHelper
+  include Searchable
 
   belongs_to :occupation, optional: true
   belongs_to :registration_agency, optional: true
@@ -25,6 +26,17 @@ class OccupationStandard < ApplicationRecord
   validates :registration_agency, presence: true, unless: :national?
 
   MAX_SIMILAR_PROGRAMS_TO_DISPLAY = 5
+
+  settings do
+    mappings dynamic: false do
+      indexes :title, type: :text
+      indexes :ojt_type, type: :text
+    end
+  end
+
+  after_commit on: [:create] do
+    __elasticsearch__.index_document
+  end
 
   scope :by_title, ->(title) do
     if title.present?
