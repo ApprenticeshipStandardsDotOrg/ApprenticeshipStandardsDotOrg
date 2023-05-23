@@ -70,6 +70,7 @@ jobs:
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB_TEST: app_test
           CI: true
+          BONSAI_URL: https://localhost:9200
         run: |
           bundle exec rails db:schema:load
           bundle exec rake assets:precompile
