@@ -55,16 +55,6 @@ RSpec.configure do |config|
   # you configure your source control system to ignore this file.
   config.example_status_persistence_file_path = "spec/examples.txt"
 
-  config.around(:each, elasticsearch: true) do |example|
-    reset_elasticsearch
-    example.run
-  end
-
-  def reset_elasticsearch
-    OccupationStandard.__elasticsearch__.create_index!(force: true)
-    OccupationStandard.__elasticsearch__.refresh_index!
-  end
-
   # The settings below are suggested to provide a good initial experience
   # with RSpec, but feel free to customize to your heart's content.
   #   # This allows you to limit a spec run to individual examples or groups
