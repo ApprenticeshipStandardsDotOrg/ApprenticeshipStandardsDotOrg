@@ -65,7 +65,6 @@ RSpec.configure do |config|
     OccupationStandard.__elasticsearch__.refresh_index!
   end
 
-
   # The settings below are suggested to provide a good initial experience
   # with RSpec, but feel free to customize to your heart's content.
   #   # This allows you to limit a spec run to individual examples or groups

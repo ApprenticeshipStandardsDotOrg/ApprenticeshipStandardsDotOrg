@@ -12,12 +12,12 @@ module Searchable
       params = {
         query: {
           match: {
-            title: query,
-          },
-        },
+            title: query
+          }
+        }
       }
 
-      self.__elasticsearch__.search(params)
+      __elasticsearch__.search(params)
     end
   end
 end

@@ -197,7 +197,7 @@ RSpec.describe OccupationStandard, type: :model do
 
   describe ".search", :elasticsearch do
     it "returns something" do
-      mechanic = create(:occupation_standard, title: "Mechanic")
+      _mechanic = create(:occupation_standard, title: "Mechanic")
       medical_assistant = create(:occupation_standard, title: "Medical Assistant")
       sleep 1
 
