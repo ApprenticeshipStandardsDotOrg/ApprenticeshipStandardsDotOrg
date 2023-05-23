@@ -61,20 +61,8 @@ RSpec.configure do |config|
   end
 
   def reset_elasticsearch
-    ActiveRecord::Base.descendants.each do |model|
-      if model.respond_to?(:__elasticsearch__)
-        begin
-          model.__elasticsearch__.create_index!(force: true)
-          model.__elasticsearch__.refresh_index!
-          puts "CRIADO \n\n"
-        rescue Elasticsearch::Transport::Transport::Errors::NotFound => _e
-          # This kills "Index does not exist" errors being written to console
-          # by this: https://github.com/elastic/elasticsearch-rails/blob/738c63efacc167b6e8faae3b01a1a0135cfc8bbb/elasticsearch-model/lib/elasticsearch/model/indexing.rb#L268
-        rescue => e
-          puts "There was an error creating the elasticsearch index for #{model.name}: #{e.inspect}"
-        end
-      end
-    end
+    OccupationStandard.__elasticsearch__.create_index!(force: true)
+    OccupationStandard.__elasticsearch__.refresh_index!
   end
 
 

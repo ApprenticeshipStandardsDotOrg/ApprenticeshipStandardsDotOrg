@@ -197,14 +197,14 @@ RSpec.describe OccupationStandard, type: :model do
 
   describe ".search", :elasticsearch do
     it "returns something" do
-      create(:occupation_standard, title: "my standard")
-      create(:occupation_standard, title: "some other string")
+      mechanic = create(:occupation_standard, title: "Mechanic")
+      medical_assistant = create(:occupation_standard, title: "Medical Assistant")
+      sleep 1
 
-      OccupationStandard.import force: true
+      result = OccupationStandard.search("Assistant")
 
-      result = OccupationStandard.search("my standard")
-
-      expect(result.size).not_to eq 0
+      expect(result.response["hits"]["hits"].length).to eq 1
+      expect(result.response["hits"]["hits"].first["_id"]).to eq medical_assistant.id
     end
   end
 
