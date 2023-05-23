@@ -1,0 +1,21 @@
+<h1>New Contact Request</h1>
+
+<p>
+Name: <%= @contact_request.name %>
+</p>
+
+<p>
+Email: <%= @contact_request.email %>
+</p>
+
+<p>
+Organization: <%= @contact_request.organization %>
+</p>
+
+<p>
+Message: <%= @contact_request.message %>
+</p>
+
+<p>
+<%= link_to "Link to contact request", admin_contact_request_url(@contact_request) %>
+</p>
