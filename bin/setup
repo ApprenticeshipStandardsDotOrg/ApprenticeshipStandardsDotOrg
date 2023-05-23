@@ -13,6 +13,11 @@ FileUtils.chdir APP_ROOT do
   # This script is idempotent, so that you can run it at any time and get an expectable outcome.
   # Add necessary setup steps to this file.
 
+  if system "command -v brew > /dev/null"
+    puts "== Installing system dependencies with Homebrew =="
+    system! "brew bundle"
+  end
+
   puts "== Installing dependencies =="
   system! "gem install bundler --conservative"
   system("bundle check") || system!("bundle install")
