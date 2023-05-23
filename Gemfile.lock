@@ -6,17 +6,6 @@ GIT
     capybara_accessible_selectors (0.10.0)
       capybara (>= 3.36.0)
 
-GIT
-  remote: https://github.com/elastic/elasticsearch-rails.git
-  revision: 5605d1fe69d3727bf1d0c703d5510583e8acc96b
-  branch: main
-  specs:
-    elasticsearch-model (7.2.1)
-      activesupport (> 3)
-      elasticsearch (~> 7)
-      hashie
-    elasticsearch-rails (7.2.1)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -173,6 +162,11 @@ GEM
       elasticsearch-transport (= 7.17.7)
     elasticsearch-api (7.17.7)
       multi_json
+    elasticsearch-model (7.2.1)
+      activesupport (> 3)
+      elasticsearch (~> 7)
+      hashie
+    elasticsearch-rails (7.2.1)
     elasticsearch-transport (7.17.7)
       faraday (~> 1)
       multi_json
@@ -488,8 +482,8 @@ DEPENDENCIES
   devise
   docx
   dotenv-rails
-  elasticsearch-model!
-  elasticsearch-rails!
+  elasticsearch-model (< 7.14)
+  elasticsearch-rails (< 7.14)
   erb_lint
   erblint-github
   factory_bot_rails
