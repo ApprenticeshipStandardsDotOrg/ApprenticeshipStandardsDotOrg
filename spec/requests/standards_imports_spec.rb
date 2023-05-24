@@ -12,7 +12,8 @@ RSpec.describe "StandardsImports", type: :request do
   describe "POST /create" do
     context "with valid parameters" do
       context "when guest" do
-        it "creates new standards import record and redirects to show page" do
+        it "creates new standards import record, redirects to show page, and notifies admin" do
+          expect_any_instance_of(StandardsImport).to receive(:notify_admin)
           expect {
             post standards_imports_path, params: {
               standards_import: {
@@ -38,10 +39,11 @@ RSpec.describe "StandardsImports", type: :request do
       end
 
       context "when admin", :admin do
-        it "creates new standards import record and redirects to source files page" do
+        it "creates new standards import record, redirects to source files page, and does not notify admin" do
           admin = create(:admin)
 
           sign_in admin
+          expect_any_instance_of(StandardsImport).to_not receive(:notify_admin)
           expect {
             post standards_imports_path, params: {
               standards_import: {

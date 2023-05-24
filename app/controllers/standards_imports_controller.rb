@@ -10,6 +10,7 @@ class StandardsImportsController < ApplicationController
       if user_signed_in?
         redirect_to admin_source_files_path
       else
+        @standards_import.notify_admin
         redirect_to standards_import_path(@standards_import)
       end
     else
