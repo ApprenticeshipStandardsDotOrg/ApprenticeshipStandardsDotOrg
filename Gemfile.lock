@@ -421,7 +421,7 @@ GEM
       rubocop-performance (= 1.15.0)
     standardrb (1.0.1)
       standard
-    stimulus-rails (1.1.1)
+    stimulus-rails (1.2.1)
       railties (>= 6.0.0)
     tailwindcss-rails (2.0.21-arm64-darwin)
       railties (>= 6.0.0)
