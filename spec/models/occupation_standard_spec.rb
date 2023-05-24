@@ -201,9 +201,9 @@ RSpec.describe OccupationStandard, type: :model do
       medical_assistant = create(:occupation_standard, title: "Medical Assistant")
       sleep 1
 
-      result = OccupationStandard.search("Assistant")
+      result = OccupationStandard.__elasticsearch__.search("Assist")
 
-      expect(result.response["hits"]["hits"].length).to eq 1
+      expect(result.results.total).to eq 1
       expect(result.response["hits"]["hits"].first["_id"]).to eq medical_assistant.id
     end
   end

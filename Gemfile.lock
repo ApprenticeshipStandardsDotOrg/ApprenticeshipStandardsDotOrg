@@ -91,6 +91,7 @@ GEM
       administrate (< 1.0.0)
       rails (>= 4.2)
     after_party (1.11.2)
+    ansi (1.5.0)
     ast (2.4.2)
     aws-eventstream (1.2.0)
     aws-partitions (1.691.0)
@@ -163,6 +164,9 @@ GEM
       elasticsearch-transport (= 7.13.3)
     elasticsearch-api (7.13.3)
       multi_json
+    elasticsearch-extensions (0.0.33)
+      ansi
+      elasticsearch
     elasticsearch-model (7.2.1)
       activesupport (> 3)
       elasticsearch (~> 7)
@@ -488,6 +492,7 @@ DEPENDENCIES
   docx
   dotenv-rails
   elasticsearch (< 7.14)
+  elasticsearch-extensions
   erb_lint
   erblint-github
   factory_bot_rails

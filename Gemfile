@@ -96,6 +96,7 @@ group :development do
 end
 
 group :test do
+  gem "elasticsearch-extensions"
   gem "capybara"
   gem "capybara_accessible_selectors", git: "https://github.com/citizensadvice/capybara_accessible_selectors", tag: "v0.10.0"
   gem "selenium-webdriver"
