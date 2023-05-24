@@ -22,30 +22,35 @@ RSpec.describe "admin/source_files/show", :admin do
     expect(page).to have_link "Edit", href: edit_admin_source_file_data_import_path(source_file, data_import2)
 
     expect(page).to have_link "New data import", href: new_admin_source_file_data_import_path(source_file)
-#    expect(page).to_not have_button "Need support"
+    expect(page).to_not have_button "Needs support"
   end
 
-  it "has Need support button viewable for converters" do
+  it "has Needs support button viewable for converters" do
     converter = create(:user, :converter)
     source_file = create(:source_file)
 
     occupation_standard1 = create(:occupation_standard, title: "Mechanic")
     data_import1 = create(:data_import, source_file: source_file, occupation_standard: occupation_standard1)
 
-    data_import2 = create(:data_import, :hybrid, source_file: source_file, occupation_standard: nil)
-
     login_as converter
     visit admin_source_file_path(source_file)
 
     expect(page).to have_content "Show #{source_file.filename}"
 
+    within("dd", match: :first) do
+      expect(page).to have_text "Pending"
+    end
     expect(page).to_not have_link "Edit", href: edit_admin_source_file_data_import_path(source_file, data_import1)
     expect(page).to have_link "occupation-standards-template.xlsx", href: admin_source_file_data_import_path(source_file, data_import1)
     expect(page).to_not have_link "Mechanic", href: admin_occupation_standard_path(occupation_standard1)
 
-    expect(page).to_not have_link "Edit", href: edit_admin_source_file_data_import_path(source_file, data_import2)
-
     expect(page).to have_link "New data import", href: new_admin_source_file_data_import_path(source_file)
-#    expect(page).to have_button "Need support"
+    expect(page).to have_button "Needs support"
+
+    click_on "Needs support"
+
+    within("dd", match: :first) do
+      expect(page).to have_text "Needs Support"
+    end
   end
 end
