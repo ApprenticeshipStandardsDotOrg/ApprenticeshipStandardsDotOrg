@@ -158,17 +158,17 @@ GEM
     dotenv-rails (2.8.1)
       dotenv (= 2.8.1)
       railties (>= 3.2)
-    elasticsearch (7.17.7)
-      elasticsearch-api (= 7.17.7)
-      elasticsearch-transport (= 7.17.7)
-    elasticsearch-api (7.17.7)
+    elasticsearch (7.13.3)
+      elasticsearch-api (= 7.13.3)
+      elasticsearch-transport (= 7.13.3)
+    elasticsearch-api (7.13.3)
       multi_json
     elasticsearch-model (7.2.1)
       activesupport (> 3)
       elasticsearch (~> 7)
       hashie
     elasticsearch-rails (7.2.1)
-    elasticsearch-transport (7.17.7)
+    elasticsearch-transport (7.13.3)
       faraday (~> 1)
       multi_json
     erb_lint (0.3.1)
@@ -487,8 +487,7 @@ DEPENDENCIES
   devise
   docx
   dotenv-rails
-  elasticsearch-model (< 7.14)
-  elasticsearch-rails (< 7.14)
+  elasticsearch (< 7.14)
   erb_lint
   erblint-github
   factory_bot_rails
