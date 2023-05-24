@@ -24,6 +24,7 @@ class SourceFileDashboard < Administrate::BaseDashboard
   ].freeze
 
   SHOW_PAGE_ATTRIBUTES = %i[
+    status
     data_imports
     metadata
     organization
