@@ -137,7 +137,7 @@ RSpec.describe "Admin::SourceFiles", type: :request do
       end
 
       context "when converter" do
-        it "can update assignee only" do
+        it "can update assignee and status only" do
           assignee = create(:user, :converter)
           admin = create(:user, :converter)
           file = create(:source_file)
@@ -145,15 +145,17 @@ RSpec.describe "Admin::SourceFiles", type: :request do
           sign_in admin
           file_params = {
             source_file: {
-              status: "completed",
-              assignee_id: assignee.id
+              status: "needs_support",
+              assignee_id: assignee.id,
+              metadata: {foo: "bob"}.to_json
             }
           }
           patch admin_source_file_path(file), params: file_params
 
           file.reload
-          expect(file).to be_pending
+          expect(file).to be_needs_support
           expect(file.assignee).to eq assignee
+          expect(file.metadata).to be_empty
           expect(response).to redirect_to admin_source_files_path
         end
 
