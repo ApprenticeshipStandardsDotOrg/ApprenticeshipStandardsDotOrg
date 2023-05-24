@@ -10,4 +10,11 @@ class AdminMailer < ApplicationMailer
     mail to: "patrick@workhands.us",
       subject: "New standards import uploaded"
   end
+
+  def new_contact_request(contact_request)
+    @contact_request = contact_request
+
+    mail to: "patrick@workhands.us",
+      subject: "New ApprenticeshipStandards Contact Request"
+  end
 end

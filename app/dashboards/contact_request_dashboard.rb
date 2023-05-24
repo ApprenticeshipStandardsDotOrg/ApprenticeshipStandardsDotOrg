@@ -16,6 +16,7 @@ class ContactRequestDashboard < Administrate::BaseDashboard
     organization
     email
     message
+    created_at
   ].freeze
 
   SHOW_PAGE_ATTRIBUTES = %i[
