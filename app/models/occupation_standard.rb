@@ -28,29 +28,7 @@ class OccupationStandard < ApplicationRecord
 
   MAX_SIMILAR_PROGRAMS_TO_DISPLAY = 5
 
-  es_settings = {
-    index: {
-      number_of_shards: 3,
-      analysis: {
-        tokenizer: {
-          autocomplete_tokenizer: {
-            type: "edge_ngram",
-            min_gram: 2,
-            max_gram: 20,
-            token_chars: ["letter", "digit"]
-          }
-        },
-        analyzer: {
-          autocomplete: {
-            tokenizer: "autocomplete_tokenizer",
-            filter: ["lowercase"]
-          }
-        }
-      }
-    }
-  }
-
-  settings es_settings do
+  settings do
     mappings dynamic: false do
       indexes :title, analyzer: "snowball"
       indexes :ojt_type, type: :text
