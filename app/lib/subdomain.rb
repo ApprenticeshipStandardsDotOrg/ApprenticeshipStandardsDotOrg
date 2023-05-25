@@ -1,7 +1,7 @@
 class Subdomain
   class << self
     def matches?(request)
-      request.subdomain == "admin"
+      request.subdomain&.match?(/admin/)
     end
   end
 end
