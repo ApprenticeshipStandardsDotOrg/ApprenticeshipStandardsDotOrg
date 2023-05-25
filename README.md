@@ -80,6 +80,15 @@ command.
 
 The promotion can also be done through the Heroku Dashboard on the [Pipelines page](https://dashboard.heroku.com/pipelines/3657e91f-455e-4fa7-9da7-f6ddc1beb854).
 
+## Staging access
+The current credentials for the staging site are:
+
+Username: ApprenticeshipStandardsAdmin<br>
+Password: Pipe Fitter
+
+These values are set in the `BASIC_AUTH_` environment variables on the staging
+app in Heroku.
+
 ## AWS Setup
 If you will have access to AWS to manage the S3 buckets, [view the setup
 documentation](doc/AWS.md).
