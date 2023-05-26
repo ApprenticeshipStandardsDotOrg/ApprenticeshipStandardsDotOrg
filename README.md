@@ -112,6 +112,17 @@ To automatically apply linting fixes, run:
 bundle exec standardrb --fix
 ```
 
+### ERB linting
+We are using [erb_lint][erb_lint] for ERB linting. To check the style of all
+`.erb` files, run:
+
+```
+bundle exec erblint --lint-all
+```
+
+[standard]: https://github.com/testdouble/standard
+[erb_lint]: https://github.com/Shopify/erb-lint
+
 ## Post-deployment tasks
 
 We are using [After Party](https://github.com/theSteveMitchell/after_party) to
@@ -128,18 +139,6 @@ bin/setup
 
 which will update gems, run any database migrations, and run the after party
 post-deployment tasks.
-
-
-### ERB linting
-We are using [erb_lint][erb_lint] for ERB linting. To check the style of all
-`.erb` files, run:
-
-```
-bundle exec erblint --lint-all
-```
-
-[standard]: https://github.com/testdouble/standard
-[erb_lint]: https://github.com/Shopify/erb-lint
 
 ## Testing Suite
 
