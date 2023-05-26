@@ -1,11 +1,4 @@
-require "elasticsearch/extensions/test/cluster"
-
 RSpec.configure do |config|
-  config.before :all, elasticsearch: true do
-    Elasticsearch::Extensions::Test::Cluster.start unless
-    Elasticsearch::Extensions::Test::Cluster.running?(port: 9200)
-  end
-
   config.before :each, elasticsearch: true do
     ActiveRecord::Base.descendants.each do |model|
       if model.respond_to?(:__elasticsearch__)
@@ -18,11 +11,6 @@ RSpec.configure do |config|
         end
       end
     end
-  end
-
-  config.after :suite do
-    Elasticsearch::Extensions::Test::Cluster.stop if
-      Elasticsearch::Extensions::Test::Cluster.running?(port: 9200)
   end
 
   config.after :each, elasticsearch: true do
