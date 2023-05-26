@@ -47,6 +47,18 @@ brew install mailcatcher
 
 [mailcatcher_brew]: https://formulae.brew.sh/formula/mailcatcher
 
+## Staging access
+The public staging site is available at: https://staging.apprenticeshipstandards.org<br>
+The admin staging site is available at: https://staging-admin.apprenticeshipstandards.org
+
+The current credentials for the public staging site are:
+
+Username: ApprenticeshipStandardsAdmin<br>
+Password: Pipe Fitter
+
+These values are set in the `BASIC_AUTH_` environment variables on the staging
+app in Heroku.
+
 ## Deployment
 We have a Heroku pipeline set up with a staging and a production app. The
 staging and production remotes can be added locally as follows:
