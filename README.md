@@ -47,6 +47,39 @@ brew install mailcatcher
 
 [mailcatcher_brew]: https://formulae.brew.sh/formula/mailcatcher
 
+## Deployment
+We have a Heroku pipeline set up with a staging and a production app. The
+staging and production remotes can be added locally as follows:
+
+```
+git remote add staging https://git.heroku.com/apprenticeship-standards-stag.git
+git remote add production https://git.heroku.com/apprenticeship-standards-dot-o.git
+```
+
+### Staging
+The staging app will be deployed automatically any time code is merged to the
+`main` branch.
+
+### Production
+Once code changes have gone through QA on staging, the changes can be deployed
+to production by promoting the app:
+
+```
+heroku pipelines:promote -r staging
+```
+
+or
+
+```
+heroku pipelines:promote -a apprenticeship-standards-stag
+```
+
+If you name your staging remote something other than "staging", then be sure to
+replace "staging" with the name of your remote if using the `promote -r`
+command.
+
+The promotion can also be done through the Heroku Dashboard on the [Pipelines page](https://dashboard.heroku.com/pipelines/3657e91f-455e-4fa7-9da7-f6ddc1beb854).
+
 ## AWS Setup
 If you will have access to AWS to manage the S3 buckets, [view the setup
 documentation](doc/AWS.md).
