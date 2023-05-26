@@ -47,6 +47,18 @@ brew install mailcatcher
 
 [mailcatcher_brew]: https://formulae.brew.sh/formula/mailcatcher
 
+## Staging access
+The public staging site is available at: https://staging.apprenticeshipstandards.org<br>
+The admin staging site is available at: https://staging-admin.apprenticeshipstandards.org
+
+The current credentials for the public staging site are:
+
+Username: ApprenticeshipStandardsAdmin<br>
+Password: Pipe Fitter
+
+These values are set in the `BASIC_AUTH_` environment variables on the staging
+app in Heroku.
+
 ## Deployment
 We have a Heroku pipeline set up with a staging and a production app. The
 staging and production remotes can be added locally as follows:
@@ -79,18 +91,6 @@ replace "staging" with the name of your remote if using the `promote -r`
 command.
 
 The promotion can also be done through the Heroku Dashboard on the [Pipelines page](https://dashboard.heroku.com/pipelines/3657e91f-455e-4fa7-9da7-f6ddc1beb854).
-
-## Staging access
-The public staging site is available at: https://staging.apprenticeshipstandards.org<br>
-The admin staging site is available at: https://staging-admin.apprenticeshipstandards.org
-
-The current credentials for the public staging site are:
-
-Username: ApprenticeshipStandardsAdmin<br>
-Password: Pipe Fitter
-
-These values are set in the `BASIC_AUTH_` environment variables on the staging
-app in Heroku.
 
 ## AWS Setup
 If you will have access to AWS to manage the S3 buckets, [view the setup
