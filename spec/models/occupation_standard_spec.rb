@@ -464,7 +464,7 @@ RSpec.describe OccupationStandard, type: :model do
       expect(occupation_standard.public_document?).to be true
     end
 
-    it "trus true if associated standard import is public document regardless of public_document flag" do
+    it "returns true if associated standard import is public document regardless of public_document flag" do
       occupation_standard = build(:occupation_standard, public_document: false)
       allow_any_instance_of(OccupationStandard).to receive(:public_document?).and_return(true)
 
