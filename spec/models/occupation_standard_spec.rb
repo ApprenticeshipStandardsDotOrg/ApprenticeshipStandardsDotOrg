@@ -456,4 +456,19 @@ RSpec.describe OccupationStandard, type: :model do
       expect(occupation_standard.work_processes_hours_in_human_format).to eq "160"
     end
   end
+
+  describe "#public_document?" do
+    it "returns true if OccupationStandard#public_document flag is true" do
+      occupation_standard = build(:occupation_standard, public_document: true)
+
+      expect(occupation_standard.public_document?).to be true
+    end
+
+    it "returns true if associated standard import is public document regardless of public_document flag" do
+      occupation_standard = create(:occupation_standard, :with_data_import, public_document: false)
+      allow_any_instance_of(StandardsImport).to receive(:public_document).and_return(true)
+
+      expect(occupation_standard.public_document?).to be true
+    end
+  end
 end

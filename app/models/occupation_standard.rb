@@ -107,7 +107,7 @@ class OccupationStandard < ApplicationRecord
   end
 
   def public_document?
-    standards_import.public_document
+    public_document || standards_import.public_document
   end
 
   def original_file_url
