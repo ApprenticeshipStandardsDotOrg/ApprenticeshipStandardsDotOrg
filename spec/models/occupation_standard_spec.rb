@@ -364,7 +364,7 @@ RSpec.describe OccupationStandard, type: :model do
 
   describe "#similar_programs" do
     context "with the similar_programs_elasticsearch flag enabled" do
-      it "returns from SimilarOccupationStandards.top_five" do
+      it "returns from SimilarOccupationStandards.similar_to" do
         stub_feature_flag(:similar_programs_elasticsearch, true)
 
         allow(SimilarOccupationStandards).to receive(:similar_to).and_return([])
