@@ -202,10 +202,10 @@ RSpec.describe OccupationStandard, type: :model do
 
       OccupationStandard.__elasticsearch__.refresh_index!
 
-      result = OccupationStandard.search("Assist")
+      result = OccupationStandard.search("Assistant")
 
-      expect(result.results.total).to eq 1
-      expect(result.response["hits"]["hits"].first["_id"]).to eq medical_assistant.id
+      expect(result.records.count).to eq 1
+      expect(result.records.first.id).to eq medical_assistant.id
     end
   end
 
