@@ -30,7 +30,7 @@ class OccupationStandard < ApplicationRecord
 
   settings do
     mappings dynamic: false do
-      indexes :title, analyzer: "snowball"
+      indexes :title, type: :text, analyzer: "snowball"
       indexes :ojt_type, type: :text
     end
   end
