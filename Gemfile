@@ -5,7 +5,6 @@ ruby "3.1.2"
 
 gem "bonsai-elasticsearch-rails", "~> 7"
 gem "elasticsearch", "< 7.14"
-
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.5"
 
@@ -65,6 +64,9 @@ gem "jwt"
 gem "rswag-api"
 gem "rswag-ui"
 gem "rack-cors"
+
+gem "flipper"
+gem "flipper-active_record"
 
 gem "sablon" # Word document templating tool
 

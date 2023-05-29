@@ -209,6 +209,11 @@ GEM
     faraday-rack (1.0.0)
     faraday-retry (1.0.3)
     ffi (1.15.5)
+    flipper (0.28.0)
+      concurrent-ruby (< 2)
+    flipper-active_record (0.28.0)
+      activerecord (>= 4.2, < 8)
+      flipper (~> 0.28.0)
     globalid (1.1.0)
       activesupport (>= 5.0)
     hashdiff (1.0.1)
@@ -491,6 +496,8 @@ DEPENDENCIES
   erb_lint
   erblint-github
   factory_bot_rails
+  flipper
+  flipper-active_record
   image_processing
   importmap-rails
   jsonapi-resources
