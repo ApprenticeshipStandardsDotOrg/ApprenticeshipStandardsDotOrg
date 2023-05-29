@@ -47,6 +47,12 @@
           <%= f.label :notes, class: "form-label" %>
           <%= f.text_area :notes, class: "form-field" %>
         </div>
+        <% if current_user&.admin? %>
+          <div class="mb-6">
+            <%= f.label :public_document, class: "form-label" %>
+            <%= f.check_box :public_document, class: "bg-white" %>
+          </div>
+        <% end %>
         <div class="mb-6">
           <%= f.label :files, class: "form-label" %>
           <%= f.file_field :files, multiple: true, class: "form-field bg-white px-6" %>
