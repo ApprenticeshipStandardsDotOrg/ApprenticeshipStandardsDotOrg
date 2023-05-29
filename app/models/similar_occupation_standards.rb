@@ -8,6 +8,6 @@ class SimilarOccupationStandards
   end
 
   def top_five
-    OccupationStandard.search
+    nil
   end
 end
