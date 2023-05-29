@@ -65,8 +65,8 @@ gem "rswag-api"
 gem "rswag-ui"
 gem "rack-cors"
 
-gem 'flipper'
-gem 'flipper-active_record'
+gem "flipper"
+gem "flipper-active_record"
 
 gem "sablon" # Word document templating tool
 
