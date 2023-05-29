@@ -166,11 +166,11 @@ class OccupationStandard < ApplicationRecord
   end
 
   def similar_programs
-    OccupationStandard.where(
-      "title ILIKE ?", "%#{self.class.sanitize_sql_like(title).split.join("%")}%"
-    ).where.not(
-      id: id
-    ).limit(MAX_SIMILAR_PROGRAMS_TO_DISPLAY)
+    if Flipper.enabled?(:similar_programs_elasticsearch)
+      SimilarOccupationStandards.similar_to(self)
+    else
+      similar_programs_deprecated
+    end
   end
 
   def ojt_type_display
@@ -187,5 +187,13 @@ class OccupationStandard < ApplicationRecord
 
   def national?
     national_standard_type.present?
+  end
+
+  def similar_programs_deprecated
+    OccupationStandard.where(
+      "title ILIKE ?", "%#{self.class.sanitize_sql_like(title).split.join("%")}%"
+    ).where.not(
+      id: id
+    ).limit(MAX_SIMILAR_PROGRAMS_TO_DISPLAY)
   end
 end

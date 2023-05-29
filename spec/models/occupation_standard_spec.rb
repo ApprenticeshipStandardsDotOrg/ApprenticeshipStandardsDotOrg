@@ -363,27 +363,45 @@ RSpec.describe OccupationStandard, type: :model do
   end
 
   describe "#similar_programs" do
-    it "returns occupations that match the title regardless of capitalization" do
-      occupation_standard = create(:occupation_standard, title: "Human Resource Specialist")
-      similar_program1 = create(:occupation_standard, title: "HUMAN RESOURCE SPECIALIST")
-      similar_program2 = create(:occupation_standard, title: "human resource specialist")
-      create(:occupation_standard, title: "Mechanic")
+    context "with the similar_programs_elasticsearch flag enabled" do
+      it "returns from SimilarOccupationStandards.top_five" do
+        stub_feature_flag(:similar_programs_elasticsearch, true)
 
-      expect(occupation_standard.similar_programs.pluck(:id)).to match_array [similar_program1.id, similar_program2.id]
+        allow(SimilarOccupationStandards).to receive(:similar_to).and_return([])
+
+        occupation_standard = build(:occupation_standard)
+
+        expect(occupation_standard.similar_programs).to eq []
+      end
     end
 
-    it "returns up to MAX_SIMILAR_PROGRAMS_TO_DISPLAY occupations" do
-      stub_const("OccupationStandard::MAX_SIMILAR_PROGRAMS_TO_DISPLAY", 1)
-      occupation_standard = create(:occupation_standard, title: "Human Resource Specialist")
-      create_list(:occupation_standard, 2, title: "Human Resource Specialist")
+    context "with the similar_programs_elasticsearch flag disabled" do
+      before do
+        stub_feature_flag(:similar_programs_elasticsearch, false)
+      end
 
-      expect(occupation_standard.similar_programs.count).to eq OccupationStandard::MAX_SIMILAR_PROGRAMS_TO_DISPLAY
-    end
-
-    it "excludes itself" do
-      occupation_standard = create(:occupation_standard, title: "Human Resource Specialist")
-
-      expect(occupation_standard.similar_programs).to be_empty
+      it "returns occupations that match the title regardless of capitalization" do
+        occupation_standard = create(:occupation_standard, title: "Human Resource Specialist")
+        similar_program1 = create(:occupation_standard, title: "HUMAN RESOURCE SPECIALIST")
+        similar_program2 = create(:occupation_standard, title: "human resource specialist")
+        create(:occupation_standard, title: "Mechanic")
+  
+        expect(occupation_standard.similar_programs.pluck(:id)).to match_array [similar_program1.id, similar_program2.id]
+      end
+  
+      it "returns up to MAX_SIMILAR_PROGRAMS_TO_DISPLAY occupations" do
+        stub_const("OccupationStandard::MAX_SIMILAR_PROGRAMS_TO_DISPLAY", 1)
+        occupation_standard = create(:occupation_standard, title: "Human Resource Specialist")
+        create_list(:occupation_standard, 2, title: "Human Resource Specialist")
+  
+        expect(occupation_standard.similar_programs.count).to eq OccupationStandard::MAX_SIMILAR_PROGRAMS_TO_DISPLAY
+      end
+  
+      it "excludes itself" do
+        occupation_standard = create(:occupation_standard, title: "Human Resource Specialist")
+  
+        expect(occupation_standard.similar_programs).to be_empty
+      end
     end
   end
 
