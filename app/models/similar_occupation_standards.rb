@@ -12,7 +12,8 @@ class SimilarOccupationStandards
   end
 
   def similar_to
-    OccupationStandard.__elasticsearch__.search(query).records
+    result = OccupationStandard.__elasticsearch__.search(query)
+    result.records
   end
 
   private
@@ -22,7 +23,7 @@ class SimilarOccupationStandards
       size: RESULTS_SIZE,
       query: {
         more_like_this: {
-          fields: ["title", "work_process_titles"],
+          fields: ["title", "ojt_type", "work_processes.title"],
           like: [
             {
               _index: OccupationStandard.index_name,
@@ -30,7 +31,7 @@ class SimilarOccupationStandards
             }
           ],
           min_term_freq: 1,
-          analyzer: "snowball"
+          analyzer: "snowball",
         }
       }
     }

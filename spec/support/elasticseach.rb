@@ -18,6 +18,7 @@ RSpec.configure do |config|
       if model.respond_to?(:__elasticsearch__)
         begin
           model.__elasticsearch__.delete_index!
+          model.__elasticsearch__.create_index!
         rescue Elasticsearch::Transport::Transport::Errors::NotFound => e
           puts "There was an error removing the elasticsearch index
                 for #{model.name}: #{e.inspect}"

@@ -32,7 +32,7 @@ class OccupationStandard < ApplicationRecord
     mappings dynamic: false do
       indexes :title, type: :text, analyzer: "snowball"
       indexes :ojt_type, type: :text
-      indexes :work_process_titles, type: :text, fields: {raw: {type: "text", analyzer: "snowball"}}
+      indexes :work_process_titles, type: :text
     end
   end
 
