@@ -199,12 +199,13 @@ RSpec.describe OccupationStandard, type: :model do
     it "returns occupation standards that match the given query" do
       _mechanic = create(:occupation_standard, title: "Mechanic")
       medical_assistant = create(:occupation_standard, title: "Medical Assistant")
-      sleep 1
+
+      OccupationStandard.__elasticsearch__.refresh_index!
 
       result = OccupationStandard.search("Assistant")
 
-      expect(result.response["hits"]["hits"].length).to eq 1
-      expect(result.response["hits"]["hits"].first["_id"]).to eq medical_assistant.id
+      expect(result.records.count).to eq 1
+      expect(result.records.first.id).to eq medical_assistant.id
     end
   end
 

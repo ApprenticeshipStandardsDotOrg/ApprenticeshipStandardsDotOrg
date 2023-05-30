@@ -1,6 +1,7 @@
 class OccupationStandard < ApplicationRecord
   include ActionView::Helpers::NumberHelper
   include Searchable
+  include OccupationStandardSearch
 
   belongs_to :occupation, optional: true
   belongs_to :registration_agency, optional: true
@@ -29,13 +30,9 @@ class OccupationStandard < ApplicationRecord
 
   settings do
     mappings dynamic: false do
-      indexes :title, type: :text
+      indexes :title, type: :text, analyzer: "snowball"
       indexes :ojt_type, type: :text
     end
-  end
-
-  after_commit on: [:create] do
-    __elasticsearch__.index_document
   end
 
   scope :by_title, ->(title) do
