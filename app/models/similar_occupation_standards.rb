@@ -27,12 +27,10 @@ class SimilarOccupationStandards
               _id: occupation_standard.id
             }
           ],
-          min_term_freq: 1
+          min_term_freq: 1,
+          analyzer: "snowball"
         }
-      },
-      sort: [
-        {_score: {order: "desc"}}
-      ]
+      }
     }
   end
 end
