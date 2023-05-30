@@ -28,7 +28,7 @@ class SimilarOccupationStandards
             },
             {
               more_like_this: more_like_this_other_fields
-            },
+            }
           ]
         }
       }
