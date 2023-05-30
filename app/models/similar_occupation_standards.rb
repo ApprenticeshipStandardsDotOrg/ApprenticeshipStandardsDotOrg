@@ -23,7 +23,7 @@ class SimilarOccupationStandards
       size: RESULTS_SIZE,
       query: {
         more_like_this: {
-          fields: ["title", "ojt_type", "work_processes.title"],
+          fields: ["title", "work_processes.title", "ojt_type"],
           like: [
             {
               _index: OccupationStandard.index_name,
@@ -31,7 +31,7 @@ class SimilarOccupationStandards
             }
           ],
           min_term_freq: 1,
-          analyzer: "snowball",
+          analyzer: "snowball"
         }
       }
     }
