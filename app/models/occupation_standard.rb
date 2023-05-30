@@ -1,7 +1,7 @@
 class OccupationStandard < ApplicationRecord
   include ActionView::Helpers::NumberHelper
-  include Searchable
-  include OccupationStandardSearch
+  include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
 
   belongs_to :occupation, optional: true
   belongs_to :registration_agency, optional: true
