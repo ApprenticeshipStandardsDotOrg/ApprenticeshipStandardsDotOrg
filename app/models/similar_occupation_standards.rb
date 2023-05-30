@@ -32,7 +32,10 @@ class SimilarOccupationStandards
           min_term_freq: 1,
           analyzer: "snowball"
         }
-      }
+      },
+      sort: [
+        {_score: {order: "desc"}}
+      ]
     }
   end
 end
