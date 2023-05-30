@@ -1,14 +1,8 @@
 class SimilarOccupationStandards
-<<<<<<< HEAD
   attr_reader :occupation_standard
 
   RESULTS_SIZE = 5
 
-=======
-
-  attr_reader :occupation_standard
-
->>>>>>> 2cabbbb (Add a more like this query)
   def self.similar_to(occupation_standard)
     new(occupation_standard).similar_to
   end
