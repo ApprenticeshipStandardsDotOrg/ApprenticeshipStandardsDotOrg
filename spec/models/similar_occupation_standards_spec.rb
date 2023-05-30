@@ -30,9 +30,7 @@ RSpec.describe SimilarOccupationStandards do
 
       similars_to_medical_assistant = SimilarOccupationStandards.similar_to(medical_assistant_standard)
 
-      expect(similars_to_medical_assistant.pluck(:title)).to match_array ["Medical Assistant", "Nurse"]
-      # Skipped until sorting/weighting fields is fixed
-      # expect(similars_to_medical_assistant.pluck(:title)).to eq ["Medical Assistant", "Nurse"]
+      expect(similars_to_medical_assistant.pluck(:title)).to eq ["Medical Assistant", "Nurse"]
     end
 
     it "returns records similar to the provided, sorted by similarity score" do
@@ -45,9 +43,7 @@ RSpec.describe SimilarOccupationStandards do
 
       similars_to_medical_assistant = SimilarOccupationStandards.similar_to(competency_based)
 
-      expect(similars_to_medical_assistant.pluck(:id)).to match_array [same_type.id, diff_type.id]
-      # Skipped until sorting/weighting fields is fixed
-      # expect(similars_to_medical_assistant.pluck(:id)).to eq [same_type.id, diff_type.id]
+      expect(similars_to_medical_assistant.pluck(:id)).to eq [same_type.id, diff_type.id]
     end
   end
 end

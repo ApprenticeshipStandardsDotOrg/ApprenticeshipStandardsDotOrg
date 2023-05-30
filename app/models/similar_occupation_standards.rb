@@ -12,8 +12,7 @@ class SimilarOccupationStandards
   end
 
   def similar_to
-    result = OccupationStandard.__elasticsearch__.search(query)
-    result.records
+    OccupationStandard.__elasticsearch__.search(query).records
   end
 
   private
@@ -22,18 +21,46 @@ class SimilarOccupationStandards
     {
       size: RESULTS_SIZE,
       query: {
-        more_like_this: {
-          fields: ["title", "work_processes.title", "ojt_type"],
-          like: [
+        bool: {
+          should: [
             {
-              _index: OccupationStandard.index_name,
-              _id: occupation_standard.id
-            }
-          ],
-          min_term_freq: 1,
-          analyzer: "snowball"
+              more_like_this: more_like_this_title
+            },
+            {
+              more_like_this: more_like_this_other_fields
+            },
+          ]
         }
       }
+    }
+  end
+
+  def more_like_this_title
+    {
+      fields: ["title"],
+      like: [
+        {
+          _index: OccupationStandard.index_name,
+          _id: occupation_standard.id
+        }
+      ],
+      min_term_freq: 1,
+      analyzer: "snowball",
+      boost: 100
+    }
+  end
+
+  def more_like_this_other_fields
+    {
+      fields: ["ojt_type", "work_processes.title"],
+      like: [
+        {
+          _index: OccupationStandard.index_name,
+          _id: occupation_standard.id
+        }
+      ],
+      min_term_freq: 1,
+      analyzer: "snowball"
     }
   end
 end
