@@ -200,8 +200,8 @@ RSpec.describe OccupationStandard, type: :model do
       _mechanic = create(:occupation_standard, title: "Mechanic")
       medical_assistant = create(:occupation_standard, title: "Medical Assistant")
       medical_assistant_ii = create(:occupation_standard, title: "Medical Assistant II")
-      sleep 1
-      OccupationStandard.__elasticsearch__.refresh_index!
+
+      OccupationStandard.import(refresh: true)
 
       result = OccupationStandard.search("Assistant")
 
