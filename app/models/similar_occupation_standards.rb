@@ -1,5 +1,4 @@
 class SimilarOccupationStandards
-
   attr_reader :occupation_standard
 
   def self.similar_to(occupation_standard)
@@ -24,14 +23,16 @@ class SimilarOccupationStandards
           fields: ["title"],
           like: [
             {
-              "_index": OccupationStandard.index_name,
-              "_id": occupation_standard.id
-            },
+              _index: OccupationStandard.index_name,
+              _id: occupation_standard.id
+            }
           ],
-          min_term_freq: 1,
-          max_query_terms: 12
+          min_term_freq: 1
         }
-      }
+      },
+      sort: [
+        {_score: {order: "desc"}}
+      ]
     }
   end
 end

@@ -199,7 +199,7 @@ RSpec.describe OccupationStandard, type: :model do
     it "returns occupation standards that match the given query" do
       _mechanic = create(:occupation_standard, title: "Mechanic")
       medical_assistant = create(:occupation_standard, title: "Medical Assistant")
-      medical_assistantII = create(:occupation_standard, title: "Medical Assistant II")
+      medical_assistant_ii = create(:occupation_standard, title: "Medical Assistant II")
       sleep 1
       OccupationStandard.__elasticsearch__.refresh_index!
 
@@ -207,7 +207,7 @@ RSpec.describe OccupationStandard, type: :model do
 
       expect(result.records.count).to eq 2
       expect(result.records.first.id).to eq medical_assistant.id
-      expect(result.records.second.id).to eq medical_assistantII.id
+      expect(result.records.second.id).to eq medical_assistant_ii.id
     end
   end
 
