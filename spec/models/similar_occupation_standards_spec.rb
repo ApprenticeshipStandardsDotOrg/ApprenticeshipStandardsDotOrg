@@ -17,15 +17,14 @@ RSpec.describe SimilarOccupationStandards do
     end
 
     it "returns records similar to the provided, including associations, sorted by similarity score" do
-      patient_interaction_process = create(:work_process, title: "Patient Interaction")
-
       medical_assistant_standard = create(:occupation_standard, title: "Medical Assistant")
       nurse_stantard = create(:occupation_standard, title: "Nurse")
 
-      nurse_stantard.work_processes << patient_interaction_process
-      medical_assistant_standard.work_processes << patient_interaction_process
+      create(:work_process, title: "Patient Interaction", occupation_standard: medical_assistant_standard)
+      create(:work_process, title: "Patient Interaction", occupation_standard: nurse_stantard)
 
       OccupationStandard.import(refresh: true)
+      sleep 2
 
       similars_to_medical_assistant = SimilarOccupationStandards.similar_to(medical_assistant_standard)
 

@@ -22,7 +22,7 @@ class SimilarOccupationStandards
       size: RESULTS_SIZE,
       query: {
         more_like_this: {
-          fields: ["title", "work_processes.title"],
+          fields: ["title", "work_process_titles"],
           like: [
             {
               _index: OccupationStandard.index_name,
