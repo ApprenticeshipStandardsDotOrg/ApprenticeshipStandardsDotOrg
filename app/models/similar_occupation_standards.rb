@@ -1,15 +1,17 @@
 class SimilarOccupationStandards
   attr_reader :occupation_standard
 
+  RESULTS_SIZE = 5
+
   def self.similar_to(occupation_standard)
-    new(occupation_standard).top_five
+    new(occupation_standard).similar_to
   end
 
   def initialize(occupation_standard)
     @occupation_standard = occupation_standard
   end
 
-  def top_five
+  def similar_to
     OccupationStandard.__elasticsearch__.search(query).records
   end
 
@@ -17,7 +19,7 @@ class SimilarOccupationStandards
 
   def query
     {
-      size: 5,
+      size: RESULTS_SIZE,
       query: {
         more_like_this: {
           fields: ["title"],
