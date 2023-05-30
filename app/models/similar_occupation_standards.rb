@@ -24,9 +24,9 @@ class SimilarOccupationStandards
           fields: ["title"],
           like: [
             {
-              "_index": "occupation_standards",
+              "_index": OccupationStandard.index_name,
               "_id": occupation_standard.id
-            }
+            },
           ],
           min_term_freq: 1,
           max_query_terms: 12

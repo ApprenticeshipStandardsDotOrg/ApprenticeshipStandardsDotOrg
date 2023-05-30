@@ -493,6 +493,8 @@ DEPENDENCIES
   docx
   dotenv-rails
   elasticsearch (< 7.14)
+  elasticsearch-model
+  elasticsearch-rails
   erb_lint
   erblint-github
   factory_bot_rails
