@@ -11,6 +11,8 @@ RSpec.describe SimilarOccupationStandards do
 
       OccupationStandard.import(refresh: true)
 
+      OccupationStandard.import
+      sleep 1
       similars_to_medical_assistant = SimilarOccupationStandards.similar_to(medical_assistant_standard)
 
       expect(similars_to_medical_assistant.pluck(:title)).to eq ["Medical Assistant", "Medical Assistant II", "Admin Assistant"]
