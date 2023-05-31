@@ -207,3 +207,15 @@ directory to help with debugging.
 ### Deployment
 
 Every time `main` is updated, it will trigger a deploy to Heroku automatically.
+
+### Feature Flags
+
+We use Flipper for our feature flags system.
+
+You can turn on a feature flag by running:
+
+`Flipper.enable(:search)`
+
+and check if it's enabled with:
+
+`Flipper.enabled?(:search) # true`

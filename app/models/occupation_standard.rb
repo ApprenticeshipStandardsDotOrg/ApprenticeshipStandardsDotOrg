@@ -1,6 +1,7 @@
 class OccupationStandard < ApplicationRecord
   include ActionView::Helpers::NumberHelper
-  include Searchable
+  include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
 
   belongs_to :occupation, optional: true
   belongs_to :registration_agency, optional: true
@@ -29,13 +30,9 @@ class OccupationStandard < ApplicationRecord
 
   settings do
     mappings dynamic: false do
-      indexes :title, type: :text
+      indexes :title, type: :text, analyzer: "snowball"
       indexes :ojt_type, type: :text
     end
-  end
-
-  after_commit on: [:create] do
-    __elasticsearch__.index_document
   end
 
   scope :by_title, ->(title) do
@@ -169,11 +166,11 @@ class OccupationStandard < ApplicationRecord
   end
 
   def similar_programs
-    OccupationStandard.where(
-      "title ILIKE ?", "%#{self.class.sanitize_sql_like(title).split.join("%")}%"
-    ).where.not(
-      id: id
-    ).limit(MAX_SIMILAR_PROGRAMS_TO_DISPLAY)
+    if Flipper.enabled?(:similar_programs_elasticsearch)
+      SimilarOccupationStandards.similar_to(self)
+    else
+      similar_programs_deprecated
+    end
   end
 
   def ojt_type_display
@@ -190,5 +187,13 @@ class OccupationStandard < ApplicationRecord
 
   def national?
     national_standard_type.present?
+  end
+
+  def similar_programs_deprecated
+    OccupationStandard.where(
+      "title ILIKE ?", "%#{self.class.sanitize_sql_like(title).split.join("%")}%"
+    ).where.not(
+      id: id
+    ).limit(MAX_SIMILAR_PROGRAMS_TO_DISPLAY)
   end
 end
