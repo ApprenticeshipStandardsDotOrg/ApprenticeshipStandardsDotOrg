@@ -30,7 +30,7 @@
     <h3 class="font-bold text-2xl mt-4 mb-2">
       <%= t "devise.invitations.edit.header" %>
     </h3>
-    <%= form_for(resource, as: resource_name, url: invitation_path(resource_name), html: {method: :put}, class: "bg-seafoam-50") do |f| %>
+    <%= form_for(resource, as: resource_name, url: invitation_path(resource_name), html: {method: :put}, class: "bg-seafoam-50", data: {turbo: false}) do |f| %>
       <%= render "devise/shared/error_messages", resource: resource %>
       <%= f.hidden_field :invitation_token, readonly: true %>
       <% if f.object.class.require_password_on_accepting %>

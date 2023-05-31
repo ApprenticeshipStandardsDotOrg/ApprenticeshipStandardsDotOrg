@@ -12,6 +12,15 @@
           class: "button",
           form_class: "form-button"
         ) %>
+
+    <%= if page.resource.created_by_invite?
+          button_to(
+            "Send Set Password email",
+            invite_admin_user_path(page.resource),
+            class: "button",
+            form_class: "form-button"
+          ) end %>
+
     <%= if accessible_action?(page.resource, :edit)
           link_to(
             t("administrate.actions.edit_resource", name: page.page_title),

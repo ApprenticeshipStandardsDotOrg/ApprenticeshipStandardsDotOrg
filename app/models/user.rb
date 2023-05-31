@@ -9,17 +9,10 @@ class User < ApplicationRecord
 
   has_many :api_keys, dependent: :destroy
 
+  DEFAULT_PASSWORD_LENGTH = 20
+
   def create_api_access_token!
     api_key = api_keys.create
     APIBearerToken.create(user: self, api_key_id: api_key.id)
-  end
-
-  # We need to override this to allow User creation without password
-  def password_required?
-    if new_record?
-      false
-    else
-      !persisted? || !password.nil? || !password_confirmation.nil?
-    end
   end
 end
