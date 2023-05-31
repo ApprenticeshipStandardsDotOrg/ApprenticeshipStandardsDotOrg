@@ -44,6 +44,7 @@ gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 gem "bootsnap", require: false
 
 gem "devise"
+gem "devise_invitable", "~> 2.0.0"
 gem "rollbar"
 gem "roo", "~> 2.9.0"
 gem "aws-sdk-s3", require: false

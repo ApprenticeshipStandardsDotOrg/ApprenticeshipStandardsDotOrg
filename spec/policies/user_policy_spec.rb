@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe UserPolicy do
-  permissions :index?, :show?, :new?, :create?, :edit?, :update?, :destroy? do
+  permissions :index?, :show?, :new?, :create?, :edit?, :update?, :destroy?, :invite? do
     it "grants access if user is an admin" do
       admin = build(:admin)
       user = build(:user)
