@@ -28,8 +28,7 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
     url: Field::Url,
     wage_steps: Field::HasMany,
     work_processes: Field::HasMany,
-    redacted_document: Field::ActiveStorage,
-    public_document: Field::Boolean
+    redacted_document: Field::ActiveStorage
   }.freeze
 
   COLLECTION_ATTRIBUTES = %i[
