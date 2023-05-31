@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_29_192442) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_31_183809) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -152,7 +152,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_29_192442) do
     t.date "registration_date"
     t.date "latest_update_date"
     t.uuid "industry_id"
-    t.boolean "public_document", default: false, null: false
     t.index ["industry_id"], name: "index_occupation_standards_on_industry_id"
     t.index ["occupation_id"], name: "index_occupation_standards_on_occupation_id"
     t.index ["organization_id"], name: "index_occupation_standards_on_organization_id"
@@ -223,6 +222,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_29_192442) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "assignee_id"
+    t.boolean "public_document", default: false, null: false
     t.index ["active_storage_attachment_id"], name: "index_source_files_on_active_storage_attachment_id"
     t.index ["assignee_id"], name: "index_source_files_on_assignee_id"
   end

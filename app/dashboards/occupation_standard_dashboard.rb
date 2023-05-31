@@ -65,7 +65,6 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
 
     data_imports
     redacted_document
-    public_document
     work_processes
     related_instructions
     wage_steps
@@ -92,7 +91,6 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
     rsi_hours_max
     rsi_hours_min
     redacted_document
-    public_document
   ].freeze
 
   COLLECTION_FILTERS = {}.freeze

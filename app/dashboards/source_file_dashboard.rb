@@ -12,7 +12,8 @@ class SourceFileDashboard < Administrate::BaseDashboard
     url: Field::Url.with_options(searchable: false),
     assignee: AssigneeField,
     created_at: Field::DateTime,
-    updated_at: Field::DateTime
+    updated_at: Field::DateTime,
+    public_document: Field::Boolean
   }.freeze
 
   COLLECTION_ATTRIBUTES = %i[
@@ -32,6 +33,7 @@ class SourceFileDashboard < Administrate::BaseDashboard
     url
     notes
     assignee
+    public_document
     created_at
     updated_at
   ].freeze
@@ -40,6 +42,7 @@ class SourceFileDashboard < Administrate::BaseDashboard
     metadata
     status
     assignee
+    public_document
   ].freeze
 
   COLLECTION_FILTERS = {}.freeze
