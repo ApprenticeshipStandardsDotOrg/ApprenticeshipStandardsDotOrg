@@ -288,7 +288,7 @@ RSpec.describe OccupationStandard, type: :model do
       create(:work_process, occupation_standard: occupation_standard, maximum_hours: 1000, minimum_hours: 400)
       create(:work_process, occupation_standard: occupation_standard, maximum_hours: 1000, minimum_hours: 400)
 
-      expect(occupation_standard.work_processes_hours).to eq 2000
+      expect(occupation_standard.reload.work_processes_hours).to eq 2000
     end
 
     it "returns sum of minimum hours if maximum hours not available" do
@@ -296,7 +296,7 @@ RSpec.describe OccupationStandard, type: :model do
       create(:work_process, occupation_standard: occupation_standard, maximum_hours: nil, minimum_hours: 400)
       create(:work_process, occupation_standard: occupation_standard, maximum_hours: nil, minimum_hours: 400)
 
-      expect(occupation_standard.work_processes_hours).to eq 800
+      expect(occupation_standard.reload.work_processes_hours).to eq 800
     end
 
     it "returns 0 if maximum hours and minimum hours are not present" do
@@ -313,7 +313,7 @@ RSpec.describe OccupationStandard, type: :model do
       create(:work_process, occupation_standard: occupation_standard, maximum_hours: 1000, title: "Process A")
       create(:work_process, occupation_standard: occupation_standard, maximum_hours: 1000, title: "Process B")
 
-      expect(occupation_standard.work_processes_hours).to eq 2000
+      expect(occupation_standard.reload.work_processes_hours).to eq 2000
     end
 
     it "returns 0 for competency-based standard" do
