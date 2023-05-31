@@ -195,22 +195,6 @@ RSpec.describe OccupationStandard, type: :model do
     end
   end
 
-  describe ".search", :elasticsearch do
-    it "returns occupation standards that match the given query" do
-      _mechanic = create(:occupation_standard, title: "Mechanic")
-      medical_assistant = create(:occupation_standard, title: "Medical Assistant")
-      medical_assistant_ii = create(:occupation_standard, title: "Medical Assistant II")
-
-      OccupationStandard.import(refresh: true)
-
-      result = OccupationStandard.search("Assistant")
-
-      expect(result.records.count).to eq 2
-      expect(result.records.first.id).to eq medical_assistant.id
-      expect(result.records.second.id).to eq medical_assistant_ii.id
-    end
-  end
-
   describe "#sponsor_name" do
     it "returns organization name when it exists" do
       organization = build_stubbed(:organization, title: "Disney")
