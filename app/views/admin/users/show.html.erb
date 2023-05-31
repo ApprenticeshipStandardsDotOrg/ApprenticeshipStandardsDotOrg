@@ -13,7 +13,7 @@
           form_class: "form-button"
         ) %>
 
-    <%= if page.resource.created_by_invite?
+    <%= if page.resource.created_by_invite? && !page.resource.invitation_accepted?
           button_to(
             "Send Set Password email",
             invite_admin_user_path(page.resource),
