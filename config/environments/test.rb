@@ -67,4 +67,6 @@ Rails.application.configure do
   end
 
   config.assets.css_compressor = nil
+
+  config.active_storage.variant_processor = :mini_magic
 end
