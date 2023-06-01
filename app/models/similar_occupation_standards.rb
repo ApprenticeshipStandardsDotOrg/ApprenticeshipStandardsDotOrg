@@ -23,9 +23,9 @@ class SimilarOccupationStandards
       query: {
         bool: {
           should: [
-            { match: { title: {query: occupation_standard.title, boost: 5 }}},
-            { match: { work_process_titles: { query: "Patient", boost: 5 } }},
-            { match: { ojt_type: {query: occupation_standard.ojt_type, boost: 0.5 }}},
+            {match: {title: {query: occupation_standard.title, boost: 5}}},
+            {match: {work_process_titles: {query: "Patient", boost: 5}}},
+            {match: {ojt_type: {query: occupation_standard.ojt_type, boost: 0.5}}},
             more_like_this: more_like_this
           ],
           must_not: [
@@ -34,7 +34,7 @@ class SimilarOccupationStandards
                 _id: occupation_standard.id
               }
             }
-          ],
+          ]
         }
       }
     }
