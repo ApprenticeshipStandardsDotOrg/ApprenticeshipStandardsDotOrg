@@ -46,7 +46,7 @@ gem "bootsnap", require: false
 gem "devise"
 gem "devise_invitable", "~> 2.0.0"
 gem "rollbar"
-gem "roo", "~> 2.9.0"
+gem "roo", "~> 2.10.0"
 gem "aws-sdk-s3", require: false
 gem "after_party"
 gem "sidekiq", "~> 7"
