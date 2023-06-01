@@ -23,36 +23,25 @@ class SimilarOccupationStandards
       query: {
         bool: {
           should: [
+            { match: { title: {query: occupation_standard.title, boost: 5 }}},
+            { match: { work_process_titles: { query: "Patient", boost: 5 } }},
+            { match: { ojt_type: {query: occupation_standard.ojt_type, boost: 0.5 }}},
+            more_like_this: more_like_this
+          ],
+          must_not: [
             {
-              more_like_this: more_like_this_title
-            },
-            {
-              more_like_this: more_like_this_other_fields
+              term: {
+                _id: occupation_standard.id
+              }
             }
-          ]
+          ],
         }
       }
     }
   end
 
-  def more_like_this_title
+  def more_like_this
     {
-      fields: ["title"],
-      like: [
-        {
-          _index: OccupationStandard.index_name,
-          _id: occupation_standard.id
-        }
-      ],
-      min_term_freq: 1,
-      analyzer: "snowball",
-      boost: 100
-    }
-  end
-
-  def more_like_this_other_fields
-    {
-      fields: ["ojt_type", "work_processes.title"],
       like: [
         {
           _index: OccupationStandard.index_name,

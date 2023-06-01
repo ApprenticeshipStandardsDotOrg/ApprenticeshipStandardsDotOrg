@@ -36,8 +36,8 @@ RSpec.describe SimilarOccupationStandards do
     it "returns records similar to the provided, sorted by similarity score" do
       _excluded = create(:occupation_standard, title: "ABC", ojt_type: "hybrid")
       competency_based = create(:occupation_standard, title: "Medical Assistant", ojt_type: "competency")
-      diff_type = create(:occupation_standard, title: "Medical Assistant II", ojt_type: "hybrid")
-      same_type = create(:occupation_standard, title: "Medical Assistant II", ojt_type: "competency")
+      diff_type = create(:occupation_standard, title: "Medical Assistant", ojt_type: "hybrid")
+      same_type = create(:occupation_standard, title: "Medical Assistant", ojt_type: "competency")
 
       OccupationStandard.import(refresh: true)
 
