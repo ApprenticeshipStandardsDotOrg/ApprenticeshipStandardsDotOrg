@@ -46,6 +46,8 @@ RSpec.describe ProcessDataImportJob, type: :job do
       create(:competency, work_process: work_process)
       create(:industry, prefix: "13")
 
+      occupation_standard.reload
+
       described_class.new.perform(data_import: data_import)
 
       occupation_standard.reload
