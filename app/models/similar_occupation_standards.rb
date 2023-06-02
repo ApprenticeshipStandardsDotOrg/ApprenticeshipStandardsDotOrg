@@ -14,8 +14,7 @@ class SimilarOccupationStandards
   def similar_to
     search = OccupationStandard.__elasticsearch__.search(query)
     ids_order = search.response["hits"]["hits"].map { |record| record["_id"] }
-    result = search.records.in_order_of(:id, ids_order)
-    result
+    search.records.in_order_of(:id, ids_order)
   end
 
   private
