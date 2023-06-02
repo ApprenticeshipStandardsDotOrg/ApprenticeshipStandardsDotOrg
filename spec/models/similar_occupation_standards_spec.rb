@@ -12,7 +12,6 @@ RSpec.describe SimilarOccupationStandards do
 
       OccupationStandard.import(refresh: true)
 
-      sleep 1
 
       similars_to_medical_assistant = SimilarOccupationStandards.similar_to(medical_assistant_standard)
 
@@ -30,8 +29,6 @@ RSpec.describe SimilarOccupationStandards do
 
       OccupationStandard.import(refresh: true)
 
-      sleep 1
-
       similars_to_medical_assistant = SimilarOccupationStandards.similar_to(medical_assistant_standard)
 
       expect(similars_to_medical_assistant.pluck(:title)).to eq ["Medical Assistant", "Nurse"]
@@ -40,16 +37,14 @@ RSpec.describe SimilarOccupationStandards do
     it "returns records similar to the provided, sorted by similarity score" do
       _excluded = create(:occupation_standard, title: "Mechanic", ojt_type: "hybrid")
       competency_based = create(:occupation_standard, title: "Medical Assistant", ojt_type: "competency")
-      diff_type = create(:occupation_standard, title: "Medical Assistant II", ojt_type: "hybrid")
-      same_type = create(:occupation_standard, title: "Medical Assistant II", ojt_type: "competency")
+      create(:occupation_standard, title: "Medical Assistant II", ojt_type: "hybrid")
+      create(:occupation_standard, title: "Medical Assistant II", ojt_type: "competency")
 
       OccupationStandard.import(refresh: true)
 
-      sleep 1
-
       similars_to_medical_assistant = SimilarOccupationStandards.similar_to(competency_based)
 
-      expect(similars_to_medical_assistant.pluck(:id)).to eq [same_type.id, diff_type.id]
+      expect(similars_to_medical_assistant.pluck(:ojt_type)).to eq ["competency", "hybrid"]
     end
   end
 end

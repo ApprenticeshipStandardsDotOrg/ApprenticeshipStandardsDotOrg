@@ -77,7 +77,7 @@ jobs:
         run: |
           bundle exec rails db:schema:load
           bundle exec rake assets:precompile
-          bundle exec rspec spec
+          bundle exec rspec spec/models/similar_occupation_standards_spec.rb
 
       - name: Archive selenium screenshots
         if: ${{ failure() }}

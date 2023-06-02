@@ -12,7 +12,10 @@ class SimilarOccupationStandards
   end
 
   def similar_to
-    OccupationStandard.__elasticsearch__.search(query).records
+    search = OccupationStandard.__elasticsearch__.search(query)
+    ids_order = search.response["hits"]["hits"].map { |record| record["_id"] }
+    result = search.records.in_order_of(:id, ids_order)
+    result
   end
 
   private
