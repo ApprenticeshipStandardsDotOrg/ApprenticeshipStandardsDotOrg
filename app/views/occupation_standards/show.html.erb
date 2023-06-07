@@ -102,7 +102,7 @@
                         <% elsif @occupation_standard.public_document? %>
                           <%= render partial: "public_document", locals: {occupation_standard: @occupation_standard} %>
                         <% else %>
-                          <%=  render partial: "redacted_document_coming_soon" %>
+                          <%= render partial: "redacted_document_coming_soon" %>
                         <% end %>
                         <%= render partial: "working_copy" %>
                         <hr class="border-slate-300">
