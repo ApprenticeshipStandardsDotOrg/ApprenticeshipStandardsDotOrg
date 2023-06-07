@@ -26,9 +26,13 @@
     </div>
   <% end -%>
 
+  <div class="w-full max-w-prose mx-auto my-5 p-3">
+    <p>This is the last import for <%= @source_file.filename %>. Change its status to Completed after the import completes.</p>
+  </div>
+
   <div class="field-unit field-unit--last_file">
     <div class="field-unit__label">
-      <%= label_tag :last_file, "This is the last import for #{@source_file.filename}. Change its status to Completed after the import completes." %>
+      <%= label_tag :last_file  %>
     </div>
     <div class="field-unit__field">
       <%= check_box_tag :last_file %>
