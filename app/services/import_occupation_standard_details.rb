@@ -55,8 +55,8 @@ class ImportOccupationStandardDetails
   end
 
   def registration_agency
-    state = State.find_by(abbreviation: row["Registration State"])
     agency_type = row["National"] ? :oa : row["OA or SAA"].downcase.to_sym
+    state = row["National"] ? nil : State.find_by(abbreviation: row["Registration State"])
     RegistrationAgency.find_by(state: state, agency_type: agency_type)
   end
 
