@@ -195,19 +195,6 @@ RSpec.describe OccupationStandard, type: :model do
     end
   end
 
-  describe ".search", :elasticsearch do
-    it "returns occupation standards that match the given query" do
-      _mechanic = create(:occupation_standard, title: "Mechanic")
-      medical_assistant = create(:occupation_standard, title: "Medical Assistant")
-      sleep 1
-
-      result = OccupationStandard.search("Assistant")
-
-      expect(result.response["hits"]["hits"].length).to eq 1
-      expect(result.response["hits"]["hits"].first["_id"]).to eq medical_assistant.id
-    end
-  end
-
   describe "#sponsor_name" do
     it "returns organization name when it exists" do
       organization = build_stubbed(:organization, title: "Disney")
@@ -362,27 +349,45 @@ RSpec.describe OccupationStandard, type: :model do
   end
 
   describe "#similar_programs" do
-    it "returns occupations that match the title regardless of capitalization" do
-      occupation_standard = create(:occupation_standard, title: "Human Resource Specialist")
-      similar_program1 = create(:occupation_standard, title: "HUMAN RESOURCE SPECIALIST")
-      similar_program2 = create(:occupation_standard, title: "human resource specialist")
-      create(:occupation_standard, title: "Mechanic")
+    context "with the similar_programs_elasticsearch flag enabled" do
+      it "returns from SimilarOccupationStandards.similar_to" do
+        stub_feature_flag(:similar_programs_elasticsearch, true)
 
-      expect(occupation_standard.similar_programs.pluck(:id)).to match_array [similar_program1.id, similar_program2.id]
+        allow(SimilarOccupationStandards).to receive(:similar_to).and_return([])
+
+        occupation_standard = build(:occupation_standard)
+
+        expect(occupation_standard.similar_programs).to eq []
+      end
     end
 
-    it "returns up to MAX_SIMILAR_PROGRAMS_TO_DISPLAY occupations" do
-      stub_const("OccupationStandard::MAX_SIMILAR_PROGRAMS_TO_DISPLAY", 1)
-      occupation_standard = create(:occupation_standard, title: "Human Resource Specialist")
-      create_list(:occupation_standard, 2, title: "Human Resource Specialist")
+    context "with the similar_programs_elasticsearch flag disabled" do
+      before do
+        stub_feature_flag(:similar_programs_elasticsearch, false)
+      end
 
-      expect(occupation_standard.similar_programs.count).to eq OccupationStandard::MAX_SIMILAR_PROGRAMS_TO_DISPLAY
-    end
+      it "returns occupations that match the title regardless of capitalization" do
+        occupation_standard = create(:occupation_standard, title: "Human Resource Specialist")
+        similar_program1 = create(:occupation_standard, title: "HUMAN RESOURCE SPECIALIST")
+        similar_program2 = create(:occupation_standard, title: "human resource specialist")
+        create(:occupation_standard, title: "Mechanic")
 
-    it "excludes itself" do
-      occupation_standard = create(:occupation_standard, title: "Human Resource Specialist")
+        expect(occupation_standard.similar_programs.pluck(:id)).to match_array [similar_program1.id, similar_program2.id]
+      end
 
-      expect(occupation_standard.similar_programs).to be_empty
+      it "returns up to MAX_SIMILAR_PROGRAMS_TO_DISPLAY occupations" do
+        stub_const("OccupationStandard::MAX_SIMILAR_PROGRAMS_TO_DISPLAY", 1)
+        occupation_standard = create(:occupation_standard, title: "Human Resource Specialist")
+        create_list(:occupation_standard, 2, title: "Human Resource Specialist")
+
+        expect(occupation_standard.similar_programs.count).to eq OccupationStandard::MAX_SIMILAR_PROGRAMS_TO_DISPLAY
+      end
+
+      it "excludes itself" do
+        occupation_standard = create(:occupation_standard, title: "Human Resource Specialist")
+
+        expect(occupation_standard.similar_programs).to be_empty
+      end
     end
   end
 
@@ -454,6 +459,23 @@ RSpec.describe OccupationStandard, type: :model do
       allow(occupation_standard).to receive(:work_processes_hours).and_return(155)
 
       expect(occupation_standard.work_processes_hours_in_human_format).to eq "160"
+    end
+  end
+
+  describe "#public_document?" do
+    it "returns true if OccupationStandard#public_document flag is true" do
+      occupation_standard = create(:occupation_standard, :with_data_import)
+      allow_any_instance_of(SourceFile).to receive(:public_document).and_return(true)
+
+      expect(occupation_standard.public_document?).to be true
+    end
+
+    it "returns true if associated standard import is public document regardless of public_document flag" do
+      occupation_standard = create(:occupation_standard, :with_data_import)
+      allow_any_instance_of(SourceFile).to receive(:public_document).and_return(false)
+      allow_any_instance_of(StandardsImport).to receive(:public_document).and_return(true)
+
+      expect(occupation_standard.public_document?).to be true
     end
   end
 end

@@ -21,7 +21,8 @@ RSpec.describe "StandardsImports", type: :request do
                 email: "mickey@mouse.com",
                 organization: "Disney",
                 notes: "a" * 500,
-                files: [fixture_file_upload("spec/fixtures/files/pixel1x1.jpg", "image/jpeg")]
+                files: [fixture_file_upload("spec/fixtures/files/pixel1x1.jpg", "image/jpeg")],
+                public_document: true
               }
             }
           }.to change(StandardsImport, :count).by(1)
@@ -33,6 +34,7 @@ RSpec.describe "StandardsImports", type: :request do
           expect(si.organization).to eq "Disney"
           expect(si.notes).to eq "a" * 500
           expect(si.files.count).to eq 1
+          expect(si.public_document?).to be false
 
           expect(response).to redirect_to standards_import_path(si)
         end
@@ -51,7 +53,8 @@ RSpec.describe "StandardsImports", type: :request do
                 email: "mickey@mouse.com",
                 organization: "Disney",
                 notes: "a" * 500,
-                files: [fixture_file_upload("spec/fixtures/files/pixel1x1.jpg", "image/jpeg")]
+                files: [fixture_file_upload("spec/fixtures/files/pixel1x1.jpg", "image/jpeg")],
+                public_document: true
               }
             }
           }.to change(StandardsImport, :count).by(1)
@@ -63,6 +66,7 @@ RSpec.describe "StandardsImports", type: :request do
           expect(si.organization).to eq "Disney"
           expect(si.notes).to eq "a" * 500
           expect(si.files.count).to eq 1
+          expect(si.public_document?).to be true
 
           expect(response).to redirect_to admin_source_files_path
         end

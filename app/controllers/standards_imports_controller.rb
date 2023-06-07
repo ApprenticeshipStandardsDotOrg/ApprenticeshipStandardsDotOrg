@@ -4,7 +4,7 @@ class StandardsImportsController < ApplicationController
   end
 
   def create
-    @standards_import = StandardsImport.new(create_params)
+    @standards_import = StandardsImport.new(standards_import_params)
 
     if @standards_import.save
       if user_signed_in?
@@ -24,7 +24,26 @@ class StandardsImportsController < ApplicationController
 
   private
 
-  def create_params
+  def standards_import_params
+    if current_user&.admin?
+      admin_create_params
+    else
+      user_create_params
+    end
+  end
+
+  def user_create_params
     params.require(:standards_import).permit(:name, :email, :organization, :notes, files: [])
+  end
+
+  def admin_create_params
+    params.require(:standards_import).permit(
+      :name,
+      :email,
+      :organization,
+      :notes,
+      :public_document,
+      files: []
+    )
   end
 end

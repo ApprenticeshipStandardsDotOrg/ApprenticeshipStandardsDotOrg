@@ -1,11 +1,28 @@
 RSpec.configure do |config|
-  config.around(:each, elasticsearch: true) do |example|
-    reset_elasticsearch
-    example.run
+  config.before :each, elasticsearch: true do
+    ActiveRecord::Base.descendants.each do |model|
+      if model.respond_to?(:__elasticsearch__)
+        begin
+          model.__elasticsearch__.create_index!
+          model.__elasticsearch__.refresh_index!
+        rescue Elasticsearch::Transport::Transport::Errors::NotFound => e
+          puts "There was an error creating the elasticsearch index
+                for #{model.name}: #{e.inspect}"
+        end
+      end
+    end
   end
 
-  def reset_elasticsearch
-    OccupationStandard.__elasticsearch__.create_index!(force: true)
-    OccupationStandard.__elasticsearch__.refresh_index!
+  config.after :each, elasticsearch: true do
+    ActiveRecord::Base.descendants.each do |model|
+      if model.respond_to?(:__elasticsearch__)
+        begin
+          model.__elasticsearch__.delete_index!
+        rescue Elasticsearch::Transport::Transport::Errors::NotFound => e
+          puts "There was an error removing the elasticsearch index
+                for #{model.name}: #{e.inspect}"
+        end
+      end
+    end
   end
 end
