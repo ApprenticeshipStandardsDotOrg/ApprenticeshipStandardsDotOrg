@@ -26,8 +26,13 @@
     </div>
   <% end -%>
 
-  <div class="w-full max-w-prose mx-auto my-5 p-3">
-    <p>This is the last import for <%= @source_file.filename %>. Change its status to Completed after the import completes.</p>
+
+  <div class="field-unit field-unit--last_file">
+    <div class="field-unit__label">
+    </div>
+    <div class="field-unit__field">
+      <p>This is the last import for <%= @source_file.filename %>. Change its status to Completed after the import completes.</p>
+    </div>
   </div>
 
   <div class="field-unit field-unit--last_file">
