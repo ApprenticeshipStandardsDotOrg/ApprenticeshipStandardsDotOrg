@@ -3,7 +3,7 @@ class OccupationStandard < ApplicationRecord
   include Searchable
 
   belongs_to :occupation, optional: true
-  belongs_to :registration_agency, optional: true
+  belongs_to :registration_agency
   belongs_to :organization, optional: true
   belongs_to :industry, optional: true
 
@@ -23,7 +23,7 @@ class OccupationStandard < ApplicationRecord
   enum status: [:importing, :in_review, :published]
 
   validates :title, :ojt_type, presence: true
-  validates :registration_agency, presence: true, unless: :national?
+  validates :registration_agency, presence: true
 
   MAX_SIMILAR_PROGRAMS_TO_DISPLAY = 5
 

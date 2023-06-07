@@ -121,7 +121,7 @@ RSpec.describe ImportOccupationStandardDetails do
       end
 
       it "sets national standard type when no registration agency state" do
-        national_agency = create(:registration_agency, agency_type: :oa)
+        national_agency = create(:registration_agency, state: nil, agency_type: :oa)
         occupation = create(:occupation, rapids_code: "0157")
         data_import = create(:data_import, :national_program_standard, :pending)
         industry = create(:industry, prefix: "13")
