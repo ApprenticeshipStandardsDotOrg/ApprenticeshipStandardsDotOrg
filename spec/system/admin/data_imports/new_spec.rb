@@ -64,7 +64,7 @@ RSpec.describe "admin/data_imports/new" do
 
     fill_in "Description", with: "Some desc"
     attach_file "File", file_fixture("comp-occupation-standards-template.xlsx")
-    check "This is the last import for pixel1x1.pdf. Change its status to Completed"
+    check "Last file"
 
     expect(ProcessDataImportJob).to receive(:perform_later).with(data_import: kind_of(DataImport), last_file: true)
 

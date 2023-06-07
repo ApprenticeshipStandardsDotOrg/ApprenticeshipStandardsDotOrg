@@ -13,7 +13,7 @@ RSpec.describe "admin/data_imports/edit" do
     expect(page).to have_content("Edit #{data_import.file.filename}")
     fill_in "Description", with: "New desc"
     attach_file "File", file_fixture("comp-occupation-standards-template.xlsx")
-    check "This is the last import for pixel1x1.pdf. Change its status to Completed"
+    check "Last file"
 
     expect(ProcessDataImportJob).to receive(:perform_later).with(data_import: kind_of(DataImport), last_file: true)
 
