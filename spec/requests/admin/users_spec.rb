@@ -44,4 +44,41 @@ RSpec.describe "Admin::User", type: :request do
       end
     end
   end
+
+  describe "POST /create", :admin do
+    it "creates the user without password" do
+      admin = create(:admin)
+      params = {
+        user: {
+          name: "Test #1",
+          email: "test@test.com",
+          role: :admin
+        }
+      }
+
+      sign_in admin
+      expect {
+        post admin_users_path, params: params
+      }.to change(User, :count).by(1)
+    end
+
+    it "sends invitation email" do
+      admin = create(:admin)
+      params = {
+        user: {
+          name: "Test #1",
+          email: "test@test.com",
+          role: :admin
+        }
+      }
+
+      sign_in admin
+      post admin_users_path, params: params
+
+      email = ActionMailer::Base.deliveries.last
+      expect(email.subject).to eq "Invitation instructions"
+      expect(email.to).to eq ["test@test.com"]
+      expect(email.from).to eq ["no-reply@apprenticeshipstandards.org"]
+    end
+  end
 end

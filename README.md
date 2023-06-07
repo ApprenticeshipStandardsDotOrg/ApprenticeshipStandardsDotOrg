@@ -47,6 +47,51 @@ brew install mailcatcher
 
 [mailcatcher_brew]: https://formulae.brew.sh/formula/mailcatcher
 
+## Staging access
+The public staging site is available at: https://staging.apprenticeshipstandards.org<br>
+The admin staging site is available at: https://staging-admin.apprenticeshipstandards.org
+
+The current credentials for the public staging site are:
+
+Username: ApprenticeshipStandardsAdmin<br>
+Password: Pipe Fitter
+
+These values are set in the `BASIC_AUTH_` environment variables on the staging
+app in Heroku.
+
+## Deployment
+We have a Heroku pipeline set up with a staging and a production app. The
+staging and production remotes can be added locally as follows:
+
+```
+git remote add staging https://git.heroku.com/apprenticeship-standards-stag.git
+git remote add production https://git.heroku.com/apprenticeship-standards-dot-o.git
+```
+
+### Staging
+The staging app will be deployed automatically any time code is merged to the
+`main` branch.
+
+### Production
+Once code changes have gone through QA on staging, the changes can be deployed
+to production by promoting the app:
+
+```
+heroku pipelines:promote -r staging
+```
+
+or
+
+```
+heroku pipelines:promote -a apprenticeship-standards-stag
+```
+
+If you name your staging remote something other than "staging", then be sure to
+replace "staging" with the name of your remote if using the `promote -r`
+command.
+
+The promotion can also be done through the Heroku Dashboard on the [Pipelines page](https://dashboard.heroku.com/pipelines/3657e91f-455e-4fa7-9da7-f6ddc1beb854).
+
 ## AWS Setup
 If you will have access to AWS to manage the S3 buckets, [view the setup
 documentation](doc/AWS.md).
@@ -67,6 +112,17 @@ To automatically apply linting fixes, run:
 bundle exec standardrb --fix
 ```
 
+### ERB linting
+We are using [erb_lint][erb_lint] for ERB linting. To check the style of all
+`.erb` files, run:
+
+```
+bundle exec erblint --lint-all
+```
+
+[standard]: https://github.com/testdouble/standard
+[erb_lint]: https://github.com/Shopify/erb-lint
+
 ## Post-deployment tasks
 
 We are using [After Party](https://github.com/theSteveMitchell/after_party) to
@@ -83,18 +139,6 @@ bin/setup
 
 which will update gems, run any database migrations, and run the after party
 post-deployment tasks.
-
-
-### ERB linting
-We are using [erb_lint][erb_lint] for ERB linting. To check the style of all
-`.erb` files, run:
-
-```
-bundle exec erblint --lint-all
-```
-
-[standard]: https://github.com/testdouble/standard
-[erb_lint]: https://github.com/Shopify/erb-lint
 
 ## Testing Suite
 
@@ -163,3 +207,15 @@ directory to help with debugging.
 ### Deployment
 
 Every time `main` is updated, it will trigger a deploy to Heroku automatically.
+
+### Feature Flags
+
+We use Flipper for our feature flags system.
+
+You can turn on a feature flag by running:
+
+`Flipper.enable(:search)`
+
+and check if it's enabled with:
+
+`Flipper.enabled?(:search) # true`

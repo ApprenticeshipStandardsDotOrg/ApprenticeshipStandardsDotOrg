@@ -8,7 +8,8 @@ Rails.application.routes.draw do
     devise_for :users,
       skip: :registrations,
       controllers: {
-        sessions: "users/sessions"
+        sessions: "users/sessions",
+        invitations: "users/invitations"
       }
     as :user do
       get "users/edit", to: "devise/registrations#edit", as: "edit_user_registration"
@@ -29,7 +30,9 @@ Rails.application.routes.draw do
 
     namespace :admin do
       resources :data_imports, except: [:index]
-      resources :users
+      resources :users do
+        post :invite, on: :member
+      end
       resources :api_keys, only: [:create, :index, :show, :destroy]
       resources :source_files, only: [:index, :edit, :show, :update, :destroy] do
         resources :data_imports, except: [:index]

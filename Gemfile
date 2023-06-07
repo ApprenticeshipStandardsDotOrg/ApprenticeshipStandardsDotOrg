@@ -5,9 +5,10 @@ ruby "3.1.2"
 
 gem "bonsai-elasticsearch-rails", "~> 7"
 gem "elasticsearch", "< 7.14"
-
+gem "elasticsearch-rails"
+gem "elasticsearch-model"
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 7.0.4"
+gem "rails", "~> 7.0.5"
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
@@ -43,8 +44,9 @@ gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 gem "bootsnap", require: false
 
 gem "devise"
+gem "devise_invitable", "~> 2.0.0"
 gem "rollbar"
-gem "roo", "~> 2.9.0"
+gem "roo", "~> 2.10.0"
 gem "aws-sdk-s3", require: false
 gem "after_party"
 gem "sidekiq", "~> 7"
@@ -65,6 +67,9 @@ gem "jwt"
 gem "rswag-api"
 gem "rswag-ui"
 gem "rack-cors"
+
+gem "flipper"
+gem "flipper-active_record"
 
 gem "sablon" # Word document templating tool
 
