@@ -2,7 +2,7 @@ class RegistrationAgency < ApplicationRecord
   validates :agency_type, presence: true
   validates :state, uniqueness: {scope: :agency_type}
 
-  belongs_to :state
+  belongs_to :state, optional: true
 
   enum agency_type: [:oa, :saa]
 

@@ -120,7 +120,8 @@ RSpec.describe ImportOccupationStandardDetails do
         expect(os.rsi_hours_max).to eq 100
       end
 
-      it "sets national standard type when no registration agency" do
+      it "sets national standard type when no registration agency state" do
+        national_agency = create(:registration_agency, state: nil, agency_type: :oa)
         occupation = create(:occupation, rapids_code: "0157")
         data_import = create(:data_import, :national_program_standard, :pending)
         industry = create(:industry, prefix: "13")
@@ -132,7 +133,7 @@ RSpec.describe ImportOccupationStandardDetails do
         os = OccupationStandard.last
         expect(os.data_import).to eq data_import
         expect(os.occupation).to eq occupation
-        expect(os.registration_agency).to be_nil
+        expect(os.registration_agency).to eq national_agency
         expect(os).to be_national_program_standard
         expect(os.title).to eq "HUMAN RESOURCE SPECIALIST"
         expect(os.existing_title).to eq "Career Development Technician"
