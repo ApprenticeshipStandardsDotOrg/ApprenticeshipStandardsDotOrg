@@ -7,21 +7,6 @@ RSpec.describe OccupationStandard, type: :model do
     expect(occupation_standard).to be_valid
   end
 
-  it "requires either registration agency or national_standard_type" do
-    ra = build_stubbed(:registration_agency)
-    occupation_standard = build(:occupation_standard, registration_agency: ra, national_standard_type: nil)
-
-    expect(occupation_standard).to be_valid
-
-    occupation_standard = build(:occupation_standard, registration_agency: nil, national_standard_type: :program_standard)
-
-    expect(occupation_standard).to be_valid
-
-    occupation_standard = build(:occupation_standard, registration_agency: nil, national_standard_type: nil)
-
-    expect(occupation_standard).to_not be_valid
-  end
-
   describe ".by_title" do
     it "returns records that match the argument in title" do
       first_occupation = create(:occupation_standard, title: "AAAAAA")

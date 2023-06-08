@@ -1,5 +1,5 @@
 namespace :after_party do
-  desc 'Deployment task: create_national_registration_agency'
+  desc "Deployment task: create_national_registration_agency"
   task create_national_registration_agency: :environment do
     puts "Running deploy task 'create_national_registration_agency'"
 
