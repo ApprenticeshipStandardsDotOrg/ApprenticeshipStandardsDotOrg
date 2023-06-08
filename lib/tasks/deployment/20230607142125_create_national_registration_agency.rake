@@ -4,6 +4,7 @@ namespace :after_party do
     puts "Running deploy task 'create_national_registration_agency'"
 
     RegistrationAgency.find_or_create_by!(
+      state_id: nil,
       agency_type: :oa
     )
 
