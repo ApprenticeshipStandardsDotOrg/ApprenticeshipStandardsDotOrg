@@ -1,6 +1,6 @@
 require "administrate/base_dashboard"
 
-class CompetencyDashboard < Administrate::BaseDashboard
+class CompetencyOptionDashboard < Administrate::BaseDashboard
   # ATTRIBUTE_TYPES
   # a hash that describes the type of each of the model's fields.
   #
@@ -9,11 +9,9 @@ class CompetencyDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     id: Field::String,
-    competency_options: Field::HasMany,
-    description: Field::Text,
+    resource: Field::Polymorphic,
     sort_order: Field::Number,
     title: Field::String,
-    work_process: Field::BelongsTo,
     created_at: Field::DateTime,
     updated_at: Field::DateTime
   }.freeze
@@ -24,21 +22,19 @@ class CompetencyDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
+    id
+    resource
     sort_order
     title
-    competency_options
-    description
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
     id
-    competency_options
-    description
+    resource
     sort_order
     title
-    work_process
     created_at
     updated_at
   ].freeze
@@ -47,11 +43,9 @@ class CompetencyDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
-    competency_options
-    description
+    resource
     sort_order
     title
-    work_process
   ].freeze
 
   # COLLECTION_FILTERS
@@ -66,10 +60,10 @@ class CompetencyDashboard < Administrate::BaseDashboard
   #   }.freeze
   COLLECTION_FILTERS = {}.freeze
 
-  # Overwrite this method to customize how competencies are displayed
+  # Overwrite this method to customize how competency options are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(competency)
-  #   "Competency ##{competency.id}"
+  # def display_resource(competency_option)
+  #   "CompetencyOption ##{competency_option.id}"
   # end
 end
