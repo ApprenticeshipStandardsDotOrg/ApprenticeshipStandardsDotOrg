@@ -38,6 +38,6 @@ module ApprenticeshipStandardsDotOrg
       Rails.error.subscribe(ErrorSubscriber.new)
     end
 
-    config.active_storage.service_urls_expire_in = 12.hours
+    config.active_storage.service_urls_expire_in = 1.hour
   end
 end
