@@ -24,7 +24,7 @@ class ImportOccupationStandardWorkProcesses
           description: row["Work Process Description"],
           minimum_hours: row["Minimum Hours"],
           maximum_hours: row["Maximum Hours"],
-          sort_order: row["Work Process Sort Order"]
+          sort_order: row["Work Process Sort Order"].presence || index
         )
 
         if competency_available?(row)
