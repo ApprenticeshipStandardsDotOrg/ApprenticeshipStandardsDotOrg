@@ -43,7 +43,6 @@ class WorkProcessDashboard < Administrate::BaseDashboard
     description
     maximum_hours
     minimum_hours
-    occupation_standard
     sort_order
     title
   ].freeze
