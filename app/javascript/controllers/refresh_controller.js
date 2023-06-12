@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="refresh"
 //
-const REFRESH_PERIOD_IN_MINUTES = 1
+const REFRESH_PERIOD_IN_MINUTES = 15
 const TIMEOUT = 100000
 
 export default class extends Controller {
