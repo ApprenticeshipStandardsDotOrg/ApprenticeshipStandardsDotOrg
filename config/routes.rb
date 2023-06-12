@@ -39,6 +39,7 @@ Rails.application.routes.draw do
       end
       resources :occupation_standards, only: [:index, :show, :edit, :update]
       resources :work_processes, only: [:show, :edit, :update]
+      resources :competencies, only: [:show, :edit, :update]
       resources :contact_requests, only: [:index, :show]
     end
   end
