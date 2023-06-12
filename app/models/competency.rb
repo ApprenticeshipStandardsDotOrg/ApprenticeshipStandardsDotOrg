@@ -1,5 +1,5 @@
 class Competency < ApplicationRecord
-  belongs_to :work_process
+  belongs_to :work_process, counter_cache: true
   has_many :competency_options, as: :resource
 
   validates :sort_order, uniqueness: {scope: :work_process}
