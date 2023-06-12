@@ -6,3 +6,5 @@
 //= link administrate-field-active_storage/application.css
 //= link administrate-field-jsonb/application.css
 //= link administrate-field-jsonb/application.js
+//= link pdfjs_viewer/application.css
+//= link pdfjs_viewer/application.js

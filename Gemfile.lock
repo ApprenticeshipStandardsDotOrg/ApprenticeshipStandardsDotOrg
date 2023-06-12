@@ -295,6 +295,10 @@ GEM
     parallel (1.23.0)
     parser (3.2.2.1)
       ast (~> 2.4.1)
+    pdfjs_viewer-rails (0.3.2)
+      json (> 1.8.4)
+      rails (> 4.2.0)
+      sassc-rails (>= 2.1)
     pg (1.4.4)
     public_suffix (5.0.1)
     puma (5.6.5)
@@ -510,6 +514,7 @@ DEPENDENCIES
   jsonapi-resources
   jwt
   pagy
+  pdfjs_viewer-rails
   pg (~> 1.1)
   puma (~> 5.0)
   pundit

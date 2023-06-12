@@ -41,7 +41,15 @@
             method: :delete,
             data: {confirm: t("administrate.actions.confirm")}
           )
-        end %>
+    end %>
+
+    <%= if page.resource.pdf?
+      link_to(
+        "Redact document",
+        [:new, namespace, page.resource, :redact_file],
+        class: "button"
+      )
+    end %>
   </div>
 </header>
 

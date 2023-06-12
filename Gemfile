@@ -58,6 +58,8 @@ gem "administrate-field-jsonb"
 gem "pundit"
 gem "image_processing"
 gem "pagy"
+gem "pdfjs_viewer-rails"
+
 
 # For API
 gem "jsonapi-resources"

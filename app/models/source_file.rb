@@ -34,4 +34,8 @@ class SourceFile < ApplicationRecord
   def standards_import
     active_storage_attachment.record
   end
+
+  def pdf?
+    active_storage_attachment&.filename&.extension == "pdf"
+  end
 end
