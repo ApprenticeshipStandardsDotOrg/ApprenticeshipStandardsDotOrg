@@ -21,7 +21,7 @@ class ImportOccupationStandardWageSchedule
         )
 
         wage_schedule.update!(
-          title: row["Step Level Title"],
+          title: row["Step Level Title"].presence || "Step #{index}",
           minimum_hours: row["Step OJT Hours"],
           ojt_percentage: row["Step OJT Percentage"],
           duration_in_months: row["Step Duration"],
