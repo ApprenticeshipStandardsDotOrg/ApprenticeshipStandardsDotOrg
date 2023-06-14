@@ -1,4 +1,4 @@
-class ScrapeRapidsCode
+class ScrapeRAPIDSCode
   def call
     xlsx = Roo::Spreadsheet.open("https://www.apprenticeship.gov/sites/default/files/wps/apprenticeship-occupations.xlsx")
     xlsx.sheet(0).parse(headers: true).each_with_index do |row, index|

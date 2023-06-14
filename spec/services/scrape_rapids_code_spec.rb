@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe ScrapeRapidsCode do
+RSpec.describe ScrapeRAPIDSCode do
   describe "#call" do
     it "creates occupation records" do
       stub_responses

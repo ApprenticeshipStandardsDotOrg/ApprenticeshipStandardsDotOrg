@@ -23,8 +23,8 @@ RSpec.describe "admin/occupation_standards/show" do
     expect(page).to have_selector("h1", text: "Mechanic")
 
     expect(page).to have_selector("dt", text: "Title")
-    expect(page).to have_selector("dt", text: "ONET Code")
-    expect(page).to have_selector("dt", text: "RAPIDS Code")
+    expect(page).to have_selector("dt", text: "ONET code")
+    expect(page).to have_selector("dt", text: "RAPIDS code")
     expect(page).to have_selector("dt", text: "Term months")
     expect(page).to have_selector("dt", text: "URL")
     expect(page).to have_selector("dt", text: "Status")
@@ -40,7 +40,7 @@ RSpec.describe "admin/occupation_standards/show" do
     expect(page).to have_selector("dt", text: "Min OJT hours")
     expect(page).to have_selector("dt", text: "Organization")
     expect(page).to have_selector("dt", text: "Probationary period months")
-    expect(page).to have_selector("dt", text: "Registration Agency")
+    expect(page).to have_selector("dt", text: "Registration agency")
     expect(page).to have_selector("dt", text: "Max RSI hours")
     expect(page).to have_selector("dt", text: "Min RSI hours")
     expect(page).to have_selector("dt", text: "Data imports")
@@ -97,7 +97,7 @@ RSpec.describe "admin/occupation_standards/show" do
     within_grid "Wage steps" do
       expect(page).to have_columnheader("Title")
       expect(page).to have_columnheader("Minimum Hours")
-      expect(page).to have_columnheader("Ojt Percentage")
+      expect(page).to have_columnheader("OJT Percentage")
 
       expect(page).to have_gridcell("WS1")
       expect(page).to have_text "3456"
