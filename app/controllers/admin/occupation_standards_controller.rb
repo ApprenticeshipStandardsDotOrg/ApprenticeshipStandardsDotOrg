@@ -22,17 +22,18 @@ module Administrate
       super
         .split(" OR ")
         .push("LOWER(states.name) LIKE ?")
+        .push("LOWER(occupations.title) LIKE ?")
         .join(" OR ")
     end
 
     def query_values
       values = super
       term = values.first
-      values + [term]
+      values + [term, term]
     end
 
     def search_results(resources)
-      super.joins(registration_agency: :state)
+      super.left_joins(registration_agency: :state).left_joins(:occupation)
     end
   end
 end
