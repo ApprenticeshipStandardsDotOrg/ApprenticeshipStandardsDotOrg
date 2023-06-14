@@ -58,7 +58,7 @@ module Administrate
 
     def db_value_for_public_doc(term)
       (field, value) = term.tr("%", "").split(":")
-      field == "public_document" ? value : nil
+      (field == "public_document") ? value : nil
     end
   end
 end

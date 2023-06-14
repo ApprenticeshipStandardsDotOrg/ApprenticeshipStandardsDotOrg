@@ -90,10 +90,7 @@ RSpec.describe "admin/source_files/index", :admin do
 
     it "can search on organization" do
       create(:standards_import, :with_files, organization: "Google")
-      source_file = SourceFile.last
-
       create(:standards_import, :with_files, organization: "Tesla")
-      source_file = SourceFile.last
 
       admin = create(:admin)
 
@@ -111,7 +108,6 @@ RSpec.describe "admin/source_files/index", :admin do
 
     it "can search on assignee" do
       create(:standards_import, :with_files, organization: "Google")
-      source_file = SourceFile.last
 
       converter1 = create(:user, :converter, name: "Mickey")
       create(:source_file, assignee: converter1)
