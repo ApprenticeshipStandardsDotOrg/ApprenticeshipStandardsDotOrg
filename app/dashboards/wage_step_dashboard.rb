@@ -23,25 +23,24 @@ class WageStepDashboard < Administrate::BaseDashboard
 
   SHOW_PAGE_ATTRIBUTES = %i[
     id
+    title
+    sort_order
     duration_in_months
     minimum_hours
     occupation_standard
     ojt_percentage
     rsi_hours
-    sort_order
-    title
     created_at
     updated_at
   ].freeze
 
   FORM_ATTRIBUTES = %i[
+    title
+    sort_order
     duration_in_months
     minimum_hours
-    occupation_standard
     ojt_percentage
     rsi_hours
-    sort_order
-    title
   ].freeze
 
   COLLECTION_FILTERS = {}.freeze
