@@ -34,6 +34,7 @@ module Administrate
         .push("LOWER(active_storage_blobs.filename) LIKE ?")
         .push("LOWER(standards_imports.organization) LIKE ?")
         .push("LOWER(users.name) LIKE ?")
+        .push("source_files.public_document = ?")
         .push("status = ?")
         .join(" OR ")
     end
@@ -41,7 +42,7 @@ module Administrate
     def query_values
       values = super
       term = values.first
-      values + [term, term, term, db_value_for_status(term)]
+      values + [term, term, term, db_value_for_public_doc(term), db_value_for_status(term)]
     end
 
     def search_results(resources)
@@ -53,6 +54,11 @@ module Administrate
 
     def db_value_for_status(term)
       SourceFile.statuses[term.parameterize(separator: "_")]
+    end
+
+    def db_value_for_public_doc(term)
+      (field, value) = term.tr("%", "").split(":")
+      value
     end
   end
 end

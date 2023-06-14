@@ -141,6 +141,32 @@ RSpec.describe "admin/source_files/index", :admin do
       expect(page).to have_text "Goofy"
     end
 
+    it "can search on public_document" do
+      converter1 = create(:user, :converter, name: "Mickey")
+      create(:source_file, assignee: converter1, public_document: true)
+
+      converter2 = create(:user, :converter, name: "Goofy")
+      create(:source_file, assignee: converter2, public_document: false)
+
+      admin = create(:admin)
+
+      login_as admin
+      visit admin_source_files_path
+
+      expect(page).to have_text "Mickey"
+      expect(page).to have_text "Goofy"
+
+      visit admin_source_files_path(search: "public_document:true")
+
+      expect(page).to have_text "Mickey"
+      expect(page).to_not have_text "Goofy"
+
+      visit admin_source_files_path(search: "public_document:false")
+
+      expect(page).to_not have_text "Mickey"
+      expect(page).to have_text "Goofy"
+    end
+
     it "can claim a source file" do
       converter = create(:user, :converter, name: "Mickey Mouse")
       create(:source_file)
