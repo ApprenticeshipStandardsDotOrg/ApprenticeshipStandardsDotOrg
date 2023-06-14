@@ -13,8 +13,9 @@ RSpec.describe Scraper::CaliforniaJob, type: :job do
         expect(standards_import.files.count).to eq 1
         expect(standards_import.name).to eq "https://www.dir.ca.gov/das/standards/101015_SB%20ECE_Standards.pdf"
         expect(standards_import.organization).to eq "Santa Barbara County Education Office (SBCEO) Early Childhood Educator Apprenticeship Program"
-        expect(standards_import.notes).to eq "From Scraper::CaliforniaJob: https://www.dir.ca.gov/das/ProgramStandards.htm"
+        expect(standards_import.notes).to eq "From Scraper::CaliforniaJob"
         expect(standards_import.public_document).to be true
+        expect(standards_import.source_url).to eq "https://www.dir.ca.gov/das/ProgramStandards.htm"
       end
     end
 
