@@ -32,6 +32,7 @@ module Administrate
       super
         .split(" OR ")
         .push("LOWER(active_storage_blobs.filename) LIKE ?")
+        .push("LOWER(standards_imports.organization) LIKE ?")
         .push("status = ?")
         .join(" OR ")
     end
@@ -39,11 +40,13 @@ module Administrate
     def query_values
       values = super
       term = values.first
-      values + [term, db_value_for_status(term)]
+      values + [term, term, db_value_for_status(term)]
     end
 
     def search_results(resources)
-      super.left_joins(active_storage_attachment: :blob)
+      super
+        .left_joins(active_storage_attachment: :blob)
+        .joins("LEFT JOIN standards_imports ON (active_storage_attachments.record_id = standards_imports.id AND active_storage_attachments.record_type = 'StandardsImport')")
     end
 
     def db_value_for_status(term)

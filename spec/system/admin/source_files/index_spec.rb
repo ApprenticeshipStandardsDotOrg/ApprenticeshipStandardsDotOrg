@@ -88,6 +88,27 @@ RSpec.describe "admin/source_files/index", :admin do
       expect(page).to have_text "Needs Support"
     end
 
+    it "can search on organization" do
+      create(:standards_import, :with_files, organization: "Google")
+      source_file = SourceFile.last
+
+      create(:standards_import, :with_files, organization: "Tesla")
+      source_file = SourceFile.last
+
+      admin = create(:admin)
+
+      login_as admin
+      visit admin_source_files_path
+
+      expect(page).to have_text "Google"
+      expect(page).to have_text "Tesla"
+
+      visit admin_source_files_path(search: "Google")
+
+      expect(page).to have_text "Google"
+      expect(page).to_not have_text "Tesla"
+    end
+
     it "can claim a source file" do
       converter = create(:user, :converter, name: "Mickey Mouse")
       create(:source_file)
