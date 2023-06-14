@@ -36,6 +36,7 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
     occupation
     registration_agency
     onet_code
+    rapids_code
     status
   ].freeze
 
