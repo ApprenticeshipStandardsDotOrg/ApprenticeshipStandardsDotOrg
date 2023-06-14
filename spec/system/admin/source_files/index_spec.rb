@@ -109,6 +109,38 @@ RSpec.describe "admin/source_files/index", :admin do
       expect(page).to_not have_text "Tesla"
     end
 
+    it "can search on assignee" do
+      create(:standards_import, :with_files, organization: "Google")
+      source_file = SourceFile.last
+
+      converter1 = create(:user, :converter, name: "Mickey")
+      create(:source_file, assignee: converter1)
+
+      converter2 = create(:user, :converter, name: "Goofy")
+      create(:source_file, assignee: converter2)
+
+      admin = create(:admin)
+
+      login_as admin
+      visit admin_source_files_path
+
+      expect(page).to have_text "Google"
+      expect(page).to have_text "Mickey"
+      expect(page).to have_text "Goofy"
+
+      visit admin_source_files_path(search: "Mickey")
+
+      expect(page).to_not have_text "Google"
+      expect(page).to have_text "Mickey"
+      expect(page).to_not have_text "Goofy"
+
+      visit admin_source_files_path(search: "goo")
+
+      expect(page).to have_text "Google"
+      expect(page).to_not have_text "Mickey"
+      expect(page).to have_text "Goofy"
+    end
+
     it "can claim a source file" do
       converter = create(:user, :converter, name: "Mickey Mouse")
       create(:source_file)
