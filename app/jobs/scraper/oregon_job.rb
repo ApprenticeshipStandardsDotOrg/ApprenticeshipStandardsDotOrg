@@ -38,7 +38,8 @@ class Scraper::OregonJob < Scraper::WatirJob
             organization: organization
           ).first_or_initialize(
             notes: "From Scraper::OregonJob",
-            public_document: true
+            public_document: true,
+            source_url: apprenticeship_url
           )
 
           if standards_import.new_record?
