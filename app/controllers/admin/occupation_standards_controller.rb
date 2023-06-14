@@ -23,13 +23,14 @@ module Administrate
         .split(" OR ")
         .push("LOWER(states.name) LIKE ?")
         .push("LOWER(occupations.title) LIKE ?")
+        .push("occupations.rapids_code LIKE ?")
         .join(" OR ")
     end
 
     def query_values
       values = super
       term = values.first
-      values + [term, term]
+      values + [term, term, term]
     end
 
     def search_results(resources)
