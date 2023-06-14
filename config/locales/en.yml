@@ -7,12 +7,9 @@ en:
           competency: "Apprentices progress at their own pace – they demonstrate<br/> competency in skills and knowledge through assessment tests, <br/>but are not required to complete a specific number of hours."
           time: "Apprentices complete a required number of hours<br/> in on-the-job training and related instruction."
         national_standard_type: National Standard Type
-        ojt_type: OJT type
         ojt_hours_max: Max OJT hours
         ojt_hours_min: Min OJT hours
-        onet_code: ONET Code
-        rapids_code: RAPIDS Code
-        registration_agency: Registration Agency
+        onet_code: ONET code
         rsi_hours_max: Max RSI hours
         rsi_hours_min: Min RSI hours
         url: URL

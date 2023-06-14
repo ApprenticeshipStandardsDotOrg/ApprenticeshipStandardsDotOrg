@@ -49,8 +49,9 @@ class Scraper::WashingtonJob < Scraper::WatirJob
           name: file
         ).first_or_initialize(
           organization: organization,
-          notes: "From Scraper::WashingtonJob: #{program_link}",
-          public_document: true
+          notes: "From Scraper::WashingtonJob",
+          public_document: true,
+          source_url: program_link
         )
 
         if standards_import.new_record?

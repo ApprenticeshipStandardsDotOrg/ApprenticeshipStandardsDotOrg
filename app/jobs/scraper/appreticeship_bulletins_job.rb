@@ -14,8 +14,9 @@ class Scraper::AppreticeshipBulletinsJob < ApplicationJob
         name: file_uri,
         organization: row["Title"]
       ).first_or_initialize(
-        notes: "From Scraper::AppreticeshipBulletinsJob #{BULLETIN_LIST_URL}",
-        public_document: true
+        notes: "From Scraper::AppreticeshipBulletinsJob",
+        public_document: true,
+        source_url: BULLETIN_LIST_URL
       )
 
       if standards_import.new_record?
