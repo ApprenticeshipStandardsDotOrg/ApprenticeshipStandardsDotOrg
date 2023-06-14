@@ -4,6 +4,8 @@ class WorkProcess < ApplicationRecord
   belongs_to :occupation_standard
   has_many :competencies, -> { order(:sort_order) }, dependent: :destroy
 
+  validates :title, presence: true
+
   def hours
     [maximum_hours, minimum_hours].compact.first
   end

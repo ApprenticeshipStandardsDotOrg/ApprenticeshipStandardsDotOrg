@@ -17,14 +17,14 @@ class ImportOccupationStandardWorkProcesses
 
         work_process = WorkProcess.find_or_initialize_by(
           occupation_standard: occupation_standard,
-          title: row["Work Process Title"]
+          title: row["Work Process Title"].presence
         )
 
         work_process.update!(
           description: row["Work Process Description"],
           minimum_hours: row["Minimum Hours"],
           maximum_hours: row["Maximum Hours"],
-          sort_order: row["Work Process Sort Order"]
+          sort_order: row["Work Process Sort Order"].presence || index
         )
 
         if competency_available?(row)
