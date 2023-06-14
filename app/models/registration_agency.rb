@@ -7,6 +7,7 @@ class RegistrationAgency < ApplicationRecord
   enum agency_type: [:oa, :saa]
 
   def to_s
-    "#{state.name} (#{agency_type.upcase})"
+    state_name = state&.name || "National"
+    "#{state_name} (#{agency_type.upcase})"
   end
 end
