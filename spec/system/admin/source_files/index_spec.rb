@@ -165,6 +165,11 @@ RSpec.describe "admin/source_files/index", :admin do
 
       expect(page).to_not have_text "Mickey"
       expect(page).to have_text "Goofy"
+
+      visit admin_source_files_path(search: "pd:false")
+
+      expect(page).to_not have_text "Mickey"
+      expect(page).to_not have_text "Goofy"
     end
 
     it "can claim a source file" do

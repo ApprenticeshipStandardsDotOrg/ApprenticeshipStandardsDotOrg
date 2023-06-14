@@ -34,7 +34,7 @@ module Administrate
         .push("LOWER(active_storage_blobs.filename) LIKE ?")
         .push("LOWER(standards_imports.organization) LIKE ?")
         .push("LOWER(users.name) LIKE ?")
-        .push("source_files.public_document = ?")
+        .push("source_files.public_document IN (?)")
         .push("status = ?")
         .join(" OR ")
     end
@@ -58,7 +58,7 @@ module Administrate
 
     def db_value_for_public_doc(term)
       (field, value) = term.tr("%", "").split(":")
-      value
+      field == "public_document" ? value : nil
     end
   end
 end
