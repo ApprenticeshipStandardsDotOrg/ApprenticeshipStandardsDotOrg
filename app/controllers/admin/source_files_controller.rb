@@ -34,7 +34,7 @@ module Administrate
         .push("LOWER(active_storage_blobs.filename) LIKE ?")
         .push("LOWER(standards_imports.organization) LIKE ?")
         .push("LOWER(users.name) LIKE ?")
-        .push("source_files.public_document IN (?)")
+        .push("source_files.public_document = ?")
         .push("status = ?")
         .join(" OR ")
     end
