@@ -1,0 +1,8 @@
+<% @data_imports.each do |data_import| %>
+  Public occupation standard view: <%= occupation_standard_url(data_import.occupation_standard) %>
+  Competencies count: <%= data_import.occupation_standard.competencies_count %>
+  OJT hours: <%= data_import.occupation_standard.ojt_hours_min %>-<%= data_import.occupation_standard.ojt_hours_max %>
+  RSI hours: <%= data_import.occupation_standard.rsi_hours_min %>-<%= data_import.occupation_standard.rsi_hours_max %>
+  Link to Admin Data Import: <%= admin_data_import_url(data_import) %>
+  Link to Admin Source File: <%= admin_source_file_url(data_import.source_file) %>
+<% end %>
