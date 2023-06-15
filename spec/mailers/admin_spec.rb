@@ -6,7 +6,7 @@ RSpec.describe AdminMailer, type: :mailer do
       si = build(:standards_import, name: "Mickey", email: "mickey@mouse.com", organization: "Disney")
       allow(si).to receive(:file_count).and_return(10)
 
-      mail = AdminMailer.new_standards_import(si)
+      mail = described_class.new_standards_import(si)
 
       expect(mail.subject).to eq("New standards import uploaded")
       expect(mail.to).to eq(["patrick@workhands.us"])
@@ -25,7 +25,7 @@ RSpec.describe AdminMailer, type: :mailer do
     it "renders the header and body correctly" do
       contact = create(:contact_request, name: "Mickey", email: "mickey@mouse.com", organization: "Disney", message: "Some message")
 
-      mail = AdminMailer.new_contact_request(contact)
+      mail = described_class.new_contact_request(contact)
 
       expect(mail.subject).to eq("New ApprenticeshipStandards Contact Request")
       expect(mail.to).to eq(["patrick@workhands.us"])
@@ -50,7 +50,7 @@ RSpec.describe AdminMailer, type: :mailer do
         occupation_standard.update!(ojt_hours_min: 100, ojt_hours_max: 200, rsi_hours_min: 500, rsi_hours_max: 600)
         allow_any_instance_of(OccupationStandard).to receive(:competencies_count).and_return(123)
 
-        mail = AdminMailer.daily_uploads_report
+        mail = described_class.daily_uploads_report
 
         expect(mail.subject).to eq("Daily imported standards report 2023-06-14")
         expect(mail.to).to eq(["info@workhands.us"])
@@ -68,6 +68,12 @@ RSpec.describe AdminMailer, type: :mailer do
           expect(part.body.encoded).to match "RSI hours: 500-600"
         end
       end
+    end
+
+    it "does not send mail if no imports" do
+      expect {
+        described_class.daily_uploads_report.deliver_now
+      }.not_to change(ActionMailer::Base.deliveries, :count)
     end
   end
 end

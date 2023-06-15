@@ -20,9 +20,11 @@ class AdminMailer < ApplicationMailer
 
   def daily_uploads_report
     @data_imports = DataImport.recent_uploads
-    date = Time.zone.yesterday.to_date
 
-    mail to: "info@workhands.us",
-      subject: "Daily imported standards report #{date}"
+    if @data_imports.any?
+      date = Time.zone.yesterday.to_date
+      mail to: "info@workhands.us",
+        subject: "Daily imported standards report #{date}"
+    end
   end
 end
