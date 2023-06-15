@@ -1,5 +1,5 @@
 <% @data_imports.each do |data_import| %>
-  <%= "#{data_import.occupation_standard.title} (Public link)" %>: <%= occupation_standard_url(data_import.occupation_standard) %>
+  <%= "#{data_import.occupation_standard.title} (Public link)" %>: <%= occupation_standard_url(data_import.occupation_standard, host: ENV.fetch("PUBLIC_DOMAIN", Rails.application.config.action_mailer.default_url_options[:host])) %>
   <%= "#{data_import.occupation_standard.title} (Admin link)" %>: <%= admin_occupation_standard_url(data_import.occupation_standard) %>
   Competencies count: <%= data_import.occupation_standard.competencies_count %>
   OJT hours min: <%= data_import.occupation_standard.ojt_hours_min %>

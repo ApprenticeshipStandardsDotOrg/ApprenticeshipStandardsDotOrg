@@ -2,7 +2,7 @@
   <% @data_imports.each do |data_import| %>
     <div>
       <p>
-        <%= link_to "#{data_import.occupation_standard.title} (Public link)", occupation_standard_url(data_import.occupation_standard) %>
+        <%= link_to "#{data_import.occupation_standard.title} (Public link)", occupation_standard_url(data_import.occupation_standard, host: ENV.fetch("PUBLIC_DOMAIN", Rails.application.config.action_mailer.default_url_options[:host])) %>
       </p>
       <p>
         <%= link_to "#{data_import.occupation_standard.title} (Admin link)", admin_occupation_standard_url(data_import.occupation_standard) %>
