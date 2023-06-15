@@ -47,7 +47,7 @@ RSpec.describe AdminMailer, type: :mailer do
         data_import = create(:data_import, created_at: Time.zone.local(2023, 6, 14))
         source_file = data_import.source_file
         occupation_standard = data_import.occupation_standard
-        occupation_standard.update!(ojt_hours_min: 100, ojt_hours_max: 200, rsi_hours_min: 500, rsi_hours_max: 600)
+        occupation_standard.update!(ojt_hours_min: 100, ojt_hours_max: 200, rsi_hours_min: 500, rsi_hours_max: 600, title: "Mechanic")
         allow_any_instance_of(OccupationStandard).to receive(:competencies_count).and_return(123)
 
         mail = described_class.daily_uploads_report
@@ -57,15 +57,19 @@ RSpec.describe AdminMailer, type: :mailer do
         expect(mail.from).to eq(["no-reply@apprenticeshipstandards.org"])
 
         mail.body.parts.each do |part|
-          expect(part.body.encoded).to match "Public occupation standard view"
+          expect(part.body.encoded).to match /Mechanic \(Public link\)/
+          expect(part.body.encoded).to match /Mechanic \(Admin link\)/
           expect(part.body.encoded).to match occupation_standard_url(occupation_standard)
+          expect(part.body.encoded).to match admin_occupation_standard_url(occupation_standard)
           expect(part.body.encoded).to match "Admin Data Import"
           expect(part.body.encoded).to match admin_data_import_url(data_import)
           expect(part.body.encoded).to match "Admin Source File"
           expect(part.body.encoded).to match admin_source_file_url(source_file)
           expect(part.body.encoded).to match "Competencies count: 123"
-          expect(part.body.encoded).to match "OJT hours: 100-200"
-          expect(part.body.encoded).to match "RSI hours: 500-600"
+          expect(part.body.encoded).to match "OJT hours min: 100"
+          expect(part.body.encoded).to match "OJT hours max: 200"
+          expect(part.body.encoded).to match "RSI hours min: 500"
+          expect(part.body.encoded).to match "RSI hours max: 600"
         end
       end
     end

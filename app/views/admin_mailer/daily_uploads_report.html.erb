@@ -1,22 +1,35 @@
 <div>
   <% @data_imports.each do |data_import| %>
-    <p>
-      <%= link_to "Public occupation standard view", occupation_standard_url(data_import.occupation_standard) %>
-    </p>
-    <p>
-      Competencies count: <%= data_import.occupation_standard.competencies_count %>
-    </p>
-    <p>
-      OJT hours: <%= data_import.occupation_standard.ojt_hours_min %>-<%= data_import.occupation_standard.ojt_hours_max %>
-    </p>
-    <p>
-      RSI hours: <%= data_import.occupation_standard.rsi_hours_min %>-<%= data_import.occupation_standard.rsi_hours_max %>
-    </p>
-    <p>
-      <%= link_to "Admin Data Import", admin_data_import_url(data_import) %>
-    </p>
-    <p>
-      <%= link_to "Admin Source File", admin_source_file_url(data_import.source_file) %>
-    </p>
+    <div>
+      <p>
+        <%= link_to "#{data_import.occupation_standard.title} (Public link)", occupation_standard_url(data_import.occupation_standard) %>
+      </p>
+      <p>
+        <%= link_to "#{data_import.occupation_standard.title} (Admin link)", admin_occupation_standard_url(data_import.occupation_standard) %>
+      </p>
+      <p>
+        Competencies count: <%= data_import.occupation_standard.competencies_count %>
+      </p>
+      <p>
+        OJT hours min: <%= data_import.occupation_standard.ojt_hours_min %>
+      </p>
+      <p>
+        OJT hours max: <%= data_import.occupation_standard.ojt_hours_max %>
+      </p>
+      <p>
+        RSI hours min: <%= data_import.occupation_standard.rsi_hours_min %>
+      </p>
+      <p>
+        RSI hours max: <%= data_import.occupation_standard.rsi_hours_max %>
+      </p>
+      <p>
+        <%= link_to "Admin Data Import", admin_data_import_url(data_import) %>
+      </p>
+      <p>
+        <%= link_to "Admin Source File", admin_source_file_url(data_import.source_file) %>
+      </p>
+    </div>
+    <br>
+    <br>
   <% end %>
 </div>
