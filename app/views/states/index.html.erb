@@ -37,8 +37,9 @@
                 </div>
                     <div class="break-inside-avoid-column px-4 flex-grow">
                     <% names.each do |name, id| %>
-                        <%= link_to occupation_standards_path(state_id: id), class: "hover:font-bold" do %>
+                        <%= link_to occupation_standards_path(state_id: id), class: "hover:font-bold flex space-x-2" do %>
                             <span class="block"><%= name %></span>
+                            <span class="text-gray-500"><%= @occupation_standards_count_by_state[id] || "" %></span>
                         <% end %>
                     <% end %>
                     </div>
