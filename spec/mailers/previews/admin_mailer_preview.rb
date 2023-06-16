@@ -1,4 +1,3 @@
-
 class AdminMailerPreview < ActionMailer::Preview
   def daily_uploads_report
     recent_uploads = DataImport.recent_uploads
@@ -7,7 +6,7 @@ class AdminMailerPreview < ActionMailer::Preview
       user = User.first
       FactoryBot.create(:data_import, user: user)
     end
-    
+
     AdminMailer.daily_uploads_report
   end
 end
