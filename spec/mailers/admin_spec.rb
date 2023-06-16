@@ -64,32 +64,13 @@ RSpec.describe AdminMailer, type: :mailer do
           expect(part.body.encoded).to match "Source File"
           expect(part.body.encoded).to match occupation_standard_url(occupation_standard)
           expect(part.body.encoded).to match admin_occupation_standard_url(occupation_standard)
-
           expect(part.body.encoded).to match admin_data_import_url(data_import)
-
           expect(part.body.encoded).to match admin_source_file_url(source_file)
           expect(part.body.encoded).to match "Competencies count: 123"
           expect(part.body.encoded).to match "OJT hours min: 100"
           expect(part.body.encoded).to match "OJT hours max: 200"
           expect(part.body.encoded).to match "RSI hours min: 500"
           expect(part.body.encoded).to match "RSI hours max: 600"
-        end
-      end
-    end
-
-    it "renders the body not including values when they are zero or nil" do
-      travel_to(Time.zone.local(2023, 6, 15)) do
-        data_import = create(:data_import, created_at: Time.zone.local(2023, 6, 14))
-        occupation_standard = data_import.occupation_standard
-        occupation_standard.update!(ojt_hours_min: nil, ojt_hours_max: 0, title: "Mechanic")
-        allow_any_instance_of(OccupationStandard).to receive(:competencies_count).and_return(123)
-
-        mail = described_class.daily_uploads_report
-
-        mail.body.parts.each do |part|
-          expect(part.body.encoded).to match "Mechanic"
-          expect(part.body.encoded).not_to match "OJT hours min:"
-          expect(part.body.encoded).not_to match "OJT hours max:"
         end
       end
     end

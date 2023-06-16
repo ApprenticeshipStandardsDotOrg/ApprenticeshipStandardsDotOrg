@@ -2,34 +2,17 @@
   <% @data_imports.each do |data_import| %>
     <div>
       <h2> <%= data_import.occupation_standard.title %> </h2>
-      <%= link_to "Public", occupation_standard_url(data_import.occupation_standard, host: ENV.fetch("PUBLIC_DOMAIN", Rails.application.config.action_mailer.default_url_options[:host])) %> | 
-      <%= link_to "Admin", admin_occupation_standard_url(data_import.occupation_standard) %> | 
-      <%= link_to "Data Import", admin_data_import_url(data_import) %> | 
+      <%= link_to "Public", occupation_standard_url(data_import.occupation_standard, host: ENV.fetch("PUBLIC_DOMAIN", Rails.application.config.action_mailer.default_url_options[:host])) %> |
+      <%= link_to "Admin", admin_occupation_standard_url(data_import.occupation_standard) %> |
+      <%= link_to "Data Import", admin_data_import_url(data_import) %> |
       <%= link_to "Source File", admin_source_file_url(data_import.source_file) %> <br> <br>
 
-      <% if data_import.occupation_standard.competencies_count.positive? %>
-        Competencies count: <%= data_import.occupation_standard.competencies_count %><br>
-      <% end %>
+      <%= render "daily_uploads_report_field", label: "Competencies count", value: data_import.occupation_standard.competencies_count %>
+      <%= render "daily_uploads_report_field", label: "OJT hours min", value: data_import.occupation_standard.ojt_hours_min %>
+      <%= render "daily_uploads_report_field", label: "OJT hours max", value: data_import.occupation_standard.ojt_hours_max %>
+      <%= render "daily_uploads_report_field", label: "RSI hours min", value: data_import.occupation_standard.rsi_hours_min %>
+      <%= render "daily_uploads_report_field", label: "RSI hours max", value: data_import.occupation_standard.rsi_hours_max %>
 
-      <%= render "daily_uploads_report_field", 
-        label: "OJT hours min", 
-        value: data_import.occupation_standard.ojt_hours_min
-      %>
-
-      <%= render "daily_uploads_report_field", 
-        label: "OJT hours max", 
-        value: data_import.occupation_standard.ojt_hours_max
-      %>
-
-      <%= render "daily_uploads_report_field", 
-        label: "RSI hours min", 
-        value: data_import.occupation_standard.rsi_hours_min
-      %>
-
-      <%= render "daily_uploads_report_field", 
-        label: "RSI hours max", 
-        value: data_import.occupation_standard.rsi_hours_max
-      %>
       <br>
       <b> Totals: </b> <br>
       OJT Hours: <%= data_import.occupation_standard.work_processes_hours %> <br>
