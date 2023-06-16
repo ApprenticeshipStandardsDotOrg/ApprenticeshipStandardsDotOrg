@@ -16,6 +16,9 @@ en:
     errors:
       messages:
         unacceptable_content_type: "with these extensions only are accepted: %{list}"
+  helpers:
+    help:
+      source_file: "In search box, use <code>public_document:true</code> or <code>public_document:false</code> to search public document field."
   time:
     formats:
       default: "%Y-%m-%d %H:%M:%S %Z"

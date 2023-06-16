@@ -22,6 +22,7 @@ class SourceFileDashboard < Administrate::BaseDashboard
     active_storage_attachment
     status
     assignee
+    public_document
   ].freeze
 
   SHOW_PAGE_ATTRIBUTES = %i[
