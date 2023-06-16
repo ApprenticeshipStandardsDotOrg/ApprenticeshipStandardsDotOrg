@@ -17,4 +17,14 @@ class AdminMailer < ApplicationMailer
     mail to: "patrick@workhands.us",
       subject: "New ApprenticeshipStandards Contact Request"
   end
+
+  def daily_uploads_report
+    @data_imports = DataImport.recent_uploads
+
+    if @data_imports.any?
+      date = Time.zone.yesterday.to_date
+      mail to: "info@workhands.us",
+        subject: "Daily imported standards report #{date}"
+    end
+  end
 end

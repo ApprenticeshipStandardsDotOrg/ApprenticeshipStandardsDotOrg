@@ -21,6 +21,12 @@ class DataImport < ApplicationRecord
     text/csv
   ]
 
+  class << self
+    def recent_uploads(start_time: Time.zone.yesterday.beginning_of_day, end_time: Time.zone.yesterday.end_of_day)
+      where("created_at BETWEEN ? AND ?", start_time, end_time)
+    end
+  end
+
   def related_occupation_standard(title)
     OccupationStandard
       .joins(data_imports: :source_file)
