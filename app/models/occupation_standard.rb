@@ -32,7 +32,16 @@ class OccupationStandard < ApplicationRecord
     mappings dynamic: false do
       indexes :title, type: :text, analyzer: "snowball"
       indexes :ojt_type, type: :text
+      indexes :work_process_titles, type: :text
     end
+  end
+
+  def as_indexed_json(_ = {})
+    as_json(
+      include: {work_processes: {only: [:title]}}
+    ).merge(
+      work_process_titles: work_processes.pluck(:title)
+    )
   end
 
   scope :by_title, ->(title) do
