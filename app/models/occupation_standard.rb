@@ -68,6 +68,18 @@ class OccupationStandard < ApplicationRecord
     end
   end
 
+  scope :by_state_abbreviation, ->(state_abbreviation) do
+    if state_abbreviation.present?
+      joins(registration_agency: :state).where(
+        registration_agencies: {
+          states: {
+            abbreviation: state_abbreviation.upcase
+          }
+        }
+      )
+    end
+  end
+
   scope :by_national_standard_type, ->(standard_types) do
     if standard_types.present?
       types = [standard_types].flatten

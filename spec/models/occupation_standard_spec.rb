@@ -82,6 +82,26 @@ RSpec.describe OccupationStandard, type: :model do
     end
   end
 
+  describe ".by_state_abbreviation" do
+    it "returns records that have a registration agency for that state abbreviation" do
+      ca = create(:state, abbreviation: "CA")
+      wa = create(:state, abbreviation: "WA")
+      ra_ca = create(:registration_agency, state: ca)
+      ra_wa = create(:registration_agency, state: wa)
+      os1 = create(:occupation_standard, registration_agency: ra_ca)
+      os2 = create(:occupation_standard, registration_agency: ra_ca)
+      create(:occupation_standard, registration_agency: ra_wa)
+
+      expect(described_class.by_state_abbreviation(ca.abbreviation)).to contain_exactly(os1, os2)
+    end
+
+    it "returns all records if state_abbreviation not provided" do
+      standards = create_pair(:occupation_standard)
+
+      expect(described_class.by_state_abbreviation("")).to match_array standards
+    end
+  end
+
   describe ".by_national_standard_type" do
     it "returns records that match any of the national_standard_types passed" do
       os1 = create(:occupation_standard, :program_standard)

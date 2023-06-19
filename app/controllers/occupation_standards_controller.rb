@@ -8,6 +8,7 @@ class OccupationStandardsController < ApplicationController
     )
 
     @pagy, @occupation_standards = pagy(@occupation_standards)
+    @search_term = search_term
   end
 
   def show
@@ -29,11 +30,28 @@ class OccupationStandardsController < ApplicationController
     params.permit(
       :q,
       :state_id,
+      :state_abbreviation,
       ojt_type: [:time, :hybrid, :competency],
       national_standard_type: [
         :program_standard, :guideline_standard, :occupational_framework
       ]
     )
+  end
+
+  def search_term
+    search_term_for_state || generic_search_term
+  end
+
+  def search_term_for_state
+    if search_term_params[:state_abbreviation].present?
+      State.find_by(
+        abbreviation: search_term_params[:state_abbreviation].upcase
+      )&.name
+    end
+  end
+
+  def generic_search_term
+    search_term_params[:q]
   end
 
   def standards_scope
