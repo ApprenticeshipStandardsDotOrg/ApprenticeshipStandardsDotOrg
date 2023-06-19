@@ -59,6 +59,24 @@ RSpec.describe OccupationStandardQuery do
     expect(occupation_standard_search.pluck(:id)).to contain_exactly(os1.id, os2.id)
   end
 
+  it "allows filtering occupation standards by state abbreviation" do
+    ca = create(:state, abbreviation: "CA")
+    wa = create(:state, abbreviation: "WA")
+    ra_ca = create(:registration_agency, state: ca)
+    ra_wa = create(:registration_agency, state: wa)
+    os1 = create(:occupation_standard, registration_agency: ra_ca)
+    os2 = create(:occupation_standard, registration_agency: ra_ca)
+    create(:occupation_standard, registration_agency: ra_wa)
+
+    params = {state_abbreviation: ca.abbreviation}
+
+    occupation_standard_search = OccupationStandardQuery.run(
+      OccupationStandard.all, params
+    )
+
+    expect(occupation_standard_search.pluck(:id)).to contain_exactly(os1.id, os2.id)
+  end
+
   it "allows filtering occupation standards by multiple national_standard_types" do
     os1 = create(:occupation_standard, :program_standard)
     os2 = create(:occupation_standard, :guideline_standard)
