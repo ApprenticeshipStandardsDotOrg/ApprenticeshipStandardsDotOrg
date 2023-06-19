@@ -86,10 +86,11 @@ RSpec.describe OccupationStandard, type: :model do
     it "returns records that have a registration agency for that state abbreviation" do
       ca = create(:state, abbreviation: "CA")
       wa = create(:state, abbreviation: "WA")
-      ra_ca = create(:registration_agency, state: ca)
-      ra_wa = create(:registration_agency, state: wa)
-      os1 = create(:occupation_standard, registration_agency: ra_ca)
-      os2 = create(:occupation_standard, registration_agency: ra_ca)
+      agency_california = create(:registration_agency, state: california)
+      agency_utah = create(:registration_agency, state: utah)
+      standard1 = create(:occupation_standard, registration_agency: agency_california)
+      standard2 = create(:occupation_standard, registration_agency: agency_california)
+      create(:occupation_standard, registration_agency: agency_utah)
       create(:occupation_standard, registration_agency: ra_wa)
 
       expect(described_class.by_state_abbreviation(ca.abbreviation)).to contain_exactly(os1, os2)
