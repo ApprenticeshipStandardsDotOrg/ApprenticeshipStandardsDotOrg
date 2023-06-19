@@ -21,22 +21,38 @@
       const pdfDoc = await PDFLib.PDFDocument.load(existingPdfBytes);
 
 
-  const helveticaFont = await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica)
+      const helveticaFont = await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica)
 
-  const pages = pdfDoc.getPages()
-  const firstPage = pages[0]
-  const { width, height } = firstPage.getSize()
-  firstPage.drawText('This text was added with JavaScript!', {
-    x: 5,
-    y: height / 2 + 300,
-    size: 50,
-    font: helveticaFont,
-    color: PDFLib.rgb(0.95, 0.1, 0.1),
-    rotate: PDFLib.degrees(-45),
-  })
-//
-//  const pdfBytes = await PDFDocument.pdfDoc.save()
-//
+      const pages = pdfDoc.getPages()
+      const firstPage = pages[0]
+      const { width, height } = firstPage.getSize()
+      firstPage.drawText('This text was added with JavaScript!', {
+        x: 5,
+        y: height / 2 + 300,
+        size: 50,
+        font: helveticaFont,
+        color: PDFLib.rgb(0.95, 0.1, 0.1),
+        rotate: PDFLib.degrees(-45),
+      })
+
+      const lineOptions = {
+        color: PDFLib.rgb(0, 0, 0),
+        start: {
+          x: 180,
+          y: 250,
+        },
+        end: {
+          x: 440,
+          y: 250
+
+        },
+        thickness: 14
+
+      };
+      firstPage.drawLine(lineOptions)
+      //
+      //  const pdfBytes = await PDFDocument.pdfDoc.save()
+      //
 
       const page = pdfDoc.addPage([350, 400]);
       page.moveTo(110, 200);
