@@ -27,7 +27,7 @@ RSpec.describe ":state_abbreviation/occupation_standards" do
   end
 
   it "shows no results when state does not exist" do
-    visit occupation_standards_by_state_path(state_abbreviation: "INVALID")
+    visit occupation_standards_by_state_path(state_abbreviation: "ZZ")
 
     expect(page).to have_no_text "Showing Results for"
   end

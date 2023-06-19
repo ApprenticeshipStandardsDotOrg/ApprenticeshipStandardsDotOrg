@@ -28,6 +28,12 @@ Rails.application.routes.draw do
       end
     end
 
+    # SEO-friendly routes for Occupation Standards
+    get ":state_abbreviation/occupation_standards",
+      to: "occupation_standards#index",
+      as: :occupation_standards_by_state,
+      constraints: { state_abbreviation: /[a-zA-Z]{2}/ }
+
     namespace :admin do
       resources :data_imports, except: [:index]
       resources :users do
@@ -61,9 +67,6 @@ Rails.application.routes.draw do
   get "terms", as: :terms_page, to: "pages#terms"
   get "contact", as: :contact_page, to: "contact_requests#new"
   resources :contact_requests, only: [:create]
-
-  # SEO-friendly routes for Occupation Standards
-  get ":state_abbreviation/occupation_standards", as: :occupation_standards_by_state, to: "occupation_standards#index"
 
   namespace :api do
     namespace :v1 do
