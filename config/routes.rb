@@ -32,7 +32,7 @@ Rails.application.routes.draw do
     get ":state_abbreviation/occupation_standards",
       to: "occupation_standards#index",
       as: :occupation_standards_by_state,
-      constraints: { state_abbreviation: /[a-zA-Z]{2}/ }
+      constraints: {state_abbreviation: /[a-zA-Z]{2}/}
 
     namespace :admin do
       resources :data_imports, except: [:index]
