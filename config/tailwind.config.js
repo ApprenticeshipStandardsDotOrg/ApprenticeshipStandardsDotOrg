@@ -109,6 +109,11 @@ module.exports = {
           '800': '#a34109',
           '900': '#83370b',
         },
+        accent: {
+          '50': '#007F82',
+          '100': '#5BA5A5',
+          '200': '#B9E3E3'
+        }
       },
       fontFamily: {
         sans: ['Montserrat', ...defaultTheme.fontFamily.sans],
