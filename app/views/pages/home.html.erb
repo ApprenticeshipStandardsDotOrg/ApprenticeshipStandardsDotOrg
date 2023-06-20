@@ -21,6 +21,43 @@
   <section aria-labelledby="section-title" class="bg-accent-300">
     <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
       <div class="mb-8 lg:mb-16 flex justify-between">
+        <h2 class="section-title mb-4 text-4xl tracking-tight font-bold text-gray-900">Active States</h2>
+          <%= link_to states_path, class: "font-bold text-accent-50 sm:text-lg uppercase" do %>
+            See All
+            <svg aria-label="right arrow" class="inline mb-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-arrow-right"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+          <% end %>
+      </div>
+      <div class="text-center space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:gap-8 xl:gap-8 md:space-y-0">
+        <div class="p-6 rounded-lg flex flex-col justify-center items-center">
+          <div>
+            <%= image_tag("Pennsylvania-LI.png", alt: "Pennsylvania L&I") %>
+          </div>
+          <h3 class="text-xl font-bold text-primary-700 mt-4">Pennsylvania L&I</h3>
+        </div>
+        <div class="p-6 rounded-lg flex flex-col justify-center items-center">
+          <div>
+            <%= image_tag("Alabama-OA.png", alt: "Alabama OA") %>
+          </div>
+          <h3 class="text-xl font-bold text-primary-700 mt-4">Alabama OA</h3>
+        </div>
+        <div class="p-6 rounded-lg flex flex-col justify-center items-center">
+          <div>
+            <%= image_tag("Massachusetts-DAS.png", alt: "Massachusetts DAS") %>
+          </div>
+          <h3 class="text-xl font-bold text-primary-700 mt-4">Massachusetts DAS</h3>
+        </div>
+        <div class="p-6 rounded-lg flex flex-col justify-center items-center">
+          <div>
+            <%= image_tag("Wisconsin-DWD.png", alt: "Wisconsin DWD") %>
+          </div>
+          <h3 class="text-xl font-bold text-primary-700 mt-4">Wisconsin DWD</h3>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section aria-labelledby="section-title" class="bg-accent-300">
+    <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+      <div class="mb-8 lg:mb-16 flex justify-between">
         <h2 class="section-title mb-4 text-4xl tracking-tight font-bold text-gray-900">Popular Industries</h2>
           <%= link_to industries_path, class: "font-bold text-accent-50 sm:text-lg uppercase" do %>
             See All
@@ -70,43 +107,6 @@
           </div>
           <h3 class="text-xl font-bold text-primary-700">Software & IT</h3>
           <p class="font-bold text-accent-100">000 Apprenticeships</p>
-        </div>
-      </div>
-    </div>
-  </section>
-  <section aria-labelledby="section-title" class="bg-accent-300">
-    <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
-      <div class="mb-8 lg:mb-16 flex justify-between">
-        <h2 class="section-title mb-4 text-4xl tracking-tight font-bold text-gray-900">Active States</h2>
-          <%= link_to states_path, class: "font-bold text-accent-50 sm:text-lg uppercase" do %>
-            See All
-            <svg aria-label="right arrow" class="inline mb-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-arrow-right"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-          <% end %>
-      </div>
-      <div class="text-center space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:gap-8 xl:gap-8 md:space-y-0">
-        <div class="p-6 rounded-lg flex flex-col justify-center items-center">
-          <div>
-            <%= image_tag("Pennsylvania-LI.png", alt: "Pennsylvania L&I") %>
-          </div>
-          <h3 class="text-xl font-bold text-primary-700 mt-4">Pennsylvania L&I</h3>
-        </div>
-        <div class="p-6 rounded-lg flex flex-col justify-center items-center">
-          <div>
-            <%= image_tag("Alabama-OA.png", alt: "Alabama OA") %>
-          </div>
-          <h3 class="text-xl font-bold text-primary-700 mt-4">Alabama OA</h3>
-        </div>
-        <div class="p-6 rounded-lg flex flex-col justify-center items-center">
-          <div>
-            <%= image_tag("Massachusetts-DAS.png", alt: "Massachusetts DAS") %>
-          </div>
-          <h3 class="text-xl font-bold text-primary-700 mt-4">Massachusetts DAS</h3>
-        </div>
-        <div class="p-6 rounded-lg flex flex-col justify-center items-center">
-          <div>
-            <%= image_tag("Wisconsin-DWD.png", alt: "Wisconsin DWD") %>
-          </div>
-          <h3 class="text-xl font-bold text-primary-700 mt-4">Wisconsin DWD</h3>
         </div>
       </div>
     </div>
