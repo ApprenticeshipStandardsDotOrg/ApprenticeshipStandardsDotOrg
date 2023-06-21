@@ -21,18 +21,44 @@ class SimilarOccupationStandards
     {
       size: RESULTS_SIZE,
       query: {
-        more_like_this: {
-          fields: ["title"],
-          like: [
-            {
-              _index: OccupationStandard.index_name,
-              _id: occupation_standard.id
-            }
+        bool: {
+          should: [
+            {match: {
+              title: {query: occupation_standard.title, boost: 5}
+            }},
+            {match: {
+              work_process_titles: {
+                query: occupation_standard.work_processes.pluck(:title).to_sentence,
+                boost: 5
+              }
+            }},
+            {match: {
+              ojt_type: {query: occupation_standard.ojt_type, boost: 0.5}
+            }},
+            more_like_this: more_like_this
           ],
-          min_term_freq: 1,
-          analyzer: "snowball"
+          must_not: [
+            {
+              term: {
+                _id: occupation_standard.id
+              }
+            }
+          ]
         }
       }
+    }
+  end
+
+  def more_like_this
+    {
+      like: [
+        {
+          _index: OccupationStandard.index_name,
+          _id: occupation_standard.id
+        }
+      ],
+      min_term_freq: 1,
+      analyzer: "snowball"
     }
   end
 end

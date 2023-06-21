@@ -2,5 +2,6 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 import "google_analytics"
-import "flowbite";
+import "flowbite"
 import "@popperjs/core"
+import "foxit"

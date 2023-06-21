@@ -6,7 +6,7 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
     created_at: Field::DateTime,
     data_imports: Field::HasMany,
     existing_title: Field::String,
-    id: Field::String,
+    id: Field::String.with_options(searchable: false),
     national_standard_type: EnumField,
     occupation: Field::BelongsTo,
     ojt_hours_max: Field::Number,
@@ -36,6 +36,7 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
     occupation
     registration_agency
     onet_code
+    rapids_code
     status
   ].freeze
 

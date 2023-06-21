@@ -1,0 +1,2 @@
+class CompetencyOptionPolicy < AdminPolicy
+end

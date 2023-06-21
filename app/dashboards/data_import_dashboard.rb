@@ -25,6 +25,7 @@ class DataImportDashboard < Administrate::BaseDashboard
     file
     source_file
     occupation_standard
+    status
     created_at
     updated_at
   ].freeze

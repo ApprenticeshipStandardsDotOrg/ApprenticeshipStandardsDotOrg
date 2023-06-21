@@ -1,0 +1,2 @@
+class WageStepPolicy < AdminPolicy
+end

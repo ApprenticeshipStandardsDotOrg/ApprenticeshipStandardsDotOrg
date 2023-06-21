@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="<%= I18n.locale %>">
+<head>
+  <meta charset="utf-8">
+  <meta name="ROBOTS" content="NOODP">
+  <meta name="viewport" content="initial-scale=1">
+  <title>
+    <%= content_for(:title) %> - <%= application_title %>
+  </title>
+  <%= render "stylesheet" %>
+  <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag if defined?(csp_meta_tag) %>
+</head>
+<body>
+  <%= render "icons" %>
+
+  <div class="app-container">
+
+    <main class="main-content" role="main">
+      <%= render "flashes" -%>
+      <%= yield %>
+    </main>
+  </div>
+
+  <%= render "javascript" %>
+</body>
+</html>
+

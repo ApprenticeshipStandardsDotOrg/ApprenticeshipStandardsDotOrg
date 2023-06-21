@@ -1,0 +1,2 @@
+class WorkProcessPolicy < AdminPolicy
+end

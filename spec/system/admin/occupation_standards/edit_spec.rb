@@ -2,6 +2,7 @@ require "rails_helper"
 
 RSpec.describe "admin/occupation_standards/edit" do
   it "allows admin user to edit occupation_standard", :admin do
+    create(:registration_agency, state: nil) # National registration agency
     data_import = create(:data_import)
     occupation_standard = data_import.occupation_standard
     admin = create(:admin)
@@ -11,13 +12,13 @@ RSpec.describe "admin/occupation_standards/edit" do
 
     expect(page).to have_selector("h1", text: "Edit Mechanic")
     expect(page).to have_field("Title")
-    expect(page).to have_field("ONET Code")
-    expect(page).to have_field("RAPIDS Code")
+    expect(page).to have_field("ONET code")
+    expect(page).to have_field("RAPIDS code")
     expect(page).to have_select("Status")
 
     fill_in "Title", with: "New title"
-    fill_in "ONET Code", with: "2345.67"
-    fill_in "RAPIDS Code", with: "98765"
+    fill_in "ONET code", with: "2345.67"
+    fill_in "RAPIDS code", with: "98765"
     select "In Review", from: "Status"
     click_on "Update"
 

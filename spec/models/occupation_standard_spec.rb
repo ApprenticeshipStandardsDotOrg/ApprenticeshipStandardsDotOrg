@@ -82,6 +82,27 @@ RSpec.describe OccupationStandard, type: :model do
     end
   end
 
+  describe ".by_state_abbreviation" do
+    it "returns records that have a registration agency for that state abbreviation" do
+      california = create(:state, abbreviation: "CA")
+      washington = create(:state, abbreviation: "WA")
+      agency_california = create(:registration_agency, state: california)
+      agency_washington = create(:registration_agency, state: washington)
+      standard_1 = create(:occupation_standard, registration_agency: agency_california)
+      standard_2 = create(:occupation_standard, registration_agency: agency_california)
+      create(:occupation_standard, registration_agency: agency_washington)
+      create(:occupation_standard, registration_agency: agency_washington)
+
+      expect(described_class.by_state_abbreviation(california.abbreviation)).to contain_exactly(standard_1, standard_2)
+    end
+
+    it "returns all records if state_abbreviation not provided" do
+      standards = create_pair(:occupation_standard)
+
+      expect(described_class.by_state_abbreviation("")).to match_array standards
+    end
+  end
+
   describe ".by_national_standard_type" do
     it "returns records that match any of the national_standard_types passed" do
       os1 = create(:occupation_standard, :program_standard)
@@ -273,7 +294,7 @@ RSpec.describe OccupationStandard, type: :model do
       create(:work_process, occupation_standard: occupation_standard, maximum_hours: 1000, minimum_hours: 400)
       create(:work_process, occupation_standard: occupation_standard, maximum_hours: 1000, minimum_hours: 400)
 
-      expect(occupation_standard.work_processes_hours).to eq 2000
+      expect(occupation_standard.reload.work_processes_hours).to eq 2000
     end
 
     it "returns sum of minimum hours if maximum hours not available" do
@@ -281,7 +302,7 @@ RSpec.describe OccupationStandard, type: :model do
       create(:work_process, occupation_standard: occupation_standard, maximum_hours: nil, minimum_hours: 400)
       create(:work_process, occupation_standard: occupation_standard, maximum_hours: nil, minimum_hours: 400)
 
-      expect(occupation_standard.work_processes_hours).to eq 800
+      expect(occupation_standard.reload.work_processes_hours).to eq 800
     end
 
     it "returns 0 if maximum hours and minimum hours are not present" do
@@ -298,7 +319,7 @@ RSpec.describe OccupationStandard, type: :model do
       create(:work_process, occupation_standard: occupation_standard, maximum_hours: 1000, title: "Process A")
       create(:work_process, occupation_standard: occupation_standard, maximum_hours: 1000, title: "Process B")
 
-      expect(occupation_standard.work_processes_hours).to eq 2000
+      expect(occupation_standard.reload.work_processes_hours).to eq 2000
     end
 
     it "returns 0 for competency-based standard" do

@@ -1,6 +1,8 @@
 require "administrate/base_dashboard"
 
 class WorkProcessDashboard < Administrate::BaseDashboard
+  MAX_TITLE_LENGTH = 50
+
   ATTRIBUTE_TYPES = {
     id: Field::String,
     competencies: Field::HasMany,
@@ -43,7 +45,6 @@ class WorkProcessDashboard < Administrate::BaseDashboard
     description
     maximum_hours
     minimum_hours
-    occupation_standard
     sort_order
     title
   ].freeze
@@ -51,6 +52,6 @@ class WorkProcessDashboard < Administrate::BaseDashboard
   COLLECTION_FILTERS = {}.freeze
 
   def display_resource(work_process)
-    work_process.title
+    work_process.title.truncate(MAX_TITLE_LENGTH)
   end
 end

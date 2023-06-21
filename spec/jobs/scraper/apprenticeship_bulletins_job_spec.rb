@@ -13,8 +13,9 @@ RSpec.describe Scraper::AppreticeshipBulletinsJob, type: :job do
         expect(standard_import.files.count).to eq 1
         expect(standard_import.name).to eq "https://www.apprenticeship.gov/sites/default/files/bulletins/Bulletin_2016-22.pdf"
         expect(standard_import.organization).to eq "Wildland Fire Fighter Specialist"
-        expect(standard_import.notes).to eq "From Scraper::AppreticeshipBulletinsJob #{Scraper::AppreticeshipBulletinsJob::BULLETIN_LIST_URL}"
+        expect(standard_import.notes).to eq "From Scraper::AppreticeshipBulletinsJob"
         expect(standard_import.public_document).to be true
+        expect(standard_import.source_url).to eq Scraper::AppreticeshipBulletinsJob::BULLETIN_LIST_URL
 
         source_file = SourceFile.last
         expect(source_file.metadata).to eq({"date" => "03/11/16"})

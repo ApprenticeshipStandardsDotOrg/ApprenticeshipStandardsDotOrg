@@ -13,6 +13,32 @@ RSpec.describe DataImport, type: :model do
     expect(data_import).to_not be_valid
   end
 
+  describe ".recent_uploads" do
+    it "returns records created the day before by default" do
+      travel_to(Time.zone.local(2023, 6, 15)) do
+        recent_records = [
+          create(:data_import, created_at: Time.zone.local(2023, 6, 14)),
+          create(:data_import, created_at: Time.zone.local(2023, 6, 14, 23, 59, 59))
+        ]
+        create(:data_import, created_at: Time.zone.local(2023, 6, 13, 23, 59, 59))
+
+        expect(described_class.recent_uploads).to match_array recent_records
+      end
+    end
+
+    it "returns records within the passed start and end time" do
+      recent_records = [
+        create(:data_import, created_at: Time.zone.local(2022, 6, 14)),
+        create(:data_import, created_at: Time.zone.local(2022, 6, 14, 22, 59, 59))
+      ]
+      create(:data_import, created_at: Time.zone.local(2022, 6, 14, 23, 59, 59))
+
+      start_time = Time.zone.local(2022, 6, 14)
+      end_time = Time.zone.local(2022, 6, 14, 23)
+      expect(described_class.recent_uploads(start_time: start_time, end_time: end_time)).to match_array recent_records
+    end
+  end
+
   describe "#file_mime_type" do
     it "is valid with accepted content-type" do
       file = Rack::Test::UploadedFile.new(Rails.root.join("spec", "fixtures", "files", "occupation-standards-template.xlsx"), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")

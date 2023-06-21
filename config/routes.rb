@@ -4,7 +4,6 @@ Rails.application.routes.draw do
   end
   mount Rswag::Ui::Engine => "/api-docs"
   mount Rswag::Api::Engine => "/api-docs"
-  mount PdfjsViewer::Rails::Engine => "/pdfjs", as: 'pdfjs'
 
   constraints(Subdomain) do
     require "sidekiq/web"
@@ -32,6 +31,12 @@ Rails.application.routes.draw do
       end
     end
 
+    # SEO-friendly routes for Occupation Standards
+    get ":state_abbreviation/occupation_standards",
+      to: "occupation_standards#index",
+      as: :occupation_standards_by_state,
+      constraints: {state_abbreviation: /[a-zA-Z]{2}/}
+
     namespace :admin do
       resources :data_imports, except: [:index]
       resources :users do
@@ -43,6 +48,10 @@ Rails.application.routes.draw do
         resources :data_imports, except: [:index]
       end
       resources :occupation_standards, only: [:index, :show, :edit, :update]
+      resources :work_processes, only: [:show, :edit, :update]
+      resources :competencies, only: [:show, :edit, :update]
+      resources :competency_options, only: [:show, :edit, :update]
+      resources :wage_steps, only: [:show, :edit, :update]
       resources :contact_requests, only: [:index, :show]
     end
   end
