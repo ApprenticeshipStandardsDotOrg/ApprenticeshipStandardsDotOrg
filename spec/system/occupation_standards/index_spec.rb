@@ -185,6 +185,69 @@ RSpec.describe "occupation_standards/index" do
     expect(page).to_not have_link "HR"
   end
 
+  it "filters occupations with state shortcode" do
+    washington = create(:state, name: "Washington", abbreviation: "WA")
+    washington_registration_agency = create(:registration_agency, state: washington)
+    mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", onet_code: "12.3456", registration_agency: washington_registration_agency)
+    create(:occupation_standard, :with_work_processes, :with_data_import, title: "Pipe Fitter", onet_code: "12.34567")
+    create(:occupation_standard, :with_work_processes, :with_data_import, title: "HR", onet_code: "12.34")
+
+    visit occupation_standards_path
+
+    fill_in "q", with: "state:wa 12.3456"
+
+    find("#search").click
+
+    expect(page).to have_text "Showing Results for 12.3456"
+    expect(page).to have_field("q", with: "state:wa 12.3456")
+
+    expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
+    expect(page).to_not have_link "Pipe Fitter"
+    expect(page).to_not have_link "HR"
+  end
+
+  it "filters occupations with national_standard_type shortcode" do
+    mechanic = create(:occupation_standard, :with_work_processes, :program_standard, :with_data_import, title: "Mechanic", onet_code: "12.3456")
+    create(:occupation_standard, :with_work_processes, :occupational_framework, :with_data_import, title: "Medical Assistant", onet_code: "12.34567")
+    create(:occupation_standard, :with_work_processes, :guideline_standard, :with_data_import, title: "Pipe Fitter", onet_code: "12.34567")
+    create(:occupation_standard, :with_work_processes, :with_data_import, title: "HR", onet_code: "12.3456")
+
+    visit occupation_standards_path
+
+    fill_in "q", with: "12.3456 national_standard_type:program_standard"
+
+    find("#search").click
+
+    expect(page).to have_text "Showing Results for 12.3456"
+    expect(page).to have_field("q", with: "12.3456 national_standard_type:program_standard")
+    find("#dropdownNationalButton").click
+
+    expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
+    expect(page).to_not have_link "Medical Assistant"
+    expect(page).to_not have_link "Pipe Fitter"
+    expect(page).to_not have_link "HR"
+  end
+
+  it "filters occupations with ojt_type shortcode" do
+    mechanic = create(:occupation_standard, :with_work_processes, :hybrid, :with_data_import, title: "Mechanic", onet_code: "12.3456")
+    create(:occupation_standard, :with_work_processes, :time, :with_data_import, title: "Medical Assistant", onet_code: "12.34567")
+    create(:occupation_standard, :with_work_processes, :competency, :with_data_import, title: "Pipe Fitter", onet_code: "12.34567")
+
+    visit occupation_standards_path
+
+    fill_in "q", with: "12.3456 ojt_type:hybrid"
+
+    find("#search").click
+
+    expect(page).to have_text "Showing Results for 12.3456"
+    expect(page).to have_field("q", with: "12.3456 ojt_type:hybrid")
+
+    expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
+    expect(page).to_not have_link "Medical Assistant"
+    expect(page).to_not have_link "Pipe Fitter"
+    expect(page).to_not have_link "HR"
+  end
+
   it "can clear form", :js do
     wa = create(:state, name: "Washington")
     ra = create(:registration_agency, state: wa)
