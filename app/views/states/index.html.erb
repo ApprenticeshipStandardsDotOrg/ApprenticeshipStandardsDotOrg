@@ -39,7 +39,7 @@
                     <% names.each do |name, id| %>
                         <%= link_to occupation_standards_path(state_id: id), class: "hover:font-bold flex items-center space-x-1" do %>
                             <span class="block"><%= name %></span>
-                            <span class="text-xs text-gray-500"><%= State.find(id).occupation_standards_count %></span>                        <% end %>
+                 <span class="text-xs text-gray-500"><%= State.find(id).occupation_standards_count %></span>                     <% end %>
                     <% end %>
                     </div>
                 </div>

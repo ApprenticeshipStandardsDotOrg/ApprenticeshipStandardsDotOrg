@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "states/index" do
-  it "lists states with link to search by state and shows occupatoin standards count" do
+  it "lists states with link to search by state and shows occupation standards count" do
     wa = create(:state, name: "Washington", abbreviation: "WA")
     al = create(:state, name: "Alabama", abbreviation: "AL")
 
