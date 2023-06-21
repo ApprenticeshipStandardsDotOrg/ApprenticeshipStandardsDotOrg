@@ -9,14 +9,6 @@ class OccupationStandardsController < ApplicationController
 
     @pagy, @occupation_standards = pagy(@occupation_standards)
     @search_term = search_term
-
-    respond_to do |format|
-      format.html {}
-      format.json do
-        results = OccupationStandard.__elasticsearch__.search(params[:q])
-        render json: results
-      end
-    end
   end
 
   def show
