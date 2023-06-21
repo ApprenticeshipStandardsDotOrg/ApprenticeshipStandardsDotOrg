@@ -62,7 +62,6 @@ Rails.application.routes.draw do
   get "contact", as: :contact_page, to: "contact_requests#new"
   resources :contact_requests, only: [:create]
 
-
   # SEO-friendly routes for Occupation Standards
   get ":state_abbreviation/occupation_standards",
     to: "occupation_standards#index",
