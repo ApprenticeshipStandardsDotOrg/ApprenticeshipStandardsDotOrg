@@ -2,6 +2,7 @@ class SimilarOccupationStandards
   attr_reader :occupation_standard
 
   RESULTS_SIZE = 5
+  MINIMUM_SCORE = 0.5
 
   def self.similar_to(occupation_standard)
     new(occupation_standard).similar_to
@@ -20,6 +21,7 @@ class SimilarOccupationStandards
   def query
     {
       size: RESULTS_SIZE,
+      min_score: MINIMUM_SCORE,
       query: {
         bool: {
           should: [
