@@ -69,7 +69,7 @@ class OccupationStandard < ApplicationRecord
       indexes :onet_code, type: :text, analyzer: :autocomplete
       indexes :rapids_code, type: :text, analyzer: :autocomplete
       indexes :national_standard_type, type: :number
-      indexes :state_abbreviation, type: :text, analyzer: :keyword
+      indexes :state, type: :text, analyzer: :keyword
     end
   end
 
@@ -80,7 +80,7 @@ class OccupationStandard < ApplicationRecord
         related_instructions: {only: [:title, :description]},
       }
     ).merge(
-      state_abbreviation: registration_agency.state.abbreviation
+      state: registration_agency.state.abbreviation
     )
   end
 
