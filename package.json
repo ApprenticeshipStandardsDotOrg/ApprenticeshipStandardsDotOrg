@@ -1,7 +1,6 @@
 {
   "dependencies": {
     "@foxitsoftware/foxit-pdf-sdk-for-web-library": "^9.0.0-20230605",
-    "flowbite": "^1.6.5",
-    "pdfjs-dist": "^3.7.107"
+    "flowbite": "^1.6.5"
   }
 }
