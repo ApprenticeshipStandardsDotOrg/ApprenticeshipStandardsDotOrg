@@ -1,13 +1,33 @@
 <% @data_imports.each do |data_import| %>
-  <%= "#{data_import.occupation_standard.title} (Public link)" %>: <%= occupation_standard_url(data_import.occupation_standard, host: ENV.fetch("PUBLIC_DOMAIN", Rails.application.config.action_mailer.default_url_options[:host])) %>
-  <%= "#{data_import.occupation_standard.title} (Admin link)" %>: <%= admin_occupation_standard_url(data_import.occupation_standard) %>
+  <%= data_import.occupation_standard.title %>
+  Public: <%= occupation_standard_url(data_import.occupation_standard, host: ENV.fetch("PUBLIC_DOMAIN", Rails.application.config.action_mailer.default_url_options[:host])) %>
+  Admin: <%= admin_occupation_standard_url(data_import.occupation_standard) %>
   Competencies count: <%= data_import.occupation_standard.competencies_count %>
-  OJT hours min: <%= data_import.occupation_standard.ojt_hours_min %>
-  OJT hours max: <%= data_import.occupation_standard.ojt_hours_max %>
-  RSI hours min: <%= data_import.occupation_standard.rsi_hours_min %>
-  RSI hours max: <%= data_import.occupation_standard.rsi_hours_max %>
-  Link to Admin Data Import: <%= admin_data_import_url(data_import) %>
-  Link to Admin Source File: <%= admin_source_file_url(data_import.source_file) %>
 
+  <% if data_import.occupation_standard.ojt_hours_min.to_i.positive? %>
+    OJT hours min: <%= data_import.occupation_standard.ojt_hours_min %>
+  <% end %>
 
+  <% if data_import.occupation_standard.ojt_hours_max.to_i.positive? %>
+    OJT hours max: <%= data_import.occupation_standard.ojt_hours_max %>
+  <% end %>
+
+  <% if data_import.occupation_standard.rsi_hours_min.to_i.positive? %>
+    RSI hours min: <%= data_import.occupation_standard.rsi_hours_min %>
+  <% end %>
+
+  <% if data_import.occupation_standard.rsi_hours_max.to_i.positive? %>
+    RSI hours max: <%= data_import.occupation_standard.rsi_hours_max %>
+  <% end %>
+
+  Totals:
+  <% if data_import.occupation_standard.work_processes_hours.to_i.positive? %>
+    OJT Hours: <%= data_import.occupation_standard.work_processes_hours %>
+  <% end %>
+  <% if data_import.occupation_standard.related_instructions_hours.to_i.positive? %>
+    RI Hours: <%= data_import.occupation_standard.related_instructions_hours %>
+  <% end %>
+
+  Data Import: <%= admin_data_import_url(data_import) %>
+  Source File: <%= admin_source_file_url(data_import.source_file) %>
 <% end %>

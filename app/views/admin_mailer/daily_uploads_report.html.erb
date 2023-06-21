@@ -15,8 +15,9 @@
 
       <br>
       <b> Totals: </b> <br>
-      OJT Hours: <%= data_import.occupation_standard.work_processes_hours %> <br>
-      RI Hours: <%= data_import.occupation_standard.related_instructions_hours %> <br>
+
+      <%= render "daily_uploads_report_field", label: "OJT Hours", value: data_import.occupation_standard.work_processes_hours %>
+      <%= render "daily_uploads_report_field", label: "RI Hours", value: data_import.occupation_standard.related_instructions_hours %>
       <br>
       </p>
     </div>
