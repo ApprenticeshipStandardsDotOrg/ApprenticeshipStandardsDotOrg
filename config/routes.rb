@@ -46,6 +46,12 @@ Rails.application.routes.draw do
     end
   end
 
+  # SEO-friendly routes for Occupation Standards
+  get ":state/occupation_standards",
+    to: "occupation_standards#index",
+    as: :occupation_standards_by_state,
+    constraints: {state: /[a-zA-Z]{2}/}
+
   root to: "pages#home", as: :guest_root
 
   scope :occupation_standards do

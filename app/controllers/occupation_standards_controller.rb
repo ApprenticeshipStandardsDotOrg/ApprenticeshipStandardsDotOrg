@@ -1,6 +1,8 @@
 class OccupationStandardsController < ApplicationController
   def index
-    @occupation_standards_search = OccupationStandardQuery::Container.new(search_term_params: search_term_params)
+    @occupation_standards_search = OccupationStandardQuery::Container.new(
+      search_term_params: search_term_params
+    )
 
     @occupation_standards = OccupationStandardQuery.run(
       standards_scope,
@@ -8,7 +10,7 @@ class OccupationStandardsController < ApplicationController
     )
 
     @pagy, @occupation_standards = pagy(@occupation_standards)
-    @search_term = search_term
+    @search_term = search_term_params[:q]
   end
 
   def show
@@ -26,11 +28,11 @@ class OccupationStandardsController < ApplicationController
 
   private
 
-  def search_term_params
+  def occupation_standards_search_params
     params.permit(
       :q,
       :state_id,
-      :state_abbreviation,
+      :state,
       ojt_type: [:time, :hybrid, :competency],
       national_standard_type: [
         :program_standard, :guideline_standard, :occupational_framework
@@ -38,20 +40,8 @@ class OccupationStandardsController < ApplicationController
     )
   end
 
-  def search_term
-    search_term_for_state || generic_search_term
-  end
-
-  def search_term_for_state
-    if search_term_params[:state_abbreviation].present?
-      State.find_by(
-        abbreviation: search_term_params[:state_abbreviation].upcase
-      )&.name
-    end
-  end
-
-  def generic_search_term
-    search_term_params[:q]
+  def search_term_params
+    @search_term_params ||= SearchTermExtractor.call(occupation_standards_search_params)
   end
 
   def standards_scope
