@@ -68,7 +68,7 @@ class OccupationStandard < ApplicationRecord
       indexes :work_process_titles, type: :text
       indexes :onet_code, type: :text, analyzer: :autocomplete
       indexes :rapids_code, type: :text, analyzer: :autocomplete
-      indexes :national_standard_type, type: :integer
+      indexes :national_standard_type, type: :text, analyzer: :keyword
       indexes :state, type: :text, analyzer: :keyword
     end
   end
@@ -76,11 +76,11 @@ class OccupationStandard < ApplicationRecord
   def as_indexed_json(_ = {})
     as_json(
       include: {
-        work_processes: {only: [:title, :description]}, 
-        related_instructions: {only: [:title, :description]},
+        work_processes: {only: [:title, :description]},
+        related_instructions: {only: [:title, :description]}
       }
     ).merge(
-      state: registration_agency.state.abbreviation,
+      state: registration_agency&.state&.abbreviation,
       work_process_titles: work_processes.pluck(:title)
     )
   end

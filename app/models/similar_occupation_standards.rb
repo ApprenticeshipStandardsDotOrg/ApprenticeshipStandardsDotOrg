@@ -35,7 +35,7 @@ class SimilarOccupationStandards
               }
             }},
             {match: {
-              ojt_type: {query: occupation_standard.ojt_type, boost: 0.5},
+              ojt_type: {query: occupation_standard.ojt_type, boost: 0.5}
             }},
             {match: {
               state: {query: occupation_standard.registration_agency.state.abbreviation}
