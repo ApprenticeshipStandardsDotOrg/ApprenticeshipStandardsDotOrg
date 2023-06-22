@@ -68,7 +68,7 @@ class OccupationStandard < ApplicationRecord
       indexes :work_process_titles, type: :text
       indexes :onet_code, type: :text, analyzer: :autocomplete
       indexes :rapids_code, type: :text, analyzer: :autocomplete
-      indexes :national_standard_type, type: :number
+      indexes :national_standard_type, type: :integer
       indexes :state, type: :text, analyzer: :keyword
     end
   end
@@ -80,7 +80,8 @@ class OccupationStandard < ApplicationRecord
         related_instructions: {only: [:title, :description]},
       }
     ).merge(
-      state: registration_agency.state.abbreviation
+      state: registration_agency.state.abbreviation,
+      work_process_titles: work_processes.pluck(:title)
     )
   end
 
