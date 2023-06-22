@@ -23,7 +23,7 @@ RSpec.describe Organization, type: :model do
         sort_order: 2)
 
       expect(
-        described_class.related_instructions_organizations(occupation_standard).pluck(:id)
+        described_class.related_instructions_organizations(occupation_standard.reload).pluck(:id)
       ).to match_array [organization.id]
     end
 
