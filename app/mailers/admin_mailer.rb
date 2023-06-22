@@ -24,7 +24,6 @@ class AdminMailer < ApplicationMailer
     if @data_imports.any?
       date = Time.zone.yesterday.to_date
       mail to: "info@workhands.us",
-        cco: "sarah.lima@thoughtbot.com",
         subject: "Daily imported standards report #{date}"
     end
   end
