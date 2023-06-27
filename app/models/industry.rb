@@ -12,6 +12,6 @@ class Industry < ApplicationRecord
     Industry.left_joins(:occupation_standards)
       .group("industries.id")
       .order("COUNT(occupation_standards.id) DESC")
-      .limit(4)
+      .limit(limit)
   end
 end
