@@ -1,6 +1,21 @@
 require "rails_helper"
 
 RSpec.describe Industry, type: :model do
+  describe ".popular" do
+    it "returns" do
+      tech = create(:industry, name: "Tech")
+      trucking = create(:industry, name: "Trucking")
+      create(:industry, name: "Eletrical")
+
+      create_list(:occupation_standard, 2, industry: tech)
+      create(:occupation_standard, industry: trucking)
+
+      popular = described_class.popular(limit: 2)
+
+      expect(popular.pluck(:name)).to match_array(["Tech", "Trucking"])
+    end
+  end
+
   it "has a valid factory" do
     industry = build(:industry)
 
