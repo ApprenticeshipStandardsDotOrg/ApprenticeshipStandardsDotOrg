@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe Industry, type: :model do
   describe ".popular" do
-    it "returns" do
+    it "returns industries order by the ones with the most occupation standards first" do
       tech = create(:industry, name: "Tech")
       trucking = create(:industry, name: "Trucking")
       create(:industry, name: "Eletrical")
