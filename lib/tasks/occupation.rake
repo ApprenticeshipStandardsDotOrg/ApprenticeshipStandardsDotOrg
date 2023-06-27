@@ -5,7 +5,7 @@ namespace :occupation do
   task rapids_codes_scraper: :environment do
     if Date.current.wday.eql?(0) || ENV["FORCE"] == "true"
       puts "Importing RAPIDS codes"
-      ScrapeRapidsCode.new.call
+      ScrapeRAPIDSCode.new.call
     else
       puts "Not Sunday, skipping"
       puts "Use FORCE=true to force this task"
