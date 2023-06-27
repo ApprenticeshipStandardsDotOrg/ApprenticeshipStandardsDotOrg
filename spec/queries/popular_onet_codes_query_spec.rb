@@ -9,6 +9,6 @@ RSpec.describe PopularOnetCodesQuery do
 
     result = described_class.run(limit: 3)
 
-    expect(result.pluck(:onet_code)).to eq ["33", "22", "11"]
+    expect(result).to eq ["33", "22", "11"]
   end
 end
