@@ -1,5 +1,6 @@
 class Industry < ApplicationRecord
   CURRENT_VERSION = "2018"
+  POPULAR_LIMIT = 4
 
   has_many :occupation_standards
 
@@ -7,4 +8,11 @@ class Industry < ApplicationRecord
   validates :prefix, presence: true, uniqueness: {scope: :version}
 
   scope :current, -> { where(version: CURRENT_VERSION) }
+
+  def self.popular(limit: POPULAR_LIMIT)
+    Industry.left_joins(:occupation_standards)
+      .group("industries.id")
+      .order("COUNT(occupation_standards.id) DESC")
+      .limit(limit)
+  end
 end
