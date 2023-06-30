@@ -7,7 +7,7 @@ RSpec.describe "industries/index" do
 
     visit industries_path
 
-    expect(page).to have_link "Health", href: occupation_standards_path(q: "39-")
-    expect(page).to have_link "Business", href: occupation_standards_path(q: "41-")
+    expect(page).to have_link "Health", href: occupation_standards_path(q: "Health")
+    expect(page).to have_link "Business", href: occupation_standards_path(q: "Business")
   end
 end
