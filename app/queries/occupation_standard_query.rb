@@ -15,14 +15,14 @@ class OccupationStandardQuery
       .by_state_abbreviation(search_term_params[:state_abbreviation])
       .by_national_standard_type(search_term_params[:national_standard_type]&.keys)
       .by_ojt_type(search_term_params[:ojt_type]&.keys)
-      .and(
-        occupation_standards.by_title(search_term_params[:q])
-        .or(
-          occupation_standards.by_rapids_code(search_term_params[:q])
-        )
-        .or(
-          occupation_standards.by_onet_code(search_term_params[:q])
-        )
+      .where(
+        "title ILIKE :q OR rapids_code ILIKE :q OR onet_code ILIKE :q OR
+        occupation_standards.id IN (
+          SELECT occupation_standards.id FROM occupation_standards
+          JOIN industries ON occupation_standards.industry_id = industries.id
+          WHERE industries.name ILIKE :q
+        )",
+        q: "%#{search_term_params[:q]}%"
       )
   end
 end
