@@ -68,7 +68,7 @@ RSpec.describe OccupationStandardQuery do
     os2 = create(:occupation_standard, registration_agency: ra_ca)
     create(:occupation_standard, registration_agency: ra_wa)
 
-    params = {state_abbreviation: ca.abbreviation}
+    params = {state: ca.abbreviation}
 
     occupation_standard_search = OccupationStandardQuery.run(
       OccupationStandard.all, params

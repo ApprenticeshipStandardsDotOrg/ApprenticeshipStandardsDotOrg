@@ -28,18 +28,59 @@ class OccupationStandard < ApplicationRecord
 
   MAX_SIMILAR_PROGRAMS_TO_DISPLAY = 5
 
-  settings do
+  es_settings = {
+    index: {
+      number_of_shards: 2,
+      analysis: {
+        tokenizer: {
+          autocomplete_tokenizer: {
+            type: "edge_ngram",
+            min_gram: 2,
+            max_gram: 20,
+            token_chars: ["letter", "digit", "punctuation"]
+          }
+        },
+        char_filter: {
+          my_char_filter: {
+            type: "mapping",
+            mappings: [
+              ", =>",
+              ". =>",
+              "- =>"
+            ]
+          }
+        },
+        analyzer: {
+          autocomplete: {
+            tokenizer: "autocomplete_tokenizer",
+            filter: ["lowercase"],
+            char_filter: ["my_char_filter"]
+          }
+        }
+      }
+    }
+  }
+
+  settings(es_settings) do
     mappings dynamic: false do
-      indexes :title, type: :text, analyzer: "snowball"
+      indexes :title, type: :text, analyzer: :snowball
       indexes :ojt_type, type: :text
       indexes :work_process_titles, type: :text
+      indexes :onet_code, type: :text, analyzer: :autocomplete
+      indexes :rapids_code, type: :text, analyzer: :autocomplete
+      indexes :national_standard_type, type: :text, analyzer: :keyword
+      indexes :state, type: :text, analyzer: :keyword
     end
   end
 
   def as_indexed_json(_ = {})
     as_json(
-      include: {work_processes: {only: [:title]}}
+      include: {
+        work_processes: {only: [:title, :description]},
+        related_instructions: {only: [:title, :description]}
+      }
     ).merge(
+      state: registration_agency&.state&.abbreviation,
       work_process_titles: work_processes.pluck(:title)
     )
   end

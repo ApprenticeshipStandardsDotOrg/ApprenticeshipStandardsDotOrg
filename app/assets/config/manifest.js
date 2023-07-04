@@ -6,3 +6,6 @@
 //= link administrate-field-active_storage/application.css
 //= link administrate-field-jsonb/application.css
 //= link administrate-field-jsonb/application.js
+//= link_tree "../../../node_modules/@foxitsoftware/foxit-pdf-sdk-for-web-library-full/lib" .js
+//= link_tree "../../../node_modules/@foxitsoftware/foxit-pdf-sdk-for-web-library-full/lib" .css
+//= link_tree "../../../node_modules/@foxitsoftware/foxit-pdf-sdk-for-web-library-full/server" .js

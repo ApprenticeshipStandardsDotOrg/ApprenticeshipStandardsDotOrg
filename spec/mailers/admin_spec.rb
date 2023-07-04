@@ -57,13 +57,14 @@ RSpec.describe AdminMailer, type: :mailer do
         expect(mail.from).to eq(["no-reply@apprenticeshipstandards.org"])
 
         mail.body.parts.each do |part|
-          expect(part.body.encoded).to match(/Mechanic \(Public link\)/)
-          expect(part.body.encoded).to match(/Mechanic \(Admin link\)/)
+          expect(part.body.encoded).to match "Mechanic"
+          expect(part.body.encoded).to match "Public"
+          expect(part.body.encoded).to match "Admin"
+          expect(part.body.encoded).to match "Data Import"
+          expect(part.body.encoded).to match "Source File"
           expect(part.body.encoded).to match occupation_standard_url(occupation_standard)
           expect(part.body.encoded).to match admin_occupation_standard_url(occupation_standard)
-          expect(part.body.encoded).to match "Admin Data Import"
           expect(part.body.encoded).to match admin_data_import_url(data_import)
-          expect(part.body.encoded).to match "Admin Source File"
           expect(part.body.encoded).to match admin_source_file_url(source_file)
           expect(part.body.encoded).to match "Competencies count: 123"
           expect(part.body.encoded).to match "OJT hours min: 100"
