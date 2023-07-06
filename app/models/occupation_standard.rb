@@ -106,6 +106,13 @@ class OccupationStandard < ApplicationRecord
     end
   end
 
+  scope :by_industry_name, ->(name) do
+    if name.present?
+      ids = joins(:industry).where("industries.name ILIKE ?", "%#{sanitize_sql_like(name).split.join("%")}%").pluck(:id)
+      where(id: ids)
+    end
+  end
+
   class << self
     def industry_count(onet_prefix)
       where("SPLIT_PART(onet_code, '-', 1) = ?", onet_prefix.to_s).count
