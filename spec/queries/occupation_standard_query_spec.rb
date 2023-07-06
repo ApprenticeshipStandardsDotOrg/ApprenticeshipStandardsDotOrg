@@ -148,7 +148,7 @@ RSpec.describe OccupationStandardQuery do
     occupation_standard = create(:occupation_standard, industry: industry1)
     create(:occupation_standard, industry: industry2)
 
-    params = {q: "Healthcare Support Occupations"}
+    params = {q: "healthcare support"}
 
     occupation_standard_search = OccupationStandardQuery.run(
       OccupationStandard.all, params
