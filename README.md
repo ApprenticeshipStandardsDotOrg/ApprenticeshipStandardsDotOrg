@@ -14,14 +14,10 @@ Rails 7, and PostgreSQL 14.
    127.0.0.1 admin.example.localhost
    # End ApprenticeshipStandards.org additions
    ```
-5. Start rails app: `bin/dev`. The application will be available
-   at http://localhost:3000. The admin pages will be available at:
-   http://admin.example.localhost:3000.
-6. Run mailcatcher:
-   ```bash
-   mailcatcher
-   ```
-   To preview emails, go to `http://localhost:1080`
+5. Start the rails app with `bin/dev`:
+    * The public facing application will be available at http://localhost:3000
+    * The admin pages will be available at http://admin.example.localhost:3000
+    * Email previews will be available at http://localhost:1080
 
 [libvips]: https://www.libvips.org/install.html
 [mailcatcher]: https://mailcatcher.me
