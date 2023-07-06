@@ -8,7 +8,7 @@ RSpec.describe "states/index" do
 
     wa_reg_agency = create(:registration_agency, state: wa)
     al_reg_agency = create(:registration_agency, state: al)
-    va_reg_agency = create(:registration_agency, state: va)
+    create(:registration_agency, state: va)
 
     mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", registration_agency: wa_reg_agency)
     create_list(:occupation_standard, 3, :with_work_processes, :with_data_import, :program_standard, registration_agency: al_reg_agency)
