@@ -41,12 +41,12 @@ class ContactRequestsController < ApplicationController
     success = parsed_json["success"]
     score = parsed_json["score"].to_f
 
-    return if success && score >= VALID_RECAPTCHA_SCORE
-
     unless success
       Rails.error.report("Error with Google reCAPTCHA", context: parsed_json, handled: true)
     end
 
-    redirect_to guest_root_path
+    if !success || score < VALID_RECAPTCHA_SCORE
+      redirect_to guest_root_path
+    end
   end
 end
