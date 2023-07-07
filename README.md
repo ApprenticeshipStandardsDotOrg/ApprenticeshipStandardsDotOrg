@@ -200,13 +200,10 @@ end
 Any errors when running in debug mode will also create a screenshot in the `tmp`
 directory to help with debugging.
 
-### Deployment
+## Feature Flags
 
-Every time `main` is updated, it will trigger a deploy to Heroku automatically.
-
-### Feature Flags
-
-We use Flipper for our feature flags system.
+We use [Flipper](https://github.com/jnunemaker/flipper) for our feature flags
+system.
 
 You can turn on a feature flag by running:
 
