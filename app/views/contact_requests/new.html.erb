@@ -1,9 +1,5 @@
-<script src="https://www.google.com/recaptcha/api.js"></script>
-<script>
-  function onSubmit(token) {
-    document.getElementById("new_contact_request").submit();
-  }
-</script>
+<%= render partial: "shared/google_recaptcha", locals: {form_id: "new_contact_request"} %>
+
 <section aria-labelledby="page-title" class="occ-hero bg-no-repeat bg-cover bg-center bg-gray-700">
   <%= render partial: "layouts/nav" %>
   <div class="max-w-screen-xl px-4 pt-8 pb-16 mx-auto lg:py-16">
