@@ -1,8 +1,6 @@
 class ContactRequestsController < ApplicationController
   include Spammable
 
-  before_action :verify_recaptcha, only: :create
-
   def new
     @contact_request = ContactRequest.new
   end

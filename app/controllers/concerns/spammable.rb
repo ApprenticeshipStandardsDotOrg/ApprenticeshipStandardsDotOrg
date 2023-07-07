@@ -3,9 +3,15 @@ module Spammable
 
   VALID_RECAPTCHA_SCORE = 0.5
 
+  included do
+    before_action :verify_recaptcha, only: :create
+  end
+
   private
 
   def verify_recaptcha
+    return if current_user&.admin?
+
     uri = URI("https://www.google.com/recaptcha/api/siteverify")
     resp = Net::HTTP.post_form(
       uri,
