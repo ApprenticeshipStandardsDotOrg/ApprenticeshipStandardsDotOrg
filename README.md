@@ -8,6 +8,7 @@ Rails 7, and PostgreSQL 14.
 3. Install [mailcatcher][mailcatcher] to preview emails. See the
    [troubleshooting](#mailcatcher-troubleshooting) section if you have
    installation issues.
+4. [Install Elasticsearch](#elasticsearch-setup)
 4. To access the admin pages, you must modify your `/etc/hosts` file:
    ```
    # Added for ApprenticeshipStandards.org
@@ -18,6 +19,8 @@ Rails 7, and PostgreSQL 14.
     * The public facing application will be available at http://localhost:3000
     * The admin pages will be available at http://admin.example.localhost:3000
     * Email previews will be available at http://localhost:1080
+6. See the [Populate Elasticsearch](#populate-elasticsearch) section to import
+   data into Elasticsearch
 
 [libvips]: https://www.libvips.org/install.html
 [mailcatcher]: https://mailcatcher.me
@@ -88,7 +91,51 @@ command.
 
 The promotion can also be done through the Heroku Dashboard on the [Pipelines page](https://dashboard.heroku.com/pipelines/3657e91f-455e-4fa7-9da7-f6ddc1beb854).
 
-## AWS Setup
+## Elasticsearch setup
+We are currently using Elasticsearch version 7.17.4. This can be installed with
+[Homebrew](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/brew.html).
+
+### Populate Elasticsearch
+Once the app is running with the `bin/dev` command, set up the index for the
+OccupationStandard model and import any existing records into Elasticsearch
+through the Rails console:
+
+```
+> OccupationStandard.__elasticsearch__.create_index!
+> OccupationStandard.import
+```
+
+### Kibana setup
+If you are working on any tasks related to Elasticsearch, then it may be helpful
+to set up
+[Kibana](https://www.elastic.co/guide/en/kibana/7.17/introduction.html). This
+can also be installed with
+[Homebrew](https://www.elastic.co/guide/en/kibana/7.17/brew.html).
+
+To start Kibana, make sure that elasticsearch is already running, then run
+`kibana` in the terminal. Kibana will be available at http://localhost:5601. To
+access the dev tools, click the hamburger menu icon in the nav, and go to "Dev
+Tools" under the Management section.
+
+To see all of the records in the `occupation_standards` in the Kibana Dev Tools enter:
+
+```
+GET occupation_standards/_search
+{
+  "query": {
+    "match_all": {}
+  }
+}
+```
+and click the green arrow button to run the query. You should see data returned
+for all of the OccupationStandard records in your local database in the panel on
+the right.
+
+If you need to view the names of all your indices, under the Management section
+go to "Stack Management". Then under the Data section, click "Index Management"
+to see the list of all the available indices.
+
+## AWS setup
 If you will have access to AWS to manage the S3 buckets, [view the setup
 documentation](doc/AWS.md).
 
