@@ -28,6 +28,7 @@ class OccupationStandard < ApplicationRecord
 
   MAX_SIMILAR_PROGRAMS_TO_DISPLAY = 5
 
+  index_name "occupation_standards_#{Rails.env}"
   es_settings = {
     index: {
       number_of_shards: 2,
