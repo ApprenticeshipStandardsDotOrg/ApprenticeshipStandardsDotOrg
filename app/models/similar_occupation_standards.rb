@@ -16,7 +16,9 @@ class SimilarOccupationStandards
   def similar_to
     response = OccupationStandard.__elasticsearch__.search(query)
     if debug
+      puts "QUERY"
       puts response.search.definition[:body][:query].to_json
+      puts "HITS: #{response.results.total}"
     end
     response.records.to_a
   end
