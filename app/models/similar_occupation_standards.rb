@@ -14,11 +14,11 @@ class SimilarOccupationStandards
   end
 
   def similar_to
-    search = OccupationStandard.__elasticsearch__.search(query)
+    response = OccupationStandard.__elasticsearch__.search(query)
     if debug
-      puts search.search.definition[:body][:query].to_json
+      puts response.search.definition[:body][:query].to_json
     end
-    search.records.to_a
+    response.records.to_a
   end
 
   private
