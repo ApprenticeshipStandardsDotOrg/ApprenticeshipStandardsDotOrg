@@ -1,19 +1,24 @@
 class SimilarOccupationStandards
-  attr_reader :occupation_standard
+  attr_reader :occupation_standard, :debug
 
   RESULTS_SIZE = 5
   MINIMUM_SCORE = 0.2
 
-  def self.similar_to(occupation_standard)
-    new(occupation_standard).similar_to
+  def self.similar_to(occupation_standard, debug = false)
+    new(occupation_standard, debug).similar_to
   end
 
-  def initialize(occupation_standard)
+  def initialize(occupation_standard, debug = false)
     @occupation_standard = occupation_standard
+    @debug = debug
   end
 
   def similar_to
-    OccupationStandard.__elasticsearch__.search(query).records
+    search = OccupationStandard.__elasticsearch__.search(query)
+    if debug
+      puts search.search.definition[:body][:query].to_json
+    end
+    search.records.to_a
   end
 
   private

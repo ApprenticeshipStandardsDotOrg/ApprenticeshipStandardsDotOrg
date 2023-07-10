@@ -31,7 +31,7 @@ RSpec.describe SimilarOccupationStandards, type: :model do
       OccupationStandard.import
       OccupationStandard.__elasticsearch__.refresh_index!
 
-      expect(described_class.similar_to(os1.reload)).to eq [os2, os3, os4]
+      expect(described_class.similar_to(os1.reload, true)).to eq [os2, os3, os4]
     end
   end
 end
