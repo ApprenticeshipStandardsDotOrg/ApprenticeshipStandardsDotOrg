@@ -41,5 +41,16 @@ RSpec.describe SimilarOccupationStandards, type: :model do
 
       expect(described_class.similar_to(os1.reload, true)).to eq [os2, os3, os4, os6]
     end
+
+    it "returns RESULTS_SIZE records" do
+      stub_const("SimilarOccupationStandards::RESULTS_SIZE", 2)
+      os1 = create(:occupation_standard, :time, title: "Childcare worker")
+      create_list(:occupation_standard, 3, title: "Childcare worker")
+
+      OccupationStandard.import
+      OccupationStandard.__elasticsearch__.refresh_index!
+
+      expect(described_class.similar_to(os1.reload).count).to eq 2
+    end
   end
 end
