@@ -19,6 +19,9 @@ class SimilarOccupationStandards
       puts "QUERY"
       puts response.search.definition[:body][:query].to_json
       puts "HITS: #{response.results.total}"
+      response.results.each do |result|
+        puts "#{result._id}: #{result._score}"
+      end
     end
     response.records.to_a
   end
