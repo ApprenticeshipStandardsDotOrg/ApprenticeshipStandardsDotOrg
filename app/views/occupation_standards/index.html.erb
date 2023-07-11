@@ -41,9 +41,9 @@
                 <div>
                     <div class="inline">
                         <% if occupation_standard.ojt_type %>
-                            <button data-tooltip-target="<%= occupation_standard.ojt_type %>-occupation-standard" type="button" class="mr-2 mb-2 rounded-lg border-2 border-primary-700 px-2 py-1 text-center text-sm font-bold text-primary-700 hover:bg-primary-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-primary-300"><%= ojt_type_display(occupation_standard) %></button>
+                            <button data-tooltip-target="<%= occupation_standard.ojt_type %>-<%= occupation_standard.id %>-occupation-standard" type="button" class="mr-2 mb-2 rounded-lg border-2 border-primary-700 px-2 py-1 text-center text-sm font-bold text-primary-700 hover:bg-primary-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-primary-300"><%= ojt_type_display(occupation_standard) %></button>
 
-                            <div id="<%= occupation_standard.ojt_type %>-occupation-standard" role="tooltip" class="tooltip invisible absolute z-10 inline-block rounded-lg bg-primary-800 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm">
+                            <div id="<%= occupation_standard.ojt_type %>-<%= occupation_standard.id %>-occupation-standard" role="tooltip" class="tooltip invisible absolute z-10 inline-block rounded-lg bg-primary-800 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm">
                                 <%= t("activerecord.attributes.occupation_standard.definitions.#{occupation_standard.ojt_type}").html_safe %>
                                 <div class="tooltip-arrow" data-popper-arrow></div>
                             </div>
