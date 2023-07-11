@@ -29,9 +29,10 @@ class OccupationStandard < ApplicationRecord
   MAX_SIMILAR_PROGRAMS_TO_DISPLAY = 5
 
   index_name "occupation_standards_#{Rails.env}"
+  number_of_shards = Rails.env.production? ? 2 : 1
   es_settings = {
     index: {
-      number_of_shards: 2,
+      number_of_shards: number_of_shards,
       analysis: {
         tokenizer: {
           autocomplete_tokenizer: {
