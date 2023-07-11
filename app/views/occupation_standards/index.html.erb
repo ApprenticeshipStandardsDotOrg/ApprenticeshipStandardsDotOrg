@@ -11,7 +11,7 @@
                     Home
                 </a>
             </li>
-            <li aria-current="page">
+            <li aria-current="occupations standards index">
                 <div class="flex items-center">
                     <svg aria-hidden="true" class="w-6 h-6 text-gray-50" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
@@ -23,7 +23,7 @@
     </div>
 </nav>
 
-<section aria-labelledby="occupation-title" class="bg-seafoam-50">
+<section aria-label="search results" class="bg-seafoam-50">
     <div class="mx-auto max-w-screen-xl py-10 px-4 sm:py-16 lg:px-6">
         <% if @search_term.present? %>
             <div class="mb-8 flex lg:mb-8">
@@ -41,16 +41,16 @@
                 <div>
                     <div class="inline">
                         <% if occupation_standard.ojt_type %>
-                            <button data-tooltip-target="<%= occupation_standard.ojt_type %>-occupation-standard" type="button" class="mr-2 mb-2 rounded-lg border-2 border-primary-700 px-2 py-1 text-center text-sm font-bold text-primary-700 hover:bg-primary-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-primary-300"><%= ojt_type_display(occupation_standard) %></button>
+                            <button data-tooltip-target="<%= occupation_standard.ojt_type %>-<%= occupation_standard.id %>-occupation-standard" type="button" class="mr-2 mb-2 rounded-lg border-2 border-primary-700 px-2 py-1 text-center text-sm font-bold text-primary-700 hover:bg-primary-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-primary-300"><%= ojt_type_display(occupation_standard) %></button>
 
-                            <div id="<%= occupation_standard.ojt_type %>-occupation-standard" role="tooltip" class="tooltip invisible absolute z-10 inline-block rounded-lg bg-primary-800 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm">
+                            <div id="<%= occupation_standard.ojt_type %>-<%= occupation_standard.id %>-occupation-standard" role="tooltip" class="tooltip invisible absolute z-10 inline-block rounded-lg bg-primary-800 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm">
                                 <%= t("activerecord.attributes.occupation_standard.definitions.#{occupation_standard.ojt_type}").html_safe %>
                                 <div class="tooltip-arrow" data-popper-arrow></div>
                             </div>
                         <% end %>
                     </div>
-                    <h3 class="occupation-title text-2xl font-bold"><%= link_to occupation_standard.title, occupation_standard %></h3>
-                    <p class="mb-1 font-bold text-seafoam-900"><%= sponsor_name(occupation_standard) %></p>
+                    <h1 class="occupation-title text-2xl font-bold"><%= link_to occupation_standard.title, occupation_standard %></h1>
+                    <h2 class="mb-1 font-bold text-seafoam-900"><%= sponsor_name(occupation_standard) %></h2>
                     <div class="text-primary-700 text-xs mb-4">
                         <% if occupation_standard.latest_update_date %>
                             <span class="mr-4">Updated <%= occupation_standard.latest_update_date.year %> </span>
