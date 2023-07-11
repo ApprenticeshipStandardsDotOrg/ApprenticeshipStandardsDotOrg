@@ -332,4 +332,20 @@ RSpec.describe "occupation_standards/index" do
 
     expect(page).to have_text "Updated 1989"
   end
+
+  it "shows link to search by onet code if available" do
+    mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", onet_code: "12.3456")
+
+    visit occupation_standards_path
+
+    expect(page).to have_link "12.3456", href: occupation_standards_path(q: mechanic.onet_code)
+  end
+
+  it "shows link to search by rapids code if available" do
+    mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", rapids_code: "9876")
+
+    visit occupation_standards_path
+
+    expect(page).to have_link "9876", href: occupation_standards_path(q: mechanic.rapids_code)
+  end
 end
