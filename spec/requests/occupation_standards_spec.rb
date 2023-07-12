@@ -67,7 +67,7 @@ RSpec.describe "OccupationStandard", type: :request do
 
     describe "GET /index.json" do
       it "returns http success" do
-        occupation_standard = create(:occupation_standard, :with_data_import, title: "Mechanic")
+        create(:occupation_standard, :with_data_import, title: "Mechanic")
 
         get occupation_standards_path, params: {format: "json", q: "Mech"}
 
@@ -75,7 +75,7 @@ RSpec.describe "OccupationStandard", type: :request do
       end
 
       it "returns a json response" do
-        occupation_standard = create(:occupation_standard, :with_data_import, title: "Mechanic")
+        create(:occupation_standard, :with_data_import, title: "Mechanic")
 
         get occupation_standards_path, params: {format: "json", q: "Mech"}
 
@@ -93,7 +93,6 @@ RSpec.describe "OccupationStandard", type: :request do
         expect(result["display"]).to eq occupation_standard.display_for_typeahead
         expect(result["link"]).to eq occupation_standard_path(occupation_standard)
       end
-
     end
   end
 end
