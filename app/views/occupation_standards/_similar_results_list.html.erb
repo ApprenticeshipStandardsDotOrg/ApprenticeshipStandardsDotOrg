@@ -1,0 +1,89 @@
+<style>
+  .similar-results-box {
+    display: none;
+    padding: 10px 20px 20px 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    align-self: stretch;
+    border-radius: 4px;
+  }
+  .similar-results-row {
+    display: flex;
+    height: 59px;
+    padding: 20px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    align-self: stretch;
+    border-radius: 4px;
+    background-color: #F9F9F9;
+    border-color: #D9D9D9;
+
+  }
+  .results-line {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 5px;
+    align-self: stretch;
+  }
+
+</style>
+<script>
+  function changeVisibility(element_id) {
+
+       var panel = document.getElementById(element_id);
+       var panelButton = document.getElementById(`${element_id}-button`);
+       if (panel.style.display === "flex") {
+         panelButton.style.display = "flex";
+         panel.style.display = "none";
+       } else {
+         panelButton.style.display = "none";
+         panel.style.display = "flex";
+       }
+   }
+</script>
+
+<% similar_results = occupation_standard.similar_programs %>
+
+
+<div id="accordion-<%=occupation_standard.id%>-button" class="mt-4 flex flex-col space-x-4 lg:space-x-0 items-center rounded bg-gray-100 py-3 px-2 text-sm lg:flex-row">
+  There are <%= similar_results.count %> programs with similar or identical criteria.
+  <button class="font-bold underline border-2 border-blue-500 lg:mx-1" href="#" onclick='changeVisibility("accordion-<%=occupation_standard.id%>")'>Expand duplicates</button>
+</div>
+
+<div id="accordion-<%=occupation_standard.id%>" class="similar-results-box bg-gray-200" >
+  <div class="flex flex-col space-x-4 lg:space-x-0 items-center text-sm lg:flex-row">
+    There are 8 programs with similar or identical criteria.
+    <button class="font-bold underline border-2 border-blue-500 lg:mx-1" href="#" onclick='changeVisibility("accordion-<%=occupation_standard.id%>")'>Collapse duplicates</button>
+  </div>
+  <% similar_results.each do |result| %>
+    <div class="similar-results-row">
+      <div class="results-line">
+        <p class="text-primary-700 text-base font-bold"><%= link_to occupation_standard.title, occupation_standard %></p>
+        <p class="text-primary-400 text-xs font-normal pt-1"><%=occupation_standard.ojt_type&.capitalize%></p>
+        <svg class="text-primary-700 mt-2.5" width="4" height="5" viewBox="0 0 4 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1.875 4.375C1.53125 4.375 1.21733 4.29119 0.933239 4.12358C0.649148 3.95313 0.421875 3.72585 0.25142 3.44176C0.0838069 3.15767 0 2.84375 0 2.5C0 2.15341 0.0838069 1.83949 0.25142 1.55824C0.421875 1.27415 0.649148 1.0483 0.933239 0.880682C1.21733 0.710227 1.53125 0.625 1.875 0.625C2.22159 0.625 2.53551 0.710227 2.81676 0.880682C3.10085 1.0483 3.3267 1.27415 3.49432 1.55824C3.66477 1.83949 3.75 2.15341 3.75 2.5C3.75 2.84375 3.66477 3.15767 3.49432 3.44176C3.3267 3.72585 3.10085 3.95313 2.81676 4.12358C2.53551 4.29119 2.22159 4.375 1.875 4.375Z" fill="#415262"/>
+        </svg>
+        <p class="text-goldenrod-500 text-xs font-normal pt-1">
+          <% if occupation_standard.onet_code.present? %>
+              <%= link_to occupation_standard.onet_code, occupation_standards_path(q: occupation_standard.onet_code) %>
+          <% end %>
+          <% if occupation_standard.rapids_code.present? %>
+              <%= link_to occupation_standard.rapids_code, occupation_standards_path(q: occupation_standard.rapids_code) %>
+          <% end %>
+        </p>
+      </div>
+      <div class="results-line">
+        <p class="text-seafoam-400 text-xs font-bold pb-1">
+            <% if occupation_standard.registration_agency %>
+              <%= occupation_standard.registration_agency %>
+            <% else %>
+              Anonymous
+            <% end %>
+            </p>
+      </div>
+    </div>
+  <% end %>
+</div>
