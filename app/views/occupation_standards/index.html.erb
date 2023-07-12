@@ -119,12 +119,7 @@
                     </div>
                 </div>
             </div>
-            <%= render partial: 'similar_results_list', locals: {occupation_standard: occupation_standard} %>
-
-            <!-- <div class="mt-4 flex flex-col space-x-4 lg:space-x-0 items-center rounded bg-gray-100 py-3 px-2 text-sm lg:flex-row">
-              There are 8 programs with similar or identical criteria.
-              <button class="font-bold underline border-2 border-blue-500 lg:mx-1" href="#">Expand duplicates</button>
-            </div> -->
+            <%= render partial: "similar_results_list", locals: {occupation_standard: occupation_standard} %>
         </div>
         <% end %>
         <%== pagy_nav(@pagy) if @pagy.pages > 1 %>

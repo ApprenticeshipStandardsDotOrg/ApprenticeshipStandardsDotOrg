@@ -390,4 +390,53 @@ RSpec.describe "occupation_standards/index" do
     expect(page).to have_selector "div", class: "tt-suggestion", text: mechanic.display_for_typeahead
     expect(page).to_not have_selector "div", class: "tt-suggestion", text: pipe_fitter.display_for_typeahead
   end
+
+  it "shows similar results accordion button if they are present" do
+    create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
+    create(:occupation_standard, :with_work_processes, :with_data_import, :program_standard, title: "Mechanic")
+
+    visit occupation_standards_path
+
+    expect(page).to have_text "1 program with similar or identical criteria."
+  end
+
+  it "does not show similar results accordion button if they are not present" do
+    create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
+    create(:occupation_standard, :with_work_processes, :with_data_import, :program_standard, title: "Pipe Fitter")
+
+    visit occupation_standards_path
+
+    expect(page).not_to have_text "program with similar or identical criteria."
+  end
+
+  it "expands similar results accordion when accordion button is clicked", js: true do
+    mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
+    create(:occupation_standard, :with_work_processes, :with_data_import, :program_standard, title: "Mechanic")
+
+    visit occupation_standards_path
+
+    within "#accordion-#{mechanic.id}-button" do
+      click_on "Expand duplicates"
+    end
+
+    expect(page).to have_selector(:button, "Collapse duplicates")
+    expect(page).not_to have_selector("#accordion-#{mechanic.id}-button")
+  end
+
+  it "closes similar results accordion when accordion button is clicked", js: true do
+    mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
+    create(:occupation_standard, :with_work_processes, :with_data_import, :program_standard, title: "Mechanic")
+
+    visit occupation_standards_path
+
+    within "#accordion-#{mechanic.id}-button" do
+      click_on "Expand duplicates"
+    end
+
+    within "#accordion-#{mechanic.id}" do
+      click_on "Collapse duplicates"
+    end
+
+    expect(page).not_to have_selector("#accordion-#{mechanic.id}")
+  end
 end
