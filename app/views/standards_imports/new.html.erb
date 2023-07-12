@@ -57,7 +57,7 @@
         <% end %>
         <div class="mb-6">
           <%= f.label :files, class: "form-label" %>
-          <%= f.file_field :files, multiple: true, class: "form-field bg-white px-6" %>
+          <%= f.file_field :files, multiple: true, class: "form-field bg-white px-6", required: true %>
         </div>
         <div>
           <%= f.submit "Upload", class: "flex-none text-white inline-flex items-center bg-seafoam-700 hover:bg-seafoam-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium text-sm px-4 py-2 g-recaptcha", "data-sitekey": ENV["GOOGLE_RECAPTCHA_SITE_KEY"], "data-callback": "onSubmit", "data-action": "submit" %>
