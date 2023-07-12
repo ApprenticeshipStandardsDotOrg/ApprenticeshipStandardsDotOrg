@@ -17,7 +17,7 @@
 
 <% similar_results = occupation_standard.similar_programs %>
 
-<% if similar_results.count > 0 %>
+<% if similar_results.any? %>
   <div id="accordion-<%= occupation_standard.id %>-button" class="mt-4 flex flex-col space-x-4 lg:space-x-0 items-center rounded bg-gray-100 py-3 px-2 text-sm lg:flex-row">
     There <%= "is".pluralize(similar_results.count, :en) %> <%= pluralize(similar_results.count, "program") %> with similar or identical criteria.
     <button aria-controls="accordion-<%= occupation_standard.id %>" class="font-bold underline lg:mx-1" href="#" onclick='changeVisibility("accordion-<%= occupation_standard.id %>")'>Expand duplicates</button>
@@ -46,12 +46,8 @@
         </div>
         <div>
           <p class="text-seafoam-800 text-xs font-bold pb-1">
-              <% if occupation_standard.registration_agency %>
-                <%= occupation_standard.registration_agency %>
-              <% else %>
-                Anonymous
-              <% end %>
-              </p>
+              <%= occupation_standard.registration_agency.presence || "Anonymous" %>
+          </p>
         </div>
       </div>
     <% end %>
