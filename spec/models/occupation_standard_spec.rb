@@ -484,4 +484,30 @@ RSpec.describe OccupationStandard, type: :model do
       expect(occupation_standard.public_document?).to be true
     end
   end
+
+  describe "#display_for_typeahead" do
+    it "returns title if onet and rapids code missing" do
+      occupation_standard = build(:occupation_standard, title: "Mechanic", onet_code: nil, rapids_code: nil)
+
+      expect(occupation_standard.display_for_typeahead).to eq "Mechanic"
+    end
+
+    it "returns title and onet code if rapids code missing" do
+      occupation_standard = build(:occupation_standard, title: "Mechanic", onet_code: "15-1342", rapids_code: nil)
+
+      expect(occupation_standard.display_for_typeahead).to eq "Mechanic (15-1342)"
+    end
+
+    it "returns title and rapids code if onet code missing" do
+      occupation_standard = build(:occupation_standard, title: "Mechanic", onet_code: nil, rapids_code: "9201")
+
+      expect(occupation_standard.display_for_typeahead).to eq "Mechanic (9201)"
+    end
+
+    it "returns title and both codes if present" do
+      occupation_standard = build(:occupation_standard, title: "Mechanic", onet_code: "15-1342", rapids_code: "9201")
+
+      expect(occupation_standard.display_for_typeahead).to eq "Mechanic (15-1342) (9201)"
+    end
+  end
 end
