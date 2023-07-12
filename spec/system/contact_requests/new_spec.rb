@@ -2,6 +2,7 @@ require "rails_helper"
 
 RSpec.describe "contact_requests" do
   it "allows users to send a message" do
+    stub_recaptcha_high_score
     allow(State).to receive(:find_by).and_return(build_stubbed(:state))
 
     visit contact_page_path
