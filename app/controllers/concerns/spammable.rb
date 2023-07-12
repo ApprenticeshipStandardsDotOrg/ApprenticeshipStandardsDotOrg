@@ -10,7 +10,7 @@ module Spammable
   private
 
   def verify_recaptcha
-    return if current_user&.admin?
+    return if skip_recaptcha?
 
     uri = URI("https://www.google.com/recaptcha/api/siteverify")
     resp = Net::HTTP.post_form(
@@ -30,5 +30,9 @@ module Spammable
     if !success || score < VALID_RECAPTCHA_SCORE
       redirect_to guest_root_path
     end
+  end
+
+  def skip_recaptcha?
+    current_user&.admin? || ENV.fetch("ENABLE_RECAPTCHA", "false") == "false"
   end
 end

@@ -3,6 +3,7 @@
 module Helpers
   module WebmockHelpers
     def stub_recaptcha_high_score
+      stub_const "ENV", ENV.to_h.merge("ENABLE_RECAPTCHA" => "true")
       stub_request(:post, /google.*recaptcha/)
         .to_return(status: 200, body: {
           "success": true,
@@ -14,6 +15,7 @@ module Helpers
     end
 
     def stub_recaptcha_low_score
+      stub_const "ENV", ENV.to_h.merge("ENABLE_RECAPTCHA" => "true")
       stub_request(:post, /google.*recaptcha/)
         .to_return(status: 200, body: {
           "success": true,
@@ -25,6 +27,7 @@ module Helpers
     end
 
     def stub_recaptcha_failure
+      stub_const "ENV", ENV.to_h.merge("ENABLE_RECAPTCHA" => "true")
       stub_request(:post, /google.*recaptcha/)
         .to_return(status: 200, body: {
           "success": false,

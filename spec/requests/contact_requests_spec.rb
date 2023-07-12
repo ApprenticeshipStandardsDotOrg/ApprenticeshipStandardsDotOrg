@@ -34,6 +34,52 @@ RSpec.describe "ContactRequest", type: :request do
       end
     end
 
+    context "with valid params and ENABLE_RECAPTCHA flag false" do
+      it "creates a contact_request record" do
+        stub_const "ENV", ENV.to_h.merge("ENABLE_RECAPTCHA" => "false")
+
+        expect {
+          post contact_requests_path, params: {
+            contact_request: {
+              name: "Mickey",
+              email: "mickey@mouse.com",
+              organization: "Disney",
+              message: "We are happy"
+            }
+          }
+        }.to change(ContactRequest, :count).by(1)
+
+        contact = ContactRequest.last
+        expect(contact.name).to eq "Mickey"
+        expect(contact.email).to eq "mickey@mouse.com"
+        expect(contact.organization).to eq "Disney"
+        expect(contact.message).to eq "We are happy"
+        expect(response).to redirect_to guest_root_path
+      end
+    end
+
+    context "with valid params and no ENABLE_RECAPTCHA flag" do
+      it "creates a contact_request record" do
+        expect {
+          post contact_requests_path, params: {
+            contact_request: {
+              name: "Mickey",
+              email: "mickey@mouse.com",
+              organization: "Disney",
+              message: "We are happy"
+            }
+          }
+        }.to change(ContactRequest, :count).by(1)
+
+        contact = ContactRequest.last
+        expect(contact.name).to eq "Mickey"
+        expect(contact.email).to eq "mickey@mouse.com"
+        expect(contact.organization).to eq "Disney"
+        expect(contact.message).to eq "We are happy"
+        expect(response).to redirect_to guest_root_path
+      end
+    end
+
     context "with valid params and poor Google recaptcha score" do
       it "does not create a contact_request record" do
         stub_recaptcha_low_score
