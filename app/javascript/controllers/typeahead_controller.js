@@ -10,9 +10,9 @@ export default class extends Controller {
   // wildcard: the string used as a wildcard
   // identifier: the key from the returned objects used to display as suggestion in the typeahead dropdown
   static values = {
-    src: { type: String, default: "/occupation_standards.json?q=QUERY"},
-    wildcard: { type: String, default: "QUERY" },
-    identifier: { type: String, default: "display"},
+    src: { type: String, default: "/search.json?q=WILDCARD"},
+    wildcard: { type: String, default: "WILDCARD" },
+    identifier: { type: String, default: "name"},
   }
 
   connect() {

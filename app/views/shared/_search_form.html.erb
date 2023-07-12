@@ -1,5 +1,9 @@
 <%= form_with url: search_form_url, method: :get, data: {
-      controller: "search typeahead"
+      controller: "search typeahead",
+      typeahead_src_value: occupation_standards_path(format: :json, q: "QUERY"),
+      typeahead_wildcard_value: "QUERY",
+      typeahead_identifier_value: "display"
+
     } do |f| %>
   <%= f.label :q, "Search term", class: "mb-2 text-sm font-medium text-white sr-only" %>
   <div class="flex px-4 pt-4">
