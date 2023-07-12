@@ -14,7 +14,7 @@ class OccupationStandardsController < ApplicationController
 
     respond_to do |format|
       format.json do
-        render json: @occupation_standards
+        render json: OccupationStandardBlueprint.render(@occupation_standards)
       end
       format.html {}
     end
