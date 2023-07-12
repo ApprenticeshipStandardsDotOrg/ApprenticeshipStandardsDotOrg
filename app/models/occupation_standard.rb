@@ -77,7 +77,7 @@ class OccupationStandard < ApplicationRecord
 
   def as_indexed_json(_ = {})
     as_json(
-      only: [:title, :ojt_type, :onet_code, :rapids_code, :national_standard_type],
+      only: [:title, :ojt_type, :onet_code, :rapids_code, :national_standard_type]
     ).merge(
       state: registration_agency&.state&.abbreviation,
       work_process_titles: work_processes.pluck(:title).uniq
