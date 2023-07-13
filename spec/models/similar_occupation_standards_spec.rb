@@ -11,42 +11,35 @@ RSpec.describe SimilarOccupationStandards, type: :model do
       os1 = create(:occupation_standard, :time, title: "Childcare worker", registration_agency: wa_reg_agency)
       create(:work_process, title: "Principles of Child Growth and Development", occupation_standard: os1)
       create(:work_process, title: "Social and Emotional Development", occupation_standard: os1)
-      puts "os1: #{os1.id}"
 
       # Matches on title, state
       os4 = create(:occupation_standard, :hybrid, title: "Childcare worker", registration_agency: wa_reg_agency)
       create(:work_process, title: "Vehicle Inspection", occupation_standard: os4)
       create(:work_process, title: "Tracking and Management Systems", occupation_standard: os4)
-      puts "os4: #{os4.id}"
 
       # Matches on title, ojt_type
       os6 = create(:occupation_standard, :time, title: "Childcare worker", registration_agency: al_reg_agency)
       create(:work_process, title: "Vehicle Inspection", occupation_standard: os4)
       create(:work_process, title: "Tracking and Management Systems", occupation_standard: os4)
-      puts "os6: #{os6.id}"
 
       # Matches on title, state, work process titles
       os2 = create(:occupation_standard, :hybrid, title: "Childcare worker", registration_agency: wa_reg_agency)
       create(:work_process, title: "Principles of Child Growth and Development", occupation_standard: os2)
       create(:work_process, title: "Social and Emotional Development", occupation_standard: os2)
-      puts "os2: #{os2.id}"
 
       # Matches on title, work process titles
       os3 = create(:occupation_standard, :hybrid, title: "Childcare worker", registration_agency: al_reg_agency)
       create(:work_process, title: "Principles of Child Growth and Development", occupation_standard: os3)
       create(:work_process, title: "Social and Emotional Development", occupation_standard: os3)
-      puts "os3: #{os3.id}"
 
       os5 = create(:occupation_standard, :hybrid, title: "Human Resource Specialist", registration_agency: al_reg_agency)
       create(:work_process, title: "Vehicle Inspection", occupation_standard: os5)
       create(:work_process, title: "Tracking Management Systems", occupation_standard: os5)
-      puts "os5: #{os5.id}"
 
       OccupationStandard.import
       OccupationStandard.__elasticsearch__.refresh_index!
 
-      expect(described_class.similar_to(os1.reload, true)).to match_array [os2, os3, os4, os6]
-      expect(described_class.similar_to(os1.reload)).to_not include(os5)
+      expect(described_class.similar_to(os1.reload)).to eq [os2, os3, os4, os6]
     end
 
     it "returns RESULTS_SIZE records" do
