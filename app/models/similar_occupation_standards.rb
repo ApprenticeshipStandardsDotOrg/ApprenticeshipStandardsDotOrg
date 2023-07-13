@@ -49,8 +49,7 @@ class SimilarOccupationStandards
             }},
             {match: {
               state: {query: occupation_standard.registration_agency&.state&.abbreviation}
-            }},
-            more_like_this: more_like_this
+            }}
           ],
           must_not: [
             {
@@ -61,19 +60,6 @@ class SimilarOccupationStandards
           ]
         }
       }
-    }
-  end
-
-  def more_like_this
-    {
-      like: [
-        {
-          _index: OccupationStandard.index_name,
-          _id: occupation_standard.id
-        }
-      ],
-      min_term_freq: 1,
-      analyzer: "snowball"
     }
   end
 end
