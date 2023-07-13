@@ -1,17 +1,9 @@
 <script>
   function changeVisibility(element_id) {
-
        var panel = document.getElementById(element_id);
        var panelButton = document.getElementById(`${element_id}-button`);
-       if (panel.style.display === "flex") {
-         panelButton.style.display = "flex";
-         panel.style.display = "none";
-         panel.setAttribute("aria-expanded", false)
-       } else {
-         panelButton.style.display = "none";
-         panel.style.display = "flex";
-         panel.setAttribute("aria-expanded", true)
-       }
+       panel.classList.toggle("hidden")
+       panelButton.classList.toggle("hidden")
    }
 </script>
 
@@ -22,7 +14,7 @@
     There <%= "is".pluralize(similar_results.count, :en) %> <%= pluralize(similar_results.count, "program") %> with similar or identical criteria.
     <button aria-controls="accordion-<%= occupation_standard.id %>" class="font-bold underline lg:mx-1" href="#" onclick='changeVisibility("accordion-<%= occupation_standard.id %>")'>Expand duplicates</button>
   </div>
-  <div id="accordion-<%= occupation_standard.id %>" style="display: none;" class="mt-4 similar-results-box bg-gray-100 py-3 px-2 flex flex-col">
+  <div id="accordion-<%= occupation_standard.id %>" class="hidden mt-4 similar-results-box bg-gray-100 py-3 px-2 flex flex-col">
     <div class="flex flex-col space-x-4 lg:space-x-0 items-center text-sm lg:flex-row pb-3">
       There <%= "is".pluralize(similar_results.count, :en) %> <%= pluralize(similar_results.count, "program") %> with similar or identical criteria.
       <button aria-controls="accordion-<%= occupation_standard.id %>" class="font-bold underline lg:mx-1" href="#" onclick='changeVisibility("accordion-<%= occupation_standard.id %>")'>Collapse duplicates</button>
