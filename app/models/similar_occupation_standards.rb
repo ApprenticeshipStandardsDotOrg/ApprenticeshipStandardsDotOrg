@@ -51,6 +51,7 @@ class SimilarOccupationStandards
               state: {query: occupation_standard.registration_agency&.state&.abbreviation}
             }}
           ],
+          minimum_should_match: 1,
           must_not: [
             {
               term: {

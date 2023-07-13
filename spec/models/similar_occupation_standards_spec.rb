@@ -34,7 +34,7 @@ RSpec.describe SimilarOccupationStandards, type: :model do
 
       os5 = create(:occupation_standard, :hybrid, title: "Human Resource Specialist", registration_agency: al_reg_agency)
       create(:work_process, title: "Vehicle Inspection", occupation_standard: os5)
-      create(:work_process, title: "Tracking and Management Systems", occupation_standard: os5)
+      create(:work_process, title: "Tracking Management Systems", occupation_standard: os5)
 
       OccupationStandard.import
       OccupationStandard.__elasticsearch__.refresh_index!
