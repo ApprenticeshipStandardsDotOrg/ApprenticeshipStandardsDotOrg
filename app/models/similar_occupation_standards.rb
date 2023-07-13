@@ -61,6 +61,11 @@ class SimilarOccupationStandards
             }
           ]
         }
+      },
+      "highlight": {
+        "fields": {
+          "*": {}
+        }
       }
     }
   end
