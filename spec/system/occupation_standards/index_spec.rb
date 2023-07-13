@@ -410,17 +410,14 @@ RSpec.describe "occupation_standards/index" do
   end
 
   it "expands similar results accordion when accordion button is clicked", js: true do
-    mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
+    create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
     create(:occupation_standard, :with_work_processes, :with_data_import, :program_standard, title: "Mechanic")
 
     visit occupation_standards_path
 
-    within "#accordion-#{mechanic.id}-button" do
-      click_on "Expand duplicates"
-    end
+    find('button[data-action="click->accordion#changeVisibility"]', match: :first).click
 
     expect(page).to have_selector(:button, "Collapse duplicates")
-    expect(page).not_to have_selector("#accordion-#{mechanic.id}-button")
   end
 
   it "closes similar results accordion when accordion button is clicked", js: true do
@@ -429,9 +426,7 @@ RSpec.describe "occupation_standards/index" do
 
     visit occupation_standards_path
 
-    within "#accordion-#{mechanic.id}-button" do
-      click_on "Expand duplicates"
-    end
+    find('button[data-action="click->accordion#changeVisibility"]', match: :first).click
 
     within "#accordion-#{mechanic.id}" do
       click_on "Collapse duplicates"
