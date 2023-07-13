@@ -65,9 +65,9 @@ class OccupationStandard < ApplicationRecord
 
   settings(es_settings) do
     mappings dynamic: false do
-      indexes :title, type: :text, analyzer: :snowball
+      indexes :title, type: :text, analyzer: :english
       indexes :ojt_type, type: :text
-      indexes :work_process_titles, type: :text, analyzer: :snowball
+      indexes :work_process_titles, type: :text, analyzer: :english
       indexes :onet_code, type: :text, analyzer: :autocomplete
       indexes :rapids_code, type: :text, analyzer: :autocomplete
       indexes :national_standard_type, type: :text, analyzer: :keyword
