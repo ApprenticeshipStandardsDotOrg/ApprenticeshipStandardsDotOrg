@@ -117,6 +117,7 @@ GEM
       parser (>= 2.4)
       smart_properties
     bindex (0.8.1)
+    blueprinter (0.25.3)
     bonsai-elasticsearch-rails (7.0.1)
       elasticsearch-model (< 8)
       elasticsearch-rails (< 8)
@@ -487,6 +488,7 @@ DEPENDENCIES
   administrate-field-jsonb
   after_party
   aws-sdk-s3
+  blueprinter
   bonsai-elasticsearch-rails (~> 7)
   bootsnap
   bullet

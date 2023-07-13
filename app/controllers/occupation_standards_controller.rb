@@ -11,6 +11,13 @@ class OccupationStandardsController < ApplicationController
 
     @pagy, @occupation_standards = pagy(@occupation_standards)
     @search_term = search_term_params[:q]
+
+    respond_to do |format|
+      format.json do
+        render json: OccupationStandardBlueprint.render(@occupation_standards)
+      end
+      format.html {}
+    end
   end
 
   def show

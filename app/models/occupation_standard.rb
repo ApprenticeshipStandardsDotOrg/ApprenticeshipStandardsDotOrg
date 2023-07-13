@@ -251,6 +251,13 @@ class OccupationStandard < ApplicationRecord
       organization_id == Organization.urban_institute&.id
   end
 
+  def display_for_typeahead
+    output = title.strip
+    output << " (#{onet_code})" if onet_code
+    output << " (#{rapids_code})" if rapids_code
+    output
+  end
+
   private
 
   def national?

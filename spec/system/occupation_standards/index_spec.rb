@@ -348,4 +348,46 @@ RSpec.describe "occupation_standards/index" do
 
     expect(page).to have_link "9876", href: occupation_standards_path(q: mechanic.rapids_code)
   end
+
+  it "shows suggestions based on occupation title", :js do
+    mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
+    pipe_fitter = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Pipe Fitter")
+
+    visit occupation_standards_path
+
+    expect(page).to_not have_selector "div", class: "tt-suggestion"
+
+    fill_in "q", with: "Mec"
+
+    expect(page).to have_selector "div", class: "tt-suggestion", text: mechanic.display_for_typeahead
+    expect(page).to_not have_selector "div", class: "tt-suggestion", text: pipe_fitter.display_for_typeahead
+  end
+
+  it "shows suggestions based on onet code", :js do
+    mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", onet_code: "12-1234")
+    pipe_fitter = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Pipe Fitter", onet_code: "51-6789")
+
+    visit occupation_standards_path
+
+    expect(page).to_not have_selector "div", class: "tt-suggestion"
+
+    fill_in "q", with: "12-"
+
+    expect(page).to have_selector "div", class: "tt-suggestion", text: mechanic.display_for_typeahead
+    expect(page).to_not have_selector "div", class: "tt-suggestion", text: pipe_fitter.display_for_typeahead
+  end
+
+  it "shows suggestions based on rapids code", :js do
+    mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", rapids_code: "9108")
+    pipe_fitter = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Pipe Fitter", rapids_code: "1582")
+
+    visit occupation_standards_path
+
+    expect(page).to_not have_selector "div", class: "tt-suggestion"
+
+    fill_in "q", with: "9108"
+
+    expect(page).to have_selector "div", class: "tt-suggestion", text: mechanic.display_for_typeahead
+    expect(page).to_not have_selector "div", class: "tt-suggestion", text: pipe_fitter.display_for_typeahead
+  end
 end
