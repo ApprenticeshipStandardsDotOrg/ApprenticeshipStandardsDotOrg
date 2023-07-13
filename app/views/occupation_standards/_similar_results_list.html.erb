@@ -1,47 +1,42 @@
-<script>
-  function changeVisibility(element_id) {
-       var panel = document.getElementById(element_id);
-       var panelButton = document.getElementById(`${element_id}-button`);
-       panel.classList.toggle("hidden")
-       panelButton.classList.toggle("hidden")
-   }
-</script>
-
 <% similar_results = occupation_standard.similar_programs %>
 
 <% if similar_results.any? %>
-  <div id="accordion-<%= occupation_standard.id %>-button" class="mt-4 flex flex-col space-x-4 lg:space-x-0 items-center rounded bg-gray-100 py-3 px-2 text-sm lg:flex-row">
-    There <%= "is".pluralize(similar_results.count, :en) %> <%= pluralize(similar_results.count, "program") %> with similar or identical criteria.
-    <button aria-controls="accordion-<%= occupation_standard.id %>" class="font-bold underline lg:mx-1" href="#" onclick='changeVisibility("accordion-<%= occupation_standard.id %>")'>Expand duplicates</button>
-  </div>
-  <div id="accordion-<%= occupation_standard.id %>" class="hidden mt-4 similar-results-box bg-gray-100 py-3 px-2 flex flex-col">
-    <div class="flex flex-col space-x-4 lg:space-x-0 items-center text-sm lg:flex-row pb-3">
+  <div data-controller="accordion" >
+    <div data-accordion-target="expandButton" id="accordion-<%= occupation_standard.id %>-button" class="mt-4 flex flex-col space-x-4 lg:space-x-0 items-center rounded bg-gray-100 py-3 px-2 text-sm lg:flex-row">
       There <%= "is".pluralize(similar_results.count, :en) %> <%= pluralize(similar_results.count, "program") %> with similar or identical criteria.
-      <button aria-controls="accordion-<%= occupation_standard.id %>" class="font-bold underline lg:mx-1" href="#" onclick='changeVisibility("accordion-<%= occupation_standard.id %>")'>Collapse duplicates</button>
+      <button data-action="click->accordion#changeVisibility" aria-controls="accordion-<%= occupation_standard.id %>" class="font-bold underline lg:mx-1" href="#">
+        Expand duplicates
+      </button>
     </div>
-    <% similar_results.each do |result| %>
-      <div class="bg-white border-2 border-gray-200 items-center py-2 px-4 w-full">
-        <div class="flex items-center space-x-2">
-          <h3 class="text-primary-700 text-base font-bold"><%= link_to occupation_standard.title, occupation_standard %></h3>
-          <p class="text-primary-600 text-xs font-normal"><%= occupation_standard.ojt_type&.capitalize %></p>
-          <svg class="fill-goldenrod-800" width="4" height="5" viewBox="0 0 4 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M1.875 4.375C1.53125 4.375 1.21733 4.29119 0.933239 4.12358C0.649148 3.95313 0.421875 3.72585 0.25142 3.44176C0.0838069 3.15767 0 2.84375 0 2.5C0 2.15341 0.0838069 1.83949 0.25142 1.55824C0.421875 1.27415 0.649148 1.0483 0.933239 0.880682C1.21733 0.710227 1.53125 0.625 1.875 0.625C2.22159 0.625 2.53551 0.710227 2.81676 0.880682C3.10085 1.0483 3.3267 1.27415 3.49432 1.55824C3.66477 1.83949 3.75 2.15341 3.75 2.5C3.75 2.84375 3.66477 3.15767 3.49432 3.44176C3.3267 3.72585 3.10085 3.95313 2.81676 4.12358C2.53551 4.29119 2.22159 4.375 1.875 4.375Z" />
-          </svg>
-          <p class="text-goldenrod-800 text-xs font-normal">
-            <% if occupation_standard.onet_code.present? %>
-                <%= link_to occupation_standard.onet_code, occupation_standards_path(q: occupation_standard.onet_code) %>
-            <% end %>
-            <% if occupation_standard.rapids_code.present? %>
-                <%= link_to occupation_standard.rapids_code, occupation_standards_path(q: occupation_standard.rapids_code) %>
-            <% end %>
-          </p>
-        </div>
-        <div>
-          <p class="text-seafoam-800 text-xs font-bold pb-1">
-              <%= occupation_standard.registration_agency.presence || "Anonymous" %>
-          </p>
-        </div>
+    <div data-accordion-target="accordion" id="accordion-<%= occupation_standard.id %>" class="hidden mt-4 similar-results-box bg-gray-100 py-3 px-2 flex flex-col">
+      <div class="flex flex-col space-x-4 lg:space-x-0 items-center text-sm lg:flex-row pb-3">
+        There <%= "is".pluralize(similar_results.count, :en) %> <%= pluralize(similar_results.count, "program") %> with similar or identical criteria.
+        <button data-action="click->accordion#changeVisibility" aria-controls="accordion-<%= occupation_standard.id %>" class="font-bold underline lg:mx-1" href="#">Collapse duplicates</button>
       </div>
-    <% end %>
+      <% similar_results.each do |result| %>
+        <div class="bg-white border-2 border-gray-200 items-center py-2 px-4 w-full">
+          <div class="flex items-center space-x-2">
+            <h3 class="text-primary-700 text-base font-bold"><%= link_to occupation_standard.title, occupation_standard %></h3>
+            <p class="text-primary-600 text-xs font-normal"><%= occupation_standard.ojt_type&.capitalize %></p>
+            <svg class="fill-goldenrod-800" width="4" height="5" viewBox="0 0 4 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1.875 4.375C1.53125 4.375 1.21733 4.29119 0.933239 4.12358C0.649148 3.95313 0.421875 3.72585 0.25142 3.44176C0.0838069 3.15767 0 2.84375 0 2.5C0 2.15341 0.0838069 1.83949 0.25142 1.55824C0.421875 1.27415 0.649148 1.0483 0.933239 0.880682C1.21733 0.710227 1.53125 0.625 1.875 0.625C2.22159 0.625 2.53551 0.710227 2.81676 0.880682C3.10085 1.0483 3.3267 1.27415 3.49432 1.55824C3.66477 1.83949 3.75 2.15341 3.75 2.5C3.75 2.84375 3.66477 3.15767 3.49432 3.44176C3.3267 3.72585 3.10085 3.95313 2.81676 4.12358C2.53551 4.29119 2.22159 4.375 1.875 4.375Z" />
+            </svg>
+            <p class="text-goldenrod-800 text-xs font-normal">
+              <% if occupation_standard.onet_code.present? %>
+                  <%= link_to occupation_standard.onet_code, occupation_standards_path(q: occupation_standard.onet_code) %>
+              <% end %>
+              <% if occupation_standard.rapids_code.present? %>
+                  <%= link_to occupation_standard.rapids_code, occupation_standards_path(q: occupation_standard.rapids_code) %>
+              <% end %>
+            </p>
+          </div>
+          <div>
+            <p class="text-seafoam-800 text-xs font-bold pb-1">
+                <%= occupation_standard.registration_agency.presence || "Anonymous" %>
+            </p>
+          </div>
+        </div>
+      <% end %>
+    </div>
   </div>
 <% end %>
