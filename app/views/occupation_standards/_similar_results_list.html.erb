@@ -1,8 +1,8 @@
 <% similar_results = occupation_standard.similar_programs %>
 
 <% if similar_results.any? %>
-  <div data-controller="accordion" >
-    <div data-accordion-target="expandButton" id="accordion-<%= occupation_standard.id %>-button" class="mt-4 flex flex-col space-x-4 lg:space-x-0 items-center rounded bg-gray-100 py-3 px-2 text-sm lg:flex-row">
+  <div data-controller="accordion">
+    <div data-accordion-target="expandButton" class="mt-4 flex flex-col space-x-4 lg:space-x-0 items-center rounded bg-gray-100 py-3 px-2 text-sm lg:flex-row">
       There <%= "is".pluralize(similar_results.count, :en) %> <%= pluralize(similar_results.count, "program") %> with similar or identical criteria.
       <button data-action="click->accordion#changeVisibility" aria-controls="accordion-<%= occupation_standard.id %>" class="font-bold underline lg:mx-1" href="#">
         Expand duplicates
