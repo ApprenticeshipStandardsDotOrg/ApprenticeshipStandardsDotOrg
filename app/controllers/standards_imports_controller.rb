@@ -1,4 +1,6 @@
 class StandardsImportsController < ApplicationController
+  include Spammable
+
   def new
     @standards_import = StandardsImport.new
   end
