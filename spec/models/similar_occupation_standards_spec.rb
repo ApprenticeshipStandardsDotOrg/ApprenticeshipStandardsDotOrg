@@ -45,7 +45,8 @@ RSpec.describe SimilarOccupationStandards, type: :model do
       OccupationStandard.import
       OccupationStandard.__elasticsearch__.refresh_index!
 
-      expect(described_class.similar_to(os1.reload)).to match_array [os2, os3, os4, os6]
+      expect(described_class.similar_to(os1.reload, true)).to match_array [os2, os3, os4, os6]
+      expect(described_class.similar_to(os1.reload)).to_not include(os5)
     end
 
     it "returns RESULTS_SIZE records" do
