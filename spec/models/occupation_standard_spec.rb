@@ -510,4 +510,30 @@ RSpec.describe OccupationStandard, type: :model do
       expect(occupation_standard.display_for_typeahead).to eq "Mechanic (15-1342) (9201)"
     end
   end
+
+  describe "#hours_meet_occupation_requirements?" do
+    it "returns true if work_process hours match occupation hours" do
+      occupation = create(:occupation, time_based_hours: "2000")
+      occupation_standard = create(:occupation_standard, occupation: occupation)
+      create(:work_process, maximum_hours: 2000, occupation_standard: occupation_standard)
+
+      expect(occupation_standard.hours_meet_occupation_requirements?).to be true
+    end
+
+    it "returns false if work_process hours do not match occupation hours" do
+      occupation = create(:occupation, time_based_hours: "2000")
+      occupation_standard = create(:occupation_standard, occupation: occupation)
+      create(:work_process, maximum_hours: 1000, occupation_standard: occupation_standard)
+
+      expect(occupation_standard.hours_meet_occupation_requirements?).to be false
+    end
+
+    it "returns true if there is no associated occupation" do
+      occupation_standard = create(:occupation_standard, occupation_id: nil)
+      create(:work_process, maximum_hours: 2000, occupation_standard: occupation_standard)
+
+      expect(occupation_standard.hours_meet_occupation_requirements?).to be true
+      expect(occupation_standard.occupation).to be nil
+    end
+  end
 end
