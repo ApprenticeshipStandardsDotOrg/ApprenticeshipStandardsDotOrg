@@ -119,7 +119,9 @@
                     </div>
                 </div>
             </div>
-            <%= render partial: "similar_results_list", locals: {occupation_standard: occupation_standard} %>
+            <% if Flipper.enabled?(:similar_programs_accordion) %>
+              <%= render partial: "similar_results_list", locals: {occupation_standard: occupation_standard} %>
+            <% end %>
         </div>
         <% end %>
         <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
