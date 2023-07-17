@@ -392,6 +392,7 @@ RSpec.describe "occupation_standards/index" do
   end
 
   it "shows similar results accordion button if they are present" do
+    Flipper.enable :similar_programs_accordion
     create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
     create(:occupation_standard, :with_work_processes, :with_data_import, :program_standard, title: "Mechanic")
 
@@ -401,6 +402,7 @@ RSpec.describe "occupation_standards/index" do
   end
 
   it "does not show similar results accordion button if they are not present" do
+    Flipper.enable :similar_programs_accordion
     create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
     create(:occupation_standard, :with_work_processes, :with_data_import, :program_standard, title: "Pipe Fitter")
 
@@ -410,6 +412,7 @@ RSpec.describe "occupation_standards/index" do
   end
 
   it "expands similar results accordion when accordion button is clicked", js: true do
+    Flipper.enable :similar_programs_accordion
     create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
     create(:occupation_standard, :with_work_processes, :with_data_import, :program_standard, title: "Mechanic")
 
@@ -421,6 +424,7 @@ RSpec.describe "occupation_standards/index" do
   end
 
   it "closes similar results accordion when accordion button is clicked", js: true do
+    Flipper.enable :similar_programs_accordion
     mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
     create(:occupation_standard, :with_work_processes, :with_data_import, :program_standard, title: "Mechanic")
 

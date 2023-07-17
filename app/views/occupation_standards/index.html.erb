@@ -119,8 +119,7 @@
                     </div>
                 </div>
             </div>
-            <!-- TODO: hide accordion until results are condensed so there is no duplication -->
-            <% if Rails.env.test? %>
+            <% if Flipper.enabled?(:similar_programs_accordion) %>
               <%= render partial: "similar_results_list", locals: {occupation_standard: occupation_standard} %>
             <% end %>
         </div>
