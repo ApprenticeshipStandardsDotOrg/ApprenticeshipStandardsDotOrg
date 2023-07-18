@@ -33,6 +33,6 @@ module Spammable
   end
 
   def skip_recaptcha?
-    current_user&.admin? || ENV.fetch("ENABLE_RECAPTCHA", "false") == "false"
+    current_user&.admin? || !Flipper.enabled?(:recaptcha)
   end
 end
