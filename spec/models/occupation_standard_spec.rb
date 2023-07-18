@@ -513,7 +513,7 @@ RSpec.describe OccupationStandard, type: :model do
 
   describe "#hours_meet_occupation_requirements?" do
     it "returns true if work_process hours match occupation hours" do
-      occupation = create(:occupation, time_based_hours: "2000")
+      occupation = create(:occupation, time_based_hours: 1000)
       occupation_standard = create(:occupation_standard, occupation: occupation)
       create(:work_process, maximum_hours: 2000, occupation_standard: occupation_standard)
 
@@ -521,7 +521,7 @@ RSpec.describe OccupationStandard, type: :model do
     end
 
     it "returns false if work_process hours do not match occupation hours" do
-      occupation = create(:occupation, time_based_hours: "2000")
+      occupation = create(:occupation, time_based_hours: 2000)
       occupation_standard = create(:occupation_standard, occupation: occupation)
       create(:work_process, maximum_hours: 1000, occupation_standard: occupation_standard)
 
