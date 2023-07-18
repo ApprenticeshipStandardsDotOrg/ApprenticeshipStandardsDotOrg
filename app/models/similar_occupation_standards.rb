@@ -40,8 +40,7 @@ class SimilarOccupationStandards
             }},
             {match: {
               work_process_titles: {
-                query: occupation_standard.work_processes.pluck(:title).to_sentence,
-                boost: 5
+                query: occupation_standard.work_processes.pluck(:title).to_sentence
               }
             }},
             {match: {
