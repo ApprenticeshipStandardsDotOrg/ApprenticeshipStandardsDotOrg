@@ -52,5 +52,16 @@ RSpec.describe SimilarOccupationStandards, type: :model do
 
       expect(described_class.similar_to(os1.reload).count).to eq 2
     end
+
+    it "returns records when occupation standard's registration agency does not have state" do
+      reg_agency = create(:registration_agency, state: nil)
+
+      occupation_standard = create(:occupation_standard, :time, title: "Childcare worker", registration_agency: reg_agency)
+
+      OccupationStandard.import
+      OccupationStandard.__elasticsearch__.refresh_index!
+
+      expect(described_class.similar_to(occupation_standard).count).to eq 0
+    end
   end
 end

@@ -1,4 +1,8 @@
+require "elasticsearch/dsl"
+
 class SimilarOccupationStandards
+  include Elasticsearch::DSL
+
   attr_reader :occupation_standard, :debug
 
   RESULTS_SIZE = 5
@@ -29,37 +33,56 @@ class SimilarOccupationStandards
   private
 
   def query
-    {
-      size: RESULTS_SIZE,
-      min_score: MINIMUM_SCORE,
-      query: {
-        bool: {
-          should: [
-            {match: {
-              title: {query: occupation_standard.title, boost: 5}
-            }},
-            {match: {
-              work_process_titles: {
-                query: occupation_standard.work_processes.pluck(:title).to_sentence
-              }
-            }},
-            {match: {
-              ojt_type: {query: occupation_standard.ojt_type, boost: 0.5}
-            }},
-            {match: {
-              state: {query: occupation_standard.registration_agency&.state&.abbreviation}
-            }}
-          ],
-          minimum_should_match: 1,
-          must_not: [
-            {
-              term: {
-                _id: occupation_standard.id
-              }
-            }
-          ]
+    definition = Search.new
+    should = []
+    should.append(
+      Queries::Match.new(
+        title: {
+          query: occupation_standard.title, boost: 5
+        }
+      )
+    )
+
+    should.append(
+      Queries::Match.new(
+        work_process_titles: {
+          query: occupation_standard.work_processes.pluck(:title).to_sentence
+        }
+      )
+    )
+
+    should.append(
+      Queries::Match.new(
+        ojt_type: {
+          query: occupation_standard.ojt_type,
+          boost: 0.5
+        }
+      )
+    )
+
+    if occupation_standard.registration_agency&.state
+      should.append(
+        Queries::Match.new(
+          state: {
+            query: occupation_standard.registration_agency&.state&.abbreviation
+          }
+        )
+      )
+    end
+
+    definition.size = RESULTS_SIZE
+    definition.query = {
+      bool: {
+        should: should,
+        minimum_should_match: 1,
+        must_not: {
+          term: {
+            _id: occupation_standard.id
+          }
         }
       }
     }
+
+    definition
   end
 end
