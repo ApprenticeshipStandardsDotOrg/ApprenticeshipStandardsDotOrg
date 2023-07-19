@@ -90,4 +90,13 @@ RSpec.describe "occupation_standards/show" do
 
     expect(page).to have_link "9876", href: occupation_standards_path(q: "9876")
   end
+
+  it "does not show OJT if the occupation standard is competency based" do
+    mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", rapids_code: "9876", ojt_type: :competency)
+    create(:work_process, minimum_hours: 500, occupation_standard: mechanic)
+
+    visit occupation_standard_path(mechanic)
+
+    expect(page).not_to have_content "OJT hours"
+  end
 end
