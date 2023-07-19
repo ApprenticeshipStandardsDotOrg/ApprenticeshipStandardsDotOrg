@@ -96,7 +96,7 @@
       <div class="text-center space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:gap-8 xl:gap-8 md:space-y-0">
         <% @popular_onet_codes.each do |onet_code| %>
           <% occupation_standards = OccupationStandard.where(onet_code: onet_code) %>
-            <%= link_to occupation_standards_path(q: occupation_standards.first.title) do %>
+            <%= link_to occupation_standards_path(q: onet_code) do %>
             <div class="p-6 hover:bg-white rounded-lg hover:shadow-xl">
               <div class="mx-auto flex justify-center items-center mb-4 w-20 h-20 rounded-full bg-accent-200">
                 <svg width="38" height="39" viewBox="0 0 38 39" fill="none" xmlns="http://www.w3.org/2000/svg">
