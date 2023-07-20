@@ -468,6 +468,6 @@ RSpec.describe "occupation_standards/index" do
 
     find("button[data-tooltip-target='hours-alert-#{occupation_standard.id}']").hover
 
-    expect(page).to have_text "Hours do not match"
+    expect(page).to have_text "Hours do not meet minimum OA standard for this occupation"
   end
 end
