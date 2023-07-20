@@ -258,6 +258,10 @@ class OccupationStandard < ApplicationRecord
     output
   end
 
+  def state_abbreviation
+    registration_agency&.state&.abbreviation
+  end
+
   private
 
   def national?

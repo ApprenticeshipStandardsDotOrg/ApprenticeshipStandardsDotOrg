@@ -64,7 +64,7 @@ class SimilarOccupationStandards
       should.append(
         Queries::Match.new(
           state: {
-            query: occupation_standard.registration_agency&.state&.abbreviation
+            query: occupation_standard.state_abbreviation
           }
         )
       )

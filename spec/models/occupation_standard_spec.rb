@@ -510,4 +510,21 @@ RSpec.describe OccupationStandard, type: :model do
       expect(occupation_standard.display_for_typeahead).to eq "Mechanic (15-1342) (9201)"
     end
   end
+
+  describe "#state_abbreviation" do
+    it "returns nil when registration agency is not associated to an state" do
+      registration_agency = create(:registration_agency, state: nil)
+      occupation_standard = create(:occupation_standard, registration_agency: registration_agency)
+
+      expect(occupation_standard.state_abbreviation).to be_nil
+    end
+
+    it "returns state abbreviation when registration agency has state" do
+      state = create(:state, name: "California", abbreviation: "CA")
+      registration_agency = create(:registration_agency, state: state)
+      occupation_standard = create(:occupation_standard, registration_agency: registration_agency)
+
+      expect(occupation_standard.state_abbreviation).to eq "CA"
+    end
+  end
 end
