@@ -99,7 +99,7 @@ RSpec.describe "occupation_standards/show" do
 
     expect(page).not_to have_content "OJT hours"
   end
-  
+
   it "shows alert if the occupation_standard hours do not meet the occupation required hours" do
     occupation = create(:occupation, time_based_hours: 2000)
     occupation_standard = create(:occupation_standard, :with_data_import, occupation: occupation)
