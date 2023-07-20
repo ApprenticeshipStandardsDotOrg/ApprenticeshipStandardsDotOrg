@@ -258,6 +258,13 @@ class OccupationStandard < ApplicationRecord
     output
   end
 
+  def hours_meet_occupation_requirements?
+    return true if occupation.blank?
+    oa_hours = occupation.time_based_hours.to_i
+
+    work_processes_hours >= oa_hours
+  end
+
   private
 
   def national?
