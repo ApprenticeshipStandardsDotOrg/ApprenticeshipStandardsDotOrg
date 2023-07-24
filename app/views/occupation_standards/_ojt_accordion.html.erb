@@ -16,7 +16,7 @@
                                     <div class="text-3xl font-bold text-yonder-600"><%= work_process.competencies.count %></div>
                                 </div>
                             <% end %>
-                            <% if work_process.hours.present? %>
+                            <% if work_process.hours.present? && work_process.occupation_standard_work_processes_hours.positive? %>
                                 <div class="m-1.5 w-28 rounded bg-rust-100 px-1 py-3 text-center">
                                     <div class="text-3xl font-bold text-rust-800"><%= hours_in_human_format(work_process.hours) %></div>
                                 </div>

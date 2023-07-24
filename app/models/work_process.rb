@@ -6,6 +6,8 @@ class WorkProcess < ApplicationRecord
 
   validates :title, presence: true
 
+  delegate :work_processes_hours, to: :occupation_standard, prefix: true, allow_nil: true
+
   def hours
     [maximum_hours, minimum_hours].compact.first
   end

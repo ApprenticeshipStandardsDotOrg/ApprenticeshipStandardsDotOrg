@@ -90,4 +90,45 @@ RSpec.describe "occupation_standards/show" do
 
     expect(page).to have_link "9876", href: occupation_standards_path(q: "9876")
   end
+
+  it "does not show OJT if the occupation standard is competency based" do
+    mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", rapids_code: "9876", ojt_type: :competency)
+    create(:work_process, minimum_hours: 500, occupation_standard: mechanic)
+
+    visit occupation_standard_path(mechanic)
+
+    expect(page).not_to have_content "OJT hours"
+  end
+
+  it "shows alert if the occupation_standard hours do not meet the occupation required hours" do
+    occupation = create(:occupation, time_based_hours: 2000)
+    occupation_standard = create(:occupation_standard, :with_data_import, occupation: occupation)
+    create(:work_process, maximum_hours: 1000, occupation_standard: occupation_standard)
+
+    visit occupation_standards_path
+
+    expect(page).to have_selector "#hours-alert-#{occupation_standard.id}"
+  end
+
+  it "does not show alert if the occupation_standard hours meet the occupation required hours" do
+    occupation = create(:occupation, time_based_hours: 2000)
+    occupation_standard = create(:occupation_standard, :with_data_import, occupation: occupation)
+    create(:work_process, maximum_hours: 3000, occupation_standard: occupation_standard)
+
+    visit occupation_standards_path
+
+    expect(page).to_not have_selector "#hours-alert-#{occupation_standard.id}"
+  end
+
+  it "displays toolip on hover", js: true do
+    occupation = create(:occupation, time_based_hours: 2000)
+    occupation_standard = create(:occupation_standard, :with_data_import, occupation: occupation)
+    create(:work_process, maximum_hours: 1000, occupation_standard: occupation_standard)
+
+    visit occupation_standards_path
+
+    find("button[data-tooltip-target='hours-alert-#{occupation_standard.id}']").hover
+
+    expect(page).to have_text "Hours do not meet minimum OA standard for this occupation"
+  end
 end
