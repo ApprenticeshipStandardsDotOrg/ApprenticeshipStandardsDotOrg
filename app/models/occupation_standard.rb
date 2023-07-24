@@ -265,6 +265,10 @@ class OccupationStandard < ApplicationRecord
     work_processes_hours >= oa_hours
   end
 
+  def state_abbreviation
+    registration_agency&.state&.abbreviation
+  end
+
   private
 
   def national?

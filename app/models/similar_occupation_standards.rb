@@ -1,4 +1,8 @@
+require "elasticsearch/dsl"
+
 class SimilarOccupationStandards
+  include Elasticsearch::DSL
+
   attr_reader :occupation_standard, :debug
 
   RESULTS_SIZE = 5
@@ -14,7 +18,7 @@ class SimilarOccupationStandards
   end
 
   def similar_to
-    response = OccupationStandard.__elasticsearch__.search(query)
+    response = OccupationStandard.__elasticsearch__.search(query(occupation_standard))
     if debug
       puts "QUERY"
       puts response.search.definition[:body][:query].to_json
@@ -28,38 +32,43 @@ class SimilarOccupationStandards
 
   private
 
-  def query
-    {
-      size: RESULTS_SIZE,
-      min_score: MINIMUM_SCORE,
-      query: {
-        bool: {
-          should: [
-            {match: {
-              title: {query: occupation_standard.title, boost: 5}
-            }},
-            {match: {
-              work_process_titles: {
-                query: occupation_standard.work_processes.pluck(:title).to_sentence
-              }
-            }},
-            {match: {
-              ojt_type: {query: occupation_standard.ojt_type, boost: 0.5}
-            }},
-            {match: {
-              state: {query: occupation_standard.registration_agency&.state&.abbreviation}
-            }}
-          ],
-          minimum_should_match: 1,
-          must_not: [
-            {
-              term: {
-                _id: occupation_standard.id
-              }
+  def query(occupation_standard)
+    search do
+      size RESULTS_SIZE
+      min_score MINIMUM_SCORE
+      query do
+        bool do
+          should do
+            match title: {
+              query: occupation_standard.title,
+              boost: 5
             }
-          ]
-        }
-      }
-    }
+          end
+          should do
+            match work_process_titles: {
+              query: occupation_standard.work_processes.pluck(:title).to_sentence
+            }
+          end
+          should do
+            match ojt_type: {
+              query: occupation_standard.ojt_type,
+              boost: 0.5
+            }
+          end
+          if occupation_standard.registration_agency&.state
+            should do
+              match state: {
+                query: occupation_standard.state_abbreviation
+              }
+            end
+          end
+          minimum_should_match 1
+
+          must_not do
+            term _id: occupation_standard.id
+          end
+        end
+      end
+    end
   end
 end
