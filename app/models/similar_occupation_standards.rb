@@ -18,7 +18,7 @@ class SimilarOccupationStandards
   end
 
   def similar_to
-    response = OccupationStandard.__elasticsearch__.search(query)
+    response = OccupationStandard.__elasticsearch__.search(query(occupation_standard))
     if debug
       puts "QUERY"
       puts response.search.definition[:body][:query].to_json
@@ -32,57 +32,43 @@ class SimilarOccupationStandards
 
   private
 
-  def query
-    definition = Search.new
-    should = []
-    should.append(
-      Queries::Match.new(
-        title: {
-          query: occupation_standard.title, boost: 5
-        }
-      )
-    )
+  def query(occupation_standard)
+    search do
+      size RESULTS_SIZE
+      min_score MINIMUM_SCORE
+      query do
+        bool do
+          should do
+            match title: {
+              query: occupation_standard.title,
+              boost: 5
+            }
+          end
+          should do
+            match work_process_titles: {
+              query: occupation_standard.work_processes.pluck(:title).to_sentence
+            }
+          end
+          should do
+            match ojt_type: {
+              query: occupation_standard.ojt_type,
+              boost: 0.5
+            }
+          end
+          if occupation_standard.registration_agency&.state
+            should do
+              match state: {
+                query: occupation_standard.state_abbreviation
+              }
+            end
+          end
+          minimum_should_match 1
 
-    should.append(
-      Queries::Match.new(
-        work_process_titles: {
-          query: occupation_standard.work_processes.pluck(:title).to_sentence
-        }
-      )
-    )
-
-    should.append(
-      Queries::Match.new(
-        ojt_type: {
-          query: occupation_standard.ojt_type,
-          boost: 0.5
-        }
-      )
-    )
-
-    if occupation_standard.registration_agency&.state
-      should.append(
-        Queries::Match.new(
-          state: {
-            query: occupation_standard.state_abbreviation
-          }
-        )
-      )
+          must_not do
+            term _id: occupation_standard.id
+          end
+        end
+      end
     end
-
-    definition.size = RESULTS_SIZE
-    definition.query = {
-      bool: {
-        should: should,
-        minimum_should_match: 1,
-        must_not: {
-          term: {
-            _id: occupation_standard.id
-          }
-        }
-      }
-    }
-
-    definition
   end
 end

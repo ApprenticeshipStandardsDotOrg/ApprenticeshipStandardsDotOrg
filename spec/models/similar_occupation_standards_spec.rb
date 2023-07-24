@@ -57,11 +57,12 @@ RSpec.describe SimilarOccupationStandards, type: :model do
       reg_agency = create(:registration_agency, state: nil)
 
       occupation_standard = create(:occupation_standard, :time, title: "Childcare worker", registration_agency: reg_agency)
+      create(:occupation_standard, :time, title: "Childcare worker", registration_agency: reg_agency)
 
       OccupationStandard.import
       OccupationStandard.__elasticsearch__.refresh_index!
 
-      expect(described_class.similar_to(occupation_standard).count).to eq 0
+      expect(described_class.similar_to(occupation_standard.reload).count).to eq 1
     end
   end
 end
