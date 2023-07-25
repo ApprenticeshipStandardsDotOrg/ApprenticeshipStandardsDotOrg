@@ -3,6 +3,7 @@ class ContactRequestsController < ApplicationController
 
   def new
     @contact_request = ContactRequest.new
+    @page_title = "Contact"
   end
 
   def create
