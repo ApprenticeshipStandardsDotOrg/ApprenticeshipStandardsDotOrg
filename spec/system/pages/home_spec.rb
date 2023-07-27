@@ -22,7 +22,7 @@ RSpec.describe "pages/home" do
 
   it "displays the correct page title when page_title is present" do
     allow(State).to receive(:find_by).and_return(build_stubbed(:state))
-    mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
+    create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
 
     visit home_page_path
 
