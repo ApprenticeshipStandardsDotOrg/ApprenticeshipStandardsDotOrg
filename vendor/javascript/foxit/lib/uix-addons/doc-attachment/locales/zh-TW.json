@@ -1,0 +1,27 @@
+{
+  "dialog": {
+    "title": "檔案附件",
+    "addFiles": "新增檔案...",
+    "addTip": "將文件新增至下列清單。",
+    "okTip": "新增所有文件後，按下「確定」。",
+    "fileName": "檔案名稱",
+    "filePath": "檔案路徑",
+    "fileSize": "檔案大小",
+    "fileType": "檔案類型",
+    "noFileWarning": "請先添加文件。",
+    "nameTail": "-複製",
+    "ok": "確定",
+    "cancel": "取消"
+  },
+  "same-file-name-confirm": {
+    "tip1": "當前文件已經有一個名為“{{oldFileName}}”的附件。",
+    "tip2": "您要替換文件，還是重命名為“{{newFileName}}”並附加？",
+    "applyToAllFiles": "套用到所有檔案。",
+    "replace": "替換",
+    "renameAndAttached": "重新命名並附加",
+    "skip": "跳過"
+  },
+  "button-tooltip": {
+    "title": "檔案附件"
+  }
+}

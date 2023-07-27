@@ -1,0 +1,25 @@
+{
+    "library": "EditGraphics",
+    "i18n": {
+        "sources": {
+            "zh-CN": "./locales/zh-CN.json",
+            "en-US": "./locales/en-US.json",
+            "zh-TW": "./locales/zh-TW.json",
+            "ja-JP": "./locales/ja-JP.json",
+            "it-IT": "./locales/it-IT.json",
+			"de-DE": "./locales/de-DE.json",
+			"fr-FR": "./locales/fr-FR.json",
+            "es-419": "./locales/es-419.json",
+            "nl-NL": "./locales/nl-NL.json",
+            "ko-KR": "./locales/ko-KR.json"
+        }
+    },
+    "css": [
+        "./index.css"
+    ],
+    "depends": ["../edit-graphics"],
+    "restrictions": {
+        "products": ["websdk", "online"]
+    },
+    "module":"edit"
+}

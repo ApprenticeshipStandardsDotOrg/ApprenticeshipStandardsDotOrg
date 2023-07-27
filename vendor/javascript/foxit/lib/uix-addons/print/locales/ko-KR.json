@@ -1,0 +1,40 @@
+{
+  "dialog": {
+    "close": "닫기",
+    "cancel": "취소",
+    "ok": "확인",
+    "printDialog": {
+      "title": "인쇄",
+      "range": "인쇄 범위",
+      "selectedPDF": "선택된 PDF 파일",
+      "allPDF": "모든 PDF 파일",
+      "all": "모든 페이지",
+      "current": "현재 페이지",
+      "from": "처음 페이지",
+      "to": "마지막 페이지",
+      "assign": "페이지 수",
+      "comments": "주석",
+      "printComments": "주석 인쇄",
+      "moreOptions": "추가 옵션",
+      "quality": "품질",
+      "pageSize": "페이지 크기",
+      "headerAndFooter": "머리글 및 바닥글",
+      "alert": "매우 높은 품질로 인해 브라우저 메모리가 소모됩니다.",
+      "printWhat": "인쇄 대상",
+      "reversePages": "페이지 뒤집기",
+      "doc": "문서",
+      "docMark": "문서 및 마크업",
+      "docStamps": "문서 및 스탬프",
+      "formOnly": "양식 필드만",
+      "bleedMarks": "출혈 표시"
+    },
+    "printProcess": "인쇄 중...",
+    "unsupported": {
+      "title": "프롬프트",
+      "message": "현재 브라우저는 인쇄를 지원하지 않습니다."
+    }
+  },
+  "button-tooltip": {
+    "title": "인쇄"
+  }
+}

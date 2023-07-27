@@ -1,0 +1,16 @@
+{
+  "Digital": "디지털 스탬프",
+  "IdentityDialog": {
+    "header": "ID 설정",
+    "description": "디지털 신분 스탬프에 표시된 신분 정보를 입력하세요.",
+    "surname": "성:",
+    "name": "이름:",
+    "title": "제목:",
+    "associationName": "협회 이름:",
+    "organizationName": "조직 이름:"
+  },
+  "Name": "이름",
+  "OrganizationDateName": "조직 단위,날짜,이름",
+  "AssociationDateOrganization": "단위 이름, 날짜, 단위 부서",
+  "StatusDateAssociation": "승인 날짜가 있는 스탬프"
+}

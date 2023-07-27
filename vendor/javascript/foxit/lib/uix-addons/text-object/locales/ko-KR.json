@@ -1,0 +1,19 @@
+{
+  "buttons": {
+    "editFontWeight": "굵게",
+    "editFontItalic": "기울임꼴",
+    "editFontColor": "글꼴 색상",
+    "addText": "텍스트 추가",
+    "underline": "밑줄",
+    "alignLeft": "왼쪽 정렬",
+    "alignCenter": "중앙 정렬",
+    "alignJustify": "양쪽 정렬",
+    "wordSpacing": "단어 간격",
+    "lineSpacing": "줄 간격",
+    "characterScale": "문자 크기"
+  },
+  "dropdowns": {
+    "editFontFamily": "글꼴",
+    "editFontSize": "글꼴 사이즈"
+  }
+}

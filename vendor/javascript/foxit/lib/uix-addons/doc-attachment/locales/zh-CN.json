@@ -1,0 +1,27 @@
+{
+  "dialog": {
+    "title": "文件附件",
+    "addFiles": "添加文件...",
+    "addTip": "将文档添加至如下列表。",
+    "okTip": "当所有文件添加完成后点击确定。",
+    "fileName": "文件名",
+    "filePath": "文件路径",
+    "fileSize": "文件大小",
+    "fileType": "文件类型",
+    "noFileWarning": "请先添加文件。",
+    "nameTail": "-复制",
+    "ok": "确定",
+    "cancel": "取消"
+  },
+  "same-file-name-confirm": {
+    "tip1": "当前文件中已经有一个名为 \"{{oldFileName}}\"的附件了。",
+    "tip2": "您想替换已有附件，还是重命名为“{{newFileName}}”后附加到当前文件？ ",
+    "applyToAllFiles": "应用至所有文件",
+    "replace": "替换",
+    "renameAndAttached": "重命名后附加",
+    "skip": "跳过"
+  },
+  "button-tooltip": {
+    "title": "文件附件"
+  }
+}

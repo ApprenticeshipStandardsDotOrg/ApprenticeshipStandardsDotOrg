@@ -1,0 +1,27 @@
+{
+  "dialog": {
+    "title": "Bestandsbijlage",
+    "addFiles": "Bestanden toevoegen...",
+    "addTip": "Voeg documenten toe aan de lijst hieronder.",
+    "okTip": "Klik op OK wanneer alle documenten zijn toegevoegd.",
+    "fileName": "Bestandsnaam",
+    "filePath": "Bestandspad",
+    "fileSize": "Bestandsgrootte",
+    "fileType": "Best.type",
+    "noFileWarning": "Voerg eerst bestanden toe.",
+    "nameTail": "-Kopiëren",
+    "ok": "OK",
+    "cancel": "Annuleren"
+  },
+  "same-file-name-confirm": {
+    "tip1": "De huidige bestandsnaam heeft al een bijlage met de naam \"{{oldFileName}}\".",
+    "tip2": "Wilt u het bestand vervangen of de naam wijzigen in '{{newFileName}} en bijgevoegd?",
+    "applyToAllFiles": "Toepassen op alle bestanden.",
+    "replace": "Vervangen",
+    "renameAndAttached": "Naam wijzigen en bijgevoegd",
+    "skip": "Overslaan"
+  },
+  "button-tooltip": {
+    "title": "Bestandsbijlage"
+  }
+}

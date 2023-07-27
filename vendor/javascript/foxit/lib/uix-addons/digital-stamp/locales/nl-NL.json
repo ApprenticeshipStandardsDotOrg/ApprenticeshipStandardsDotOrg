@@ -1,0 +1,16 @@
+{
+  "Digital": "Digitale stempels",
+  "IdentityDialog": {
+    "header": "Identiteit inst.",
+    "description": "Voer de identiteitsgegevens in die worden weergegeven in uw digitale identiteitsstempel.",
+    "surname": "Achternaam:",
+    "name": "Naam:",
+    "title": "Titel:",
+    "associationName": "Naam koppeling:",
+    "organizationName": "Naam organisatie:"
+  },
+  "Name": "Volledige naam",
+  "OrganizationDateName": "Organisatie-eenheid, datum, volledige naam",
+  "AssociationDateOrganization": "Naam eenheid, datum, afdeling eenheid",
+  "StatusDateAssociation": "Stempel met goedkeuringsdatum"
+}

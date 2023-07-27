@@ -1,0 +1,31 @@
+{
+  "dialog": {
+    "close": "Sluiten",
+    "cancel": "Annuleren",
+    "ok": "OK",
+    "replaceAllConfirm": "Deze bewerking kan niet ongedaan worden gemaakt. Wilt u wijzigingen opslaan en doorgaan?",
+    "notFound": "Foxit PDF Editor heeft het doorzoeken van het document voltooid. Er zijn geen overeenkomende gegevens gevonden.",
+    "replaceAllComplete": "{{count}} voorval(len) vervangen.",
+    "replaceAllNotFound": "De volgende opgegeven tekst werd niet gevonden: ",
+    "DoNotShowAgain": "Dit bericht niet meer weergeven",
+    "dialogTile": "PDF Editor",
+    "labels": {
+      "find": "Zoeken",
+      "replace": "Vervangen door"
+    },
+    "findReplaceBtn": {
+      "replace": "Vervangen",
+      "replaceNext": "Volg. vervang",
+      "replaceAll": "Alles vervangen"
+    },
+    "options": {
+      "wholeWords": "Alleen hele woorden",
+      "caseSensitive": "Hoofdlettergevoelig"
+    },
+    "progress": {
+      "searchFor": "Zoekt naar: ",
+      "cancel": "Annuleren"
+    },
+    "DoNotShowAgain": "Dit bericht niet meer weergeven"
+  }
+}

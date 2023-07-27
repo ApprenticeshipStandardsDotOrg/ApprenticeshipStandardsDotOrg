@@ -1,0 +1,67 @@
+{
+  "options-dialog": {
+    "title": "オプション",
+    "include": "対象",
+    "compareTextOnly": "テキストのみ比較",
+    "compareTable": "テーブルを比較",
+    "detectPage": "ページの挿入と削除を検出",
+    "markingColor": "色分け",
+    "opacity": "不透明度",
+    "lineThickness": "線の太さ",
+    "replaceObjects": "置換したオブジェクト",
+    "insertObjects": "挿入したオブジェクト",
+    "deleteObjects": "削除したオブジェクト",
+    "setAsDefault": "現在のプロパティを既定に設定"
+  },
+  "openFileTips": "現在のファイルは変更されています。直接このファイルを開くか、またはダウンロードしてください。",
+  "open": "開く",
+  "select-pdf-file": {
+    "title": "PDF ファイルを比較",
+    "compareFiles": "比較するファイル",
+    "oldFile": "古いファイル",
+    "newFile": "新しいファイル",
+    "choose": "選択",
+    "comparePageRange": "比較するページ範囲",
+    "to": "最後",
+    "options": "オプション",
+    "selectSameNumber": "比較にするには同じページ数を選択してください",
+    "rangeError": "開始するページ番号は最後のページ番号以下でなければなりません。"
+  },
+  "resultFileName": "比較の結果.pdf",
+  "toolbar": {
+    "compareResultTabTitle": "比較結果",
+    "legend": "凡例",
+    "replace": "置換",
+    "insert": "挿入",
+    "delete": "削除",
+    "compareBtnText": "比較",
+    "compareBtnToolTip": "比較",
+    "comparePreText": "前の変更",
+    "comparePreToolTip": "前の変更箇所に移動",
+    "compareNextText": "次の変更",
+    "compareNextToolTip": "次の変更箇所に移動",
+    "filter": {
+      "title": "フィルター",
+      "tooltip": "どの変更を表示するかフィルターを設定します。",
+      "dropdown": {
+        "text": "テキスト({{count}})",
+        "image": "画像 / グラフィック({{count}})",
+        "annot": "注釈({{count}})",
+        "format": "フォーマット({{count}})",
+        "everything": "すべてを選択"
+      }
+    },
+    "show": {
+      "title": "表示",
+      "tooltip": "比較ツールの相違要素の表示または非表示を設定します。",
+      "dropdown": {
+        "hideResult": "結果を非表示",
+        "showResult": "結果を表示",
+        "hideColor": "色の凡例を非表示",
+        "showColor": "色の凡例を表示",
+        "showSummary": "概要を表示"
+      }
+    }
+  },
+  "permissionError": "ファイルは保護されています。この操作には使用できません。"
+}

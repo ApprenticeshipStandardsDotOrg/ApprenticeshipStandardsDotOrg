@@ -1,0 +1,67 @@
+{
+  "options-dialog": {
+    "title": "Options",
+    "include": "Inclure",
+    "compareTextOnly": "Comparer le texte uniquement",
+    "compareTable": "Tableau de comparaison",
+    "detectPage": "Détecter les suppressions ou insertions de pages",
+    "markingColor": "Couleur de marquage",
+    "opacity": "Opacité",
+    "lineThickness": "Épaisseur de ligne",
+    "replaceObjects": "Remplacer des objets",
+    "insertObjects": "Insérer des objets",
+    "deleteObjects": "Supprimer des objets",
+    "setAsDefault": "Définir les propriétés actuelles comme propriétés par défaut"
+  },
+  "openFileTips": "Le fichier actuel est modifié, vous pouvez l'ouvrir directement ou le télécharger.",
+  "open": "Ouvrir",
+  "select-pdf-file": {
+    "title": "Comparer des fichiers PDF",
+    "compareFiles": "Comparer des fichiers",
+    "oldFile": "Ancien fichier",
+    "newFile": "Nouveau fichier",
+    "choose": "Choisir",
+    "comparePageRange": "Comparer la plage de pages",
+    "to": "Jusqu'à",
+    "options": "Options",
+    "selectSameNumber": "Sélectionnez le même nombre de pages pour la comparaison",
+    "rangeError": "Le premier numéro de page doit être inférieur ou égal au dernier."
+  },
+  "resultFileName": "Résultat du fichier Comparison.pdf",
+  "toolbar": {
+    "compareResultTabTitle": "Comparer les résultats",
+    "legend": "Légende",
+    "replace": "Remplacé",
+    "insert": "Inséré",
+    "delete": "Supprimé",
+    "compareBtnText": "Comparer",
+    "compareBtnToolTip": "Comparer",
+    "comparePreText": "Modification précédente",
+    "comparePreToolTip": "Accéder à la modification précédente",
+    "compareNextText": "Modification suivante",
+    "compareNextToolTip": "Accéder à la modification suivante",
+    "filter": {
+      "title": "Filtrer",
+      "tooltip": "Filtrer l'affichage des modifications à afficher",
+      "dropdown": {
+        "text": "Texte ({{count}})",
+        "image": "Images/Graphiques ({{count}})",
+        "annot": "Annotations ({{count}})",
+        "format": "Mise en forme ({{count}})",
+        "everything": "Tout"
+      }
+    },
+    "show": {
+      "title": "Afficher",
+      "tooltip": "Afficher ou masquer différents éléments de l'outil Comparer",
+      "dropdown": {
+        "hideResult": "Masquer le résultat",
+        "showResult": "Afficher le résultat",
+        "hideColor": "Masquer la légende des couleurs",
+        "showColor": "Afficher la légende des couleurs",
+        "showSummary": "Afficher le résumé"
+      }
+    }
+  },
+  "permissionError": "Ce fichier est protégé. Il ne peut pas être utilisé pour cette opération."
+}

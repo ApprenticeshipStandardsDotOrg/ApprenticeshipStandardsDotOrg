@@ -1,0 +1,72 @@
+{
+  "ribbon": {
+    "text": "JavaScript"
+  },
+  "button-tooltip": {
+    "title": "이 문서 내 JavaScript를 추가, 수정 및 테스트합니다."
+  },
+  "document-javascript": {
+    "text": "JavaScript 문서",
+    "title": "JavaScript 기능을 추가하고 관리합니다.",
+    "dialog": {
+      "title": "JavaScript 기능",
+      "name": "스크립트 명",
+      "close": "닫기",
+      "add": "추가...",
+      "edit": "편집...",
+      "delete": "삭제"
+    }
+  },
+  "document-action": {
+    "text": "문서 동작",
+    "title": "JavaScript 문서 동작을 편집합니다.",
+    "dialog": {
+      "title": "문서 동작",
+      "name": "발생싯점",
+      "edit": "편집",
+      "sub-name": "자바스크립트 실행",
+      "ok": "확인",
+      "cancel": "취소",
+      "doc-will-close": "문서를 닫습니다",
+      "doc-will-save": "문서가 저장됩니다.",
+      "doc-did-save": "문서가 저장됨",
+      "doc-did-saved": "문서가 저장됨",
+      "doc-will-print": "문서를 인쇄합니다",
+      "doc-did-print": "문서가 인쇄됨",
+      "doc-did-printed": "문서가 인쇄됨",
+      "enable-tip": "JavaScript는 현재 비활성화되어 있으며 이 문서에서는 일부 기능에 대해 if를 사용합니다. JavaScript를 활성화하면 몇 가지 잠재적인 보안 위험이 발생할 수 있습니다."
+    }
+  },
+  "javascript-console": {
+    "text": "JavaScript 관리창",
+    "title": "실행하여 JavaScript 코드를 디버그합니다.",
+    "dialog": {
+      "title": "JavaScript 관리창",
+      "name": "JavaScript 관리창",
+      "run": "운영",
+      "clear": "지우기",
+      "close": "닫기",
+      "exec": "콘솔: 실행",
+      "fail": "라인:",
+      "success": "성공적으로 실행되었습니다."
+    },
+    "checkbox": {
+      "info": "편집할 때 팁 보여주기"
+    }
+  },
+  "edit-all-javascript": {
+    "text": "모든 JavaScript 편집",
+    "title": "문서 내의 모든 JavaScript 편집",
+    "dialog": {
+      "title": "JavaScript 편집기",
+      "sub-title": "JavaScript 만들기 및 편집",
+      "ok": "확인",
+      "cancel": "취소",
+      "go": "이동...",
+      "ln": "Ln",
+      "col": "Col",
+      "go-title": "행으로 이동",
+      "go-sub-title": "라인 번호:"
+    }
+  }
+}

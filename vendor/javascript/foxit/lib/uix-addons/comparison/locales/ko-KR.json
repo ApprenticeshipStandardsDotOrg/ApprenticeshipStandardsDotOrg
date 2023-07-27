@@ -1,0 +1,67 @@
+{
+  "options-dialog": {
+    "title": "옵션",
+    "include": "포함",
+    "compareTextOnly": "텍스트만 비교",
+    "compareTable": "비교표",
+    "detectPage": "페이지 삭제 또는 삽입 감지",
+    "markingColor": "마킹 색상",
+    "opacity": "불투명도",
+    "lineThickness": "선 두께",
+    "replaceObjects": "개체 바꾸기",
+    "insertObjects": "개체 삽입",
+    "deleteObjects": "개체 삭제",
+    "setAsDefault": "현재 속성을 기본값으로 설정"
+  },
+  "openFileTips": "현재 파일이 수정되었습니다. 이 파일을 직접 열거나 다운로드할 수 있습니다.",
+  "open": "열기",
+  "select-pdf-file": {
+    "title": "PDF 파일 비교",
+    "compareFiles": "파일 비교",
+    "oldFile": "오래된 파일",
+    "newFile": "새로운 파일",
+    "choose": "선택",
+    "comparePageRange": "페이지 범위 비교",
+    "to": "마지막 페이지",
+    "options": "옵션",
+    "selectSameNumber": "비교를 위해 동일한 페이지 수를 선택하십시오.",
+    "rangeError": "시작 페이지 번호는 끝 페이지 번호보다 작거나 같아야 합니다."
+  },
+  "resultFileName": "비교 결과.pdf",
+  "toolbar": {
+    "compareResultTabTitle": "결과 비교",
+    "legend": "범례",
+    "replace": "교체됨",
+    "insert": "삽입됨",
+    "delete": "삭제됨",
+    "compareBtnText": "비교",
+    "compareBtnToolTip": "비교",
+    "comparePreText": "이전 변경 사항",
+    "comparePreToolTip": "이전 변경 사항으로 이동",
+    "compareNextText": "다음 변경 사항",
+    "compareNextToolTip": "다음 변경 사항으로 이동",
+    "filter": {
+      "title": "필터",
+      "tooltip": "변경 사항 표시 필터링",
+      "dropdown": {
+        "text": "텍스트({{count}})",
+        "image": "이미지/그래픽({{count}})",
+        "annot": "주석({{count}})",
+        "format": "서식({{count}})",
+        "everything": "모두"
+      }
+    },
+    "show": {
+      "title": "표시",
+      "tooltip": "비교 도구의 다른 요소 표시 또는 숨기기",
+      "dropdown": {
+        "hideResult": "결과 숨기기",
+        "showResult": "결과 표시",
+        "hideColor": "색상 범례 숨기기",
+        "showColor": "색상 범례 표시",
+        "showSummary": "요약 보기"
+      }
+    }
+  },
+  "permissionError": "이 파일은 보호되어 있습니다. 이 작업에는 사용할 수 없습니다."
+}

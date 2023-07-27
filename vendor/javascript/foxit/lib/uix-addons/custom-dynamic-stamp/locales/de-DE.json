@@ -1,0 +1,40 @@
+{
+  "toolbar": {
+    "createDynamicStampTextBtnText": "Benutzerdefinierten dynamischen Stempel erstellen"
+  },
+  "dialog": {
+    "header": "Benutzerdefinierten dynamischen Stempel erstellen",
+    "backgroundColor": "Hintergrundfarbe:",
+    "template": "Vorlage:",
+    "templatePlaceholder": "Geben Sie hier ein, um eine neue Vorlage zu benennen",
+    "browse": "Durchsuchen",
+    "category": "Kategorie:",
+    "categoryPlaceholder": "Geben Sie hier ein, um eine neue Kategorie zu benennen",
+    "name": "Name:",
+    "font": "Schriftart:",
+    "stampText": "Stempeltext:",
+    "stampTextPlaceholder": "Geben Sie hier ein, um Text einzufügen",
+    "fontSize": "Schriftgröße:",
+    "color": "Farbe:",
+    "stampTextType": {
+      "customText": "Geben Sie hier ein, um Text einzufügen",
+      "name": "Autorenname",
+      "nameDateTime": "Name des Autors, Datum und Uhrzeit",
+      "dateTime": "Datum (und Uhrzeit",
+      "date": "Datum"
+    }
+  },
+  "alert": {
+    "title": "WEB-SDK-DEMO",
+    "typeText": "'<type here to insert text> '",
+    "categoryText": "'<type here to name a new category> '",
+    "templateText": "'<type here to name a new template> '",
+    "textError": "${1} ist ein vordefinierter Text, Sie müssen einen aus dem Dropdown-Menü auswählen oder einen neuen erstellen.",
+    "categoryError": "${1} ist eine vordefinierte Kategorie und kann nicht für benutzerdefinierte Stempel verwendet werden, bitte wählen Sie eine andere Kategorie.",
+    "templateError": "${1} ist eine vordefinierte Vorlage und kann nicht für benutzerdefinierte Stempel verwendet werden. Bitte wählen Sie eine andere Vorlage.",
+    "fileError": "Datei ist leer.",
+    "nameError": "Name ist ein Pflichtfeld.",
+    "templateNameError": "Es ist kein Stempel mit diesem Namen vorhanden. Benennen Sie den zu importierenden Stempel um.",
+    "spaceError": "Die Kategorie darf kein Leerzeichen enthalten."
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "Digital": "Digitale Stempel",
+  "IdentityDialog": {
+    "header": "Identität festlegen",
+    "description": "Geben Sie die Identitätsinformationen ein, die auf Ihren digitalen Identitätsstempeln erscheinen.",
+    "surname": "Nachname:",
+    "name": "Name:",
+    "title": "Titel:",
+    "associationName": "Name der Zuordnung:",
+    "organizationName": "Organisationsname:"
+  },
+  "Name": "Vollständiger Name",
+  "OrganizationDateName": "Organisationseinheit, Datum, vollständiger Name",
+  "AssociationDateOrganization": "Einheitenname, Datum, Einheitenabteilung",
+  "StatusDateAssociation": "Stempel mit Genehmigungsdatum"
+}

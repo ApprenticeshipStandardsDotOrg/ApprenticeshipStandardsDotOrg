@@ -1,0 +1,27 @@
+{
+  "dialog": {
+    "title": "첨부 파일",
+    "addFiles": "파일 추가...",
+    "addTip": "아래 목록에 문서를 추가합니다.",
+    "okTip": "확인을 누르면 모든 문서가 추가됩니다.",
+    "fileName": "파일 이름",
+    "filePath": "파일 경로",
+    "fileSize": "파일 크기",
+    "fileType": "파일 형식",
+    "noFileWarning": "먼저 파일을 추가하십시오.",
+    "nameTail": "-복사",
+    "ok": "확인",
+    "cancel": "취소"
+  },
+  "same-file-name-confirm": {
+    "tip1": "현재 파일에는 이미 \"{{oldFileName}}\"이라는 첨부 파일이 있습니다.",
+    "tip2": "파일을 바꾸시겠습니까, 아니면 \"{{newFileName}}\"로 이름을 변경하고 첨부하시겠습니까?",
+    "applyToAllFiles": "모든 파일에 적용",
+    "replace": "텍스트 교체",
+    "renameAndAttached": "이름 변경 후 첨부",
+    "skip": "건너뛰기"
+  },
+  "button-tooltip": {
+    "title": "첨부 파일"
+  }
+}

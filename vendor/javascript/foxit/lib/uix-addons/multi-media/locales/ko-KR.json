@@ -1,0 +1,19 @@
+{
+  "buttons": {
+    "title": "비디오 및 오디오"
+  },
+  "dialog": {
+    "RequireHTTPS": "이 오디오 기능을 계속하려면 HTTPS가 필요합니다.",
+    "DeviceNotFoundError": "장치를 찾을 수 없습니다.",
+    "TrackStartError": "마이크가 이미 사용 중입니다.",
+    "PermissionDeniedError": "브라우저에서 마이크를 사용할 수 있는지 확인하십시오.",
+    "BrowserNotSupported": "브라우저가 지원되지 않습니다.",
+    "chooseFile": "파일 선택",
+    "rec-file-label": "파일: ",
+    "rec-recorder-label": "녹음기: ",
+    "rec-recording-tip": "녹음중...",
+    "rec-poster-file-label": "포스터 파일: ",
+    "ok": "확인",
+    "cancel": "취소"
+  }
+}

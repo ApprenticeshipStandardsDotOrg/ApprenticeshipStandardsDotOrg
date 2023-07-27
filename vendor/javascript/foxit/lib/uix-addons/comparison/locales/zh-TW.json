@@ -1,0 +1,67 @@
+{
+  "options-dialog": {
+    "title": "選項",
+    "include": "包括",
+    "compareTextOnly": "僅比較文本",
+    "compareTable": "比較表格",
+    "detectPage": "Detect page deletions or inserts",
+    "markingColor": "Marking Color",
+    "opacity": "不透明度",
+    "lineThickness": "線條粗細",
+    "replaceObjects": "替換對象",
+    "insertObjects": "插入對象",
+    "deleteObjects": "刪除對象",
+    "setAsDefault": "將當前屬性設置為默認值"
+  },
+  "openFileTips": "當前文件已修改，您可以直接打開此文件或下載",
+  "open": "開啟",
+  "select-pdf-file": {
+    "title": "比較PDF檔案",
+    "compareFiles": "比較檔案",
+    "oldFile": "舊檔案",
+    "newFile": "新檔案",
+    "choose": "選擇",
+    "comparePageRange": "比較頁面範圍",
+    "to": "至",
+    "options": "選項",
+    "selectSameNumber": "請選擇相同頁數進行比較",
+    "rangeError": "起始頁碼必須小於或等於結束頁碼。"
+  },
+  "resultFileName": "比較結果.pdf",
+  "toolbar": {
+    "compareResultTabTitle": "比較結果",
+    "legend": "圖例",
+    "replace": "已取代",
+    "insert": "已插入",
+    "delete": "已刪除",
+    "compareBtnText": "比較",
+    "compareBtnToolTip": "比較",
+    "comparePreText": "上一個變更",
+    "comparePreToolTip": "跳至上一個變更",
+    "compareNextText": "下一個變更",
+    "compareNextToolTip": "跳至下一個變更",
+    "filter": {
+      "title": "濾鏡",
+      "tooltip": "篩選要顯示變更的顯示畫面",
+      "dropdown": {
+        "text": "文本({{count}})",
+        "image": "圖像/圖形({{count}})",
+        "annot": "注解({{count}})",
+        "format": "格式化({{count}})",
+        "everything": "所有內容"
+      }
+    },
+    "show": {
+      "title": "顯示",
+      "tooltip": "顯示或隱藏不同的比較工具元素",
+      "dropdown": {
+        "hideResult": "隱藏結果",
+        "showResult": "顯示結果",
+        "hideColor": "隱藏色彩圖例",
+        "showColor": "顯示色彩圖例",
+        "showSummary": "顯示摘要"
+      }
+    }
+  },
+  "permissionError": "該檔案受保護，不適用於此作業。"
+}

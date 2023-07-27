@@ -1,0 +1,40 @@
+{
+  "toolbar": {
+    "createDynamicStampTextBtnText": "Crear sello dinámico personalizado"
+  },
+  "dialog": {
+    "header": "Crear sello dinámico personalizado",
+    "backgroundColor": "Color de fondo:",
+    "template": "Plantilla:",
+    "templatePlaceholder": "escriba aquí para nombrar una nueva plantilla",
+    "browse": "Explorar",
+    "category": "Categoría:",
+    "categoryPlaceholder": "escriba aquí para nombrar una nueva categoría",
+    "name": "Nombre:",
+    "font": "Fuente:",
+    "stampText": "Texto sello:",
+    "stampTextPlaceholder": "escriba aquí para insertar texto",
+    "fontSize": "Tamaño de fuente:",
+    "color": "Color:",
+    "stampTextType": {
+      "customText": "escriba aquí para insertar texto",
+      "name": "nombre del autor",
+      "nameDateTime": "nombre del autor, fecha y hora",
+      "dateTime": "fecha y hora",
+      "date": "fecha"
+    }
+  },
+  "alert": {
+    "title": "DEMO DEL SDK WEB",
+    "typeText": "'<type here to insert text> '",
+    "categoryText": "'<type here to name a new category> '",
+    "templateText": "'<type here to name a new template> '",
+    "textError": "${1} es un texto predefinido, debe seleccionar uno del menú desplegable o crear uno nuevo.",
+    "categoryError": "${1} es una categoría predefinida y no se puede usar para sellos personalizados, elija una categoría diferente.",
+    "templateError": "${1} es una plantilla predefinida y no se puede usar para sellos personalizados, elija una plantilla diferente.",
+    "fileError": "El archivo está vacío.",
+    "nameError": "Se requiere el nombre.",
+    "templateNameError": "Hay un sello con este nombre. Cambie el nombre del sello que se importará.",
+    "spaceError": "El espacio no puede estar en la categoría."
+  }
+}

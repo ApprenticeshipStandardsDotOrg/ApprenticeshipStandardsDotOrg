@@ -1,0 +1,18 @@
+{
+  "manageComments": {
+    "text": "주석 관리"
+  },
+  "comments": {
+    "text": "주석"
+  },
+  "show-all": {
+    "text": "모두 표시",
+    "desc": "모든 Ctrl+8 보이기",
+    "descSub": "문서내 모든 주석 보이기"
+  },
+  "hide-all": {
+    "text": "모두 감추기",
+    "desc": "모든 Ctrl+Shift+8 숨기기",
+    "descSub": "문서안에 모든 주석 숨기기"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "buttons": {
+    "title": "블랙마킹 표시",
+    "redact_text_image": "텍스트와 이미지 표시",
+    "redact_area": "블랙마킹할 영역 표시",
+    "redact_page": "블랙마킹할 페이지 표시",
+    "redact_auto": "자동 블랙마킹",
+    "redact_search": "검색 및 블랙마킹",
+    "apply": "적용",
+    "ok": "확인",
+    "cancel": "취소"
+  },
+  "tooltips": {
+    "redaction": "블랙마킹할 내용 표시",
+    "apply": "표시한 내용을 영구적으로 제거합니다",
+    "auto_redaction": "Foxit Smart Redact가 문서를 자동으로 교정하도록 합니다."
+  },
+  "dialog": {
+    "apply_alert": "편집을 위해 표시해 놓은 내용을 선택하여 영구적으로 편집하려고 합니다.\n적용을 선택하면, 작업을 취소할 수 없습니다.\n계속 하시겠습니까?\n중요! 블랙마킹을 적용하기 전에 이 문서의 사본을 백업해 놓는 것이 좋습니다.",
+    "redaction_page": {
+      "mark_current_page": "블랙마킹을 위해 현재 페이지 표시",
+      "mark_specific_page": "블랙마킹을 위해 선택한 페이지를 표시합니다",
+      "page_range": "페이지 범위"
+    },
+    "readaction_page_max": "최대: ",
+    "pageRange": "페이지 범위"
+  }
+}

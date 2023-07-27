@@ -13,6 +13,8 @@ gem "rails", "~> 7.0.5"
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 
+gem "non-digest-assets", github: "mvz/non-digest-assets", branch: "master"
+
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.5"
 
@@ -58,6 +60,8 @@ gem "administrate-field-jsonb"
 gem "pundit"
 gem "image_processing"
 gem "pagy"
+
+gem 'rack-rewrite', '~> 1.5.0'
 
 # For API
 gem "jsonapi-resources"

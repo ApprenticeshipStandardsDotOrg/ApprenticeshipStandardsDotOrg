@@ -1,0 +1,162 @@
+{
+  "searchbar": {
+    "input": {
+      "findOptions": "옵션 찾기",
+      "searchFeatures": "검색 기능",
+      "placeholder": "검색"
+    },
+    "basicOption": {
+      "wholeWordOnly": "단어 단위로만",
+      "caseSensitive": "대소문자 구별",
+      "includeBookmark": "북마크 포함",
+      "includeComments": "주석 포함",
+      "highlight": "모든 텍스트 강조",
+      "properties": "속성"
+    },
+    "prop": {
+      "ok": "확인",
+      "cancel": "취소",
+      "title": "속성",
+      "intro": "검색 결과의 모양:",
+      "color": "색상:",
+      "opacity": "불투명도:"
+    },
+    "searchType": {
+      "advanced": "고급 검색",
+      "replace": "검색 및 바꾸기",
+      "redact": "검색 및 블랙마킹",
+      "highlight": "검색 및 강조"
+    }
+  },
+  "noMore": "검색이 끝났습니다. 일치되는 결과가 없습니다.",
+  "searchPanel": {
+    "mode": {
+      "exact": "단어 또는 문구 완전 일치",
+      "any": "단어 중 하나 일치",
+      "pattern": "부분 일치 검색 패턴",
+      "multiple": "복수 단어 또는 문구",
+      "profile": "교정 프로필"
+    },
+    "pattern": {
+      "select": "귀하의 패턴 선택",
+      "phone": "전화번호",
+      "date": "날짜",
+      "security": "주민등록번호",
+      "email": "이메일 주소",
+      "credit": "신용카드 번호",
+      "bank": "해외 은행 계좌 번호",
+      "driving": "운전 면허 번호"
+    },
+    "text": {
+      "wordOrPhrase": "어떤 단어 또는 문구를 검색하시겠습니까?",
+      "searching": "검색 중",
+      "country": "국가/지역",
+      "selectProfile": "기존 프로필 선택",
+      "or": "또는",
+      "newWord": "새 단어 혹은 구문",
+      "list": "단어와 구문 목록",
+      "profileList": "프로필 목록",
+      "profileName": "프로필 이름",
+      "overlayText": "오버레이 텍스트:",
+      "wordOverlayList": "단어/구문 및 오버레이텍스트",
+      "lookingFor": "찾는 대상:",
+      "lookingWordRes": "현재 문서에서 ${1}",
+      "lookingMulRes": "현재 문서내 복수의 구문",
+      "lookingPatternRes": "현재 문서에서 ${1}",
+      "results": "결과:",
+      "resultCount": "${1} 인스턴스를 가진 ${2} 문서",
+      "markOptions": "블랙마킹 표시 옵션",
+      "markByPos": "수정을 위해 ${}에서 ${} 문자 표시",
+      "markByCount": "수정을 위해 ${} 문자에서 ${} 문자로 표시",
+      "profileHeader": "단어/문구",
+      "resultMetaData": "메타데이터의 ${1} 인스턴스"
+    },
+    "options": {
+      "wholeWordsOnly": "단어 단위로만",
+      "caseSensitive": "대소문자 구별",
+      "includeBookmarks": "북마크 포함",
+      "includeComments": "주석 포함",
+      "includeAttachments": "첨부 파일 포함",
+      "stemming": "스테밍",
+      "highlight": "모든 텍스트 강조",
+      "autoSize": "항상 교정 영역에 맞게 텍스트 크기 자동 조정",
+      "beginning": "첫",
+      "end": "끝"
+    },
+    "button": {
+      "more": "더 많이>>",
+      "less": "더 적게 >>",
+      "search": "검색",
+      "selectWords": "단어 선택...",
+      "selectProfile": "선택...",
+      "manage": "관리",
+      "create": "만들기",
+      "add": "추가",
+      "remove": "제거",
+      "import": "가져오기...",
+      "export": "내보내기..",
+      "edit": "편집",
+      "delete": "삭제",
+      "close": "닫기",
+      "importProfile": "가져오기",
+      "exportProfile": "내보내기",
+      "save": "저장",
+      "saveAndSearch": "저장및 검색",
+      "cancel": "취소",
+      "newSearch": "새로 검색",
+      "checkAll": "전부 체크",
+      "markRedaction": "블랙마킹을 위한 검사 결과 표시",
+      "applyRedaction": "블랙마킹 적용",
+      "markWholeWord": "단어 단위로 블랙마킹 표시",
+      "markPartialWord": "부분 단어 단위로 블랙마킹 표시",
+      "setting": "설정...",
+      "loadMore": "추가 정보",
+      "text-highlight": "텍스트를 강조합니다."
+    },
+    "country": {
+      "Brazil": "브라질",
+      "Canada": "캐나다",
+      "China": "중국",
+      "Denmark": "덴마크",
+      "Finland": "핀란드",
+      "France": "프랑스",
+      "Germany": "독일",
+      "Hong Kong/Taiwan": "홍콩/대만",
+      "Iceland": "아이슬란드",
+      "Ireland": "아일랜드",
+      "Japan": "일본",
+      "Korea": "대한민국",
+      "Norway": "노르웨이",
+      "Spain": "스페인",
+      "Sweden": "스웨덴",
+      "Turkey": "터키",
+      "United Kingdom": "영국",
+      "United States": "미국"
+    },
+    "dialog": {
+      "selectWord": "검색할 단어 및 문구 및 텍스트 제거",
+      "manageProfile": "프로필 관리",
+      "createProfile": "새 프로필 만들기",
+      "partialRedaction": "설정",
+      "modified": "이 문서는 수정되었기 때문에 검색 결과가 유효하지 않습니다. 다시 검색하시겠습니까?",
+      "noModifyPerm": "선택한 내용에 블랙마킹을 적용할 수 있는 권한이 없습니다. ",
+      "existInHide": "현재 보이지 않는 레이어에 결과가 존재합니다. 지금 레이어를 보이게 만드시겠습니까?"
+    },
+    "table": {
+      "wordPhrase": "단어/문구",
+      "overlayText": "오버레이 텍스트"
+    },
+    "csv": {
+      "results": "검색 결과",
+      "summary": "요약",
+      "savedOn": "저장 날짜",
+      "search": "검색한 내용:",
+      "count": "발견한 인스턴스 수",
+      "fileName": "파일 이름",
+      "title": "제목",
+      "page": "페이지",
+      "searchInstance": "인스턴스 검색",
+      "metadata": "문서 메타데이터"
+    }
+  }
+}

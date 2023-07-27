@@ -1,0 +1,40 @@
+{
+  "toolbar": {
+    "createDynamicStampTextBtnText": "创建自定义动态图章"
+  },
+  "dialog": {
+    "header": "创建自定义动态图章",
+    "backgroundColor": "背景色：",
+    "template": "模板：",
+    "templatePlaceholder": "在此处键入以命名新模板",
+    "browse": "浏览",
+    "category": "类别：",
+    "categoryPlaceholder": "在此处键入新类别",
+    "name": "名称：",
+    "font": "字体：",
+    "stampText": "图章文本：",
+    "stampTextPlaceholder": "在此处键入以插入文本",
+    "fontSize": "字号：",
+    "color": "颜色：",
+    "stampTextType": {
+      "customText": "在此键入以插入文本",
+      "name": "作者名称",
+      "nameDateTime": "作者名称、日期和时间",
+      "dateTime": "日期和时间",
+      "date": "日期"
+    }
+  },
+  "alert": {
+    "title": "WEB SDK DEMO",
+    "typeText": "'<在此处键入以插入文本>'",
+    "categoryText": "'<在此处键入新类别>'",
+    "templateText": "'<在此处键入以命名新模板>'",
+    "textError": "${1}是预定义文本，您必须从下拉菜单中选择一个或创建一个新文本。",
+    "categoryError": "${1}是预定义的类别，不能用于自定义图章，请选择其他类别。",
+    "templateError": "${1}是预定义模板，不能用于自定义图章，请选择其他模板。",
+    "fileError": "文件为空。",
+    "nameError": "名称是必需的。",
+    "templateNameError": "图章名已存在，请重命名要导入的图章。",
+    "spaceError": "类别名中不能有空格。"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "Digital": "Sellos digitales",
+  "IdentityDialog": {
+    "header": "Establecer identidad",
+    "description": "Introduzca la información de identidad que aparece en sus sello digital de identidad.",
+    "surname": "Apellido:",
+    "name": "Nombre:",
+    "title": "Título:",
+    "associationName": "Nombre de la asociación:",
+    "organizationName": "Nombre de la organización:"
+  },
+  "Name": "Nombre completo",
+  "OrganizationDateName": "Unidad de la organización, Fecha, Nombre completo",
+  "AssociationDateOrganization": "Nombre de la unidad, Fecha, Departamento de la unidad",
+  "StatusDateAssociation": "Sellar con la fecha de aprobación"
+}

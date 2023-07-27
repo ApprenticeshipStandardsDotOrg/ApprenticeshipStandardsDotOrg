@@ -1,0 +1,27 @@
+{
+  "dialog": {
+    "title": "Archivo adjunto",
+    "addFiles": "Agregar archivos...",
+    "addTip": "Agregue documentos a la siguiente lista.",
+    "okTip": "Presione Aceptar cuando todos los documentos se hayan agregado.",
+    "fileName": "Nombre de archivo",
+    "filePath": "Ruta del archivo",
+    "fileSize": "Tamaño del archivo",
+    "fileType": "Tipo de archivo",
+    "noFileWarning": "Primero agregue archivos.",
+    "nameTail": "-Copiar",
+    "ok": "Aceptar",
+    "cancel": "Cancelar"
+  },
+  "same-file-name-confirm": {
+    "tip1": "El archivo actual ya contiene un archivo adjunto con el nombre \"{{oldFileName}}\".",
+    "tip2": "¿Desea reemplazar el archivo o cambiar el nombre a \"{{newFileName}}\" y adjuntar?",
+    "applyToAllFiles": "Aplicar a todos los archivos.",
+    "replace": "Reemplazar",
+    "renameAndAttached": "Renombrar y adjuntar",
+    "skip": "Omitir"
+  },
+  "button-tooltip": {
+    "title": "Archivo adjunto"
+  }
+}

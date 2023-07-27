@@ -11,6 +11,7 @@ require "action_mailer/railtie"
 require "action_mailbox/engine"
 require "action_text/engine"
 require "action_view/railtie"
+require "rack/rewrite"
 # require "action_cable/engine"
 # require "rails/test_unit/railtie"
 
@@ -39,5 +40,11 @@ module ApprenticeshipStandardsDotOrg
     end
 
     config.active_storage.service_urls_expire_in = 1.hour
+
+    config.middleware.insert_before(Rack::Runtime, Rack::Rewrite) do
+      r301 %r{lib\/uix-addons\/(.*)}, '/assets/foxit/lib/uix-addons/$1'
+      r301   %r{admin\/source_files\/([^\/]*)\/redact_file\/lib\/(.*)},  '/assets/foxit/lib/$2'
+      r301   %r{admin\/source_files\/([^\/]*)\/redact_file\/server\/(.*)},  '/assets/foxit/server/$2'
+    end
   end
 end

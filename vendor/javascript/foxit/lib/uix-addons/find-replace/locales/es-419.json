@@ -1,0 +1,31 @@
+{
+  "dialog": {
+    "close": "Cerrar",
+    "cancel": "Cancelar",
+    "ok": "Aceptar",
+    "replaceAllConfirm": "No se puede deshacer esta operación. ¿Desea guardar los cambios y continuar?",
+    "notFound": "Foxit PDF Editor finalizó la búsqueda en el documento. No se encontraron coincidencias.",
+    "replaceAllComplete": "{{count}} ocurrencia(s) reemplazada(s).",
+    "replaceAllNotFound": "No se encontró el siguiente texto especificado: ",
+    "DoNotShowAgain": "No volver a mostrar",
+    "dialogTile": "PDF Editor",
+    "labels": {
+      "find": "Buscar",
+      "replace": "Remplazar por"
+    },
+    "findReplaceBtn": {
+      "replace": "Reemplazar",
+      "replaceNext": "Reemplazar sig.",
+      "replaceAll": "Reemplazar todo"
+    },
+    "options": {
+      "wholeWords": "Solo palabras completas",
+      "caseSensitive": "Distingue mayúsculas y minúsculas"
+    },
+    "progress": {
+      "searchFor": "Buscando: ",
+      "cancel": "Cancelar"
+    },
+    "DoNotShowAgain": "No volver a mostrar"
+  }
+}

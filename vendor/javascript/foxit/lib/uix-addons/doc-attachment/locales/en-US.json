@@ -1,0 +1,27 @@
+{
+  "dialog": {
+    "title": "File Attachment",
+    "addFiles": "Add Files...",
+    "addTip": "Add documents to the list below.",
+    "okTip": "Press OK when all the documents have been added.",
+    "fileName": "File Name",
+    "filePath": "File Path",
+    "fileSize": "File Size",
+    "fileType": "File Type",
+    "noFileWarning": "Please add files first.",
+    "nameTail": "-Copy",
+    "ok": "OK",
+    "cancel": "Cancel"
+  },
+  "same-file-name-confirm": {
+    "tip1": "Current file already has an attachment named \"{{oldFileName}}\".",
+    "tip2": "Would you like to replace the file, or rename to \"{{newFileName}}\" and attached?",
+    "applyToAllFiles": "Apply to all files.",
+    "replace": "Replace",
+    "renameAndAttached": "Rename and Attached",
+    "skip": "Skip"
+  },
+  "button-tooltip": {
+    "title": "File Attachment"
+  }
+}

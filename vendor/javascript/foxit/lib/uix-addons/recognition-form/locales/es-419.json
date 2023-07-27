@@ -1,0 +1,15 @@
+{
+  "tips": {
+    "recognition": "Ejecutar reconocimiento de campos del formulario"
+  },
+  "dialog": {
+    "title": "Reconocimiento de campos de formulario",
+    "content": "Se creó su formulario PDF.\n\nDurante la creación, es posible que Foxit haya omitido algunos campos o que haya creado campos irrelevantes.\n\nCompruebe los campos del formulario y sus nombres. Haga clic en cualquier botón de los campos del formulario en la barra de herramientas para agregar más campos y haga clic derecho en el formulario para editarlos o eliminarlos.",
+    "description": "1 = Nombre de campo, 2 = Campo",
+    "notAgain": "No volver a mostrar"
+  },
+  "error": {
+    "title": "",
+    "noFields": "No se han detectado nuevas anotaciones en los campos del formulario."
+  }
+}

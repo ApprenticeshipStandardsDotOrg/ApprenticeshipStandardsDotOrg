@@ -1,0 +1,67 @@
+{
+  "options-dialog": {
+    "title": "选项",
+    "include": "包括",
+    "compareTextOnly": "仅比较文本",
+    "compareTable": "比较表格",
+    "detectPage": "检测页面插入或删除",
+    "markingColor": "标记颜色",
+    "opacity": "不透明度",
+    "lineThickness": "线宽",
+    "replaceObjects": "替换对象",
+    "insertObjects": "插入对象",
+    "deleteObjects": "删除对象",
+    "setAsDefault": "设置当前属性为默认"
+  },
+  "openFileTips": "当前文件已修改，您可以直接打开此文件或下载",
+  "open": "打开",
+  "select-pdf-file": {
+    "title": "比较PDF文档",
+    "compareFiles": "比较文件",
+    "oldFile": "旧文档",
+    "newFile": "新文档",
+    "choose": "选择",
+    "comparePageRange": "比较页面范围",
+    "to": "到",
+    "options": "选项",
+    "selectSameNumber": "请选择相等的页数进行比较",
+    "rangeError": "开始页码必须小于或者等于结束页码。"
+  },
+  "resultFileName": "比较结果.pdf",
+  "toolbar": {
+    "compareResultTabTitle": "比较结果",
+    "legend": "图例",
+    "replace": "替换",
+    "insert": "插入",
+    "delete": "删除",
+    "compareBtnText": "比较",
+    "compareBtnToolTip": "比较",
+    "comparePreText": "上一处更改",
+    "comparePreToolTip": "跳转至上一处更改",
+    "compareNextText": "下一处更改",
+    "compareNextToolTip": "跳转至下一处更改",
+    "filter": {
+      "title": "过滤器",
+      "tooltip": "筛选有更改的显示",
+      "dropdown": {
+        "text": "文本({{count}})",
+        "image": "图像/图形({{count}})",
+        "annot": "标注({{count}})",
+        "format": "格式({{count}})",
+        "everything": "全部"
+      }
+    },
+    "show": {
+      "title": "显示",
+      "tooltip": "显示或者隐藏比较工具的不同元素",
+      "dropdown": {
+        "hideResult": "隐藏结果",
+        "showResult": "显示结果",
+        "hideColor": "隐藏颜色说明",
+        "showColor": "显示颜色说明",
+        "showSummary": "显示小结"
+      }
+    }
+  },
+  "permissionError": "该文件被加密保护，无法对其进行此操作。"
+}

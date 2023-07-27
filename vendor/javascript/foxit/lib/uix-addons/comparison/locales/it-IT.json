@@ -1,0 +1,67 @@
+{
+  "options-dialog": {
+    "title": "Opzioni",
+    "include": "Includi",
+    "compareTextOnly": "Confronta solo testo",
+    "compareTable": "Confronta tabella",
+    "detectPage": "Rileva eliminazioni o inserimenti di pagine",
+    "markingColor": "Colore contrassegno",
+    "opacity": "Opacità",
+    "lineThickness": "Spessore della linea",
+    "replaceObjects": "Sostituisci oggetti",
+    "insertObjects": "Inserisci oggetti",
+    "deleteObjects": "Elimina oggetti",
+    "setAsDefault": "Imposta le proprietà correnti come predefinite"
+  },
+  "openFileTips": "Il file corrente è stato modificato: è possibile aprire questo file direttamente o scaricarlo",
+  "open": "Apri",
+  "select-pdf-file": {
+    "title": "Confronta file PDF",
+    "compareFiles": "Confronta file",
+    "oldFile": "File precedente",
+    "newFile": "Nuovo file",
+    "choose": "Scegli",
+    "comparePageRange": "Confronta intervallo pagine",
+    "to": "A",
+    "options": "Opzioni",
+    "selectSameNumber": "Seleziona lo stesso numero di pagine per il confronto",
+    "rangeError": "Il numero di inizio pagina deve essere inferiore o uguale a quello di fine pagina."
+  },
+  "resultFileName": "Il risultato di Comparison.pdf",
+  "toolbar": {
+    "compareResultTabTitle": "Confronta risultati",
+    "legend": "Legenda",
+    "replace": "Sostituito",
+    "insert": "Inserito",
+    "delete": "Eliminato",
+    "compareBtnText": "Confronta",
+    "compareBtnToolTip": "Confronta",
+    "comparePreText": "Modifica precedente",
+    "comparePreToolTip": "Torna alla modifica precedente",
+    "compareNextText": "Modifica successiva",
+    "compareNextToolTip": "Passa alla modifica successiva",
+    "filter": {
+      "title": "Filtra",
+      "tooltip": "Filtra la visualizzazione delle modifiche da mostrare",
+      "dropdown": {
+        "text": "Testo({{count}})",
+        "image": "Immagini/Grafici({{count}})",
+        "annot": "Annotazioni({{count}})",
+        "format": "Formattazione({{count}})",
+        "everything": "Tutto"
+      }
+    },
+    "show": {
+      "title": "Mostra",
+      "tooltip": "Mostra o nascondi elementi diversi dello strumento Confronta",
+      "dropdown": {
+        "hideResult": "Nascondi risultato",
+        "showResult": "Mostra risultato",
+        "hideColor": "Nascondi legenda colori",
+        "showColor": "Mostra legenda colori",
+        "showSummary": "Mostra riepilogo"
+      }
+    }
+  },
+  "permissionError": "Questo file è protetto. Impossibile utilizzarlo per questa operazione."
+}

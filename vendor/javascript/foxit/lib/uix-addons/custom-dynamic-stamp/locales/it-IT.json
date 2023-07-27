@@ -1,0 +1,40 @@
+{
+  "toolbar": {
+    "createDynamicStampTextBtnText": "Crea timbro dinamico personalizzato"
+  },
+  "dialog": {
+    "header": "Crea timbro dinamico personalizzato",
+    "backgroundColor": "Colore di sfondo:",
+    "template": "Modello:",
+    "templatePlaceholder": "digitare qui per nominare un nuovo modello",
+    "browse": "Sfoglia",
+    "category": "Categoria:",
+    "categoryPlaceholder": "digitare qui per nominare una nuova categoria",
+    "name": "Nome:",
+    "font": "Carattere:",
+    "stampText": "Testo del timbro:",
+    "stampTextPlaceholder": "digitare qui per inserire il testo",
+    "fontSize": "Dimensioni carattere:",
+    "color": "Colore:",
+    "stampTextType": {
+      "customText": "digitare qui per inserire il testo",
+      "name": "nome dell'autore",
+      "nameDateTime": "nome dell'autore, data e ora",
+      "dateTime": "data e ora",
+      "date": "data"
+    }
+  },
+  "alert": {
+    "title": "DIMOSTRAZIONE DELL'SDK WEB",
+    "typeText": "'<type here to insert text> '",
+    "categoryText": "'<type here to name a new category> '",
+    "templateText": "'<type here to name a new template> '",
+    "textError": "${1} è un testo predefinito, devi selezionarne uno dal menu a tendina o crearne uno nuovo.",
+    "categoryError": "${1} è una categoria predefinita e non può essere utilizzata per timbri personalizzati, scegli una categoria diversa.",
+    "templateError": "${1} è un modello predefinito e non può essere utilizzato per timbri personalizzati, scegli un modello diverso.",
+    "fileError": "Il file è vuoto.",
+    "nameError": "Il nome è obbligatorio.",
+    "templateNameError": "Esiste già un timbro con questo nome. Rinominare il timbro da importare.",
+    "spaceError": "Lo spazio non può essere nella categoria."
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "toolbar": {
+    "createDynamicStampTextBtnText": "カスタムダイナミックスタンプの作成"
+  },
+  "dialog": {
+    "header": "カスタムダイナミックスタンプの作成",
+    "backgroundColor": "背景色:",
+    "template": "テンプレート:",
+    "templatePlaceholder": "ここに新しいテンプレート名を入力",
+    "browse": "参照",
+    "category": "カテゴリ:",
+    "categoryPlaceholder": "ここに新しいカテゴリ名を入力",
+    "name": "名称：",
+    "font": "フォント:",
+    "stampText": "スタンプテキスト:",
+    "stampTextPlaceholder": "挿入するテキストを入力",
+    "fontSize": "フォントサイズ:",
+    "color": "カラー:",
+    "stampTextType": {
+      "customText": "<挿入するテキストを入力>",
+      "name": "<作成者名>",
+      "nameDateTime": "<作成者名と日時>",
+      "dateTime": "<日時>",
+      "date": "<日付>"
+    }
+  },
+  "alert": {
+    "title": "WEB SDK DEMO",
+    "typeText": "'<挿入するテキストを入力>'",
+    "categoryText": "'<ここに新しいカテゴリ名を入力>'",
+    "templateText": "'<ここに新しいテンプレート名を入力>'",
+    "textError": "${1} に定型句を入力してテキストを挿入します。ドロップダウンメニューから一つ選択するか、または新規に作成する必要があります。",
+    "categoryError": "${1} が既定のカテゴリである場合、カスタムスタンプには使用できません。別のカテゴリを選択してください。",
+    "templateError": "${1} が既定のテンプレートである場合、カスタムスタンプには使用できません。別のテンプレートを選択してください。",
+    "fileError": "ファイルが空です。",
+    "nameError": "名称が必要です。",
+    "templateNameError": "この名称のスタンプがあります。読み込みするスタンプの名称を変更してください。",
+    "spaceError": "カテゴリにスペースを含めることはできません。"
+  }
+}

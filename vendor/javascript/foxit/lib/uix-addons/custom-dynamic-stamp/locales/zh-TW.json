@@ -1,0 +1,40 @@
+{
+  "toolbar": {
+    "createDynamicStampTextBtnText": "建立自訂動態戳記"
+  },
+  "dialog": {
+    "header": "建立自訂動態戳記",
+    "backgroundColor": "背景色:",
+    "template": "範本:",
+    "templatePlaceholder": "在這裡輸入以命名新範本",
+    "browse": "瀏覽",
+    "category": "類別:",
+    "categoryPlaceholder": "在這裡輸入以命名新類別",
+    "name": "名稱：",
+    "font": "字型：",
+    "stampText": "戳記文字:",
+    "stampTextPlaceholder": "在此輸入以插入文字",
+    "fontSize": "字型大小：",
+    "color": "色彩：",
+    "stampTextType": {
+      "customText": "在此輸入以插入文字",
+      "name": "作者名稱",
+      "nameDateTime": "作者名稱、日期和時間",
+      "dateTime": "日期和時間",
+      "date": "日期"
+    }
+  },
+  "alert": {
+    "title": "WEB SDK DEMO",
+    "typeText": "'<在此輸入以插入文字>'",
+    "categoryText": "'<在這裡輸入以命名新類別>'",
+    "templateText": "'<在這裡輸入以命名新範本>'",
+    "textError": "${1}為預先定義的文字，您必須從下拉式功能表中選取一個文字或建立新的文字。",
+    "categoryError": "${1}為預先定義的類別，不能用作自訂戳記，請重新選擇類別。",
+    "templateError": "${1}為預先定義的範本，不能用作自訂戳記，請重新選擇範本。",
+    "fileError": "文件為空。",
+    "nameError": "名稱是必填欄位。",
+    "templateNameError": "此名稱的戳記已存在，請重新命名要匯入的戳記。",
+    "spaceError": "空格不能作為類別名。"
+  }
+}

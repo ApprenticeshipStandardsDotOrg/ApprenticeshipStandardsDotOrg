@@ -1,0 +1,69 @@
+{
+  "title": "Pagine",
+  "tooltip": "Visualizza miniature delle pagine e riordina le pagine",
+  "removePageConfirm": "Vuoi eliminare queste pagine? L'operazione non potrà essere annullata.",
+  "deletePageConfirm": "Vuoi eliminare questa pagina? L'operazione non potrà essere annullata.",
+  "removePageAlert": "Impossibile eliminare tutte le pagine. Deve restare almeno una pagina",
+  "embedAllPageThumbnail": "Incorporare tutte le miniature di pagina nel documento?",
+  "removeEmbeddedPageThumbnail": "Rimuovere tutte le miniature di pagina incorporate dal documento?",
+  "insertFailed": "Impossibile inserire nel documento corrente. Riprova più tardi.",
+  "contextmenu": {
+    "copy": "Copia",
+    "paste": "Incolla",
+    "enlarge": "Ingrandisci miniature di pagina",
+    "reduce": "Riduci miniature di pagina",
+    "embed": "Incorpora tutte le miniature di pagina",
+    "removeEmbedded": "Rimuovi miniature di pagina incorporate",
+    "rotateLeft": "Ruota di 90° in senso antiorario",
+    "rotateRight": "Ruota di 90° in senso orario",
+    "addBlankPage": "Inserisci pagina vuota",
+    "delete": "Elimina pagine...",
+    "deletePage": "Elimina pagina",
+    "duplicate": "Duplica pagine...",
+    "crop": "Ritaglia pagine...",
+    "rotate": "Ruota pagine...",
+    "extract": "Estrai pagine...",
+    "swap": "Scambia pagine...",
+    "move": "Sposta pagine...",
+    "split": "Dividi documento...",
+    "properties": "Proprietà...",
+    "replace": "Sostituisci pagine...",
+    "formatNumbering": "Formato numeri di pagina...",
+    "pageTransitions": "Transizioni pagina"
+  },
+  "pageHandleDialog": {
+    "preview": "Anteprima",
+    "showPreview": "Mostra miniature",
+    "movePages": {
+      "title": "Sposta pagine",
+      "pageRange": {
+        "title": "Intervallo pagine",
+        "pages": "Pagina: ",
+        "separator": "di",
+        "simple": "Esempio: 1,5-9,12",
+        "sampleTips": "Intervallo di pagine\n\nPer utilizzare il numero di pagina logico, racchiudere\nil numero di pagina tra virgolette. Esempio:\n\"A\", se i numeri di pagina logici\nincludono virgolette o simboli di barra rovesciata,\naggiungere una '\\' prima della virgoletta o della\nbarra rovesciata. Esempio, da pagine \\5 a\npagina \"12\": \"\\\\5\"-\"\\\"12\\\"\"",
+        "pageError": "Immetti un intervallo valido"
+      },
+      "destination": {
+        "title": "Destinazione",
+        "beforePage": "Prima della pagina",
+        "afterPage": "Dopo la pagina",
+        "beginningDocument": "Inizio del documento",
+        "endDocument": "Fine del documento"
+      }
+    }
+  },
+  "loadingProgress": {
+    "embedding": "Incorporamento miniature...",
+    "removing": "Rimozione miniature..."
+  },
+  "retry": {
+    "title": "Il file \"${filename}\" è protetto. Inserisci la password di apertura del documento.",
+    "notSupport": "Foxit PDF Editor non supporta questo formato di file. Apri il file direttamente e stampalo con la stampante Foxit PDF Editor"
+  },
+  "zoom": {
+    "zoom-in": "Zoom avanti",
+    "zoom-out": "Zoom indietro"
+  },
+  "pasteErrorAlertMsg": "Si è verificato un errore durante l'apertura di CopyPages_tmp.pdf. Questo file è danneggiato e non può essere ripristinato."
+}

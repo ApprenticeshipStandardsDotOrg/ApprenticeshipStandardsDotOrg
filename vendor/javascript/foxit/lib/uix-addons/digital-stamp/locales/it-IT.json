@@ -1,0 +1,16 @@
+{
+  "Digital": "Timbri digitali",
+  "IdentityDialog": {
+    "header": "Imposta identità",
+    "description": "Immettere le informazioni sull'identità che vengono visualizzate nel timbro di identità digitale.",
+    "surname": "Cognome:",
+    "name": "Nome:",
+    "title": "Titolo:",
+    "associationName": "Nome associazione:",
+    "organizationName": "Nome organizzazione:"
+  },
+  "Name": "Nome completo",
+  "OrganizationDateName": "Unità organizzativa, Data, Nome completo",
+  "AssociationDateOrganization": "Nome unità, Data, Reparto dell’unità",
+  "StatusDateAssociation": "Timbro con data di approvazione"
+}

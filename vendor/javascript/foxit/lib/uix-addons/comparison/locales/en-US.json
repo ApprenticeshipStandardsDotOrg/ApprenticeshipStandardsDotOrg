@@ -1,0 +1,67 @@
+{
+    "options-dialog": {
+        "title": "Options",
+        "include": "Include",
+        "compareTextOnly": "Compare Text Only",
+        "compareTable": "Compare Table",
+        "detectPage": "Detect page deletions or inserts",
+        "markingColor": "Marking Color",
+        "opacity": "Opacity",
+        "lineThickness": "Line Thickness",
+        "replaceObjects": "Replace Objects",
+        "insertObjects": "Insert Objects",
+        "deleteObjects": "Delete Objects",
+        "setAsDefault": "Set current properties as default"
+    },
+    "openFileTips": "The current file is modified you can open this file directly or download it",
+    "open":"Open",
+    "select-pdf-file": {
+        "title": "Compare PDF Files",
+        "compareFiles": "Compare Files",
+        "oldFile": "Old File",
+        "newFile": "New File",
+        "choose": "Choose",
+        "comparePageRange": "Compare Page Range",
+        "to": "To",
+        "options": "Options",
+        "selectSameNumber": "Please select the same number of pages for comparison",
+        "rangeError": "The starting page number must be less than or as same as the ending one."
+    },
+    "resultFileName": "The result of Comparison.pdf",
+    "toolbar": {
+        "compareResultTabTitle": "Compare Results",
+        "legend": "Legend",
+        "replace": "Replaced",
+        "insert": "Inserted",
+        "delete": "Deleted",
+        "compareBtnText": "Compare",
+        "compareBtnToolTip": "Compare",
+        "comparePreText": "Previous Change",
+        "comparePreToolTip": "Jump to the previous change",
+        "compareNextText": "Next Change",
+        "compareNextToolTip": "Jump to the next change",
+        "filter": {
+            "title": "Filter",
+            "tooltip": "Filter the display of which changes to show",
+            "dropdown": {
+                "text": "Text({{count}})",
+                "image": "Images/Graphics({{count}})",
+                "annot": "Annotations({{count}})",
+                "format": "Formatting({{count}})",
+                "everything": "Everything"
+            }
+        },
+        "show": {
+            "title": "Show",
+            "tooltip": "Show or hide different elements of the Compare tool",
+            "dropdown": {
+                "hideResult": "Hide Result",
+                "showResult": "Show Result",
+                "hideColor": "Hide Color Legend",
+                "showColor": "Show Color Legend",
+                "showSummary": "Show Summary"
+            }
+        }
+    },
+    "permissionError": "This file is protected. It cannot be used for this operation."
+}

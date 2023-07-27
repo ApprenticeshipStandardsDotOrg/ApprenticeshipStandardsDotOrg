@@ -1,0 +1,67 @@
+{
+  "options-dialog": {
+    "title": "Opties",
+    "include": "Opnemen",
+    "compareTextOnly": "Alleen tekst vergelijken",
+    "compareTable": "Tabel vergelijken",
+    "detectPage": "Verwijderingen of invoegingen van pagina's detecteren",
+    "markingColor": "Markeerkleur",
+    "opacity": "Transparantie",
+    "lineThickness": "Lijndikte",
+    "replaceObjects": "Objecten vervangen",
+    "insertObjects": "Objecten invoegen",
+    "deleteObjects": "Objecten verwijderen",
+    "setAsDefault": "Huidige eigenschappen instellen als standaard"
+  },
+  "openFileTips": "Het huidige bestand is gewijzigd. U kunt dit bestand rechtstreeks openen of downloaden.",
+  "open": "Openen",
+  "select-pdf-file": {
+    "title": "PDF-bestanden vergelijken",
+    "compareFiles": "Bestanden vergelijken",
+    "oldFile": "Oud bestand",
+    "newFile": "Nieuw bestand",
+    "choose": "Kiezen",
+    "comparePageRange": "Paginabereik vergelijken",
+    "to": "Tot",
+    "options": "Opties",
+    "selectSameNumber": "Selecteer gelijke aantallen pagina's om te vergelijken",
+    "rangeError": "Het nummer van de beginpagina moet lager dan of hetzelfde zijn als het nummer van de eindpagina."
+  },
+  "resultFileName": "Resultaat van Comparison.pdf",
+  "toolbar": {
+    "compareResultTabTitle": "Resultaten vergelijken",
+    "legend": "Legenda",
+    "replace": "Vervangen",
+    "insert": "Ingevoegd",
+    "delete": "Verwijderd",
+    "compareBtnText": "Vergelijken",
+    "compareBtnToolTip": "Vergelijken",
+    "comparePreText": "Vorige wijziging",
+    "comparePreToolTip": "Naar de vorige wijziging",
+    "compareNextText": "Volgende wijziging",
+    "compareNextToolTip": "Naar de volgende wijziging",
+    "filter": {
+      "title": "Filter",
+      "tooltip": "Weergave filteren op de weer te geven wijzigingen",
+      "dropdown": {
+        "text": "Tekst({{count}})",
+        "image": "Afbeeldingen/grafieken({{count}})",
+        "annot": "Aantekeningen({{count}})",
+        "format": "Opmaak({{count}})",
+        "everything": "Alles"
+      }
+    },
+    "show": {
+      "title": "Weergeven",
+      "tooltip": "Verschillende elementen van de vergelijkingstool weergeven of verbergen",
+      "dropdown": {
+        "hideResult": "Resultaat verbergen",
+        "showResult": "Resultaat weergeven",
+        "hideColor": "Kleurlegenda verbergen",
+        "showColor": "Kleurlegenda weergeven",
+        "showSummary": "Samenvatting weergeven"
+      }
+    }
+  },
+  "permissionError": "Dit bestand is beveiligd. U kunt het niet gebruiken voor deze bewerking."
+}

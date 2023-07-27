@@ -1,0 +1,35 @@
+{
+  "dialog": {
+    "title": "페이지 회전",
+    "subTitle": "페이지 범위",
+    "direction": "방향",
+    "clockwise": "시계방향으로 90도",
+    "counterClockwise": "시계반대방향으로 90도",
+    "allPage": "전체 페이지",
+    "turning": "180도",
+    "page": "페이지: ",
+    "pages": "페이지 수",
+    "separator": "중",
+    "rotate": "회전: ",
+    "sample": "샘플: 1,5-9,12",
+    "sampleTips": "페이지 범위 \n\n논리적 페이지 번호를 사용하려면 \n페이지 번호를 따옴표로 묶습니다. \n예: 'A' ,논리적 페이지 번호에 \n따옴표 또는 백슬래시 기호가 \n포함된 경우 따옴표 또는 \n백슬래시 앞에 '\\' 를 추가합니다. \n예: \\5페이지에서 \"12페이지\"까지:\n\"\\\\5\"-\"\\\"12\\\"\"",
+    "allPages": "범위에 있는 모든 페이지",
+    "evenPages": "짝수 페이지만",
+    "oddPages": "홀수 페이지만",
+    "landscape": "가로 페이지",
+    "protrait": "세로 페이지",
+    "all": "모든 방향의 페이지",
+    "errMessage": "유효한 범위를 입력하세요.",
+    "emptyMessage": "범위를 입력하세요.",
+    "noPageSelected": "페이지가 선택되지 않았습니다. 적절한 옵션을 선택해 주십시오."
+  },
+  "button-tooltip": {
+    "title": "회전",
+    "tooltip": "페이지 회전"
+  },
+  "rotate": {
+    "counterclockwise": "왼쪽",
+    "clockwise": "오른쪽",
+    "pages": "멀티 페이지 회전"
+  }
+}

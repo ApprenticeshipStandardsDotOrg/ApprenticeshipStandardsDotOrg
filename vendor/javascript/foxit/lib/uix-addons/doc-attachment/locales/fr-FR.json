@@ -1,0 +1,27 @@
+{
+  "dialog": {
+    "title": "Pièce jointe",
+    "addFiles": "Ajouter des fichiers…",
+    "addTip": "Ajoutez des documents à la liste ci-dessous.",
+    "okTip": "Une fois tous les documents ajoutés, appuyez sur OK.",
+    "fileName": "Nom de fichier",
+    "filePath": "Chemin d'accès",
+    "fileSize": "Taille du fichier",
+    "fileType": "Type de fichier",
+    "noFileWarning": "Ajoutez d'abord les fichiers.",
+    "nameTail": "-Copier",
+    "ok": "OK",
+    "cancel": "Annuler"
+  },
+  "same-file-name-confirm": {
+    "tip1": "Le fichier actuel contient déjà une pièce jointe nommée « {{oldFileName}} ».",
+    "tip2": "Voulez-vous remplacer le fichier, ou remplacer le nom de fichier par « {{newFileName}} » et joindre le fichier ?",
+    "applyToAllFiles": "Appliquer à tous les fichiers.",
+    "replace": "Remplacer",
+    "renameAndAttached": "Renommer et joindre",
+    "skip": "Ignorer"
+  },
+  "button-tooltip": {
+    "title": "Pièce jointe"
+  }
+}

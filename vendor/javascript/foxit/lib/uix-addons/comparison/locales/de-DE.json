@@ -1,0 +1,67 @@
+{
+  "options-dialog": {
+    "title": "Optionen",
+    "include": "Einschließen",
+    "compareTextOnly": "Nur Text vergleichen",
+    "compareTable": "Vergleichstabelle",
+    "detectPage": "Seitenauslassungen oder -einfügungen erkennen",
+    "markingColor": "Markierungsfarbe",
+    "opacity": "Deckkraft",
+    "lineThickness": "Linienstärke",
+    "replaceObjects": "Objekte ersetzen",
+    "insertObjects": "Objekte einfügen",
+    "deleteObjects": "Objekte löschen",
+    "setAsDefault": "Aktuelle Eigenschaften als Standard festlegen"
+  },
+  "openFileTips": "Die aktuelle Datei wurde geändert. Sie können diese Datei direkt öffnen oder herunterladen",
+  "open": "Öffnen",
+  "select-pdf-file": {
+    "title": "PDF-Dateien vergleichen",
+    "compareFiles": "Dateien vergleichen",
+    "oldFile": "Alte Datei",
+    "newFile": "Neue Datei",
+    "choose": "Auswählen",
+    "comparePageRange": "Seitenbereich vergleichen",
+    "to": "Bis",
+    "options": "Optionen",
+    "selectSameNumber": "Wählen Sie die gleiche Anzahl an Seiten zum Vergleich aus",
+    "rangeError": "Die Seitenzahl der ersten Seite muss kleiner oder gleich der letzten sein."
+  },
+  "resultFileName": "Ergebnis von Comparison.pdf",
+  "toolbar": {
+    "compareResultTabTitle": "Ergebnisse vergleichen",
+    "legend": "Legende",
+    "replace": "Ersetzt",
+    "insert": "Eingefügt",
+    "delete": "Gelöscht",
+    "compareBtnText": "Vergleichen",
+    "compareBtnToolTip": "Vergleichen",
+    "comparePreText": "Vorherige Änderung",
+    "comparePreToolTip": "Zur vorherigen Änderung springen",
+    "compareNextText": "Nächste Änderung",
+    "compareNextToolTip": "Zur nächsten Änderung springen",
+    "filter": {
+      "title": "Filter",
+      "tooltip": "Anzeige filtern, um anzugeben, welche Änderungen angezeigt werden sollen",
+      "dropdown": {
+        "text": "Text({{count}})",
+        "image": "Bilder/Grafiken({{count}})",
+        "annot": "Anmerkungen({{count}})",
+        "format": "Formatierung({{count}})",
+        "everything": "Alles"
+      }
+    },
+    "show": {
+      "title": "Anzeigen",
+      "tooltip": "Verschiedene Elemente des Vergleichswerkzeugs anzeigen oder ausblenden",
+      "dropdown": {
+        "hideResult": "Ergebnisse ausblenden",
+        "showResult": "Ergebnisse anzeigen",
+        "hideColor": "Farblegende ausblenden",
+        "showColor": "Farblegende anzeigen",
+        "showSummary": "Zusammenfassung anzeigen"
+      }
+    }
+  },
+  "permissionError": "Diese Datei ist geschützt. Sie kann für diesen Vorgang nicht verwendet werden."
+}

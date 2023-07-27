@@ -1,0 +1,27 @@
+{
+  "dialog": {
+    "title": "Dateianhang",
+    "addFiles": "Dateien hinzufügen ...",
+    "addTip": "Fügen Sie Dokumente zur folgenden Liste hinzu.",
+    "okTip": "Klicken Sie auf „OK“, wenn alle Dokumente hinzugefügt wurden.",
+    "fileName": "Dateiname",
+    "filePath": "Dateipfad",
+    "fileSize": "Dateigröße",
+    "fileType": "Dateityp",
+    "noFileWarning": "Bitte fügen Sie zuerst die Datein hinzu.",
+    "nameTail": "-Kopieren",
+    "ok": "OK",
+    "cancel": "Abbrechen"
+  },
+  "same-file-name-confirm": {
+    "tip1": "Die aktuelle Datei verfügt bereits über einen Anhang mit der Benennung „{oldFileName}“.",
+    "tip2": "Möchten Sie die Datei ersetzen oder in „{newFileName}“ umbenennen und anhängen?",
+    "applyToAllFiles": "Auf alle Dateien anwenden.",
+    "replace": "Ersetzen",
+    "renameAndAttached": "Umbenennen und anhängen",
+    "skip": "Überspringen"
+  },
+  "button-tooltip": {
+    "title": "Dateianhang"
+  }
+}

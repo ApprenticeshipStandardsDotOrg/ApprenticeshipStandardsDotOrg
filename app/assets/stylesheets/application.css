@@ -12,7 +12,6 @@
  *
  *= require_tree .
  *= require_self
- *=  require "@foxitsoftware/foxit-pdf-sdk-for-web-library-full/lib/UIExtension.css"
  */
 
  @tailwind base;

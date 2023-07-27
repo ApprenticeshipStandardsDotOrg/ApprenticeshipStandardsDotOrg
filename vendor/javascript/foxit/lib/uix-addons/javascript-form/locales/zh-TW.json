@@ -1,0 +1,72 @@
+{
+  "ribbon": {
+    "text": "JavaScript"
+  },
+  "button-tooltip": {
+    "title": "新增、修改及測試此文件內的 JavaScript"
+  },
+  "document-javascript": {
+    "text": "文件 JavaScript",
+    "title": "新增和管理 JavaScript 功能",
+    "dialog": {
+      "title": "JavaScript 功能",
+      "name": "Script 名稱",
+      "close": "關閉",
+      "add": "新增...",
+      "edit": "編輯...",
+      "delete": "刪除"
+    }
+  },
+  "document-action": {
+    "text": "文件動作",
+    "title": "編輯 JavaScript 文件動作",
+    "dialog": {
+      "title": "文件動作",
+      "name": "當發生如下動作...",
+      "edit": "編輯...",
+      "sub-name": "執行此指令碼：",
+      "ok": "確定",
+      "cancel": "取消",
+      "doc-will-close": "文件即將關閉",
+      "doc-will-save": "文件即將儲存",
+      "doc-did-save": "文件已儲存",
+      "doc-did-saved": "文件已儲存",
+      "doc-will-print": "文件即將列印",
+      "doc-did-print": "文件已列印",
+      "doc-did-printed": "文件已列印",
+      "enable-tip": "JavaScript 目前已停用，而此文件的某些功能有使用它。啟用 JavaScript 可能導致某些可能的安全風險。"
+    }
+  },
+  "javascript-console": {
+    "text": "JavaScript 控制台",
+    "title": "JavaScrip 代碼執行及除錯",
+    "dialog": {
+      "title": "JavaScript 控制台",
+      "name": "JavaScript 控制台",
+      "run": "執行",
+      "clear": "清除",
+      "close": "關閉",
+      "exec": "主控台: exec",
+      "fail": "行數;",
+      "success": "成功執行。"
+    },
+    "checkbox": {
+      "info": "編輯時顯示提示"
+    }
+  },
+  "edit-all-javascript": {
+    "text": "編輯所有 JavaScripts",
+    "title": "編輯文件中的所有 JavaScripts",
+    "dialog": {
+      "title": "JavaScript 編輯器",
+      "sub-title": "建立和編輯 JavaScript",
+      "ok": "確定",
+      "cancel": "取消",
+      "go": "跳轉到...",
+      "ln": "Ln",
+      "col": "Col",
+      "go-title": "跳轉到行",
+      "go-sub-title": "行號:"
+    }
+  }
+}

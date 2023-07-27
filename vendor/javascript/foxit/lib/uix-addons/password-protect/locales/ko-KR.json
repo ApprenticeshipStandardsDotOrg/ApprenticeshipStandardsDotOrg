@@ -1,0 +1,68 @@
+{
+  "buttons": {
+    "title": "암호 보호",
+    "PermissionTitle": "권한 설정",
+    "removeTitle": "보안 제거",
+    "inputOwnerPassword": "소유자의 비밀번호를 입력하세요."
+  },
+  "warning": {
+    "already-secured": "문서는 이미 보호되었습니다. 이 문서의 보안을 변경하시겠습니까?",
+    "apply-to-document": "문서를 저장할 때까지 보안 설정은 문서에 적용되지 않습니다. 문서를 닫을 때까지 보안 설정을 계속 변경할 수 있습니다.",
+    "incorrect-owner-pwd": "소유자 비밀번호가 올바르지 않습니다.",
+    "restriction-warn": "일부 비 Foxit PDF 소프트웨어는 권한 암호로 설정된 제한을 적용하거나 준수하지 않을 수 있으므로 사용자가 이러한 제한을 무시할 수 있습니다.",
+    "reader-warn": "시각 장애인을 위한 화면 판독기 장치의 텍스트 접근 허용하지 않으면 일부 장애인 사용자가 이 문서에 액세스할 수 없으며 US Government Section 508과 같은 접근 규제를 준수할 수 없습니다."
+  },
+  "error": {
+    "pwdLength": "비밀번호는 1~32자 사이여야 합니다.",
+    "open-pwd-not-match": "문서 열기 암호가 일치하지 않습니다!",
+    "permission-pwd-not-match": "문서 권한 암호가 일치하지 않습니다!",
+    "open-owner-pwd-cannot-same": "문서 열기 암호와 소유자 암호는 같을 수 없습니다. 문서 열기 암호 필드 또는 소유자 암호 필드에 다른 암호를 입력하십시오.",
+    "admin-pwd-cannot-blank": "관리자 비밀번호는 비워둘 수 없습니다!"
+  },
+  "dialog": {
+    "Printing": "인쇄:",
+    "Accessiability": "접근성:",
+    "Copying": "복사:",
+    "Changes": "변경:",
+    "Allowed": "승인됨",
+    "NotAllowed": "승인되지 않음",
+    "permission": "권한...",
+    "warn": "경고..",
+    "error": "오류:",
+    "doc-open-caption": "문서 열기 설정",
+    "password-check-hint": "문서를 열 때 암호 필요",
+    "password-label": "비밀번호 입력:",
+    "password-confirm-label": "비밀번호 확인:",
+    "document-restriction-caption": "문서 권한 설정",
+    "add-document-restriction": "문서 제한 추가",
+    "add-document-setting": "문서 및 해당 보안 설정의 인쇄 및 편집 제한",
+    "permission-specific-caption": "권한 사양",
+    "permission-caption": "권한",
+    "printing-label": "인쇄 허용:",
+    "printing-none": "없음",
+    "printing-low": "저해상도(150dpi)",
+    "printing-high": "고해상도",
+    "perm-access-label": "시각 장애인을 위한 화면 판독기 장치의 텍스트 접근 허용",
+    "perm-copy-label": "텍스트, 이미지 및 기타 콘텐츠 복사 활성화",
+    "perm-change-label": "변경 허용:",
+    "perm-changes-none": "없음",
+    "perm-changes-1": "페이지 삽입, 삭제 및 회전",
+    "perm-changes-2": "양식 채우기 및 기존 서명 필드에 서명",
+    "perm-changes-3": "주석 달기, 양식 채우기, 기존 서명 필드에 서명",
+    "perm-changes-4": "페이지 추출을 제외한 모든 변경",
+    "encrypt-caption": "암호화 설정",
+    "enc-alg-label": "암호화 알고리즘:",
+    "enc-no-metadata": "메타데이터를 암호화하지 않음",
+    "ok": "확인",
+    "cancel": "취소",
+    "remove": {
+      "confirmation": "이 문서에서 보안을 제거하시겠습니까?"
+    },
+    "saveToPolicy": "설정을 새 정책으로 저장"
+  },
+  "toolbar": {
+    "protect": {
+      "secureDocument": "문서 보안"
+    }
+  }
+}

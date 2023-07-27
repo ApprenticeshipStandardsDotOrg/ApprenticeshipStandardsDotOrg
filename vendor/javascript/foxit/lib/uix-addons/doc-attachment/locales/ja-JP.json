@@ -1,0 +1,27 @@
+{
+  "dialog": {
+    "title": "添付ファイル",
+    "addFiles": "ファイルを追加...",
+    "addTip": "以下のリストに文書に添付するファイルを追加します。",
+    "okTip": "指定が完了したら「OK」をクリックしてください。",
+    "fileName": "ファイル名",
+    "filePath": "ファイルパス",
+    "fileSize": "ファイルサイズ",
+    "fileType": "ファイルの種類",
+    "noFileWarning": "最初にファイルを追加してください。",
+    "nameTail": "-コピー",
+    "ok": "OK",
+    "cancel": "キャンセル"
+  },
+  "same-file-name-confirm": {
+    "tip1": "現在のファイルは既に “{{oldFileName}}” という名称で添付されています。",
+    "tip2": "ファイルを置き換えるか、または \"{{newFileName}}\" に名称を変更して添付しますか?",
+    "applyToAllFiles": "すべてのファイルに適用",
+    "replace": "置換",
+    "renameAndAttached": "名称変更して添付",
+    "skip": "スキップ"
+  },
+  "button-tooltip": {
+    "title": "添付ファイル"
+  }
+}

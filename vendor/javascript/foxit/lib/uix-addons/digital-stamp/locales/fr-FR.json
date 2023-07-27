@@ -1,0 +1,16 @@
+{
+  "Digital": "Tampons numériques",
+  "IdentityDialog": {
+    "header": "Configurer l'identité",
+    "description": "Entrez les informations d'identité qui s'affichent sur votre tampon d'identité numérique.",
+    "surname": "Nom de famille :",
+    "name": "Nom :",
+    "title": "Titre :",
+    "associationName": "Nom de l'association :",
+    "organizationName": "Nom de l'organisation :"
+  },
+  "Name": "Nom complet",
+  "OrganizationDateName": "Nom de l'organisation, Date, Nom complet",
+  "AssociationDateOrganization": "Nom de l'unité, Date, Service de l'unité",
+  "StatusDateAssociation": "Tampon avec date d'approbation"
+}

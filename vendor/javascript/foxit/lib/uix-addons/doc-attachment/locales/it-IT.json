@@ -1,0 +1,27 @@
+{
+  "dialog": {
+    "title": "Allegato",
+    "addFiles": "Aggiungi file...",
+    "addTip": "Aggiungere documenti all'elenco seguente.",
+    "okTip": "Premere OK quando tutti i documenti sono stati aggiunti.",
+    "fileName": "Nome file",
+    "filePath": "Percorso file",
+    "fileSize": "Dimensioni file",
+    "fileType": "Tipo di file",
+    "noFileWarning": "Aggiungi prima i file.",
+    "nameTail": "-Copia",
+    "ok": "OK",
+    "cancel": "Annulla"
+  },
+  "same-file-name-confirm": {
+    "tip1": "Il file corrente ha già un allegato chiamato \"{{oldFileName}}\".",
+    "tip2": "Vuoi sostituire il file o rinominarlo in \"{{newFileName}}\" e allegarlo?",
+    "applyToAllFiles": "Applica a tutti i file.",
+    "replace": "Sostituisci",
+    "renameAndAttached": "Rinomina e allega",
+    "skip": "Ignora"
+  },
+  "button-tooltip": {
+    "title": "Allegato"
+  }
+}

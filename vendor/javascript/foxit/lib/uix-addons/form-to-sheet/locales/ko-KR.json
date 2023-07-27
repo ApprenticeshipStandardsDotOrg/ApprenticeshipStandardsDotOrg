@@ -1,0 +1,11 @@
+{
+  "ribbon": {
+    "text": "양식을 시트로"
+  },
+  "button-tooltip": {
+    "title": "데이터에서 스프레드시트로 내보내기"
+  },
+  "export": {
+    "existing": "기존 시트에 추가"
+  }
+}

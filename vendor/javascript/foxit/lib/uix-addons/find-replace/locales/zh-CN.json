@@ -1,0 +1,30 @@
+{
+  "dialog": {
+    "close": "关闭",
+    "cancel": "取消",
+    "ok": "确定",
+    "replaceAllConfirm": "该操作是不可逆的。您是否想要保存当前更改并继续吗？",
+    "notFound": "福昕高级PDF编辑器已经结束检索文档，未发现任何匹配项。 ",
+    "replaceAllComplete": "{{count}}处被替换。",
+    "replaceAllNotFound": "未发现如下指定文本：",
+    "DoNotShowAgain": "不再显示",
+    "dialogTile": "PDF编辑器",
+    "labels": {
+      "find": "查找",
+      "replace": "替换内容"
+    },
+    "findReplaceBtn": {
+      "replace": "替换",
+      "replaceNext": "替换下一个",
+      "replaceAll": "全部替换"
+    },
+    "options": {
+      "wholeWords": "整词匹配",
+      "caseSensitive": "区分大小写"
+    },
+    "progress": {
+      "searchFor": "搜索：",
+      "cancel": "取消"
+    }
+  }
+}

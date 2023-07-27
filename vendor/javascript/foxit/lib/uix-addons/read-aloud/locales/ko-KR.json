@@ -1,0 +1,58 @@
+{
+  "read-aloud": {
+    "read": {
+      "text": "읽기",
+      "desc": "문서를 읽습니다."
+    },
+    "activate-read": {
+      "text": "읽기 활성화",
+      "desc": "읽기 활성화 Shift+Ctrl+Y",
+      "descSub": "읽기 기능을 활성화하려면 읽기를 활성화합니다"
+    },
+    "deactivate-read": {
+      "text": "읽기 비활성화",
+      "desc": "읽기 비활성화 Shift+Ctrl+Y",
+      "descSub": "읽기 기능을 비활성화하려면 읽기 비활성화"
+    },
+    "read-current-page": {
+      "text": "현재 페이지 읽기",
+      "desc": "현재 페이지 읽기 Shift+Ctrl+V",
+      "descSub": "현재 페이지의 텍스트만 읽습니다."
+    },
+    "read-from-current-page": {
+      "text": "현재 페이지부터 읽기",
+      "desc": "현재 페이지부터 읽기 Shift+Ctrl+B",
+      "descSub": "현재 페이지부터 끝까지 텍스트만 읽습니다."
+    },
+    "stop": {
+      "text": "정지",
+      "desc": "정지 Shift+Ctrl+E",
+      "descSub": "소리내어 읽기를 정지합니다."
+    },
+    "rate": {
+      "text": "속도",
+      "desc": "속도",
+      "descSub": "읽기 속도조절을 위해 드래그"
+    },
+    "volume": {
+      "text": "음량",
+      "desc": "음량",
+      "descSub": "볼륨 조절을 위해 드래그"
+    },
+    "pause": {
+      "text": "일시 중지",
+      "desc": "일시 중지 Shift+Ctrl+C",
+      "descSub": "소리내어 읽지 않습니다."
+    },
+    "resume": {
+      "text": "재실행",
+      "desc": "재실행 Shift+Ctrl+C",
+      "descSub": "소리내어 읽기를 재실행합니다."
+    }
+  },
+  "error": {
+    "document-not-openned": "열려 있는 문서가 없기 때문에 소리 내어 읽을 수 없습니다.",
+    "permDenyCopyContent": "이 문서의 콘텐츠를 복사할 권한이 없습니다.",
+    "interrupted": "참고: 텍스트 음성 변환 합성기가 다른 페이지에 의해 중단되었습니다. 텍스트 음성 변환을 재개하려면 '현재 페이지 읽기' 또는 '현재 페이지부터 읽기' 버튼을 다시 클릭하기만 하면 됩니다. 문제가 지속되면 오디오를 사용하고 있을 수 있는 다른 페이지나 응용 프로그램을 닫으십시오."
+  }
+}

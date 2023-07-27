@@ -1,0 +1,53 @@
+{
+  "labels": {
+    "toolbar": {
+      "nav-title": "도구 모음",
+      "open-file": "파일",
+      "selection": "선택",
+      "shape": "도형",
+      "measurement": "측정",
+      "path-object": "경로 개체"
+    },
+    "gotopage": "페이지 설정",
+    "setzoom": "확대/축소 설정",
+    "set-font-size": "글꼴 크기 설정",
+    "close-layer-btn": "대화상자 닫기",
+    "color-picker-item": "색상: {{color}}",
+    "color-picker-remove-item": "색상 제거: {{color}}",
+    "color-picker-transparent": "색상: 투명",
+    "color-picker-removecolor": "색상 제거",
+    "color-picker-add-color": "색상 추가",
+    "color-picker-confirm-remove": "색상 제거 확인",
+    "color-spectrum-hue": "색조: {{hue}}",
+    "commentlist": {
+      "group-title": "페이지 {{page}}, 금액 {{count}}",
+      "comment": "{{author}}, {{content}}의 {{page}} 페이지 {{type}}",
+      "reply": "{{page}} 페이지의 {{type}} {{replyAuthor}}에서 {{commentAuthor}}, {{content}}"
+    },
+    "field": {
+      "widget": "{{page}} 페이지의 {{type}}, 이름: {{name}}"
+    },
+    "createInkSign": {
+      "strokeColor": "테두리 색상",
+      "brushSize": "브러쉬 크기",
+      "eraser": "지우개",
+      "clear": "지우기",
+      "preview": "미리보기",
+      "unit": "{{unit}} 픽셀"
+    },
+    "createSignature": "생성된 서명 {{index}}",
+    "deleteSignature": "서명 {{index}} 삭제",
+    "no-color": "색상 없음",
+    "visibleBox": "보임",
+    "promptTitle": "프롬프트",
+    "select": {
+      "selectedLabel": "선택된 페이지"
+    },
+    "prevMonth": "지난 달",
+    "nextMonth": "다음 달",
+    "PDF": {
+      "pageN": "PDF 페이지, {{pageCount}} 중 {{pageIndex}}",
+      "documentViewport": "문서 뷰포트"
+    }
+  }
+}

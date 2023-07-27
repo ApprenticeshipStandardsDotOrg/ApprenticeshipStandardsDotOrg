@@ -1,0 +1,15 @@
+{
+  "contextmenu": {
+    "properties": "속성",
+    "set-to-front": "앞으로 가져오기",
+    "set-to-back": "뒤로 보내기",
+    "delete": "삭제"
+  },
+  "graphics-properties": {
+    "dialog": {
+      "title": "그래픽 객체 속성",
+      "image-title": "이미지 개체 속성",
+      "path-title": "경로 개체 속성"
+    }
+  }
+}

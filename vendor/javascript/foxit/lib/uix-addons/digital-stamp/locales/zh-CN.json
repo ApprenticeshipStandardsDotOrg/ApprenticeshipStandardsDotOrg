@@ -1,0 +1,16 @@
+{
+    "Digital": "数字图章",
+    "IdentityDialog":{
+        "header":"设置身份",
+        "description":"请输入出现在您的数字身份签章的身份信息。",
+        "surname":"姓氏：",
+        "name":"名字：",
+        "title":"标题：",
+        "associationName":"单位名称：",
+        "organizationName":"单位部门："
+    },
+    "Name":"完整姓名",
+    "OrganizationDateName":"单位部门，日期，完整姓名",
+    "AssociationDateOrganization":"单位名称，日期，单位部门",
+    "StatusDateAssociation":"包含审批日期的图章"
+}

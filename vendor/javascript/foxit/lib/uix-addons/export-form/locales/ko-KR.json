@@ -1,0 +1,15 @@
+{
+  "ribbon": {
+    "text": "내보내기"
+  },
+  "button-tooltip": {
+    "title": "양식 데이터 내보내기"
+  },
+  "export": {
+    "xml": "XML 파일로",
+    "fdf": "FDF 파일로",
+    "xfdf": "XFDF 파일로",
+    "csv": "CSV 파일로",
+    "txt": "TXT파일로"
+  }
+}

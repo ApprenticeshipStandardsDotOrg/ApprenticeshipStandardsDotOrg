@@ -1,3 +1,9 @@
-<h1>Hola</h1>
-
-<div id="#pdf-ui"></div>
+<div
+  id="#pdf-ui"
+  class="h-full"
+  data-controller="pdf-editor"
+  data-pdf-editor-license-key-value="<%= ENV["FOXIT_SDK_LICENSE_KEY"] %>"
+  data-pdf-editor-license-serial-number-value="<%= ENV["FOXIT_SDK_SERIAL_NUMBER"] %>"
+  data-pdf-editor-target="renderTo"
+  >
+</div>

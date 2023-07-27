@@ -1,0 +1,16 @@
+{
+    "Digital": "Digital Stamps",
+    "IdentityDialog":{
+        "header":"Set Identity",
+        "description":"Please enter the identity information that appears on your digital identity stamp.",
+        "surname":"Surname:",
+        "name":"Name:",
+        "title":"Title:",
+        "associationName":"Name Of Association:",
+        "organizationName":"Organization Name:"
+    },
+    "Name":"Full name",
+    "OrganizationDateName":"Organization unit,Date,Full name",
+    "AssociationDateOrganization":"Unit Name,Date,Unit Department",
+    "StatusDateAssociation":"Stamp With Approval Date"
+}
