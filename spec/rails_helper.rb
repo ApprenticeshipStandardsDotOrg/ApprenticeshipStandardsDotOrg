@@ -10,7 +10,7 @@ require "capybara/rails"
 require "webmock/rspec"
 require "pundit/rspec"
 
-Webdrivers::Chromedriver.required_version = '114.0.5735.90'
+Webdrivers::Chromedriver.required_version = "114.0.5735.90"
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
