@@ -131,4 +131,12 @@ RSpec.describe "occupation_standards/show" do
 
     expect(page).to have_text "Hours do not meet minimum OA standard for this occupation"
   end
+
+  it "displays the correct page title" do
+    occupation_standard = create(:occupation_standard, :with_data_import)
+
+    visit occupation_standard_path(occupation_standard)
+
+    expect(page).to have_title "#{occupation_standard.title} - ApprenticeshipStandardsDotOrg"
+  end
 end
