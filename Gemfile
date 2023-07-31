@@ -63,7 +63,7 @@ gem "pundit"
 gem "image_processing"
 gem "pagy"
 
-gem 'rack-rewrite', '~> 1.5.0'
+gem "rack-rewrite", "~> 1.5.0"
 
 # For API
 gem "jsonapi-resources"

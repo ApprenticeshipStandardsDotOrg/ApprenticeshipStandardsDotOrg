@@ -1,3 +1,2 @@
 class RedactFilePolicy < ApplicationPolicy
 end
-

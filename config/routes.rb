@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   namespace :admin do
-    get 'redact_files/new'
+    get "redact_files/new"
   end
   mount Rswag::Ui::Engine => "/api-docs"
   mount Rswag::Api::Engine => "/api-docs"
