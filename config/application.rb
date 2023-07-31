@@ -41,6 +41,7 @@ module ApprenticeshipStandardsDotOrg
 
     config.active_storage.service_urls_expire_in = 1.hour
 
+    # Rewrite FoxitSDK relative routes to redirect to /assets
     config.middleware.insert_before(Rack::Runtime, Rack::Rewrite) do
       r301 %r{lib/uix-addons/(.*)}, "/assets/lib/uix-addons/$1"
       r301 %r{admin/source_files/([^/]*)/redact_file/lib/(.*)}, "/assets/lib/$2"
