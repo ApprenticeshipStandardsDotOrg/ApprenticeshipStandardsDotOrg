@@ -26,7 +26,6 @@
 !/tmp/storage/.keep
 
 /public/assets
-!/public/assets/foxit/*
 
 /node_modules
 
