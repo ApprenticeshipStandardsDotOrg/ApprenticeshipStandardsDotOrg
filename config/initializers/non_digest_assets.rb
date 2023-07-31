@@ -1,1 +1,1 @@
-NonDigestAssets.asset_selectors += [/foxit\**\/.*/]
+NonDigestAssets.asset_selectors += [/lib\**\/.*/, /server\**\/.*/]
