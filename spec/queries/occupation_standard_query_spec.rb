@@ -140,4 +140,20 @@ RSpec.describe OccupationStandardQuery do
 
     expect(occupation_standard_search.pluck(:id)).to contain_exactly(os1.id)
   end
+
+  it "allows searching by industry name" do
+    industry1 = create(:industry, name: "Healthcare Support Occupations")
+    industry2 = create(:industry, name: "Repair Occupations")
+
+    occupation_standard = create(:occupation_standard, industry: industry1)
+    create(:occupation_standard, industry: industry2)
+
+    params = {q: "healthcare support"}
+
+    occupation_standard_search = OccupationStandardQuery.run(
+      OccupationStandard.all, params
+    )
+
+    expect(occupation_standard_search.pluck(:id)).to eq [occupation_standard.id]
+  end
 end

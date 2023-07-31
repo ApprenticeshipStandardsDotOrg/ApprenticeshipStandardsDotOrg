@@ -35,7 +35,7 @@
                 </div>
                     <div class="break-inside-avoid-column px-4 flex-grow">
                     <% names.each do |name, id, prefix| %>
-                       <%= link_to occupation_standards_path(q: "#{prefix}-"), class: "hover:font-bold" do %>
+                       <%= link_to occupation_standards_path(q: name), class: "hover:font-bold" do %>
                             <span class="mb-2 block"><%= name %></span>
                         <% end %>
                     <% end %>

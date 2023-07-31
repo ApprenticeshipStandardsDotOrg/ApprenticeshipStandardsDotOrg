@@ -42,3 +42,6 @@
 spec/examples.txt
 
 .DS_Store
+
+# Brew files
+Brewfile.lock.json

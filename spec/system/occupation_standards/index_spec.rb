@@ -332,4 +332,142 @@ RSpec.describe "occupation_standards/index" do
 
     expect(page).to have_text "Updated 1989"
   end
+
+  it "shows link to search by onet code if available" do
+    mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", onet_code: "12.3456")
+
+    visit occupation_standards_path
+
+    expect(page).to have_link "12.3456", href: occupation_standards_path(q: mechanic.onet_code)
+  end
+
+  it "shows link to search by rapids code if available" do
+    mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", rapids_code: "9876")
+
+    visit occupation_standards_path
+
+    expect(page).to have_link "9876", href: occupation_standards_path(q: mechanic.rapids_code)
+  end
+
+  it "shows suggestions based on occupation title", :js do
+    mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
+    pipe_fitter = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Pipe Fitter")
+
+    visit occupation_standards_path
+
+    expect(page).to_not have_selector "div", class: "tt-suggestion"
+
+    fill_in "q", with: "Mec"
+
+    expect(page).to have_selector "div", class: "tt-suggestion", text: mechanic.display_for_typeahead
+    expect(page).to_not have_selector "div", class: "tt-suggestion", text: pipe_fitter.display_for_typeahead
+  end
+
+  it "shows suggestions based on onet code", :js do
+    mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", onet_code: "12-1234")
+    pipe_fitter = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Pipe Fitter", onet_code: "51-6789")
+
+    visit occupation_standards_path
+
+    expect(page).to_not have_selector "div", class: "tt-suggestion"
+
+    fill_in "q", with: "12-"
+
+    expect(page).to have_selector "div", class: "tt-suggestion", text: mechanic.display_for_typeahead
+    expect(page).to_not have_selector "div", class: "tt-suggestion", text: pipe_fitter.display_for_typeahead
+  end
+
+  it "shows suggestions based on rapids code", :js do
+    mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", rapids_code: "9108")
+    pipe_fitter = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Pipe Fitter", rapids_code: "1582")
+
+    visit occupation_standards_path
+
+    expect(page).to_not have_selector "div", class: "tt-suggestion"
+
+    fill_in "q", with: "9108"
+
+    expect(page).to have_selector "div", class: "tt-suggestion", text: mechanic.display_for_typeahead
+    expect(page).to_not have_selector "div", class: "tt-suggestion", text: pipe_fitter.display_for_typeahead
+  end
+
+  it "shows similar results accordion button if they are present" do
+    Flipper.enable :similar_programs_accordion
+    create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
+    create(:occupation_standard, :with_work_processes, :with_data_import, :program_standard, title: "Mechanic")
+
+    visit occupation_standards_path
+
+    expect(page).to have_text "1 program with similar or identical criteria."
+  end
+
+  it "does not show similar results accordion button if they are not present" do
+    Flipper.enable :similar_programs_accordion
+    create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
+    create(:occupation_standard, :with_work_processes, :with_data_import, :program_standard, title: "Pipe Fitter")
+
+    visit occupation_standards_path
+
+    expect(page).not_to have_text "program with similar or identical criteria."
+  end
+
+  it "expands similar results accordion when accordion button is clicked", js: true do
+    Flipper.enable :similar_programs_accordion
+    create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
+    create(:occupation_standard, :with_work_processes, :with_data_import, :program_standard, title: "Mechanic")
+
+    visit occupation_standards_path
+
+    find('button[data-action="click->accordion#changeVisibility"]', match: :first).click
+
+    expect(page).to have_selector(:button, "Collapse duplicates")
+  end
+
+  it "closes similar results accordion when accordion button is clicked", js: true do
+    Flipper.enable :similar_programs_accordion
+    mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
+    create(:occupation_standard, :with_work_processes, :with_data_import, :program_standard, title: "Mechanic")
+
+    visit occupation_standards_path
+
+    find('button[data-action="click->accordion#changeVisibility"]', match: :first).click
+
+    within "#accordion-#{mechanic.id}" do
+      click_on "Collapse duplicates"
+    end
+
+    expect(page).not_to have_selector("#accordion-#{mechanic.id}")
+  end
+
+  it "shows alert if the occupation_standard hours do not meet the occupation required hours" do
+    occupation = create(:occupation, time_based_hours: 2000)
+    occupation_standard = create(:occupation_standard, :with_data_import, occupation: occupation)
+    create(:work_process, maximum_hours: 1000, occupation_standard: occupation_standard)
+
+    visit occupation_standards_path
+
+    expect(page).to have_selector "#hours-alert-#{occupation_standard.id}"
+  end
+
+  it "does not show alert if the occupation_standard hours meet the occupation required hours" do
+    occupation = create(:occupation, time_based_hours: 2000)
+    occupation_standard = create(:occupation_standard, :with_data_import, occupation: occupation)
+    create(:work_process, maximum_hours: 3000, occupation_standard: occupation_standard)
+
+    visit occupation_standards_path
+
+    expect(page).to_not have_selector "#hours-alert-#{occupation_standard.id}"
+  end
+
+  it "displays toolip on hover", js: true do
+    occupation = create(:occupation, time_based_hours: 2000)
+    occupation_standard = create(:occupation_standard, :with_data_import, occupation: occupation)
+    create(:work_process, maximum_hours: 1000, occupation_standard: occupation_standard)
+
+    visit occupation_standards_path
+
+    find("button[data-tooltip-target='hours-alert-#{occupation_standard.id}']").hover
+
+    expect(page).to have_text "Hours do not meet minimum OA standard for this occupation"
+  end
 end

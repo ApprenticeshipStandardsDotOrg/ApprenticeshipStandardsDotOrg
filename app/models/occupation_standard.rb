@@ -28,9 +28,11 @@ class OccupationStandard < ApplicationRecord
 
   MAX_SIMILAR_PROGRAMS_TO_DISPLAY = 5
 
+  index_name "occupation_standards_#{Rails.env}"
+  number_of_shards = Rails.env.production? ? 2 : 1
   es_settings = {
     index: {
-      number_of_shards: 2,
+      number_of_shards: number_of_shards,
       analysis: {
         tokenizer: {
           autocomplete_tokenizer: {
@@ -63,9 +65,9 @@ class OccupationStandard < ApplicationRecord
 
   settings(es_settings) do
     mappings dynamic: false do
-      indexes :title, type: :text, analyzer: :snowball
+      indexes :title, type: :text, analyzer: :english
       indexes :ojt_type, type: :text
-      indexes :work_process_titles, type: :text
+      indexes :work_process_titles, type: :text, analyzer: :english
       indexes :onet_code, type: :text, analyzer: :autocomplete
       indexes :rapids_code, type: :text, analyzer: :autocomplete
       indexes :national_standard_type, type: :text, analyzer: :keyword
@@ -75,13 +77,10 @@ class OccupationStandard < ApplicationRecord
 
   def as_indexed_json(_ = {})
     as_json(
-      include: {
-        work_processes: {only: [:title, :description]},
-        related_instructions: {only: [:title, :description]}
-      }
+      only: [:title, :ojt_type, :onet_code, :rapids_code, :national_standard_type]
     ).merge(
       state: registration_agency&.state&.abbreviation,
-      work_process_titles: work_processes.pluck(:title)
+      work_process_titles: work_processes.pluck(:title).uniq
     )
   end
 
@@ -144,6 +143,13 @@ class OccupationStandard < ApplicationRecord
   scope :by_ojt_type, ->(ojt_types) do
     if ojt_types.present?
       where(ojt_type: ojt_types)
+    end
+  end
+
+  scope :by_industry_name, ->(name) do
+    if name.present?
+      ids = joins(:industry).where("industries.name ILIKE ?", "%#{sanitize_sql_like(name).split.join("%")}%").pluck(:id)
+      where(id: ids)
     end
   end
 
@@ -243,6 +249,24 @@ class OccupationStandard < ApplicationRecord
     national_occupational_framework? &&
       organization_id.present? &&
       organization_id == Organization.urban_institute&.id
+  end
+
+  def display_for_typeahead
+    output = title.strip
+    output << " (#{onet_code})" if onet_code
+    output << " (#{rapids_code})" if rapids_code
+    output
+  end
+
+  def hours_meet_occupation_requirements?
+    return true if occupation.blank?
+    oa_hours = occupation.time_based_hours.to_i
+
+    work_processes_hours >= oa_hours
+  end
+
+  def state_abbreviation
+    registration_agency&.state&.abbreviation
   end
 
   private

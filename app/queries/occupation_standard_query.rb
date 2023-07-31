@@ -23,6 +23,9 @@ class OccupationStandardQuery
         .or(
           occupation_standards.by_onet_code(search_term_params[:q])
         )
+        .or(
+          occupation_standards.by_industry_name(search_term_params[:q])
+        )
       )
   end
 end

@@ -484,4 +484,73 @@ RSpec.describe OccupationStandard, type: :model do
       expect(occupation_standard.public_document?).to be true
     end
   end
+
+  describe "#display_for_typeahead" do
+    it "returns title if onet and rapids code missing" do
+      occupation_standard = build(:occupation_standard, title: "Mechanic", onet_code: nil, rapids_code: nil)
+
+      expect(occupation_standard.display_for_typeahead).to eq "Mechanic"
+    end
+
+    it "returns title and onet code if rapids code missing" do
+      occupation_standard = build(:occupation_standard, title: "Mechanic", onet_code: "15-1342", rapids_code: nil)
+
+      expect(occupation_standard.display_for_typeahead).to eq "Mechanic (15-1342)"
+    end
+
+    it "returns title and rapids code if onet code missing" do
+      occupation_standard = build(:occupation_standard, title: "Mechanic", onet_code: nil, rapids_code: "9201")
+
+      expect(occupation_standard.display_for_typeahead).to eq "Mechanic (9201)"
+    end
+
+    it "returns title and both codes if present" do
+      occupation_standard = build(:occupation_standard, title: "Mechanic", onet_code: "15-1342", rapids_code: "9201")
+
+      expect(occupation_standard.display_for_typeahead).to eq "Mechanic (15-1342) (9201)"
+    end
+  end
+
+  describe "#hours_meet_occupation_requirements?" do
+    it "returns true if work_process hours match occupation hours" do
+      occupation = create(:occupation, time_based_hours: 1000)
+      occupation_standard = create(:occupation_standard, occupation: occupation)
+      create(:work_process, maximum_hours: 2000, occupation_standard: occupation_standard)
+
+      expect(occupation_standard.hours_meet_occupation_requirements?).to be true
+    end
+
+    it "returns false if work_process hours do not match occupation hours" do
+      occupation = create(:occupation, time_based_hours: 2000)
+      occupation_standard = create(:occupation_standard, occupation: occupation)
+      create(:work_process, maximum_hours: 1000, occupation_standard: occupation_standard)
+
+      expect(occupation_standard.hours_meet_occupation_requirements?).to be false
+    end
+
+    it "returns true if there is no associated occupation" do
+      occupation_standard = create(:occupation_standard, occupation_id: nil)
+      create(:work_process, maximum_hours: 2000, occupation_standard: occupation_standard)
+
+      expect(occupation_standard.hours_meet_occupation_requirements?).to be true
+      expect(occupation_standard.occupation).to be nil
+    end
+  end
+
+  describe "#state_abbreviation" do
+    it "returns nil when registration agency is not associated to an state" do
+      registration_agency = create(:registration_agency, state: nil)
+      occupation_standard = create(:occupation_standard, registration_agency: registration_agency)
+
+      expect(occupation_standard.state_abbreviation).to be_nil
+    end
+
+    it "returns state abbreviation when registration agency has state" do
+      state = create(:state, name: "California", abbreviation: "CA")
+      registration_agency = create(:registration_agency, state: state)
+      occupation_standard = create(:occupation_standard, registration_agency: registration_agency)
+
+      expect(occupation_standard.state_abbreviation).to eq "CA"
+    end
+  end
 end

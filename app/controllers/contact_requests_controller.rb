@@ -1,6 +1,9 @@
 class ContactRequestsController < ApplicationController
+  include Spammable
+
   def new
     @contact_request = ContactRequest.new
+    @page_title = "Contact"
   end
 
   def create
@@ -10,7 +13,7 @@ class ContactRequestsController < ApplicationController
       flash[:notice] = "Thank you for contacting us! We've received your note and will reply to you soon!"
       redirect_to guest_root_path
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 
