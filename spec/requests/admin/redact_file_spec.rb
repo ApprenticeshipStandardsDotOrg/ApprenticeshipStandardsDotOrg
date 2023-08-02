@@ -6,7 +6,7 @@ RSpec.describe "Admin::SourceFiles::RedactFile", type: :request do
       context "when admin user" do
         it "returns http success" do
           admin = create(:admin)
-          active_storage_attachment = create(:active_storage_attachment, filename: "abc.pdf")
+          active_storage_attachment = create(:active_storage_attachment)
           source_file = create(:source_file, active_storage_attachment: active_storage_attachment)
 
           sign_in admin
@@ -19,7 +19,7 @@ RSpec.describe "Admin::SourceFiles::RedactFile", type: :request do
       context "when converter" do
         it "returns http success" do
           admin = create(:user, :converter)
-          active_storage_attachment = create(:active_storage_attachment, filename: "abc.pdf")
+          active_storage_attachment = create(:active_storage_attachment)
           source_file = create(:source_file, active_storage_attachment: active_storage_attachment)
 
           sign_in admin
@@ -31,7 +31,7 @@ RSpec.describe "Admin::SourceFiles::RedactFile", type: :request do
 
       context "when guest" do
         it "redirects to root path" do
-          active_storage_attachment = create(:active_storage_attachment, filename: "abc.pdf")
+          active_storage_attachment = create(:active_storage_attachment)
           source_file = create(:source_file, active_storage_attachment: active_storage_attachment)
 
           get new_admin_source_file_redact_file_path(source_file)
@@ -43,7 +43,7 @@ RSpec.describe "Admin::SourceFiles::RedactFile", type: :request do
 
     context "on non-admin subdomain" do
       it "has 404 response" do
-        active_storage_attachment = create(:active_storage_attachment, filename: "abc.pdf")
+        active_storage_attachment = create(:active_storage_attachment)
         source_file = create(:source_file, active_storage_attachment: active_storage_attachment)
         expect {
           get new_admin_source_file_redact_file_path(source_file)

@@ -51,14 +51,14 @@ RSpec.describe SourceFile, type: :model do
 
   describe "#pdf?" do
     it "returns true when attachment is a pdf file" do
-      active_storage_attachment = build_stubbed(:active_storage_attachment, filename: "abc.pdf")
+      active_storage_attachment = build_stubbed(:active_storage_attachment, content_type: "application/pdf")
       source_file = build_stubbed(:source_file, active_storage_attachment: active_storage_attachment)
 
       expect(source_file.pdf?).to be true
     end
 
     it "returns false when attachment is an image" do
-      active_storage_attachment = build_stubbed(:active_storage_attachment, filename: "abc.png")
+      active_storage_attachment = build_stubbed(:active_storage_attachment, content_type: "image/png")
       source_file = build(:source_file, active_storage_attachment: active_storage_attachment)
 
       expect(source_file.pdf?).to be false

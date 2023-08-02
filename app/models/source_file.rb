@@ -36,6 +36,6 @@ class SourceFile < ApplicationRecord
   end
 
   def pdf?
-    active_storage_attachment&.filename&.extension == "pdf"
+    active_storage_attachment&.blob&.content_type == "application/pdf"
   end
 end
