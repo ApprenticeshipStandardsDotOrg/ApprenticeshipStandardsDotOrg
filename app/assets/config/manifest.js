@@ -6,3 +6,6 @@
 //= link administrate-field-active_storage/application.css
 //= link administrate-field-jsonb/application.css
 //= link administrate-field-jsonb/application.js
+/// Links foxit SDK folders lib and server, which are used to make the integration work
+//= link_tree "../../../node_modules/@foxitsoftware/foxit-pdf-sdk-for-web-library-full/lib"
+//= link_tree "../../../node_modules/@foxitsoftware/foxit-pdf-sdk-for-web-library-full/server"

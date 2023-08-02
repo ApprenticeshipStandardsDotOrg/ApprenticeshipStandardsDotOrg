@@ -42,6 +42,14 @@
             data: {confirm: t("administrate.actions.confirm")}
           )
         end %>
+
+    <%= if page.resource.pdf? && accessible_action?(:redact_file, :new)
+          link_to(
+            "Redact document",
+            [:new, namespace, page.resource, :redact_file],
+            class: "button"
+          )
+        end %>
   </div>
 </header>
 
