@@ -23,7 +23,8 @@ export default class extends Controller {
       renderTo: this.renderToTarget,
       addons: [
         "/lib/uix-addons/file-property",
-        "/lib/uix-addons/thumbnail"
+        "/lib/uix-addons/thumbnail",
+        "/lib/uix-addons/redaction"
       ]
     });
   }
