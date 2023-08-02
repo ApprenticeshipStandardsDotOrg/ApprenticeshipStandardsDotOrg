@@ -43,7 +43,7 @@
           )
         end %>
 
-    <%= if page.resource.pdf?
+    <%= if page.resource.pdf? && accessible_action?(:redact_file, :new)
           link_to(
             "Redact document",
             [:new, namespace, page.resource, :redact_file],
