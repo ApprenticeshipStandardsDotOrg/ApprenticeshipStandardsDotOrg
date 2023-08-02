@@ -83,8 +83,10 @@ command.
 The promotion can also be done through the Heroku Dashboard on the [Pipelines page](https://dashboard.heroku.com/pipelines/3657e91f-455e-4fa7-9da7-f6ddc1beb854).
 
 ## Elasticsearch setup
-We are currently using Elasticsearch version 7.17.4. This can be installed with
-[Homebrew](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/brew.html).
+We are currently using Elasticsearch version 7.17.4. See the [Elasticsearch
+documentation](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/install-elasticsearch.html)
+for installation options. The Homebrew installation may no longer work due to
+licensing issues.
 
 ### Populate Elasticsearch
 Once the app is running with the `bin/dev` command, set up the index for the
@@ -99,9 +101,7 @@ through the Rails console:
 ### Kibana setup
 If you are working on any tasks related to Elasticsearch, then it may be helpful
 to set up
-[Kibana](https://www.elastic.co/guide/en/kibana/7.17/introduction.html). This
-can also be installed with
-[Homebrew](https://www.elastic.co/guide/en/kibana/7.17/brew.html).
+[Kibana](https://www.elastic.co/guide/en/kibana/7.17/introduction.html).
 
 To start Kibana, make sure that elasticsearch is already running, then run
 `kibana` in the terminal. Kibana will be available at http://localhost:5601. To
