@@ -64,8 +64,6 @@ Rails.application.configure do
   # Enable debug mode in development
   config.assets.debug = true
 
-  config.assets.compile = true
-
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 
