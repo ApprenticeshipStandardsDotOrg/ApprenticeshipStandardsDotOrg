@@ -91,7 +91,7 @@ RSpec.describe "OccupationStandard", type: :request do
 
         expect(result["id"]).to eq occupation_standard.id
         expect(result["display"]).to eq occupation_standard.display_for_typeahead
-        expect(result["link"]).to eq occupation_standard_path(occupation_standard)
+        expect(result["link"]).to eq occupation_standards_path
       end
     end
   end

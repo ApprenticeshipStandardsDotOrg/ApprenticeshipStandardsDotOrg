@@ -4,6 +4,6 @@ class OccupationStandardBlueprint < Blueprinter::Base
   field :display_for_typeahead, name: :display
 
   field :link do |resource, options|
-    Rails.application.routes.url_helpers.occupation_standard_path(resource)
+    Rails.application.routes.url_helpers.occupation_standards_path
   end
 end
