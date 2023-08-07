@@ -55,7 +55,7 @@ gem "roo", "~> 2.10.0"
 gem "aws-sdk-s3", require: false
 gem "after_party"
 gem "sidekiq", "~> 7"
-gem "watir", "~> 7.2"
+gem "watir", "~> 7.3"
 gem "docx"
 gem "administrate"
 gem "administrate-field-active_storage"
