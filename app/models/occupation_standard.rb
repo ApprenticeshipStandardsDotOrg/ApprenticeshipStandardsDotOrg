@@ -224,7 +224,7 @@ class OccupationStandard < ApplicationRecord
     [
       state&.id,
       ojt_type,
-      title,
+      title.parameterize,
       associations.map(&:title).map(&:parameterize),
       work_processes_hours.to_s
     ].flatten.compact.map(&:downcase).join("-")

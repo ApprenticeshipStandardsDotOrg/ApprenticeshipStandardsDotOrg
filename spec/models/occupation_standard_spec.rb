@@ -645,24 +645,24 @@ RSpec.describe OccupationStandard, type: :model do
         it "concatenates state, type, title, work process titles, work process hours" do
           state = create(:state)
           agency = create(:registration_agency, state: state)
-          occupation_standard = create(:occupation_standard, :time, registration_agency: agency, title: "Mechanic")
+          occupation_standard = create(:occupation_standard, :time, registration_agency: agency, title: "Pipe Fitter")
           create(:work_process, occupation_standard: occupation_standard, sort_order: 2, title: "fox jumps over", maximum_hours: 100)
           create(:work_process, occupation_standard: occupation_standard, sort_order: 1, title: "The quick brown", maximum_hours: 200)
           create(:work_process, occupation_standard: occupation_standard, sort_order: 3, title: "the lazy dog", maximum_hours: 400)
 
-          expect(occupation_standard.headline).to eq "#{state.id}-time-mechanic-the-quick-brown-fox-jumps-over-the-lazy-dog-700"
+          expect(occupation_standard.headline).to eq "#{state.id}-time-pipe-fitter-the-quick-brown-fox-jumps-over-the-lazy-dog-700"
         end
       end
 
       context "when state does not exist" do
         it "concatenates type, title, work process titles, work process hours" do
           agency = create(:registration_agency, state: nil)
-          occupation_standard = create(:occupation_standard, :time, registration_agency: agency, title: "Mechanic")
+          occupation_standard = create(:occupation_standard, :time, registration_agency: agency, title: "Pipe Fitter")
           create(:work_process, occupation_standard: occupation_standard, sort_order: 2, title: "fox jumps over", maximum_hours: 100)
           create(:work_process, occupation_standard: occupation_standard, sort_order: 1, title: "The quick brown", maximum_hours: 200)
           create(:work_process, occupation_standard: occupation_standard, sort_order: 3, title: "the lazy dog", maximum_hours: 400)
 
-          expect(occupation_standard.headline).to eq "time-mechanic-the-quick-brown-fox-jumps-over-the-lazy-dog-700"
+          expect(occupation_standard.headline).to eq "time-pipe-fitter-the-quick-brown-fox-jumps-over-the-lazy-dog-700"
         end
       end
     end
@@ -672,7 +672,7 @@ RSpec.describe OccupationStandard, type: :model do
         it "concatenates state, type, title, skill names" do
           state = create(:state)
           agency = create(:registration_agency, state: state)
-          occupation_standard = create(:occupation_standard, :competency, registration_agency: agency, title: "Mechanic")
+          occupation_standard = create(:occupation_standard, :competency, registration_agency: agency, title: "Pipe Fitter")
           wp1 = create(:work_process, occupation_standard: occupation_standard, sort_order: 2)
           wp2 = create(:work_process, occupation_standard: occupation_standard, sort_order: 1)
           create(:competency, work_process: wp1, sort_order: 1, title: "jumps over")
@@ -680,14 +680,14 @@ RSpec.describe OccupationStandard, type: :model do
           create(:competency, work_process: wp2, sort_order: 2, title: "brown fox")
           create(:competency, work_process: wp2, sort_order: 1, title: "The quick")
 
-          expect(occupation_standard.headline).to eq "#{state.id}-competency-mechanic-the-quick-brown-fox-jumps-over-the-lazy-dog-0"
+          expect(occupation_standard.headline).to eq "#{state.id}-competency-pipe-fitter-the-quick-brown-fox-jumps-over-the-lazy-dog-0"
         end
       end
 
       context "when state does not exist" do
         it "concatenates type, title, skill names" do
           agency = create(:registration_agency, state: nil)
-          occupation_standard = create(:occupation_standard, :competency, registration_agency: agency, title: "Mechanic")
+          occupation_standard = create(:occupation_standard, :competency, registration_agency: agency, title: "Pipe Fitter")
           wp1 = create(:work_process, occupation_standard: occupation_standard, sort_order: 2)
           wp2 = create(:work_process, occupation_standard: occupation_standard, sort_order: 1)
           create(:competency, work_process: wp1, sort_order: 1, title: "jumps over")
@@ -695,7 +695,7 @@ RSpec.describe OccupationStandard, type: :model do
           create(:competency, work_process: wp2, sort_order: 2, title: "brown fox")
           create(:competency, work_process: wp2, sort_order: 1, title: "The quick")
 
-          expect(occupation_standard.headline).to eq "competency-mechanic-the-quick-brown-fox-jumps-over-the-lazy-dog-0"
+          expect(occupation_standard.headline).to eq "competency-pipe-fitter-the-quick-brown-fox-jumps-over-the-lazy-dog-0"
         end
       end
     end
@@ -705,7 +705,7 @@ RSpec.describe OccupationStandard, type: :model do
         it "concatenates state, type, title, skill names, work process hours" do
           state = create(:state)
           agency = create(:registration_agency, state: state)
-          occupation_standard = create(:occupation_standard, :hybrid, registration_agency: agency, title: "Mechanic")
+          occupation_standard = create(:occupation_standard, :hybrid, registration_agency: agency, title: "Pipe Fitter")
           wp1 = create(:work_process, occupation_standard: occupation_standard, sort_order: 2, maximum_hours: 200)
           wp2 = create(:work_process, occupation_standard: occupation_standard, sort_order: 1, maximum_hours: 500)
           create(:competency, work_process: wp1, sort_order: 1, title: "jumps over")
@@ -713,14 +713,14 @@ RSpec.describe OccupationStandard, type: :model do
           create(:competency, work_process: wp2, sort_order: 2, title: "brown fox")
           create(:competency, work_process: wp2, sort_order: 1, title: "The quick")
 
-          expect(occupation_standard.headline).to eq "#{state.id}-hybrid-mechanic-the-quick-brown-fox-jumps-over-the-lazy-dog-700"
+          expect(occupation_standard.headline).to eq "#{state.id}-hybrid-pipe-fitter-the-quick-brown-fox-jumps-over-the-lazy-dog-700"
         end
       end
 
       context "when state does not exist" do
         it "concatenates type, title, skill names, work process hours" do
           agency = create(:registration_agency, state: nil)
-          occupation_standard = create(:occupation_standard, :hybrid, registration_agency: agency, title: "Mechanic")
+          occupation_standard = create(:occupation_standard, :hybrid, registration_agency: agency, title: "Pipe Fitter")
           wp1 = create(:work_process, occupation_standard: occupation_standard, sort_order: 2, maximum_hours: 200)
           wp2 = create(:work_process, occupation_standard: occupation_standard, sort_order: 1, maximum_hours: 500)
           create(:competency, work_process: wp1, sort_order: 1, title: "jumps over")
@@ -728,7 +728,7 @@ RSpec.describe OccupationStandard, type: :model do
           create(:competency, work_process: wp2, sort_order: 2, title: "brown fox")
           create(:competency, work_process: wp2, sort_order: 1, title: "The quick")
 
-          expect(occupation_standard.headline).to eq "hybrid-mechanic-the-quick-brown-fox-jumps-over-the-lazy-dog-700"
+          expect(occupation_standard.headline).to eq "hybrid-pipe-fitter-the-quick-brown-fox-jumps-over-the-lazy-dog-700"
         end
       end
     end
