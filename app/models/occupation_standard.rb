@@ -86,6 +86,7 @@ class OccupationStandard < ApplicationRecord
       indexes :work_process_titles, type: :text, analyzer: :english
       indexes :related_job_titles, type: :text, analyzer: :english
       indexes :created_at, type: :date
+      indexes :headline, type: :keyword
     end
   end
 
@@ -211,6 +212,22 @@ class OccupationStandard < ApplicationRecord
 
   def original_file_url
     standards_import.url
+  end
+
+  def headline
+    associations = if time_based?
+      work_processes
+    else
+      work_processes.flat_map(&:competencies)
+    end
+
+    [
+      state&.id,
+      ojt_type,
+      title,
+      associations.map(&:title).map(&:parameterize),
+      work_processes_hours.to_s
+    ].flatten.compact.map(&:downcase).join("-")
   end
 
   def competencies_count
