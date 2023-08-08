@@ -111,7 +111,7 @@ Tools" under the Management section.
 To see all of the records in the `occupation_standards` in the Kibana Dev Tools enter:
 
 ```
-GET occupation_standards/_search
+GET occupation_standards_development/_search
 {
   "query": {
     "match_all": {}
