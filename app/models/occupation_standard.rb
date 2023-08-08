@@ -18,6 +18,7 @@ class OccupationStandard < ApplicationRecord
   delegate :title, to: :organization, prefix: true, allow_nil: true
   delegate :title, to: :occupation, prefix: true, allow_nil: true
   delegate :standards_import, to: :source_file, allow_nil: true
+  delegate :state, to: :registration_agency, allow_nil: true
 
   enum ojt_type: [:time, :competency, :hybrid], _suffix: :based
   enum national_standard_type: [:program_standard, :guideline_standard, :occupational_framework], _prefix: :national
@@ -79,7 +80,7 @@ class OccupationStandard < ApplicationRecord
     as_json(
       only: [:title, :ojt_type, :onet_code, :rapids_code, :national_standard_type]
     ).merge(
-      state: registration_agency&.state&.abbreviation,
+      state: state_abbreviation,
       work_process_titles: work_processes.pluck(:title).uniq
     )
   end
@@ -263,7 +264,7 @@ class OccupationStandard < ApplicationRecord
   end
 
   def state_abbreviation
-    registration_agency&.state&.abbreviation
+    state&.abbreviation
   end
 
   private
