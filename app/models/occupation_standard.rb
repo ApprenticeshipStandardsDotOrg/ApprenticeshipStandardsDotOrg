@@ -227,7 +227,7 @@ class OccupationStandard < ApplicationRecord
       title.parameterize,
       associations.map(&:title).map(&:parameterize),
       work_processes_hours.to_s
-    ].flatten.compact.map(&:downcase).join("-")
+    ].flatten.compact.join("-")
   end
 
   def competencies_count
