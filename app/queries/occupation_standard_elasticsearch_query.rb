@@ -60,8 +60,8 @@ class OccupationStandardElasticsearchQuery
                   }
                 end
                 should do
-                  match rapids_code: {
-                    query: q
+                  wildcard rapids_code: {
+                    value: "*#{q}*"
                   }
                 end
                 should do

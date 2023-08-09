@@ -171,6 +171,7 @@ RSpec.describe OccupationStandardQuery do
     end
 
     it "allows searching occupation standards by title" do
+      OccupationStandard.delete_all
       occupation_standard_for_mechanic = create(:occupation_standard, title: "Mechanic")
       create(:occupation_standard, title: "Pipe Fitter")
       params = {q: "Mechanic"}
@@ -186,6 +187,8 @@ RSpec.describe OccupationStandardQuery do
     end
 
     it "allows searching occupation standards by rapids code" do
+      #OccupationStandard.__elasticsearch__.create_index!(force: true)
+      OccupationStandard.delete_all
       os1 = create(:occupation_standard, rapids_code: "1234")
       os2 = create(:occupation_standard, rapids_code: "1234CB")
       create(:occupation_standard, title: "HR", rapids_code: "123")
@@ -203,6 +206,7 @@ RSpec.describe OccupationStandardQuery do
     end
 
     it "allows searching occupation standards by onet code" do
+      OccupationStandard.delete_all
       os1 = create(:occupation_standard, onet_code: "12.3456")
       os2 = create(:occupation_standard, onet_code: "12.34567")
       create(:occupation_standard, title: "HR", onet_code: "12.3")
@@ -220,6 +224,7 @@ RSpec.describe OccupationStandardQuery do
     end
 
     it "allows filtering occupation standards by state" do
+      OccupationStandard.delete_all
       ca = create(:state)
       wa = create(:state)
       ra_ca = create(:registration_agency, state: ca)
@@ -241,6 +246,7 @@ RSpec.describe OccupationStandardQuery do
     end
 
     it "allows filtering occupation standards by state abbreviation" do
+      OccupationStandard.delete_all
       ca = create(:state, abbreviation: "CA")
       wa = create(:state, abbreviation: "WA")
       ra_ca = create(:registration_agency, state: ca)
@@ -262,6 +268,7 @@ RSpec.describe OccupationStandardQuery do
     end
 
     it "allows filtering occupation standards by multiple national_standard_types" do
+      OccupationStandard.delete_all
       os1 = create(:occupation_standard, :program_standard)
       os2 = create(:occupation_standard, :guideline_standard)
       create(:occupation_standard, :occupational_framework)
@@ -284,6 +291,7 @@ RSpec.describe OccupationStandardQuery do
     end
 
     it "allows filtering occupation standards by multiple ojt_types" do
+      OccupationStandard.delete_all
       os1 = create(:occupation_standard, :time)
       os2 = create(:occupation_standard, :hybrid)
       create(:occupation_standard, :competency)
@@ -306,6 +314,7 @@ RSpec.describe OccupationStandardQuery do
     end
 
     it "allows searching by title and filtering occupation standards by state and national_standard_type and ojt_type" do
+      OccupationStandard.delete_all
       ca = create(:state)
       wa = create(:state)
       ra_ca = create(:registration_agency, state: ca)
@@ -335,6 +344,7 @@ RSpec.describe OccupationStandardQuery do
     end
 
     it "allows searching by industry name" do
+      OccupationStandard.delete_all
       industry1 = create(:industry, name: "Healthcare Support Occupations")
       industry2 = create(:industry, name: "Repair Occupations")
 
