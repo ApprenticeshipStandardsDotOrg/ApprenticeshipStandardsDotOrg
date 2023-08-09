@@ -5,7 +5,7 @@ class OccupationStandardElasticsearchQuery
 
   attr_reader :search_term_params, :debug
 
-  def initialize(search_term_params, debug = false)
+  def initialize(search_term_params, debug = true)
     @search_term_params = search_term_params
     @debug = debug
   end
@@ -14,7 +14,6 @@ class OccupationStandardElasticsearchQuery
     puts "search params"
     puts search_term_params
 
-    use_must_block = must_search_term_params_exist?
     definition = search do
       query do
         bool do
@@ -28,21 +27,21 @@ class OccupationStandardElasticsearchQuery
               term state: search_term_params[:state]
             end
           end
-          if use_must_block
+          if search_term_params[:national_standard_type].present?
             must do
-              if search_term_params[:national_standard_type].present?
-                bool do
-                  search_term_params[:national_standard_type].keys.each do |type|
-                    should do
-                      match national_standard_type: {
-                        query: type
-                      }
-                    end
+              bool do
+                search_term_params[:national_standard_type].keys.each do |type|
+                  should do
+                    match national_standard_type: {
+                      query: type
+                    }
                   end
-                  minimum_should_match 1
                 end
+                minimum_should_match 1
               end
-              if search_term_params[:ojt_type].present?
+            end
+            if search_term_params[:ojt_type].present?
+              must do
                 bool do
                   search_term_params[:ojt_type].keys.each do |type|
                     should do
@@ -54,8 +53,10 @@ class OccupationStandardElasticsearchQuery
                   minimum_should_match 1
                 end
               end
-              if search_term_params[:q].present?
-                q = search_term_params[:q]
+            end
+            if search_term_params[:q].present?
+              q = search_term_params[:q]
+              must do
                 bool do
                   should do
                     wildcard title: {
@@ -101,12 +102,6 @@ class OccupationStandardElasticsearchQuery
   end
 
   private
-
-  def must_search_term_params_exist?
-    search_term_params[:national_standard_type].present? ||
-      search_term_params[:ojt_type].present? ||
-      search_term_params[:q].present?
-  end
 
   def escape_autocomplete_terms(q)
     q.gsub(/\.|-|,/, "*")
