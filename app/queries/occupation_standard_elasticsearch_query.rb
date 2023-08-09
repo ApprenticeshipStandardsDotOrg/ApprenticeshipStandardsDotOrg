@@ -16,17 +16,17 @@ class OccupationStandardElasticsearchQuery
     definition = search do
       query do
         bool do
+          if search_term_params[:state_id].present?
+            filter do
+              term state_id: search_term_params[:state_id]
+            end
+          end
+          if search_term_params[:state].present?
+            filter do
+              term state: search_term_params[:state]
+            end
+          end
           must do
-            if search_term_params[:state_id].present?
-              filter do
-                term state_id: search_term_params[:state_id]
-              end
-            end
-            if search_term_params[:state].present?
-              filter do
-                term state: search_term_params[:state]
-              end
-            end
             if search_term_params[:national_standard_type].present?
               bool do
                 search_term_params[:national_standard_type].keys.each do |type|
