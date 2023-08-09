@@ -17,6 +17,7 @@ class OccupationStandard < ApplicationRecord
 
   delegate :title, to: :organization, prefix: true, allow_nil: true
   delegate :title, to: :occupation, prefix: true, allow_nil: true
+  delegate :name, to: :industry, prefix: true, allow_nil: true
   delegate :standards_import, to: :source_file, allow_nil: true
   delegate :state, to: :registration_agency, allow_nil: true
 
@@ -265,6 +266,10 @@ class OccupationStandard < ApplicationRecord
 
   def state_abbreviation
     state&.abbreviation
+  end
+
+  def state_id
+    state&.id
   end
 
   private
