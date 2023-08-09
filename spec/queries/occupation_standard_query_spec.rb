@@ -187,7 +187,6 @@ RSpec.describe OccupationStandardQuery do
     end
 
     it "allows searching occupation standards by rapids code" do
-      #OccupationStandard.__elasticsearch__.create_index!(force: true)
       OccupationStandard.delete_all
       os1 = create(:occupation_standard, rapids_code: "1234")
       os2 = create(:occupation_standard, rapids_code: "1234CB")

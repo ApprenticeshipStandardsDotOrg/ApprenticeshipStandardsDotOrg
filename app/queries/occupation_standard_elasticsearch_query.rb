@@ -61,12 +61,12 @@ class OccupationStandardElasticsearchQuery
                 end
                 should do
                   wildcard rapids_code: {
-                    value: "*#{q}*"
+                    value: "*#{q.gsub(/\.|-|,/, "*")}*"
                   }
                 end
                 should do
-                  match onet_code: {
-                    query: q
+                  wildcard onet_code: {
+                    value: "*#{q.gsub(/\.|-|,/, "*")}*"
                   }
                 end
                 should do
