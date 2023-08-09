@@ -175,6 +175,9 @@ RSpec.describe OccupationStandardQuery do
       create(:occupation_standard, title: "Pipe Fitter")
       params = {q: "Mechanic"}
 
+      OccupationStandard.import
+      OccupationStandard.__elasticsearch__.refresh_index!
+
       occupation_standard_search = OccupationStandardQuery.run(
         OccupationStandard.all, params
       )
@@ -186,6 +189,9 @@ RSpec.describe OccupationStandardQuery do
       os1 = create(:occupation_standard, rapids_code: "1234")
       os2 = create(:occupation_standard, rapids_code: "1234CB")
       create(:occupation_standard, title: "HR", rapids_code: "123")
+
+      OccupationStandard.import
+      OccupationStandard.__elasticsearch__.refresh_index!
 
       params = {q: "1234"}
 
@@ -200,6 +206,9 @@ RSpec.describe OccupationStandardQuery do
       os1 = create(:occupation_standard, onet_code: "12.3456")
       os2 = create(:occupation_standard, onet_code: "12.34567")
       create(:occupation_standard, title: "HR", onet_code: "12.3")
+
+      OccupationStandard.import
+      OccupationStandard.__elasticsearch__.refresh_index!
 
       params = {q: "12.3456"}
 
@@ -219,6 +228,9 @@ RSpec.describe OccupationStandardQuery do
       os2 = create(:occupation_standard, registration_agency: ra_ca)
       create(:occupation_standard, registration_agency: ra_wa)
 
+      OccupationStandard.import
+      OccupationStandard.__elasticsearch__.refresh_index!
+
       params = {state_id: ca.id}
 
       occupation_standard_search = OccupationStandardQuery.run(
@@ -237,6 +249,9 @@ RSpec.describe OccupationStandardQuery do
       os2 = create(:occupation_standard, registration_agency: ra_ca)
       create(:occupation_standard, registration_agency: ra_wa)
 
+      OccupationStandard.import
+      OccupationStandard.__elasticsearch__.refresh_index!
+
       params = {state: ca.abbreviation}
 
       occupation_standard_search = OccupationStandardQuery.run(
@@ -250,6 +265,9 @@ RSpec.describe OccupationStandardQuery do
       os1 = create(:occupation_standard, :program_standard)
       os2 = create(:occupation_standard, :guideline_standard)
       create(:occupation_standard, :occupational_framework)
+
+      OccupationStandard.import
+      OccupationStandard.__elasticsearch__.refresh_index!
 
       params = {
         national_standard_type: {
@@ -269,6 +287,9 @@ RSpec.describe OccupationStandardQuery do
       os1 = create(:occupation_standard, :time)
       os2 = create(:occupation_standard, :hybrid)
       create(:occupation_standard, :competency)
+
+      OccupationStandard.import
+      OccupationStandard.__elasticsearch__.refresh_index!
 
       params = {
         ojt_type: {
@@ -296,6 +317,9 @@ RSpec.describe OccupationStandardQuery do
       create(:occupation_standard, :program_standard, :time, registration_agency: ra_wa, title: "Mechanic")
       create(:occupation_standard, :guideline_standard, :hybrid, registration_agency: ra_wa, title: "Mechanic")
 
+      OccupationStandard.import
+      OccupationStandard.__elasticsearch__.refresh_index!
+
       params = {
         q: "mech",
         state_id: wa.id,
@@ -316,6 +340,9 @@ RSpec.describe OccupationStandardQuery do
 
       occupation_standard = create(:occupation_standard, industry: industry1)
       create(:occupation_standard, industry: industry2)
+
+      OccupationStandard.import
+      OccupationStandard.__elasticsearch__.refresh_index!
 
       params = {q: "healthcare support"}
 
