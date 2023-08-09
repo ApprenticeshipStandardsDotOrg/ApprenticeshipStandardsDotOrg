@@ -42,14 +42,6 @@ class OccupationStandard < ApplicationRecord
             type: "stop",
             stopwords: "_english_"
           },
-          english_stemmer: {
-            type: "stemmer",
-            language: "english"
-          },
-          english_possessive_stemmer: {
-            type: "stemmer",
-            language: "possessive_english"
-          },
           ngram_filter: {
             type: "ngram",
             min_gram: 3,
