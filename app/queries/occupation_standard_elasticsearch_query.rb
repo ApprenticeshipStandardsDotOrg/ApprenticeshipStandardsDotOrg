@@ -5,7 +5,7 @@ class OccupationStandardElasticsearchQuery
 
   attr_reader :search_term_params, :debug
 
-  def initialize(search_term_params, debug = true)
+  def initialize(search_term_params, debug = false)
     @search_term_params = search_term_params
     @debug = debug
   end
@@ -53,7 +53,6 @@ class OccupationStandardElasticsearchQuery
             end
             if search_term_params[:q].present?
               q = search_term_params[:q]
-              puts "Q: #{q}"
               bool do
                 should do
                   match title: {
@@ -82,11 +81,11 @@ class OccupationStandardElasticsearchQuery
         end
       end
     end
-    puts "DEFINITION"
-    puts definition.to_hash
-    puts "DEFINITION END"
     response = OccupationStandard.__elasticsearch__.search(definition)
     if debug
+      puts "DEFINITION"
+      puts definition.to_hash
+      puts "DEFINITION END"
       puts "QUERY"
       puts response.search.definition[:body][:query].to_json
       puts "HITS: #{response.results.total}"
@@ -94,6 +93,6 @@ class OccupationStandardElasticsearchQuery
         puts "#{result._id}: #{result._score}"
       end
     end
-    response
+    response.records
   end
 end
