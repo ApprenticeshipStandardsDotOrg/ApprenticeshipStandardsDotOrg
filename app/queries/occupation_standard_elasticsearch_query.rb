@@ -56,7 +56,6 @@ class OccupationStandardElasticsearchQuery
             end
           end
           if search_term_params[:q].present?
-            puts "AM I NOT HERE"
             q = search_term_params[:q]
             must do
               bool do
@@ -105,6 +104,6 @@ class OccupationStandardElasticsearchQuery
   private
 
   def escape_autocomplete_terms(q)
-    q.gsub(/\.|-|,/, "*")
+    q.gsub(/\.|-|,/, "*").downcase
   end
 end

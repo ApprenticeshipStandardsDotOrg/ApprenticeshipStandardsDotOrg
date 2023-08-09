@@ -202,6 +202,14 @@ RSpec.describe OccupationStandardQuery do
       )
 
       expect(occupation_standard_search.pluck(:id)).to contain_exactly(os1.id, os2.id)
+
+      params = {q: "34CB"}
+
+      occupation_standard_search = OccupationStandardQuery.run(
+        OccupationStandard.all, params
+      )
+
+      expect(occupation_standard_search.pluck(:id)).to contain_exactly(os2.id)
     end
 
     it "allows searching occupation standards by onet code" do
