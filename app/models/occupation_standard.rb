@@ -67,13 +67,15 @@ class OccupationStandard < ApplicationRecord
 
   settings(es_settings) do
     mappings dynamic: false do
-      indexes :title, type: :text, analyzer: :english
-      indexes :ojt_type, type: :text
-      indexes :work_process_titles, type: :text, analyzer: :english
+      indexes :industry_name, type: :text, analyzer: :keyword
+      indexes :national_standard_type, type: :text, analyzer: :keyword
+      indexes :ojt_type, type: :text, analyzer: :keyword
       indexes :onet_code, type: :text, analyzer: :autocomplete
       indexes :rapids_code, type: :text, analyzer: :autocomplete
-      indexes :national_standard_type, type: :text, analyzer: :keyword
       indexes :state, type: :text, analyzer: :keyword
+      indexes :state_id, type: :keyword
+      indexes :title, type: :text, analyzer: :english
+      indexes :work_process_titles, type: :text, analyzer: :english
     end
   end
 
@@ -81,7 +83,9 @@ class OccupationStandard < ApplicationRecord
     as_json(
       only: [:title, :ojt_type, :onet_code, :rapids_code, :national_standard_type]
     ).merge(
+      industry_name: industry_name,
       state: state_abbreviation,
+      state_id: state_id,
       work_process_titles: work_processes.pluck(:title).uniq
     )
   end
