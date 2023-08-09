@@ -16,65 +16,67 @@ class OccupationStandardElasticsearchQuery
     definition = search do
       query do
         bool do
-          if search_term_params[:state_id].present?
-            filter do
-              term state_id: search_term_params[:state_id]
+          must do
+            if search_term_params[:state_id].present?
+              filter do
+                term state_id: search_term_params[:state_id]
+              end
             end
-          end
-          if search_term_params[:state].present?
-            filter do
-              term state: search_term_params[:state]
+            if search_term_params[:state].present?
+              filter do
+                term state: search_term_params[:state]
+              end
             end
-          end
-          if search_term_params[:national_standard_type].present?
-            bool do
-              search_term_params[:national_standard_type].keys.each do |type|
+            if search_term_params[:national_standard_type].present?
+              bool do
+                search_term_params[:national_standard_type].keys.each do |type|
+                  should do
+                    match national_standard_type: {
+                      query: type
+                    }
+                  end
+                end
+                minimum_should_match 1
+              end
+            end
+            if search_term_params[:ojt_type].present?
+              bool do
+                search_term_params[:ojt_type].keys.each do |type|
+                  should do
+                    match ojt_type: {
+                      query: type
+                    }
+                  end
+                end
+                minimum_should_match 1
+              end
+            end
+            if search_term_params[:q].present?
+              q = search_term_params[:q]
+              puts "Q: #{q}"
+              bool do
                 should do
-                  match national_standard_type: {
-                    query: type
+                  match title: {
+                    query: q
                   }
                 end
-              end
-              minimum_should_match 1
-            end
-          end
-          if search_term_params[:ojt_type].present?
-            bool do
-              search_term_params[:ojt_type].keys.each do |type|
                 should do
-                  match ojt_type: {
-                    query: type
+                  match rapids_code: {
+                    query: q
                   }
                 end
+                should do
+                  match onet_code: {
+                    query: q
+                  }
+                end
+                should do
+                  match industry_name: {
+                    query: q
+                  }
+                end
+                minimum_should_match 1
               end
-              minimum_should_match 1
-            end
-          end
-          if search_term_params[:q].present?
-            puts "here"
-            q = search_term_params[:q]
-            bool do
-              should do
-                match title: {
-                  query: q
-                }
-              end
-              should do
-                match rapids_code: {
-                  query: q
-                }
-              end
-              should do
-                match onet_code: {
-                  query: q
-                }
-              end
-              should do 
-                match industry_name: {
-                  query: q
-                }
-              end
-              minimum_should_match 1
             end
           end
         end
@@ -92,5 +94,6 @@ class OccupationStandardElasticsearchQuery
         puts "#{result._id}: #{result._score}"
       end
     end
+    response
   end
 end
