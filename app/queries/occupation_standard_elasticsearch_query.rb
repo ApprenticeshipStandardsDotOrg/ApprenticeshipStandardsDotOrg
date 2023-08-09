@@ -84,6 +84,17 @@ class OccupationStandardElasticsearchQuery
       end
     end
     response = OccupationStandard.__elasticsearch__.search(definition)
+    debug_query(response)
+    response.records
+  end
+
+  private
+
+  def escape_autocomplete_terms(q)
+    q.gsub(/\.|-|,/, "*").downcase
+  end
+
+  def debug_query(response)
     if debug
       puts "QUERY"
       puts response.search.definition[:body][:query].to_json
@@ -92,12 +103,5 @@ class OccupationStandardElasticsearchQuery
         puts "#{result._id}: #{result._score}"
       end
     end
-    response.records
-  end
-
-  private
-
-  def escape_autocomplete_terms(q)
-    q.gsub(/\.|-|,/, "*").downcase
   end
 end
