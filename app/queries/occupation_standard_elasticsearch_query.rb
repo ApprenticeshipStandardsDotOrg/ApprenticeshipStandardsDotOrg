@@ -61,12 +61,12 @@ class OccupationStandardElasticsearchQuery
                 end
                 should do
                   wildcard rapids_code: {
-                    value: "*#{q.gsub(/\.|-|,/, "*")}*"
+                    value: "*#{escape_autocomplete_terms(q)}*"
                   }
                 end
                 should do
                   wildcard onet_code: {
-                    value: "*#{q.gsub(/\.|-|,/, "*")}*"
+                    value: "*#{escape_autocomplete_terms(q)}*"
                   }
                 end
                 should do
@@ -94,5 +94,11 @@ class OccupationStandardElasticsearchQuery
       end
     end
     response.records
+  end
+
+  private
+
+  def escape_autocomplete_terms(q)
+    q.gsub(/\.|-|,/, "*")
   end
 end
