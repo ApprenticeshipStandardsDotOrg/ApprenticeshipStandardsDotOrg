@@ -222,7 +222,7 @@ RSpec.describe OccupationStandardQuery do
       expect(occupation_standard_search.pluck(:id)).to contain_exactly(os1.id, os2.id)
     end
 
-    it "allows filtering occupation standards by state" do
+    it "allows filtering occupation standards by state id" do
       OccupationStandard.delete_all
       ca = create(:state)
       wa = create(:state)

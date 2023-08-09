@@ -13,6 +13,8 @@ class OccupationStandardElasticsearchQuery
   def do_search
     puts "search params"
     puts search_term_params
+
+    use_must_block = must_search_term_params_exist?
     definition = search do
       query do
         bool do
@@ -26,55 +28,57 @@ class OccupationStandardElasticsearchQuery
               term state: search_term_params[:state]
             end
           end
-          must do
-            if search_term_params[:national_standard_type].present?
-              bool do
-                search_term_params[:national_standard_type].keys.each do |type|
+          if use_must_block
+            must do
+              if search_term_params[:national_standard_type].present?
+                bool do
+                  search_term_params[:national_standard_type].keys.each do |type|
+                    should do
+                      match national_standard_type: {
+                        query: type
+                      }
+                    end
+                  end
+                  minimum_should_match 1
+                end
+              end
+              if search_term_params[:ojt_type].present?
+                bool do
+                  search_term_params[:ojt_type].keys.each do |type|
+                    should do
+                      match ojt_type: {
+                        query: type
+                      }
+                    end
+                  end
+                  minimum_should_match 1
+                end
+              end
+              if search_term_params[:q].present?
+                q = search_term_params[:q]
+                bool do
                   should do
-                    match national_standard_type: {
-                      query: type
+                    match title: {
+                      query: q
                     }
                   end
-                end
-                minimum_should_match 1
-              end
-            end
-            if search_term_params[:ojt_type].present?
-              bool do
-                search_term_params[:ojt_type].keys.each do |type|
                   should do
-                    match ojt_type: {
-                      query: type
+                    wildcard rapids_code: {
+                      value: "*#{escape_autocomplete_terms(q)}*"
                     }
                   end
+                  should do
+                    wildcard onet_code: {
+                      value: "*#{escape_autocomplete_terms(q)}*"
+                    }
+                  end
+                  should do
+                    match industry_name: {
+                      query: q
+                    }
+                  end
+                  minimum_should_match 1
                 end
-                minimum_should_match 1
-              end
-            end
-            if search_term_params[:q].present?
-              q = search_term_params[:q]
-              bool do
-                should do
-                  match title: {
-                    query: q
-                  }
-                end
-                should do
-                  wildcard rapids_code: {
-                    value: "*#{escape_autocomplete_terms(q)}*"
-                  }
-                end
-                should do
-                  wildcard onet_code: {
-                    value: "*#{escape_autocomplete_terms(q)}*"
-                  }
-                end
-                should do
-                  match industry_name: {
-                    query: q
-                  }
-                end
-                minimum_should_match 1
               end
             end
           end
@@ -97,6 +101,12 @@ class OccupationStandardElasticsearchQuery
   end
 
   private
+
+  def must_search_term_params_exist?
+    search_term_params[:national_standard_type].present? ||
+      search_term_params[:ojt_type].present? ||
+      search_term_params[:q].present?
+  end
 
   def escape_autocomplete_terms(q)
     q.gsub(/\.|-|,/, "*")
