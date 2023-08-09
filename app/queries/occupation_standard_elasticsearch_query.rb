@@ -58,8 +58,8 @@ class OccupationStandardElasticsearchQuery
                 q = search_term_params[:q]
                 bool do
                   should do
-                    match title: {
-                      query: q
+                    wildcard title: {
+                      value:"*#{q}*"
                     }
                   end
                   should do
