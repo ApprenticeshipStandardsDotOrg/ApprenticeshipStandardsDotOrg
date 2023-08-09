@@ -5,15 +5,12 @@ class OccupationStandardElasticsearchQuery
 
   attr_reader :search_term_params, :debug
 
-  def initialize(search_term_params, debug = true)
+  def initialize(search_term_params, debug = false)
     @search_term_params = search_term_params
     @debug = debug
   end
 
   def do_search
-    puts "search params"
-    puts search_term_params
-
     definition = search do
       query do
         bool do
