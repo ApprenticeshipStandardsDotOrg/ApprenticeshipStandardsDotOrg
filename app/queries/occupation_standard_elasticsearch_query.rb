@@ -40,46 +40,47 @@ class OccupationStandardElasticsearchQuery
                 minimum_should_match 1
               end
             end
-            if search_term_params[:ojt_type].present?
-              must do
-                bool do
-                  search_term_params[:ojt_type].keys.each do |type|
-                    should do
-                      match ojt_type: {
-                        query: type
-                      }
-                    end
+          end
+          if search_term_params[:ojt_type].present?
+            must do
+              bool do
+                search_term_params[:ojt_type].keys.each do |type|
+                  should do
+                    match ojt_type: {
+                      query: type
+                    }
                   end
-                  minimum_should_match 1
                 end
+                minimum_should_match 1
               end
             end
-            if search_term_params[:q].present?
-              q = search_term_params[:q]
-              must do
-                bool do
-                  should do
-                    wildcard title: {
-                      value:"*#{q}*"
-                    }
-                  end
-                  should do
-                    wildcard rapids_code: {
-                      value: "*#{escape_autocomplete_terms(q)}*"
-                    }
-                  end
-                  should do
-                    wildcard onet_code: {
-                      value: "*#{escape_autocomplete_terms(q)}*"
-                    }
-                  end
-                  should do
-                    match industry_name: {
-                      query: q
-                    }
-                  end
-                  minimum_should_match 1
+          end
+          if search_term_params[:q].present?
+            puts "AM I NOT HERE"
+            q = search_term_params[:q]
+            must do
+              bool do
+                should do
+                  wildcard title: {
+                    value:"*#{q}*"
+                  }
                 end
+                should do
+                  wildcard rapids_code: {
+                    value: "*#{escape_autocomplete_terms(q)}*"
+                  }
+                end
+                should do
+                  wildcard onet_code: {
+                    value: "*#{escape_autocomplete_terms(q)}*"
+                  }
+                end
+                should do
+                  match industry_name: {
+                    query: q
+                  }
+                end
+                minimum_should_match 1
               end
             end
           end
