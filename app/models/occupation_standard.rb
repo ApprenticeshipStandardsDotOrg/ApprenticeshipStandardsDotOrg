@@ -87,7 +87,7 @@ class OccupationStandard < ApplicationRecord
 
   settings(es_settings) do
     mappings dynamic: false do
-      indexes :industry_name, type: :text, analyzer: :keyword
+      indexes :industry_name, type: :text, analyzer: :english_stop_with_ngrams
       indexes :national_standard_type, type: :text, analyzer: :keyword
       indexes :ojt_type, type: :text, analyzer: :keyword
       indexes :onet_code, type: :text, analyzer: :autocomplete

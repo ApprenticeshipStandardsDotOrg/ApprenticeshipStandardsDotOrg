@@ -361,7 +361,7 @@ RSpec.describe OccupationStandardQuery do
       OccupationStandard.import
       OccupationStandard.__elasticsearch__.refresh_index!
 
-      params = {q: "healthcare support"}
+      params = {q: "HEALTHCARE Support"}
 
       occupation_standard_search = OccupationStandardQuery.run(
         OccupationStandard.all, params
