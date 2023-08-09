@@ -61,7 +61,7 @@ class OccupationStandardElasticsearchQuery
               bool do
                 should do
                   wildcard title: {
-                    value:"*#{q}*"
+                    value:"*#{q.downcase}*"
                   }
                 end
                 should do
@@ -88,9 +88,6 @@ class OccupationStandardElasticsearchQuery
     end
     response = OccupationStandard.__elasticsearch__.search(definition)
     if debug
-      puts "DEFINITION"
-      puts definition.to_hash
-      puts "DEFINITION END"
       puts "QUERY"
       puts response.search.definition[:body][:query].to_json
       puts "HITS: #{response.results.total}"
