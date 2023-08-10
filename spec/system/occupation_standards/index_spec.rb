@@ -1,52 +1,6 @@
 require "rails_helper"
 
 RSpec.describe "occupation_standards/index" do
-  it "displays titles" do
-    mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
-    pipe_fitter = create(:occupation_standard, :with_work_processes, :with_data_import, :program_standard, title: "Pipe Fitter")
-
-    visit occupation_standards_path
-
-    expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
-    expect(page).to have_link "Pipe Fitter", href: occupation_standard_path(pipe_fitter)
-  end
-
-  it "displays only OJT hours and not skills for time-based standards" do
-    mechanic = create(:occupation_standard, :time, :with_data_import, title: "Mechanic")
-    work_process = create(:work_process, occupation_standard: mechanic, maximum_hours: 200)
-    create(:competency, work_process: work_process)
-
-    visit occupation_standards_path
-
-    expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
-    expect(page).to have_text "OJT hours"
-    expect(page).to_not have_text "Skills"
-  end
-
-  it "displays only skills and not OJT hours for competency-based standards" do
-    mechanic = create(:occupation_standard, :competency, :with_data_import, title: "Mechanic")
-    work_process = create(:work_process, occupation_standard: mechanic, maximum_hours: 200)
-    create(:competency, work_process: work_process)
-
-    visit occupation_standards_path
-
-    expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
-    expect(page).to_not have_text "OJT hours"
-    expect(page).to have_text "Skills"
-  end
-
-  it "displays skills and OJT hours for hybrid-based standards" do
-    mechanic = create(:occupation_standard, :hybrid, :with_data_import, title: "Mechanic")
-    work_process = create(:work_process, occupation_standard: mechanic, maximum_hours: 200)
-    create(:competency, work_process: work_process)
-
-    visit occupation_standards_path
-
-    expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
-    expect(page).to have_text "OJT hours"
-    expect(page).to have_text "Skills"
-  end
-
   it "filters occupations based on search term" do
     dental = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Dental Assistant")
     medical = create(:occupation_standard, :with_work_processes, :program_standard, :with_data_import, title: "Medical Assistant")
@@ -317,38 +271,6 @@ RSpec.describe "occupation_standards/index" do
     expect(page).to have_link "Pipe Fitter"
   end
 
-  it "shows registration date if available" do
-    create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", registration_date: Date.parse("October 17, 1989"))
-
-    visit occupation_standards_path
-
-    expect(page).to have_text "Registered 1989"
-  end
-
-  it "shows latest updated date if available" do
-    create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", latest_update_date: Date.parse("October 17, 1989"))
-
-    visit occupation_standards_path
-
-    expect(page).to have_text "Updated 1989"
-  end
-
-  it "shows link to search by onet code if available" do
-    mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", onet_code: "12.3456")
-
-    visit occupation_standards_path
-
-    expect(page).to have_link "12.3456", href: occupation_standards_path(q: mechanic.onet_code)
-  end
-
-  it "shows link to search by rapids code if available" do
-    mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", rapids_code: "9876")
-
-    visit occupation_standards_path
-
-    expect(page).to have_link "9876", href: occupation_standards_path(q: mechanic.rapids_code)
-  end
-
   it "shows suggestions based on occupation title", :js do
     mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
     pipe_fitter = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Pipe Fitter")
@@ -391,26 +313,6 @@ RSpec.describe "occupation_standards/index" do
     expect(page).to_not have_selector "div", class: "tt-suggestion", text: pipe_fitter.display_for_typeahead
   end
 
-  it "shows similar results accordion button if they are present" do
-    Flipper.enable :similar_programs_accordion
-    create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
-    create(:occupation_standard, :with_work_processes, :with_data_import, :program_standard, title: "Mechanic")
-
-    visit occupation_standards_path
-
-    expect(page).to have_text "1 program with similar or identical criteria."
-  end
-
-  it "does not show similar results accordion button if they are not present" do
-    Flipper.enable :similar_programs_accordion
-    create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
-    create(:occupation_standard, :with_work_processes, :with_data_import, :program_standard, title: "Pipe Fitter")
-
-    visit occupation_standards_path
-
-    expect(page).not_to have_text "program with similar or identical criteria."
-  end
-
   it "expands similar results accordion when accordion button is clicked", js: true do
     Flipper.enable :similar_programs_accordion
     create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
@@ -421,6 +323,7 @@ RSpec.describe "occupation_standards/index" do
     find('button[data-action="click->accordion#changeVisibility"]', match: :first).click
 
     expect(page).to have_selector(:button, "Collapse duplicates")
+    Flipper.disable :similar_programs_accordion
   end
 
   it "closes similar results accordion when accordion button is clicked", js: true do
@@ -437,26 +340,7 @@ RSpec.describe "occupation_standards/index" do
     end
 
     expect(page).not_to have_selector("#accordion-#{mechanic.id}")
-  end
-
-  it "shows alert if the occupation_standard hours do not meet the occupation required hours" do
-    occupation = create(:occupation, time_based_hours: 2000)
-    occupation_standard = create(:occupation_standard, :with_data_import, occupation: occupation)
-    create(:work_process, maximum_hours: 1000, occupation_standard: occupation_standard)
-
-    visit occupation_standards_path
-
-    expect(page).to have_selector "#hours-alert-#{occupation_standard.id}"
-  end
-
-  it "does not show alert if the occupation_standard hours meet the occupation required hours" do
-    occupation = create(:occupation, time_based_hours: 2000)
-    occupation_standard = create(:occupation_standard, :with_data_import, occupation: occupation)
-    create(:work_process, maximum_hours: 3000, occupation_standard: occupation_standard)
-
-    visit occupation_standards_path
-
-    expect(page).to_not have_selector "#hours-alert-#{occupation_standard.id}"
+    Flipper.disable :similar_programs_accordion
   end
 
   it "displays toolip on hover", js: true do

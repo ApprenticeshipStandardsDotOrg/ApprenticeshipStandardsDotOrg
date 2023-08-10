@@ -131,7 +131,7 @@
                 </div>
             </div>
             <% if Flipper.enabled?(:similar_programs_accordion) %>
-              <%= render partial: "similar_results_list", locals: {occupation_standard: occupation_standard} %>
+              <%= render partial: "occupation_standards/similar_results_list", locals: {occupation_standard: occupation_standard} %>
             <% end %>
         </div>
         <% end %>
