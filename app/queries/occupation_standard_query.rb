@@ -12,7 +12,7 @@ class OccupationStandardQuery
 
     if Flipper.enabled?(:use_elasticsearch_for_search)
       es_query = OccupationStandardElasticsearchQuery.new(search_term_params)
-      es_query.do_search
+      es_query.call
     else
       occupation_standards
         .by_state_id(search_term_params[:state_id])

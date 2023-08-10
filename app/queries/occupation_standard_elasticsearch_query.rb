@@ -10,7 +10,7 @@ class OccupationStandardElasticsearchQuery
     @debug = debug
   end
 
-  def do_search
+  def call
     definition = search do
       query do
         bool do
