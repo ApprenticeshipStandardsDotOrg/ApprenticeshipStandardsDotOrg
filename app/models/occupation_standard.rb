@@ -104,6 +104,7 @@ class OccupationStandard < ApplicationRecord
       only: [:title, :ojt_type, :onet_code, :rapids_code, :national_standard_type]
     ).merge(
       industry_name: industry_name,
+      national_standard_type: national_standard_type_with_adjustment,
       state: state_abbreviation,
       state_id: state_id,
       work_process_titles: work_processes.pluck(:title).uniq
@@ -191,6 +192,15 @@ class OccupationStandard < ApplicationRecord
 
   def data_import
     data_imports.last
+  end
+
+  def national_standard_type_with_adjustment
+    case national_standard_type
+    when "occupational_framework"
+      organization == Organization.urban_institute ? "occupational_framework" : nil
+    else
+      national_standard_type
+    end
   end
 
   def source_file

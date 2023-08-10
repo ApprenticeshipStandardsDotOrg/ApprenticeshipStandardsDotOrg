@@ -573,4 +573,38 @@ RSpec.describe OccupationStandard, type: :model do
       expect(occupation_standard.industry_name).to eq "Legal Occupations"
     end
   end
+
+  describe "#national_standard_type_with_adjustment" do
+    it "returns nil if no national_standard_type" do
+      occupation_standard = build(:occupation_standard, national_standard_type: nil)
+
+      expect(occupation_standard.national_standard_type_with_adjustment).to be_nil
+    end
+
+    it "returns program_standard if program_standard" do
+      occupation_standard = build(:occupation_standard, :program_standard)
+
+      expect(occupation_standard.national_standard_type_with_adjustment).to eq "program_standard"
+    end
+
+    it "returns guideline_standard if guideline_standard" do
+      occupation_standard = build(:occupation_standard, :guideline_standard)
+
+      expect(occupation_standard.national_standard_type_with_adjustment).to eq "guideline_standard"
+    end
+
+    it "returns occupational_framework if occupational_framework and organization is Urban Institute" do
+      organization = create(:organization, title: "Urban Institute")
+      occupation_standard = create(:occupation_standard, :occupational_framework, organization: organization)
+
+      expect(occupation_standard.national_standard_type_with_adjustment).to eq "occupational_framework"
+    end
+
+    it "returns nil if occupational_framework and organization is not Urban Institute" do
+      organization = create(:organization, title: "Some Institute")
+      occupation_standard = create(:occupation_standard, :occupational_framework, organization: organization)
+
+      expect(occupation_standard.national_standard_type_with_adjustment).to be_nil
+    end
+  end
 end
