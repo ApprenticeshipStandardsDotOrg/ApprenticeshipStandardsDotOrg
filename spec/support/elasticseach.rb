@@ -3,6 +3,7 @@ RSpec.configure do |config|
     ActiveRecord::Base.descendants.each do |model|
       if model.respond_to?(:__elasticsearch__)
         begin
+          model.__elasticsearch__.delete_index!
           model.__elasticsearch__.create_index!
           model.__elasticsearch__.refresh_index!
         rescue Elasticsearch::Transport::Transport::Errors::NotFound => e
