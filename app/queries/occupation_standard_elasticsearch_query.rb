@@ -100,6 +100,7 @@ class OccupationStandardElasticsearchQuery
       puts response.search.definition[:body][:query].to_json
       puts "HITS: #{response.results.total}"
       response.results.each do |result|
+#        puts result.inspect
         puts "#{result._id}: #{result._score}"
       end
     end
