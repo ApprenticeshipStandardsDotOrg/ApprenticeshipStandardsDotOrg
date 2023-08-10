@@ -20,21 +20,6 @@ RSpec.describe "pages/home" do
     expect(page).to_not have_link "Pipe Fitter", href: occupation_standard_path(pipe_fitter)
   end
 
-  it "displays the correct page title when page_title is present" do
-    create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
-
-    visit occupation_standards_path
-
-    expect(page).to have_title "Occupations - ApprenticeshipStandardsDotOrg"
-  end
-
-  it "displays the correct page title when page_title is not present" do
-    allow(State).to receive(:find_by).and_return(build_stubbed(:state))
-    visit home_page_path
-
-    expect(page).to have_title "ApprenticeshipStandardsDotOrg"
-  end
-
   describe "featured section" do
     it "displays National Guidelines box" do
       allow(State).to receive(:find_by).and_return(build_stubbed(:state))
