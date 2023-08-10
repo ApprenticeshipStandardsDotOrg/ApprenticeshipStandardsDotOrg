@@ -2,6 +2,19 @@ require "rails_helper"
 
 RSpec.describe "occupation_standards/index" do
   context "when not using elasticsearch for search" do
+    it "displays pagination" do
+      default_items = Pagy::DEFAULT[:items]
+      Pagy::DEFAULT[:items] = 2
+      create_list(:occupation_standard, 3)
+
+      visit occupation_standards_path
+
+      within(".pagy-nav") do
+        expect(page).to have_link "2", href: occupation_standards_path(page: 2)
+      end
+      Pagy::DEFAULT[:items] = default_items
+    end
+
     it "filters occupations based on search term" do
       dental = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Dental Assistant")
       medical = create(:occupation_standard, :with_work_processes, :program_standard, :with_data_import, title: "Medical Assistant")
