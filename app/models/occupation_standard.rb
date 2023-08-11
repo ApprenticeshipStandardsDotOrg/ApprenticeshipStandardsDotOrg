@@ -153,6 +153,8 @@ class OccupationStandard < ApplicationRecord
     end
   end
 
+  scope :with_work_processes, -> { joins(:work_processes).distinct }
+
   class << self
     def industry_count(onet_prefix)
       where("SPLIT_PART(onet_code, '-', 1) = ?", onet_prefix.to_s).count

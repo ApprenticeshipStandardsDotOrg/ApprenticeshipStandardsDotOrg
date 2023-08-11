@@ -77,7 +77,7 @@
                 </svg>
               </div>
               <h3 class="text-xl font-bold text-primary-700"><%= industry.name %></h3>
-              <p class="font-bold text-accent-100"><%= industry.occupation_standards.count %> Apprenticeships</p>
+              <p class="font-bold text-accent-100"><%= industry.occupation_standards.with_work_processes.count %> Apprenticeships</p>
             </div>
           <% end %>
         <% end %>
