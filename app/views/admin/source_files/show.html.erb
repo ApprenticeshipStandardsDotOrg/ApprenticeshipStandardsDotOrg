@@ -33,6 +33,14 @@
           )
         end %>
 
+    <%= if page.resource.pdf? && accessible_action?(:redact_file, :new)
+          link_to(
+            "Redact document",
+            [:new, namespace, page.resource, :redact_file],
+            class: "button"
+          )
+        end %>
+
     <%= if accessible_action?(page.resource, :destroy)
           link_to(
             t("administrate.actions.destroy"),
@@ -40,14 +48,6 @@
             class: "button button--danger",
             method: :delete,
             data: {confirm: t("administrate.actions.confirm")}
-          )
-        end %>
-
-    <%= if page.resource.pdf? && accessible_action?(:redact_file, :new)
-          link_to(
-            "Redact document",
-            [:new, namespace, page.resource, :redact_file],
-            class: "button"
           )
         end %>
   </div>

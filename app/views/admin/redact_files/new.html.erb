@@ -1,8 +1,19 @@
 <div
-  id="#pdf-ui"
-  class="h-full"
   data-controller="pdf-editor"
   data-pdf-editor-license-key-value="<%= ENV["FOXIT_SDK_LICENSE_KEY"] %>"
   data-pdf-editor-license-serial-number-value="<%= ENV["FOXIT_SDK_SERIAL_NUMBER"] %>"
-  data-pdf-editor-target="renderTo">
+  data-pdf-editor-file-url-value="<%= @source_file.url %>"
+  data-pdf-editor-file-name-value="<%= @source_file.filename %>"
+  data-pdf-editor-save-file-url-value="<%= admin_source_file_redact_file_path(@source_file) %>"
+  data-pdf-editor-go-back-url-value="<%= admin_source_file_path(@source_file) %>"
+  >
+  <%= form_tag(url_for(action: :create), method: :post, multipart: true, data: {turbo: false, pdf_editor_target: "form"}) do %>
+  <% end %>
+
+  <div
+    id="#pdf-ui"
+    class="h-full"
+
+    data-pdf-editor-target="renderTo">
+  </div>
 </div>
