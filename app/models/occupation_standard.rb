@@ -252,10 +252,7 @@ class OccupationStandard < ApplicationRecord
   end
 
   def display_for_typeahead
-    output = title.strip
-    output << " (#{onet_code})" if onet_code
-    output << " (#{rapids_code})" if rapids_code
-    output
+    title.strip
   end
 
   def hours_meet_occupation_requirements?

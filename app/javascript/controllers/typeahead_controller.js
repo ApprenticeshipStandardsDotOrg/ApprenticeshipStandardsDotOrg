@@ -29,10 +29,10 @@ export default class extends Controller {
       // autocompleting the input with the suggestion.
       display: (item, event) => {
         if (event) {
-          Turbo.visit(`${item.link}?q=${this.inputTarget.value}`)
+          Turbo.visit(`${item.link}?q=${item.display}`)
         }
 
-        return this.inputTarget.value;
+        return item.display;
       },
       highlight: true
     })
