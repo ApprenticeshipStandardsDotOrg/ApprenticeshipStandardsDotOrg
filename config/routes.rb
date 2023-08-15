@@ -35,7 +35,7 @@ Rails.application.routes.draw do
       end
       resources :api_keys, only: [:create, :index, :show, :destroy]
       resources :source_files, only: [:index, :edit, :show, :update, :destroy] do
-        resource :redact_file, only: [:new]
+        resource :redact_file, only: [:new, :create]
         resources :data_imports, except: [:index]
       end
       resources :occupation_standards, only: [:index, :show, :edit, :update]
