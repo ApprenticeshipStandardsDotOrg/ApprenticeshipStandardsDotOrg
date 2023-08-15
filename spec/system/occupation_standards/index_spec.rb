@@ -371,6 +371,27 @@ RSpec.describe "occupation_standards/index" do
   end
 
   context "when using elasticsearch for search", :elasticsearch do
+    it "displays pagination" do
+      Flipper.enable :use_elasticsearch_for_search
+      create_list(:occupation_standard, 10, :with_work_processes, :with_data_import)
+      create(:occupation_standard, :with_work_processes, :with_data_import, title: "HR Specialist")
+
+      OccupationStandard.import
+      OccupationStandard.__elasticsearch__.refresh_index!
+
+      visit occupation_standards_path
+
+      expect(page).to_not have_text "HR Specialist"
+
+      within(".pagy-nav") do
+        expect(page).to have_link "2", href: occupation_standards_path(page: 2)
+        click_on "2"
+        expect(page).to have_text "HR Specialist"
+      end
+
+      Flipper.disable :use_elasticsearch_for_search
+    end
+
     it "filters occupations based on search term" do
       Flipper.enable :use_elasticsearch_for_search
       dental = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Dental Assistant")
