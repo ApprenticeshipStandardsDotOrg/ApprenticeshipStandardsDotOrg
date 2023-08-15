@@ -77,7 +77,7 @@ RSpec.describe "Admin::SourceFiles::RedactFile", type: :request do
             admin = create(:admin)
             active_storage_attachment = create(:active_storage_attachment)
             source_file = create(:source_file, active_storage_attachment: active_storage_attachment)
-            redacted_file = fixture_file_upload("spec/fixtures/files/pixel1x1.jpg", "image/jpeg")
+            redacted_file = fixture_file_upload("pixel1x1.jpg", "image/jpeg")
 
             params = {
               format: :json,
