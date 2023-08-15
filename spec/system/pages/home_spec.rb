@@ -232,4 +232,54 @@ RSpec.describe "pages/home" do
       expect(page).to_not have_link "Pipe Fitter"
     end
   end
+
+  describe "Popular Types" do
+    it "displays a link to a search of occupation standards with national guidelines" do
+      Flipper.enable(:updated_home)
+      mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, national_standard_type: :guideline_standard)
+
+      visit home_page_path
+
+      click_on("National Guidelines 1 Apprenticeship")
+
+      expect(page).to have_text mechanic.title
+      Flipper.disable(:updated_home)
+    end
+
+    it "displays a link to a search of occupation standards with occupational frameworks" do
+      Flipper.enable(:updated_home)
+      mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, national_standard_type: :occupational_framework)
+
+      visit home_page_path
+
+      click_on("Occupational Frameworks 1 Apprenticeship")
+
+      expect(page).to have_text mechanic.title
+      Flipper.disable(:updated_home)
+    end
+
+    it "displays a link to a search of time based occupation standards" do
+      Flipper.enable(:updated_home)
+      mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, ojt_type: :time)
+
+      visit home_page_path
+
+      click_on("Time Based Occupations 1 Apprenticeship")
+
+      expect(page).to have_text mechanic.title
+      Flipper.disable(:updated_home)
+    end
+
+    it "displays a link to a search of competency based occupation standards" do
+      Flipper.enable(:updated_home)
+      mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, ojt_type: :competency)
+
+      visit home_page_path
+
+      click_on("Competency Based Occupations 1 Apprenticeship")
+
+      expect(page).to have_text mechanic.title
+      Flipper.disable(:updated_home)
+    end
+  end
 end

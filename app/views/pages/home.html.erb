@@ -55,6 +55,73 @@
       </div>
     </div>
   </section>
+  <!-- Popular types -->
+  <section aria-labelledby="section-title" class="bg-accent-300">
+    <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+      <div class="mb-8 lg:mb-16 flex justify-between">
+        <h2 class="section-title mb-4 text-4xl tracking-tight font-bold text-gray-900">Popular Types</h2>
+      </div>
+      <div class="text-center space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:gap-8 xl:gap-8 md:space-y-0">
+        <%= link_to occupation_standards_path(national_standard_type: {guideline_standard: 1}) do %>
+          <div class="p-6 hover:bg-white rounded-lg hover:shadow-xl">
+            <div class="mx-auto flex justify-center items-center mb-4 w-20 h-20 rounded-full bg-accent-200">
+              <svg width="38" height="39" viewBox="0 0 38 39" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M25.3333 5.25H1.58325V25.8333H25.3333V5.25Z" stroke="#415262" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M25.3333 13.1667H31.6666L36.4166 17.9167V25.8334H25.3333V13.1667Z" stroke="#415262" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M8.70833 33.7499C10.8945 33.7499 12.6667 31.9777 12.6667 29.7916C12.6667 27.6055 10.8945 25.8333 8.70833 25.8333C6.52221 25.8333 4.75 27.6055 4.75 29.7916C4.75 31.9777 6.52221 33.7499 8.70833 33.7499Z" stroke="#415262" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M29.2916 33.7499C31.4777 33.7499 33.2499 31.9777 33.2499 29.7916C33.2499 27.6055 31.4777 25.8333 29.2916 25.8333C27.1055 25.8333 25.3333 27.6055 25.3333 29.7916C25.3333 31.9777 27.1055 33.7499 29.2916 33.7499Z" stroke="#415262" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-primary-700">National Guidelines</h3>
+            <p class="font-bold text-accent-100"><%= OccupationStandard.by_national_standard_type(:guideline_standard).count %> Apprenticeships</p>
+          </div>
+        <% end %>
+        <%= link_to occupation_standards_path(national_standard_type: {occupational_framework: 2}) do %>
+          <div class="p-6 hover:bg-white rounded-lg hover:shadow-xl">
+            <div class="mx-auto flex justify-center items-center mb-4 w-20 h-20 rounded-full bg-accent-200">
+              <svg width="38" height="39" viewBox="0 0 38 39" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M25.3333 5.25H1.58325V25.8333H25.3333V5.25Z" stroke="#415262" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M25.3333 13.1667H31.6666L36.4166 17.9167V25.8334H25.3333V13.1667Z" stroke="#415262" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M8.70833 33.7499C10.8945 33.7499 12.6667 31.9777 12.6667 29.7916C12.6667 27.6055 10.8945 25.8333 8.70833 25.8333C6.52221 25.8333 4.75 27.6055 4.75 29.7916C4.75 31.9777 6.52221 33.7499 8.70833 33.7499Z" stroke="#415262" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M29.2916 33.7499C31.4777 33.7499 33.2499 31.9777 33.2499 29.7916C33.2499 27.6055 31.4777 25.8333 29.2916 25.8333C27.1055 25.8333 25.3333 27.6055 25.3333 29.7916C25.3333 31.9777 27.1055 33.7499 29.2916 33.7499Z" stroke="#415262" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-primary-700">Occupational Frameworks</h3>
+            <p class="font-bold text-accent-100"><%= OccupationStandard.by_national_standard_type(:occupational_framework).count %> Apprenticeships</p>
+          </div>
+        <% end %>
+        <%= link_to occupation_standards_path(ojt_type: {time: 0}) do %>
+          <div class="p-6 hover:bg-white rounded-lg hover:shadow-xl">
+            <div class="mx-auto flex justify-center items-center mb-4 w-20 h-20 rounded-full bg-accent-200">
+              <svg width="38" height="39" viewBox="0 0 38 39" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M25.3333 5.25H1.58325V25.8333H25.3333V5.25Z" stroke="#415262" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M25.3333 13.1667H31.6666L36.4166 17.9167V25.8334H25.3333V13.1667Z" stroke="#415262" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M8.70833 33.7499C10.8945 33.7499 12.6667 31.9777 12.6667 29.7916C12.6667 27.6055 10.8945 25.8333 8.70833 25.8333C6.52221 25.8333 4.75 27.6055 4.75 29.7916C4.75 31.9777 6.52221 33.7499 8.70833 33.7499Z" stroke="#415262" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M29.2916 33.7499C31.4777 33.7499 33.2499 31.9777 33.2499 29.7916C33.2499 27.6055 31.4777 25.8333 29.2916 25.8333C27.1055 25.8333 25.3333 27.6055 25.3333 29.7916C25.3333 31.9777 27.1055 33.7499 29.2916 33.7499Z" stroke="#415262" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-primary-700">Time Based Occupations</h3>
+            <p class="font-bold text-accent-100"><%= OccupationStandard.by_ojt_type(:time).count %> Apprenticeships</p>
+          </div>
+        <% end %>
+        <%= link_to occupation_standards_path(ojt_type: {competency: 1}) do %>
+          <div class="p-6 hover:bg-white rounded-lg hover:shadow-xl">
+            <div class="mx-auto flex justify-center items-center mb-4 w-20 h-20 rounded-full bg-accent-200">
+              <svg width="38" height="39" viewBox="0 0 38 39" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M25.3333 5.25H1.58325V25.8333H25.3333V5.25Z" stroke="#415262" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M25.3333 13.1667H31.6666L36.4166 17.9167V25.8334H25.3333V13.1667Z" stroke="#415262" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M8.70833 33.7499C10.8945 33.7499 12.6667 31.9777 12.6667 29.7916C12.6667 27.6055 10.8945 25.8333 8.70833 25.8333C6.52221 25.8333 4.75 27.6055 4.75 29.7916C4.75 31.9777 6.52221 33.7499 8.70833 33.7499Z" stroke="#415262" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M29.2916 33.7499C31.4777 33.7499 33.2499 31.9777 33.2499 29.7916C33.2499 27.6055 31.4777 25.8333 29.2916 25.8333C27.1055 25.8333 25.3333 27.6055 25.3333 29.7916C25.3333 31.9777 27.1055 33.7499 29.2916 33.7499Z" stroke="#415262" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-primary-700">Competency Based Occupations</h3>
+            <p class="font-bold text-accent-100"><%= OccupationStandard.by_ojt_type(:competency).count %> Apprenticeships</p>
+          </div>
+        <% end %>
+      </div>
+    <div>
+  </section>
+
   <section aria-labelledby="section-title" class="bg-accent-300">
     <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
       <div class="mb-8 lg:mb-16 flex justify-between">
