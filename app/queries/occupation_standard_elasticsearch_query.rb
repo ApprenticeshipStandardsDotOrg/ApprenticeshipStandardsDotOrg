@@ -21,7 +21,7 @@ class OccupationStandardElasticsearchQuery
           end
           if search_term_params[:state].present?
             filter do
-              term state: search_term_params[:state]
+              term state: search_term_params[:state].upcase
             end
           end
           if search_term_params[:national_standard_type].present?
