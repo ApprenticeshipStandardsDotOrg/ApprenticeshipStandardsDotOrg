@@ -17,7 +17,7 @@ module Admin
               occupation_standard.redacted_document.attach(params[:redacted_file])
             end
             render json: {
-              message: "Redacted document saved for all occupation standards assoaciated to this source file",
+              message: "Redacted document saved for all occupation standards associated to this source file",
               status: :ok
             }.to_json
           else
