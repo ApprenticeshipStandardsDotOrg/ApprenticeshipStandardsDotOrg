@@ -15,6 +15,10 @@ class OccupationStandardElasticsearchQuery
     definition = search do
       size Pagy::DEFAULT[:items]
       from offset
+      sort do
+        by :_score, order: :desc
+        by :created_at, order: :desc
+      end
       query do
         bool do
           if search_params[:state_id].present?
@@ -99,8 +103,8 @@ class OccupationStandardElasticsearchQuery
 
   def debug_query(response)
     if debug
-      puts "QUERY"
-      puts response.search.definition[:body][:query].to_json
+      puts "BODY"
+      puts response.search.definition[:body].to_json
       puts "HITS: #{response.results.total}"
       response.results.each do |result|
 #        puts result.inspect

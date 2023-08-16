@@ -10,34 +10,36 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
 
     response = described_class.new(search_params: {}).call
 
-    expect(response.records.pluck(:id)).to contain_exactly(os1.id, os2.id)
+    expect(response.records.pluck(:id)).to eq [os2.id, os1.id]
   end
 
   it "limits size" do
     default_items = Pagy::DEFAULT[:items]
     Pagy::DEFAULT[:items] = 2
-    create_list(:occupation_standard, 3)
+    create(:occupation_standard)
+    occupation_standards = create_list(:occupation_standard, 2)
 
     OccupationStandard.import
     OccupationStandard.__elasticsearch__.refresh_index!
 
     response = described_class.new(search_params: {}).call
 
-    expect(response.records.count).to eq 2
+    expect(response.records).to match_array occupation_standards
     Pagy::DEFAULT[:items] = default_items
   end
 
   it "takes offset param" do
     default_items = Pagy::DEFAULT[:items]
     Pagy::DEFAULT[:items] = 2
-    create_list(:occupation_standard, 3)
+    occupation_standard = create(:occupation_standard)
+    create_list(:occupation_standard, 2)
 
     OccupationStandard.import
     OccupationStandard.__elasticsearch__.refresh_index!
 
     response = described_class.new(search_params: {}, offset: 2).call
 
-    expect(response.records.count).to eq 1
+    expect(response.records).to match_array [occupation_standard]
     Pagy::DEFAULT[:items] = default_items
   end
 
