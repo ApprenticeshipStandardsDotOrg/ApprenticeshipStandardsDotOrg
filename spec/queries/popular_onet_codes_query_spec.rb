@@ -8,7 +8,7 @@ RSpec.describe PopularOnetCodesQuery do
     create_list(:occupation_standard, 3, :with_work_processes, title: "Nurse", onet_code: "33")
     create(:occupation_standard, onet_code: nil)
 
-    stub_const("PopularOnetCodesQuery::LIMIT", 4) 
+    stub_const("PopularOnetCodesQuery::LIMIT", 4)
 
     result = described_class.run(limit: 3)
 
