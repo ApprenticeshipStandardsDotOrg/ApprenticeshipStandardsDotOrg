@@ -76,7 +76,7 @@
             <p class="font-bold text-accent-100"><%= OccupationStandard.by_national_standard_type(:guideline_standard).count %> Apprenticeships</p>
           </div>
         <% end %>
-        <%= link_to occupation_standards_path(national_standard_type: {occupational_framework: 2}) do %>
+        <%= link_to occupation_standards_path(national_standard_type: {occupational_framework: 1}) do %>
           <div class="p-6 hover:bg-white rounded-lg hover:shadow-xl">
             <div class="mx-auto flex justify-center items-center mb-4 w-20 h-20 rounded-full bg-accent-200">
               <svg width="38" height="39" viewBox="0 0 38 39" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -90,7 +90,7 @@
             <p class="font-bold text-accent-100"><%= OccupationStandard.by_national_standard_type(:occupational_framework).count %> Apprenticeships</p>
           </div>
         <% end %>
-        <%= link_to occupation_standards_path(ojt_type: {time: 0}) do %>
+        <%= link_to occupation_standards_path(ojt_type: {time: 1}) do %>
           <div class="p-6 hover:bg-white rounded-lg hover:shadow-xl">
             <div class="mx-auto flex justify-center items-center mb-4 w-20 h-20 rounded-full bg-accent-200">
               <svg width="38" height="39" viewBox="0 0 38 39" fill="none" xmlns="http://www.w3.org/2000/svg">
