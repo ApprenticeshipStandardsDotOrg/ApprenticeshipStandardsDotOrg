@@ -1,6 +1,18 @@
 require "rails_helper"
 
 RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
+  it "retrieves all records if params empty" do
+    os1 = create(:occupation_standard, title: "Mechanic")
+    os2 = create(:occupation_standard, title: "Pipe Fitter")
+
+    OccupationStandard.import
+    OccupationStandard.__elasticsearch__.refresh_index!
+
+    response = described_class.new(search_params: {}).call
+
+    expect(response.records.pluck(:id)).to contain_exactly(os1.id, os2.id)
+  end
+
   it "allows searching occupation standards by title" do
     occupation_standard_for_mechanic = create(:occupation_standard, title: "Mechanic")
     create(:occupation_standard, title: "Pipe Fitter")
