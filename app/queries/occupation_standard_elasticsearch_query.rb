@@ -3,15 +3,18 @@ require "elasticsearch/dsl"
 class OccupationStandardElasticsearchQuery
   include Elasticsearch::DSL
 
-  attr_reader :search_params, :debug
+  attr_reader :search_params, :offset, :debug
 
-  def initialize(search_params:, debug: false)
+  def initialize(search_params:, offset: 0, debug: false)
     @search_params = search_params
+    @offset = offset
     @debug = debug
   end
 
   def call
     definition = search do
+      size Pagy::DEFAULT[:items]
+      from offset
       query do
         bool do
           if search_params[:state_id].present?

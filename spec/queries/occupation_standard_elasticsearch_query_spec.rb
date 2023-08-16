@@ -27,6 +27,20 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
     Pagy::DEFAULT[:items] = default_items
   end
 
+  it "takes offset param" do
+    default_items = Pagy::DEFAULT[:items]
+    Pagy::DEFAULT[:items] = 2
+    create_list(:occupation_standard, 3)
+
+    OccupationStandard.import
+    OccupationStandard.__elasticsearch__.refresh_index!
+
+    response = described_class.new(search_params: {}, offset: 2).call
+
+    expect(response.records.count).to eq 1
+    Pagy::DEFAULT[:items] = default_items
+  end
+
   it "allows searching occupation standards by title" do
     occupation_standard_for_mechanic = create(:occupation_standard, title: "Mechanic")
     create(:occupation_standard, title: "Pipe Fitter")
