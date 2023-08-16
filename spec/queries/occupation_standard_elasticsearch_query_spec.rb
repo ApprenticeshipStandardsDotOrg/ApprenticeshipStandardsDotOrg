@@ -1,14 +1,15 @@
 require "rails_helper"
 
-RSpec.describe OccupationStandardQuery do
+RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
   it "allows searching occupation standards by title" do
     occupation_standard_for_mechanic = create(:occupation_standard, title: "Mechanic")
     create(:occupation_standard, title: "Pipe Fitter")
-    params = {q: "Mechanic"}
 
-    occupation_standard_search = OccupationStandardQuery.run(
-      OccupationStandard.all, params
-    )
+    OccupationStandard.import
+    OccupationStandard.__elasticsearch__.refresh_index!
+
+    params = {q: "Mechanic"}
+    occupation_standard_search = described_class.new(params).call
 
     expect(occupation_standard_search.pluck(:id)).to eq [occupation_standard_for_mechanic.id]
   end
@@ -18,13 +19,18 @@ RSpec.describe OccupationStandardQuery do
     os2 = create(:occupation_standard, rapids_code: "1234CB")
     create(:occupation_standard, title: "HR", rapids_code: "123")
 
-    params = {q: "1234"}
+    OccupationStandard.import
+    OccupationStandard.__elasticsearch__.refresh_index!
 
-    occupation_standard_search = OccupationStandardQuery.run(
-      OccupationStandard.all, params
-    )
+    params = {q: "1234"}
+    occupation_standard_search = described_class.new(params).call
 
     expect(occupation_standard_search.pluck(:id)).to contain_exactly(os1.id, os2.id)
+
+    params = {q: "34CB"}
+    occupation_standard_search = described_class.new(params).call
+
+    expect(occupation_standard_search.pluck(:id)).to contain_exactly(os2.id)
   end
 
   it "allows searching occupation standards by onet code" do
@@ -32,16 +38,16 @@ RSpec.describe OccupationStandardQuery do
     os2 = create(:occupation_standard, onet_code: "12.34567")
     create(:occupation_standard, title: "HR", onet_code: "12.3")
 
-    params = {q: "12.3456"}
+    OccupationStandard.import
+    OccupationStandard.__elasticsearch__.refresh_index!
 
-    occupation_standard_search = OccupationStandardQuery.run(
-      OccupationStandard.all, params
-    )
+    params = {q: "12.3456"}
+    occupation_standard_search = described_class.new(params).call
 
     expect(occupation_standard_search.pluck(:id)).to contain_exactly(os1.id, os2.id)
   end
 
-  it "allows filtering occupation standards by state" do
+  it "allows filtering occupation standards by state id" do
     ca = create(:state)
     wa = create(:state)
     ra_ca = create(:registration_agency, state: ca)
@@ -50,11 +56,11 @@ RSpec.describe OccupationStandardQuery do
     os2 = create(:occupation_standard, registration_agency: ra_ca)
     create(:occupation_standard, registration_agency: ra_wa)
 
-    params = {state_id: ca.id}
+    OccupationStandard.import
+    OccupationStandard.__elasticsearch__.refresh_index!
 
-    occupation_standard_search = OccupationStandardQuery.run(
-      OccupationStandard.all, params
-    )
+    params = {state_id: ca.id}
+    occupation_standard_search = described_class.new(params).call
 
     expect(occupation_standard_search.pluck(:id)).to contain_exactly(os1.id, os2.id)
   end
@@ -68,11 +74,11 @@ RSpec.describe OccupationStandardQuery do
     os2 = create(:occupation_standard, registration_agency: ra_ca)
     create(:occupation_standard, registration_agency: ra_wa)
 
-    params = {state: ca.abbreviation}
+    OccupationStandard.import
+    OccupationStandard.__elasticsearch__.refresh_index!
 
-    occupation_standard_search = OccupationStandardQuery.run(
-      OccupationStandard.all, params
-    )
+    params = {state: ca.abbreviation}
+    occupation_standard_search = described_class.new(params).call
 
     expect(occupation_standard_search.pluck(:id)).to contain_exactly(os1.id, os2.id)
   end
@@ -82,16 +88,16 @@ RSpec.describe OccupationStandardQuery do
     os2 = create(:occupation_standard, :guideline_standard)
     create(:occupation_standard, :occupational_framework)
 
+    OccupationStandard.import
+    OccupationStandard.__elasticsearch__.refresh_index!
+
     params = {
       national_standard_type: {
         program_standard: "1",
         guideline_standard: "1"
       }
     }
-
-    occupation_standard_search = OccupationStandardQuery.run(
-      OccupationStandard.all, params
-    )
+    occupation_standard_search = described_class.new(params).call
 
     expect(occupation_standard_search.pluck(:id)).to contain_exactly(os1.id, os2.id)
   end
@@ -101,16 +107,16 @@ RSpec.describe OccupationStandardQuery do
     os2 = create(:occupation_standard, :hybrid)
     create(:occupation_standard, :competency)
 
+    OccupationStandard.import
+    OccupationStandard.__elasticsearch__.refresh_index!
+
     params = {
       ojt_type: {
         time: "1",
         hybrid: "1"
       }
     }
-
-    occupation_standard_search = OccupationStandardQuery.run(
-      OccupationStandard.all, params
-    )
+    occupation_standard_search = described_class.new(params).call
 
     expect(occupation_standard_search.pluck(:id)).to contain_exactly(os1.id, os2.id)
   end
@@ -127,16 +133,16 @@ RSpec.describe OccupationStandardQuery do
     create(:occupation_standard, :program_standard, :time, registration_agency: ra_wa, title: "Mechanic")
     create(:occupation_standard, :guideline_standard, :hybrid, registration_agency: ra_wa, title: "Mechanic")
 
+    OccupationStandard.import
+    OccupationStandard.__elasticsearch__.refresh_index!
+
     params = {
       q: "mech",
       state_id: wa.id,
       national_standard_type: {program_standard: "1"},
       ojt_type: {hybrid: "1"}
     }
-
-    occupation_standard_search = OccupationStandardQuery.run(
-      OccupationStandard.all, params
-    )
+    occupation_standard_search = described_class.new(params).call
 
     expect(occupation_standard_search.pluck(:id)).to contain_exactly(os1.id)
   end
@@ -148,11 +154,11 @@ RSpec.describe OccupationStandardQuery do
     occupation_standard = create(:occupation_standard, industry: industry1)
     create(:occupation_standard, industry: industry2)
 
-    params = {q: "healthcare support"}
+    OccupationStandard.import
+    OccupationStandard.__elasticsearch__.refresh_index!
 
-    occupation_standard_search = OccupationStandardQuery.run(
-      OccupationStandard.all, params
-    )
+    params = {q: "HEALTHCARE Support"}
+    occupation_standard_search = described_class.new(params).call
 
     expect(occupation_standard_search.pluck(:id)).to eq [occupation_standard.id]
   end

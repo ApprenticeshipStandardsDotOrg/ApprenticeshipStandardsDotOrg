@@ -10,27 +10,22 @@ class OccupationStandardQuery
   def self.run(occupation_standards, search_term_params)
     return occupation_standards if search_term_params.blank?
 
-    if Flipper.enabled?(:use_elasticsearch_for_search)
-      es_query = OccupationStandardElasticsearchQuery.new(search_term_params)
-      es_query.call
-    else
-      occupation_standards
-        .by_state_id(search_term_params[:state_id])
-        .by_state_abbreviation(search_term_params[:state])
-        .by_national_standard_type(search_term_params[:national_standard_type]&.keys)
-        .by_ojt_type(search_term_params[:ojt_type]&.keys)
-        .and(
-          occupation_standards.by_title(search_term_params[:q])
+    occupation_standards
+      .by_state_id(search_term_params[:state_id])
+      .by_state_abbreviation(search_term_params[:state])
+      .by_national_standard_type(search_term_params[:national_standard_type]&.keys)
+      .by_ojt_type(search_term_params[:ojt_type]&.keys)
+      .and(
+        occupation_standards.by_title(search_term_params[:q])
         .or(
           occupation_standards.by_rapids_code(search_term_params[:q])
         )
-          .or(
-            occupation_standards.by_onet_code(search_term_params[:q])
-          )
-            .or(
-              occupation_standards.by_industry_name(search_term_params[:q])
-            )
+        .or(
+          occupation_standards.by_onet_code(search_term_params[:q])
         )
-    end
+        .or(
+          occupation_standards.by_industry_name(search_term_params[:q])
+        )
+      )
   end
 end
