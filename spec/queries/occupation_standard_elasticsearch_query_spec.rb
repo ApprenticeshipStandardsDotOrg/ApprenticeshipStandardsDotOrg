@@ -9,7 +9,7 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
     OccupationStandard.__elasticsearch__.refresh_index!
 
     params = {q: "Mechanic"}
-    response = described_class.new(params).call
+    response = described_class.new(search_params: params).call
 
     expect(response.records.pluck(:id)).to eq [occupation_standard_for_mechanic.id]
   end
@@ -23,12 +23,12 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
     OccupationStandard.__elasticsearch__.refresh_index!
 
     params = {q: "1234"}
-    response = described_class.new(params).call
+    response = described_class.new(search_params: params).call
 
     expect(response.records.pluck(:id)).to contain_exactly(os1.id, os2.id)
 
     params = {q: "34CB"}
-    response = described_class.new(params).call
+    response = described_class.new(search_params: params).call
 
     expect(response.records.pluck(:id)).to contain_exactly(os2.id)
   end
@@ -42,7 +42,7 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
     OccupationStandard.__elasticsearch__.refresh_index!
 
     params = {q: "12.3456"}
-    response = described_class.new(params).call
+    response = described_class.new(search_params: params).call
 
     expect(response.records.pluck(:id)).to contain_exactly(os1.id, os2.id)
   end
@@ -60,7 +60,7 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
     OccupationStandard.__elasticsearch__.refresh_index!
 
     params = {state_id: ca.id}
-    response = described_class.new(params).call
+    response = described_class.new(search_params: params).call
 
     expect(response.records.pluck(:id)).to contain_exactly(os1.id, os2.id)
   end
@@ -78,7 +78,7 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
     OccupationStandard.__elasticsearch__.refresh_index!
 
     params = {state: ca.abbreviation}
-    response = described_class.new(params).call
+    response = described_class.new(search_params: params).call
 
     expect(response.records.pluck(:id)).to contain_exactly(os1.id, os2.id)
   end
@@ -97,7 +97,7 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
         guideline_standard: "1"
       }
     }
-    response = described_class.new(params).call
+    response = described_class.new(search_params: params).call
 
     expect(response.records.pluck(:id)).to contain_exactly(os1.id, os2.id)
   end
@@ -116,7 +116,7 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
         hybrid: "1"
       }
     }
-    response = described_class.new(params).call
+    response = described_class.new(search_params: params).call
 
     expect(response.records.pluck(:id)).to contain_exactly(os1.id, os2.id)
   end
@@ -142,7 +142,7 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
       national_standard_type: {program_standard: "1"},
       ojt_type: {hybrid: "1"}
     }
-    response = described_class.new(params).call
+    response = described_class.new(search_params: params).call
 
     expect(response.records.pluck(:id)).to contain_exactly(os1.id)
   end
@@ -158,7 +158,7 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
     OccupationStandard.__elasticsearch__.refresh_index!
 
     params = {q: "HEALTHCARE Support"}
-    response = described_class.new(params).call
+    response = described_class.new(search_params: params).call
 
     expect(response.records.pluck(:id)).to eq [occupation_standard.id]
   end

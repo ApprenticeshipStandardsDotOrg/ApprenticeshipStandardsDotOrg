@@ -3,10 +3,10 @@ require "elasticsearch/dsl"
 class OccupationStandardElasticsearchQuery
   include Elasticsearch::DSL
 
-  attr_reader :search_term_params, :debug
+  attr_reader :search_params, :debug
 
-  def initialize(search_term_params, debug = false)
-    @search_term_params = search_term_params
+  def initialize(search_params:, debug: false)
+    @search_params = search_params
     @debug = debug
   end
 
@@ -14,20 +14,20 @@ class OccupationStandardElasticsearchQuery
     definition = search do
       query do
         bool do
-          if search_term_params[:state_id].present?
+          if search_params[:state_id].present?
             filter do
-              term state_id: search_term_params[:state_id]
+              term state_id: search_params[:state_id]
             end
           end
-          if search_term_params[:state].present?
+          if search_params[:state].present?
             filter do
-              term state: search_term_params[:state].upcase
+              term state: search_params[:state].upcase
             end
           end
-          if search_term_params[:national_standard_type].present?
+          if search_params[:national_standard_type].present?
             must do
               bool do
-                search_term_params[:national_standard_type].keys.each do |type|
+                search_params[:national_standard_type].keys.each do |type|
                   should do
                     match national_standard_type: {
                       query: type
@@ -38,10 +38,10 @@ class OccupationStandardElasticsearchQuery
               end
             end
           end
-          if search_term_params[:ojt_type].present?
+          if search_params[:ojt_type].present?
             must do
               bool do
-                search_term_params[:ojt_type].keys.each do |type|
+                search_params[:ojt_type].keys.each do |type|
                   should do
                     match ojt_type: {
                       query: type
@@ -52,8 +52,8 @@ class OccupationStandardElasticsearchQuery
               end
             end
           end
-          if search_term_params[:q].present?
-            q = search_term_params[:q]
+          if search_params[:q].present?
+            q = search_params[:q]
             must do
               bool do
                 should do
