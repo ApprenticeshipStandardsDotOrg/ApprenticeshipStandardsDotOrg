@@ -85,7 +85,7 @@ class OccupationStandardElasticsearchQuery
     end
     response = OccupationStandard.__elasticsearch__.search(definition)
     debug_query(response)
-    response.records
+    response
   end
 
   private
