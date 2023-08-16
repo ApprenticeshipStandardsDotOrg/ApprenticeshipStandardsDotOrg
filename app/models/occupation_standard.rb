@@ -96,12 +96,13 @@ class OccupationStandard < ApplicationRecord
       indexes :state_id, type: :keyword
       indexes :title, type: :text, analyzer: :english_stop_with_ngrams
       indexes :work_process_titles, type: :text, analyzer: :english
+      indexes :created_at, type: :date
     end
   end
 
   def as_indexed_json(_ = {})
     as_json(
-      only: [:title, :ojt_type, :onet_code, :rapids_code, :national_standard_type]
+      only: [:title, :ojt_type, :onet_code, :rapids_code, :national_standard_type, :created_at]
     ).merge(
       industry_name: industry_name,
       national_standard_type: national_standard_type_with_adjustment,
