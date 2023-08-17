@@ -68,12 +68,12 @@ class OccupationStandardElasticsearchQuery
                 end
                 should do
                   wildcard rapids_code: {
-                    value: "*#{escape_autocomplete_terms(q)}*"
+                    value: "*#{standardize_autocomplete_terms(q)}*"
                   }
                 end
                 should do
                   wildcard onet_code: {
-                    value: "*#{escape_autocomplete_terms(q)}*"
+                    value: "*#{standardize_autocomplete_terms(q)}*"
                   }
                 end
                 should do
@@ -101,7 +101,7 @@ class OccupationStandardElasticsearchQuery
 
   private
 
-  def escape_autocomplete_terms(q)
+  def standardize_autocomplete_terms(q)
     q.gsub(/\.|-|,/, "").downcase
   end
 
