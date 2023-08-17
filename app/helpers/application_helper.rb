@@ -7,7 +7,7 @@ module ApplicationHelper
   end
 
   def national_standard_types_filter
-    @_filter ||= OccupationStandard.national_standard_types.transform_values{|v| v = 1}
+    @_filter ||= OccupationStandard.national_standard_types.transform_values { 1 }
   end
 
   def occupation_standards_page_active?
