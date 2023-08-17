@@ -10,9 +10,9 @@ class Industry < ApplicationRecord
   scope :current, -> { where(version: CURRENT_VERSION) }
 
   def self.popular(limit: POPULAR_LIMIT)
-    Industry.left_joins(:occupation_standards)
+    Industry.joins(occupation_standards: :work_processes)
       .group("industries.id")
-      .order("COUNT(occupation_standards.id) DESC")
+      .order(Arel.sql("COUNT(DISTINCT occupation_standards.id) DESC"))
       .limit(limit)
   end
 end
