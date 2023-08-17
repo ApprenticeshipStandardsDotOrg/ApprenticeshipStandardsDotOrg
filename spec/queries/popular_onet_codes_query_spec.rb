@@ -10,7 +10,7 @@ RSpec.describe PopularOnetCodesQuery do
 
     stub_const("PopularOnetCodesQuery::LIMIT", 4)
 
-    result = described_class.run(limit: 3)
+    result = described_class.run
 
     expect(result).to eq ["33", "22", "11"]
   end
