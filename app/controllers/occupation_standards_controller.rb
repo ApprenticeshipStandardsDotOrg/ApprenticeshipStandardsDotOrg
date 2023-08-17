@@ -12,7 +12,7 @@ class OccupationStandardsController < ApplicationController
         items: Pagy::DEFAULT[:items],
         page: current_page
       )
-      @occupation_standards = es_response.records
+      @occupation_standards = es_response.records.to_a
     else
       @occupation_standards_search = OccupationStandardQuery::Container.new(
         search_term_params: search_term_params

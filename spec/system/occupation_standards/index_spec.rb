@@ -793,8 +793,8 @@ RSpec.describe "occupation_standards/index" do
     it "closes similar results accordion when accordion button is clicked", js: true do
       Flipper.enable :use_elasticsearch_for_search
       Flipper.enable :similar_programs_accordion
-      mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
       create(:occupation_standard, :with_work_processes, :with_data_import, :program_standard, title: "Mechanic")
+      mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
 
       OccupationStandard.import
       OccupationStandard.__elasticsearch__.refresh_index!
