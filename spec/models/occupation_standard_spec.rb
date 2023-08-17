@@ -541,4 +541,70 @@ RSpec.describe OccupationStandard, type: :model do
       expect(occupation_standard.state_abbreviation).to eq "CA"
     end
   end
+
+  describe "#state_id" do
+    it "returns nil when registration agency is not associated to an state" do
+      registration_agency = create(:registration_agency, state: nil)
+      occupation_standard = create(:occupation_standard, registration_agency: registration_agency)
+
+      expect(occupation_standard.state_id).to be_nil
+    end
+
+    it "returns state id when registration agency has state" do
+      state = create(:state)
+      registration_agency = create(:registration_agency, state: state)
+      occupation_standard = create(:occupation_standard, registration_agency: registration_agency)
+
+      expect(occupation_standard.state_id).to eq state.id
+    end
+  end
+
+  describe "#industry_name" do
+    it "returns nil when occupation standard is not linked to an industry" do
+      occupation_standard = build(:occupation_standard, industry: nil)
+
+      expect(occupation_standard.industry_name).to be_nil
+    end
+
+    it "returns industry name when occupation standard is linked to an industry" do
+      industry = build_stubbed(:industry, name: "Legal Occupations")
+      occupation_standard = build(:occupation_standard, industry: industry)
+
+      expect(occupation_standard.industry_name).to eq "Legal Occupations"
+    end
+  end
+
+  describe "#national_standard_type_with_adjustment" do
+    it "returns nil if no national_standard_type" do
+      occupation_standard = build(:occupation_standard, national_standard_type: nil)
+
+      expect(occupation_standard.national_standard_type_with_adjustment).to be_nil
+    end
+
+    it "returns program_standard if program_standard" do
+      occupation_standard = build(:occupation_standard, :program_standard)
+
+      expect(occupation_standard.national_standard_type_with_adjustment).to eq "program_standard"
+    end
+
+    it "returns guideline_standard if guideline_standard" do
+      occupation_standard = build(:occupation_standard, :guideline_standard)
+
+      expect(occupation_standard.national_standard_type_with_adjustment).to eq "guideline_standard"
+    end
+
+    it "returns occupational_framework if occupational_framework and organization is Urban Institute" do
+      organization = create(:organization, title: "Urban Institute")
+      occupation_standard = create(:occupation_standard, :occupational_framework, organization: organization)
+
+      expect(occupation_standard.national_standard_type_with_adjustment).to eq "occupational_framework"
+    end
+
+    it "returns nil if occupational_framework and organization is not Urban Institute" do
+      organization = create(:organization, title: "Some Institute")
+      occupation_standard = create(:occupation_standard, :occupational_framework, organization: organization)
+
+      expect(occupation_standard.national_standard_type_with_adjustment).to be_nil
+    end
+  end
 end
