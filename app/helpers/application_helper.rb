@@ -11,8 +11,7 @@ module ApplicationHelper
   end
 
   def occupation_standards_page_active?
-    !current_page?(occupation_standards_path(national_standard_type: national_standard_types_filter), check_parameters: true) &&
-      current_page?(occupation_standards_path)
+    current_page?(occupation_standards_path) && !national_page_active?
   end
 
   def national_page_active?
