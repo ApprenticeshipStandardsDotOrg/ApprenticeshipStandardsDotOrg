@@ -2,7 +2,7 @@
   data-controller="pdf-editor"
   data-pdf-editor-license-key-value="<%= ENV["FOXIT_SDK_LICENSE_KEY"] %>"
   data-pdf-editor-license-serial-number-value="<%= ENV["FOXIT_SDK_SERIAL_NUMBER"] %>"
-  data-pdf-editor-file-url-value="<%= @source_file.url %>"
+  data-pdf-editor-file-url-value="<%= rails_storage_proxy_url(@source_file.active_storage_attachment) %>"
   data-pdf-editor-file-name-value="<%= @source_file.filename %>"
   data-pdf-editor-save-file-url-value="<%= admin_source_file_redact_file_path(@source_file, format: :json) %>"
   data-pdf-editor-go-back-url-value="<%= admin_source_file_path(@source_file) %>">
