@@ -102,7 +102,7 @@ class OccupationStandardElasticsearchQuery
   private
 
   def escape_autocomplete_terms(q)
-    q.gsub(/\.|-|,/, "*").downcase
+    q.gsub(/\.|-|,/, "").downcase
   end
 
   def debug_query(response)
