@@ -13,8 +13,6 @@ class OccupationStandardElasticsearchQuery
 
   def call
     definition = search do
-      size Pagy::DEFAULT[:items]
-      from offset
       sort do
         by :_score, order: :desc
         by :created_at, order: :desc
@@ -90,7 +88,13 @@ class OccupationStandardElasticsearchQuery
         end
       end
     end
-    response = OccupationStandard.__elasticsearch__.search(definition)
+    # Size and From must be passed here rather than defined in the query in
+    # order for Pagy to work correctly.
+    response = OccupationStandard.__elasticsearch__.search(
+      definition,
+      from: offset,
+      size: Pagy::DEFAULT[:items]
+    )
     debug_query(response)
     response
   end

@@ -373,8 +373,10 @@ RSpec.describe "occupation_standards/index" do
   context "when using elasticsearch for search", :elasticsearch do
     it "displays pagination" do
       Flipper.enable :use_elasticsearch_for_search
-      create_list(:occupation_standard, 10, :with_work_processes, :with_data_import)
+      default_items = Pagy::DEFAULT[:items]
+      Pagy::DEFAULT[:items] = 2
       create(:occupation_standard, :with_work_processes, :with_data_import, title: "HR Specialist")
+      create_list(:occupation_standard, 2, :with_work_processes, :with_data_import)
 
       OccupationStandard.import
       OccupationStandard.__elasticsearch__.refresh_index!
@@ -386,8 +388,8 @@ RSpec.describe "occupation_standards/index" do
       within(".pagy-nav") do
         expect(page).to have_link "2", href: occupation_standards_path(page: 2)
         click_on "2"
-        expect(page).to have_text "HR Specialist"
       end
+      expect(page).to have_text "HR Specialist"
 
       Flipper.disable :use_elasticsearch_for_search
     end

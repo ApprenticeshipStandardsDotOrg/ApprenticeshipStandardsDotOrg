@@ -1,18 +1,31 @@
 class OccupationStandardsController < ApplicationController
   def index
-    @occupation_standards_search = OccupationStandardQuery::Container.new(
-      search_term_params: search_term_params
-    )
-
-    @occupation_standards = OccupationStandardQuery.run(
-      standards_scope,
-      search_term_params
-    )
-
-    @pagy, @occupation_standards = pagy(@occupation_standards)
-    @search_term = search_term_params[:q]
-
     @page_title = "Occupations"
+
+    if Flipper.enabled?(:use_elasticsearch_for_search)
+      es_response = OccupationStandardElasticsearchQuery.new(
+        search_params: search_term_params,
+        offset: offset
+      ).call
+      @pagy = Pagy.new_from_elasticsearch_rails(
+        es_response,
+        items: Pagy::DEFAULT[:items],
+        page: current_page
+      )
+      @occupation_standards = es_response.records
+    else
+      @occupation_standards_search = OccupationStandardQuery::Container.new(
+        search_term_params: search_term_params
+      )
+
+      occupation_standards = OccupationStandardQuery.run(
+        standards_scope,
+        search_term_params
+      )
+      @pagy, @occupation_standards = pagy(occupation_standards)
+    end
+
+    @search_term = search_term_params[:q]
 
     respond_to do |format|
       format.json do
@@ -56,5 +69,13 @@ class OccupationStandardsController < ApplicationController
 
   def standards_scope
     OccupationStandard.includes(:organization, :work_processes, registration_agency: :state, occupation: :onet)
+  end
+
+  def current_page
+    params[:page].presence || 1
+  end
+
+  def offset
+    (current_page.to_i - 1) * Pagy::DEFAULT[:items]
   end
 end
