@@ -13,9 +13,9 @@
                 <li class="block lg:inline hover:shadow-[0_3px_0_0_rgba(249,111,0,1)]">
                   <%= link_to "Industry", industries_path, class: "block py-3 px-4 text-white", "aria-current": "page" %>
                 </li>
-                <%= content_tag(:li, link_to("Occupation", occupation_standards_path, class: class_names("block py-3 px-4 text-white"), "aria-current": "page"), class: class_names("block lg:inline hover:shadow-[0_3px_0_0_rgba(249,111,0,1)]", {active: !current_page?(occupation_standards_path(national_standard_type: OccupationStandard.national_standard_types.transform_values{|v| v = 1}), check_parameters: true) && current_page?(occupation_standards_path)})) %>
+                <%= content_tag(:li, link_to("Occupation", occupation_standards_path, class: class_names("block py-3 px-4 text-white"), "aria-current": "page"), class: class_names("block lg:inline hover:shadow-[0_3px_0_0_rgba(249,111,0,1)]", {active: occupation_standards_page_active?})) %>
                 <%= content_tag(:li, link_to("State", states_path, class: class_names("block py-3 px-4 text-white"), "aria-current": "page"), class: class_names("block lg:inline hover:shadow-[0_3px_0_0_rgba(249,111,0,1)]", {active: current_page?(states_path)})) %>
-                <%= content_tag(:li, link_to("National", occupation_standards_path(national_standard_type: OccupationStandard.national_standard_types.transform_values{|v| v = 1}), class: class_names("block py-3 px-4 text-white"), "aria-current": "page"), class: class_names("block lg:inline hover:shadow-[0_3px_0_0_rgba(249,111,0,1)]", {active: current_page?(occupation_standards_path(national_standard_type: OccupationStandard.national_standard_types.transform_values{|v| v = 1}), check_parameters: true)})) %>
+                <%= content_tag(:li, link_to("National", occupation_standards_path(national_standard_type: national_standard_types_filter), class: class_names("block py-3 px-4 text-white"), "aria-current": "page"), class: class_names("block lg:inline hover:shadow-[0_3px_0_0_rgba(249,111,0,1)]", {active: national_page_active?})) %>
                 <li>
                   <span class="block w-0 h-0 md:h-6 md:w-px bg-seafoam-400"></span>
                 </li>
