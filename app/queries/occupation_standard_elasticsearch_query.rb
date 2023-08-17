@@ -63,7 +63,7 @@ class OccupationStandardElasticsearchQuery
               bool do
                 should do
                   wildcard title: {
-                    value:"*#{q.downcase}*"
+                    value: "*#{q.downcase}*"
                   }
                 end
                 should do
@@ -111,7 +111,7 @@ class OccupationStandardElasticsearchQuery
       puts response.search.definition[:body].to_json
       puts "HITS: #{response.results.total}"
       response.results.each do |result|
-#        puts result.inspect
+        #        puts result.inspect
         puts "#{result._id}: #{result._score}"
       end
     end

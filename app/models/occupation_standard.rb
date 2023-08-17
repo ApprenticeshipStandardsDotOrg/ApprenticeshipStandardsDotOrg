@@ -198,7 +198,7 @@ class OccupationStandard < ApplicationRecord
   def national_standard_type_with_adjustment
     case national_standard_type
     when "occupational_framework"
-      organization == Organization.urban_institute ? "occupational_framework" : nil
+      (organization == Organization.urban_institute) ? "occupational_framework" : nil
     else
       national_standard_type
     end

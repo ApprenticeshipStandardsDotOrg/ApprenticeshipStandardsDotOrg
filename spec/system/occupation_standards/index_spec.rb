@@ -391,6 +391,7 @@ RSpec.describe "occupation_standards/index" do
       end
       expect(page).to have_text "HR Specialist"
 
+      Pagy::DEFAULT[:items] = default_items
       Flipper.disable :use_elasticsearch_for_search
     end
 
