@@ -52,6 +52,7 @@ RUN apk update && apk upgrade && apk add --update --no-cache \
   bash \
   build-base \
   chromium \
+  chromium-chromedriver \
   nodejs \
   postgresql-client \
   tzdata \
