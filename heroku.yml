@@ -6,7 +6,9 @@ build:
   config:
     RAILS_ENV: production
 release:
-  web: bundle exec rails db:migrate && rake after_party:run
+  command:
+    - bundle exec rails db:migrate && rake after_party:run
+  image: web
 run:
   web: bundle exec puma -C config/puma.rb
   worker: 
