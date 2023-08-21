@@ -12,7 +12,8 @@ RUN apk update && apk upgrade && apk add --update --no-cache \
   postgresql-dev \
   shared-mime-info \
   tzdata \
-  vim && rm -rf /var/cache/apk/*
+  vim \
+  yarn && rm -rf /var/cache/apk/*
 
 ARG RAILS_ROOT=/usr/src/app/
 WORKDIR $RAILS_ROOT
@@ -20,7 +21,7 @@ WORKDIR $RAILS_ROOT
 ARG RAILS_ENV=production
 ARG NODE_ENV=production
 
-COPY Gemfile* $RAILS_ROOT
+COPY Gemfile* package.json yarn.lock $RAILS_ROOT
 RUN gem install bundler:2.3.25 \
   && bundle config --local frozen 1 \
   && bundle config --local without "development test" \
@@ -28,6 +29,10 @@ RUN gem install bundler:2.3.25 \
   && rm -rf /usr/local/bundle/cache/*.gem \
   && find /usr/local/bundle/gems/ -name "*.c" -delete \
   && find /usr/local/bundle/gems/ -name "*.o" -delete
+
+RUN yarn install --frozen-lockfile
+
+RUN SECRET_KEY_BASE=dummy bundle exec rails assets:precompile
 
 COPY . .
 
