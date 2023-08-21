@@ -7,6 +7,7 @@ FROM ${BASE_IMAGE} AS builder
 RUN apk update && apk upgrade && apk add --update --no-cache \
   build-base \
   curl-dev \
+  gcompat \
   git \
   nodejs \
   postgresql-dev \
@@ -32,9 +33,9 @@ RUN gem install bundler:2.3.25 \
 
 RUN yarn install --frozen-lockfile
 
-RUN SECRET_KEY_BASE=dummy bundle exec rails assets:precompile
-
 COPY . .
+
+RUN SECRET_KEY_BASE=dummy bundle exec bin/rails assets:precompile
 
 ### BUILD STEP DONE ###
 
