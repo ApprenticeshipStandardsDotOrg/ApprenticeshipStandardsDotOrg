@@ -51,8 +51,8 @@ ENV RAILS_SERVE_STATIC_FILES=true
 RUN apk update && apk upgrade && apk add --update --no-cache \
   bash \
   build-base \
-  chromium \
-  chromium-chromedriver \
+#  chromium \
+#  chromium-chromedriver \
   nodejs \
   postgresql-client \
   tzdata \
