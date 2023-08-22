@@ -1,20 +1,21 @@
 ARG BASE_IMAGE=ruby
-ARG BASE_TAG=3.2.2-alpine
+ARG BASE_TAG=3.2.2
 ARG BASE_IMAGE=${BASE_IMAGE}:${BASE_TAG}
 
 FROM ${BASE_IMAGE} AS builder
 
-RUN apk update && apk upgrade && apk add --update --no-cache \
-  build-base \
-  curl-dev \
-  gcompat \
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+
+RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends \
   git \
   nodejs \
-  postgresql-dev \
   shared-mime-info \
   tzdata \
   vim \
-  yarn && rm -rf /var/cache/apk/*
+  yarn \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
 
 ARG RAILS_ROOT=/usr/src/app/
 WORKDIR $RAILS_ROOT
@@ -48,15 +49,13 @@ ENV NODE_ENV=production
 ENV RAILS_LOG_TO_STDOUT=true
 ENV RAILS_SERVE_STATIC_FILES=true
 
-RUN apk update && apk upgrade && apk add --update --no-cache \
-  bash \
-  build-base \
-#  chromium \
-#  chromium-chromedriver \
+RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends \
   nodejs \
   postgresql-client \
   tzdata \
-  vim && rm -rf /var/cache/apk/*
+  vim \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR $RAILS_ROOT
 
