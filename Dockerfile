@@ -97,5 +97,6 @@ COPY --from=builder $RAILS_ROOT $RAILS_ROOT
 COPY --from=builder /usr/local/bundle/ /usr/local/bundle/
 COPY --from=builder /usr/bin/google-chrome /usr/bin/google-chrome
 COPY --from=builder /usr/bin/google-chrome-stable /usr/bin/google-chrome-stable
+COPY --from=builder /opt/google/chrome/ /opt/google/chrome/
 
 EXPOSE 3000
