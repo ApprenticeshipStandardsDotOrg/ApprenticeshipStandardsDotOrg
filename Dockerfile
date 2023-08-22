@@ -6,9 +6,31 @@ FROM ${BASE_IMAGE} AS builder
 
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+#RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+#RUN apt-get install -y ./google-chrome-stable_current_amd64.deb
+
+#RUN apt-get install -yqq wget 
+#RUN wget http://archive.ubuntu.com/ubuntu/pool/main/libu/libu2f-host/libu2f-udev_1.1.4-1_all.deb
+#RUN dpkg -i libu2f-udev_1.1.4-1_all.deb
+#
+#RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_arm64.deb
+#RUN apt-get install ./google-chrome*.deb --yes
+
+#RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+#RUN sh -c 'echo "deb [arch=$(dpkg --print-architecture)] https://dl-ssl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+#
+#RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+
+#RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+#RUN apt-get install -y ./google-chrome-stable_current_amd64.deb
+
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \ 
+    && echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list
+RUN apt-get update && apt-get -y install google-chrome-stable
 
 RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends \
   git \
+#  google-chrome-stable \
   nodejs \
   shared-mime-info \
   tzdata \
