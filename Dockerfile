@@ -71,8 +71,8 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
 RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
 RUN apt update
 RUN apt install google-chrome-stable -y
-RUN wget https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/$(google-chrome --sandbox --version | grep -oE '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+')/linux64/chromedriver-linux64.zip
-RUN unzip -j chromedriver-linux64.zip chromedriver-linux64/chromedriver chromedriver || true
+#RUN wget https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/$(google-chrome --sandbox --version | grep -oE '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+')/linux64/chromedriver-linux64.zip
+#RUN unzip -j chromedriver-linux64.zip chromedriver-linux64/chromedriver chromedriver || true
 
 
 ARG RAILS_ROOT=/usr/src/app/
