@@ -95,8 +95,10 @@ WORKDIR $RAILS_ROOT
 
 COPY --from=builder $RAILS_ROOT $RAILS_ROOT
 COPY --from=builder /usr/local/bundle/ /usr/local/bundle/
-COPY --from=builder /usr/bin/google-chrome /usr/bin/google-chrome
-COPY --from=builder /usr/bin/google-chrome-stable /usr/bin/google-chrome-stable
+COPY --from=builder /etc/alternatives/google-chrome /etc/alternatives/google-chrome
 COPY --from=builder /opt/google/chrome/ /opt/google/chrome/
+
+RUN ln -s /etc/alternatives/google-chrome /usr/bin/google-chrome
+RUN ln -s /opt/google/chrome/google-chrome /usr/bin/google-chrome-stable
 
 EXPOSE 3000
