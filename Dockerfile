@@ -30,6 +30,8 @@ RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources
 
 #RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 #RUN dpkg -i google-chrome-stable_current_amd64.deb
+
+# Mostly working
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
 RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
 #RUN apt update
@@ -71,6 +73,9 @@ RUN SECRET_KEY_BASE=dummy bundle exec bin/rails assets:precompile
 
 FROM ${BASE_IMAGE} AS final
 
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+
 ARG RAILS_ROOT=/usr/src/app/
 
 ENV RAILS_ENV=production
@@ -79,6 +84,7 @@ ENV RAILS_LOG_TO_STDOUT=true
 ENV RAILS_SERVE_STATIC_FILES=true
 
 RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends \
+  google-chrome-stable \
   nodejs \
   postgresql-client \
   tzdata \
@@ -90,6 +96,6 @@ WORKDIR $RAILS_ROOT
 
 COPY --from=builder $RAILS_ROOT $RAILS_ROOT
 COPY --from=builder /usr/local/bundle/ /usr/local/bundle/
-COPY --from=builder /usr/bin/google-chrome /usr/bin/google-chrome
+#COPY --from=builder /usr/bin/google-chrome /usr/bin/google-chrome
 
 EXPOSE 3000
