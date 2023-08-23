@@ -23,9 +23,9 @@ RSpec.describe State, type: :model do
       va = create(:state, name: "Virginia", abbreviation: "VA")
       nc = create(:state, name: "North Carolina", abbreviation: "NC")
 
-      ca_agency = registration_agency = create(:registration_agency, state: ca)
-      va_agency = registration_agency = create(:registration_agency, state: va)
-      nc_agency = registration_agency = create(:registration_agency, state: nc)
+      ca_agency = create(:registration_agency, state: ca)
+      va_agency = create(:registration_agency, state: va)
+      nc_agency = create(:registration_agency, state: nc)
 
       create_list(:occupation_standard, 3, :with_work_processes, registration_agency: ca_agency)
       create(:occupation_standard, :with_work_processes, registration_agency: va_agency)
