@@ -1,0 +1,17 @@
+build:
+  docker:
+    web:
+      dockerfile: Dockerfile
+      target: final
+  config:
+    RAILS_ENV: production
+release:
+  command:
+    - bundle exec rails db:migrate && rake after_party:run
+  image: web
+run:
+  web: bundle exec puma -C config/puma.rb
+  worker: 
+    command:
+      - bundle exec sidekiq -c 8
+    image: web
