@@ -17,7 +17,9 @@ class OccupationStandard < ApplicationRecord
 
   delegate :title, to: :organization, prefix: true, allow_nil: true
   delegate :title, to: :occupation, prefix: true, allow_nil: true
+  delegate :name, to: :industry, prefix: true, allow_nil: true
   delegate :standards_import, to: :source_file, allow_nil: true
+  delegate :state, to: :registration_agency, allow_nil: true
 
   enum ojt_type: [:time, :competency, :hybrid], _suffix: :based
   enum national_standard_type: [:program_standard, :guideline_standard, :occupational_framework], _prefix: :national
@@ -32,8 +34,20 @@ class OccupationStandard < ApplicationRecord
   number_of_shards = Rails.env.production? ? 2 : 1
   es_settings = {
     index: {
+      max_ngram_diff: 20,
       number_of_shards: number_of_shards,
       analysis: {
+        filter: {
+          english_stop: {
+            type: "stop",
+            stopwords: "_english_"
+          },
+          ngram_filter: {
+            type: "ngram",
+            min_gram: 3,
+            max_gram: 20
+          }
+        },
         tokenizer: {
           autocomplete_tokenizer: {
             type: "edge_ngram",
@@ -53,6 +67,14 @@ class OccupationStandard < ApplicationRecord
           }
         },
         analyzer: {
+          english_stop_with_ngrams: {
+            tokenizer: "standard",
+            filter: [
+              "lowercase",
+              "english_stop",
+              "ngram_filter"
+            ]
+          },
           autocomplete: {
             tokenizer: "autocomplete_tokenizer",
             filter: ["lowercase"],
@@ -65,21 +87,27 @@ class OccupationStandard < ApplicationRecord
 
   settings(es_settings) do
     mappings dynamic: false do
-      indexes :title, type: :text, analyzer: :english
-      indexes :ojt_type, type: :text
-      indexes :work_process_titles, type: :text, analyzer: :english
+      indexes :industry_name, type: :text, analyzer: :english_stop_with_ngrams
+      indexes :national_standard_type, type: :text, analyzer: :keyword
+      indexes :ojt_type, type: :text, analyzer: :keyword
       indexes :onet_code, type: :text, analyzer: :autocomplete
       indexes :rapids_code, type: :text, analyzer: :autocomplete
-      indexes :national_standard_type, type: :text, analyzer: :keyword
       indexes :state, type: :text, analyzer: :keyword
+      indexes :state_id, type: :keyword
+      indexes :title, type: :text, analyzer: :english_stop_with_ngrams
+      indexes :work_process_titles, type: :text, analyzer: :english
+      indexes :created_at, type: :date
     end
   end
 
   def as_indexed_json(_ = {})
     as_json(
-      only: [:title, :ojt_type, :onet_code, :rapids_code, :national_standard_type]
+      only: [:title, :ojt_type, :onet_code, :rapids_code, :national_standard_type, :created_at]
     ).merge(
-      state: registration_agency&.state&.abbreviation,
+      industry_name: industry_name,
+      national_standard_type: national_standard_type_with_adjustment,
+      state: state_abbreviation,
+      state_id: state_id,
       work_process_titles: work_processes.pluck(:title).uniq
     )
   end
@@ -153,6 +181,8 @@ class OccupationStandard < ApplicationRecord
     end
   end
 
+  scope :with_work_processes, -> { joins(:work_processes).distinct }
+
   class << self
     def industry_count(onet_prefix)
       where("SPLIT_PART(onet_code, '-', 1) = ?", onet_prefix.to_s).count
@@ -165,6 +195,15 @@ class OccupationStandard < ApplicationRecord
 
   def data_import
     data_imports.last
+  end
+
+  def national_standard_type_with_adjustment
+    case national_standard_type
+    when "occupational_framework"
+      (organization == Organization.urban_institute) ? "occupational_framework" : nil
+    else
+      national_standard_type
+    end
   end
 
   def source_file
@@ -263,7 +302,11 @@ class OccupationStandard < ApplicationRecord
   end
 
   def state_abbreviation
-    registration_agency&.state&.abbreviation
+    state&.abbreviation
+  end
+
+  def state_id
+    state&.id
   end
 
   private

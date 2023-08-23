@@ -7,8 +7,8 @@ RSpec.describe Industry, type: :model do
       trucking = create(:industry, name: "Trucking")
       create(:industry, name: "Eletrical")
 
-      create_list(:occupation_standard, 2, industry: tech)
-      create(:occupation_standard, industry: trucking)
+      create_list(:occupation_standard, 2, :with_work_processes, industry: tech)
+      create(:occupation_standard, :with_work_processes, industry: trucking)
 
       popular = described_class.popular(limit: 2)
 
