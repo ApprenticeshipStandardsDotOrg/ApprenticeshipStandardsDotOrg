@@ -204,4 +204,17 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
 
     expect(response.records.pluck(:id)).to eq [occupation_standard.id]
   end
+
+  it "boosts national occupation framework standards" do
+    os1 = create(:occupation_standard, :occupational_framework, title: "Mechanic")
+    os2 = create(:occupation_standard, :program_standard, title: "Mechanic")
+
+    OccupationStandard.import
+    OccupationStandard.__elasticsearch__.refresh_index!
+
+    params = {q: "Mechanic"}
+    response = described_class.new(search_params: params).call
+
+    expect(response.records.pluck(:id)).to eq [os1.id, os2.id]
+  end
 end
