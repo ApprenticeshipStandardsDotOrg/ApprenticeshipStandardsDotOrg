@@ -1,16 +1,17 @@
 require "rails_helper"
 
 RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
-  it "retrieves all records if params empty" do
+  it "retrieves all records if params empty, giving priority to national occupational framework standards" do
     os1 = create(:occupation_standard)
-    os2 = create(:occupation_standard)
+    os2 = create(:occupation_standard, :occupational_framework)
+    os3 = create(:occupation_standard)
 
     OccupationStandard.import
     OccupationStandard.__elasticsearch__.refresh_index!
 
     response = described_class.new(search_params: {}).call
 
-    expect(response.records.pluck(:id)).to eq [os2.id, os1.id]
+    expect(response.records.pluck(:id)).to eq [os2.id, os3.id, os1.id]
   end
 
   it "limits size" do
