@@ -19,6 +19,7 @@ class OccupationStandardElasticsearchQuery
       end
       query do
         bool do
+          must match_all: {}
           if search_params[:state_id].present?
             filter do
               term state_id: search_params[:state_id]
@@ -84,6 +85,9 @@ class OccupationStandardElasticsearchQuery
                 minimum_should_match 1
               end
             end
+          end
+          should do
+            term national_standard_type: "occupational_framework"
           end
         end
       end
