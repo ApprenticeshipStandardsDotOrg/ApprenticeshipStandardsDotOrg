@@ -12,7 +12,7 @@ class OnetWebService
     request["Accept"] = "application/json"
     request.basic_auth(ENV["ONET_WEB_SERVICES_USERNAME"], ENV["ONET_WEB_SERVICES_PASSWORD"])
 
-    response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) {|http|
+    response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http|
       http.request(request)
     }
 

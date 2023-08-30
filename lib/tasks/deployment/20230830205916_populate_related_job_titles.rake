@@ -1,5 +1,5 @@
 namespace :after_party do
-  desc 'Deployment task: populate_related_job_titles'
+  desc "Deployment task: populate_related_job_titles"
   task populate_related_job_titles: :environment do
     puts "Running deploy task 'populate_related_job_titles'"
 
