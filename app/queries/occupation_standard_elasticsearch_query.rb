@@ -64,7 +64,8 @@ class OccupationStandardElasticsearchQuery
               bool do
                 should do
                   wildcard title: {
-                    value: "*#{q.downcase}*"
+                    value: "*#{q.downcase}*",
+                    boost: 1.5
                   }
                 end
                 should do
@@ -80,6 +81,11 @@ class OccupationStandardElasticsearchQuery
                 should do
                   match industry_name: {
                     query: q
+                  }
+                end
+                should do
+                  wildcard related_job_titles: {
+                    value: "*#{q.downcase}*"
                   }
                 end
                 minimum_should_match 1

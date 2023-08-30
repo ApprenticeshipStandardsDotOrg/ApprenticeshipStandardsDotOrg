@@ -96,6 +96,7 @@ class OccupationStandard < ApplicationRecord
       indexes :state_id, type: :keyword
       indexes :title, type: :text, analyzer: :english_stop_with_ngrams
       indexes :work_process_titles, type: :text, analyzer: :english
+      indexes :related_job_titles, type: :text, analyzer: :english_stop_with_ngrams
       indexes :created_at, type: :date
     end
   end
@@ -108,7 +109,8 @@ class OccupationStandard < ApplicationRecord
       national_standard_type: national_standard_type_with_adjustment,
       state: state_abbreviation,
       state_id: state_id,
-      work_process_titles: work_processes.pluck(:title).uniq
+      work_process_titles: work_processes.pluck(:title).uniq,
+      related_job_titles: related_job_titles
     )
   end
 
