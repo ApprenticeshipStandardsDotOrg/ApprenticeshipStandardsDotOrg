@@ -8,10 +8,15 @@ class OnetWebService
 
   def call
     uri = URI.parse(base_url)
+    request = Net::HTTP::Get.new(uri.request_uri)
+    request["Accept"] = "application/json"
+    request.basic_auth(ENV["ONET_WEB_SERVICES_USERNAME"], ENV["ONET_WEB_SERVICES_PASSWORD"])
 
-    headers = {Authorization: "Bearer #{ENV.fetch("ONET_WEB_SERVICES_API_TOKEN")}"}
-    response = Net::HTTP.get(uri, headers)
-    data = JSON.parse(response)
+    response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) {|http|
+      http.request(request)
+    }
+
+    data = JSON.parse(response.body)
 
     related_job_titles = data.dig("sample_of_reported_job_titles", "title")
 
