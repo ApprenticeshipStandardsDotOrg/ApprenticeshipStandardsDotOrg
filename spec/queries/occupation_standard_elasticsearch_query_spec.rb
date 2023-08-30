@@ -218,4 +218,19 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
 
     expect(response.records.pluck(:id)).to eq [os1.id, os2.id]
   end
+
+  it "returns results that match on related_job_titles" do
+    create(:onet, code: "1234.56", related_job_titles: ["Some other tax job", "Auditor"])
+    os1 = create(:occupation_standard, title: "Auditor")
+    _os2 = create(:occupation_standard, title: "Pipe Fitter")
+    os3 = create(:occupation_standard, title: "Tax Specialist", onet_code: "1234.56")
+
+    OccupationStandard.import
+    OccupationStandard.__elasticsearch__.refresh_index!
+
+    params = {q: "Audit"}
+    response = described_class.new(search_params: params).call
+
+    expect(response.records.pluck(:id)).to eq [os1.id, os3.id]
+  end
 end
