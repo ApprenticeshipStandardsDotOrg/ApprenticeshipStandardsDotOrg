@@ -206,6 +206,11 @@ class OccupationStandard < ApplicationRecord
     end
   end
 
+  def related_job_titles
+    onet = Onet.find_by(code: onet_code)
+    onet&.related_job_titles || []
+  end
+
   def source_file
     data_import.source_file
   end
