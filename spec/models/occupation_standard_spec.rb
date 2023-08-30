@@ -616,14 +616,14 @@ RSpec.describe OccupationStandard, type: :model do
     end
 
     it "returns an empty array if onet_code but onet has no related_job titles" do
-      onet = build_stubbed(:onet, code: "1234.56", related_job_titles: [])
+      build_stubbed(:onet, code: "1234.56", related_job_titles: [])
       os = build(:occupation_standard, onet_code: "1234.56")
 
       expect(os.related_job_titles).to be_empty
     end
 
     it "returns onet related_jobs titles if has onet_code" do
-      onet = create(:onet, code: "1234.56", related_job_titles: ["Engineer", "Developer"])
+      create(:onet, code: "1234.56", related_job_titles: ["Engineer", "Developer"])
       os = build(:occupation_standard, onet_code: "1234.56")
 
       expect(os.related_job_titles).to contain_exactly("Engineer", "Developer")

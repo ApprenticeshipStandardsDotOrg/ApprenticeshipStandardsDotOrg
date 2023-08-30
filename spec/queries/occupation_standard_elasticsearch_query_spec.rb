@@ -220,9 +220,9 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
   end
 
   it "returns results that match on related_job_titles" do
-    onet = create(:onet, code: "1234.56", related_job_titles: ["Some other tax job", "Auditor"])
+    create(:onet, code: "1234.56", related_job_titles: ["Some other tax job", "Auditor"])
     os1 = create(:occupation_standard, title: "Auditor")
-    os2 = create(:occupation_standard, title: "Pipe Fitter")
+    _os2 = create(:occupation_standard, title: "Pipe Fitter")
     os3 = create(:occupation_standard, title: "Tax Specialist", onet_code: "1234.56")
 
     OccupationStandard.import
