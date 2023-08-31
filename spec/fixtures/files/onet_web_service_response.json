@@ -1,0 +1,72 @@
+{
+   "code" : "17-2051.00",
+   "title" : "Civil Engineers",
+   "tags" : {
+      "bright_outlook" : false,
+      "green" : false
+   },
+   "description" : "Perform engineering duties in planning, designing, and overseeing construction and maintenance of building structures and facilities, such as roads, railroads, airports, bridges, harbors, channels, dams, irrigation projects, pipelines, power plants, and water and sewage systems.",
+   "sample_of_reported_job_titles" : {
+      "title" : [
+         "City Engineer",
+         "Civil Engineer"
+      ]
+   },
+   "also_see" : {
+      "occupation" : [
+         {
+            "href" : "https://services.onetcenter.org/ws/online/occupations/17-2051.01/",
+            "code" : "17-2051.01",
+            "title" : "Transportation Engineers",
+            "tags" : {
+               "bright_outlook" : false,
+               "green" : false
+            }
+         },
+         {
+            "href" : "https://services.onetcenter.org/ws/online/occupations/17-2051.02/",
+            "code" : "17-2051.02",
+            "title" : "Water/Wastewater Engineers",
+            "tags" : {
+               "bright_outlook" : false,
+               "green" : false
+            }
+         }
+      ]
+   },
+   "updated" : {
+      "partial" : false,
+      "year" : 2023,
+      "resource_updated" : [
+         {
+            "title" : "Abilities",
+            "source" : "Analyst",
+            "year" : 2021
+         }
+      ]
+   },
+   "summary_resources" : {
+      "resource" : [
+         {
+            "href" : "https://services.onetcenter.org/ws/online/occupations/17-2051.00/summary/tasks",
+            "title" : "Tasks"
+         }
+      ]
+   },
+   "details_resources" : {
+      "resource" : [
+         {
+            "href" : "https://services.onetcenter.org/ws/online/occupations/17-2051.00/details/tasks",
+            "title" : "Tasks"
+         }
+      ]
+   },
+   "custom_resources" : {
+      "resource" : [
+         {
+            "href" : "https://services.onetcenter.org/ws/online/occupations/17-2051.00/custom/work_activities_outline",
+            "title" : "Work Activities Outline"
+         }
+      ]
+   }
+}

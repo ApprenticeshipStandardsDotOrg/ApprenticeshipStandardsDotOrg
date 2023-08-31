@@ -6,6 +6,10 @@ RSpec.describe ScrapeOnetCodes do
       stub_responses
       onet = create(:onet, name: "Actuaries", code: "1234.56")
 
+      service = instance_double("OnetWebService", call: nil)
+      expect(OnetWebService).to receive(:new).and_return(service).thrice
+      expect(service).to receive(:call).thrice
+
       expect {
         described_class.new.call
       }.to change(Onet, :count).by(2)
