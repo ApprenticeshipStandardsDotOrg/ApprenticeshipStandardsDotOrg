@@ -110,6 +110,7 @@ class OccupationStandard < ApplicationRecord
       national_standard_type: national_standard_type_with_adjustment,
       state: state_abbreviation,
       state_id: state_id,
+      title_typeahead: title,
       work_process_titles: work_processes.pluck(:title).uniq,
       related_job_titles: related_job_titles
     )

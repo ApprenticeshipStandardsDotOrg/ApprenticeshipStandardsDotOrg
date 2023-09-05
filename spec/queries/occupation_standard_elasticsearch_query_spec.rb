@@ -45,16 +45,60 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
   end
 
   it "allows searching occupation standards by title" do
-    occupation_standard_for_mechanic = create(:occupation_standard, title: "Mechanic")
-    create(:occupation_standard, title: "Pipe Fitter")
+    os1 = create(:occupation_standard, title: "Amazing Drone Operator Extraordinaire")
+    os2 = create(:occupation_standard, title: "Drone Operator")
+    os3 = create(:occupation_standard, title: "Operator of Drones")
+    os4 = create(:occupation_standard, title: "Drone Extraordinaire")
+    create(:occupation_standard, title: "Mechanic")
 
     OccupationStandard.import
     OccupationStandard.__elasticsearch__.refresh_index!
 
-    params = {q: "Mechanic"}
+    params = {q: "amazing drone Operator Extra"}
     response = described_class.new(search_params: params).call
 
-    expect(response.records.pluck(:id)).to eq [occupation_standard_for_mechanic.id]
+    record_ids = response.records.pluck(:id)
+    expect(record_ids).to contain_exactly(os1.id, os2.id, os3.id, os4.id)
+    expect(record_ids.first).to eq os1.id
+
+    params = {q: "Drones"}
+    response = described_class.new(search_params: params).call
+
+    record_ids = response.records.pluck(:id)
+    expect(response.records.pluck(:id)).to contain_exactly(os1.id, os2.id, os3.id, os4.id)
+
+    params = {q: "Operate"}
+    response = described_class.new(search_params: params).call
+
+    expect(response.records.pluck(:id)).to contain_exactly(os1.id, os2.id, os3.id)
+
+    params = {q: "drone extraordinaire"}
+    response = described_class.new(search_params: params).call
+
+    record_ids = response.records.pluck(:id)
+    expect(record_ids.first).to eq os4.id
+    expect(record_ids.second).to eq os1.id
+    expect(record_ids).to contain_exactly(os1.id, os2.id, os3.id, os4.id)
+
+    params = {q: "amazing OPERATOR"}
+    response = described_class.new(search_params: params).call
+
+    record_ids = response.records.pluck(:id)
+    expect(record_ids.first).to eq os1.id
+    expect(record_ids).to contain_exactly(os1.id, os2.id, os3.id)
+
+    params = {q: "drone operator"}
+    response = described_class.new(search_params: params).call
+
+    record_ids = response.records.pluck(:id)
+    expect(record_ids).to eq [os2.id, os1.id, os3.id, os4.id]
+
+    params = {q: "operator drones"}
+    response = described_class.new(search_params: params).call
+
+    record_ids = response.records.pluck(:id)
+    expect(record_ids.first).to eq os3.id
+    expect(record_ids).to contain_exactly(os1.id, os2.id, os3.id, os4.id)
   end
 
   it "allows searching occupation standards by rapids code" do
@@ -170,17 +214,17 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
     ra_ca = create(:registration_agency, state: ca)
     ra_wa = create(:registration_agency, state: wa)
 
-    os1 = create(:occupation_standard, :program_standard, :hybrid, registration_agency: ra_wa, title: "Mechanic")
+    os1 = create(:occupation_standard, :program_standard, :hybrid, registration_agency: ra_wa, title: "Pipe Fitter")
     create(:occupation_standard, :program_standard, :hybrid, registration_agency: ra_wa, title: "HR")
-    create(:occupation_standard, :program_standard, :hybrid, registration_agency: ra_ca, title: "Mechanic")
-    create(:occupation_standard, :program_standard, :time, registration_agency: ra_wa, title: "Mechanic")
-    create(:occupation_standard, :guideline_standard, :hybrid, registration_agency: ra_wa, title: "Mechanic")
+    create(:occupation_standard, :program_standard, :hybrid, registration_agency: ra_ca, title: "Pipe Fitter")
+    create(:occupation_standard, :program_standard, :time, registration_agency: ra_wa, title: "Pipe Fitter")
+    create(:occupation_standard, :guideline_standard, :hybrid, registration_agency: ra_wa, title: "Pipe Fitter")
 
     OccupationStandard.import
     OccupationStandard.__elasticsearch__.refresh_index!
 
     params = {
-      q: "mech",
+      q: "pipe",
       state_id: wa.id,
       national_standard_type: {program_standard: "1"},
       ojt_type: {hybrid: "1"}
@@ -194,16 +238,17 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
     industry1 = create(:industry, name: "Healthcare Support Occupations")
     industry2 = create(:industry, name: "Repair Occupations")
 
-    occupation_standard = create(:occupation_standard, industry: industry1)
+    os1 = create(:occupation_standard, industry: industry1)
+    os2 = create(:occupation_standard, title: "Healthcare Specialist")
     create(:occupation_standard, industry: industry2)
 
     OccupationStandard.import
     OccupationStandard.__elasticsearch__.refresh_index!
 
-    params = {q: "HEALTHCARE Support"}
+    params = {q: "HEALTHCARE Extraordinaire"}
     response = described_class.new(search_params: params).call
 
-    expect(response.records.pluck(:id)).to eq [occupation_standard.id]
+    expect(response.records.pluck(:id)).to eq [os2.id, os1.id]
   end
 
   it "boosts national occupation framework standards" do
@@ -221,14 +266,14 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
 
   it "returns results that match on related_job_titles" do
     create(:onet, code: "1234.56", related_job_titles: ["Some other tax job", "Auditor"])
-    os1 = create(:occupation_standard, title: "Auditor")
+    os1 = create(:occupation_standard, title: "Specialist of Taxes")
     _os2 = create(:occupation_standard, title: "Pipe Fitter")
-    os3 = create(:occupation_standard, title: "Tax Specialist", onet_code: "1234.56")
+    os3 = create(:occupation_standard, title: "Accounting specialist", onet_code: "1234.56")
 
     OccupationStandard.import
     OccupationStandard.__elasticsearch__.refresh_index!
 
-    params = {q: "Audit"}
+    params = {q: "taxing"}
     response = described_class.new(search_params: params).call
 
     expect(response.records.pluck(:id)).to eq [os1.id, os3.id]

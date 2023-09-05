@@ -63,9 +63,32 @@ class OccupationStandardElasticsearchQuery
             must do
               bool do
                 should do
-                  wildcard title: {
-                    value: "*#{q.downcase}*",
+                  match_phrase title: {
+                    query: q,
+                    boost: 2,
+                    slop: 1
+                  }
+                end
+                should do
+                  match title: {
+                    query: q,
                     boost: 1.5
+                  }
+                end
+                should do
+                  wildcard title_typeahead: {
+                    value: "#{q.downcase}*"
+                  }
+                end
+                should do
+                  match related_job_titles: {
+                    query: q,
+                    boost: 1.2
+                  }
+                end
+                should do
+                  match industry_name: {
+                    query: q
                   }
                 end
                 should do
@@ -76,16 +99,6 @@ class OccupationStandardElasticsearchQuery
                 should do
                   wildcard onet_code: {
                     value: "*#{standardize_autocomplete_terms(q)}*"
-                  }
-                end
-                should do
-                  match industry_name: {
-                    query: q
-                  }
-                end
-                should do
-                  wildcard related_job_titles: {
-                    value: "*#{q.downcase}*"
                   }
                 end
                 minimum_should_match 1
