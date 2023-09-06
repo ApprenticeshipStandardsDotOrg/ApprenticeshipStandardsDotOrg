@@ -76,8 +76,8 @@ class OccupationStandardElasticsearchQuery
                   }
                 end
                 should do
-                  wildcard title_typeahead: {
-                    value: "#{q.downcase}*"
+                  match title_typeahead: {
+                    query: q
                   }
                 end
                 should do

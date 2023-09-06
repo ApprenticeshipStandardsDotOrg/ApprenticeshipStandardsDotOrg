@@ -91,7 +91,9 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
     response = described_class.new(search_params: params).call
 
     record_ids = response.records.pluck(:id)
-    expect(record_ids).to eq [os2.id, os1.id, os3.id, os4.id]
+    expect(record_ids.first).to eq os2.id
+    expect(record_ids.last).to eq os4.id
+    expect(record_ids).to contain_exactly(os2.id, os1.id, os3.id, os4.id)
 
     params = {q: "operator drones"}
     response = described_class.new(search_params: params).call
