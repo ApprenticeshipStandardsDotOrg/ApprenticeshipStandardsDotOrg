@@ -76,7 +76,7 @@ class OccupationStandardElasticsearchQuery
                   }
                 end
                 should do
-                  match title_typeahead: {
+                  match "title.typeahead": {
                     query: q
                   }
                 end

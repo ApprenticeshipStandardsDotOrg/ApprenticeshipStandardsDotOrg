@@ -75,8 +75,9 @@ class OccupationStandard < ApplicationRecord
       indexes :rapids_code, type: :text, analyzer: :autocomplete
       indexes :state, type: :text, analyzer: :keyword
       indexes :state_id, type: :keyword
-      indexes :title, type: :text, analyzer: :english
-      indexes :title_typeahead, type: :text, analyzer: :autocomplete
+      indexes :title, type: :text, analyzer: :english do
+        indexes :typeahead, type: :text, analyzer: :autocomplete
+      end
       indexes :work_process_titles, type: :text, analyzer: :english
       indexes :related_job_titles, type: :text, analyzer: :english
       indexes :created_at, type: :date
@@ -91,7 +92,6 @@ class OccupationStandard < ApplicationRecord
       national_standard_type: national_standard_type_with_adjustment,
       state: state_abbreviation,
       state_id: state_id,
-      title_typeahead: title,
       work_process_titles: work_processes.pluck(:title).uniq,
       related_job_titles: related_job_titles
     )
