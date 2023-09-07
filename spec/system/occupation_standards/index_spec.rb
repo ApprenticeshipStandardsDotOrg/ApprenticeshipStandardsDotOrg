@@ -727,10 +727,17 @@ RSpec.describe "occupation_standards/index" do
 
       expect(page).to_not have_selector "div", class: "tt-suggestion"
 
-      fill_in "q", with: "Mec"
+      fill_in "q", with: "Me"
 
       expect(page).to have_selector "div", class: "tt-suggestion", text: mechanic.display_for_typeahead
       expect(page).to_not have_selector "div", class: "tt-suggestion", text: pipe_fitter.display_for_typeahead
+
+      visit occupation_standards_path
+
+      fill_in "q", with: "fi"
+
+      expect(page).to_not have_selector "div", class: "tt-suggestion", text: mechanic.display_for_typeahead
+      expect(page).to have_selector "div", class: "tt-suggestion", text: pipe_fitter.display_for_typeahead
       Flipper.disable :use_elasticsearch_for_search
     end
 

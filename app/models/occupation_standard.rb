@@ -37,17 +37,6 @@ class OccupationStandard < ApplicationRecord
       max_ngram_diff: 20,
       number_of_shards: number_of_shards,
       analysis: {
-        filter: {
-          english_stop: {
-            type: "stop",
-            stopwords: "_english_"
-          },
-          ngram_filter: {
-            type: "ngram",
-            min_gram: 3,
-            max_gram: 20
-          }
-        },
         tokenizer: {
           autocomplete_tokenizer: {
             type: "edge_ngram",
@@ -67,14 +56,6 @@ class OccupationStandard < ApplicationRecord
           }
         },
         analyzer: {
-          english_stop_with_ngrams: {
-            tokenizer: "standard",
-            filter: [
-              "lowercase",
-              "english_stop",
-              "ngram_filter"
-            ]
-          },
           autocomplete: {
             tokenizer: "autocomplete_tokenizer",
             filter: ["lowercase"],
@@ -87,16 +68,18 @@ class OccupationStandard < ApplicationRecord
 
   settings(es_settings) do
     mappings dynamic: false do
-      indexes :industry_name, type: :text, analyzer: :english_stop_with_ngrams
+      indexes :industry_name, type: :text, analyzer: :english
       indexes :national_standard_type, type: :text, analyzer: :keyword
       indexes :ojt_type, type: :text, analyzer: :keyword
       indexes :onet_code, type: :text, analyzer: :autocomplete
       indexes :rapids_code, type: :text, analyzer: :autocomplete
       indexes :state, type: :text, analyzer: :keyword
       indexes :state_id, type: :keyword
-      indexes :title, type: :text, analyzer: :english_stop_with_ngrams
+      indexes :title, type: :text, analyzer: :english do
+        indexes :typeahead, type: :text, analyzer: :autocomplete
+      end
       indexes :work_process_titles, type: :text, analyzer: :english
-      indexes :related_job_titles, type: :text, analyzer: :english_stop_with_ngrams
+      indexes :related_job_titles, type: :text, analyzer: :english
       indexes :created_at, type: :date
     end
   end
