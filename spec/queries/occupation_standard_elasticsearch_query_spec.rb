@@ -50,6 +50,7 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
     os3 = create(:occupation_standard, title: "Operator of Drones")
     os4 = create(:occupation_standard, title: "Drone Extraordinaire")
     create(:occupation_standard, title: "Mechanic")
+    create(:occupation_standard, title: "Amortization Calculator")
 
     OccupationStandard.import
     OccupationStandard.__elasticsearch__.refresh_index!
@@ -100,11 +101,17 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
     record_ids = response.records.pluck(:id)
     expect(record_ids.first).to eq os3.id
     expect(record_ids).to contain_exactly(os1.id, os2.id, os3.id, os4.id)
+
+    params = {q: "amaz"}
+    response = described_class.new(search_params: params).call
+
+    record_ids = response.records.pluck(:id)
+    expect(record_ids).to contain_exactly(os1.id)
   end
 
   it "allows searching occupation standards by rapids code" do
     os1 = create(:occupation_standard, rapids_code: "1234")
-    os2 = create(:occupation_standard, rapids_code: "1234CB")
+    os2 = create(:occupation_standard, rapids_code: "1234cB")
     create(:occupation_standard, title: "HR", rapids_code: "123")
 
     OccupationStandard.import
@@ -115,7 +122,7 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
 
     expect(response.records.pluck(:id)).to contain_exactly(os1.id, os2.id)
 
-    params = {q: "34CB"}
+    params = {q: "1234Cb"}
     response = described_class.new(search_params: params).call
 
     expect(response.records.pluck(:id)).to contain_exactly(os2.id)
@@ -123,8 +130,8 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
 
   it "allows searching occupation standards by onet code" do
     os1 = create(:occupation_standard, onet_code: "12.3456")
-    os2 = create(:occupation_standard, onet_code: "12.34567")
-    create(:occupation_standard, title: "HR", onet_code: "12.3")
+    create(:occupation_standard, onet_code: "12.3457")
+    create(:occupation_standard, title: "HR", onet_code: "11.2345")
 
     OccupationStandard.import
     OccupationStandard.__elasticsearch__.refresh_index!
@@ -132,7 +139,7 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
     params = {q: "12.3456"}
     response = described_class.new(search_params: params).call
 
-    expect(response.records.pluck(:id)).to contain_exactly(os1.id, os2.id)
+    expect(response.records.pluck(:id)).to contain_exactly(os1.id)
   end
 
   it "allows filtering occupation standards by state id" do

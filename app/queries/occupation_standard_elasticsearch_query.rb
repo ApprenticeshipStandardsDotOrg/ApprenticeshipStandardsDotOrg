@@ -92,13 +92,13 @@ class OccupationStandardElasticsearchQuery
                   }
                 end
                 should do
-                  wildcard rapids_code: {
-                    value: "*#{standardize_autocomplete_terms(q)}*"
+                  match rapids_code: {
+                    query: q
                   }
                 end
                 should do
-                  wildcard onet_code: {
-                    value: "*#{standardize_autocomplete_terms(q)}*"
+                  match onet_code: {
+                    query: q
                   }
                 end
                 minimum_should_match 1
@@ -123,10 +123,6 @@ class OccupationStandardElasticsearchQuery
   end
 
   private
-
-  def standardize_autocomplete_terms(q)
-    q.gsub(/\.|-|,/, "").downcase
-  end
 
   def debug_query(response)
     if debug

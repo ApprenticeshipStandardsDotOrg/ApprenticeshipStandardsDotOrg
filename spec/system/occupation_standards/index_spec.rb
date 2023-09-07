@@ -719,6 +719,7 @@ RSpec.describe "occupation_standards/index" do
       Flipper.enable :use_elasticsearch_for_search
       mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
       pipe_fitter = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Pipe Fitter")
+      pippen_apple_collector = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Pippen Apple Collector")
 
       OccupationStandard.import
       OccupationStandard.__elasticsearch__.refresh_index!
@@ -731,6 +732,7 @@ RSpec.describe "occupation_standards/index" do
 
       expect(page).to have_selector "div", class: "tt-suggestion", text: mechanic.display_for_typeahead
       expect(page).to_not have_selector "div", class: "tt-suggestion", text: pipe_fitter.display_for_typeahead
+      expect(page).to_not have_selector "div", class: "tt-suggestion", text: pippen_apple_collector.display_for_typeahead
 
       visit occupation_standards_path
 
@@ -738,6 +740,15 @@ RSpec.describe "occupation_standards/index" do
 
       expect(page).to_not have_selector "div", class: "tt-suggestion", text: mechanic.display_for_typeahead
       expect(page).to have_selector "div", class: "tt-suggestion", text: pipe_fitter.display_for_typeahead
+      expect(page).to_not have_selector "div", class: "tt-suggestion", text: pippen_apple_collector.display_for_typeahead
+
+      visit occupation_standards_path
+
+      fill_in "q", with: "PIPE"
+
+      expect(page).to_not have_selector "div", class: "tt-suggestion", text: mechanic.display_for_typeahead
+      expect(page).to have_selector "div", class: "tt-suggestion", text: pipe_fitter.display_for_typeahead
+      expect(page).to_not have_selector "div", class: "tt-suggestion", text: pippen_apple_collector.display_for_typeahead
       Flipper.disable :use_elasticsearch_for_search
     end
 
