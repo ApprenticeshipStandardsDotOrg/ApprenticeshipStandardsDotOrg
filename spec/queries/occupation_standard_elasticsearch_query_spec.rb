@@ -114,16 +114,11 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
     response = described_class.new(search_params: params).call
 
     expect(response.records.pluck(:id)).to contain_exactly(os1.id, os2.id)
-
-    params = {q: "34CB"}
-    response = described_class.new(search_params: params).call
-
-    expect(response.records.pluck(:id)).to contain_exactly(os2.id)
   end
 
   it "allows searching occupation standards by onet code" do
     os1 = create(:occupation_standard, onet_code: "12.3456")
-    os2 = create(:occupation_standard, onet_code: "12.3457")
+    create(:occupation_standard, onet_code: "12.3457")
     create(:occupation_standard, title: "HR", onet_code: "11.2345")
 
     OccupationStandard.import
@@ -132,7 +127,7 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
     params = {q: "12.3456"}
     response = described_class.new(search_params: params).call
 
-    expect(response.records.pluck(:id)).to contain_exactly(os1.id, os2.id)
+    expect(response.records.pluck(:id)).to contain_exactly(os1.id)
   end
 
   it "allows filtering occupation standards by state id" do

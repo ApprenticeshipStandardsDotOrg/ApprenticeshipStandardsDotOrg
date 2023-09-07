@@ -60,6 +60,10 @@ class OccupationStandard < ApplicationRecord
             tokenizer: "autocomplete_tokenizer",
             filter: ["lowercase"],
             char_filter: ["my_char_filter"]
+          },
+          autocomplete_search: {
+            tokenizer: "standard",
+            char_filter: ["my_char_filter"]
           }
         }
       }
@@ -71,8 +75,8 @@ class OccupationStandard < ApplicationRecord
       indexes :industry_name, type: :text, analyzer: :english
       indexes :national_standard_type, type: :text, analyzer: :keyword
       indexes :ojt_type, type: :text, analyzer: :keyword
-      indexes :onet_code, type: :text, analyzer: :autocomplete
-      indexes :rapids_code, type: :text, analyzer: :autocomplete
+      indexes :onet_code, type: :text, analyzer: :autocomplete, search_analyzer: :autocomplete_search
+      indexes :rapids_code, type: :text, analyzer: :autocomplete, search_analyzer: :autocomplete_search
       indexes :state, type: :text, analyzer: :keyword
       indexes :state_id, type: :keyword
       indexes :title, type: :text, analyzer: :english do
