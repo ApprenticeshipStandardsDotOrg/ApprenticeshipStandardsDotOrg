@@ -63,6 +63,7 @@ class OccupationStandard < ApplicationRecord
           },
           autocomplete_search: {
             tokenizer: "standard",
+            filter: ["lowercase"],
             char_filter: ["my_char_filter"]
           }
         }
@@ -80,7 +81,7 @@ class OccupationStandard < ApplicationRecord
       indexes :state, type: :text, analyzer: :keyword
       indexes :state_id, type: :keyword
       indexes :title, type: :text, analyzer: :english do
-        indexes :typeahead, type: :text, analyzer: :autocomplete
+        indexes :typeahead, type: :text, analyzer: :autocomplete, search_analyzer: :autocomplete_search
       end
       indexes :work_process_titles, type: :text, analyzer: :english
       indexes :related_job_titles, type: :text, analyzer: :english
