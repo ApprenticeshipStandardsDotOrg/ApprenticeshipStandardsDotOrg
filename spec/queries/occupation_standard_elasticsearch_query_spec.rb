@@ -123,8 +123,8 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
 
   it "allows searching occupation standards by onet code" do
     os1 = create(:occupation_standard, onet_code: "12.3456")
-    os2 = create(:occupation_standard, onet_code: "12.34567")
-    create(:occupation_standard, title: "HR", onet_code: "12.3")
+    os2 = create(:occupation_standard, onet_code: "12.3457")
+    create(:occupation_standard, title: "HR", onet_code: "11.2345")
 
     OccupationStandard.import
     OccupationStandard.__elasticsearch__.refresh_index!
