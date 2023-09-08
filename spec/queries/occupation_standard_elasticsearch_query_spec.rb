@@ -1,10 +1,11 @@
 require "rails_helper"
 
 RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
-  it "retrieves all records if params empty, giving priority to national occupational framework standards" do
-    os1 = create(:occupation_standard)
-    os2 = create(:occupation_standard, :occupational_framework)
-    os3 = create(:occupation_standard)
+  it "retrieves all records with work_processes if params empty, giving priority to national occupational framework standards" do
+    os1 = create(:occupation_standard, :with_work_processes)
+    os2 = create(:occupation_standard, :with_work_processes, :occupational_framework)
+    os3 = create(:occupation_standard, :with_work_processes)
+    create(:occupation_standard)
 
     OccupationStandard.import
     OccupationStandard.__elasticsearch__.refresh_index!
@@ -17,8 +18,8 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
   it "limits size" do
     default_items = Pagy::DEFAULT[:items]
     Pagy::DEFAULT[:items] = 2
-    create(:occupation_standard)
-    occupation_standards = create_list(:occupation_standard, 2)
+    create(:occupation_standard, :with_work_processes)
+    occupation_standards = create_list(:occupation_standard, 2, :with_work_processes)
 
     OccupationStandard.import
     OccupationStandard.__elasticsearch__.refresh_index!
@@ -32,8 +33,8 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
   it "takes offset param" do
     default_items = Pagy::DEFAULT[:items]
     Pagy::DEFAULT[:items] = 2
-    occupation_standard = create(:occupation_standard)
-    create_list(:occupation_standard, 2)
+    occupation_standard = create(:occupation_standard, :with_work_processes)
+    create_list(:occupation_standard, 2, :with_work_processes)
 
     OccupationStandard.import
     OccupationStandard.__elasticsearch__.refresh_index!
@@ -45,12 +46,12 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
   end
 
   it "allows searching occupation standards by title" do
-    os1 = create(:occupation_standard, title: "Amazing Drone Operator Extraordinaire")
-    os2 = create(:occupation_standard, title: "Drone Operator")
-    os3 = create(:occupation_standard, title: "Operator of Drones")
-    os4 = create(:occupation_standard, title: "Drone Extraordinaire")
-    create(:occupation_standard, title: "Mechanic")
-    create(:occupation_standard, title: "Amortization Calculator")
+    os1 = create(:occupation_standard, :with_work_processes, title: "Amazing Drone Operator Extraordinaire")
+    os2 = create(:occupation_standard, :with_work_processes, title: "Drone Operator")
+    os3 = create(:occupation_standard, :with_work_processes, title: "Operator of Drones")
+    os4 = create(:occupation_standard, :with_work_processes, title: "Drone Extraordinaire")
+    create(:occupation_standard, :with_work_processes, title: "Mechanic")
+    create(:occupation_standard, :with_work_processes, title: "Amortization Calculator")
 
     OccupationStandard.import
     OccupationStandard.__elasticsearch__.refresh_index!
@@ -110,9 +111,9 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
   end
 
   it "allows searching occupation standards by rapids code" do
-    os1 = create(:occupation_standard, rapids_code: "1234")
-    os2 = create(:occupation_standard, rapids_code: "1234cB")
-    create(:occupation_standard, title: "HR", rapids_code: "123")
+    os1 = create(:occupation_standard, :with_work_processes, rapids_code: "1234")
+    os2 = create(:occupation_standard, :with_work_processes, rapids_code: "1234cB")
+    create(:occupation_standard, :with_work_processes, title: "HR", rapids_code: "123")
 
     OccupationStandard.import
     OccupationStandard.__elasticsearch__.refresh_index!
@@ -129,9 +130,9 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
   end
 
   it "allows searching occupation standards by onet code" do
-    os1 = create(:occupation_standard, onet_code: "12.3456")
-    create(:occupation_standard, onet_code: "12.3457")
-    create(:occupation_standard, title: "HR", onet_code: "11.2345")
+    os1 = create(:occupation_standard, :with_work_processes, onet_code: "12.3456")
+    create(:occupation_standard, :with_work_processes, onet_code: "12.3457")
+    create(:occupation_standard, :with_work_processes, title: "HR", onet_code: "11.2345")
 
     OccupationStandard.import
     OccupationStandard.__elasticsearch__.refresh_index!
@@ -147,9 +148,9 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
     wa = create(:state)
     ra_ca = create(:registration_agency, state: ca)
     ra_wa = create(:registration_agency, state: wa)
-    os1 = create(:occupation_standard, registration_agency: ra_ca)
-    os2 = create(:occupation_standard, registration_agency: ra_ca)
-    create(:occupation_standard, registration_agency: ra_wa)
+    os1 = create(:occupation_standard, :with_work_processes, registration_agency: ra_ca)
+    os2 = create(:occupation_standard, :with_work_processes, registration_agency: ra_ca)
+    create(:occupation_standard, :with_work_processes, registration_agency: ra_wa)
 
     OccupationStandard.import
     OccupationStandard.__elasticsearch__.refresh_index!
@@ -165,9 +166,9 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
     wa = create(:state, abbreviation: "WA")
     ra_ca = create(:registration_agency, state: ca)
     ra_wa = create(:registration_agency, state: wa)
-    os1 = create(:occupation_standard, registration_agency: ra_ca)
-    os2 = create(:occupation_standard, registration_agency: ra_ca)
-    create(:occupation_standard, registration_agency: ra_wa)
+    os1 = create(:occupation_standard, :with_work_processes, registration_agency: ra_ca)
+    os2 = create(:occupation_standard, :with_work_processes, registration_agency: ra_ca)
+    create(:occupation_standard, :with_work_processes, registration_agency: ra_wa)
 
     OccupationStandard.import
     OccupationStandard.__elasticsearch__.refresh_index!
@@ -179,9 +180,9 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
   end
 
   it "allows filtering occupation standards by multiple national_standard_types" do
-    os1 = create(:occupation_standard, :program_standard)
-    os2 = create(:occupation_standard, :guideline_standard)
-    create(:occupation_standard, :occupational_framework)
+    os1 = create(:occupation_standard, :with_work_processes, :program_standard)
+    os2 = create(:occupation_standard, :with_work_processes, :guideline_standard)
+    create(:occupation_standard, :with_work_processes, :occupational_framework)
 
     OccupationStandard.import
     OccupationStandard.__elasticsearch__.refresh_index!
@@ -198,9 +199,9 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
   end
 
   it "allows filtering occupation standards by multiple ojt_types" do
-    os1 = create(:occupation_standard, :time)
-    os2 = create(:occupation_standard, :hybrid)
-    create(:occupation_standard, :competency)
+    os1 = create(:occupation_standard, :with_work_processes, :time)
+    os2 = create(:occupation_standard, :with_work_processes, :hybrid)
+    create(:occupation_standard, :with_work_processes, :competency)
 
     OccupationStandard.import
     OccupationStandard.__elasticsearch__.refresh_index!
@@ -222,11 +223,11 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
     ra_ca = create(:registration_agency, state: ca)
     ra_wa = create(:registration_agency, state: wa)
 
-    os1 = create(:occupation_standard, :program_standard, :hybrid, registration_agency: ra_wa, title: "Pipe Fitter")
-    create(:occupation_standard, :program_standard, :hybrid, registration_agency: ra_wa, title: "HR")
-    create(:occupation_standard, :program_standard, :hybrid, registration_agency: ra_ca, title: "Pipe Fitter")
-    create(:occupation_standard, :program_standard, :time, registration_agency: ra_wa, title: "Pipe Fitter")
-    create(:occupation_standard, :guideline_standard, :hybrid, registration_agency: ra_wa, title: "Pipe Fitter")
+    os1 = create(:occupation_standard, :with_work_processes, :program_standard, :hybrid, registration_agency: ra_wa, title: "Pipe Fitter")
+    create(:occupation_standard, :with_work_processes, :program_standard, :hybrid, registration_agency: ra_wa, title: "HR")
+    create(:occupation_standard, :with_work_processes, :program_standard, :hybrid, registration_agency: ra_ca, title: "Pipe Fitter")
+    create(:occupation_standard, :with_work_processes, :program_standard, :time, registration_agency: ra_wa, title: "Pipe Fitter")
+    create(:occupation_standard, :with_work_processes, :guideline_standard, :hybrid, registration_agency: ra_wa, title: "Pipe Fitter")
 
     OccupationStandard.import
     OccupationStandard.__elasticsearch__.refresh_index!
@@ -246,9 +247,9 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
     industry1 = create(:industry, name: "Healthcare Support Occupations")
     industry2 = create(:industry, name: "Repair Occupations")
 
-    os1 = create(:occupation_standard, industry: industry1)
-    os2 = create(:occupation_standard, title: "Healthcare Specialist")
-    create(:occupation_standard, industry: industry2)
+    os1 = create(:occupation_standard, :with_work_processes, industry: industry1)
+    os2 = create(:occupation_standard, :with_work_processes, title: "Healthcare Specialist")
+    create(:occupation_standard, :with_work_processes, industry: industry2)
 
     OccupationStandard.import
     OccupationStandard.__elasticsearch__.refresh_index!
@@ -260,8 +261,8 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
   end
 
   it "boosts national occupation framework standards" do
-    os1 = create(:occupation_standard, :occupational_framework, title: "Mechanic")
-    os2 = create(:occupation_standard, :program_standard, title: "Mechanic")
+    os1 = create(:occupation_standard, :with_work_processes, :occupational_framework, title: "Mechanic")
+    os2 = create(:occupation_standard, :with_work_processes, :program_standard, title: "Mechanic")
 
     OccupationStandard.import
     OccupationStandard.__elasticsearch__.refresh_index!
@@ -274,9 +275,9 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
 
   it "returns results that match on related_job_titles" do
     create(:onet, code: "1234.56", related_job_titles: ["Some other tax job", "Auditor"])
-    os1 = create(:occupation_standard, title: "Specialist of Taxes")
-    _os2 = create(:occupation_standard, title: "Pipe Fitter")
-    os3 = create(:occupation_standard, title: "Accounting specialist", onet_code: "1234.56")
+    os1 = create(:occupation_standard, :with_work_processes, title: "Specialist of Taxes")
+    _os2 = create(:occupation_standard, :with_work_processes, title: "Pipe Fitter")
+    os3 = create(:occupation_standard, :with_work_processes, title: "Accounting specialist", onet_code: "1234.56")
 
     OccupationStandard.import
     OccupationStandard.__elasticsearch__.refresh_index!

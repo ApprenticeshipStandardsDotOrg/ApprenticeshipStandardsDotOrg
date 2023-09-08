@@ -20,6 +20,9 @@ class OccupationStandardElasticsearchQuery
       query do
         bool do
           must match_all: {}
+          must do
+            exists field: "work_process_titles"
+          end
           if search_params[:state_id].present?
             filter do
               term state_id: search_params[:state_id]
