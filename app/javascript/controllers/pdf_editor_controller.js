@@ -8,7 +8,8 @@ export default class extends Controller {
     fileUrl: String,
     fileName: String,
     saveFileUrl: String,
-    goBackUrl: String
+    goBackUrl: String,
+    fileSize: Number,
   }
 
   static targets = ["renderTo", "form"]
@@ -56,12 +57,7 @@ export default class extends Controller {
         }
       }),
       renderTo: this.renderToTarget,
-      addons: [
-        "/lib/uix-addons/file-property",
-        "/lib/uix-addons/thumbnail",
-        "/lib/uix-addons/redaction",
-        "/lib/uix-addons/search"
-      ]
+      addons: UIXAddons
     });
 
     if (this.fileUrlValue && this.fileNameValue) {
@@ -69,6 +65,7 @@ export default class extends Controller {
         {
           range: {
             url: this.fileUrlValue,
+            size: this.fileSizeValue
           },
         },
         { fileName: this.fileNameValue }

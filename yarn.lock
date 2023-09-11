@@ -22,10 +22,10 @@
   resolved "https://registry.yarnpkg.com/@csstools/normalize.css/-/normalize.css-10.1.0.tgz#f0950bba18819512d42f7197e56c518aa491cf18"
   integrity sha512-ij4wRiunFfaJxjB0BdrYHIH8FxBJpOwNPhhAcunlmPdXudL1WQV1qoP9un6JsEBAgQH+7UXyyjh0g7jTxXK6tg==
 
-"@foxitsoftware/foxit-pdf-sdk-for-web-library-full@^9.0.4":
-  version "9.0.4"
-  resolved "https://registry.yarnpkg.com/@foxitsoftware/foxit-pdf-sdk-for-web-library-full/-/foxit-pdf-sdk-for-web-library-full-9.0.4.tgz#082cbc40e7ecc81e3308848a40bfc07d09962a80"
-  integrity sha512-dlNzM+e1tsREvw0c/EhBP/low1/6sIwzzx2m4ivyY5HXbalIl1NNugF0usSMFenvPzfiZTBpsf3G8Al8j+WTKQ==
+"@foxitsoftware/foxit-pdf-sdk-for-web-library-full@^9.1.0":
+  version "9.1.0"
+  resolved "https://registry.yarnpkg.com/@foxitsoftware/foxit-pdf-sdk-for-web-library-full/-/foxit-pdf-sdk-for-web-library-full-9.1.0.tgz#01dd9b43eab0a3b3df35ff87311a011486f17895"
+  integrity sha512-ui+xgVKc9ChslodPeI00XmmM79wxSNOSfgLsJ3TirStv0DbYqHRkl/CgIn8C5H/A1JWzFQkBFIHncJDV0zraCg==
   dependencies:
     "@babel/runtime" "^7.17.9"
     "@babel/runtime-corejs3" "^7.17.9"
