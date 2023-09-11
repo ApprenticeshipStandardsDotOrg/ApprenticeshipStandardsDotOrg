@@ -35,7 +35,9 @@
         <% end %>
 
         <% @occupation_standards.each do |occupation_standard| %>
-          <% next if occupation_standard.work_processes.empty? %>
+          <% unless Flipper.enabled?(:use_elasticsearch_for_search) %>
+            <% next if occupation_standard.work_processes.empty? %>
+          <% end %>
         <div class="my-6 border border-primary-200 rounded-lg bg-white p-6 lg:mb-8">
             <div class="flex justify-between">
                 <div>
