@@ -147,6 +147,15 @@ RSpec.describe OccupationStandard, type: :model do
       expect(described_class.by_national_standard_type(%w[program_standard occupational_framework])).to contain_exactly(os1, os2)
     end
 
+    it "if only occupational_framework passed as symbol, returns Urban Institute standards only" do
+      org = create(:organization, title: "Urban Institute")
+      os1 = create(:occupation_standard, :occupational_framework, organization: org)
+      create(:occupation_standard, :occupational_framework)
+      create(:occupation_standard, :program_standard)
+
+      expect(described_class.by_national_standard_type(:occupational_framework)).to contain_exactly(os1)
+    end
+
     it "returns all records if empty string provided" do
       standards = create_pair(:occupation_standard, :program_standard)
 
