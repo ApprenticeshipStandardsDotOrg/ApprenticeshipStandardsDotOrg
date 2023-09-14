@@ -99,7 +99,8 @@ class OccupationStandard < ApplicationRecord
       state: state_abbreviation,
       state_id: state_id,
       work_process_titles: work_processes.pluck(:title).uniq,
-      related_job_titles: related_job_titles
+      related_job_titles: related_job_titles,
+      headline: headline
     )
   end
 
