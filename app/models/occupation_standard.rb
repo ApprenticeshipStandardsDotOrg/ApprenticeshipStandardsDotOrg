@@ -217,16 +217,18 @@ class OccupationStandard < ApplicationRecord
   def headline
     associations = if time_based?
       work_processes
-    else
+    elsif competency_based?
       work_processes.flat_map(&:competencies)
+    else
+      work_processes.flat_map(&:competencies) + work_processes
     end
 
     [
       state&.id,
       ojt_type,
       title.parameterize,
-      associations.map(&:title).map(&:parameterize),
-      work_processes_hours.to_s
+      work_processes_hours.to_s,
+      associations.map(&:title).map(&:parameterize)
     ].flatten.compact.join("-")
   end
 
