@@ -43,6 +43,11 @@ class OccupationStandard < ApplicationRecord
             min_gram: 2,
             max_gram: 20,
             token_chars: ["letter", "digit", "punctuation"]
+          },
+          onet_prefix_tokenizer: {
+            type: "pattern",
+            pattern: "^(\\d{2})\\D", # capture first two digits of ONET code
+            group: 1
           }
         },
         char_filter: {
@@ -65,6 +70,9 @@ class OccupationStandard < ApplicationRecord
             tokenizer: "standard",
             filter: ["lowercase"],
             char_filter: ["my_char_filter"]
+          },
+          onet_prefix: {
+            tokenizer: "onet_prefix_tokenizer"
           }
         }
       }
