@@ -84,7 +84,9 @@ class OccupationStandard < ApplicationRecord
       indexes :industry_name, type: :text, analyzer: :english
       indexes :national_standard_type, type: :text, analyzer: :keyword
       indexes :ojt_type, type: :text, analyzer: :keyword
-      indexes :onet_code, type: :text, analyzer: :autocomplete, search_analyzer: :autocomplete_search
+      indexes :onet_code, type: :text, analyzer: :autocomplete, search_analyzer: :autocomplete_search do
+        indexes :prefix, type: :text, analyzer: :onet_prefix
+      end
       indexes :rapids_code, type: :text, analyzer: :autocomplete, search_analyzer: :autocomplete_search
       indexes :state, type: :text, analyzer: :keyword
       indexes :state_id, type: :keyword
