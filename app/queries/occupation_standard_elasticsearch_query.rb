@@ -19,6 +19,10 @@ class OccupationStandardElasticsearchQuery
       end
       collapse :headline do
         inner_hits :children
+        sort do
+          by :_score, order: :desc
+          by :created_at, order: :desc
+        end
       end
       query do
         bool do

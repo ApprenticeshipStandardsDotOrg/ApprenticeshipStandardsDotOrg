@@ -296,7 +296,8 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
     create(:work_process, occupation_standard: os1, sort_order: 2, title: "fox jumps over", maximum_hours: 100)
     create(:work_process, occupation_standard: os1, sort_order: 1, title: "The quick brown", maximum_hours: 200)
 
-    os2 = create(:occupation_standard, :time, registration_agency: agency, title: "Pipe Fitter")
+    onet = create(:onet, code: "1234.56", related_job_titles: ["pipe"])
+    os2 = create(:occupation_standard, :time, onet_code: "1234.56", registration_agency: agency, title: "Pipe Fitter")
     create(:work_process, occupation_standard: os2, sort_order: 2, title: "fox jumps over", maximum_hours: 100)
     create(:work_process, occupation_standard: os2, sort_order: 1, title: "The quick brown", maximum_hours: 200)
 
@@ -313,6 +314,9 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
     params = {q: "pipe"}
     response = described_class.new(search_params: params).call
 
-    expect(response.records.pluck(:id)).to eq [os3.id, os2.id]
+    expect(response.records.pluck(:id)).to eq [os2.id, os3.id]
+    expect(response.results[0].inner_hits.children.first[1].hits[0]._id).to eq os2.id
+    expect(response.results[0].inner_hits.children.first[1].hits[1]._id).to eq os1.id
+    expect(response.results[1].inner_hits.children.first[1].hits[0]._id).to eq os3.id
   end
 end
