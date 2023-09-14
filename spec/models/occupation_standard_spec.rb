@@ -650,7 +650,7 @@ RSpec.describe OccupationStandard, type: :model do
           create(:work_process, occupation_standard: occupation_standard, sort_order: 1, title: "The quick brown", maximum_hours: 200)
           create(:work_process, occupation_standard: occupation_standard, sort_order: 3, title: "the lazy dog", maximum_hours: 400)
 
-          expect(occupation_standard.headline).to eq "#{state.id}-time-pipe-fitter-700-the-quick-brown-fox-jumps-over-the-lazy-dog"
+          expect(occupation_standard.headline).to eq "#{state.abbreviation}-time-pipe-fitter-700-the-quick-brown-fox-jumps-over-the-lazy-dog"
         end
       end
 
@@ -680,7 +680,7 @@ RSpec.describe OccupationStandard, type: :model do
           create(:competency, work_process: wp2, sort_order: 2, title: "brown fox")
           create(:competency, work_process: wp2, sort_order: 1, title: "The quick")
 
-          expect(occupation_standard.headline).to eq "#{state.id}-competency-pipe-fitter-0-the-quick-brown-fox-jumps-over-the-lazy-dog"
+          expect(occupation_standard.headline).to eq "#{state.abbreviation}-competency-pipe-fitter-0-the-quick-brown-fox-jumps-over-the-lazy-dog"
         end
       end
 
@@ -713,7 +713,7 @@ RSpec.describe OccupationStandard, type: :model do
           create(:competency, work_process: wp2, sort_order: 2, title: "brown fox")
           create(:competency, work_process: wp2, sort_order: 1, title: "The quick")
 
-          expect(occupation_standard.headline).to eq "#{state.id}-hybrid-pipe-fitter-700-the-quick-brown-fox-jumps-over-the-lazy-dog-wp2-wp1"
+          expect(occupation_standard.headline).to eq "#{state.abbreviation}-hybrid-pipe-fitter-700-the-quick-brown-fox-jumps-over-the-lazy-dog-wp2-wp1"
         end
       end
 

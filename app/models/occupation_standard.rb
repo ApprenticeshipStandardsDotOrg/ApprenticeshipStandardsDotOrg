@@ -224,7 +224,7 @@ class OccupationStandard < ApplicationRecord
     end
 
     [
-      state&.id,
+      state&.abbreviation,
       ojt_type,
       title.parameterize,
       work_processes_hours.to_s,
