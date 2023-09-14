@@ -287,4 +287,32 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
 
     expect(response.records.pluck(:id)).to eq [os1.id, os3.id]
   end
+
+  it "collapses search results across headline" do
+    state = create(:state)
+    agency = create(:registration_agency, state: state)
+
+    os1 = create(:occupation_standard, :time, registration_agency: agency, title: "Pipe Fitter")
+    create(:work_process, occupation_standard: os1, sort_order: 2, title: "fox jumps over", maximum_hours: 100)
+    create(:work_process, occupation_standard: os1, sort_order: 1, title: "The quick brown", maximum_hours: 200)
+
+    os2 = create(:occupation_standard, :time, registration_agency: agency, title: "Pipe Fitter")
+    create(:work_process, occupation_standard: os2, sort_order: 2, title: "fox jumps over", maximum_hours: 100)
+    create(:work_process, occupation_standard: os2, sort_order: 1, title: "The quick brown", maximum_hours: 200)
+
+    os3 = create(:occupation_standard, :time, registration_agency: agency, title: "Pipe")
+    create(:work_process, occupation_standard: os3, sort_order: 2, title: "fox jumps over", maximum_hours: 100)
+    create(:work_process, occupation_standard: os3, sort_order: 1, title: "The quick brown", maximum_hours: 200)
+    puts os1.id
+    puts os2.id
+    puts os3.id
+
+    OccupationStandard.import
+    OccupationStandard.__elasticsearch__.refresh_index!
+
+    params = {q: "pipe"}
+    response = described_class.new(search_params: params).call
+
+    expect(response.records.pluck(:id)).to eq [os3.id, os2.id]
+  end
 end

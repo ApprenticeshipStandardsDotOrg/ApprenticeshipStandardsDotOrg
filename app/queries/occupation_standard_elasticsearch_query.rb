@@ -17,6 +17,9 @@ class OccupationStandardElasticsearchQuery
         by :_score, order: :desc
         by :created_at, order: :desc
       end
+      collapse :headline do
+        inner_hits :children
+      end
       query do
         bool do
           must match_all: {}
