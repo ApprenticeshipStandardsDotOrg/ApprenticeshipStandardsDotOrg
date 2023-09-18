@@ -46,7 +46,7 @@ class OccupationStandard < ApplicationRecord
           },
           onet_prefix_tokenizer: {
             type: "pattern",
-            pattern: "^(\\d{2})\\D", # capture first two digits of ONET code
+            pattern: "^(\\d{2})", # capture first two digits of ONET code
             group: 1
           }
         },
