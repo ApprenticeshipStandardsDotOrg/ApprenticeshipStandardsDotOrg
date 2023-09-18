@@ -60,6 +60,7 @@ export default class extends Controller {
       addons: UIXAddons
     });
 
+
     if (this.fileUrlValue && this.fileNameValue) {
       this.pdfui.openPDFByHttpRangeRequest(
         {
@@ -70,6 +71,7 @@ export default class extends Controller {
         },
         { fileName: this.fileNameValue }
       );
+      window.addEventListener("scroll", this.redrawPdf.bind(this))
     }
   }
 
@@ -116,5 +118,17 @@ export default class extends Controller {
           alert("Oh no, something went wrong!");
         });
       })
+  }
+
+  // Workaround suggested by FoxitSDK team.
+  // This will trigger a redraw on every scroll. It impacts the
+  // performance, but based on users and document length, it's
+  // good enough for now
+  redrawPdf() {
+    this.pdfui.getPDFViewer().then(pdfViewer => pdfViewer.redraw())
+  }
+
+  disconnect() {
+    window.removeEventListener("scroll", this.redrawPdf);
   }
 }
