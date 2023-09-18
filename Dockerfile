@@ -62,6 +62,9 @@ RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
+RUN wget https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/$(google-chrome --sandbox --version | grep -oE '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+')/linux64/chromedriver-linux64.zip
+RUN unzip -j chromedriver-linux64.zip chromedriver-linux64/chromedriver chromedriver || true
+
 WORKDIR $RAILS_ROOT
 
 COPY --from=builder $RAILS_ROOT $RAILS_ROOT

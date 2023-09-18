@@ -2,6 +2,8 @@ class Scraper::WatirJob < ApplicationJob
   private
 
   def configure_watir_browser
+     # logger = Selenium::WebDriver.logger
+     # logger.level = :debug
     if (chromedriver_path = ENV.fetch("CHROMEDRIVER_PATH", nil))
       Selenium::WebDriver::Chrome::Service.driver_path = chromedriver_path
     end
