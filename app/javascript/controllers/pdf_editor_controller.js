@@ -60,7 +60,6 @@ export default class extends Controller {
       addons: UIXAddons
     });
 
-
     if (this.fileUrlValue && this.fileNameValue) {
       this.pdfui.openPDFByHttpRangeRequest(
         {
