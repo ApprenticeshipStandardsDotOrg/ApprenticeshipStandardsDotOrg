@@ -45,6 +45,7 @@ Rails.application.routes.draw do
       resources :competency_options, only: [:show, :edit, :update]
       resources :wage_steps, only: [:show, :edit, :update]
       resources :contact_requests, only: [:index, :show]
+      resources :onets, only: [:index, :show]
     end
   end
 
