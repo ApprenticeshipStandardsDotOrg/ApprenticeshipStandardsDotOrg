@@ -60,6 +60,26 @@ class OccupationStandard < ApplicationRecord
             ]
           }
         },
+        filter: {
+          english_stop: {
+            type: "stop",
+            stopwords: "_english_"
+          },
+          english_stemmer: {
+            type: "stemmer",
+            language: "english"
+          },
+          english_possessive_stemmer: {
+            type: "stemmer",
+            language: "possessive_english"
+          },
+          synonym: {
+            type: "synonym",
+            synonyms: [
+              "UX, User experience"
+            ]
+          }
+        },
         analyzer: {
           autocomplete: {
             tokenizer: "autocomplete_tokenizer",
@@ -73,6 +93,16 @@ class OccupationStandard < ApplicationRecord
           },
           onet_prefix: {
             tokenizer: "onet_prefix_tokenizer"
+          },
+          rebuilt_english: {
+            tokenizer: "standard",
+            filter: [
+              "english_possessive_stemmer",
+              "lowercase",
+              "english_stop",
+              "english_stemmer",
+              "synonym"
+            ]
           }
         }
       }
@@ -90,11 +120,11 @@ class OccupationStandard < ApplicationRecord
       indexes :rapids_code, type: :text, analyzer: :autocomplete, search_analyzer: :autocomplete_search
       indexes :state, type: :text, analyzer: :keyword
       indexes :state_id, type: :keyword
-      indexes :title, type: :text, analyzer: :english do
+      indexes :title, type: :text, analyzer: :rebuilt_english do
         indexes :typeahead, type: :text, analyzer: :autocomplete, search_analyzer: :autocomplete_search
       end
       indexes :work_process_titles, type: :text, analyzer: :english
-      indexes :related_job_titles, type: :text, analyzer: :english
+      indexes :related_job_titles, type: :text, analyzer: :rebuilt_english
       indexes :created_at, type: :date
     end
   end
