@@ -40,6 +40,11 @@ class OccupationStandardElasticsearchQuery
               term state: search_params[:state].upcase
             end
           end
+          if search_params[:onet_prefix].present?
+            filter do
+              match "onet_code.prefix": search_params[:onet_prefix]
+            end
+          end
           if search_params[:national_standard_type].present?
             must do
               bool do
