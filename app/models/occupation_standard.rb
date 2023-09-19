@@ -43,6 +43,11 @@ class OccupationStandard < ApplicationRecord
             min_gram: 2,
             max_gram: 20,
             token_chars: ["letter", "digit", "punctuation"]
+          },
+          onet_prefix_tokenizer: {
+            type: "pattern",
+            pattern: "^(\\d{2})", # capture first two digits of ONET code
+            group: 1
           }
         },
         char_filter: {
@@ -65,6 +70,9 @@ class OccupationStandard < ApplicationRecord
             tokenizer: "standard",
             filter: ["lowercase"],
             char_filter: ["my_char_filter"]
+          },
+          onet_prefix: {
+            tokenizer: "onet_prefix_tokenizer"
           }
         }
       }
@@ -76,7 +84,9 @@ class OccupationStandard < ApplicationRecord
       indexes :industry_name, type: :text, analyzer: :english
       indexes :national_standard_type, type: :text, analyzer: :keyword
       indexes :ojt_type, type: :text, analyzer: :keyword
-      indexes :onet_code, type: :text, analyzer: :autocomplete, search_analyzer: :autocomplete_search
+      indexes :onet_code, type: :text, analyzer: :autocomplete, search_analyzer: :autocomplete_search do
+        indexes :prefix, type: :text, analyzer: :onet_prefix
+      end
       indexes :rapids_code, type: :text, analyzer: :autocomplete, search_analyzer: :autocomplete_search
       indexes :state, type: :text, analyzer: :keyword
       indexes :state_id, type: :keyword
