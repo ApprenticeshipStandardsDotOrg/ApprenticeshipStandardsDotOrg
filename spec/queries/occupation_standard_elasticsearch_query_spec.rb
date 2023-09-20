@@ -315,7 +315,7 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
     create(:work_process, occupation_standard: os1, sort_order: 2, title: "fox jumps over", maximum_hours: 100)
     create(:work_process, occupation_standard: os1, sort_order: 1, title: "The quick brown", maximum_hours: 200)
 
-    onet = create(:onet, code: "1234.56", related_job_titles: ["pipe"])
+    create(:onet, code: "1234.56", related_job_titles: ["pipe"])
     os2 = create(:occupation_standard, :time, onet_code: "1234.56", registration_agency: agency, title: "Pipe Fitter")
     create(:work_process, occupation_standard: os2, sort_order: 2, title: "fox jumps over", maximum_hours: 100)
     create(:work_process, occupation_standard: os2, sort_order: 1, title: "The quick brown", maximum_hours: 200)
