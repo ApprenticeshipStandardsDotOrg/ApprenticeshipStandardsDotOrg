@@ -12,8 +12,13 @@ class Occupation < ApplicationRecord
 
   index_name "occupations_#{Rails.env}"
   number_of_shards = Rails.env.production? ? 2 : 1
+  es_settings = {
+    index: {
+      number_of_shards: number_of_shards
+    }
+  }
 
-  settings() do
+  settings(es_settings) do
     mappings dynamic: false do
       indexes :title, type: :text, analyzer: :english
     end

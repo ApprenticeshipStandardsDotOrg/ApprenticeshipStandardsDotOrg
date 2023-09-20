@@ -1,5 +1,5 @@
 namespace :after_party do
-  desc 'Deployment task: import_occupations_into_elasticsearch'
+  desc "Deployment task: import_occupations_into_elasticsearch"
   task import_occupations_into_elasticsearch: :environment do
     puts "Running deploy task 'import_occupations_into_elasticsearch'"
 
