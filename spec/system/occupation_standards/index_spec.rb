@@ -397,8 +397,9 @@ RSpec.describe "occupation_standards/index" do
 
     it "filters standards based on search term" do
       Flipper.enable :use_elasticsearch_for_search
-      dental = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Dental Assistant")
-      medical = create(:occupation_standard, :with_work_processes, :program_standard, :with_data_import, title: "Medical Assistant")
+      dental = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Dental Assistant", onet_code: "12-3456.01")
+      medical = create(:occupation_standard, :with_work_processes, :program_standard, :with_data_import, title: "Medical Assistant", onet_code: "12-9876.00")
+      create(:occupation_standard, :with_work_processes, :program_standard, :with_data_import, title: "Other Assistant With Different ONET Code Prefix", onet_code: "13-9876.00")
       create(:occupation_standard, :with_work_processes, :with_data_import, title: "Pipe Fitter")
 
       OccupationStandard.import
@@ -416,6 +417,27 @@ RSpec.describe "occupation_standards/index" do
       expect(page).to have_link "Dental Assistant", href: occupation_standard_path(dental)
       expect(page).to have_link "Medical Assistant", href: occupation_standard_path(medical)
       expect(page).to_not have_link "Pipe Fitter"
+      expect(page).to_not have_link "Other Assistant"
+      Flipper.disable :use_elasticsearch_for_search
+    end
+
+    it "can handle a search that returns no results" do
+      Flipper.enable :use_elasticsearch_for_search
+      create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
+
+      OccupationStandard.import
+      OccupationStandard.__elasticsearch__.refresh_index!
+
+      visit occupation_standards_path
+
+      fill_in "q", with: "Assistant"
+
+      find("#search").click
+
+      expect(page).to have_text "Showing Results for Assistant"
+      expect(page).to have_field("q", with: "Assistant")
+      expect(page).to_not have_link "Mechanic"
+
       Flipper.disable :use_elasticsearch_for_search
     end
 
