@@ -43,6 +43,11 @@ class OccupationStandard < ApplicationRecord
             min_gram: 2,
             max_gram: 20,
             token_chars: ["letter", "digit", "punctuation"]
+          },
+          onet_prefix_tokenizer: {
+            type: "pattern",
+            pattern: "^(\\d{2})", # capture first two digits of ONET code
+            group: 1
           }
         },
         char_filter: {
@@ -52,6 +57,26 @@ class OccupationStandard < ApplicationRecord
               ", =>",
               ". =>",
               "- =>"
+            ]
+          }
+        },
+        filter: {
+          english_stop: {
+            type: "stop",
+            stopwords: "_english_"
+          },
+          english_stemmer: {
+            type: "stemmer",
+            language: "english"
+          },
+          english_possessive_stemmer: {
+            type: "stemmer",
+            language: "possessive_english"
+          },
+          synonym: {
+            type: "synonym",
+            synonyms: [
+              "UX, User experience"
             ]
           }
         },
@@ -65,6 +90,19 @@ class OccupationStandard < ApplicationRecord
             tokenizer: "standard",
             filter: ["lowercase"],
             char_filter: ["my_char_filter"]
+          },
+          onet_prefix: {
+            tokenizer: "onet_prefix_tokenizer"
+          },
+          rebuilt_english: {
+            tokenizer: "standard",
+            filter: [
+              "english_possessive_stemmer",
+              "lowercase",
+              "english_stop",
+              "english_stemmer",
+              "synonym"
+            ]
           }
         }
       }
@@ -76,15 +114,17 @@ class OccupationStandard < ApplicationRecord
       indexes :industry_name, type: :text, analyzer: :english
       indexes :national_standard_type, type: :text, analyzer: :keyword
       indexes :ojt_type, type: :text, analyzer: :keyword
-      indexes :onet_code, type: :text, analyzer: :autocomplete, search_analyzer: :autocomplete_search
+      indexes :onet_code, type: :text, analyzer: :autocomplete, search_analyzer: :autocomplete_search do
+        indexes :prefix, type: :text, analyzer: :onet_prefix
+      end
       indexes :rapids_code, type: :text, analyzer: :autocomplete, search_analyzer: :autocomplete_search
       indexes :state, type: :text, analyzer: :keyword
       indexes :state_id, type: :keyword
-      indexes :title, type: :text, analyzer: :english do
+      indexes :title, type: :text, analyzer: :rebuilt_english do
         indexes :typeahead, type: :text, analyzer: :autocomplete, search_analyzer: :autocomplete_search
       end
       indexes :work_process_titles, type: :text, analyzer: :english
-      indexes :related_job_titles, type: :text, analyzer: :english
+      indexes :related_job_titles, type: :text, analyzer: :rebuilt_english
       indexes :created_at, type: :date
       indexes :headline, type: :keyword
     end

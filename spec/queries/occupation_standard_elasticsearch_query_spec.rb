@@ -288,6 +288,25 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
     expect(response.records.pluck(:id)).to eq [os1.id, os3.id]
   end
 
+  it "returns results that match synonyms" do
+    os1 = create(:occupation_standard, :with_work_processes, title: "User experience designer")
+    os2 = create(:occupation_standard, :with_work_processes, title: "UX Designer")
+    create(:occupation_standard, :with_work_processes, title: "Mechanic")
+
+    OccupationStandard.import
+    OccupationStandard.__elasticsearch__.refresh_index!
+
+    params = {q: "usER expERience"}
+    response = described_class.new(search_params: params).call
+
+    expect(response.records.pluck(:id)).to eq [os1.id, os2.id]
+
+    params = {q: "ux design"}
+    response = described_class.new(search_params: params).call
+
+    expect(response.records.pluck(:id)).to eq [os2.id, os1.id]
+  end
+
   it "collapses search results across headline" do
     state = create(:state)
     agency = create(:registration_agency, state: state)
