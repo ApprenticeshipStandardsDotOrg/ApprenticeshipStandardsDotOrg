@@ -17,10 +17,26 @@ class OccupationElasticsearchQuery
         bool do
           must match_all: {}
           if search_params[:q].present?
+            q = search_params[:q]
             must do
-              match title: {
-                query: search_params[:q]
-              }
+              bool do
+                should do
+                  match title: {
+                    query: q
+                  }
+                end
+                should do
+                  match rapids_code: {
+                    query: q
+                  }
+                end
+                should do
+                  match onet_code: {
+                    query: q
+                  }
+                end
+                minimum_should_match 1
+              end
             end
           end
         end

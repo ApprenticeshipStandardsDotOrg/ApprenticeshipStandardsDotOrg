@@ -41,12 +41,16 @@ class Occupation < ApplicationRecord
   settings(es_settings) do
     mappings dynamic: false do
       indexes :title, type: :text, analyzer: :autocomplete, search_analyzer: :autocomplete_search
+      indexes :rapids_code, type: :text, analyzer: :autocomplete, search_analyzer: :autocomplete_search
+      indexes :onet_code, type: :text, analyzer: :autocomplete, search_analyzer: :autocomplete_search
     end
   end
 
   def as_indexed_json(_ = {})
     as_json(
-      only: [:title]
+      only: [:title, :rapids_code, :onet_code]
+    ).merge(
+      onet_code: onet_code
     )
   end
 
