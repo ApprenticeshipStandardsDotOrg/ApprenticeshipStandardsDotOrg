@@ -50,6 +50,10 @@ class Occupation < ApplicationRecord
     )
   end
 
+  def display_for_typeahead
+    title.strip
+  end
+
   def to_s
     "#{title} (#{rapids_code})"
   end
