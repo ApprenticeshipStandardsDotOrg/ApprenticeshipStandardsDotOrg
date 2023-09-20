@@ -12,7 +12,17 @@ class OccupationStandardsController < ApplicationController
         items: Pagy::DEFAULT[:items],
         page: current_page
       )
-      @occupation_standards = es_response.records.to_a
+      occupation_standards = es_response.records
+
+      @occupation_standards = occupation_standards.map_with_hit do |occupation_standard, result|
+        inner_hits = result.inner_hits["children"]["hits"]["hits"]
+        if inner_hits.any?
+          occupation_standard.inner_hits = InnerHit.from_result(inner_hits)
+        end
+
+        occupation_standard
+      end
+
     else
       @occupation_standards_search = OccupationStandardQuery::Container.new(
         search_term_params: search_term_params

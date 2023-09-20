@@ -1,5 +1,5 @@
 class InnerHit
-  attr_accessor :id, :title
+  attr_reader :id, :title
 
   def self.from_result(inner_hits)
     inner_hits.map do |hit|
@@ -10,7 +10,7 @@ class InnerHit
     end
   end
 
-  def initialize(id: , title:)
+  def initialize(id:, title:)
     @id = id
     @title = title
   end

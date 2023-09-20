@@ -28,6 +28,8 @@ class OccupationStandard < ApplicationRecord
   validates :title, :ojt_type, presence: true
   validates :registration_agency, presence: true
 
+  attr_accessor :inner_hits
+
   MAX_SIMILAR_PROGRAMS_TO_DISPLAY = 5
 
   index_name "occupation_standards_#{Rails.env}"
@@ -269,7 +271,7 @@ class OccupationStandard < ApplicationRecord
       ojt_type,
       title.parameterize,
       work_processes_hours.to_s,
-      associations.map(&:title).map(&:parameterize)
+      associations.map(&:title).compact.map(&:parameterize)
     ].flatten.compact.join("-")
   end
 
@@ -327,6 +329,20 @@ class OccupationStandard < ApplicationRecord
     )
   end
 
+  # #duplicates is used in OccupationStandardsController#index
+  # It gets the values from ES collapse if feature flag enabled
+  def duplicates
+    if Flipper.enabled?(:similar_programs_elasticsearch)
+      inner_hits&.reject { |hit| hit.id == id } || []
+    else
+      similar_programs_deprecated
+    end
+  end
+
+  # #similar_programs is used in OccupationStandardsController#show
+  # We probably need to replace this with a call to ES to
+  # determine duplicates using the same rule as #duplicates
+  # or, even better, integrate everything into the same method
   def similar_programs
     if Flipper.enabled?(:similar_programs_elasticsearch)
       SimilarOccupationStandards.similar_to(self)
