@@ -3,12 +3,14 @@ class OccupationStandardsController < ApplicationController
     @page_title = "Occupations"
 
     if Flipper.enabled?(:use_elasticsearch_for_search)
-      es_response_0 = OccupationStandardElasticsearchQuery.new(
-        search_params: search_term_params
-      ).call
-      first_hit = es_response_0.records.first
-      if first_hit && first_hit.onet_code.present?
-        search_term_params[:onet_prefix] = first_hit.onet_code
+      if search_term_params[:q].present?
+        es_response_0 = OccupationStandardElasticsearchQuery.new(
+          search_params: search_term_params
+        ).call
+        first_hit = es_response_0.records.first
+        if first_hit && first_hit.onet_code.present?
+          search_term_params[:onet_prefix] = first_hit.onet_code
+        end
       end
 
       es_response = OccupationStandardElasticsearchQuery.new(

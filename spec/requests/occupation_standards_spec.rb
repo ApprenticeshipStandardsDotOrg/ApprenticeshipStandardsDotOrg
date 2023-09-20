@@ -3,12 +3,49 @@ require "rails_helper"
 RSpec.describe "OccupationStandard", type: :request do
   describe "GET /index" do
     context "when guest" do
-      it "returns http success" do
-        create_pair(:occupation_standard, :with_work_processes, :with_data_import)
+      context "without ES search" do
+        it "returns http success" do
+          create_pair(:occupation_standard, :with_work_processes, :with_data_import)
 
-        get occupation_standards_path
+          get occupation_standards_path
 
-        expect(response).to be_successful
+          expect(response).to be_successful
+        end
+      end
+
+      context "with ES search" do
+        it "makes one Elasticsearch query if no search params" do
+          Flipper.enable :use_elasticsearch_for_search
+          create_pair(:occupation_standard, :with_work_processes, :with_data_import)
+
+          expect(OccupationStandardElasticsearchQuery).to receive(:new).once.and_call_original
+          get occupation_standards_path
+
+          expect(response).to be_successful
+          Flipper.disable :use_elasticsearch_for_search
+        end
+
+        it "makes one Elasticsearch query if only filter params" do
+          Flipper.enable :use_elasticsearch_for_search
+          create_pair(:occupation_standard, :with_work_processes, :with_data_import)
+
+          expect(OccupationStandardElasticsearchQuery).to receive(:new).once.and_call_original
+          get occupation_standards_path(state_id: SecureRandom.uuid)
+
+          expect(response).to be_successful
+          Flipper.disable :use_elasticsearch_for_search
+        end
+
+        it "makes two Elasticsearch queries if search params" do
+          Flipper.enable :use_elasticsearch_for_search
+          create_pair(:occupation_standard, :with_work_processes, :with_data_import)
+
+          expect(OccupationStandardElasticsearchQuery).to receive(:new).twice.and_call_original
+          get occupation_standards_path(q: "Mechanic")
+
+          expect(response).to be_successful
+          Flipper.disable :use_elasticsearch_for_search
+        end
       end
     end
 
