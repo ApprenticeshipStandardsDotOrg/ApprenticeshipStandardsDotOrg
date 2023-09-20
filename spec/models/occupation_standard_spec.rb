@@ -412,8 +412,8 @@ RSpec.describe OccupationStandard, type: :model do
         stub_feature_flag(:similar_programs_elasticsearch, true)
 
         occupation_standard = create(:occupation_standard)
-        duplicate_inner_hit = build(:inner_hit, id: "1", title: "Duplicate")
-        occupation_standard_inner_hit = build(:inner_hit, id: occupation_standard.id, title: occupation_standard.title)
+        duplicate_inner_hit = create(:inner_hit, id: "1", title: "Duplicate")
+        occupation_standard_inner_hit = create(:inner_hit, id: occupation_standard.id, title: occupation_standard.title)
         duplicates = [duplicate_inner_hit, occupation_standard_inner_hit]
 
         occupation_standard.inner_hits = duplicates
@@ -425,7 +425,7 @@ RSpec.describe OccupationStandard, type: :model do
         stub_feature_flag(:similar_programs_elasticsearch, true)
 
         occupation_standard = create(:occupation_standard)
-        occupation_standard_inner_hit = build(:inner_hit, id: occupation_standard.id, title: occupation_standard.title)
+        occupation_standard_inner_hit = create(:inner_hit, id: occupation_standard.id, title: occupation_standard.title)
         duplicates = [occupation_standard_inner_hit]
 
         occupation_standard.inner_hits = duplicates
