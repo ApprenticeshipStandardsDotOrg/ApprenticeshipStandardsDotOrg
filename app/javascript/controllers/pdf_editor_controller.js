@@ -69,7 +69,10 @@ export default class extends Controller {
           },
         },
         { fileName: this.fileNameValue }
-      );
+      ).then(() => {
+        this.pdfui.getPDFViewer().then(viewer => viewer.zoomTo(1))
+      });
+
     }
   }
 
