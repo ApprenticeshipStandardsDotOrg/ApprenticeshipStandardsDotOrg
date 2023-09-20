@@ -1,5 +1,5 @@
 namespace :after_party do
-  desc 'Deployment task: rebuild_occupation_standards_to_add_headline'
+  desc "Deployment task: rebuild_occupation_standards_to_add_headline"
   task rebuild_occupation_standards_to_add_headline: :environment do
     puts "Running deploy task 'rebuild_occupation_standards_to_add_headline'"
 
