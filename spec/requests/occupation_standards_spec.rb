@@ -16,7 +16,7 @@ RSpec.describe "OccupationStandard", type: :request do
       context "with ES search" do
         it "makes one Elasticsearch query if no search params" do
           Flipper.enable :use_elasticsearch_for_search
-          create_pair(:occupation_standard, :with_work_processes, :with_data_import)
+          create(:occupation_standard, :with_work_processes, :with_data_import)
 
           expect(OccupationStandardElasticsearchQuery).to receive(:new).once.and_call_original
           get occupation_standards_path
@@ -27,7 +27,7 @@ RSpec.describe "OccupationStandard", type: :request do
 
         it "makes one Elasticsearch query if only filter params" do
           Flipper.enable :use_elasticsearch_for_search
-          create_pair(:occupation_standard, :with_work_processes, :with_data_import)
+          create(:occupation_standard, :with_work_processes, :with_data_import)
 
           expect(OccupationStandardElasticsearchQuery).to receive(:new).once.and_call_original
           get occupation_standards_path(state_id: SecureRandom.uuid)
@@ -38,7 +38,7 @@ RSpec.describe "OccupationStandard", type: :request do
 
         it "makes two Elasticsearch queries if search params" do
           Flipper.enable :use_elasticsearch_for_search
-          create_pair(:occupation_standard, :with_work_processes, :with_data_import)
+          create(:occupation_standard, :with_work_processes, :with_data_import)
 
           expect(OccupationStandardElasticsearchQuery).to receive(:new).twice.and_call_original
           get occupation_standards_path(q: "Mechanic")
@@ -46,6 +46,18 @@ RSpec.describe "OccupationStandard", type: :request do
           expect(response).to be_successful
           Flipper.disable :use_elasticsearch_for_search
         end
+
+        it "makes one Elasticsearch query if search param but first hit has no onet code" do
+          Flipper.enable :use_elasticsearch_for_search
+          create(:occupation_standard, :with_work_processes, :with_data_import, onet_code: nil)
+
+          expect(OccupationStandardElasticsearchQuery).to receive(:new).once.and_call_original
+          get occupation_standards_path(state_id: SecureRandom.uuid)
+
+          expect(response).to be_successful
+          Flipper.disable :use_elasticsearch_for_search
+        end
+
       end
     end
 
