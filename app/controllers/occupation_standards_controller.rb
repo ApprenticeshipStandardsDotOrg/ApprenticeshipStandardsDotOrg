@@ -4,13 +4,7 @@ class OccupationStandardsController < ApplicationController
 
     if Flipper.enabled?(:use_elasticsearch_for_search)
       if search_term_params[:q].present?
-        es_response_0 = OccupationStandardElasticsearchQuery.new(
-          search_params: search_term_params
-        ).call
-        first_hit = es_response_0.records.first
-        if first_hit && first_hit.onet_code.present?
-          search_term_params[:onet_prefix] = first_hit.onet_code
-        end
+        refine_search_params
       end
 
       es_response = OccupationStandardElasticsearchQuery.new(
@@ -75,6 +69,16 @@ class OccupationStandardsController < ApplicationController
 
   def search_term_params
     @search_term_params ||= SearchTermExtractor.call(occupation_standards_search_params)
+  end
+
+  def refine_search_params
+    resp = OccupationStandardElasticsearchQuery.new(
+      search_params: search_term_params
+    ).call
+    first_hit = resp.records.first
+    if first_hit && first_hit.onet_code.present?
+      search_term_params[:onet_prefix] = first_hit.onet_code
+    end
   end
 
   def standards_scope
