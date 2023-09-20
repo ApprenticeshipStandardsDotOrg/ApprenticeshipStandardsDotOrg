@@ -28,6 +28,8 @@ class OccupationStandard < ApplicationRecord
   validates :title, :ojt_type, presence: true
   validates :registration_agency, presence: true
 
+  attr_accessor :inner_hits
+
   MAX_SIMILAR_PROGRAMS_TO_DISPLAY = 5
 
   index_name "occupation_standards_#{Rails.env}"
@@ -126,6 +128,7 @@ class OccupationStandard < ApplicationRecord
       indexes :work_process_titles, type: :text, analyzer: :english
       indexes :related_job_titles, type: :text, analyzer: :rebuilt_english
       indexes :created_at, type: :date
+      indexes :headline, type: :keyword
     end
   end
 
@@ -138,7 +141,8 @@ class OccupationStandard < ApplicationRecord
       state: state_abbreviation,
       state_id: state_id,
       work_process_titles: work_processes.pluck(:title).uniq,
-      related_job_titles: related_job_titles
+      related_job_titles: related_job_titles,
+      headline: headline
     )
   end
 
@@ -253,6 +257,24 @@ class OccupationStandard < ApplicationRecord
     standards_import.url
   end
 
+  def headline
+    associations = if time_based?
+      work_processes
+    elsif competency_based?
+      work_processes.flat_map(&:competencies)
+    else
+      work_processes.flat_map(&:competencies) + work_processes
+    end
+
+    [
+      state&.abbreviation,
+      ojt_type,
+      title.parameterize,
+      work_processes_hours.to_s,
+      associations.map(&:title).compact.map(&:parameterize)
+    ].flatten.compact.join("-")
+  end
+
   def competencies_count
     if time_based?
       0
@@ -307,6 +329,20 @@ class OccupationStandard < ApplicationRecord
     )
   end
 
+  # #duplicates is used in OccupationStandardsController#index
+  # It gets the values from ES collapse if feature flag enabled
+  def duplicates
+    if Flipper.enabled?(:similar_programs_elasticsearch)
+      inner_hits&.reject { |hit| hit.id == id } || []
+    else
+      similar_programs_deprecated
+    end
+  end
+
+  # #similar_programs is used in OccupationStandardsController#show
+  # We probably need to replace this with a call to ES to
+  # determine duplicates using the same rule as #duplicates
+  # or, even better, integrate everything into the same method
   def similar_programs
     if Flipper.enabled?(:similar_programs_elasticsearch)
       SimilarOccupationStandards.similar_to(self)

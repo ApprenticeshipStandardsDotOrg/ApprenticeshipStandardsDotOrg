@@ -17,6 +17,13 @@ class OccupationStandardElasticsearchQuery
         by :_score, order: :desc
         by :created_at, order: :desc
       end
+      collapse :headline do
+        inner_hits :children
+        sort do
+          by :_score, order: :desc
+          by :created_at, order: :desc
+        end
+      end
       query do
         bool do
           must match_all: {}
@@ -133,8 +140,12 @@ class OccupationStandardElasticsearchQuery
       puts response.search.definition[:body].to_json
       puts "HITS: #{response.results.total}"
       response.results.each do |result|
-        #        puts result.inspect
-        puts "#{result._id}: #{result._score}"
+        puts "PARENT: #{result._id}: #{result._score}"
+        result.inner_hits.children.each do |child|
+          child[1].hits.each do |hit|
+            puts "\tCHILD ID: #{hit._id}: #{hit._score}"
+          end
+        end
       end
     end
   end

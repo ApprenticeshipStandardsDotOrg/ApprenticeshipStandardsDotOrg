@@ -406,6 +406,53 @@ RSpec.describe OccupationStandard, type: :model do
     end
   end
 
+  describe "#duplicates" do
+    context "with the similar_programs_elasticsearch flag enabled" do
+      it "returns from OccupationStandard#inner_hits excluding self" do
+        stub_feature_flag(:similar_programs_elasticsearch, true)
+
+        occupation_standard = create(:occupation_standard)
+        duplicate_inner_hit = create(:inner_hit, id: "1", title: "Duplicate")
+        occupation_standard_inner_hit = create(:inner_hit, id: occupation_standard.id, title: occupation_standard.title)
+        duplicates = [duplicate_inner_hit, occupation_standard_inner_hit]
+
+        occupation_standard.inner_hits = duplicates
+
+        expect(occupation_standard.duplicates).to match_array [duplicate_inner_hit]
+      end
+    end
+
+    context "with the similar_programs_elasticsearch flag disabled" do
+      it "returns occupations that match the title regardless of capitalization" do
+        stub_feature_flag(:similar_programs_elasticsearch, false)
+
+        occupation_standard = create(:occupation_standard, title: "Human Resource Specialist")
+        similar_program1 = create(:occupation_standard, title: "HUMAN RESOURCE SPECIALIST")
+        similar_program2 = create(:occupation_standard, title: "human resource specialist")
+        create(:occupation_standard, title: "Mechanic")
+
+        expect(occupation_standard.duplicates.pluck(:id)).to match_array [similar_program1.id, similar_program2.id]
+      end
+
+      it "returns up to MAX_SIMILAR_PROGRAMS_TO_DISPLAY occupations" do
+        stub_feature_flag(:similar_programs_elasticsearch, false)
+
+        stub_const("OccupationStandard::MAX_SIMILAR_PROGRAMS_TO_DISPLAY", 1)
+        occupation_standard = create(:occupation_standard, title: "Human Resource Specialist")
+        create_list(:occupation_standard, 2, title: "Human Resource Specialist")
+
+        expect(occupation_standard.duplicates.count).to eq OccupationStandard::MAX_SIMILAR_PROGRAMS_TO_DISPLAY
+      end
+
+      it "excludes itself" do
+        stub_feature_flag(:similar_programs_elasticsearch, false)
+        occupation_standard = create(:occupation_standard, title: "Human Resource Specialist")
+
+        expect(occupation_standard.duplicates).to be_empty
+      end
+    end
+  end
+
   describe "#ojt_type_display" do
     it "returns the ojt_type field titleized" do
       occupation_standard = build(:occupation_standard, ojt_type: "competency")
@@ -513,6 +560,8 @@ RSpec.describe OccupationStandard, type: :model do
       occupation = create(:occupation, time_based_hours: 1000)
       occupation_standard = create(:occupation_standard, occupation: occupation)
       create(:work_process, maximum_hours: 2000, occupation_standard: occupation_standard)
+
+      occupation_standard.reload
 
       expect(occupation_standard.hours_meet_occupation_requirements?).to be true
     end
@@ -636,6 +685,113 @@ RSpec.describe OccupationStandard, type: :model do
       os = build(:occupation_standard, onet_code: "1234.56")
 
       expect(os.related_job_titles).to contain_exactly("Engineer", "Developer")
+    end
+  end
+
+  describe "#headline" do
+    context "when time-based standard" do
+      context "when state exists" do
+        it "concatenates state, type, title, work process hours, work process titles" do
+          state = create(:state)
+          agency = create(:registration_agency, state: state)
+          occupation_standard = create(:occupation_standard, :time, registration_agency: agency, title: "Pipe Fitter")
+          create(:work_process, occupation_standard: occupation_standard, sort_order: 2, title: "fox jumps over", maximum_hours: 100)
+          create(:work_process, occupation_standard: occupation_standard, sort_order: 1, title: "The quick brown", maximum_hours: 200)
+          create(:work_process, occupation_standard: occupation_standard, sort_order: 3, title: "the lazy dog", maximum_hours: 400)
+
+          occupation_standard.reload
+
+          expect(occupation_standard.headline).to eq "#{state.abbreviation}-time-pipe-fitter-700-the-quick-brown-fox-jumps-over-the-lazy-dog"
+        end
+      end
+
+      context "when state does not exist" do
+        it "concatenates type, title, work process hours, work process titles" do
+          agency = create(:registration_agency, state: nil)
+          occupation_standard = create(:occupation_standard, :time, registration_agency: agency, title: "Pipe Fitter")
+          create(:work_process, occupation_standard: occupation_standard, sort_order: 2, title: "fox jumps over", maximum_hours: 100)
+          create(:work_process, occupation_standard: occupation_standard, sort_order: 1, title: "The quick brown", maximum_hours: 200)
+          create(:work_process, occupation_standard: occupation_standard, sort_order: 3, title: "the lazy dog", maximum_hours: 400)
+
+          occupation_standard.reload
+
+          expect(occupation_standard.headline).to eq "time-pipe-fitter-700-the-quick-brown-fox-jumps-over-the-lazy-dog"
+        end
+      end
+    end
+
+    context "when competency-based standard" do
+      context "when state exists" do
+        it "concatenates state, type, title, skill names" do
+          state = create(:state)
+          agency = create(:registration_agency, state: state)
+          occupation_standard = create(:occupation_standard, :competency, registration_agency: agency, title: "Pipe Fitter")
+          wp1 = create(:work_process, occupation_standard: occupation_standard, sort_order: 2)
+          wp2 = create(:work_process, occupation_standard: occupation_standard, sort_order: 1)
+          create(:competency, work_process: wp1, sort_order: 1, title: "jumps over")
+          create(:competency, work_process: wp1, sort_order: 2, title: "the lazy dog")
+          create(:competency, work_process: wp2, sort_order: 2, title: "brown fox")
+          create(:competency, work_process: wp2, sort_order: 1, title: "The quick")
+
+          occupation_standard.reload
+
+          expect(occupation_standard.headline).to eq "#{state.abbreviation}-competency-pipe-fitter-0-the-quick-brown-fox-jumps-over-the-lazy-dog"
+        end
+      end
+
+      context "when state does not exist" do
+        it "concatenates type, title, skill names" do
+          agency = create(:registration_agency, state: nil)
+          occupation_standard = create(:occupation_standard, :competency, registration_agency: agency, title: "Pipe Fitter")
+          wp1 = create(:work_process, occupation_standard: occupation_standard, sort_order: 2)
+          wp2 = create(:work_process, occupation_standard: occupation_standard, sort_order: 1)
+          create(:competency, work_process: wp1, sort_order: 1, title: "jumps over")
+          create(:competency, work_process: wp1, sort_order: 2, title: "the lazy dog")
+          create(:competency, work_process: wp2, sort_order: 2, title: "brown fox")
+          create(:competency, work_process: wp2, sort_order: 1, title: "The quick")
+
+          occupation_standard.reload
+
+          expect(occupation_standard.headline).to eq "competency-pipe-fitter-0-the-quick-brown-fox-jumps-over-the-lazy-dog"
+        end
+      end
+    end
+
+    context "when hybrid standard" do
+      context "when state exists" do
+        it "concatenates state, type, title, work process hours, skill names, work process titles" do
+          state = create(:state)
+          agency = create(:registration_agency, state: state)
+          occupation_standard = create(:occupation_standard, :hybrid, registration_agency: agency, title: "Pipe Fitter")
+          wp1 = create(:work_process, title: "wp1", occupation_standard: occupation_standard, sort_order: 2, maximum_hours: 200)
+          wp2 = create(:work_process, title: "wp2", occupation_standard: occupation_standard, sort_order: 1, maximum_hours: 500)
+          create(:competency, work_process: wp1, sort_order: 1, title: "jumps over")
+          create(:competency, work_process: wp1, sort_order: 2, title: "the lazy dog")
+          create(:competency, work_process: wp2, sort_order: 2, title: "brown fox")
+          create(:competency, work_process: wp2, sort_order: 1, title: "The quick")
+
+          occupation_standard.reload
+
+          expect(occupation_standard.headline).to eq "#{state.abbreviation}-hybrid-pipe-fitter-700-the-quick-brown-fox-jumps-over-the-lazy-dog-wp2-wp1"
+        end
+      end
+
+      context "when state does not exist" do
+        it "concatenates type, title, work process hours, skill names, work process titles" do
+          agency = create(:registration_agency, state: nil)
+          occupation_standard = create(:occupation_standard, :hybrid, registration_agency: agency, title: "Pipe Fitter")
+          wp1 = create(:work_process, title: "wp1", occupation_standard: occupation_standard, sort_order: 2, maximum_hours: 200)
+          wp2 = create(:work_process, title: "wp2", occupation_standard: occupation_standard, sort_order: 1, maximum_hours: 500)
+          create(:competency, work_process: wp1, sort_order: 1, title: "jumps over")
+          create(:competency, work_process: wp1, sort_order: 2, title: "the lazy dog")
+          create(:competency, work_process: wp2, sort_order: 2, title: "brown fox")
+          create(:competency, work_process: wp2, sort_order: 1, title: "The quick")
+
+          occupation_standard.reload
+
+          expect(occupation_standard.headline).to eq "hybrid-pipe-fitter-700-the-quick-brown-fox-jumps-over-the-lazy-dog-wp2-wp1"
+        end
+      end
     end
   end
 end

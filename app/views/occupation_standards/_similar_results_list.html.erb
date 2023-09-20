@@ -1,4 +1,4 @@
-<% similar_results = occupation_standard.similar_programs %>
+<% similar_results = occupation_standard.duplicates %>
 
 <% if similar_results.any? %>
   <div data-controller="accordion">
@@ -16,7 +16,7 @@
       <% similar_results.each do |result| %>
         <div class="bg-white border-2 border-gray-200 items-center py-2 px-4 w-full">
           <div class="flex items-center space-x-2">
-            <h3 class="text-primary-700 text-base font-bold"><%= link_to occupation_standard.title, occupation_standard %></h3>
+            <h3 class="text-primary-700 text-base font-bold"><%= link_to result.title, occupation_standard_path(result.id) %></h3>
             <p class="text-primary-600 text-xs font-normal"><%= occupation_standard.ojt_type&.capitalize %></p>
             <svg class="fill-goldenrod-800" width="4" height="5" viewBox="0 0 4 5" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M1.875 4.375C1.53125 4.375 1.21733 4.29119 0.933239 4.12358C0.649148 3.95313 0.421875 3.72585 0.25142 3.44176C0.0838069 3.15767 0 2.84375 0 2.5C0 2.15341 0.0838069 1.83949 0.25142 1.55824C0.421875 1.27415 0.649148 1.0483 0.933239 0.880682C1.21733 0.710227 1.53125 0.625 1.875 0.625C2.22159 0.625 2.53551 0.710227 2.81676 0.880682C3.10085 1.0483 3.3267 1.27415 3.49432 1.55824C3.66477 1.83949 3.75 2.15341 3.75 2.5C3.75 2.84375 3.66477 3.15767 3.49432 3.44176C3.3267 3.72585 3.10085 3.95313 2.81676 4.12358C2.53551 4.29119 2.22159 4.375 1.875 4.375Z" />
