@@ -6,5 +6,4 @@ class OccupationsController < ApplicationController
     occupations = es_response.records.to_a
     render json: OccupationBlueprint.render(occupations)
   end
-
 end

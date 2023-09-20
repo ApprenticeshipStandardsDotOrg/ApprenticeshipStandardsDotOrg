@@ -58,7 +58,7 @@ Rails.application.routes.draw do
 
   resources :standards_imports, only: [:new, :create, :show]
   resources :occupation_standards, only: [:index, :show]
-  resources :occupations, only: [:index], defaults: { format: :json }
+  resources :occupations, only: [:index], defaults: {format: :json}
   resources :industries, only: [:index]
   resources :states, only: [:index]
   get "home", as: :home_page, to: "pages#home"
