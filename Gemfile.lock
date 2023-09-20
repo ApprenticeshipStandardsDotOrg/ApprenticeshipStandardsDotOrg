@@ -126,7 +126,7 @@ GEM
       parser (>= 2.4)
       smart_properties
     bindex (0.8.1)
-    blueprinter (0.25.3)
+    blueprinter (0.26.0)
     bonsai-elasticsearch-rails (7.0.1)
       elasticsearch-model (< 8)
       elasticsearch-rails (< 8)
