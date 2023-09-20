@@ -13,17 +13,13 @@ class OccupationElasticsearchQuery
 
   def call
     definition = search do
-      sort do
-        by :_score, order: :desc
-        by :created_at, order: :desc
-      end
       query do
         bool do
           must match_all: {}
           if search_params[:q].present?
             q = search_params[:q]
             must do
-              match "title.typeahead": {
+              match title: {
                 query: q
               }
             end
@@ -31,12 +27,9 @@ class OccupationElasticsearchQuery
         end
       end
     end
-    # Size and From must be passed here rather than defined in the query in
-    # order for Pagy to work correctly.
-    response = OccupationStandard.__elasticsearch__.search(
+    response = Occupation.__elasticsearch__.search(
       definition,
-      from: offset,
-      size: Pagy::DEFAULT[:items]
+      from: offset
     )
     debug_query(response)
     response
