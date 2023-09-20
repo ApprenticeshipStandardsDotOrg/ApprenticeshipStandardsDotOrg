@@ -408,7 +408,7 @@ RSpec.describe OccupationStandard, type: :model do
 
   describe "#duplicates" do
     context "with the similar_programs_elasticsearch flag enabled" do
-      it "returns from OccupationStandard#inner_hits" do
+      it "returns from OccupationStandard#inner_hits excluding self" do
         stub_feature_flag(:similar_programs_elasticsearch, true)
 
         occupation_standard = create(:occupation_standard)
@@ -419,18 +419,6 @@ RSpec.describe OccupationStandard, type: :model do
         occupation_standard.inner_hits = duplicates
 
         expect(occupation_standard.duplicates).to match_array [duplicate_inner_hit]
-      end
-
-      it "excludes self" do
-        stub_feature_flag(:similar_programs_elasticsearch, true)
-
-        occupation_standard = create(:occupation_standard)
-        occupation_standard_inner_hit = create(:inner_hit, id: occupation_standard.id, title: occupation_standard.title)
-        duplicates = [occupation_standard_inner_hit]
-
-        occupation_standard.inner_hits = duplicates
-
-        expect(occupation_standard.duplicates).to be_empty
       end
     end
 
