@@ -18,18 +18,24 @@ RSpec.describe InnerHit, type: :model do
         {
           "_id" => 1,
           "_source" => {
-            title: "First record"
+            "title" => "First record"
           }
         },
         {
           "_id" => 2,
           "_source" => {
-            title: "Second record"
+            "title" => "Second record"
           }
         }
       ]
 
-      expect(InnerHit.from_result(inner_hits).count).to eq 2
+      inner_hits_results = InnerHit.from_result(inner_hits)
+
+      expect(inner_hits_results.count).to eq 2
+      expect(inner_hits_results.first.id).to eq 1
+      expect(inner_hits_results.first.title).to eq "First record"
+      expect(inner_hits_results.second.id).to eq 2
+      expect(inner_hits_results.second.title).to eq "Second record"
     end
   end
 end
