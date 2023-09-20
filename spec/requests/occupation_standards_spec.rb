@@ -57,7 +57,6 @@ RSpec.describe "OccupationStandard", type: :request do
           expect(response).to be_successful
           Flipper.disable :use_elasticsearch_for_search
         end
-
       end
     end
 
