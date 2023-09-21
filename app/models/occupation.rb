@@ -48,7 +48,7 @@ class Occupation < ApplicationRecord
 
   def as_indexed_json(_ = {})
     as_json(
-      only: [:title, :rapids_code, :onet_code]
+      only: [:title, :rapids_code]
     ).merge(
       onet_code: onet_code
     )

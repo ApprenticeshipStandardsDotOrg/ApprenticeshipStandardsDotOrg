@@ -45,15 +45,15 @@ RSpec.describe OccupationElasticsearchQuery, :elasticsearch do
     onet3 = create(:onet, code: "11.2345")
 
     o1 = create(:occupation, onet: onet1)
-    create(:occupation, onet: onet2)
+    o2 = create(:occupation, onet: onet2)
     create(:occupation, onet: onet3)
 
     Occupation.import
     Occupation.__elasticsearch__.refresh_index!
 
-    params = {q: "12.3456"}
+    params = {q: "12.345"}
     response = described_class.new(search_params: params).call
 
-    expect(response.records.pluck(:id)).to contain_exactly(o1.id)
+    expect(response.records.pluck(:id)).to contain_exactly(o1.id, o2.id)
   end
 end
