@@ -1,0 +1,2 @@
+class OnetPolicy < AdminPolicy
+end
