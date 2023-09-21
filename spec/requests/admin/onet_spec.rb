@@ -23,22 +23,22 @@ RSpec.describe "Admin::Onet", type: :request do
           expect(response).to be_successful
         end
       end
-      
+
       context "when converter" do
         it "redirects to root path" do
           admin = create(:user, :converter)
-          
+
           sign_in admin
           get admin_onets_path
-          
+
           expect(response).to redirect_to root_path
         end
       end
-      
+
       context "when guest" do
         it "redirects to root path" do
           get admin_onets_path
-          
+
           expect(response).to redirect_to new_user_session_path
         end
       end
@@ -52,7 +52,6 @@ RSpec.describe "Admin::Onet", type: :request do
       end
     end
   end
-
 
   describe "GET /show/:id" do
     context "on admin subdomain", :admin do
