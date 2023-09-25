@@ -15,7 +15,7 @@ RSpec.describe "occupation_standards/index" do
       Pagy::DEFAULT[:items] = default_items
     end
 
-    it "filters occupations based on search term" do
+    it "filters standards based on search term" do
       dental = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Dental Assistant")
       medical = create(:occupation_standard, :with_work_processes, :program_standard, :with_data_import, title: "Medical Assistant")
       create(:occupation_standard, :with_work_processes, :with_data_import, title: "Pipe Fitter")
@@ -34,7 +34,7 @@ RSpec.describe "occupation_standards/index" do
       expect(page).to_not have_link "Pipe Fitter"
     end
 
-    it "filters occupations based on rapids_code search term" do
+    it "filters standards based on rapids_code search term" do
       mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", rapids_code: "1234")
       pipe_fitter = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Pipe Fitter", rapids_code: "1234CB")
       create(:occupation_standard, :with_work_processes, :with_data_import, title: "HR", rapids_code: "9876")
@@ -53,7 +53,7 @@ RSpec.describe "occupation_standards/index" do
       expect(page).to_not have_link "HR"
     end
 
-    it "filters occupations based on onet_code search term" do
+    it "filters standards based on onet_code search term" do
       mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", onet_code: "12.3456")
       pipe_fitter = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Pipe Fitter", onet_code: "12.34567")
       create(:occupation_standard, :with_work_processes, :with_data_import, title: "HR", onet_code: "12.34")
@@ -72,7 +72,7 @@ RSpec.describe "occupation_standards/index" do
       expect(page).to_not have_link "HR"
     end
 
-    it "filters occupations based on onet_code search term and state filter", :js do
+    it "filters standards based on onet_code search term and state filter", :js do
       wa = create(:state, name: "Washington")
       ra = create(:registration_agency, state: wa)
       mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", onet_code: "12.3456", registration_agency: ra)
@@ -96,7 +96,7 @@ RSpec.describe "occupation_standards/index" do
       expect(page).to_not have_link "HR"
     end
 
-    it "filters occupations based on onet_code search term and national_standard_type filter", :js do
+    it "filters standards based on onet_code search term and national_standard_type filter", :js do
       mechanic = create(:occupation_standard, :with_work_processes, :program_standard, :with_data_import, title: "Mechanic", onet_code: "12.3456")
       medical_assistant = create(:occupation_standard, :with_work_processes, :occupational_framework, :with_data_import, title: "Medical Assistant", onet_code: "12.34567")
       create(:occupation_standard, :with_work_processes, :guideline_standard, :with_data_import, title: "Pipe Fitter", onet_code: "12.34567")
@@ -125,7 +125,7 @@ RSpec.describe "occupation_standards/index" do
       expect(page).to_not have_link "HR"
     end
 
-    it "filters occupations based on onet_code search term and ojt_type filter", :js do
+    it "filters standards based on onet_code search term and ojt_type filter", :js do
       mechanic = create(:occupation_standard, :with_work_processes, :hybrid, :with_data_import, title: "Mechanic", onet_code: "12.3456")
       medical_assistant = create(:occupation_standard, :with_work_processes, :time, :with_data_import, title: "Medical Assistant", onet_code: "12.34567")
       create(:occupation_standard, :with_work_processes, :competency, :with_data_import, title: "Pipe Fitter", onet_code: "12.34567")
@@ -153,7 +153,7 @@ RSpec.describe "occupation_standards/index" do
       expect(page).to_not have_link "HR"
     end
 
-    it "filters occupations with state shortcode" do
+    it "filters standards with state shortcode" do
       washington = create(:state, name: "Washington", abbreviation: "WA")
       washington_registration_agency = create(:registration_agency, state: washington)
       mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", onet_code: "12.3456", registration_agency: washington_registration_agency)
@@ -174,7 +174,7 @@ RSpec.describe "occupation_standards/index" do
       expect(page).to_not have_link "HR"
     end
 
-    it "filters occupations with national_standard_type shortcode" do
+    it "filters standards with national_standard_type shortcode" do
       mechanic = create(:occupation_standard, :with_work_processes, :program_standard, :with_data_import, title: "Mechanic", onet_code: "12.3456")
       create(:occupation_standard, :with_work_processes, :occupational_framework, :with_data_import, title: "Medical Assistant", onet_code: "12.34567")
       create(:occupation_standard, :with_work_processes, :guideline_standard, :with_data_import, title: "Pipe Fitter", onet_code: "12.34567")
@@ -196,7 +196,7 @@ RSpec.describe "occupation_standards/index" do
       expect(page).to_not have_link "HR"
     end
 
-    it "filters occupations with ojt_type shortcode" do
+    it "filters standards with ojt_type shortcode" do
       mechanic = create(:occupation_standard, :with_work_processes, :hybrid, :with_data_import, title: "Mechanic", onet_code: "12.3456")
       create(:occupation_standard, :with_work_processes, :time, :with_data_import, title: "Medical Assistant", onet_code: "12.34567")
       create(:occupation_standard, :with_work_processes, :competency, :with_data_import, title: "Pipe Fitter", onet_code: "12.34567")
@@ -395,10 +395,11 @@ RSpec.describe "occupation_standards/index" do
       Flipper.disable :use_elasticsearch_for_search
     end
 
-    it "filters occupations based on search term" do
+    it "filters standards based on search term" do
       Flipper.enable :use_elasticsearch_for_search
-      dental = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Dental Assistant")
-      medical = create(:occupation_standard, :with_work_processes, :program_standard, :with_data_import, title: "Medical Assistant")
+      dental = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Dental Assistant", onet_code: "12-3456.01")
+      medical = create(:occupation_standard, :with_work_processes, :program_standard, :with_data_import, title: "Medical Assistant", onet_code: "12-9876.00")
+      create(:occupation_standard, :with_work_processes, :program_standard, :with_data_import, title: "Other Assistant With Different ONET Code Prefix", onet_code: "13-9876.00")
       create(:occupation_standard, :with_work_processes, :with_data_import, title: "Pipe Fitter")
 
       OccupationStandard.import
@@ -416,10 +417,31 @@ RSpec.describe "occupation_standards/index" do
       expect(page).to have_link "Dental Assistant", href: occupation_standard_path(dental)
       expect(page).to have_link "Medical Assistant", href: occupation_standard_path(medical)
       expect(page).to_not have_link "Pipe Fitter"
+      expect(page).to_not have_link "Other Assistant"
       Flipper.disable :use_elasticsearch_for_search
     end
 
-    it "filters occupations based on rapids_code search term" do
+    it "can handle a search that returns no results" do
+      Flipper.enable :use_elasticsearch_for_search
+      create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
+
+      OccupationStandard.import
+      OccupationStandard.__elasticsearch__.refresh_index!
+
+      visit occupation_standards_path
+
+      fill_in "q", with: "Assistant"
+
+      find("#search").click
+
+      expect(page).to have_text "Showing Results for Assistant"
+      expect(page).to have_field("q", with: "Assistant")
+      expect(page).to_not have_link "Mechanic"
+
+      Flipper.disable :use_elasticsearch_for_search
+    end
+
+    it "filters standards based on rapids_code search term" do
       Flipper.enable :use_elasticsearch_for_search
       mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", rapids_code: "1234")
       pipe_fitter = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Pipe Fitter", rapids_code: "1234CB")
@@ -443,7 +465,7 @@ RSpec.describe "occupation_standards/index" do
       Flipper.disable :use_elasticsearch_for_search
     end
 
-    it "filters occupations based on onet_code search term" do
+    it "filters standards based on onet_code search term" do
       Flipper.enable :use_elasticsearch_for_search
       mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", onet_code: "12.3456")
       pipe_fitter = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Pipe Fitter", onet_code: "12.34567")
@@ -467,7 +489,7 @@ RSpec.describe "occupation_standards/index" do
       Flipper.disable :use_elasticsearch_for_search
     end
 
-    it "filters occupations based on onet_code search term and state filter", :js do
+    it "filters standards based on onet_code search term and state filter", :js do
       Flipper.enable :use_elasticsearch_for_search
       wa = create(:state, name: "Washington")
       ra = create(:registration_agency, state: wa)
@@ -496,7 +518,7 @@ RSpec.describe "occupation_standards/index" do
       Flipper.disable :use_elasticsearch_for_search
     end
 
-    it "filters occupations based on onet_code search term and national_standard_type filter", :js do
+    it "filters standards based on onet_code search term and national_standard_type filter", :js do
       Flipper.enable :use_elasticsearch_for_search
       mechanic = create(:occupation_standard, :with_work_processes, :program_standard, :with_data_import, title: "Mechanic", onet_code: "12.3456")
       medical_assistant = create(:occupation_standard, :with_work_processes, :occupational_framework, :with_data_import, title: "Medical Assistant", onet_code: "12.34567")
@@ -530,7 +552,7 @@ RSpec.describe "occupation_standards/index" do
       Flipper.disable :use_elasticsearch_for_search
     end
 
-    it "filters occupations based on onet_code search term and ojt_type filter", :js do
+    it "filters standards based on onet_code search term and ojt_type filter", :js do
       Flipper.enable :use_elasticsearch_for_search
       mechanic = create(:occupation_standard, :with_work_processes, :hybrid, :with_data_import, title: "Mechanic", onet_code: "12.3456")
       medical_assistant = create(:occupation_standard, :with_work_processes, :time, :with_data_import, title: "Medical Assistant", onet_code: "12.34567")
@@ -563,7 +585,7 @@ RSpec.describe "occupation_standards/index" do
       Flipper.disable :use_elasticsearch_for_search
     end
 
-    it "filters occupations with state shortcode" do
+    it "filters standards with state shortcode" do
       Flipper.enable :use_elasticsearch_for_search
       washington = create(:state, name: "Washington", abbreviation: "WA")
       washington_registration_agency = create(:registration_agency, state: washington)
@@ -589,7 +611,7 @@ RSpec.describe "occupation_standards/index" do
       Flipper.disable :use_elasticsearch_for_search
     end
 
-    it "filters occupations with national_standard_type shortcode" do
+    it "filters standards with national_standard_type shortcode" do
       Flipper.enable :use_elasticsearch_for_search
       mechanic = create(:occupation_standard, :with_work_processes, :program_standard, :with_data_import, title: "Mechanic", onet_code: "12.3456")
       create(:occupation_standard, :with_work_processes, :occupational_framework, :with_data_import, title: "Medical Assistant", onet_code: "12.34567")
@@ -616,7 +638,7 @@ RSpec.describe "occupation_standards/index" do
       Flipper.disable :use_elasticsearch_for_search
     end
 
-    it "filters occupations with ojt_type shortcode" do
+    it "filters standards with ojt_type shortcode" do
       Flipper.enable :use_elasticsearch_for_search
       mechanic = create(:occupation_standard, :with_work_processes, :hybrid, :with_data_import, title: "Mechanic", onet_code: "12.3456")
       create(:occupation_standard, :with_work_processes, :time, :with_data_import, title: "Medical Assistant", onet_code: "12.34567")

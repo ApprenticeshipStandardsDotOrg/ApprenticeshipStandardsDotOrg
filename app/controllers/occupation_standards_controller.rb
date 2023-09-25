@@ -3,6 +3,8 @@ class OccupationStandardsController < ApplicationController
     @page_title = "Occupations"
 
     if Flipper.enabled?(:use_elasticsearch_for_search)
+      refine_search_params
+
       es_response = OccupationStandardElasticsearchQuery.new(
         search_params: search_term_params,
         offset: offset
@@ -65,6 +67,22 @@ class OccupationStandardsController < ApplicationController
 
   def search_term_params
     @search_term_params ||= SearchTermExtractor.call(occupation_standards_search_params)
+  end
+
+  def refine_search_params
+    if search_term_starts_with_letter?
+      resp = OccupationStandardElasticsearchQuery.new(
+        search_params: search_term_params
+      ).call
+      first_hit = resp.records.first
+      if first_hit && first_hit.onet_code.present?
+        search_term_params[:onet_prefix] = first_hit.onet_code
+      end
+    end
+  end
+
+  def search_term_starts_with_letter?
+    search_term_params[:q].present? && search_term_params[:q].match?(/\A[a-zA-Z]/)
   end
 
   def standards_scope

@@ -3,12 +3,75 @@ require "rails_helper"
 RSpec.describe "OccupationStandard", type: :request do
   describe "GET /index" do
     context "when guest" do
-      it "returns http success" do
-        create_pair(:occupation_standard, :with_work_processes, :with_data_import)
+      context "without ES search" do
+        it "returns http success" do
+          create_pair(:occupation_standard, :with_work_processes, :with_data_import)
 
-        get occupation_standards_path
+          get occupation_standards_path
 
-        expect(response).to be_successful
+          expect(response).to be_successful
+        end
+      end
+
+      context "with ES search" do
+        it "makes one Elasticsearch query if no search params" do
+          Flipper.enable :use_elasticsearch_for_search
+          create(:occupation_standard, :with_work_processes, :with_data_import)
+
+          expect(OccupationStandardElasticsearchQuery).to receive(:new).once.and_call_original
+          get occupation_standards_path
+
+          expect(response).to be_successful
+          Flipper.disable :use_elasticsearch_for_search
+        end
+
+        it "makes one Elasticsearch query if only filter params" do
+          Flipper.enable :use_elasticsearch_for_search
+          state = create(:state)
+          ra = create(:registration_agency, state: state)
+          create(:occupation_standard, :with_work_processes, :with_data_import, registration_agency: ra)
+
+          expect(OccupationStandardElasticsearchQuery).to receive(:new).once.and_call_original
+          get occupation_standards_path(state_id: state.id)
+
+          expect(response).to be_successful
+          Flipper.disable :use_elasticsearch_for_search
+        end
+
+        it "makes one Elasticsearch query if search params does not start with letter" do
+          Flipper.enable :use_elasticsearch_for_search
+          create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", onet_code: "15-1234.00")
+
+          expect(OccupationStandardElasticsearchQuery).to receive(:new).once.and_call_original
+          get occupation_standards_path(q: "15")
+
+          expect(response).to be_successful
+          Flipper.disable :use_elasticsearch_for_search
+        end
+
+        it "makes two Elasticsearch queries if search params start with letter" do
+          Flipper.enable :use_elasticsearch_for_search
+          create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
+
+          expect(OccupationStandardElasticsearchQuery).to receive(:new).twice.and_call_original
+          get occupation_standards_path(q: "Mechanic")
+
+          expect(response).to be_successful
+          Flipper.disable :use_elasticsearch_for_search
+        end
+
+        it "does not include onet_prefix in 2nd query if first hit has no onet code" do
+          Flipper.enable :use_elasticsearch_for_search
+          create(:occupation_standard, :with_work_processes, :with_data_import, onet_code: nil, title: "Mechanic")
+
+          search_params = ActionController::Parameters.new({q: "Mechanic"}).permit!
+          expect(OccupationStandardElasticsearchQuery).to receive(:new).with(search_params: search_params).once.and_call_original
+          expect(OccupationStandardElasticsearchQuery).to receive(:new).with(search_params: search_params, offset: 0).once.and_call_original
+          get occupation_standards_path(q: "Mechanic")
+
+          expect(response).to be_successful
+          Flipper.disable :use_elasticsearch_for_search
+        end
       end
     end
 
