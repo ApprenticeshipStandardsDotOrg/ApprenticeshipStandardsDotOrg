@@ -40,7 +40,6 @@ RSpec.describe "OccupationStandard", type: :request do
 
         it "makes one Elasticsearch query if search params does not start with letter" do
           Flipper.enable :use_elasticsearch_for_search
-          onet = create(:onet, code: "15-1234.00")
           create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", onet_code: "15-1234.00")
 
           expect(OccupationStandardElasticsearchQuery).to receive(:new).once.and_call_original
