@@ -27,10 +27,12 @@ RSpec.describe "OccupationStandard", type: :request do
 
         it "makes one Elasticsearch query if only filter params" do
           Flipper.enable :use_elasticsearch_for_search
-          create(:occupation_standard, :with_work_processes, :with_data_import)
+          state = create(:state)
+          ra = create(:registration_agency, state: state)
+          create(:occupation_standard, :with_work_processes, :with_data_import, registration_agency: ra)
 
           expect(OccupationStandardElasticsearchQuery).to receive(:new).once.and_call_original
-          get occupation_standards_path(state_id: SecureRandom.uuid)
+          get occupation_standards_path(state_id: state.id)
 
           expect(response).to be_successful
           Flipper.disable :use_elasticsearch_for_search
@@ -38,7 +40,8 @@ RSpec.describe "OccupationStandard", type: :request do
 
         it "makes one Elasticsearch query if search params does not start with letter" do
           Flipper.enable :use_elasticsearch_for_search
-          create(:occupation_standard, :with_work_processes, :with_data_import)
+          onet = create(:onet, code: "15-1234.00")
+          create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", onet_code: "15-1234.00")
 
           expect(OccupationStandardElasticsearchQuery).to receive(:new).once.and_call_original
           get occupation_standards_path(q: "15")
@@ -49,7 +52,7 @@ RSpec.describe "OccupationStandard", type: :request do
 
         it "makes two Elasticsearch queries if search params start with letter" do
           Flipper.enable :use_elasticsearch_for_search
-          create(:occupation_standard, :with_work_processes, :with_data_import)
+          create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
 
           expect(OccupationStandardElasticsearchQuery).to receive(:new).twice.and_call_original
           get occupation_standards_path(q: "Mechanic")
@@ -58,12 +61,14 @@ RSpec.describe "OccupationStandard", type: :request do
           Flipper.disable :use_elasticsearch_for_search
         end
 
-        it "makes one Elasticsearch query if search param but first hit has no onet code" do
+        it "does not include onet_prefix in 2nd query if first hit has no onet code" do
           Flipper.enable :use_elasticsearch_for_search
-          create(:occupation_standard, :with_work_processes, :with_data_import, onet_code: nil)
+          create(:occupation_standard, :with_work_processes, :with_data_import, onet_code: nil, title: "Mechanic")
 
-          expect(OccupationStandardElasticsearchQuery).to receive(:new).once.and_call_original
-          get occupation_standards_path(state_id: SecureRandom.uuid)
+          search_params = ActionController::Parameters.new({q: "Mechanic"}).permit!
+          expect(OccupationStandardElasticsearchQuery).to receive(:new).with(search_params: search_params).once.and_call_original
+          expect(OccupationStandardElasticsearchQuery).to receive(:new).with(search_params: search_params, offset: 0).once.and_call_original
+          get occupation_standards_path(q: "Mechanic")
 
           expect(response).to be_successful
           Flipper.disable :use_elasticsearch_for_search
