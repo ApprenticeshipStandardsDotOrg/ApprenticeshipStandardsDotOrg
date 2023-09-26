@@ -18,6 +18,7 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
     rapids_code: Field::String,
     registration_agency: Field::BelongsTo.with_options(scope: -> { RegistrationAgency.includes(:state) }),
     related_instructions: Field::HasMany,
+    related_job_titles: Field::String,
     rsi_hours_max: Field::Number,
     rsi_hours_min: Field::Number,
     source_file: Field::String.with_options(searchable: false),
@@ -68,6 +69,7 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
     work_processes
     related_instructions
     wage_steps
+    related_job_titles
   ].freeze
 
   FORM_ATTRIBUTES = %i[
