@@ -1,5 +1,5 @@
 namespace :after_party do
-  desc 'Deployment task: rerun_elastic_search_indexes_with_updated_headline'
+  desc "Deployment task: rerun_elastic_search_indexes_with_updated_headline"
   task rerun_elastic_search_indexes_with_updated_headline: :environment do
     puts "Running deploy task 'rerun_elastic_search_indexes_with_updated_headline'"
 
