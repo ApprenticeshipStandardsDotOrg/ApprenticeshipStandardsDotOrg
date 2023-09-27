@@ -285,48 +285,6 @@ RSpec.describe "occupation_standards/index" do
       expect(page).to have_link "Pipe Fitter"
     end
 
-    it "shows suggestions based on occupation title", :js do
-      mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
-      pipe_fitter = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Pipe Fitter")
-
-      visit occupation_standards_path
-
-      expect(page).to_not have_selector "div", class: "tt-suggestion"
-
-      fill_in "q", with: "Mec"
-
-      expect(page).to have_selector "div", class: "tt-suggestion", text: mechanic.display_for_typeahead
-      expect(page).to_not have_selector "div", class: "tt-suggestion", text: pipe_fitter.display_for_typeahead
-    end
-
-    it "shows suggestions based on onet code", :js do
-      mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", onet_code: "12-1234")
-      pipe_fitter = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Pipe Fitter", onet_code: "51-6789")
-
-      visit occupation_standards_path
-
-      expect(page).to_not have_selector "div", class: "tt-suggestion"
-
-      fill_in "q", with: "12-"
-
-      expect(page).to have_selector "div", class: "tt-suggestion", text: mechanic.display_for_typeahead
-      expect(page).to_not have_selector "div", class: "tt-suggestion", text: pipe_fitter.display_for_typeahead
-    end
-
-    it "shows suggestions based on rapids code", :js do
-      mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", rapids_code: "9108")
-      pipe_fitter = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Pipe Fitter", rapids_code: "1582")
-
-      visit occupation_standards_path
-
-      expect(page).to_not have_selector "div", class: "tt-suggestion"
-
-      fill_in "q", with: "9108"
-
-      expect(page).to have_selector "div", class: "tt-suggestion", text: mechanic.display_for_typeahead
-      expect(page).to_not have_selector "div", class: "tt-suggestion", text: pipe_fitter.display_for_typeahead
-    end
-
     it "expands similar results accordion when accordion button is clicked", js: true do
       Flipper.enable :similar_programs_accordion
       create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
@@ -739,12 +697,12 @@ RSpec.describe "occupation_standards/index" do
 
     it "shows suggestions based on occupation title", :js do
       Flipper.enable :use_elasticsearch_for_search
-      mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
-      pipe_fitter = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Pipe Fitter")
-      pippen_apple_collector = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Pippen Apple Collector")
+      mechanic = create(:occupation, title: "Mechanic")
+      pipe_fitter = create(:occupation, title: "Pipe Fitter")
+      pippen_apple_collector = create(:occupation, title: "Pippen Apple Collector")
 
-      OccupationStandard.import
-      OccupationStandard.__elasticsearch__.refresh_index!
+      Occupation.import
+      Occupation.__elasticsearch__.refresh_index!
 
       visit occupation_standards_path
 
@@ -776,11 +734,13 @@ RSpec.describe "occupation_standards/index" do
 
     it "shows suggestions based on onet code", :js do
       Flipper.enable :use_elasticsearch_for_search
-      mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", onet_code: "12-1234")
-      pipe_fitter = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Pipe Fitter", onet_code: "51-6789")
+      mechanic_onet = create(:onet, code: "12-1234")
+      mechanic = create(:occupation, title: "Mechanic", onet: mechanic_onet)
+      pipe_fitter_onet = create(:onet, code: "51-6789")
+      pipe_fitter = create(:occupation, title: "Pipe Fitter", onet: pipe_fitter_onet)
 
-      OccupationStandard.import
-      OccupationStandard.__elasticsearch__.refresh_index!
+      Occupation.import
+      Occupation.__elasticsearch__.refresh_index!
 
       visit occupation_standards_path
 
@@ -795,11 +755,11 @@ RSpec.describe "occupation_standards/index" do
 
     it "shows suggestions based on rapids code", :js do
       Flipper.enable :use_elasticsearch_for_search
-      mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", rapids_code: "9108")
-      pipe_fitter = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Pipe Fitter", rapids_code: "1582")
+      mechanic = create(:occupation, title: "Mechanic", rapids_code: "9108")
+      pipe_fitter = create(:occupation, title: "Pipe Fitter", rapids_code: "1582")
 
-      OccupationStandard.import
-      OccupationStandard.__elasticsearch__.refresh_index!
+      Occupation.import
+      Occupation.__elasticsearch__.refresh_index!
 
       visit occupation_standards_path
 
