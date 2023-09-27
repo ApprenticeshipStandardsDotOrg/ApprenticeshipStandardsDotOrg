@@ -104,55 +104,6 @@ RSpec.describe "OccupationStandard", type: :request do
     end
   end
 
-  describe "GET /index.json" do
-    it "returns http success" do
-      create(:occupation_standard, :with_data_import, title: "Mechanic")
-
-      get occupation_standards_path, params: {format: "json", q: "Mech"}
-
-      expect(response).to be_successful
-    end
-
-    it "returns a json response" do
-      create(:occupation_standard, :with_data_import, title: "Mechanic")
-
-      get occupation_standards_path, params: {format: "json", q: "Mech"}
-
-      expect(response.content_type).to eq "application/json; charset=utf-8"
-    end
-
-    context "when not using Elasticsearch for results" do
-      it "returns expected fields" do
-        occupation_standard = create(:occupation_standard, :with_data_import, title: "Mechanic")
-
-        get occupation_standards_path, params: {format: "json", q: "Mech"}
-        parsed_response = JSON.parse(response.body)
-        result = parsed_response.first
-
-        expect(result["id"]).to eq occupation_standard.id
-        expect(result["display"]).to eq occupation_standard.display_for_typeahead
-        expect(result["link"]).to eq occupation_standards_path
-      end
-    end
-
-    context "when using Elasticsearch for results", :elasticsearch do
-      it "returns expected fields" do
-        occupation_standard = create(:occupation_standard, :with_data_import, title: "Mechanic")
-
-        OccupationStandard.import
-        OccupationStandard.__elasticsearch__.refresh_index!
-
-        get occupation_standards_path, params: {format: "json", q: "Mech"}
-        parsed_response = JSON.parse(response.body)
-        result = parsed_response.first
-
-        expect(result["id"]).to eq occupation_standard.id
-        expect(result["display"]).to eq occupation_standard.display_for_typeahead
-        expect(result["link"]).to eq occupation_standards_path
-      end
-    end
-  end
-
   describe "GET /show/:id" do
     context "when guest" do
       it "returns http success" do

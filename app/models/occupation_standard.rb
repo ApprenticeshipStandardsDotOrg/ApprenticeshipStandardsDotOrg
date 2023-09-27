@@ -122,9 +122,7 @@ class OccupationStandard < ApplicationRecord
       indexes :rapids_code, type: :text, analyzer: :autocomplete, search_analyzer: :autocomplete_search
       indexes :state, type: :text, analyzer: :keyword
       indexes :state_id, type: :keyword
-      indexes :title, type: :text, analyzer: :rebuilt_english do
-        indexes :typeahead, type: :text, analyzer: :autocomplete, search_analyzer: :autocomplete_search
-      end
+      indexes :title, type: :text, analyzer: :rebuilt_english
       indexes :work_process_titles, type: :text, analyzer: :english
       indexes :related_job_titles, type: :text, analyzer: :rebuilt_english
       indexes :created_at, type: :date
@@ -359,10 +357,6 @@ class OccupationStandard < ApplicationRecord
     national_occupational_framework? &&
       organization_id.present? &&
       organization_id == Organization.urban_institute&.id
-  end
-
-  def display_for_typeahead
-    title.strip
   end
 
   def hours_meet_occupation_requirements?
