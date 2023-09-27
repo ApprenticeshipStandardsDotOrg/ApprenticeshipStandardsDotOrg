@@ -266,13 +266,15 @@ class OccupationStandard < ApplicationRecord
       work_processes.flat_map(&:competencies) + work_processes
     end
 
-    [
+    key = [
       state&.abbreviation,
       ojt_type,
       title.parameterize,
       work_processes_hours.to_s,
       associations.map(&:title).compact.map(&:parameterize)
     ].flatten.compact.join("-")
+
+    Digest::SHA2.hexdigest(key)
   end
 
   def competencies_count
