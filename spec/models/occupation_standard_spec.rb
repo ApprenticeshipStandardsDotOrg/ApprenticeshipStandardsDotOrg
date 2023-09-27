@@ -701,7 +701,9 @@ RSpec.describe OccupationStandard, type: :model do
 
           occupation_standard.reload
 
-          expect(occupation_standard.headline).to eq "#{state.abbreviation}-time-pipe-fitter-700-the-quick-brown-fox-jumps-over-the-lazy-dog"
+          expect(occupation_standard.headline).to eq Digest::SHA2.hexdigest(
+            "#{state.abbreviation}-time-pipe-fitter-700-the-quick-brown-fox-jumps-over-the-lazy-dog"
+          )
         end
       end
 
@@ -715,7 +717,9 @@ RSpec.describe OccupationStandard, type: :model do
 
           occupation_standard.reload
 
-          expect(occupation_standard.headline).to eq "time-pipe-fitter-700-the-quick-brown-fox-jumps-over-the-lazy-dog"
+          expect(occupation_standard.headline).to eq Digest::SHA2.hexdigest(
+            "time-pipe-fitter-700-the-quick-brown-fox-jumps-over-the-lazy-dog"
+          )
         end
       end
     end
@@ -735,7 +739,9 @@ RSpec.describe OccupationStandard, type: :model do
 
           occupation_standard.reload
 
-          expect(occupation_standard.headline).to eq "#{state.abbreviation}-competency-pipe-fitter-0-the-quick-brown-fox-jumps-over-the-lazy-dog"
+          expect(occupation_standard.headline).to eq Digest::SHA2.hexdigest(
+            "#{state.abbreviation}-competency-pipe-fitter-0-the-quick-brown-fox-jumps-over-the-lazy-dog"
+          )
         end
       end
 
@@ -752,7 +758,9 @@ RSpec.describe OccupationStandard, type: :model do
 
           occupation_standard.reload
 
-          expect(occupation_standard.headline).to eq "competency-pipe-fitter-0-the-quick-brown-fox-jumps-over-the-lazy-dog"
+          expect(occupation_standard.headline).to eq Digest::SHA2.hexdigest(
+            "competency-pipe-fitter-0-the-quick-brown-fox-jumps-over-the-lazy-dog"
+          )
         end
       end
     end
@@ -772,7 +780,9 @@ RSpec.describe OccupationStandard, type: :model do
 
           occupation_standard.reload
 
-          expect(occupation_standard.headline).to eq "#{state.abbreviation}-hybrid-pipe-fitter-700-the-quick-brown-fox-jumps-over-the-lazy-dog-wp2-wp1"
+          expect(occupation_standard.headline).to eq Digest::SHA2.hexdigest(
+            "#{state.abbreviation}-hybrid-pipe-fitter-700-the-quick-brown-fox-jumps-over-the-lazy-dog-wp2-wp1"
+          )
         end
       end
 
@@ -789,7 +799,9 @@ RSpec.describe OccupationStandard, type: :model do
 
           occupation_standard.reload
 
-          expect(occupation_standard.headline).to eq "hybrid-pipe-fitter-700-the-quick-brown-fox-jumps-over-the-lazy-dog-wp2-wp1"
+          expect(occupation_standard.headline).to eq Digest::SHA2.hexdigest(
+            "hybrid-pipe-fitter-700-the-quick-brown-fox-jumps-over-the-lazy-dog-wp2-wp1"
+          )
         end
       end
     end
