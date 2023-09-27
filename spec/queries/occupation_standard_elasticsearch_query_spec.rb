@@ -337,9 +337,6 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
     os3 = create(:occupation_standard, :time, registration_agency: agency, title: "Pipe")
     create(:work_process, occupation_standard: os3, sort_order: 2, title: "fox jumps over", maximum_hours: 100)
     create(:work_process, occupation_standard: os3, sort_order: 1, title: "The quick brown", maximum_hours: 200)
-    puts os1.id
-    puts os2.id
-    puts os3.id
 
     OccupationStandard.import
     OccupationStandard.__elasticsearch__.refresh_index!
