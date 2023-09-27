@@ -772,6 +772,43 @@ RSpec.describe "occupation_standards/index" do
       Flipper.disable :use_elasticsearch_for_search
     end
 
+    it "adds onet prefix to search when clicking on typeahead result", :js do
+      Flipper.enable :use_elasticsearch_for_search
+      mechanic_onet = create(:onet, code: "12-3456")
+      mechanic = create(:occupation, title: "Mechanic", onet: mechanic_onet)
+      pipe_fitter_onet = create(:onet, code: "98-7654")
+      pipe_fitter = create(:occupation, title: "Pipe Fitter", onet: pipe_fitter_onet)
+
+      # Mechanic with top title search, but non-matching ONET prefix
+      onet_567890 = create(:onet, code: "56-7890", related_job_titles: ["Super Mechanic", "Amazing Mechanic"])
+      create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic One", onet_code: "56-7890")
+
+      # Mechanic with matching ONET prefix
+      create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic Two", onet_code: "12-9999")
+
+      # Mechanic with non-matching ONET prefix
+      create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic Three", onet_code: "13-9999")
+
+      Occupation.import
+      OccupationStandard.import
+      Occupation.__elasticsearch__.refresh_index!
+
+      visit occupation_standards_path
+
+      expect(page).to_not have_selector "div", class: "tt-suggestion"
+
+      fill_in "q", with: "Me"
+
+      expect(page).to have_selector "div", class: "tt-suggestion", text: mechanic.display_for_typeahead
+      expect(page).to_not have_selector "div", class: "tt-suggestion", text: pipe_fitter.display_for_typeahead
+
+      find("div.tt-suggestion", text: "Mechanic").click
+
+      expect(page).to_not have_text "Mechanic One"
+      expect(page).to have_text "Mechanic Two"
+      expect(page).to_not have_text "Mechanic Three"
+    end
+
     it "expands similar results accordion when accordion button is clicked", js: true do
       Flipper.enable :use_elasticsearch_for_search
       Flipper.enable :similar_programs_accordion
