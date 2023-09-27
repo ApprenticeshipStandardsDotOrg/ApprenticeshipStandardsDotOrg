@@ -12,7 +12,7 @@ RSpec.describe "Occupation", type: :request do
       get occupations_path, params: {format: "json", q: "Mech"}
 
       expect(response_json[0][:display]).to eq "Mechanic"
-      expect(response_json[0][:link]).to eq "/occupations"
+      expect(response_json[0][:link]).to eq "/occupation_standards"
 
       expect(response).to be_successful
       expect(response.content_type).to eq "application/json; charset=utf-8"
@@ -20,12 +20,12 @@ RSpec.describe "Occupation", type: :request do
       get occupations_path, params: {format: "json", q: "12-34"}
 
       expect(response_json[0][:display]).to eq "Mechanic"
-      expect(response_json[0][:link]).to eq "/occupations"
+      expect(response_json[0][:link]).to eq "/occupation_standards"
 
       get occupations_path, params: {format: "json", q: "567"}
 
       expect(response_json[0][:display]).to eq "Mechanic"
-      expect(response_json[0][:link]).to eq "/occupations"
+      expect(response_json[0][:link]).to eq "/occupation_standards"
     end
   end
 end

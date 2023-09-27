@@ -1,6 +1,6 @@
 <%= form_with url: search_form_url, method: :get, data: {
       controller: "search typeahead",
-      typeahead_src_value: occupation_standards_path(format: :json, q: "QUERY"),
+      typeahead_src_value: occupations_path(format: :json, q: "QUERY"),
       typeahead_wildcard_value: "QUERY",
       typeahead_identifier_value: "display"
 
