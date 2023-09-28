@@ -16,7 +16,6 @@ export default class extends Controller {
   }
 
   connect() {
-    console.log('in connect')
     this.instance = typeahead({
       input: this.inputTarget,
       source: {
