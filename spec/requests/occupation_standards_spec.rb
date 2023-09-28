@@ -60,6 +60,17 @@ RSpec.describe "OccupationStandard", type: :request do
           Flipper.disable :use_elasticsearch_for_search
         end
 
+        it "makes one Elasticsearch query if search params start with letter but onet_prefix is included in the search params" do
+          Flipper.enable :use_elasticsearch_for_search
+          create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
+
+          expect(OccupationStandardElasticsearchQuery).to receive(:new).once.and_call_original
+          get occupation_standards_path(q: "Mechanic", onet_prefix: "15-1234")
+
+          expect(response).to be_successful
+          Flipper.disable :use_elasticsearch_for_search
+        end
+
         it "does not include onet_prefix in 2nd query if first hit has no onet code" do
           Flipper.enable :use_elasticsearch_for_search
           create(:occupation_standard, :with_work_processes, :with_data_import, onet_code: nil, title: "Mechanic")
