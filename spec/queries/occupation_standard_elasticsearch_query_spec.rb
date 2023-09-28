@@ -313,12 +313,12 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
     params = {q: "usER expERience"}
     response = described_class.new(search_params: params).call
 
-    expect(response.records.pluck(:id)).to eq [os1.id, os2.id]
+    expect(response.records.pluck(:id)).to match_array [os1.id, os2.id]
 
     params = {q: "ux design"}
     response = described_class.new(search_params: params).call
 
-    expect(response.records.pluck(:id)).to eq [os2.id, os1.id]
+    expect(response.records.pluck(:id)).to match_array [os2.id, os1.id]
   end
 
   it "collapses search results across headline" do

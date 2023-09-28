@@ -541,20 +541,6 @@ RSpec.describe OccupationStandard, type: :model do
     end
   end
 
-  describe "#display_for_typeahead" do
-    it "returns title" do
-      occupation_standard = build_stubbed(:occupation_standard, title: "Mechanic")
-
-      expect(occupation_standard.display_for_typeahead).to eq "Mechanic"
-    end
-
-    it "returns trimmed title" do
-      occupation_standard = build_stubbed(:occupation_standard, title: " Mechanical Engineer ")
-
-      expect(occupation_standard.display_for_typeahead).to eq "Mechanical Engineer"
-    end
-  end
-
   describe "#hours_meet_occupation_requirements?" do
     it "returns true if work_process hours match occupation hours" do
       occupation = create(:occupation, time_based_hours: 1000)

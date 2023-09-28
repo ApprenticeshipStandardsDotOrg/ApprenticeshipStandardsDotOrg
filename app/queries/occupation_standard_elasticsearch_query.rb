@@ -91,11 +91,6 @@ class OccupationStandardElasticsearchQuery
                   }
                 end
                 should do
-                  match "title.typeahead": {
-                    query: q
-                  }
-                end
-                should do
                   match related_job_titles: {
                     query: q,
                     boost: 1.2
