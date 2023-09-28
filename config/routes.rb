@@ -39,6 +39,7 @@ Rails.application.routes.draw do
         resources :data_imports, except: [:index]
       end
       resources :occupation_standards, only: [:index, :show, :edit, :update]
+      resources :occupations, only: [:index, :show, :edit, :update]
       resources :organizations, only: [:index, :show, :edit, :update]
       resources :work_processes, only: [:show, :edit, :update]
       resources :competencies, only: [:show, :edit, :update]
