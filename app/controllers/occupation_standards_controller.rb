@@ -1,8 +1,6 @@
 class OccupationStandardsController < ApplicationController
   def index
     @page_title = "Occupations"
-    puts  params.inspect
-    puts  search_term_params.inspect
 
     if Flipper.enabled?(:use_elasticsearch_for_search)
       refine_search_params

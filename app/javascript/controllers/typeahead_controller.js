@@ -33,7 +33,6 @@ export default class extends Controller {
         suggestion: (item, resultSet) => {
           return `
           <div
-            class="custom-suggestion"
             data-action="click->typeahead#navigateTo"
             data-typeahead-display-param="${item.display}"
             data-typeahead-link-param="${item.link}"

@@ -772,7 +772,7 @@ RSpec.describe "occupation_standards/index" do
       Flipper.disable :use_elasticsearch_for_search
     end
 
-    it "adds onet prefix to search when clicking on typeahead result", :js, :debug do
+    it "adds onet prefix to search when clicking on typeahead result", :js do
       Flipper.enable :use_elasticsearch_for_search
       mechanic_onet = create(:onet, code: "12-3456")
       mechanic = create(:occupation, title: "Mechanic", onet: mechanic_onet)
@@ -803,10 +803,7 @@ RSpec.describe "occupation_standards/index" do
       expect(page).to_not have_selector "div", class: "tt-suggestion", text: pipe_fitter.display_for_typeahead
 
       within(".tt-list") do
-   #     click_on "Mechanic"
-        debugger
-      find(".tt-highlight", text: "Me").click
-#      sleep 5 
+        find("div[data-typeahead-display-param='Mechanic']").click
       end
 
       expect(page).to_not have_text "Mechanic One"
