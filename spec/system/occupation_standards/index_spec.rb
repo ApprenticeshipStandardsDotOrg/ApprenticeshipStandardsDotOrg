@@ -780,7 +780,7 @@ RSpec.describe "occupation_standards/index" do
       pipe_fitter = create(:occupation, title: "Pipe Fitter", onet: pipe_fitter_onet)
 
       # Mechanic with top title search, but non-matching ONET prefix
-      onet_567890 = create(:onet, code: "56-7890", related_job_titles: ["Super Mechanic", "Amazing Mechanic"])
+      create(:onet, code: "56-7890", related_job_titles: ["Super Mechanic", "Amazing Mechanic"])
       create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic One", onet_code: "56-7890")
 
       # Mechanic with matching ONET prefix
