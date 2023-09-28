@@ -16,6 +16,7 @@ export default class extends Controller {
   }
 
   connect() {
+    console.log('in connect')
     this.instance = typeahead({
       input: this.inputTarget,
       source: {
@@ -28,8 +29,10 @@ export default class extends Controller {
       // Override display callback to visit the link when clicking a suggestion instead of
       // autocompleting the input with the suggestion.
       display: (item, event) => {
+        console.log('here');
         if (event) {
-          Turbo.visit(`${item.link}?q=${item.display}`)
+        console.log('event');
+          Turbo.visit(`${item.link}?q=${item.display}&onet_prefix=${item.onet_code}`)
         }
 
         return item.display;

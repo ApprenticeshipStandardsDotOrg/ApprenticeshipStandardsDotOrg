@@ -1,6 +1,8 @@
 class OccupationStandardsController < ApplicationController
   def index
     @page_title = "Occupations"
+    puts  params.inspect
+    puts  search_term_params.inspect
 
     if Flipper.enabled?(:use_elasticsearch_for_search)
       refine_search_params
@@ -51,6 +53,7 @@ class OccupationStandardsController < ApplicationController
       :q,
       :state_id,
       :state,
+      :onet_prefix,
       ojt_type: [:time, :hybrid, :competency],
       national_standard_type: [
         :program_standard, :guideline_standard, :occupational_framework
