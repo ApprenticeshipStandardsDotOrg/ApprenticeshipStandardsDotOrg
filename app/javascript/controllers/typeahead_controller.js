@@ -26,19 +26,32 @@ export default class extends Controller {
           wildcard: this.wildcardValue,
         },
       },
-      // Override display callback to visit the link when clicking a suggestion instead of
-      // autocompleting the input with the suggestion.
       display: (item, event) => {
-        console.log('here');
-        if (event) {
-        console.log('event');
-          Turbo.visit(`${item.link}?q=${item.display}&onet_prefix=${item.onet_code}`)
-        }
-
         return item.display;
+      },
+      templates: {
+        suggestion: (item, resultSet) => {
+          return `
+          <div
+            class="custom-suggestion"
+            data-action="click->typeahead#navigateTo"
+            data-typeahead-display-param="${item.display}"
+            data-typeahead-link-param="${item.link}"
+            data-typeahead-onet-code-param="${item.onet_code}"
+            >
+            ${item.display}
+          </div>`;
+        }
       },
       highlight: true
     })
+  }
+
+  navigateTo(event) {
+    const {params: item} = event
+    event.preventDefault
+
+    Turbo.visit(`${item.link}?q=${item.display}&onet_prefix=${item.onetCode}`)
   }
 
   disconnect() {
