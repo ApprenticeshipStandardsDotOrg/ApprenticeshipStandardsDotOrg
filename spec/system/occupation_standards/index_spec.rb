@@ -806,6 +806,7 @@ RSpec.describe "occupation_standards/index" do
         find("div[data-typeahead-display-param='Mechanic']").click
       end
 
+      expect(page).to have_text "Showing Results for Mechanic"
       expect(page).to_not have_text "Mechanic One"
       expect(page).to have_text "Mechanic Two"
       expect(page).to_not have_text "Mechanic Three"
