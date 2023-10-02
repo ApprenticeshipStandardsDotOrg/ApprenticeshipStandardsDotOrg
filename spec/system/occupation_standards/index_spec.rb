@@ -774,6 +774,9 @@ RSpec.describe "occupation_standards/index" do
 
     it "adds onet prefix to search when clicking on typeahead result", :js do
       Flipper.enable :use_elasticsearch_for_search
+      Flipper.enable :similar_programs_accordion
+      Flipper.enable :similar_programs_elasticsearch
+
       mechanic_onet = create(:onet, code: "12-3456")
       mechanic = create(:occupation, title: "Mechanic", onet: mechanic_onet)
       pipe_fitter_onet = create(:onet, code: "98-7654")
@@ -807,9 +810,12 @@ RSpec.describe "occupation_standards/index" do
       end
 
       expect(page).to have_text "Showing Results for Mechanic"
-      expect(page).to_not have_text "Mechanic One"
+      expect(page).to have_no_text "Mechanic One"
       expect(page).to have_text "Mechanic Two"
-      expect(page).to_not have_text "Mechanic Three"
+      expect(page).to have_no_text "Mechanic Three"
+      Flipper.disable :use_elasticsearch_for_search
+      Flipper.disable :similar_programs_accordion
+      Flipper.disable :similar_programs_elasticsearch
     end
 
     it "expands similar results accordion when accordion button is clicked", js: true do
