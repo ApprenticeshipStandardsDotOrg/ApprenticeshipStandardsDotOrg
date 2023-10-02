@@ -160,6 +160,7 @@ RSpec.describe "occupations/index", type: :view do
     render template: "occupation_standards/index"
 
     expect(rendered).not_to have_text "program with similar or identical criteria."
+    Flipper.disable :similar_programs_accordion
   end
 
   it "shows alert if the occupation_standard hours do not meet the occupation required hours" do
