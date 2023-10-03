@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_03_233621) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_03_233735) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -180,7 +180,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_03_233621) do
     t.datetime "updated_at", null: false
     t.string "related_job_titles", default: [], array: true
     t.string "version"
-    t.index ["code"], name: "unique_code", unique: true
+    t.index ["version", "code"], name: "index_onets_on_version_and_code", unique: true
   end
 
   create_table "organizations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
