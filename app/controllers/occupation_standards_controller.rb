@@ -51,6 +51,7 @@ class OccupationStandardsController < ApplicationController
       :q,
       :state_id,
       :state,
+      :onet_prefix,
       ojt_type: [:time, :hybrid, :competency],
       national_standard_type: [
         :program_standard, :guideline_standard, :occupational_framework
@@ -63,7 +64,7 @@ class OccupationStandardsController < ApplicationController
   end
 
   def refine_search_params
-    if search_term_starts_with_letter?
+    if search_term_params[:onet_prefix].blank? && search_term_starts_with_letter?
       resp = OccupationStandardElasticsearchQuery.new(
         search_params: search_term_params
       ).call
