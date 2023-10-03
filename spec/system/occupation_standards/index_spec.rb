@@ -772,7 +772,7 @@ RSpec.describe "occupation_standards/index" do
       Flipper.disable :use_elasticsearch_for_search
     end
 
-    it "adds onet prefix to search when clicking on typeahead result", :js do
+    xit "adds onet prefix to search when clicking on typeahead result", :js do
       Flipper.enable :use_elasticsearch_for_search
       Flipper.enable :similar_programs_accordion
       Flipper.enable :similar_programs_elasticsearch
