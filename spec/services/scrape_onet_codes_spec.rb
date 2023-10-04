@@ -4,7 +4,7 @@ RSpec.describe ScrapeOnetCodes do
   describe "#call" do
     it "creates onet records" do
       stub_responses
-      onet = create(:onet, title: "Actuaries", code: "1234.56")
+      onet = create(:onet, title: "Not actually an actuary", code: "15-2011.00")
 
       service = instance_double("OnetWebService", call: nil)
       expect(OnetWebService).to receive(:new).and_return(service).thrice

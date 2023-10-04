@@ -4,9 +4,9 @@ class ScrapeOnetCodes
     CSV.parse(file, headers: true) do |row|
       onet = Onet.find_or_initialize_by(
         version: Onet::CURRENT_VERSION,
-        title: row["Occupation"]
+        code: row["Code"]
       )
-      onet.update!(code: row["Code"])
+      onet.update!(title: row["Occupation"])
       OnetWebService.new(onet).call
     end
   end
