@@ -17,14 +17,17 @@ RSpec.describe ScrapeOnetCodes do
       onet.reload
       expect(onet.title).to eq "Actuaries"
       expect(onet.code).to eq "15-2011.00"
+      expect(onet.version).to eq "2019"
 
       onet1 = Onet.second
       expect(onet1.title).to eq "Accountants and Auditors"
       expect(onet1.code).to eq "13-2011.00"
+      expect(onet.version).to eq "2019"
 
       onet2 = Onet.third
       expect(onet2.title).to eq "Actors"
       expect(onet2.code).to eq "27-2011.00"
+      expect(onet.version).to eq "2019"
     end
   end
 
