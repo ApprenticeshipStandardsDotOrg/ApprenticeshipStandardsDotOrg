@@ -8,12 +8,12 @@ RSpec.describe Onet, type: :model do
   end
 
   it "has unique code wrt version" do
-    onet = create(:onet, code: "12-3456.00", version: "2019")
-    new_onet = build(:onet, code: "12-3456.00", version: "2019")
+    create(:onet, code: "12-3456.00", version: "2019")
+    onet = build(:onet, code: "12-3456.00", version: "2019")
 
-    expect(new_onet).to_not be_valid
+    expect(onet).to_not be_valid
 
-    new_onet.version = "2020"
-    expect(new_onet).to be_valid
+    onet.version = "2020"
+    expect(onet).to be_valid
   end
 end

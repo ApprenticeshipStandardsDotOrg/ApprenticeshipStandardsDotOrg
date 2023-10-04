@@ -1,5 +1,5 @@
 namespace :after_party do
-  desc 'Deployment task: set_default_version_on_onets_table'
+  desc "Deployment task: set_default_version_on_onets_table"
   task set_default_version_on_onets_table: :environment do
     puts "Running deploy task 'set_default_version_on_onets_table'"
 
