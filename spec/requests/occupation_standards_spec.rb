@@ -13,7 +13,7 @@ RSpec.describe "OccupationStandard", type: :request do
         end
       end
 
-      context "with ES search" do
+      context "with ES search", :elasticsearch do
         it "makes one Elasticsearch query if no search params" do
           Flipper.enable :use_elasticsearch_for_search
           create(:occupation_standard, :with_work_processes, :with_data_import)
