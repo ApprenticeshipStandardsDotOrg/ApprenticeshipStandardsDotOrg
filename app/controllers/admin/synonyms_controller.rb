@@ -19,7 +19,7 @@ module Admin
 
     def update
       if requested_resource.update(resource_params)
-        resource.add_to_elastic_search_synonyms
+        requested_resource.add_to_elastic_search_synonyms
         redirect_to(
           after_resource_updated_path(requested_resource),
           notice: translate_with_resource("update.success")
