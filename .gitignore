@@ -45,5 +45,5 @@ spec/examples.txt
 # Brew files
 Brewfile.lock.json
 
-# kibana 8 folder
+# kibana folder. asdf does not support kibana 8 so you will have to download it by hand
 kibana-*/*
