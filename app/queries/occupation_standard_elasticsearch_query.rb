@@ -5,7 +5,7 @@ class OccupationStandardElasticsearchQuery
 
   attr_reader :search_params, :offset, :debug
 
-  def initialize(search_params:, offset: 0, debug: true)
+  def initialize(search_params:, offset: 0, debug: false)
     @search_params = search_params
     @offset = offset
     @debug = debug
