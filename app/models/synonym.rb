@@ -1,11 +1,24 @@
+require 'elasticsearch_wrapper/synonyms'
+
 class Synonym < ApplicationRecord
   COMMA_SEPARATED_LIST_REGEX = /^([a-zA-Z \/\-\_]*,?)+$/
   validate :synonyms_list_valid?
 
-  def self.to_elasticsearch_setting
-    all.map do |record|
-      "#{record.word},#{record.synonyms}"
-    end
+  def to_elasticsearch_value
+    "#{word},#{synonyms}"
+  end
+
+  def add_to_elastic_search_synonyms
+    ElasticsearchWrapper::Synonyms.add(
+      rule_id: id,
+      value: to_elasticsearch_value
+    )
+  end
+
+  def remove_from_elastic_search_synonyms
+    ElasticsearchWrapper::Synonyms.remove(
+      rule_id: id
+    )
   end
 
   private

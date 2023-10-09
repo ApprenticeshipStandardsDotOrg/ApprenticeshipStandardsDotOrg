@@ -75,11 +75,10 @@ class OccupationStandard < ApplicationRecord
             type: "stemmer",
             language: "possessive_english"
           },
-          synonym: {
-            type: "synonym",
-            synonyms: [
-              "UX, User experience"
-            ]
+          dynamic_synonym: {
+            type: "synonym_graph",
+            synonyms_set: "dynamic_synonyms",
+            updateable: true
           }
         },
         analyzer: {
@@ -103,7 +102,16 @@ class OccupationStandard < ApplicationRecord
               "lowercase",
               "english_stop",
               "english_stemmer",
-              "synonym"
+            ]
+          },
+          dynamic_synonym: {
+            tokenizer: "standard",
+            filter: [
+              "english_possessive_stemmer",
+              "lowercase",
+              "english_stop",
+              "english_stemmer",
+              "dynamic_synonym"
             ]
           }
         }
@@ -122,7 +130,7 @@ class OccupationStandard < ApplicationRecord
       indexes :rapids_code, type: :text, analyzer: :autocomplete, search_analyzer: :autocomplete_search
       indexes :state, type: :text, analyzer: :keyword
       indexes :state_id, type: :keyword
-      indexes :title, type: :text, analyzer: :rebuilt_english
+      indexes :title, type: :text, analyzer: :rebuilt_english, search_analyzer: :dynamic_synonym
       indexes :work_process_titles, type: :text, analyzer: :english
       indexes :related_job_titles, type: :text, analyzer: :rebuilt_english
       indexes :created_at, type: :date
