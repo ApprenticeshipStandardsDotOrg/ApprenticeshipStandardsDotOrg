@@ -44,3 +44,6 @@ spec/examples.txt
 
 # Brew files
 Brewfile.lock.json
+
+# kibana 8 folder
+kibana-*/*
