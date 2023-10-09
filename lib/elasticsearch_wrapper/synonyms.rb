@@ -5,7 +5,7 @@ module ElasticsearchWrapper
       @@client ||= Elasticsearch::Client.new
     end
 
-    def self.add(rule_id:, value: )
+    def self.add(rule_id:, value:)
       client.synonyms.put_synonym_rule(
         set_id: SYNONYM_SET_NAME,
         rule_id: rule_id,

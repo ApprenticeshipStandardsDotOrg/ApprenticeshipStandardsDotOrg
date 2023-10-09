@@ -101,7 +101,7 @@ class OccupationStandard < ApplicationRecord
               "english_possessive_stemmer",
               "lowercase",
               "english_stop",
-              "english_stemmer",
+              "english_stemmer"
             ]
           },
           dynamic_synonym: {

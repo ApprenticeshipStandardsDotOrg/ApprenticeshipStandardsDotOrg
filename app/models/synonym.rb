@@ -1,4 +1,4 @@
-require 'elasticsearch_wrapper/synonyms'
+require "elasticsearch_wrapper/synonyms"
 
 class Synonym < ApplicationRecord
   COMMA_SEPARATED_LIST_REGEX = /^([a-zA-Z \/\-\_]*,?)+$/

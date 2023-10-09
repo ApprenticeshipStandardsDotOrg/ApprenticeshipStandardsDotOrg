@@ -6,8 +6,8 @@ ruby "3.2.2"
 # gem "bonsai-elasticsearch-rails", "~> 7"
 gem "elasticsearch", "8.10.0"
 
-gem 'elasticsearch-model', github: 'elastic/elasticsearch-rails', branch: '8.x'
-gem 'elasticsearch-rails', github: 'elastic/elasticsearch-rails', branch: '8.x'
+gem "elasticsearch-model", github: "elastic/elasticsearch-rails", branch: "8.x"
+gem "elasticsearch-rails", github: "elastic/elasticsearch-rails", branch: "8.x"
 gem "elasticsearch-dsl"
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.8"
