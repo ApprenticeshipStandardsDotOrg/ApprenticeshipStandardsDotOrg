@@ -12,14 +12,11 @@ class SynonymDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = %i[
     word
     synonyms
-    created_at
   ].freeze
 
   SHOW_PAGE_ATTRIBUTES = %i[
     word
     synonyms
-    created_at
-    updated_at
   ].freeze
 
   FORM_ATTRIBUTES = %i[
