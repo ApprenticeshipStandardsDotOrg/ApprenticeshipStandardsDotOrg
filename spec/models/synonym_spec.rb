@@ -78,4 +78,29 @@ RSpec.describe Synonym, type: :model do
       expect(synonym).to_not be_valid
     end
   end
+
+  describe "#add_to_elastic_search_synonyms" do
+    it "calls the correct wrapper method" do
+      synonym = create(:synonym)
+
+      expect(ElasticsearchWrapper::Synonyms).to receive(:add).with(
+        rule_id: synonym.id,
+        value: synonym.to_elasticsearch_value
+      )
+
+      synonym.add_to_elastic_search_synonyms
+    end
+  end
+
+  describe "#remove_from_elastic_search_synonyms" do
+    it "calls the correct wrapper method" do
+      synonym = create(:synonym)
+
+      expect(ElasticsearchWrapper::Synonyms).to receive(:remove).with(
+        rule_id: synonym.id,
+      )
+
+      synonym.remove_from_elastic_search_synonyms
+    end
+  end
 end
