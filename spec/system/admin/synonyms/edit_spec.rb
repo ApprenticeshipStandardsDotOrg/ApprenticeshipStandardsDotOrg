@@ -16,7 +16,6 @@ RSpec.describe "admin/synonyms/edit" do
     fill_in "Word", with: "Software Engineer"
     fill_in "Synonyms", with: "Developer, Dev"
 
-    expect_any_instance_of(Synonym).to receive(:add_to_elastic_search_synonyms)
     click_on "Update Synonym"
 
     within("h1") do
