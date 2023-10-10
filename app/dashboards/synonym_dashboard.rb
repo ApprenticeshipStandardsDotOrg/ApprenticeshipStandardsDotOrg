@@ -28,4 +28,8 @@ class SynonymDashboard < Administrate::BaseDashboard
   ].freeze
 
   COLLECTION_FILTERS = {}.freeze
+
+  def display_resource(synonym)
+    "Synonyms for #{synonym.word}"
+  end
 end
