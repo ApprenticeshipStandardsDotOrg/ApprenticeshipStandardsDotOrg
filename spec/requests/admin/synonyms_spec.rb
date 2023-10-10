@@ -208,12 +208,12 @@ RSpec.describe "Admin::Synonym", type: :request do
               expect_any_instance_of(Synonym).to receive(:add_to_elastic_search_synonyms)
               expect {
                 post admin_synonyms_path,
-                params: {
-                  synonym: {
-                    word: "Software Engineer",
-                    synonyms: "Developer, Dev"
+                  params: {
+                    synonym: {
+                      word: "Software Engineer",
+                      synonyms: "Developer, Dev"
+                    }
                   }
-                }
               }.to change(Synonym, :count).by(1)
 
               expect(response).to redirect_to admin_synonym_path(Synonym.last)
@@ -229,12 +229,12 @@ RSpec.describe "Admin::Synonym", type: :request do
               expect_any_instance_of(Synonym).to_not receive(:add_to_elastic_search_synonyms)
               expect {
                 post admin_synonyms_path,
-                params: {
-                  synonym: {
-                    word: "",
-                    synonyms: "Developer, Dev"
+                  params: {
+                    synonym: {
+                      word: "",
+                      synonyms: "Developer, Dev"
+                    }
                   }
-                }
               }.to change(Synonym, :count).by(0)
 
               expect(response).to have_http_status(:unprocessable_entity)

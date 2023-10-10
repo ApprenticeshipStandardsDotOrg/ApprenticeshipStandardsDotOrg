@@ -23,7 +23,7 @@ RSpec.describe Synonym, type: :model do
     it "returns a comma-separated list with word and multiple-word synonym" do
       synonym = build_stubbed(:synonym, word: "UX", synonyms: "User Experience")
 
-      expect(synonym.to_elasticsearch_value). to eq "UX,User Experience"
+      expect(synonym.to_elasticsearch_value).to eq "UX,User Experience"
     end
 
     it "returns a comma-separated list with word and a list of synonyms" do

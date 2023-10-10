@@ -1,5 +1,5 @@
 namespace :after_party do
-  desc 'Deployment task: renegerate_index_to_supports_dynamic_synonyms'
+  desc "Deployment task: renegerate_index_to_supports_dynamic_synonyms"
   task renegerate_index_to_supports_dynamic_synonyms: :environment do
     puts "Running deploy task 'renegerate_index_to_supports_dynamic_synonyms'"
 

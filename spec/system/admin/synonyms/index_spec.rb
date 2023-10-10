@@ -5,7 +5,6 @@ RSpec.describe "admin/synonyms/index", :admin do
     create(:synonym, word: "UX", synonyms: "User Experience")
     create(:synonym, word: "Software Engineer", synonyms: "Dev, Developer")
 
-
     admin = create(:admin)
 
     login_as admin
@@ -24,7 +23,6 @@ RSpec.describe "admin/synonyms/index", :admin do
     create(:synonym, word: "UX", synonyms: "User Experience")
     create(:synonym, word: "Software Engineer", synonyms: "Dev, Developer")
 
-
     admin = create(:admin)
 
     login_as admin
@@ -38,5 +36,4 @@ RSpec.describe "admin/synonyms/index", :admin do
     expect(page).to have_gridcell("Software Engineer")
     expect(page).to_not have_gridcell("UX")
   end
-
 end
