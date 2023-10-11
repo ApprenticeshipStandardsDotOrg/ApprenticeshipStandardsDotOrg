@@ -80,7 +80,7 @@ class OccupationStandard < ApplicationRecord
           dynamic_synonym: {
             type: "synonym_graph",
             synonyms_set: ElasticsearchWrapper::Synonyms::SYNONYM_SET_NAME,
-            updateable: true
+            updateable: !Rails.env.test?
           }
         },
         analyzer: {
