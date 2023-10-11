@@ -1,3 +1,5 @@
+require "elasticsearch_wrapper/synonyms"
+
 class OccupationStandard < ApplicationRecord
   include ActionView::Helpers::NumberHelper
   include Elasticsearch::Model
@@ -77,7 +79,7 @@ class OccupationStandard < ApplicationRecord
           },
           dynamic_synonym: {
             type: "synonym_graph",
-            synonyms_set: "dynamic_synonyms",
+            synonyms_set: ElasticsearchWrapper::Synonyms::SYNONYM_SET_NAME,
             updateable: true
           }
         },

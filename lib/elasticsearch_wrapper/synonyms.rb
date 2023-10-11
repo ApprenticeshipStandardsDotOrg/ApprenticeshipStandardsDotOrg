@@ -1,31 +1,33 @@
 module ElasticsearchWrapper
   class Synonyms
-    SYNONYM_SET_NAME = "dynamic_synonyms"
+    SYNONYM_SET_NAME = "dynamic_synonyms_#{Rails.env}"
     def self.client
       @@client ||= Elasticsearch::Client.new
     end
 
     def self.add(rule_id:, value:)
-      client.synonyms.put_synonym_rule(
+      response = client.synonyms.put_synonym_rule(
         set_id: SYNONYM_SET_NAME,
         rule_id: rule_id,
         body: {
           synonyms: value
         }
       ).body
+
+      response["result"].in? ["updated", "created"]
+    rescue Elastic::Transport::Transport::Errors::NotFound
+      false
     end
 
     def self.remove(rule_id:)
-      client.synonyms.delete_synonym_rule(
+      response = client.synonyms.delete_synonym_rule(
         set_id: SYNONYM_SET_NAME,
         rule_id: rule_id
       ).body
-    end
 
-    def self.list
-      client.synonyms.get_synonym(
-        id: SYNONYM_SET_NAME
-      ).body
+      response["result"] == "deleted"
+    rescue Elastic::Transport::Transport::Errors::NotFound
+      false
     end
   end
 end

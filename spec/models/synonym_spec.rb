@@ -97,7 +97,7 @@ RSpec.describe Synonym, type: :model do
       synonym = create(:synonym)
 
       expect(ElasticsearchWrapper::Synonyms).to receive(:remove).with(
-        rule_id: synonym.id,
+        rule_id: synonym.id
       )
 
       synonym.remove_from_elastic_search_synonyms
