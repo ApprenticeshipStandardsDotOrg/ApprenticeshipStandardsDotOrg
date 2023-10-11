@@ -1,7 +1,7 @@
 require "elasticsearch_wrapper/synonyms"
 
 class Synonym < ApplicationRecord
-  COMMA_SEPARATED_LIST_REGEX = /^([a-zA-Z \/\-\_]*,?)+$/
+  COMMA_SEPARATED_LIST_REGEX = /^([a-zA-Z \/\-_]*,?)+$/
   validate :synonyms_list_valid?
   validates :word, :synonyms, presence: true
 
