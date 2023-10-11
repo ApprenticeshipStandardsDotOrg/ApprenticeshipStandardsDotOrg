@@ -8,10 +8,10 @@ GIT
 
 GIT
   remote: https://github.com/mvz/non-digest-assets.git
-  revision: a185f2c5f1be06e295a9dfd1e270edff25ba31a4
+  revision: 4bb1e9c669c605f87694e91bb1d57ecde9ce319d
   branch: master
   specs:
-    non-digest-assets (2.2.0)
+    non-digest-assets (2.3.0)
       activesupport (>= 6.0, < 7.2)
       sprockets (~> 4.0)
 
