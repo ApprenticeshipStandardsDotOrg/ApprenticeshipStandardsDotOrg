@@ -3,6 +3,9 @@ namespace :after_party do
   task renegerate_index_to_supports_dynamic_synonyms: :environment do
     puts "Running deploy task 'renegerate_index_to_supports_dynamic_synonyms'"
 
+    synonym = Synonym.create(word: "UX", synonyms: "User experience")
+    synonym.add_to_elastic_search_synonyms
+
     OccupationStandard.__elasticsearch__.create_index!(force: true)
     OccupationStandard.import
 
