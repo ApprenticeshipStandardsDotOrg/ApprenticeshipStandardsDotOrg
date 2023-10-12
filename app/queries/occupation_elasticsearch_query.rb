@@ -41,10 +41,9 @@ class OccupationElasticsearchQuery
         end
       end
     end
-    response = Occupation.__elasticsearch__.search(
+    Occupation.__elasticsearch__.search(
       definition,
       from: offset
     )
-    response
   end
 end

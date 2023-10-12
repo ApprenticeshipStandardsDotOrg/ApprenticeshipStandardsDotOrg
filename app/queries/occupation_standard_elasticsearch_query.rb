@@ -122,11 +122,10 @@ class OccupationStandardElasticsearchQuery
     end
     # Size and From must be passed here rather than defined in the query in
     # order for Pagy to work correctly.
-    response = OccupationStandard.__elasticsearch__.search(
+    OccupationStandard.__elasticsearch__.search(
       definition,
       from: offset,
       size: Pagy::DEFAULT[:items]
     )
-    response
   end
 end
