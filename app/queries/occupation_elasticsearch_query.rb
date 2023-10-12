@@ -3,12 +3,11 @@ require "elasticsearch/dsl"
 class OccupationElasticsearchQuery
   include Elasticsearch::DSL
 
-  attr_reader :search_params, :offset, :debug
+  attr_reader :search_params, :offset
 
-  def initialize(search_params:, offset: 0, debug: false)
+  def initialize(search_params:, offset: 0)
     @search_params = search_params
     @offset = offset
-    @debug = debug
   end
 
   def call
@@ -46,21 +45,6 @@ class OccupationElasticsearchQuery
       definition,
       from: offset
     )
-    debug_query(response)
     response
-  end
-
-  private
-
-  def debug_query(response)
-    if debug
-      puts "BODY"
-      puts response.search.definition[:body].to_json
-      puts "HITS: #{response.results.total}"
-      response.results.each do |result|
-        #        puts result.inspect
-        puts "#{result._id}: #{result._score}"
-      end
-    end
   end
 end
