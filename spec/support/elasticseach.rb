@@ -6,7 +6,7 @@ RSpec.configure do |config|
           model.__elasticsearch__.delete_index!
           model.__elasticsearch__.create_index!
           model.__elasticsearch__.refresh_index!
-        rescue Elasticsearch::Transport::Transport::Errors::NotFound => e
+        rescue Elastic::Transport::Transport::Errors::NotFound => e
           puts "There was an error creating the elasticsearch index
                 for #{model.name}: #{e.inspect}"
         end
@@ -20,7 +20,7 @@ RSpec.configure do |config|
         begin
           model.__elasticsearch__.delete_index!
           model.__elasticsearch__.create_index!
-        rescue Elasticsearch::Transport::Transport::Errors::NotFound => e
+        rescue Elastic::Transport::Transport::Errors::NotFound => e
           puts "There was an error removing the elasticsearch index
                 for #{model.name}: #{e.inspect}"
         end
