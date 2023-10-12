@@ -3,12 +3,15 @@ The ApprenticeshipStandards.org application is currently running on Ruby 3,
 Rails 7, and PostgreSQL 14.
 
 ## Development setup
+1. [Install Elasticsearch](#elasticsearch-setup)
+2. Start `elasticsearch` in the terminal, as the setup command
+   will run some tasks to create Elasticsearch indexes
 1. Run `bin/setup`
-2. Install [libvips][libvips] for use with ActiveStorage
+2. Kill `elasticsearch` as it will get started with the `bin/dev`
+   command below
 3. Install [mailcatcher][mailcatcher] to preview emails. See the
    [troubleshooting](#mailcatcher-troubleshooting) section if you have
    installation issues.
-4. [Install Elasticsearch](#elasticsearch-setup)
 4. To access the admin pages, you must modify your `/etc/hosts` file:
    ```
    # Added for ApprenticeshipStandards.org
@@ -19,10 +22,7 @@ Rails 7, and PostgreSQL 14.
     * The public facing application will be available at http://localhost:3000
     * The admin pages will be available at http://admin.example.localhost:3000
     * Email previews will be available at http://localhost:1080
-6. See the [Populate Elasticsearch](#populate-elasticsearch) section to import
-   data into Elasticsearch
 
-[libvips]: https://www.libvips.org/install.html
 [mailcatcher]: https://mailcatcher.me
 
 ### Mailcatcher troubleshooting
@@ -83,25 +83,16 @@ command.
 The promotion can also be done through the Heroku Dashboard on the [Pipelines page](https://dashboard.heroku.com/pipelines/3657e91f-455e-4fa7-9da7-f6ddc1beb854).
 
 ## Elasticsearch setup
-We are currently using Elasticsearch version 7.17.4. See the [Elasticsearch
-documentation](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/install-elasticsearch.html)
-for installation options. The Homebrew installation may no longer work due to
-licensing issues.
+We are currently using Elasticsearch version 8.10.3. See the [Elasticsearch
+documentation][ES-documentation]
+for installation options. To debug any queries, set `log: true` in
+the `config/initializers/elasticsearch.rb` client setup.
 
-### Populate Elasticsearch
-Once the app is running with the `bin/dev` command, set up the index for the
-OccupationStandard model and import any existing records into Elasticsearch
-through the Rails console:
-
-```
-> OccupationStandard.__elasticsearch__.create_index!
-> OccupationStandard.import
-```
+[ES-documentation]: https://www.elastic.co/guide/en/elasticsearch/reference/8.10/install-elasticsearch.html
 
 ### Kibana setup
 If you are working on any tasks related to Elasticsearch, then it may be helpful
-to set up
-[Kibana](https://www.elastic.co/guide/en/kibana/7.17/introduction.html).
+to set up [Kibana][kibana].
 
 To start Kibana, make sure that elasticsearch is already running, then run
 `kibana` in the terminal. Kibana will be available at http://localhost:5601. To
@@ -125,6 +116,8 @@ the right.
 If you need to view the names of all your indices, under the Management section
 go to "Stack Management". Then under the Data section, click "Index Management"
 to see the list of all the available indices.
+
+[kibana]: https://www.elastic.co/guide/en/kibana/current/install.html
 
 ## AWS setup
 If you will have access to AWS to manage the S3 buckets, [view the setup
