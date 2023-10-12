@@ -127,9 +127,6 @@ GEM
       smart_properties
     bindex (0.8.1)
     blueprinter (0.30.0)
-    bonsai-elasticsearch-rails (7.0.1)
-      elasticsearch-model (< 8)
-      elasticsearch-rails (< 8)
     bootsnap (1.16.0)
       msgpack (~> 1.2)
     brow (0.4.1)
@@ -507,7 +504,6 @@ DEPENDENCIES
   after_party
   aws-sdk-s3
   blueprinter
-  bonsai-elasticsearch-rails (~> 7)
   bootsnap
   bullet
   capybara
