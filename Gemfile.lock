@@ -270,7 +270,7 @@ GEM
       activerecord
       kaminari-core (= 1.2.2)
     kaminari-core (1.2.2)
-    loofah (2.21.3)
+    loofah (2.21.4)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
     mail (2.8.1)
@@ -386,10 +386,10 @@ GEM
     rspec-support (3.12.1)
     rswag-api (2.10.1)
       railties (>= 3.1, < 7.1)
-    rswag-specs (2.10.1)
-      activesupport (>= 3.1, < 7.1)
+    rswag-specs (2.11.0)
+      activesupport (>= 3.1, < 7.2)
       json-schema (>= 2.2, < 4.0)
-      railties (>= 3.1, < 7.1)
+      railties (>= 3.1, < 7.2)
       rspec-core (>= 2.14)
     rswag-ui (2.10.1)
       actionpack (>= 3.1, < 7.1)
@@ -489,7 +489,7 @@ GEM
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zeitwerk (2.6.11)
+    zeitwerk (2.6.12)
 
 PLATFORMS
   aarch64-linux
