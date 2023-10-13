@@ -1,6 +1,6 @@
 ruby 3.2.2
 yarn 1.22.19
 nodejs 18.16.0
-elasticsearch 8.10.2
+elasticsearch 8.10.3
 java zulu-jre-21.28.85
-kibana 8.10.2
+kibana 8.10.3
