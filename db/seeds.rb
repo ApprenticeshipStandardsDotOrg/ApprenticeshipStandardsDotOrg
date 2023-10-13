@@ -11,7 +11,4 @@ if Rails.env.development?
     name: "Admin User",
     password: "passwordpassword"
   )
-
-  ScrapeRAPIDSCode.new.call
-  ScrapeOnetCodes.new.call
 end

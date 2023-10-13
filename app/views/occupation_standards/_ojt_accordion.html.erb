@@ -1,4 +1,4 @@
-<div class='accordion w-full mx-auto'>
+<div class="accordion w-full mx-auto">
     <% work_processes.each do |work_process| %>
 
         <details class="w-full bg-white border-b-2 border-seafoam-300 cursor-pointer">
@@ -11,9 +11,9 @@
 
                     <div class="flex items-center">
                         <div class="flex flex-col md:flex-row">
-                            <% if work_process.competencies.count.positive? %>
+                            <% if work_process.competencies_count.positive? %>
                                 <div class="m-1.5 w-28 rounded bg-yonder-100 px-1 py-3 text-center">
-                                    <div class="text-3xl font-bold text-yonder-600"><%= work_process.competencies.count %></div>
+                                    <div class="text-3xl font-bold text-yonder-600"><%= work_process.competencies_count %></div>
                                 </div>
                             <% end %>
                             <% if work_process.hours.present? && work_process.occupation_standard_work_processes_hours.positive? %>

@@ -3,12 +3,11 @@ require "elasticsearch/dsl"
 class OccupationStandardElasticsearchQuery
   include Elasticsearch::DSL
 
-  attr_reader :search_params, :offset, :debug
+  attr_reader :search_params, :offset
 
-  def initialize(search_params:, offset: 0, debug: false)
+  def initialize(search_params:, offset: 0)
     @search_params = search_params
     @offset = offset
-    @debug = debug
   end
 
   def call
@@ -123,30 +122,10 @@ class OccupationStandardElasticsearchQuery
     end
     # Size and From must be passed here rather than defined in the query in
     # order for Pagy to work correctly.
-    response = OccupationStandard.__elasticsearch__.search(
+    OccupationStandard.__elasticsearch__.search(
       definition,
       from: offset,
       size: Pagy::DEFAULT[:items]
     )
-    debug_query(response)
-    response
-  end
-
-  private
-
-  def debug_query(response)
-    if debug
-      puts "BODY"
-      puts response.search.definition[:body].to_json
-      puts "HITS: #{response.results.total}"
-      response.results.each do |result|
-        puts "PARENT: #{result._id}: #{result._score}"
-        result.inner_hits.children.each do |child|
-          child[1].hits.each do |hit|
-            puts "\tCHILD ID: #{hit._id}: #{hit._score}"
-          end
-        end
-      end
-    end
   end
 end
