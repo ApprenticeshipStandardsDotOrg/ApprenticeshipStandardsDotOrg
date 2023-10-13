@@ -4,6 +4,7 @@ namespace :after_party do
     puts "Running deploy task 'populate_onets_and_occupations'"
 
     if Rails.env.development?
+      puts "This task can take upwards of 6+ minutes to run..."
       ScrapeRAPIDSCode.new.call
       ScrapeOnetCodes.new.call
     end
