@@ -49,10 +49,10 @@ RSpec.describe ImportOccupationStandardWorkProcesses do
       work_process_3 = WorkProcess.third
       work_process_4 = WorkProcess.fourth
 
-      expect(work_process_1.competencies.count).to eq 5
-      expect(work_process_2.competencies.count).to eq 14
-      expect(work_process_3.competencies.count).to eq 2
-      expect(work_process_4.competencies.count).to eq 2
+      expect(work_process_1.competencies_count).to eq 5
+      expect(work_process_2.competencies_count).to eq 14
+      expect(work_process_3.competencies_count).to eq 2
+      expect(work_process_4.competencies_count).to eq 2
     end
 
     context "when occupation standard is hybrid with max and min hours" do
@@ -71,8 +71,8 @@ RSpec.describe ImportOccupationStandardWorkProcesses do
         work_process_1 = WorkProcess.first
         work_process_2 = WorkProcess.second
 
-        expect(work_process_1.competencies.count).to eq 2
-        expect(work_process_2.competencies.count).to eq 3
+        expect(work_process_1.competencies_count).to eq 2
+        expect(work_process_2.competencies_count).to eq 3
 
         competency_1_for_work_process_1, competency_2_for_work_process_1 = work_process_1.competencies
 
