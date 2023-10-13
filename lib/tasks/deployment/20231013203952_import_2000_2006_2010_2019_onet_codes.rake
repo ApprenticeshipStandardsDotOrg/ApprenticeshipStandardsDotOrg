@@ -1,9 +1,9 @@
 namespace :after_party do
-  desc 'Deployment task: import_2000_2006_2010_2019_onet_codes'
+  desc "Deployment task: import_2000_2006_2010_2019_onet_codes"
   task import_2000_2006_2010_2019_onet_codes: :environment do
     puts "Running deploy task 'import_2000_2006_2010_2019_onet_codes'"
 
-    years = %w(2000 2006 2010 2019)
+    years = %w[2000 2006 2010 2019]
 
     years.each do |year|
       filename = File.join(Rails.root, "lib", "tasks", "files", "#{year}_Occupations.csv")
