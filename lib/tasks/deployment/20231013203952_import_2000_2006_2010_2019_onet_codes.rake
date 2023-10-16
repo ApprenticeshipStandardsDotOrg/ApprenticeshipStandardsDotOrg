@@ -6,6 +6,7 @@ namespace :after_party do
     years = %w[2000 2006 2010 2019]
 
     years.each do |year|
+      puts "Importing #{year}"
       filename = File.join(Rails.root, "lib", "tasks", "files", "#{year}_Occupations.csv")
 
       CSV.foreach(filename, headers: true) do |row|
