@@ -6,7 +6,11 @@ Rails 7, and PostgreSQL 14.
 1. [Install Elasticsearch](#elasticsearch-setup)
 2. Start `elasticsearch` in the terminal, as the setup command
    will run some tasks to create Elasticsearch indexes
-1. Run `bin/setup`
+3. Copy `.env.sample` to `.env` and edit the `ONET_WEB_SERVICES_USERNAME` and
+   `ONET_WEB_SERVICES_PASSWORD` variables so you can run the setup task without
+   issue.
+1. Run `bin/setup`. One of the After Party tasks takes several minutes to
+   run. Once completed, it will not run on subsequent `bin/setup` calls.
 2. Kill `elasticsearch` as it will get started with the `bin/dev`
    command below
 3. Install [mailcatcher][mailcatcher] to preview emails. See the
@@ -87,6 +91,35 @@ We are currently using Elasticsearch version 8.10.3. See the [Elasticsearch
 documentation][ES-documentation]
 for installation options. To debug any queries, set `log: true` in
 the `config/initializers/elasticsearch.rb` client setup.
+
+For your local Elasticsearch setup, if you get errors like:
+
+> The client is unable to verify that the server is Elasticsearch. Some
+> functionality may not be compatible if the server is running an unsupported
+> product.
+
+then you will need to turn off the security features for your Elasticsearch
+configuration. Edit the `config/elasticsearch.yml` file in your Elasticsearch
+installation to turn all the `enabled` flags to `false`:
+
+```yml
+xpack.security.enabled: false
+
+xpack.security.enrollment.enabled: false
+
+xpack.security.http.ssl:
+  enabled: false
+  keystore.path: certs/http.p12
+
+xpack.security.transport.ssl:
+  enabled: false
+  verification_mode: certificate
+  keystore.path: certs/transport.p12
+  truststore.path: certs/transport.p12
+cluster.initial_master_nodes: ["My-MacBook-Pro.local"]
+
+http.host: 0.0.0.0
+```
 
 [ES-documentation]: https://www.elastic.co/guide/en/elasticsearch/reference/8.10/install-elasticsearch.html
 
