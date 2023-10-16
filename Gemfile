@@ -3,7 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "3.2.2"
 
-gem "rails", "~> 7.0.8"
+gem "rails", "~> 7.1.1"
 
 gem "elasticsearch", "8.10.0"
 gem "elasticsearch-model", github: "elastic/elasticsearch-rails", branch: "8.x"
