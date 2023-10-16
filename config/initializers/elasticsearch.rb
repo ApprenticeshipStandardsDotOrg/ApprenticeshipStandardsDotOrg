@@ -1,6 +1,6 @@
 require "elasticsearch"
 
-args = if Rails.env.production?
+args = if Rails.env.production? && ENV["ELASTIC_CLOUD_ID"].present?
   {
     cloud_id: ENV.fetch("ELASTIC_CLOUD_ID"),
     user: ENV.fetch("ELASTIC_USER"),
