@@ -103,7 +103,7 @@ RSpec.describe ElasticsearchWrapper::Synonyms do
       ).to be true
     end
 
-    it "returns false when trying to remove an innexisting record" do
+    it "throws an error when trying to remove an innexisting record" do
       id = "1"
 
       allow_any_instance_of(
@@ -118,6 +118,92 @@ RSpec.describe ElasticsearchWrapper::Synonyms do
       expect {
         described_class.remove(
           rule_id: id
+        )
+      }.to raise_error Elastic::Transport::Transport::Errors::NotFound
+    end
+  end
+
+  describe ".create_set" do
+    it "returns true when creating a set" do
+      id = "1"
+      value = "Software Engineer, Developer"
+
+      allow_any_instance_of(
+        Elasticsearch::API::Synonyms::SynonymsClient
+      ).to receive(
+        :put_synonym
+      ).with(
+        body: {
+          synonyms_set: [
+            {
+              id: id,
+              synonyms: value,
+            }
+          ]
+        },
+        id: ElasticsearchWrapper::Synonyms::SYNONYM_SET_NAME
+      ).and_return(mock_elasticsearch_response_with("created"))
+
+      expect(
+        described_class.create_set(
+          rule_id: id,
+          value: value
+        )
+      ).to be true
+    end
+
+    it "returns true when updating a set" do
+      id = "1"
+      value = "Software Engineer, Developer"
+
+      allow_any_instance_of(
+        Elasticsearch::API::Synonyms::SynonymsClient
+      ).to receive(
+        :put_synonym
+      ).with(
+        body: {
+          synonyms_set: [
+            {
+              id: id,
+              synonyms: value,
+            }
+          ]
+        },
+        id: ElasticsearchWrapper::Synonyms::SYNONYM_SET_NAME
+      ).and_return(mock_elasticsearch_response_with("updated"))
+
+      expect(
+        described_class.create_set(
+          rule_id: id,
+          value: value
+        )
+      ).to be true
+    end
+
+    it "throws error if set cannot be create" do
+      id = "1"
+      value = "Software Engineer, Developer"
+
+      allow_any_instance_of(
+        Elasticsearch::API::Synonyms::SynonymsClient
+      ).to receive(
+        :put_synonym
+      ).with(
+        body: {
+          synonyms_set: [
+            {
+              id: id,
+              synonyms: value,
+            }
+          ]
+        },
+        id: ElasticsearchWrapper::Synonyms::SYNONYM_SET_NAME
+      ).and_raise(Elastic::Transport::Transport::Errors::NotFound)
+
+      expect {
+        described_class.create_set(
+          rule_id: id,
+          value: value
         )
       }.to raise_error Elastic::Transport::Transport::Errors::NotFound
     end

@@ -26,15 +26,20 @@ module ElasticsearchWrapper
       response["result"] == "deleted"
     end
 
-    def self.create_set
-      client.synonyms.put_synonym(
+    def self.create_set(value:, rule_id:)
+      response = client.synonyms.put_synonym(
         body: {
           synonyms_set: [
-            synonyms: "UX, User experience"
+            {
+              id: rule_id,
+              synonyms: value,
+            }
           ]
         },
         id: SYNONYM_SET_NAME
-      )
+      ).body
+
+      response["result"].in? ["updated", "created"]
     end
   end
 end
