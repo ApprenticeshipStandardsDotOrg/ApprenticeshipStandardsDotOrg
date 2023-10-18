@@ -1,3 +1,15 @@
 require "elasticsearch"
-host = ENV.fetch("FOUNDELASTICSEARCH_URL", "http://localhost:9200")
-Elasticsearch::Model.client = Elasticsearch::Client.new(host: host, log: false)
+
+args = if Rails.env.production? && ENV["ELASTIC_CLOUD_ID"].present?
+  enable_logging = ENV.fetch("ELASTIC_LOGGING_ENABLED", "false")
+  {
+    cloud_id: ENV.fetch("ELASTIC_CLOUD_ID"),
+    user: ENV.fetch("ELASTIC_USER"),
+    password: ENV.fetch("ELASTIC_PASSWORD"),
+    log: ActiveModel::Type::Boolean.new.cast(enable_logging)
+  }
+else
+  {log: false}
+end
+
+Elasticsearch::Model.client = Elasticsearch::Client.new(args)
