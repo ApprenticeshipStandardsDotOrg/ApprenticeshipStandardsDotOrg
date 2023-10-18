@@ -5,7 +5,7 @@ Rails 7, and PostgreSQL 14.
 ## Development setup
 1. [Install Elasticsearch](#elasticsearch-setup)
 2. Start `elasticsearch` in the terminal, as the setup command
-   will run some tasks to create Elasticsearch indexes
+   will run some tasks to create Elasticsearch indexes. Note: you will need to set some flags to turn off xpath security. Here is an example of starting a docker image of Elasticsearch `docker run -p 9200:9200 -m 1GB -e "discovery.type=single-node" -e "xpack.security.enabled=false" docker.elastic.co/elasticsearch/elasticsearch:8.10.3`. If you are running Elasticsearch locally you can add this to the elasticsearch.yml `discovery.type=single-node` and `xpack.security.enabled=false`
 3. Copy `.env.sample` to `.env` and edit the `ONET_WEB_SERVICES_USERNAME` and
    `ONET_WEB_SERVICES_PASSWORD` variables so you can run the setup task without
    issue.
