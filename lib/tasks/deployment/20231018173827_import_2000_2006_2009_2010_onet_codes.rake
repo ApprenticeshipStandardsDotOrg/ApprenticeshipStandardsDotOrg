@@ -1,5 +1,5 @@
 namespace :after_party do
-  desc 'Deployment task: import_2000_2006_2009_2010_onet_codes'
+  desc "Deployment task: import_2000_2006_2009_2010_onet_codes"
   task import_2000_2006_2009_2010_onet_codes: :environment do
     puts "Running deploy task 'import_2000_2006_2009_2010_onet_codes'"
 
