@@ -15,8 +15,6 @@ module ElasticsearchWrapper
       ).body
 
       response["result"].in? ["updated", "created"]
-    rescue Elastic::Transport::Transport::Errors::NotFound
-      false
     end
 
     def self.remove(rule_id:)
@@ -26,8 +24,6 @@ module ElasticsearchWrapper
       ).body
 
       response["result"] == "deleted"
-    rescue Elastic::Transport::Transport::Errors::NotFound
-      false
     end
   end
 end

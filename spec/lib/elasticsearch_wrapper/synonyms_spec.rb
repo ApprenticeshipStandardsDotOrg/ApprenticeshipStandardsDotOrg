@@ -57,7 +57,7 @@ RSpec.describe ElasticsearchWrapper::Synonyms do
       ).to be true
     end
 
-    it "returns false when synonym set name does not exist" do
+    it "throws an error when synonym set name does not exist" do
       value = "Software Engineer, Developer"
       id = "1"
 
@@ -74,12 +74,12 @@ RSpec.describe ElasticsearchWrapper::Synonyms do
         }
       ).and_raise(Elastic::Transport::Transport::Errors::NotFound)
 
-      expect(
+      expect {
         described_class.add(
           rule_id: id,
           value: value
         )
-      ).to be false
+      }.to raise_error Elastic::Transport::Transport::Errors::NotFound
     end
   end
 
@@ -115,11 +115,11 @@ RSpec.describe ElasticsearchWrapper::Synonyms do
         rule_id: id
       ).and_raise(Elastic::Transport::Transport::Errors::NotFound)
 
-      expect(
+      expect {
         described_class.remove(
           rule_id: id
         )
-      ).to be false
+      }.to raise_error Elastic::Transport::Transport::Errors::NotFound
     end
   end
 
