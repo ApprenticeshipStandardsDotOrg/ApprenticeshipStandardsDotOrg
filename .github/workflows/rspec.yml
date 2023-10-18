@@ -75,7 +75,7 @@ jobs:
           CI: true
           ELASTICSEARCH_URL: http://localhost:9200
         run: |
-          bundle exec rails after_party:renegerate_index_to_supports_dynamic_synonyms
+          bundle exec rails elasticsearch:create_synonym_set
           bundle exec rails db:schema:load
           bundle exec rake assets:precompile
           bundle exec rspec spec

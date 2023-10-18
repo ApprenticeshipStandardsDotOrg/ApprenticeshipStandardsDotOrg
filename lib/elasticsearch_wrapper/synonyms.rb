@@ -25,5 +25,16 @@ module ElasticsearchWrapper
 
       response["result"] == "deleted"
     end
+
+    def self.create_set
+      client.synonyms.put_synonym(
+        body: {
+          synonyms_set: [
+            synonyms: "UX, User experience"
+          ]
+        },
+        id: SYNONYM_SET_NAME
+      )
+    end
   end
 end
