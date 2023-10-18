@@ -32,7 +32,7 @@ module ElasticsearchWrapper
           synonyms_set: [
             {
               id: rule_id,
-              synonyms: value,
+              synonyms: value
             }
           ]
         },

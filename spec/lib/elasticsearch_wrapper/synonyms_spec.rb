@@ -137,7 +137,7 @@ RSpec.describe ElasticsearchWrapper::Synonyms do
           synonyms_set: [
             {
               id: id,
-              synonyms: value,
+              synonyms: value
             }
           ]
         },
@@ -165,7 +165,7 @@ RSpec.describe ElasticsearchWrapper::Synonyms do
           synonyms_set: [
             {
               id: id,
-              synonyms: value,
+              synonyms: value
             }
           ]
         },
@@ -193,7 +193,7 @@ RSpec.describe ElasticsearchWrapper::Synonyms do
           synonyms_set: [
             {
               id: id,
-              synonyms: value,
+              synonyms: value
             }
           ]
         },
