@@ -61,7 +61,7 @@ RSpec.describe ElasticsearchWrapper::Synonyms do
       value = "Software Engineer, Developer"
       id = "1"
 
-      stub_const("ElasticsearchWrapper::Synonyms::SYNONYM_SET_NAME", "unexisting")
+      stub_const("ElasticsearchWrapper::Synonyms::SYNONYM_SET_NAME", "nonexistent")
       allow_any_instance_of(
         Elasticsearch::API::Synonyms::SynonymsClient
       ).to receive(
