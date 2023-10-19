@@ -97,15 +97,6 @@ class OccupationStandard < ApplicationRecord
           onet_prefix: {
             tokenizer: "onet_prefix_tokenizer"
           },
-          rebuilt_english: {
-            tokenizer: "standard",
-            filter: [
-              "english_possessive_stemmer",
-              "lowercase",
-              "english_stop",
-              "english_stemmer"
-            ]
-          },
           dynamic_synonym: {
             tokenizer: "standard",
             filter: [
@@ -132,9 +123,9 @@ class OccupationStandard < ApplicationRecord
       indexes :rapids_code, type: :text, analyzer: :autocomplete, search_analyzer: :autocomplete_search
       indexes :state, type: :text, analyzer: :keyword
       indexes :state_id, type: :keyword
-      indexes :title, type: :text, analyzer: :rebuilt_english, search_analyzer: :dynamic_synonym
+      indexes :title, type: :text, analyzer: :english, search_analyzer: :dynamic_synonym
       indexes :work_process_titles, type: :text, analyzer: :english
-      indexes :related_job_titles, type: :text, analyzer: :rebuilt_english
+      indexes :related_job_titles, type: :text, analyzer: :english
       indexes :created_at, type: :date
       indexes :headline, type: :keyword
     end
