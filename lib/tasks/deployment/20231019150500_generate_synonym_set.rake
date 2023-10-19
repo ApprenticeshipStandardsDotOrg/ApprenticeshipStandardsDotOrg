@@ -1,5 +1,5 @@
 namespace :after_party do
-  desc 'Deployment task: generate_synonym_set'
+  desc "Deployment task: generate_synonym_set"
   task generate_synonym_set: :environment do
     puts "Running deploy task 'generate_synonym_set'"
 
@@ -13,7 +13,6 @@ namespace :after_party do
 
     OccupationStandard.__elasticsearch__.create_index!
     OccupationStandard.import
-
 
     # Update task as completed.  If you remove the line below, the task will
     # run with every deploy (or every time you call after_party:run).
