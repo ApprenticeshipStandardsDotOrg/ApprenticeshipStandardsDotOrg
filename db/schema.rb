@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_06_161013) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_19_234540) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -173,6 +173,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_161013) do
     t.index ["onet_id"], name: "index_occupations_on_onet_id"
   end
 
+  create_table "onet_mappings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "onet_id", null: false
+    t.uuid "next_version_onet_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["next_version_onet_id"], name: "index_onet_mappings_on_next_version_onet_id"
+    t.index ["onet_id"], name: "index_onet_mappings_on_onet_id"
+  end
+
   create_table "onets", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title"
     t.string "code"
@@ -330,6 +339,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_161013) do
   add_foreign_key "occupation_standards", "organizations"
   add_foreign_key "occupation_standards", "registration_agencies"
   add_foreign_key "occupations", "onets"
+  add_foreign_key "onet_mappings", "onets"
+  add_foreign_key "onet_mappings", "onets", column: "next_version_onet_id"
   add_foreign_key "registration_agencies", "states"
   add_foreign_key "related_instructions", "courses"
   add_foreign_key "related_instructions", "courses", column: "default_course_id"
