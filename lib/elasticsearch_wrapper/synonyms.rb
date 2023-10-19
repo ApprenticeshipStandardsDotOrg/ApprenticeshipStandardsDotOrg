@@ -2,7 +2,7 @@ module ElasticsearchWrapper
   class Synonyms
     SYNONYM_SET_NAME = "dynamic_synonyms_#{Rails.env}"
     def self.client
-      @@client ||= Elasticsearch::Client.new
+      @@client ||= Elasticsearch::Model.client
     end
 
     def self.add(rule_id:, value:)
