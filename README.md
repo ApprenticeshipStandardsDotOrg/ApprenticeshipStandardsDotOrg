@@ -5,7 +5,7 @@ Rails 7, and PostgreSQL 14.
 ## Development setup
 1. [Install Elasticsearch](#elasticsearch-setup)
 2. Start `elasticsearch` in the terminal, as the setup command
-   will run some tasks to create Elasticsearch indexes
+   will run some tasks to create Elasticsearch indexes.
 3. Copy `.env.sample` to `.env` and edit the `ONET_WEB_SERVICES_USERNAME` and
    `ONET_WEB_SERVICES_PASSWORD` variables so you can run the setup task without
    issue.
@@ -120,6 +120,8 @@ cluster.initial_master_nodes: ["My-MacBook-Pro.local"]
 
 http.host: 0.0.0.0
 ```
+
+If you are using a docker image of  Elasticsearch you can start it with `docker run -p 9200:9200 -m 1GB -e "discovery.type=single-node" -e "xpack.security.enabled=false" docker.elastic.co/elasticsearch/elasticsearch:8.10.3`. Make sure the number at the end matches the version number for the image.
 
 [ES-documentation]: https://www.elastic.co/guide/en/elasticsearch/reference/8.10/install-elasticsearch.html
 
