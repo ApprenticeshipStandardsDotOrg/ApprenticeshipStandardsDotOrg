@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_19_234540) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_20_000522) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -179,7 +179,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_19_234540) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["next_version_onet_id"], name: "index_onet_mappings_on_next_version_onet_id"
-    t.index ["onet_id"], name: "index_onet_mappings_on_onet_id"
+    t.index ["onet_id", "next_version_onet_id"], name: "index_onet_mappings_on_onet_id_and_next_version_onet_id", unique: true
   end
 
   create_table "onets", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
