@@ -1,0 +1,2 @@
+class SynonymPolicy < AdminPolicy
+end

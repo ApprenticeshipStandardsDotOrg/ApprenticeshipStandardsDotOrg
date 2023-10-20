@@ -47,6 +47,7 @@ Rails.application.routes.draw do
       resources :wage_steps, only: [:show, :edit, :update]
       resources :contact_requests, only: [:index, :show]
       resources :onets, only: [:index, :show]
+      resources :synonyms
     end
   end
 
