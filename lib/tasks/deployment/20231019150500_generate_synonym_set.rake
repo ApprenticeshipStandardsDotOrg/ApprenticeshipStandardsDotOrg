@@ -5,7 +5,7 @@ namespace :after_party do
 
     client = Elasticsearch::Model.client
     begin client.synonyms.get_synonym(id: ElasticsearchWrapper::Synonyms::SYNONYM_SET_NAME)
-      puts "Index already exists"
+          puts "Index already exists"
     rescue
       puts "Creating index and adding synonym set"
       synonym = Synonym.create_with(synonyms: "User experience").find_or_create_by(word: "UX")
