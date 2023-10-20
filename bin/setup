@@ -33,7 +33,7 @@ FileUtils.chdir APP_ROOT do
   system! "bin/rails db:prepare"
 
   puts "\n== Creating synonym index if it does not exist =="
-  system! "bin/rails elasticsearch:create_synonym_set"
+  system! "bin/rake after_party:generate_synonym_set"
 
   puts "\n== Running After Party tasks =="
   system! "bin/rake after_party:run"
