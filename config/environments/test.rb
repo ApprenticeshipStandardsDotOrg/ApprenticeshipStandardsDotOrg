@@ -59,6 +59,11 @@ Rails.application.configure do
   # Annotate rendered view with file names.
   # config.action_view.annotate_rendered_view_with_filenames = true
 
+  # Rack Attack configuration
+  # Set IP_BLOCKLIST for testing. Can't stub in spec since environment variable
+  # gets read during application initialization.
+  ENV["IP_BLOCKLIST"] = "4.5.6.7, 9.8.7.6,100.101.102.103"
+
   config.after_initialize do
     Bullet.enable = true
     Bullet.bullet_logger = true

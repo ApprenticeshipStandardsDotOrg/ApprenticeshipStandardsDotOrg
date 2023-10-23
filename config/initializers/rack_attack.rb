@@ -44,11 +44,11 @@ class Rack::Attack
   # Throttle POST requests to /login by IP address
   #
   # Key: "rack::attack:#{Time.now.to_i/:period}:logins/ip:#{req.ip}"
-  throttle("logins/ip", limit: 5, period: 20.seconds) do |req|
-    if req.path == "/users/sign_in" && req.post?
-      req.ip
-    end
-  end
+  # throttle("logins/ip", limit: 5, period: 20.seconds) do |req|
+  #   if req.path == "/users/sign_in" && req.post?
+  #     req.ip
+  #   end
+  # end
 
   # Throttle POST requests to /login by email param
   #
@@ -67,13 +67,13 @@ class Rack::Attack
   end
 
   Rack::Attack.blocklist("allow2ban login scrapers") do |req|
-    Rack::Attack::Allow2Ban.filter(req.remote_ip, maxretry: 16, findtime: 1.minute, bantime: 1.hour) do
+    Rack::Attack::Allow2Ban.filter(req.ip, maxretry: 16, findtime: 1.minute, bantime: 1.hour) do
       req.path == "/users/sign_in" && req.post?
     end
   end
 
   Rack::Attack.blocklist("allow2ban resetpassword scrapers") do |req|
-    Rack::Attack::Allow2Ban.filter(req.remote_ip, maxretry: 15, findtime: 1.minute, bantime: 1.hour) do
+    Rack::Attack::Allow2Ban.filter(req.ip, maxretry: 15, findtime: 1.minute, bantime: 1.hour) do
       req.path == "/users/password" && req.post?
     end
   end
@@ -81,7 +81,7 @@ class Rack::Attack
   Rack::Attack.blocklist("fail2ban pentesters") do |req|
     # `filter` returns truthy value if request fails, or if it's from a
     # previously banned IP so the request is blocked
-    Rack::Attack::Fail2Ban.filter("pentesters-#{req.remote_ip}", maxretry: 3, findtime: 10.minutes, bantime: 1.day) do
+    Rack::Attack::Fail2Ban.filter("pentesters-#{req.ip}", maxretry: 3, findtime: 10.minutes, bantime: 1.day) do
       # The count for the IP is incremented if the return value is truthy
       CGI.unescape(req.query_string) =~ %r{/etc/passwd} ||
         req.path.include?("/etc/passwd") ||
@@ -106,7 +106,7 @@ class Rack::Attack
     spammers = bad_ips.split(/\s*,\s*/)
     spammer_regexp = Regexp.union(spammers)
     blocklist("block bad ips") do |request|
-      request.remote_ip =~ spammer_regexp
+      request.ip =~ spammer_regexp
     end
   end
 
