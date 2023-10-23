@@ -13,7 +13,7 @@ gem "elasticsearch-dsl"
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 
-# This is needed  to make FoxitSDK work since it uses relative references to files without digest
+# This is needed to make FoxitSDK work since it uses relative references to files without digest
 gem "non-digest-assets", github: "mvz/non-digest-assets", branch: "master"
 
 # Use postgresql as the database for Active Record
@@ -37,9 +37,6 @@ gem "tailwindcss-rails"
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
 
-# Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
-# gem "bcrypt", "~> 3.1.7"
-
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 
@@ -62,6 +59,7 @@ gem "administrate-field-jsonb"
 gem "pundit"
 gem "image_processing"
 gem "pagy"
+gem "rack-attack"
 
 # This is needed  to make FoxitSDK work since it uses file paths relative to the view instead of /assests
 gem "rack-rewrite", "~> 1.5.0"
