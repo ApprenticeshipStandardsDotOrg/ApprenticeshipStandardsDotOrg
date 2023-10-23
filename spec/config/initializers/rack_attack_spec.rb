@@ -32,6 +32,25 @@ describe Rack::Attack do
     end
   end
 
+  describe "throttle excessive ip requests" do
+    it "changes the request status to 429 when higher than limit" do
+      stub_const("Rack::Attack::IP_LIMIT", 10)
+      Flipper.enable(:updated_home)
+
+      300.times do |i|
+        get "/", {}, {"REMOTE_ADDR" => "103.1.3.1}"}
+
+        expect(last_response.status).to eq(200)
+      end
+
+      get "/", {}, {"REMOTE_ADDR" => "103.1.3.1}"}
+
+      expect(last_response.status).to eq(429)
+      expect(last_response.body).to include("Retry later")
+      Flipper.disable(:updated_home)
+    end
+  end
+
   describe "throttle excessive requests for email login" do
     it "changes the request status to 429 when higher than limit" do
       user = create(:user, email: "foo@example.com")
