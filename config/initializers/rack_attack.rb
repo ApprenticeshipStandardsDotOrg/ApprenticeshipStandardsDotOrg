@@ -28,7 +28,7 @@ class Rack::Attack
   # Throttle all requests by IP (60rpm)
   #
   # Key: "rack::attack:#{Time.now.to_i/:period}:req/ip:#{req.ip}"
-  throttle("req/ip", limit: 1800, period: 5.minutes) do |req|
+  throttle("req/ip", limit: 300, period: 5.minutes) do |req|
     req.ip unless req.path.start_with?("/assets")
   end
 
@@ -41,39 +41,40 @@ class Rack::Attack
   # Another common method of attack is to use a swarm of computers with
   # different IPs to try brute-forcing a password for a specific account.
 
-  # Throttle POST requests to /admin/login by IP address
+  # Throttle POST requests to /login by IP address
   #
   # Key: "rack::attack:#{Time.now.to_i/:period}:logins/ip:#{req.ip}"
-  # throttle("logins/ip", limit: 5, period: 20.seconds) do |req|
-  #   if req.path == "/admin/login" && req.post?
-  #     req.remote_ip
-  #   end
-  # end
+  throttle("logins/ip", limit: 5, period: 20.seconds) do |req|
+    if req.path == "/users/sign_in" && req.post?
+      req.ip
+    end
+  end
 
-  # Throttle POST requests to /admin/login by email param
+  # Throttle POST requests to /login by email param
   #
-  # Key: "rack::attack:#{Time.now.to_i/:period}:logins/email:#{req.email}"
+  # Key: "rack::attack:#{Time.now.to_i/:period}:logins/email:#{normalized_email}"
   #
   # Note: This creates a problem where a malicious user could intentionally
   # throttle logins for another user and force their login requests to be
   # denied, but that's not very common and shouldn't happen to you. (Knock
   # on wood!)
   throttle("logins/email", limit: 5, period: 20.seconds) do |req|
-    if req.path == "/admin/login" && req.post?
-      # return the email if present, nil otherwise
-      req.params.dig("admin_user", "email").presence&.downcase
+    if req.path == "/users/sign_in" && req.post?
+      # Normalize the email, using the same logic as your authentication process, to
+      # protect against rate limit bypasses. Return the normalized email if present, nil otherwise.
+      req.params.dig("user", "email").presence&.downcase
     end
   end
 
   Rack::Attack.blocklist("allow2ban login scrapers") do |req|
     Rack::Attack::Allow2Ban.filter(req.remote_ip, maxretry: 16, findtime: 1.minute, bantime: 1.hour) do
-      req.path == "/admin/login" && req.post?
+      req.path == "/users/sign_in" && req.post?
     end
   end
 
   Rack::Attack.blocklist("allow2ban resetpassword scrapers") do |req|
     Rack::Attack::Allow2Ban.filter(req.remote_ip, maxretry: 15, findtime: 1.minute, bantime: 1.hour) do
-      req.path == "/admin/password" && req.post?
+      req.path == "/users/password" && req.post?
     end
   end
 
@@ -117,7 +118,7 @@ class Rack::Attack
   # If you want to return 503 so that the attacker might be fooled into
   # believing that they've successfully broken your app (or you just want to
   # customize the response), then uncomment these lines.
-  # self.throttled_response = lambda do |env|
+  # self.throttled_responder = lambda do |env|
   #  [ 503,  # status
   #    {},   # headers
   #    ['']] # body
