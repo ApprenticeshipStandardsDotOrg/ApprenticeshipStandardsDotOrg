@@ -4,7 +4,7 @@ class ScrapeRAPIDSCode
     xlsx.sheet(0).parse(headers: true).each_with_index do |row, index|
       next if index.zero?
       occupation = Occupation.find_or_initialize_by(title: row["RAPIDS TITLE"])
-      onet = Onet.find_by(code: row["ONET SOC CODE"].strip)
+      onet = Onet.find_by(code: row["ONET SOC CODE"].strip, version: Onet::CURRENT_VERSION)
       hybrid_hours_min = nil
       hybrid_hours_max = nil
 
