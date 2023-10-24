@@ -59,7 +59,10 @@ gem "administrate-field-jsonb"
 gem "pundit"
 gem "image_processing"
 gem "pagy"
+
+# Throttle excessive requests
 gem "rack-attack"
+gem "redis"
 
 # This is needed  to make FoxitSDK work since it uses file paths relative to the view instead of /assests
 gem "rack-rewrite", "~> 1.5.0"
