@@ -222,6 +222,9 @@ RSpec.describe "pages/home" do
         hr = create(:occupation_standard, :with_work_processes, :with_data_import, onet_code: "31-5678", title: "HR", industry: hc_industry)
         create(:occupation_standard, :with_work_processes, onet_code: "35-1234", title: "Pipe Fitter")
 
+        OccupationStandard.import
+        OccupationStandard.__elasticsearch__.refresh_index!
+
         visit home_page_path
 
         within("#industry-#{hc_industry.id}") do
