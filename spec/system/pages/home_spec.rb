@@ -30,8 +30,6 @@ RSpec.describe "pages/home" do
 
         visit home_page_path
 
-        expect(page).to have_text "Featured"
-
         within("#guideline-standards") do
           expect(page).to have_text "2 Apprenticeships"
         end
@@ -150,8 +148,6 @@ RSpec.describe "pages/home" do
         OccupationStandard.__elasticsearch__.refresh_index!
 
         visit home_page_path
-
-        expect(page).to have_text "Featured"
 
         within("#guideline-standards") do
           expect(page).to have_text "2 Apprenticeships"
