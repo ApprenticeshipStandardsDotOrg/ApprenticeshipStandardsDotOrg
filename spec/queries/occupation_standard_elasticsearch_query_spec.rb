@@ -306,6 +306,11 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
     os1 = create(:occupation_standard, :with_work_processes, title: "User experience designer")
     os2 = create(:occupation_standard, :with_work_processes, title: "UX Designer")
     create(:occupation_standard, :with_work_processes, title: "Mechanic")
+    synonym = create(:synonym, word: "UX", synonyms: "User experience")
+    ElasticsearchWrapper::Synonyms.create_set(
+      value: synonym.to_elasticsearch_value,
+      rule_id: synonym.id
+    )
 
     OccupationStandard.import
     OccupationStandard.__elasticsearch__.refresh_index!
