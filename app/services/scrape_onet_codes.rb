@@ -13,6 +13,6 @@ class ScrapeOnetCodes
   end
 
   def format_code(code)
-    code.sub(/^(\d{2})\./, '\1-')
+    code.strip.sub(/^(\d{2})\./, '\1-')
   end
 end
