@@ -7,6 +7,7 @@ RSpec.describe "pages/home", type: :view do
     allow_any_instance_of(ActionView::TestCase::TestController).to receive(:current_user).and_return(nil)
     assign :popular_onet_codes, []
     assign :popular_industries, []
+    assign :popular_states, []
 
     render template: "pages/home", layout: "layouts/application"
 
