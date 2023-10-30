@@ -7,6 +7,8 @@ class Onet < ApplicationRecord
 
   CURRENT_VERSION = "2019".freeze
 
+  scope :current_version,  -> { where(version: Onet::CURRENT_VERSION)}
+
   def to_s
     "#{title} (#{code})"
   end
