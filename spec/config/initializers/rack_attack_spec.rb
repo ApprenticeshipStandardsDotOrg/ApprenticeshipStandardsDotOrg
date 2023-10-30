@@ -34,7 +34,6 @@ describe Rack::Attack do
 
   describe "throttle excessive ip requests" do
     it "changes the request status to 429 when higher than limit" do
-      stub_const("Rack::Attack::IP_LIMIT", 10)
       Flipper.enable(:updated_home)
 
       300.times do |i|
@@ -53,36 +52,41 @@ describe Rack::Attack do
 
   describe "throttle excessive requests for email login" do
     it "changes the request status to 429 when higher than limit" do
-      user = create(:user, email: "foo@example.com")
+      travel_to Time.current do
+        user = create(:user, email: "foo@example.com")
 
-      5.times do |i|
-        post "http://admin.example.com/users/sign_in", {user: {email: user.email, password: "badpassword"}}, {"REMOTE_ADDR" => "100.2.3.#{i}"}
+        5.times do |i|
+          post "http://admin.example.com/users/sign_in", {user: {email: user.email, password: "badpassword"}}, {"REMOTE_ADDR" => "100.2.3.#{i}"}
 
-        expect(last_response.status).to eq(422)
+          expect(last_response.status).to eq(422)
+        end
+
+        post "http://admin.example.com/users/sign_in", {user: {email: user.email, password: "badpassword"}}, {"REMOTE_ADDR" => "100.2.3.11"}
+
+        expect(last_response.status).to eq(429)
+        expect(last_response.body).to include("Retry later")
       end
-
-      post "http://admin.example.com/users/sign_in", {user: {email: user.email, password: "badpassword"}}, {"REMOTE_ADDR" => "100.2.3.11"}
-
-      expect(last_response.status).to eq(429)
-      expect(last_response.body).to include("Retry later")
     end
   end
 
   describe "Allow2ban excessive requests by IP address" do
     context "login" do
       it "changes the request status to forbidden when higher than limit" do
-        15.times do |i|
-          email = "user#{i}@example.com"
-          post "http://admin.example.com/users/sign_in", {user: {email: email, password: "password"}}, {"REMOTE_ADDR" => "1.221.3.4"}
+        time = Time.current
+        travel_to time do
+          15.times do |i|
+            email = "user#{i}@example.com"
+            post "http://admin.example.com/users/sign_in", {user: {email: email, password: "password"}}, {"REMOTE_ADDR" => "1.221.3.4"}
 
-          expect(last_response.status).to eq(422)
+            expect(last_response.status).to eq(422)
+          end
+          post "http://admin.example.com/users/sign_in", {user: {email: "user@example.com", password: "password"}}, {"REMOTE_ADDR" => "1.221.3.4"}
+
+          expect(last_response.status).to eq(403)
+          expect(last_response.body).to include("Forbidden")
         end
-        post "http://admin.example.com/users/sign_in", {user: {email: "user@example.com", password: "password"}}, {"REMOTE_ADDR" => "1.221.3.4"}
 
-        expect(last_response.status).to eq(403)
-        expect(last_response.body).to include("Forbidden")
-
-        travel_to(61.minutes.from_now) do
+        travel_to(time + 61.minutes) do
           post "http://admin.example.com/users/sign_in", {}, {"REMOTE_ADDR" => "1.221.3.4"}
 
           expect(last_response.status).to eq(422)
@@ -92,18 +96,21 @@ describe Rack::Attack do
 
     context "reset password" do
       it "changes the request status to forbidden when higher than limit" do
-        15.times do |i|
-          email = "user#{i}@example.com"
-          post "http://admin.example.com/users/password", {user: {email: email}}, {"REMOTE_ADDR" => "1.118.3.4"}
+        time = Time.current
+        travel_to time do
+          15.times do |i|
+            email = "user#{i}@example.com"
+            post "http://admin.example.com/users/password", {user: {email: email}}, {"REMOTE_ADDR" => "1.118.3.4"}
 
-          expect(last_response.status).to eq(303)
+            expect(last_response.status).to eq(303)
+          end
+          post "http://admin.example.com/users/password", {user: {email: "user@example.com"}}, {"REMOTE_ADDR" => "1.118.3.4"}
+
+          expect(last_response.status).to eq(403)
+          expect(last_response.body).to include("Forbidden")
         end
-        post "http://admin.example.com/users/password", {user: {email: "user@example.com"}}, {"REMOTE_ADDR" => "1.118.3.4"}
 
-        expect(last_response.status).to eq(403)
-        expect(last_response.body).to include("Forbidden")
-
-        travel_to(61.minutes.from_now) do
+        travel_to(time + 61.minutes) do
           post "http://admin.example.com/users/password", {user: {email: "u@example.com"}}, {"REMOTE_ADDR" => "1.118.3.4"}
 
           expect(last_response.status).to eq(303)
