@@ -792,4 +792,45 @@ RSpec.describe OccupationStandard, type: :model do
       end
     end
   end
+
+  describe "#clean_onet_code" do
+    it "returns the onet code with symbols in the correct place if they are wrong" do
+      occupation_standard = build(:occupation_standard, onet_code: "31­1011.00")
+
+      expect(occupation_standard.clean_onet_code).to eq "31-1011.00"
+    end
+
+    it "returns the onet code with any extra spaces removed" do
+      occupation_standard = build(:occupation_standard, onet_code: "17-3024.00   ")
+
+      expect(occupation_standard.clean_onet_code).to eq "17-3024.00"
+    end
+
+    it "returns the original onet code if it is already in the expected format" do
+      occupation_standard = build(:occupation_standard, onet_code: "12-3456.07")
+
+      expect(occupation_standard.clean_onet_code).to eq "12-3456.07"
+    end
+
+    it "returns nil if the onet code is all letters with no numbers" do
+      occupation_standard = build(:occupation_standard, onet_code: "onet")
+
+      expect(occupation_standard.clean_onet_code).to be_nil
+    end
+
+    it "returns nil if the onet code is already nil" do
+      occupation_standard = build(:occupation_standard, onet_code: nil)
+
+      expect(occupation_standard.clean_onet_code).to be_nil
+    end
+
+    it "does not modify the onet_code column" do
+      occupation_standard = create(:occupation_standard, onet_code: "17-3024.00   ")
+
+      expect do
+        occupation_standard.clean_onet_code
+        occupation_standard.reload
+      end.not_to change(occupation_standard, :onet_code)
+    end
+  end
 end
