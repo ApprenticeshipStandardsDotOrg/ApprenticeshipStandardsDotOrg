@@ -1,4 +1,20 @@
 RSpec.configure do |config|
+  config.before(:suite) do
+    client = Elasticsearch::Model.client
+    # The create Synonym Set endpoint is missing from the elasticsearch-rails
+    # gem so putting in a dummy synonym for now using PUT, which will create the
+    # set and add the synonym at the same time.
+    client.synonyms.put_synonym(
+      id: ElasticsearchWrapper::Synonyms::SYNONYM_SET_NAME,
+      body: {synonyms_set: [{synonyms: "#{SecureRandom.hex}, #{SecureRandom.hex}"}]}
+    )
+  end
+
+  config.after(:suite) do
+    client = Elasticsearch::Model.client
+    client.synonyms.delete_synonym(id: ElasticsearchWrapper::Synonyms::SYNONYM_SET_NAME)
+  end
+
   config.before :each, elasticsearch: true do
     ApplicationRecord.descendants.each do |model|
       if model.respond_to?(:__elasticsearch__)
