@@ -377,6 +377,22 @@ class OccupationStandard < ApplicationRecord
     state&.id
   end
 
+  def clean_onet_code
+    # correct format 12-3456.07
+    base_onet = onet_code
+
+    if onet_code.present?
+      return nil if onet_code == "onet"
+
+      base_onet = base_onet.delete("^0-9")
+      return onet_code if base_onet.length < 8
+
+      base_onet = base_onet.insert(2, "-").insert(7, ".")
+    end
+
+    base_onet
+  end
+
   private
 
   def national?
