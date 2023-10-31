@@ -45,7 +45,7 @@ gem "bootsnap", require: false
 
 gem "blueprinter"
 gem "devise"
-gem "devise_invitable", "~> 2.0.0"
+gem "devise_invitable", "~> 2.0.9"
 gem "rollbar"
 gem "roo", "~> 2.10.0"
 gem "aws-sdk-s3", require: false
