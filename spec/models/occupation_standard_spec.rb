@@ -806,6 +806,18 @@ RSpec.describe OccupationStandard, type: :model do
       expect(occupation_standard.clean_onet_code).to eq "17-3024.00"
     end
 
+    it "returns the onet code with any letters removed" do
+      occupation_standard = build(:occupation_standard, onet_code: "39-9011.00T")
+
+      expect(occupation_standard.clean_onet_code).to eq "39-9011.00"
+    end
+
+    it "adds 00 to onet code is too short" do
+      occupation_standard = build(:occupation_standard, onet_code: "51-4011")
+
+      expect(occupation_standard.clean_onet_code).to eq "51-4011.00"
+    end
+
     it "returns the original onet code if it is already in the expected format" do
       occupation_standard = build(:occupation_standard, onet_code: "12-3456.07")
 
