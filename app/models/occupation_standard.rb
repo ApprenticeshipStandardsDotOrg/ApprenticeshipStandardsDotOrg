@@ -385,7 +385,8 @@ class OccupationStandard < ApplicationRecord
       return nil if onet_code == "onet"
 
       base_onet = base_onet.delete("^0-9")
-      base_onet << "00" if base_onet.length == 6
+      return onet_code if base_onet.length < 8
+      
       base_onet = base_onet.insert(2, "-").insert(7, ".")
     end
 
