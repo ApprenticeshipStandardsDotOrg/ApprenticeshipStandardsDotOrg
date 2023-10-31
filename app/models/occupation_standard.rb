@@ -386,7 +386,7 @@ class OccupationStandard < ApplicationRecord
 
       base_onet = base_onet.delete("^0-9")
       return onet_code if base_onet.length < 8
-      
+
       base_onet = base_onet.insert(2, "-").insert(7, ".")
     end
 
