@@ -7,8 +7,7 @@ namespace :after_party do
 
     occupation_standards.each do |occupation_standard|
       stripped_onet = occupation_standard.clean_onet_code
-      onet = Onet.find_by(code: stripped_onet)
-      occupation_standard.update(onet_code: stripped_onet, onet: onet)
+      occupation_standard.update_columns(onet_code: stripped_onet)
     end
 
     # Update task as completed.  If you remove the line below, the task will
