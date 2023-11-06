@@ -28,6 +28,17 @@ RSpec.describe Onet, type: :model do
     expect(onet_2018.next_versions).to contain_exactly(onet_2019a, onet_2019b)
   end
 
+  it "has many previous versions" do
+    onet_2018a = create(:onet, version: "2018", code: "11-1011")
+    onet_2018b = create(:onet, version: "2018", code: "11-1012")
+    onet_2019 = create(:onet, version: "2019", code: "11-1011.00")
+
+    create(:onet_mapping, onet: onet_2018a, next_version_onet: onet_2019)
+    create(:onet_mapping, onet: onet_2018b, next_version_onet: onet_2019)
+
+    expect(onet_2019.previous_versions).to contain_exactly(onet_2018a, onet_2018b)
+  end
+
   describe "scopes" do
     describe "current_version" do
       it "returns onet codes with current version only" do
