@@ -69,6 +69,7 @@ Rails.application.routes.draw do
   get "definitions", as: :definitions_page, to: "pages#definitions"
   get "terms", as: :terms_page, to: "pages#terms"
   get "contact", as: :contact_page, to: "contact_requests#new"
+  get "fact_sheets", as: :fact_sheets_page, to: "pages#fact_sheets"
   resources :contact_requests, only: [:create]
 
   namespace :api do
