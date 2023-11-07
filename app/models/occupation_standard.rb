@@ -330,6 +330,15 @@ class OccupationStandard < ApplicationRecord
     )
   end
 
+  def other_onet_codes
+    onet = Onet.find_by(code: onet_code)
+    if onet
+      onet.all_versions
+    else
+      []
+    end
+  end
+
   # #duplicates is used in OccupationStandardsController#index
   # It gets the values from ES collapse if feature flag enabled
   def duplicates
