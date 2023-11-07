@@ -15,4 +15,29 @@ class Onet < ApplicationRecord
   def to_s
     "#{title} (#{code})"
   end
+
+  def all_versions
+    current_codes = [code]
+    next_codes = get_next_versions(self, current_codes)
+    previous_codes = get_previous_versions(self, current_codes)
+    (next_codes + previous_codes).flatten.uniq
+  end
+
+  private
+
+  def get_next_versions(onet, current_codes=[])
+    current_codes << onet.next_versions.map(&:code)
+    onet.next_versions.each do |next_onet|
+      current_codes = get_next_versions(next_onet, current_codes.flatten)
+    end
+    current_codes
+  end
+
+  def get_previous_versions(onet, current_codes=[])
+    current_codes << onet.previous_versions.map(&:code)
+    onet.previous_versions.each do |previous_onet|
+      current_codes = get_previous_versions(previous_onet, current_codes.flatten)
+    end
+    current_codes
+  end
 end
