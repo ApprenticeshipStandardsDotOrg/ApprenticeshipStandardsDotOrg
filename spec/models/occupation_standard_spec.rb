@@ -846,17 +846,17 @@ RSpec.describe OccupationStandard, type: :model do
     end
   end
 
-  describe "#other_onet_codes" do
+  describe "#related_onet_code_versions" do
     it "is empty if onet_code is nil" do
       occupation_standard = build(:occupation_standard, onet_code: nil)
 
-      expect(occupation_standard.other_onet_codes).to be_empty
+      expect(occupation_standard.related_onet_code_versions).to be_empty
     end
 
     it "is empty if onet does not exist for onet_code" do
       occupation_standard = build(:occupation_standard, onet_code: "12-3456.00")
 
-      expect(occupation_standard.other_onet_codes).to be_empty
+      expect(occupation_standard.related_onet_code_versions).to be_empty
     end
 
     it "returns all versions of onet_code if onet exists" do
@@ -865,7 +865,7 @@ RSpec.describe OccupationStandard, type: :model do
       allow(Onet).to receive(:find_by).with(code: "12-3456.00").and_return(onet)
       allow(onet).to receive(:all_versions).and_return(["12.3456.00", "12.3456"])
 
-      expect(occupation_standard.other_onet_codes).to eq(["12.3456.00", "12.3456"])
+      expect(occupation_standard.related_onet_code_versions).to eq(["12.3456.00", "12.3456"])
     end
   end
 end

@@ -111,7 +111,7 @@ class OccupationStandardElasticsearchQuery
                   }
                 end
                 should do
-                  match other_onet_codes: {
+                  match related_onet_code_versions: {
                     query: q
                   }
                 end

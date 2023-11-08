@@ -120,7 +120,7 @@ class OccupationStandard < ApplicationRecord
       indexes :onet_code, type: :text, analyzer: :autocomplete, search_analyzer: :autocomplete_search do
         indexes :prefix, type: :text, analyzer: :onet_prefix
       end
-      indexes :other_onet_codes
+      indexes :related_onet_code_versions
       indexes :rapids_code, type: :text, analyzer: :autocomplete, search_analyzer: :autocomplete_search
       indexes :state, type: :text, analyzer: :keyword
       indexes :state_id, type: :keyword
@@ -143,7 +143,7 @@ class OccupationStandard < ApplicationRecord
       work_process_titles: work_processes.pluck(:title).uniq,
       related_job_titles: related_job_titles,
       headline: headline,
-      other_onet_codes: other_onet_codes
+      related_onet_code_versions: related_onet_code_versions
     )
   end
 
@@ -332,7 +332,7 @@ class OccupationStandard < ApplicationRecord
     )
   end
 
-  def other_onet_codes
+  def related_onet_code_versions
     onet = Onet.find_by(code: onet_code)
     onet&.all_versions || []
   end
