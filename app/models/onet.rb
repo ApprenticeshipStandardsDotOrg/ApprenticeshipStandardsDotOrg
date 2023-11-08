@@ -17,9 +17,8 @@ class Onet < ApplicationRecord
   end
 
   def all_versions
-    current_codes = [code]
-    next_codes = get_next_versions(self, current_codes)
-    previous_codes = get_previous_versions(self, current_codes)
+    next_codes = get_next_versions(self, [])
+    previous_codes = get_previous_versions(self, [])
     (next_codes + previous_codes).flatten.uniq
   end
 
