@@ -49,9 +49,9 @@ RSpec.describe Onet, type: :model do
     it "returns all onet code strings up and down the chain (excluding self)" do
       onet_2009 = create(:onet, version: "2009", code: "09-1011")
       onet_2010 = create(:onet, version: "2010", code: "10-1011")
-      onet_2018 = create(:onet, version: "2018", code: "11-1011")
-      onet_2019a = create(:onet, version: "2019", code: "11-1011.00")
-      onet_2019b = create(:onet, version: "2019", code: "11-1011.03")
+      onet_2018 = create(:onet, version: "2018", code: "18-1011")
+      onet_2019a = create(:onet, version: "2019", code: "19-1011.00")
+      onet_2019b = create(:onet, version: "2019", code: "19-1011.03")
       onet_2020 = create(:onet, version: "2020", code: "20-1011.00")
 
       create(:onet_mapping, onet: onet_2009, next_version_onet: onet_2010)
@@ -60,7 +60,7 @@ RSpec.describe Onet, type: :model do
       create(:onet_mapping, onet: onet_2018, next_version_onet: onet_2019b)
       create(:onet_mapping, onet: onet_2019a, next_version_onet: onet_2020)
 
-      expect(onet_2018.all_versions).to contain_exactly("09-1011", "10-1011", "11-1011.00", "11-1011.03", "20-1011.00")
+      expect(onet_2018.all_versions).to contain_exactly("09-1011", "10-1011", "19-1011.00", "19-1011.03", "20-1011.00")
     end
   end
 
