@@ -120,6 +120,7 @@ class OccupationStandard < ApplicationRecord
       indexes :onet_code, type: :text, analyzer: :autocomplete, search_analyzer: :autocomplete_search do
         indexes :prefix, type: :text, analyzer: :onet_prefix
       end
+      indexes :other_onet_codes
       indexes :rapids_code, type: :text, analyzer: :autocomplete, search_analyzer: :autocomplete_search
       indexes :state, type: :text, analyzer: :keyword
       indexes :state_id, type: :keyword
@@ -141,7 +142,8 @@ class OccupationStandard < ApplicationRecord
       state_id: state_id,
       work_process_titles: work_processes.pluck(:title).uniq,
       related_job_titles: related_job_titles,
-      headline: headline
+      headline: headline,
+      other_onet_codes: other_onet_codes
     )
   end
 
