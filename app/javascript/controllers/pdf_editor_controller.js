@@ -27,33 +27,43 @@ export default class extends Controller {
       },
       appearance: UIExtension.appearances.RibbonAppearance.extend({
         getDefaultFragments: function() {
-          return [{
-            action: UIExtension.UIConsts.FRAGMENT_ACTION.APPEND,
-            target: 'home-tab-group-hand',
-            template: `
-                <dropdown icon-class="fv__icon-toolbar-stamp">
-                    <dropdown-button
-                       name="show-hello-button"
-                       icon-class="fv__icon-toolbar-hand"
-                       data-action="click->pdf-editor#saveDocument"
-                    >Save Redacted Document
-                    </dropdown-button>
-
-                    <dropdown-button
-                      name="select-pdf-file-button"
-                      icon-class="fv__icon-toolbar-open"
-                      data-action="click->pdf-editor#goBack"
-                    >Go back
-                    </dropdown-button>
-                </dropdown>
-                `,
-            config: [{
-              target: 'show-hello-button',
+          return [
+            {
+              action: UIExtension.UIConsts.FRAGMENT_ACTION.APPEND,
+              target: 'home-tab-group-hand',
+              template: `
+                <contextmenu-item
+                  icon-class="fv__icon-search-save"
+                  name="show-hello-button"
+                  data-action="click->pdf-editor#saveDocument"
+                >Save Document
+                </contextmenu-item>
+              `,
+              config: [
+                {
+                  target: 'show-hello-button',
+                },
+              ]
             },
-              {
-                target: 'select-pdf-file-button',
-              }]
-          }]
+            {
+              action: UIExtension.UIConsts.FRAGMENT_ACTION.APPEND,
+              target: 'home-tab-group-hand',
+              template: `
+                <contextmenu-item
+                  icon-class="fv__icon-float-bar-previous-page"
+                  name="select-pdf-file-button"
+                  data-action="click->pdf-editor#goBack"
+                >Go back
+                </contextmenu-item>
+              `,
+              config: [
+                {
+                  target: 'select-pdf-file-button',
+                }
+              ]
+            },
+
+          ]
         }
       }),
       renderTo: this.renderToTarget,
