@@ -332,11 +332,7 @@ class OccupationStandard < ApplicationRecord
 
   def other_onet_codes
     onet = Onet.find_by(code: onet_code)
-    if onet
-      onet.all_versions
-    else
-      []
-    end
+    onet&.all_versions || []
   end
 
   # #duplicates is used in OccupationStandardsController#index
