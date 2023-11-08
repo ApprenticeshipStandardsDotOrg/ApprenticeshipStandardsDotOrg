@@ -110,6 +110,11 @@ class OccupationStandardElasticsearchQuery
                     query: q
                   }
                 end
+                should do
+                  match other_onet_codes: {
+                    query: q
+                  }
+                end
                 minimum_should_match 1
               end
             end
