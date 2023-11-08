@@ -40,6 +40,12 @@ RSpec.describe Onet, type: :model do
   end
 
   describe "#all_versions" do
+    it "returns an empty array if no mappings" do
+      onet_2018 = create(:onet, version: "2018", code: "11-1011")
+
+      expect(onet_2018.all_versions).to be_empty
+    end
+
     it "returns all onet code strings up and down the chain (excluding self)" do
       onet_2009 = create(:onet, version: "2009", code: "09-1011")
       onet_2010 = create(:onet, version: "2010", code: "10-1011")
