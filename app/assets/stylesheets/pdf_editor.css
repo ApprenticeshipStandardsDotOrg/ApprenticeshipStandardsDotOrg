@@ -1,0 +1,6 @@
+.editor-target {
+   height: 100vh;
+   overflow: hidden;
+   position: absolute;
+   width: 100vw;
+}
