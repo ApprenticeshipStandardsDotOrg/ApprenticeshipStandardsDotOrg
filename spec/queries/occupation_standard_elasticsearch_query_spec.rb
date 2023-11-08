@@ -130,14 +130,30 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
   end
 
   it "allows searching occupation standards by onet code" do
-    os1 = create(:occupation_standard, :with_work_processes, onet_code: "12.3456")
-    create(:occupation_standard, :with_work_processes, onet_code: "12.3457")
-    create(:occupation_standard, :with_work_processes, title: "HR", onet_code: "11.2345")
+    os1 = create(:occupation_standard, :with_work_processes, onet_code: "12-3456")
+    create(:occupation_standard, :with_work_processes, onet_code: "12-3457")
+    create(:occupation_standard, :with_work_processes, onet_code: "11-2345")
 
     OccupationStandard.import
     OccupationStandard.__elasticsearch__.refresh_index!
 
-    params = {q: "12.3456"}
+    params = {q: "12-3456"}
+    response = described_class.new(search_params: params).call
+
+    expect(response.records.pluck(:id)).to contain_exactly(os1.id)
+  end
+
+  it "allows searching occupation standards by other onet code version" do
+    onet_2010 = create(:onet, version: "2010", code: "10-3456.00")
+    onet_2019 = create(:onet, version: "2019", code: "19-3456.00")
+    create(:onet_mapping, onet: onet_2010, next_version_onet: onet_2019)
+
+    os1 = create(:occupation_standard, :with_work_processes, onet_code: "19-3456.00")
+
+    OccupationStandard.import
+    OccupationStandard.__elasticsearch__.refresh_index!
+
+    params = {q: "10-3456"}
     response = described_class.new(search_params: params).call
 
     expect(response.records.pluck(:id)).to contain_exactly(os1.id)

@@ -1,7 +1,7 @@
 require "elasticsearch"
 
+enable_logging = ENV.fetch("ELASTIC_LOGGING_ENABLED", "false")
 args = if Rails.env.production? && ENV["ELASTIC_CLOUD_ID"].present?
-  enable_logging = ENV.fetch("ELASTIC_LOGGING_ENABLED", "false")
   {
     cloud_id: ENV.fetch("ELASTIC_CLOUD_ID"),
     user: ENV.fetch("ELASTIC_USER"),
@@ -9,7 +9,7 @@ args = if Rails.env.production? && ENV["ELASTIC_CLOUD_ID"].present?
     log: ActiveModel::Type::Boolean.new.cast(enable_logging)
   }
 else
-  {log: false}
+  {log: ActiveModel::Type::Boolean.new.cast(enable_logging)}
 end
 
 Elasticsearch::Model.client = Elasticsearch::Client.new(args)
