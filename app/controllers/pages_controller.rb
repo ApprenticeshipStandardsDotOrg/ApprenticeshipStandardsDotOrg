@@ -16,4 +16,8 @@ class PagesController < ApplicationController
   def terms
     @page_title = "Privacy/Terms"
   end
+
+  def fact_sheets
+    @page_title = "Fact Sheets"
+  end
 end
