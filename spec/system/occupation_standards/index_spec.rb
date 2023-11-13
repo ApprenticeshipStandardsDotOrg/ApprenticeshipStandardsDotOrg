@@ -306,10 +306,7 @@ RSpec.describe "occupation_standards/index" do
       visit occupation_standards_path
 
       find('button[data-action="click->accordion#changeVisibility"]', match: :first).click
-
-      within "#accordion-#{mechanic.id}" do
-        click_on "Collapse duplicates"
-      end
+      click_on "Collapse duplicates"
 
       expect(page).not_to have_selector("#accordion-#{mechanic.id}")
       Flipper.disable :similar_programs_accordion
@@ -848,10 +845,7 @@ RSpec.describe "occupation_standards/index" do
       visit occupation_standards_path
 
       find('button[data-action="click->accordion#changeVisibility"]', match: :first).click
-
-      within "#accordion-#{mechanic.id}" do
-        click_on "Collapse duplicates"
-      end
+      click_on "Collapse duplicates"
 
       expect(page).not_to have_selector("#accordion-#{mechanic.id}")
       Flipper.disable :similar_programs_accordion
