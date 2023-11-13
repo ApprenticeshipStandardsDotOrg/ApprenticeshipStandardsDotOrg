@@ -13,6 +13,7 @@ module Admin
           @source_file = SourceFile.find(params[:source_file_id])
           authorize :redact_file, :new?
           if params[:redacted_file]
+            @source_file.redacted_source_file.attach(params[:redacted_file])
             @source_file.data_imports.map(&:occupation_standard).each do |occupation_standard|
               occupation_standard.redacted_document.attach(params[:redacted_file])
             end

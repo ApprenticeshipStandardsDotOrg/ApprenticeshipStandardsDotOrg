@@ -2,6 +2,7 @@ class SourceFile < ApplicationRecord
   belongs_to :active_storage_attachment, class_name: "ActiveStorage::Attachment"
   belongs_to :assignee, class_name: "User", optional: true
   has_many :data_imports, -> { includes(:occupation_standard, file_attachment: :blob) }
+  has_one_attached :redacted_source_file
 
   enum :status, [:pending, :completed, :needs_support]
 
@@ -37,5 +38,13 @@ class SourceFile < ApplicationRecord
 
   def pdf?
     active_storage_attachment&.blob&.content_type == "application/pdf"
+  end
+
+  def redacted_source_file_url
+    redacted_source_file&.blob&.url
+  end
+
+  def file_for_redaction
+    redacted_source_file.attached? ? redacted_source_file : active_storage_attachment
   end
 end

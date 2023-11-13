@@ -89,4 +89,10 @@ RSpec.configure do |config|
   config.before(:each, type: :system, admin: true) do
     Capybara.app_host = "http://admin.example.localhost"
   end
+
+  config.before(:each, url_generation: true) do
+    ActiveStorage::Current.url_options = {
+      host: "https://www.example.com"
+    }
+  end
 end

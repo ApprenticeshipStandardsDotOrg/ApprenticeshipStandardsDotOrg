@@ -66,7 +66,7 @@ RSpec.describe "Admin::SourceFiles::RedactFile", type: :request do
             }
 
             sign_in admin
-            post admin_source_file_redact_file_path(source_file, params)
+            post admin_source_file_redact_file_path(source_file), params: params
 
             expect(response).to be_successful
           end
@@ -85,9 +85,12 @@ RSpec.describe "Admin::SourceFiles::RedactFile", type: :request do
             }
 
             sign_in admin
-            post admin_source_file_redact_file_path(source_file, params)
+            post admin_source_file_redact_file_path(source_file), params: params
+
+            source_file.reload
 
             expect(response).to be_successful
+            expect(source_file.redacted_source_file).to be_attached
           end
         end
       end
