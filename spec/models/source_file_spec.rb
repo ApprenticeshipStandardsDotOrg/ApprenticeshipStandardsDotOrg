@@ -70,4 +70,41 @@ RSpec.describe SourceFile, type: :model do
       expect(source_file.pdf?).to be false
     end
   end
+
+  describe "#redacted_source_file_url" do
+    it "returns nil if file not present" do
+      source_file = build(:source_file, redacted_source_file: nil)
+
+      expect(source_file.redacted_source_file_url).to be nil
+    end
+
+    it "returns file url if file present", :url_generation do
+      source_file = build(:source_file, redacted_source_file: fixture_file_upload("pixel1x1.jpg", "image/jpeg"))
+
+      expect(source_file.redacted_source_file_url).to be_present
+    end
+  end
+
+  describe "#file_for_redaction" do
+    it "returns redacted_source_file if present" do
+      source_file = build(:source_file, redacted_source_file: fixture_file_upload("pixel1x1.jpg", "image/jpeg"))
+
+      expect(source_file.file_for_redaction).to eq source_file.redacted_source_file
+    end
+
+    it "returns active_storage_attachment if redacted_source_file is not present" do
+      active_storage_attachment = build_stubbed(:active_storage_attachment, content_type: "image/png")
+      source_file = build(:source_file,
+        active_storage_attachment: active_storage_attachment,
+        redacted_source_file: nil)
+
+      expect(source_file.file_for_redaction).to eq source_file.active_storage_attachment
+    end
+
+    it "returns nil if no file present" do
+      source_file = build(:source_file, active_storage_attachment: nil, redacted_source_file: nil)
+
+      expect(source_file.file_for_redaction).to be nil
+    end
+  end
 end

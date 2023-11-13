@@ -13,7 +13,9 @@ class SourceFileDashboard < Administrate::BaseDashboard
     assignee: AssigneeField,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
-    public_document: Field::Boolean
+    public_document: Field::Boolean,
+    redacted_source_file: Field::ActiveStorage,
+    redacted_source_file_url: Field::Url.with_options(searchable: false)
   }.freeze
 
   COLLECTION_ATTRIBUTES = %i[
@@ -35,6 +37,8 @@ class SourceFileDashboard < Administrate::BaseDashboard
     notes
     assignee
     public_document
+    redacted_source_file
+    redacted_source_file_url
     created_at
     updated_at
   ].freeze
