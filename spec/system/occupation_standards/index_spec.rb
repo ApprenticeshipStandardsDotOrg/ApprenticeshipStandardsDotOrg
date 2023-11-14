@@ -72,7 +72,7 @@ RSpec.describe "occupation_standards/index" do
       expect(page).to_not have_link "HR"
     end
 
-    it "filters standards based on onet_code search term and state filter", :js do
+    it "filters standards based on onet_code search term and state filter", :js, :elasticsearch do
       wa = create(:state, name: "Washington")
       ra = create(:registration_agency, state: wa)
       mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", onet_code: "12.3456", registration_agency: ra)
@@ -96,7 +96,7 @@ RSpec.describe "occupation_standards/index" do
       expect(page).to_not have_link "HR"
     end
 
-    it "filters standards based on onet_code search term and national_standard_type filter", :js do
+    it "filters standards based on onet_code search term and national_standard_type filter", :js, :elasticsearch do
       mechanic = create(:occupation_standard, :with_work_processes, :program_standard, :with_data_import, title: "Mechanic", onet_code: "12.3456")
       medical_assistant = create(:occupation_standard, :with_work_processes, :occupational_framework, :with_data_import, title: "Medical Assistant", onet_code: "12.34567")
       create(:occupation_standard, :with_work_processes, :guideline_standard, :with_data_import, title: "Pipe Fitter", onet_code: "12.34567")
@@ -125,7 +125,7 @@ RSpec.describe "occupation_standards/index" do
       expect(page).to_not have_link "HR"
     end
 
-    it "filters standards based on onet_code search term and ojt_type filter", :js do
+    it "filters standards based on onet_code search term and ojt_type filter", :js, :elasticsearch do
       mechanic = create(:occupation_standard, :with_work_processes, :hybrid, :with_data_import, title: "Mechanic", onet_code: "12.3456")
       medical_assistant = create(:occupation_standard, :with_work_processes, :time, :with_data_import, title: "Medical Assistant", onet_code: "12.34567")
       create(:occupation_standard, :with_work_processes, :competency, :with_data_import, title: "Pipe Fitter", onet_code: "12.34567")
@@ -216,7 +216,7 @@ RSpec.describe "occupation_standards/index" do
       expect(page).to_not have_link "HR"
     end
 
-    it "can clear form", :js do
+    it "can clear form", :js, :elasticsearch do
       wa = create(:state, name: "Washington")
       ra = create(:registration_agency, state: wa)
       mechanic = create(:occupation_standard, :with_work_processes, :hybrid, :with_data_import, title: "Mechanic", onet_code: "12.3456", registration_agency: ra)

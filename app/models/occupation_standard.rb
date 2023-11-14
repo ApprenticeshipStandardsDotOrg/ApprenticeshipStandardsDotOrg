@@ -3,7 +3,7 @@ require "elasticsearch_wrapper/synonyms"
 class OccupationStandard < ApplicationRecord
   include ActionView::Helpers::NumberHelper
   include Elasticsearch::Model
-  include Elasticsearch::Model::Callbacks
+  include Elasticsearchable
 
   belongs_to :occupation, optional: true
   belongs_to :registration_agency

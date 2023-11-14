@@ -16,6 +16,7 @@ RSpec.configure do |config|
   end
 
   config.before :each, elasticsearch: true do
+    config.elasticsearch_disabled = false
     ApplicationRecord.descendants.each do |model|
       if model.respond_to?(:__elasticsearch__)
         begin
@@ -35,6 +36,7 @@ RSpec.configure do |config|
   end
 
   config.after :each, elasticsearch: true do
+    config.elasticsearch_disabled = true
     ApplicationRecord.descendants.each do |model|
       if model.respond_to?(:__elasticsearch__)
         begin
