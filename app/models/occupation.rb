@@ -1,6 +1,6 @@
 class Occupation < ApplicationRecord
   include Elasticsearch::Model
-  include Elasticsearch::Model::Callbacks
+  include Elasticsearchable
 
   has_many :competency_options, as: :resource
 
