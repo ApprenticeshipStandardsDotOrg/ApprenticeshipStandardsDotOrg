@@ -3,7 +3,9 @@ module Elasticsearchable
 
   included do
     after_commit on: [:create] do
-      __elasticsearch__.index_document unless elasticsearch_disabled?
+      unless elasticsearch_disabled?
+        __elasticsearch__.index_document
+      end
     end
 
     after_commit on: [:update] do
@@ -13,7 +15,9 @@ module Elasticsearchable
     end
 
     after_commit on: [:destroy] do
-      __elasticsearch__.delete_document unless elasticsearch_disabled?
+      unless elasticsearch_disabled?
+        __elasticsearch__.delete_document
+      end
     end
   end
 
