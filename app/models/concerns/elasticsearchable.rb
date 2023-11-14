@@ -3,7 +3,7 @@ module Elasticsearchable
 
   included do
     after_commit on: [:create] do
-      __elasticsearch__.index_document unless self.class.elasticsearch_disabled?
+      __elasticsearch__.index_document unless elasticsearch_disabled?
     end
 
     after_commit on: [:update] do
@@ -13,13 +13,11 @@ module Elasticsearchable
     end
 
     after_commit on: [:destroy] do
-      __elasticsearch__.delete_document unless self.class.elasticsearch_disabled?
+      __elasticsearch__.delete_document unless elasticsearch_disabled?
     end
   end
 
-  class_methods do
-    def elasticsearch_disabled?
-      Rails.env.test? && !self.__elasticsearch__.index_exists?
-    end
+  def elasticsearch_disabled?
+    Rails.env.test? && RSpec.configuration.elasticsearch_disabled?
   end
 end
