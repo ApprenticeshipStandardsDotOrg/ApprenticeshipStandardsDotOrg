@@ -58,7 +58,7 @@ RSpec.describe SourceFile, type: :model do
 
   describe "#pdf?" do
     it "returns true when attachment is a pdf file" do
-      file = Rack::Test::UploadedFile.new(Rails.root.join("spec", "fixtures", "files", "pixel1x1.pdf"), "application/pdf")
+      file = fixture_file_upload("pixel1x1.pdf", "application/pdf")
       create(:standards_import, files: [file])
       source_file = SourceFile.last
 
@@ -66,7 +66,7 @@ RSpec.describe SourceFile, type: :model do
     end
 
     it "returns false when attachment is an image" do
-      file = Rack::Test::UploadedFile.new(Rails.root.join("spec", "fixtures", "files", "pixel1x1.jpg"), "image/jpeg")
+      file = fixture_file_upload("pixel1x1.jpg", "image/jpeg")
       create(:standards_import, files: [file])
       source_file = SourceFile.last
 
