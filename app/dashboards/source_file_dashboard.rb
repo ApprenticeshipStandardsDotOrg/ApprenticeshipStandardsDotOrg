@@ -15,7 +15,8 @@ class SourceFileDashboard < Administrate::BaseDashboard
     updated_at: Field::DateTime,
     public_document: Field::Boolean,
     redacted_source_file: Field::ActiveStorage,
-    redacted_source_file_url: Field::Url.with_options(searchable: false)
+    redacted_source_file_url: Field::Url.with_options(searchable: false),
+    associated_occupation_standards: HasManyAssociatedOccupationStandardsField
   }.freeze
 
   COLLECTION_ATTRIBUTES = %i[
@@ -39,6 +40,7 @@ class SourceFileDashboard < Administrate::BaseDashboard
     public_document
     redacted_source_file
     redacted_source_file_url
+    associated_occupation_standards
     created_at
     updated_at
   ].freeze
