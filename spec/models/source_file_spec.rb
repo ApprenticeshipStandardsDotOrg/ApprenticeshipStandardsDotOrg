@@ -7,12 +7,16 @@ RSpec.describe SourceFile, type: :model do
     expect(source_file).to be_valid
   end
 
+  it "factory does not create an extra source file when saved" do
+    create(:source_file)
+
+    expect(SourceFile.count).to eq 1
+  end
+
   it "saves metadata as JSON when updating the record" do
-    si = create(:standards_import, :with_files)
-    source_file = build(:source_file, active_storage_attachment_id: si.files.first.id)
+    source_file = build(:source_file)
 
     source_file.metadata = "{\"date\":\"03/29/2023\"}"
-#    binding.break
     source_file.save
 
     expect(source_file.reload.metadata).to eq({"date" => "03/29/2023"})
