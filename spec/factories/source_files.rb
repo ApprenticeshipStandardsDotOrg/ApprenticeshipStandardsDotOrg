@@ -8,6 +8,7 @@ FactoryBot.define do
 
     active_storage_attachment_id { standards_import.files.first.id }
 
-    to_create { |_obj, _context| SourceFile.last }
+#    to_create { |_obj, _context| SourceFile.last }
+    to_create { |obj, _context| obj = StandardsImport.last.files.first.source_file ; obj.save!; obj }
   end
 end
