@@ -21,7 +21,7 @@ RSpec.describe ActiveStorage::Attachment, type: :model do
     import = create(:standards_import)
     attachment = build(:active_storage_attachment, record: import)
     error = StandardError.new("some error")
-    allow(SourceFile).to receive(:create!).and_raise(error)
+    allow(attachment).to receive(:create_source_file!).and_raise(error)
 
     expect_any_instance_of(ErrorSubscriber).to receive(:report).and_call_original
     expect { attachment.save! }.to_not change(SourceFile, :count)
@@ -34,7 +34,7 @@ RSpec.describe ActiveStorage::Attachment, type: :model do
     expect { attachment.save! }.to_not change(SourceFile, :count)
   end
 
-  it "deletes file import record when deleted" do
+  it "deletes source file record when deleted" do
     source_file = create(:source_file)
     attachment = source_file.active_storage_attachment
 
