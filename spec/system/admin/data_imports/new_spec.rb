@@ -34,7 +34,7 @@ RSpec.describe "admin/data_imports/new" do
   it "does not allow invalid file types", :admin do
     create(:standards_import, :with_files)
     source_file = SourceFile.first
-    admin = create :admin
+    admin = create(:admin)
 
     login_as admin
     visit new_admin_source_file_data_import_path(source_file)
