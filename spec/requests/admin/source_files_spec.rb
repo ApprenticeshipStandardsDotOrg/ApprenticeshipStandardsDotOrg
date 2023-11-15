@@ -38,9 +38,9 @@ RSpec.describe "Admin::SourceFiles", type: :request do
 
     context "on non-admin subdomain" do
       it "has 404 response" do
-        expect {
-          get admin_source_files_path
-        }.to raise_error(ActionController::RoutingError)
+        get admin_source_files_path
+
+        expect(response).to be_not_found
       end
     end
   end
@@ -110,9 +110,10 @@ RSpec.describe "Admin::SourceFiles", type: :request do
     context "on non-admin subdomain" do
       it "has 404 response" do
         file = create(:source_file)
-        expect {
-          get edit_admin_source_file_path(file)
-        }.to raise_error(ActionController::RoutingError)
+
+        get edit_admin_source_file_path(file)
+
+        expect(response).to be_not_found
       end
     end
   end

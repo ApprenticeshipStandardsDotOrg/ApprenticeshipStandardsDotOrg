@@ -46,9 +46,9 @@ RSpec.describe "Admin::Onet", type: :request do
 
     context "on non-admin subdomain" do
       it "has 404 response" do
-        expect {
-          get admin_onets_path
-        }.to raise_error(ActionController::RoutingError)
+        get admin_onets_path
+
+        expect(response).to be_not_found
       end
     end
   end
@@ -94,9 +94,9 @@ RSpec.describe "Admin::Onet", type: :request do
       it "has 404 response" do
         onet = create(:onet)
 
-        expect {
-          get admin_onet_path(onet)
-        }.to raise_error(ActionController::RoutingError)
+        get admin_onet_path(onet)
+
+        expect(response).to be_not_found
       end
     end
   end
