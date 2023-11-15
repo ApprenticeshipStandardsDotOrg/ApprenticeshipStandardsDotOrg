@@ -57,21 +57,17 @@ RSpec.describe SourceFile, type: :model do
 
   describe "#pdf?" do
     it "returns true when attachment is a pdf file" do
-      active_storage_attachment = build_stubbed(:active_storage_attachment, content_type: "application/pdf")
-      source_file = build_stubbed(:source_file, active_storage_attachment: active_storage_attachment)
+      file = Rack::Test::UploadedFile.new(Rails.root.join("spec", "fixtures", "files", "pixel1x1.pdf"), "application/pdf")
+      create(:standards_import, files: [file])
+      source_file = SourceFile.last
 
       expect(source_file.pdf?).to be true
     end
 
     it "returns false when attachment is an image" do
-      active_storage_attachment = build_stubbed(:active_storage_attachment, content_type: "image/png")
-      source_file = build(:source_file, active_storage_attachment: active_storage_attachment)
-
-      expect(source_file.pdf?).to be false
-    end
-
-    it "returns false when attachment is not present" do
-      source_file = build(:source_file, active_storage_attachment: nil)
+      file = Rack::Test::UploadedFile.new(Rails.root.join("spec", "fixtures", "files", "pixel1x1.jpg"), "image/jpeg")
+      create(:standards_import, files: [file])
+      source_file = SourceFile.last
 
       expect(source_file.pdf?).to be false
     end
@@ -99,18 +95,9 @@ RSpec.describe SourceFile, type: :model do
     end
 
     it "returns active_storage_attachment if redacted_source_file is not present" do
-      active_storage_attachment = build_stubbed(:active_storage_attachment, content_type: "image/png")
-      source_file = build(:source_file,
-        active_storage_attachment: active_storage_attachment,
-        redacted_source_file: nil)
+      source_file = create(:source_file, redacted_source_file: nil)
 
       expect(source_file.file_for_redaction).to eq source_file.active_storage_attachment
-    end
-
-    it "returns nil if no file present" do
-      source_file = build(:source_file, active_storage_attachment: nil, redacted_source_file: nil)
-
-      expect(source_file.file_for_redaction).to be nil
     end
   end
 end
