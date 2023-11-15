@@ -10,7 +10,7 @@ RSpec.describe SourceFile, type: :model do
   it "factory does not create an extra source file when saved" do
     source_file = create(:source_file)
 
-    expect(source_file).to be_peristed
+    expect(source_file).to be_persisted
     expect(SourceFile.count).to eq 1
   end
 
