@@ -46,9 +46,9 @@ RSpec.describe "Admin::Synonym", type: :request do
 
     context "on non-admin subdomain" do
       it "has 404 response" do
-        expect {
-          get admin_synonyms_path
-        }.to raise_error(ActionController::RoutingError)
+        get admin_synonyms_path
+
+        expect(response).to be_not_found
       end
     end
   end
@@ -94,9 +94,9 @@ RSpec.describe "Admin::Synonym", type: :request do
       it "has 404 response" do
         synonym = create(:synonym)
 
-        expect {
-          get admin_synonym_path(synonym)
-        }.to raise_error(ActionController::RoutingError)
+        get admin_synonym_path(synonym)
+
+        expect(response).to be_not_found
       end
     end
   end
@@ -142,9 +142,9 @@ RSpec.describe "Admin::Synonym", type: :request do
       it "has 404 response" do
         synonym = create(:synonym)
 
-        expect {
-          get edit_admin_synonym_path(synonym)
-        }.to raise_error(ActionController::RoutingError)
+        get edit_admin_synonym_path(synonym)
+
+        expect(response).to be_not_found
       end
     end
   end
