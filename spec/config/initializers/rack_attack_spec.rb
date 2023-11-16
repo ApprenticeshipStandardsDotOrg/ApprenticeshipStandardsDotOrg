@@ -36,16 +36,19 @@ describe Rack::Attack do
     it "changes the request status to 429 when higher than limit" do
       Flipper.enable(:updated_home)
 
-      300.times do |i|
+      travel_to Time.current do
+        300.times do |i|
+          get "/", {}, {"REMOTE_ADDR" => "103.1.3.1}"}
+
+          expect(last_response.status).to eq(200)
+        end
+
         get "/", {}, {"REMOTE_ADDR" => "103.1.3.1}"}
 
-        expect(last_response.status).to eq(200)
+        expect(last_response.status).to eq(429)
+        expect(last_response.body).to include("Retry later")
       end
 
-      get "/", {}, {"REMOTE_ADDR" => "103.1.3.1}"}
-
-      expect(last_response.status).to eq(429)
-      expect(last_response.body).to include("Retry later")
       Flipper.disable(:updated_home)
     end
   end
