@@ -12,6 +12,9 @@ require "action_mailbox/engine"
 require "action_text/engine"
 require "action_view/railtie"
 require "rack/rewrite"
+# We are not currently using action_cable, but engine is required until
+# turbo-rails issue fixed:
+# https://github.com/hotwired/turbo-rails/issues/512
 require "action_cable/engine"
 # require "rails/test_unit/railtie"
 
