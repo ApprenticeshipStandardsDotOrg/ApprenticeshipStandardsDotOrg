@@ -6,7 +6,7 @@ FactoryBot.define do
       standards_import = create(:standards_import, :with_files)
       SourceFile.where(
         active_storage_attachment_id: standards_import.files.first.id
-      ).first_or_initialize
+      ).first
     end
   end
 end

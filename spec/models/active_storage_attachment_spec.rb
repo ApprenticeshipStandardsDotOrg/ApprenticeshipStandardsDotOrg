@@ -26,8 +26,7 @@ RSpec.describe ActiveStorage::Attachment, type: :model do
   end
 
   it "deletes source file record when deleted" do
-    standards_import = create(:standards_import, :with_files)
-    source_file = SourceFile.last
+    source_file = create(:source_file)
     attachment = source_file.active_storage_attachment
 
     expect {
