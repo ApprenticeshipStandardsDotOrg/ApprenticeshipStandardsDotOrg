@@ -93,6 +93,28 @@ RSpec.describe "Admin::SourceFiles::RedactFile", type: :request do
             expect(source_file.redacted_source_file).to be_attached
           end
         end
+
+        context "without occupation standard" do
+          it "only updates redacted_source_file" do
+            admin = create(:admin)
+            data_import = create(:data_import, occupation_standard: nil)
+            source_file = create(:source_file, data_imports: [data_import])
+            redacted_file = fixture_file_upload("pixel1x1.jpg", "image/jpeg")
+
+            params = {
+              format: :json,
+              redacted_file: redacted_file
+            }
+
+            sign_in admin
+            post admin_source_file_redact_file_path(source_file), params: params
+
+            source_file.reload
+
+            expect(response).to be_successful
+            expect(source_file.redacted_source_file).to be_attached
+          end
+        end
       end
     end
   end
