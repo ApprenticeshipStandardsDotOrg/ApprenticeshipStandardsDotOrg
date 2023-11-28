@@ -30,6 +30,7 @@ RSpec.describe "StandardsImports", type: :request do
             }
           }.to change(StandardsImport, :count).by(1)
             .and change(ActiveStorage::Attachment, :count).by(1)
+            .and change(SourceFile, :count).by(1)
 
           si = StandardsImport.last
           expect(si.name).to eq "Mickey Mouse"
@@ -39,6 +40,9 @@ RSpec.describe "StandardsImports", type: :request do
           expect(si.files.count).to eq 1
           expect(si.public_document?).to be false
           expect(si).to be_courtesy_notification_pending
+
+          source_file = SourceFile.last
+          expect(source_file).to be_courtesy_notification_pending
 
           expect(response).to redirect_to standards_import_path(si)
           Flipper.disable :recaptcha
@@ -65,6 +69,7 @@ RSpec.describe "StandardsImports", type: :request do
             }
           }.to change(StandardsImport, :count).by(1)
             .and change(ActiveStorage::Attachment, :count).by(1)
+            .and change(SourceFile, :count).by(1)
 
           si = StandardsImport.last
           expect(si.name).to eq "Mickey Mouse"
@@ -74,6 +79,9 @@ RSpec.describe "StandardsImports", type: :request do
           expect(si.files.count).to eq 1
           expect(si.public_document?).to be true
           expect(si).to be_courtesy_notification_not_required
+
+          source_file = SourceFile.last
+          expect(source_file).to be_courtesy_notification_not_required
 
           expect(response).to redirect_to admin_source_files_path
           Flipper.disable :recaptcha

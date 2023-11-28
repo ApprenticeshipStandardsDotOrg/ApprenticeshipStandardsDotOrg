@@ -6,6 +6,7 @@ class SourceFile < ApplicationRecord
   has_one_attached :redacted_source_file
 
   enum :status, [:pending, :completed, :needs_support, :needs_human_review]
+  enum courtesy_notification: [:not_required, :pending, :completed], _prefix: true
 
   def filename
     active_storage_attachment.blob.filename
