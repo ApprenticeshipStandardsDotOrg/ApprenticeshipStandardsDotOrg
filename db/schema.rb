@@ -251,6 +251,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_30_151039) do
     t.datetime "updated_at", null: false
     t.boolean "public_document", default: false, null: false
     t.string "source_url"
+    t.integer "courtesy_notification", default: 0
   end
 
   create_table "states", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
