@@ -12,9 +12,9 @@ RSpec.describe "Users::Sessions", type: :request do
 
     context "on non-admin subdomain" do
       it "has 404 response" do
-        expect {
-          get new_user_session_path
-        }.to raise_error(ActionController::RoutingError)
+        get new_user_session_path
+
+        expect(response).to be_not_found
       end
     end
   end

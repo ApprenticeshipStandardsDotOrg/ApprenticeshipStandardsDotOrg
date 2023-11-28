@@ -46,9 +46,9 @@ RSpec.describe "Admin::Occupation", type: :request do
 
     context "on non-admin subdomain" do
       it "has 404 response" do
-        expect {
-          get admin_occupations_path
-        }.to raise_error(ActionController::RoutingError)
+        get admin_occupations_path
+
+        expect(response).to be_not_found
       end
     end
   end
@@ -94,9 +94,9 @@ RSpec.describe "Admin::Occupation", type: :request do
       it "has 404 response" do
         occupation = create(:occupation)
 
-        expect {
-          get admin_occupation_path(occupation)
-        }.to raise_error(ActionController::RoutingError)
+        get admin_occupation_path(occupation)
+
+        expect(response).to be_not_found
       end
     end
   end
@@ -142,9 +142,9 @@ RSpec.describe "Admin::Occupation", type: :request do
       it "has 404 response" do
         occupation = create(:occupation)
 
-        expect {
-          get edit_admin_occupation_path(occupation)
-        }.to raise_error(ActionController::RoutingError)
+        get edit_admin_occupation_path(occupation)
+
+        expect(response).to be_not_found
       end
     end
   end

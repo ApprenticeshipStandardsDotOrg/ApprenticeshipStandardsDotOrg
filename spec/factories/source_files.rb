@@ -2,6 +2,11 @@ FactoryBot.define do
   factory :source_file do
     traits_for_enum :status, SourceFile.statuses
 
-    association :active_storage_attachment, factory: :active_storage_attachment_without_callback
+    initialize_with do
+      standards_import = create(:standards_import, :with_files)
+      SourceFile.where(
+        active_storage_attachment: standards_import.files.first
+      ).first
+    end
   end
 end

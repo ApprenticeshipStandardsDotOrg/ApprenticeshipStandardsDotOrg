@@ -38,7 +38,7 @@ class SourceFile < ApplicationRecord
   end
 
   def pdf?
-    active_storage_attachment&.blob&.content_type == "application/pdf"
+    active_storage_attachment.blob.content_type == "application/pdf"
   end
 
   def redacted_source_file_url
