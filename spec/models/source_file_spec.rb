@@ -23,6 +23,38 @@ RSpec.describe SourceFile, type: :model do
     expect(source_file.reload.metadata).to eq({"date" => "03/29/2023"})
   end
 
+  describe "#needs_courtesy_notification?" do
+    it "is false if status is pending" do
+      source_file = build(:source_file, :pending)
+
+      expect(source_file.needs_courtesy_notification?).to be false
+    end
+
+    it "is false if status is needs_support" do
+      source_file = build(:source_file, :needs_support)
+
+      expect(source_file.needs_courtesy_notification?).to be false
+    end
+
+    it "is false if status is completed and courtesy_notification is completed" do
+      source_file = build(:source_file, :completed, courtesy_notification: :completed)
+
+      expect(source_file.needs_courtesy_notification?).to be false
+    end
+
+    it "is false if status is completed and courtesy_notification is not_required" do
+      source_file = build(:source_file, :completed, courtesy_notification: :not_required)
+
+      expect(source_file.needs_courtesy_notification?).to be false
+    end
+
+    it "is true if status is completed and courtesy_notification is pending" do
+      source_file = build(:source_file, :completed, courtesy_notification: :pending)
+
+      expect(source_file.needs_courtesy_notification?).to be true
+    end
+  end
+
   describe "#organization" do
     it "returns organization from standards_import association" do
       create(:standards_import, :with_files, organization: "Pipe Fitters R Us")

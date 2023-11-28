@@ -16,6 +16,10 @@ class SourceFile < ApplicationRecord
     active_storage_attachment.blob.url
   end
 
+  def needs_courtesy_notification?
+    completed? && courtesy_notification_pending?
+  end
+
   # This saves the metadata as JSON instead of string.
   # See https://github.com/codica2/administrate-field-jsonb/issues/1
   def metadata=(value)
