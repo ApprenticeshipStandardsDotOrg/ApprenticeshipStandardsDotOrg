@@ -370,7 +370,7 @@ GEM
     redis-client (0.18.0)
       connection_pool
     regexp_parser (2.8.1)
-    reline (0.4.0)
+    reline (0.4.1)
       io-console (~> 0.5)
     responders (3.1.1)
       actionpack (>= 5.2)
@@ -397,7 +397,7 @@ GEM
       rspec-mocks (~> 3.12)
       rspec-support (~> 3.12)
     rspec-support (3.12.1)
-    rswag-api (2.11.0)
+    rswag-api (2.12.0)
       railties (>= 3.1, < 7.2)
     rswag-specs (2.12.0)
       activesupport (>= 3.1, < 7.2)
