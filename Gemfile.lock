@@ -211,10 +211,10 @@ GEM
       smart_properties
     erblint-github (0.5.1)
     erubi (1.12.0)
-    factory_bot (6.2.1)
+    factory_bot (6.4.2)
       activesupport (>= 5.0.0)
-    factory_bot_rails (6.2.0)
-      factory_bot (~> 6.2.0)
+    factory_bot_rails (6.4.2)
+      factory_bot (~> 6.4)
       railties (>= 5.0.0)
     faraday (2.7.11)
       base64
@@ -242,7 +242,7 @@ GEM
       activesupport (>= 6.0.0)
       railties (>= 6.0.0)
     io-console (0.6.0)
-    irb (1.9.0)
+    irb (1.9.1)
       rdoc
       reline (>= 0.3.8)
     jmespath (1.6.2)
