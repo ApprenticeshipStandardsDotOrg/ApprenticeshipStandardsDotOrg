@@ -1,0 +1,2 @@
+class StandardsImportPolicy < AdminPolicy
+end
