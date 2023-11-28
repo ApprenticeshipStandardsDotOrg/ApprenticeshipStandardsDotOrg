@@ -3,6 +3,8 @@ class StandardsImport < ApplicationRecord
 
   after_commit :create_source_files!
 
+  enum courtesy_notification: [:not_required, :pending, :completed], _prefix: true
+
   def file_count
     files.count
   end
