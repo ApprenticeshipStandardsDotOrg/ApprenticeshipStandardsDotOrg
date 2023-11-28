@@ -24,27 +24,11 @@ RSpec.describe StandardsImport, type: :model do
     expect { source_file.reload }.to raise_error(ActiveRecord::RecordNotFound)
   end
 
-  describe "#create_source_files!" do
-    it "creates a source file record when saved" do
-      file1 = file_fixture("pixel1x1.pdf")
-      file2 = file_fixture("pixel1x1.jpg")
-      import = build(:standards_import, files: [file1, file2])
+  describe "#create_source_files" do
+    it "calls CreateSourceFiles background job" do
+      expect(CreateSourceFilesJob).to receive(:perform_later).with(kind_of(StandardsImport))
 
-      expect { import.save! }.to change(SourceFile, :count).by(2)
-
-      source_file1 = SourceFile.first
-      source_file2 = SourceFile.last
-      expect(source_file1.active_storage_attachment).to eq import.files.first
-      expect(source_file2.active_storage_attachment).to eq import.files.last
-    end
-
-    it "publishes error message if creating import record fails" do
-      import = build(:standards_import, :with_files)
-      error = StandardError.new("some error")
-      allow(SourceFile).to receive(:find_or_create_by!).and_raise(error)
-
-      expect_any_instance_of(ErrorSubscriber).to receive(:report).and_call_original
-      expect { import.save! }.to_not change(SourceFile, :count)
+      create(:standards_import)
     end
   end
 

@@ -1,7 +1,7 @@
 class StandardsImport < ApplicationRecord
   has_many_attached :files
 
-  after_commit :create_source_files!
+  after_commit :create_source_files
 
   enum courtesy_notification: [:not_required, :pending, :completed], _prefix: true
 
@@ -19,11 +19,7 @@ class StandardsImport < ApplicationRecord
 
   private
 
-  def create_source_files!
-    files.each do |file|
-      Rails.error.handle do
-        SourceFile.find_or_create_by!(active_storage_attachment_id: file.id)
-      end
-    end
+  def create_source_files
+    CreateSourceFilesJob.perform_later(self)
   end
 end
