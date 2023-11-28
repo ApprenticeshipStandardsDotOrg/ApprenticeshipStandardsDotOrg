@@ -38,6 +38,7 @@ RSpec.describe "StandardsImports", type: :request do
           expect(si.notes).to eq "a" * 500
           expect(si.files.count).to eq 1
           expect(si.public_document?).to be false
+          expect(si).to be_courtesy_notification_pending
 
           expect(response).to redirect_to standards_import_path(si)
           Flipper.disable :recaptcha
@@ -72,6 +73,7 @@ RSpec.describe "StandardsImports", type: :request do
           expect(si.notes).to eq "a" * 500
           expect(si.files.count).to eq 1
           expect(si.public_document?).to be true
+          expect(si).to be_courtesy_notification_not_required
 
           expect(response).to redirect_to admin_source_files_path
           Flipper.disable :recaptcha

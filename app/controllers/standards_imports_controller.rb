@@ -8,6 +8,10 @@ class StandardsImportsController < ApplicationController
   def create
     @standards_import = StandardsImport.new(standards_import_params)
 
+    unless user_signed_in?
+      @standards_import.courtesy_notification = :pending
+    end
+
     if @standards_import.save
       if user_signed_in?
         redirect_to admin_source_files_path
