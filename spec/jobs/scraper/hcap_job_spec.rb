@@ -5,9 +5,11 @@ RSpec.describe Scraper::HcapJob, type: :job do
     context "when files have not been downloaded previously" do
       it "downloads pdf files to a standards import record" do
         stub_responses
-        expect {
-          described_class.new.perform
-        }.to change(StandardsImport, :count).by(3)
+        perform_enqueued_jobs do
+          expect {
+            described_class.new.perform
+          }.to change(StandardsImport, :count).by(3)
+        end
 
         standards_import1 = StandardsImport.first
         expect(standards_import1.files.count).to eq 1
@@ -71,9 +73,11 @@ RSpec.describe Scraper::HcapJob, type: :job do
       it "downloads new pdf files to a standards import record" do
         stub_responses
         old_standards_import = create(:standards_import, :with_files, name: "https://a687e559-f74f-4c1e-b81d-83ee37e94af3.usrfiles.com/ugd/a687e5_f76fa7a5877742dd9cca8653d2fd6264.pdf", organization: "National Center for Healthcare Apprenticeships")
-        expect {
-          described_class.new.perform
-        }.to change(StandardsImport, :count).by(2)
+        perform_enqueued_jobs do
+          expect {
+            described_class.new.perform
+          }.to change(StandardsImport, :count).by(2)
+        end
 
         standards_import = StandardsImport.last
         expect(standards_import.files.count).to eq 1
