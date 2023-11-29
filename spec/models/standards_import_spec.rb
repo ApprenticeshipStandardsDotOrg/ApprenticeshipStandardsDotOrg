@@ -184,7 +184,7 @@ RSpec.describe StandardsImport, type: :model do
         expect(import).to have_converted_source_file_in_need_of_notification
       end
 
-      it "is false if there are no completed coversions without courtesy notification" do
+      it "is false if there are no completed coversions without courtesy notification needed" do
         file1 = file_fixture("pixel1x1.pdf")
         file2 = file_fixture("pixel1x1.jpg")
 
@@ -197,6 +197,56 @@ RSpec.describe StandardsImport, type: :model do
         source_file.courtesy_notification_completed! # User notified
 
         expect(import).to_not have_converted_source_file_in_need_of_notification
+      end
+    end
+  end
+
+  describe "#source_files_in_need_of_notification" do
+    context "when courtesy notification is not_required" do
+      it "is empty" do
+        import = create(:standards_import, courtesy_notification: :not_required)
+
+        expect(import.source_files_in_need_of_notification).to be_empty
+      end
+    end
+
+    context "when courtesy notification is completed" do
+      it "is empty" do
+        import = create(:standards_import, courtesy_notification: :completed, email: "foo@example.com", name: "Foo")
+
+        expect(import.source_files_in_need_of_notification).to be_empty
+      end
+    end
+
+    context "when courtesy notification is pending" do
+      it "returns source files such that conversion is complete but courtesy notification is marked as pending" do
+        file1 = file_fixture("pixel1x1.pdf")
+        file2 = file_fixture("pixel1x1.jpg")
+
+        import = create(:standards_import, files: [file1, file2], courtesy_notification: :pending, email: "foo@example.com", name: "Foo")
+        CreateSourceFilesJob.perform_now(import)
+        source_file1 = SourceFile.first
+        source_file1.completed! # Conversion is complete
+        source_file1.courtesy_notification_completed! # User notified
+        source_file2 = SourceFile.last
+        source_file2.completed! # Conversion is complete
+
+        expect(import.source_files_in_need_of_notification).to eq [source_file2]
+      end
+
+      it "is empty if there are no completed coversions without courtesy notification needed" do
+        file1 = file_fixture("pixel1x1.pdf")
+        file2 = file_fixture("pixel1x1.jpg")
+
+        # First file has been converted and notified. Second file has not
+        # been converted.
+        import = create(:standards_import, files: [file1, file2], courtesy_notification: :pending, email: "foo@example.com", name: "Foo")
+        CreateSourceFilesJob.perform_now(import)
+        source_file = SourceFile.first
+        source_file.completed! # Conversion is complete
+        source_file.courtesy_notification_completed! # User notified
+
+        expect(import.source_files_in_need_of_notification).to be_empty
       end
     end
   end

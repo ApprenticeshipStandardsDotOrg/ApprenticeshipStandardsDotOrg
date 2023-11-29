@@ -26,10 +26,14 @@ class StandardsImport < ApplicationRecord
   end
 
   def has_converted_source_file_in_need_of_notification?
+    source_files_in_need_of_notification.any?
+  end
+
+  def source_files_in_need_of_notification
     if courtesy_notification_pending?
-      source_files.detect{|source_file| source_file.needs_courtesy_notification?}.present?
+      source_files.select{|source_file| source_file.needs_courtesy_notification?}
     else
-      false
+      StandardsImport.none
     end
   end
 
