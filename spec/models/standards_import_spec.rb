@@ -13,6 +13,12 @@ RSpec.describe StandardsImport, type: :model do
     expect(import).to_not be_valid
   end
 
+  it "normalizes email" do
+    import = create(:standards_import, email: " FOO@example.COM  ")
+
+    expect(import.reload.email).to eq "foo@example.com"
+  end
+
   it "deletes file import record when deleted" do
     standards_import = create(:standards_import, :with_files)
     attachment = standards_import.files.first

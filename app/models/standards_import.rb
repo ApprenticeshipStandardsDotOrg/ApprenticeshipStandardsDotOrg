@@ -6,6 +6,7 @@ class StandardsImport < ApplicationRecord
   enum courtesy_notification: [:not_required, :pending, :completed], _prefix: true
 
   validates :email, presence: true
+  normalizes :email, with: -> email { email.strip.downcase }
 
   class << self
     def manual_submissions_in_need_of_courtesy_notification(email: nil)
