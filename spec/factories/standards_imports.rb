@@ -1,5 +1,6 @@
 FactoryBot.define do
   factory :standards_import do
+    name { "Harry Potter" }
     email { "foo@example.com" }
 
     trait :with_files do
