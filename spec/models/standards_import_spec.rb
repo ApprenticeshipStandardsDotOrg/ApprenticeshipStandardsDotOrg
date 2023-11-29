@@ -2,9 +2,15 @@ require "rails_helper"
 
 RSpec.describe StandardsImport, type: :model do
   it "has a valid factory" do
-    si = build(:standards_import)
+    import = build(:standards_import)
 
-    expect(si).to be_valid
+    expect(import).to be_valid
+  end
+
+  it "requires email" do
+    import = build(:standards_import, email: nil)
+
+    expect(import).to_not be_valid
   end
 
   it "deletes file import record when deleted" do
