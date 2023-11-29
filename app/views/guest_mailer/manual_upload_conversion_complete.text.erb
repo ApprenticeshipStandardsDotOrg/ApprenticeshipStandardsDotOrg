@@ -3,7 +3,7 @@ The following standards have been added to https://apprenticeshipstandards.org:
 <% @source_files.each do |source_file| %>
 <%= source_file.filename %>
   <% source_file.associated_occupation_standards.each do |standard| %>
-    <%= occupation_standard_url(standard) %>
+    <%= occupation_standard_url(standard, host: @host) %>
   <% end %>
 
 <% end %>

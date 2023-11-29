@@ -7,6 +7,7 @@ class GuestMailer < ApplicationMailer
   #
   def manual_upload_conversion_complete(email:, source_files:)
     @source_files = source_files
+    @host = ENV.fetch("PUBLIC_DOMAIN", Rails.application.config.action_mailer.default_url_options[:host])
 
     mail to: email,
          subject: "Standards conversion completion"

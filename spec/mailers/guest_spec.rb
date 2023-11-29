@@ -3,6 +3,7 @@ require "rails_helper"
 RSpec.describe GuestMailer, type: :mailer do
   describe "manual_upload_conversion_complete" do
     it "renders the headers and body correctly" do
+      stub_const "ENV", ENV.to_h.merge("PUBLIC_DOMAIN" => "public.example.com")
       file1 = file_fixture("pixel1x1.pdf")
       file2 = file_fixture("pixel1x1.jpg")
 
@@ -29,9 +30,9 @@ RSpec.describe GuestMailer, type: :mailer do
         expect(part.body).to match "apprenticeshipstandards.org"
         expect(part.body).to match "pixel1x1.pdf"
         expect(part.body).to match "pixel1x1.jpg"
-        expect(part.body).to match occupation_standard_url(occupation_standard)
-        expect(part.body).to match occupation_standard_url(occupation_standards.first)
-        expect(part.body).to match occupation_standard_url(occupation_standards.last)
+        expect(part.body).to match occupation_standard_url(occupation_standard, host: "public.example.com")
+        expect(part.body).to match occupation_standard_url(occupation_standards.first, host: "public.example.com")
+        expect(part.body).to match occupation_standard_url(occupation_standards.last, host: "public.example.com")
       end
     end
   end
