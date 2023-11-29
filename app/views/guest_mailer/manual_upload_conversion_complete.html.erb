@@ -1,0 +1,12 @@
+<p>
+The following standards have been added to <a href="https://apprenticeshipstandards.org">apprenticeshipstandards.org</a>:
+</p>
+
+<% @source_files.each do |source_file| %>
+  <p><%= source_file.filename %></p>
+  <ul>
+    <% source_file.associated_occupation_standards.each do |standard| %>
+      <li><%= link_to occupation_standard_url(standard), occupation_standard_url(standard) %></li>
+    <% end %>
+  </ul>
+<% end %>
