@@ -151,19 +151,18 @@ RSpec.describe "StandardsImports", type: :request do
         Flipper.enable :recaptcha
         stub_recaptcha_high_score
 
-        allow_any_instance_of(StandardsImport).to receive(:save).and_return(false)
         expect {
           post standards_imports_path, params: {
             standards_import: {
-              name: "Mickey Mouse",
-              email: "mickey@mouse.com",
+              name: "",
+              email: "",
               organization: "Disney",
               notes: "a" * 500
             }
           }
         }.to_not change(StandardsImport, :count)
 
-        expect(response).to have_http_status(:ok)
+        expect(response).to have_http_status(:unprocessable_entity)
         Flipper.disable :recaptcha
       end
     end

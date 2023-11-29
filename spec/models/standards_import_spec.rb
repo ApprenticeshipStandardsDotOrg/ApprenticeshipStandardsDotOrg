@@ -7,10 +7,18 @@ RSpec.describe StandardsImport, type: :model do
     expect(import).to be_valid
   end
 
-  it "requires email" do
-    import = build(:standards_import, email: nil)
+  it "requires email if courtesy_notification is other than not_required" do
+    import = build(:standards_import, email: nil, courtesy_notification: :pending)
 
     expect(import).to_not be_valid
+
+    import = build(:standards_import, email: nil, courtesy_notification: :completed)
+
+    expect(import).to_not be_valid
+
+    import = build(:standards_import, email: nil, courtesy_notification: :not_required)
+
+    expect(import).to be_valid
   end
 
   it "normalizes email" do
@@ -19,10 +27,18 @@ RSpec.describe StandardsImport, type: :model do
     expect(import.reload.email).to eq "foo@example.com"
   end
 
-  it "requires name" do
-    import = build(:standards_import, name: nil)
+  it "requires name if courtesy_notification is other than not_required" do
+    import = build(:standards_import, name: nil, courtesy_notification: :pending)
 
     expect(import).to_not be_valid
+
+    import = build(:standards_import, name: nil, courtesy_notification: :completed)
+
+    expect(import).to_not be_valid
+
+    import = build(:standards_import, name: nil, courtesy_notification: :not_required)
+
+    expect(import).to be_valid
   end
 
   it "normalizes name" do
@@ -56,7 +72,7 @@ RSpec.describe StandardsImport, type: :model do
 
         # Import needs notifiying since user has not been notified about the
         # second file being completed
-        import1 = create(:standards_import, files: [file1, file2], courtesy_notification: :pending)
+        import1 = create(:standards_import, files: [file1, file2], courtesy_notification: :pending, email: "foo@example.com", name: "Foo")
         source_file1a = SourceFile.first
         source_file1a.completed! # Conversion is complete
         source_file1a.courtesy_notification_completed! # User notified
@@ -65,20 +81,20 @@ RSpec.describe StandardsImport, type: :model do
 
         # Import needs notifiying since user has not been notified about single
         # file conversion being completed
-        import2 = create(:standards_import, :with_files, courtesy_notification: :pending)
+        import2 = create(:standards_import, :with_files, courtesy_notification: :pending, email: "foo2@example.com", name: "Foo2")
         source_file2 = SourceFile.last
         source_file2.completed! # Conversion is complete
 
         # Import does NOT need notifiying since user has been notified about the
         # second file, but first file conversion is not complete.
-        create(:standards_import, files: [file1, file2], courtesy_notification: :pending)
+        create(:standards_import, files: [file1, file2], courtesy_notification: :pending, email: "foo3@example.com", name: "Foo3")
         source_file3 = SourceFile.last
         source_file3.completed! # Conversion is complete
         source_file3.courtesy_notification_completed! # User notified
 
         # Import does NOT need notifiying since import courtesy notification
         # is marked as completed.
-        create(:standards_import, :with_files, courtesy_notification: :completed)
+        create(:standards_import, :with_files, courtesy_notification: :completed, email: "foo4@example.com", name: "Foo4")
 
         # Import does NOT need notifiying since import courtesy notification
         # is marked as not_required.
@@ -95,7 +111,7 @@ RSpec.describe StandardsImport, type: :model do
 
         # Import needs notifiying since user has not been notified about the
         # second file being completed
-        import1 = create(:standards_import, files: [file1, file2], courtesy_notification: :pending, email: "foo@example.com")
+        import1 = create(:standards_import, files: [file1, file2], courtesy_notification: :pending, email: "foo@example.com", name: "Foo")
         source_file1a = SourceFile.first
         source_file1a.completed! # Conversion is complete
         source_file1a.courtesy_notification_completed! # User notified
@@ -104,7 +120,7 @@ RSpec.describe StandardsImport, type: :model do
 
         # Import needs notifiying since user has not been notified about single
         # file conversion being completed
-        import2 = create(:standards_import, :with_files, courtesy_notification: :pending, email: "notfoo@example.com")
+        import2 = create(:standards_import, :with_files, courtesy_notification: :pending, email: "notfoo@example.com", name: "Not Foo")
         source_file2 = SourceFile.last
         source_file2.completed! # Conversion is complete
 
@@ -126,7 +142,7 @@ RSpec.describe StandardsImport, type: :model do
       file1 = file_fixture("pixel1x1.pdf")
       file2 = file_fixture("pixel1x1.jpg")
 
-      import = create(:standards_import, files: [file1, file2], courtesy_notification: :pending)
+      import = create(:standards_import, email: "foo@example.com", name: "Foo", files: [file1, file2], courtesy_notification: :pending)
       source_file1 = SourceFile.first
       source_file2 = SourceFile.last
       create(:source_file)
@@ -157,7 +173,7 @@ RSpec.describe StandardsImport, type: :model do
         file1 = file_fixture("pixel1x1.pdf")
         file2 = file_fixture("pixel1x1.jpg")
 
-        import = create(:standards_import, files: [file1, file2], courtesy_notification: :pending)
+        import = create(:standards_import, files: [file1, file2], courtesy_notification: :pending, email: "foo@example.com", name: "Foo")
         CreateSourceFilesJob.perform_now(import)
         source_file1 = SourceFile.first
         source_file1.completed! # Conversion is complete
@@ -174,7 +190,7 @@ RSpec.describe StandardsImport, type: :model do
 
         # First file has been converted and notified. Second file has not
         # been converted.
-        import = create(:standards_import, files: [file1, file2], courtesy_notification: :pending)
+        import = create(:standards_import, files: [file1, file2], courtesy_notification: :pending, email: "foo@example.com", name: "Foo")
         CreateSourceFilesJob.perform_now(import)
         source_file = SourceFile.first
         source_file.completed! # Conversion is complete

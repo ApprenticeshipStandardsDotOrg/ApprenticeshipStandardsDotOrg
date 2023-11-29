@@ -19,7 +19,7 @@ RSpec.describe CreateSourceFilesJob, type: :job do
     end
 
     it "marks source_file courtesy_notification as pending if import courtesy notification is pending" do
-      import = create(:standards_import, :with_files, courtesy_notification: :pending)
+      import = create(:standards_import, :with_files, email: "foo@example.com", name: "Foo", courtesy_notification: :pending)
       SourceFile.destroy_all # Remove source files created from factory
 
       described_class.new.perform(import)
