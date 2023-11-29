@@ -5,6 +5,30 @@ class StandardsImport < ApplicationRecord
 
   enum courtesy_notification: [:not_required, :pending, :completed], _prefix: true
 
+  class << self
+    def manual_submissions_in_need_of_courtesy_notification(email: nil)
+      imports = StandardsImport.courtesy_notification_pending
+      if email.present?
+        imports = imports.where(email: email)
+      end
+      imports.select do |import|
+        import.has_converted_source_file_in_need_of_notification?
+      end
+    end
+  end
+
+  def source_files
+    files.map(&:source_file)
+  end
+
+  def has_converted_source_file_in_need_of_notification?
+    if courtesy_notification_pending?
+      source_files.detect{|source_file| source_file.needs_courtesy_notification?}.present?
+    else
+      false
+    end
+  end
+
   def file_count
     files.count
   end
