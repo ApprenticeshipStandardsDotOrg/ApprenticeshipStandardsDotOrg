@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_11_13_181852) do
+ActiveRecord::Schema[7.1].define(version: 2023_11_30_151039) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -236,6 +237,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_13_181852) do
     t.datetime "updated_at", null: false
     t.uuid "assignee_id"
     t.boolean "public_document", default: false, null: false
+    t.text "plain_text_version"
     t.index ["active_storage_attachment_id"], name: "index_source_files_on_active_storage_attachment_id"
     t.index ["assignee_id"], name: "index_source_files_on_assignee_id"
   end
