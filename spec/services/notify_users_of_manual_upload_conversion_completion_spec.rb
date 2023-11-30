@@ -28,6 +28,9 @@ RSpec.describe NotifyUsersOfManualUploadConversionCompletion do
         expect(source_file1b.reload).to be_courtesy_notification_completed
         expect(source_file2a.reload).to be_courtesy_notification_completed
         expect(source_file2b.reload).to be_courtesy_notification_completed
+
+        expect(import1.reload).to be_courtesy_notification_completed
+        expect(import2.reload).to be_courtesy_notification_completed
       end
     end
 
@@ -49,6 +52,8 @@ RSpec.describe NotifyUsersOfManualUploadConversionCompletion do
 
         expect(source_file1a.reload).to be_courtesy_notification_completed
         expect(source_file1b.reload).to be_courtesy_notification_completed
+
+        expect(import1.reload).to be_courtesy_notification_completed
       end
     end
   end
