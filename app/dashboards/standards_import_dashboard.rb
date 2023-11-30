@@ -42,7 +42,7 @@ class StandardsImportDashboard < Administrate::BaseDashboard
 
   COLLECTION_FILTERS = {}.freeze
 
-  def permitted_attributes
+  def permitted_attributes(action = nil)
     super + [attachments: []]
   end
 end

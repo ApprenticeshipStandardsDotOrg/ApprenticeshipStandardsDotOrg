@@ -18,6 +18,7 @@ class SourceFileDashboard < Administrate::BaseDashboard
     redacted_source_file: Field::ActiveStorage,
     redacted_source_file_url: Field::Url.with_options(searchable: false),
     associated_occupation_standards: HasManyAssociatedOccupationStandardsField,
+    standards_import: GenericRecordField,
     plain_text_version: Field::Text
 
   }.freeze
@@ -45,6 +46,7 @@ class SourceFileDashboard < Administrate::BaseDashboard
     redacted_source_file
     redacted_source_file_url
     associated_occupation_standards
+    standards_import
     plain_text_version
     created_at
     updated_at
