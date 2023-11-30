@@ -38,7 +38,7 @@ RSpec.describe "standards_imports/new" do
       fill_in "Notes", with: "a" * 500
       attach_file "Files", ["spec/fixtures/files/pixel1x1.jpg"]
 
-      expect{
+      expect {
         click_on "Upload"
       }.to_not change(StandardsImport, :count)
 

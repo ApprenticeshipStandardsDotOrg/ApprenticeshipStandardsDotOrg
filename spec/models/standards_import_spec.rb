@@ -120,7 +120,7 @@ RSpec.describe StandardsImport, type: :model do
 
         # Import needs notifiying since user has not been notified about single
         # file conversion being completed
-        import2 = create(:standards_import, :with_files, courtesy_notification: :pending, email: "notfoo@example.com", name: "Not Foo")
+        create(:standards_import, :with_files, courtesy_notification: :pending, email: "notfoo@example.com", name: "Not Foo")
         source_file2 = SourceFile.last
         source_file2.completed! # Conversion is complete
 

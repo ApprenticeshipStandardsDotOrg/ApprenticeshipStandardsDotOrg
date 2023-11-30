@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe CreateSourceFilesJob, type: :job do
   describe "#perform" do
@@ -8,7 +8,7 @@ RSpec.describe CreateSourceFilesJob, type: :job do
       import = create(:standards_import, files: [file1, file2])
       SourceFile.destroy_all # Remove source files created from factory
 
-      expect { 
+      expect {
         described_class.new.perform(import)
       }.to change(SourceFile, :count).by(2)
 

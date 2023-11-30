@@ -1,5 +1,4 @@
 class GuestMailer < ApplicationMailer
-
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
@@ -10,6 +9,6 @@ class GuestMailer < ApplicationMailer
     @host = ENV.fetch("PUBLIC_DOMAIN", Rails.application.config.action_mailer.default_url_options[:host])
 
     mail to: email,
-         subject: "Standards conversion completion"
+      subject: "Standards conversion completion"
   end
 end
