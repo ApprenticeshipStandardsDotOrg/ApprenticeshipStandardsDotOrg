@@ -9,6 +9,7 @@ class SourceFileDashboard < Administrate::BaseDashboard
     notes: Field::String.with_options(searchable: false),
     organization: Field::String.with_options(searchable: false),
     status: EnumField.with_options(searchable: false),
+    courtesy_notification: EnumField.with_options(searchable: false),
     url: Field::Url.with_options(searchable: false),
     assignee: AssigneeField,
     created_at: Field::DateTime,
@@ -32,6 +33,7 @@ class SourceFileDashboard < Administrate::BaseDashboard
 
   SHOW_PAGE_ATTRIBUTES = %i[
     status
+    courtesy_notification
     data_imports
     metadata
     organization
@@ -53,6 +55,7 @@ class SourceFileDashboard < Administrate::BaseDashboard
     status
     assignee
     public_document
+    courtesy_notification
   ].freeze
 
   COLLECTION_FILTERS = {}.freeze
