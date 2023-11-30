@@ -1,4 +1,6 @@
 class NotifyUsersOfManualUploadConversionCompletion
+  attr_reader :email
+
   class << self
     def call(email: nil)
       new(email: email).call
@@ -10,7 +12,7 @@ class NotifyUsersOfManualUploadConversionCompletion
   end
 
   def call
-    StandardsImport.manual_submissions_in_need_of_courtesy_notification.each do |import|
+    StandardsImport.manual_submissions_in_need_of_courtesy_notification(email: email).each do |import|
       GuestMailer.manual_upload_conversion_complete(
         email: import.email,
         source_files: import.source_files_in_need_of_notification
