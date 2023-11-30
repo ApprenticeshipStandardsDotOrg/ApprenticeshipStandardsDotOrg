@@ -1,22 +1,12 @@
-class NotifyUsersOfManualUploadConversionCompletion
-  attr_reader :email
+class NotifyUploadersOfManualConversionCompletionJob < ApplicationJob
+  queue_as :default
 
-  class << self
-    def call(email: nil)
-      new(email: email).call
-    end
-  end
-
-  def initialize(email: nil)
-    @email = email
-  end
-
-  def call
+  def perform(email: nil)
     StandardsImport.manual_submissions_in_need_of_courtesy_notification(email: email).each do |import|
       GuestMailer.manual_upload_conversion_complete(
         email: import.email,
         source_files: import.source_files_in_need_of_notification
-      ).deliver_later
+      ).deliver_now
 
       import.source_files_in_need_of_notification.each do |source_file|
         source_file.courtesy_notification_completed!
