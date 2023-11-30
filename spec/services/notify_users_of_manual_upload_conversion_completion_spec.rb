@@ -23,6 +23,11 @@ RSpec.describe NotifyUsersOfManualUploadConversionCompletion do
         expect(mailer).to receive(:deliver_later).twice
 
         described_class.call
+
+        expect(source_file1a.reload).to be_courtesy_notification_completed
+        expect(source_file1b.reload).to be_courtesy_notification_completed
+        expect(source_file2a.reload).to be_courtesy_notification_completed
+        expect(source_file2b.reload).to be_courtesy_notification_completed
       end
     end
 
@@ -41,6 +46,9 @@ RSpec.describe NotifyUsersOfManualUploadConversionCompletion do
         expect(mailer).to receive(:deliver_later)
 
         described_class.call(email: "foo@example.com")
+
+        expect(source_file1a.reload).to be_courtesy_notification_completed
+        expect(source_file1b.reload).to be_courtesy_notification_completed
       end
     end
   end

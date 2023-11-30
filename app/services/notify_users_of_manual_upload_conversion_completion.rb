@@ -17,6 +17,10 @@ class NotifyUsersOfManualUploadConversionCompletion
         email: import.email,
         source_files: import.source_files_in_need_of_notification
       ).deliver_later
+
+      import.source_files_in_need_of_notification.each do |source_file|
+        source_file.courtesy_notification_completed!
+      end
     end
   end
 end
