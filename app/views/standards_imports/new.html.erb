@@ -32,14 +32,21 @@
       <h3 class="font-bold text-2xl mt-4 mb-2">
           Upload Apprenticeship Standards
       </h3>
-      <%= form_with model: @standards_import, class: "bg-seafoam-50", id: "new_standards_import" do |f| %>
+      <% if @standards_import.errors.any? %>
+        <div class="mb-2">
+          <% @standards_import.errors.each do |error| %>
+            <p><%= error.full_message %></p>
+          <% end %>
+        </div>
+      <% end %>
+      <%= form_with model: @standards_import, class: "bg-seafoam-50", id: "new_standards_import", data: {turbo: false} do |f| %>
         <div class="mb-4">
-          <%= f.label :name, class: "form-label" %>
-          <%= f.text_field :name, class: "form-field" %>
+          <%= f.label :name, "Name<sup>*</sup>".html_safe, class: "form-label" %>
+          <%= f.text_field :name, class: "form-field", required: true %>
         </div>
         <div class="mb-4">
-          <%= f.label :email, class: "form-label" %>
-          <%= f.email_field :email, class: "form-field" %>
+          <%= f.label :email, "Email<sup>*</sup>".html_safe, class: "form-label" %>
+          <%= f.email_field :email, class: "form-field", required: true %>
         </div>
         <div class="mb-4">
           <%= f.label :organization, class: "form-label" %>

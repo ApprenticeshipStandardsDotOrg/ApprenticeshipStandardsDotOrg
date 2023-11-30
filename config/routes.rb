@@ -30,10 +30,6 @@ Rails.application.routes.draw do
 
     namespace :admin do
       resources :data_imports, except: [:index]
-      resources :users do
-        post :invite, on: :member
-      end
-      resources :api_keys, only: [:create, :index, :show, :destroy]
       resources :source_files, only: [:index, :edit, :show, :update, :destroy] do
         resource :redact_file, only: [:new, :create]
         resources :data_imports, except: [:index]
@@ -41,13 +37,18 @@ Rails.application.routes.draw do
       resources :occupation_standards, only: [:index, :show, :edit, :update]
       resources :occupations, only: [:index, :show, :edit, :update]
       resources :organizations, only: [:index, :show, :edit, :update]
+      resources :standards_imports
       resources :work_processes, only: [:show, :edit, :update]
       resources :competencies, only: [:show, :edit, :update]
       resources :competency_options, only: [:show, :edit, :update]
       resources :wage_steps, only: [:show, :edit, :update]
-      resources :contact_requests, only: [:index, :show]
       resources :onets, only: [:index, :show]
       resources :synonyms
+      resources :contact_requests, only: [:index, :show]
+      resources :users do
+        post :invite, on: :member
+      end
+      resources :api_keys, only: [:create, :index, :show, :destroy]
     end
   end
 
