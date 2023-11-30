@@ -251,6 +251,39 @@ RSpec.describe StandardsImport, type: :model do
     end
   end
 
+  describe "#has_notified_uploader_of_all_conversions?" do
+    it "is true if source file total matches courtesy notification total" do
+      file1 = file_fixture("pixel1x1.pdf")
+      file2 = file_fixture("pixel1x1.jpg")
+
+      import = create(:standards_import, files: [file1, file2], courtesy_notification: :pending, email: "foo@example.com", name: "Foo")
+      CreateSourceFilesJob.perform_now(import)
+      source_file1 = SourceFile.first
+      source_file1.completed! # Conversion is complete
+      source_file1.courtesy_notification_completed! # User notified
+      source_file2 = SourceFile.last
+      source_file2.completed! # Conversion is complete
+      source_file2.courtesy_notification_completed! # User notified
+
+      expect(import.has_notified_uploader_of_all_conversions?).to be true
+    end
+
+    it "is false if source file total does not match courtesy notification total" do
+      file1 = file_fixture("pixel1x1.pdf")
+      file2 = file_fixture("pixel1x1.jpg")
+
+      import = create(:standards_import, files: [file1, file2], courtesy_notification: :pending, email: "foo@example.com", name: "Foo")
+      CreateSourceFilesJob.perform_now(import)
+      source_file1 = SourceFile.first
+      source_file1.completed! # Conversion is complete
+      source_file1.courtesy_notification_completed! # User notified
+      source_file2 = SourceFile.last
+      source_file2.completed! # Conversion is complete
+
+      expect(import.has_notified_uploader_of_all_conversions?).to be false
+    end
+  end
+
   describe "#file_count" do
     it "returns file count" do
       si = create(:standards_import, :with_files)

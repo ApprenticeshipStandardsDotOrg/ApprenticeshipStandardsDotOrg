@@ -37,6 +37,10 @@ class StandardsImport < ApplicationRecord
     end
   end
 
+  def has_notified_uploader_of_all_conversions?
+    source_files.count == source_files.select{|source_file| source_file.courtesy_notification_completed?}.count
+  end
+
   def file_count
     files.count
   end
