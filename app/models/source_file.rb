@@ -5,7 +5,7 @@ class SourceFile < ApplicationRecord
   has_many :associated_occupation_standards, through: :data_imports, source: :occupation_standard
   has_one_attached :redacted_source_file
 
-  enum :status, [:pending, :completed, :needs_support]
+  enum :status, [:pending, :completed, :needs_support, :needs_human_review]
 
   def filename
     active_storage_attachment.blob.filename
