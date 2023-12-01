@@ -35,7 +35,7 @@ module WorkProcessesHelper
     end
   end
 
-  def hours_display_class(work_process)
+  def work_process_hours_display_class(work_process)
     if work_process.hours.present? && work_process.occupation_standard_work_processes_hours.positive?
       "visible"
     else

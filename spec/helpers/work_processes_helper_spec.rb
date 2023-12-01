@@ -102,12 +102,12 @@ RSpec.describe WorkProcessesHelper, type: :helper do
     end
   end
 
-  describe "#hours_display_class" do
+  describe "#work_process_hours_display_class" do
     it "returns invisible if work_process hours field is blank" do
       work_process = build(:work_process)
       allow(work_process).to receive(:hours).and_return(nil)
 
-      expect(helper.hours_display_class(work_process)).to eq "invisible"
+      expect(helper.work_process_hours_display_class(work_process)).to eq "invisible"
     end
 
     it "returns invisible if work_process hours is present but the total work process hours is 0" do
@@ -115,7 +115,7 @@ RSpec.describe WorkProcessesHelper, type: :helper do
       allow(work_process).to receive(:hours).and_return(5)
       allow(work_process).to receive(:occupation_standard_work_processes_hours).and_return(0)
 
-      expect(helper.hours_display_class(work_process)).to eq "invisible"
+      expect(helper.work_process_hours_display_class(work_process)).to eq "invisible"
     end
 
     it "returns visible if work_process hours is present and the total work process hours is > 0" do
@@ -123,7 +123,7 @@ RSpec.describe WorkProcessesHelper, type: :helper do
       allow(work_process).to receive(:hours).and_return(5)
       allow(work_process).to receive(:occupation_standard_work_processes_hours).and_return(5)
 
-      expect(helper.hours_display_class(work_process)).to eq "visible"
+      expect(helper.work_process_hours_display_class(work_process)).to eq "visible"
     end
   end
 end
