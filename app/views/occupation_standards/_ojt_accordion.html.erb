@@ -1,38 +1,30 @@
 <% work_processes.each do |work_process| %>
-    <div class="<%= standard_descendants_accordion_class(work_process) %> w-full mx-auto">
+  <div class="<%= standard_descendants_accordion_class(work_process) %> w-full mx-auto">
 
-        <details class="w-full bg-white border-b-2 border-seafoam-300 cursor-pointer">
-            <summary class="w-full items-center bg-seafoam-200 flex space-x-4 px-4 py-2 before:mr-4 before:font-bold before:text-3xl before:text-secondary-600 <%= standard_descendants_toggle_icon(work_process) %>">
-                <div class="flex w-full items-center justify-between">
-                    <div class="space-x-3 flex-col md:flex-row">
-                        <span class="skill-title text-xl text-primary-900 font-bold"><%= work_process.title %></span>
-                        <span class="skill-code text-primary-600"></span>
-                    </div>
+    <details class="w-full bg-white border-b-2 border-seafoam-300 cursor-pointer">
 
-                    <div class="flex items-center">
-                        <div class="flex flex-col md:flex-row">
-                            <div class="m-1.5 w-28 rounded bg-yonder-100 px-1 py-3 text-center <%= competencies_count_display_class(work_process) %>">
-                                <div class="text-3xl font-bold text-yonder-600"><%= work_process.competencies_count %></div>
-                            </div>
-                            <div class="m-1.5 w-28 rounded bg-rust-100 px-1 py-3 text-center <%= work_process_hours_display_class(work_process) %>">
-                                <div class="text-3xl font-bold text-rust-800"><%= hours_in_human_format(work_process.hours) %></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </summary>
-            <% if work_process.has_details_to_display? %>
-              <div class="accordion-content space-y-4 p-8 text-primary-600">
-                  <p>
-                      <%= work_process.description %>
-                  </p>
-                  <ol class="list-decimal list-inside space-y-1" role="list">
-                      <% work_process.competencies.each do |competency| %>
-                          <li><%= strip_tags competency.title %></li>
-                      <% end %>
-                  </ol>
-              </div>
-            <% end %>
-        </details>
-    </div>
+      <%= render "accordion_summary", record: work_process do %>
+        <div class="m-1.5 w-28 rounded bg-yonder-100 px-1 py-3 text-center <%= competencies_count_display_class(work_process) %>">
+          <div class="text-3xl font-bold text-yonder-600">
+            <%= work_process.competencies_count %>
+          </div>
+        </div>
+        <div class="m-1.5 w-28 rounded bg-rust-100 px-1 py-3 text-center <%= work_process_hours_display_class(work_process) %>">
+          <div class="text-3xl font-bold text-rust-800">
+            <%= hours_in_human_format(work_process.hours) %>
+          </div>
+        </div>
+      <% end %>
+
+      <%= render "accordion_details", record: work_process do %>
+        <p><%= work_process.description %></p>
+        <ol class="list-decimal list-inside space-y-1" role="list">
+          <% work_process.competencies.each do |competency| %>
+            <li><%= strip_tags competency.title %></li>
+          <% end %>
+        </ol>
+      <% end %>
+
+    </details>
+  </div>
 <% end %>
