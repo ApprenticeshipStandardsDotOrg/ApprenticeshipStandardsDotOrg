@@ -56,21 +56,16 @@ RSpec.describe WorkProcessesHelper, type: :helper do
   end
 
   describe "#work_process_toggle_icon" do
-    it "returns nil if work_process description is blank and there are no competencies" do
-      work_process = build(:work_process, description: nil)
+    it "returns nil if work_process has no details to display" do
+      work_process = build(:work_process)
+      allow(work_process).to receive(:has_details_to_display?).and_return(false)
 
       expect(helper.work_process_toggle_icon(work_process)).to be_nil
     end
 
-    it "returns before content if work_process description is present but there are no competencies" do
-      work_process = build(:work_process, description: "desc")
-
-      expect(helper.work_process_toggle_icon(work_process)).to eq "before:content-['+']"
-    end
-
-    it "returns before content if work_process description is blank but there are competencies" do
-      competency = build(:competency)
-      work_process = build_stubbed(:work_process, description: nil, competencies: [competency])
+    it "returns before content if work_process has details to display" do
+      work_process = build(:work_process)
+      allow(work_process).to receive(:has_details_to_display?).and_return(true)
 
       expect(helper.work_process_toggle_icon(work_process)).to eq "before:content-['+']"
     end

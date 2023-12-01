@@ -23,4 +23,8 @@ class WorkProcess < ApplicationRecord
       }
     )
   end
+
+  def has_details_to_display?
+    description.present? || competencies.any?
+  end
 end

@@ -16,7 +16,7 @@ module WorkProcessesHelper
   end
 
   def work_process_toggle_icon(work_process)
-    if work_process.description.present? || work_process.competencies.any?
+    if work_process.has_details_to_display?
       "before:content-['+']"
     end
   end
