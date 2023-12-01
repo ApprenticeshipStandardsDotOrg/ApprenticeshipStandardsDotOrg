@@ -25,6 +25,22 @@ RSpec.describe OccupationStandardsHelper, type: :helper do
     end
   end
 
+  describe "#standard_descendants_accordion_class" do
+    it "returns nil if related_instruction has no details to display" do
+      related_instruction = build(:related_instruction)
+      allow(related_instruction).to receive(:has_details_to_display?).and_return(false)
+
+      expect(helper.standard_descendants_accordion_class(related_instruction)).to be_nil
+    end
+
+    it "returns 'accordion' if related_instruction has details to display" do
+      related_instruction = build(:related_instruction)
+      allow(related_instruction).to receive(:has_details_to_display?).and_return(true)
+
+      expect(helper.standard_descendants_accordion_class(related_instruction)).to eq "accordion"
+    end
+  end
+
   describe "#standard_descendants_toggle_icon" do
     it "returns nil if related_instruction has no details to display" do
       related_instruction = build(:related_instruction)

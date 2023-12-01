@@ -1,5 +1,5 @@
 <% related_instructions.each do |related_instruction| %>
-  <div class="<%= related_instruction_accordion_class(related_instruction) %> w-full mx-auto">
+  <div class="<%= standard_descendants_accordion_class(related_instruction) %> w-full mx-auto">
     <details class="w-full bg-white border-b-2 border-seafoam-300 cursor-pointer">
       <summary class="w-full items-center bg-seafoam-200 flex space-x-4 px-4 py-2 before:mr-4 before:font-bold before:text-3xl before:text-secondary-600 <%= standard_descendants_toggle_icon(related_instruction) %>">
         <div class="flex w-full items-center justify-between">

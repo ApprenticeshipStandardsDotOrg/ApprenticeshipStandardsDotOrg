@@ -55,22 +55,6 @@ RSpec.describe WorkProcessesHelper, type: :helper do
     end
   end
 
-  describe "#work_process_accordion_class" do
-    it "returns nil if work_process has no details to display" do
-      work_process = build(:work_process)
-      allow(work_process).to receive(:has_details_to_display?).and_return(false)
-
-      expect(helper.work_process_accordion_class(work_process)).to be_nil
-    end
-
-    it "returns 'accordion' if work_process has details to display" do
-      work_process = build(:work_process)
-      allow(work_process).to receive(:has_details_to_display?).and_return(true)
-
-      expect(helper.work_process_accordion_class(work_process)).to eq "accordion"
-    end
-  end
-
   describe "#competencies_count_display_class" do
     it "returns invisible if competencies count is 0" do
       work_process = build(:work_process)
