@@ -111,7 +111,7 @@ RSpec.describe StandardsImport, type: :model do
 
         # Import needs notifiying since user has not been notified about the
         # second file being completed
-        import1 = create(:standards_import, files: [file1, file2], courtesy_notification: :pending, email: "foo@example.com", name: "Foo")
+        import1 = create(:standards_import, files: [file1, file2], courtesy_notification: :pending, email: "FOO@example.com ", name: "Foo")
         source_file1a = SourceFile.first
         source_file1a.completed! # Conversion is complete
         source_file1a.courtesy_notification_completed! # User notified
@@ -124,7 +124,7 @@ RSpec.describe StandardsImport, type: :model do
         source_file2 = SourceFile.last
         source_file2.completed! # Conversion is complete
 
-        expect(described_class.manual_submissions_in_need_of_courtesy_notification(email: "foo@example.com")).to contain_exactly(import1)
+        expect(described_class.manual_submissions_in_need_of_courtesy_notification(email: " foo@EXAMPLE.COM")).to contain_exactly(import1)
       end
     end
   end
