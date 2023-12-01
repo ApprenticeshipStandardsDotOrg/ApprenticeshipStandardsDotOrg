@@ -15,6 +15,12 @@ module WorkProcessesHelper
     )
   end
 
+  def work_process_accordion_class(work_process)
+    if work_process.has_details_to_display?
+      "accordion"
+    end
+  end
+
   def work_process_toggle_icon(work_process)
     if work_process.has_details_to_display?
       "before:content-['+']"

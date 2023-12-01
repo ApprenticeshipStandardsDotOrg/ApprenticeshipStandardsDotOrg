@@ -1,8 +1,8 @@
-<div class="accordion w-full mx-auto">
-    <% work_processes.each do |work_process| %>
+<% work_processes.each do |work_process| %>
+    <div class="<%= work_process_accordion_class(work_process) %> w-full mx-auto">
 
         <details class="w-full bg-white border-b-2 border-seafoam-300 cursor-pointer">
-            <summary class="w-full items-center bg-seafoam-200 flex space-x-4 px-4 py-2 before:mr-4 before:font-bold before:text-3xl before:text-secondary-600 <%= toggle_icon(work_process) %>">
+            <summary class="w-full items-center bg-seafoam-200 flex space-x-4 px-4 py-2 before:mr-4 before:font-bold before:text-3xl before:text-secondary-600 <%= work_process_toggle_icon(work_process) %>">
                 <div class="flex w-full items-center justify-between">
                     <div class="space-x-3 flex-col md:flex-row">
                         <span class="skill-title text-xl text-primary-900 font-bold"><%= work_process.title %></span>
@@ -21,7 +21,7 @@
                     </div>
                 </div>
             </summary>
-            <% if work_process.description.present? || work_process.competencies.any? %>
+            <% if work_process.has_details_to_display? %>
               <div class="accordion-content space-y-4 p-8 text-primary-600">
                   <p>
                       <%= work_process.description %>
@@ -34,5 +34,5 @@
               </div>
             <% end %>
         </details>
-    <% end %>
-</div>
+    </div>
+<% end %>
