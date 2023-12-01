@@ -220,6 +220,9 @@ GEM
       activesupport (>= 6.1)
     hashdiff (1.0.1)
     hashie (5.0.0)
+    httparty (0.21.0)
+      mini_mime (>= 1.0.0)
+      multi_xml (>= 0.5.2)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
     image_processing (1.12.2)
@@ -273,6 +276,7 @@ GEM
     minitest (5.20.0)
     msgpack (1.7.2)
     multi_json (1.15.0)
+    multi_xml (0.6.0)
     net-imap (0.4.3)
       date
       net-protocol
@@ -515,6 +519,7 @@ DEPENDENCIES
   factory_bot_rails
   flipper
   flipper-active_record
+  httparty
   image_processing
   importmap-rails
   jsonapi-resources
