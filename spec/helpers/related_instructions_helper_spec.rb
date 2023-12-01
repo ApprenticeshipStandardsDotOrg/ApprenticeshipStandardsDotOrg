@@ -27,22 +27,6 @@ RSpec.describe RelatedInstructionsHelper, type: :helper do
     end
   end
 
-  describe "#related_instruction_toggle_icon" do
-    it "returns nil if related_instruction has no details to display" do
-      related_instruction = build(:related_instruction)
-      allow(related_instruction).to receive(:has_details_to_display?).and_return(false)
-
-      expect(helper.related_instruction_toggle_icon(related_instruction)).to be_nil
-    end
-
-    it "returns before content if related_instruction has details to display" do
-      related_instruction = build(:related_instruction)
-      allow(related_instruction).to receive(:has_details_to_display?).and_return(true)
-
-      expect(helper.related_instruction_toggle_icon(related_instruction)).to eq "before:content-['+']"
-    end
-  end
-
   describe "#related_instruction_hours_display_class" do
     it "returns invisible if related_instruction hours field is nil" do
       related_instruction = build(:related_instruction, hours: nil)
