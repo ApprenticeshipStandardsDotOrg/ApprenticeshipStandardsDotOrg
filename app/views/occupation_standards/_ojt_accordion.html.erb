@@ -21,16 +21,18 @@
                     </div>
                 </div>
             </summary>
-            <div class="accordion-content space-y-4 p-8 text-primary-600">
-                <p>
-                    <%= work_process.description %>
-                </p>
-                <ol class="list-decimal list-inside space-y-1" role="list">
-                    <% work_process.competencies.each do |competency| %>
-                        <li><%= strip_tags competency.title %></li>
-                    <% end %>
-                </ol>
-            </div>
+            <% if work_process.description.present? || work_process.competencies.any? %>
+              <div class="accordion-content space-y-4 p-8 text-primary-600">
+                  <p>
+                      <%= work_process.description %>
+                  </p>
+                  <ol class="list-decimal list-inside space-y-1" role="list">
+                      <% work_process.competencies.each do |competency| %>
+                          <li><%= strip_tags competency.title %></li>
+                      <% end %>
+                  </ol>
+              </div>
+            <% end %>
         </details>
     <% end %>
 </div>
