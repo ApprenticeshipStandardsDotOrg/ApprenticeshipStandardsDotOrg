@@ -2,7 +2,7 @@
     <% work_processes.each do |work_process| %>
 
         <details class="w-full bg-white border-b-2 border-seafoam-300 cursor-pointer">
-            <summary class="w-full items-center bg-seafoam-200 flex space-x-4 px-4 py-2 before:content-['+'] before:mr-4 before:font-bold before:text-3xl before:text-secondary-600">
+            <summary class="w-full items-center bg-seafoam-200 flex space-x-4 px-4 py-2 before:mr-4 before:font-bold before:text-3xl before:text-secondary-600 <%= toggle_icon(work_process) %>">
                 <div class="flex w-full items-center justify-between">
                     <div class="space-x-3 flex-col md:flex-row">
                         <span class="skill-title text-xl text-primary-900 font-bold"><%= work_process.title %></span>
