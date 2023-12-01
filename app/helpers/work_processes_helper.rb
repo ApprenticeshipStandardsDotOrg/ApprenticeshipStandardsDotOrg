@@ -20,4 +20,20 @@ module WorkProcessesHelper
       "before:content-['+']"
     end
   end
+
+  def competencies_count_display_class(work_process)
+    if work_process.competencies_count.positive?
+      "visible"
+    else
+      "invisible"
+    end
+  end
+
+  def hours_display_class(work_process)
+    if work_process.hours.present? && work_process.occupation_standard_work_processes_hours.positive?
+      "visible"
+    else
+      "invisible"
+    end
+  end
 end
