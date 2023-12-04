@@ -199,6 +199,7 @@ GEM
       smart_properties
     erblint-github (0.5.1)
     erubi (1.12.0)
+    event_stream_parser (1.0.0)
     factory_bot (6.2.1)
       activesupport (>= 5.0.0)
     factory_bot_rails (6.2.0)
@@ -208,6 +209,8 @@ GEM
       base64
       faraday-net_http (>= 2.0, < 3.1)
       ruby2_keywords (>= 0.0.4)
+    faraday-multipart (1.0.4)
+      multipart-post (~> 2)
     faraday-net_http (3.0.2)
     ffi (1.15.5)
     flipper (1.0.0)
@@ -277,6 +280,7 @@ GEM
     msgpack (1.7.2)
     multi_json (1.15.0)
     multi_xml (0.6.0)
+    multipart-post (2.3.0)
     net-imap (0.4.3)
       date
       net-protocol
@@ -403,6 +407,10 @@ GEM
     rubocop-performance (1.15.0)
       rubocop (>= 1.7.0, < 2.0)
       rubocop-ast (>= 0.4.0)
+    ruby-openai (6.3.0)
+      event_stream_parser (>= 0.3.0, < 2.0.0)
+      faraday (>= 1)
+      faraday-multipart (>= 1)
     ruby-progressbar (1.13.0)
     ruby-vips (2.1.4)
       ffi (~> 1.12)
@@ -540,6 +548,7 @@ DEPENDENCIES
   rswag-api
   rswag-specs
   rswag-ui
+  ruby-openai
   sablon
   selenium-webdriver
   sidekiq (~> 7)

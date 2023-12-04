@@ -1,35 +1,22 @@
+require "openai"
+
 class ChatgptService
-  include HTTParty
-
-  attr_reader :api_url, :options, :model, :message
-
-  def initialize(message, model = 'gpt-3.5-turbo')
-    api_key = ENV['CHATGPT_API_KEY']
-    @options = {
-      headers: {
-        'Content-Type' => 'application/json',
-        'Authorization' => "Bearer #{api_key}"
-      }
-    }
-    @api_url = 'https://api.openai.com/v1/chat/completions'
-    @model = model
-    @message = message
+  OpenAI.configure do |config|
+    config.access_token = ENV.fetch("CHATGPT_API_KEY")
   end
 
-  def call
-    body = {
-      model:,
-      messages: [{ role: 'user', content: message }]
-    }
-    response = HTTParty.post(api_url, body: body.to_json, headers: options[:headers], timeout: 10)
-    raise response['error']['message'] unless response.code == 200
-
-    response['choices'][0]['message']['content']
+  def initialize
+    @client = OpenAI::Client.new
   end
 
-  class << self
-    def call(message, model = 'gpt-3.5-turbo')
-      new(message, model).call
-    end
+  def generate_text(prompt)
+    response = @client.chat(
+      parameters: {
+          model: "gpt-3.5-turbo", 
+          messages: [{ role: "user", content: prompt}], 
+          temperature: 0.7,
+      })
+
+    response.dig("choices", 0, "message", "content")
   end
 end

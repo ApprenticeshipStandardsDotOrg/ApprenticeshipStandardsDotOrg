@@ -60,6 +60,7 @@ gem "pundit"
 gem "image_processing"
 gem "pagy"
 gem 'httparty'
+gem "ruby-openai"
 
 # Throttle excessive requests
 gem "rack-attack"
