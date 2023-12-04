@@ -208,10 +208,10 @@ RSpec.describe OccupationStandard, type: :model do
 
     it "returns results sorted by creation date" do
       first_occupation = create(:occupation_standard, created_at: 3.days.ago)
-      second_occupation = create(:occupation_standard, created_at:  30.minutes.ago)
+      second_occupation = create(:occupation_standard, created_at: 30.minutes.ago)
       third_occupation = create(:occupation_standard, created_at: 2.day.ago)
 
-      expect(described_class.recently_added).to match [third_occupation, second_occupation, first_occupation]
+      expect(described_class.recently_added).to match [second_occupation, third_occupation, first_occupation]
     end
   end
 
