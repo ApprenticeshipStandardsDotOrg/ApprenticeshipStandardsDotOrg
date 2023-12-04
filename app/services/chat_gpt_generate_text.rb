@@ -1,15 +1,14 @@
 require "openai"
 
-class ChatgptService
-  OpenAI.configure do |config|
-    config.access_token = ENV.fetch("CHATGPT_API_KEY")
-  end
+class ChatGptGenerateText
+  attr_reader :prompt
 
-  def initialize
+  def initialize(prompt)
     @client = OpenAI::Client.new
+    @prompt = prompt
   end
 
-  def generate_text(prompt)
+  def call
     response = @client.chat(
       parameters: {
         model: "gpt-3.5-turbo",
