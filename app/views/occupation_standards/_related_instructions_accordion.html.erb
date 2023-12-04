@@ -1,19 +1,17 @@
 <% related_instructions.each do |related_instruction| %>
-  <div class="<%= standard_descendants_accordion_class(related_instruction) %> w-full mx-auto">
-    <details class="w-full bg-white border-b-2 border-seafoam-300 cursor-pointer">
+  <%= render "accordion", record: related_instruction do %>
 
-      <%= render "accordion_summary", record: related_instruction do %>
-        <div class="m-1.5 w-28 rounded bg-pear-100 px-1 py-3 text-center <%= related_instruction_hours_display_class(related_instruction) %>">
-          <div class="text-3xl font-bold text-pear-700">
-            <%= hours_in_human_format(related_instruction.hours) %>
-          </div>
+    <%= render "accordion_summary", record: related_instruction do %>
+      <div class="m-1.5 w-28 rounded bg-pear-100 px-1 py-3 text-center <%= related_instruction_hours_display_class(related_instruction) %>">
+        <div class="text-3xl font-bold text-pear-700">
+          <%= hours_in_human_format(related_instruction.hours) %>
         </div>
-      <% end %>
+      </div>
+    <% end %>
 
-      <%= render "accordion_details", record: related_instruction do %>
-        <p><%= related_instruction.description %></p>
-      <% end %>
+    <%= render "accordion_details", record: related_instruction do %>
+      <p><%= related_instruction.description %></p>
+    <% end %>
 
-    </details>
-  </div>
+  <% end %>
 <% end %>

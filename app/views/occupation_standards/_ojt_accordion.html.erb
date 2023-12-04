@@ -1,30 +1,27 @@
 <% work_processes.each do |work_process| %>
-  <div class="<%= standard_descendants_accordion_class(work_process) %> w-full mx-auto">
+  <%= render "accordion", record: work_process do %>
 
-    <details class="w-full bg-white border-b-2 border-seafoam-300 cursor-pointer">
-
-      <%= render "accordion_summary", record: work_process do %>
-        <div class="m-1.5 w-28 rounded bg-yonder-100 px-1 py-3 text-center <%= competencies_count_display_class(work_process) %>">
-          <div class="text-3xl font-bold text-yonder-600">
-            <%= work_process.competencies_count %>
-          </div>
+    <%= render "accordion_summary", record: work_process do %>
+      <div class="m-1.5 w-28 rounded bg-yonder-100 px-1 py-3 text-center <%= competencies_count_display_class(work_process) %>">
+        <div class="text-3xl font-bold text-yonder-600">
+          <%= work_process.competencies_count %>
         </div>
-        <div class="m-1.5 w-28 rounded bg-rust-100 px-1 py-3 text-center <%= work_process_hours_display_class(work_process) %>">
-          <div class="text-3xl font-bold text-rust-800">
-            <%= hours_in_human_format(work_process.hours) %>
-          </div>
+      </div>
+      <div class="m-1.5 w-28 rounded bg-rust-100 px-1 py-3 text-center <%= work_process_hours_display_class(work_process) %>">
+        <div class="text-3xl font-bold text-rust-800">
+          <%= hours_in_human_format(work_process.hours) %>
         </div>
-      <% end %>
+      </div>
+    <% end %>
 
-      <%= render "accordion_details", record: work_process do %>
-        <p><%= work_process.description %></p>
-        <ol class="list-decimal list-inside space-y-1" role="list">
-          <% work_process.competencies.each do |competency| %>
-            <li><%= strip_tags competency.title %></li>
-          <% end %>
-        </ol>
-      <% end %>
+    <%= render "accordion_details", record: work_process do %>
+      <p><%= work_process.description %></p>
+      <ol class="list-decimal list-inside space-y-1" role="list">
+        <% work_process.competencies.each do |competency| %>
+          <li><%= strip_tags competency.title %></li>
+        <% end %>
+      </ol>
+    <% end %>
 
-    </details>
-  </div>
+  <% end %>
 <% end %>
