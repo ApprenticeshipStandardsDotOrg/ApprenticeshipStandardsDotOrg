@@ -8,6 +8,7 @@ RSpec.describe "pages/home", type: :view do
     assign :popular_onet_codes, []
     assign :popular_industries, []
     assign :popular_states, []
+    assign :recently_added_occupation_standards, []
 
     render template: "pages/home", layout: "layouts/application"
 

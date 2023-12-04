@@ -33,6 +33,7 @@ class OccupationStandard < ApplicationRecord
   attr_accessor :inner_hits
 
   MAX_SIMILAR_PROGRAMS_TO_DISPLAY = 5
+  MAX_RECENTLY_ADDED_OCCUPATIONS_TO_DISPLAY = 4
 
   index_name "occupation_standards_#{Rails.env}"
   number_of_shards = Rails.env.production? ? 2 : 1
@@ -217,6 +218,8 @@ class OccupationStandard < ApplicationRecord
   end
 
   scope :with_work_processes, -> { joins(:work_processes).distinct }
+
+  scope :recently_added, -> { where.associated(:work_processes).order(created_at: :desc).limit(MAX_RECENTLY_ADDED_OCCUPATIONS_TO_DISPLAY) }
 
   class << self
     def industry_count(onet_prefix)
