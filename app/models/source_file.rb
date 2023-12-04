@@ -2,9 +2,11 @@ class SourceFile < ApplicationRecord
   belongs_to :active_storage_attachment, class_name: "ActiveStorage::Attachment"
   belongs_to :assignee, class_name: "User", optional: true
   has_many :data_imports, -> { includes(:occupation_standard, file_attachment: :blob) }
+  has_many :associated_occupation_standards, through: :data_imports, source: :occupation_standard
   has_one_attached :redacted_source_file
 
-  enum :status, [:pending, :completed, :needs_support]
+  enum :status, [:pending, :completed, :needs_support, :needs_human_review]
+  enum courtesy_notification: [:not_required, :pending, :completed], _prefix: true
 
   def filename
     active_storage_attachment.blob.filename
@@ -12,6 +14,10 @@ class SourceFile < ApplicationRecord
 
   def url
     active_storage_attachment.blob.url
+  end
+
+  def needs_courtesy_notification?
+    completed? && courtesy_notification_pending?
   end
 
   # This saves the metadata as JSON instead of string.
@@ -37,7 +43,7 @@ class SourceFile < ApplicationRecord
   end
 
   def pdf?
-    active_storage_attachment&.blob&.content_type == "application/pdf"
+    active_storage_attachment.blob.content_type == "application/pdf"
   end
 
   def redacted_source_file_url

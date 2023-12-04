@@ -46,9 +46,9 @@ RSpec.describe "Admin::Organization", type: :request do
 
     context "on non-admin subdomain" do
       it "has 404 response" do
-        expect {
-          get admin_organizations_path
-        }.to raise_error(ActionController::RoutingError)
+        get admin_organizations_path
+
+        expect(response).to be_not_found
       end
     end
   end
@@ -94,9 +94,9 @@ RSpec.describe "Admin::Organization", type: :request do
       it "has 404 response" do
         organization = create(:organization)
 
-        expect {
-          get admin_organization_path(organization)
-        }.to raise_error(ActionController::RoutingError)
+        get admin_organization_path(organization)
+
+        expect(response).to be_not_found
       end
     end
   end
@@ -142,9 +142,9 @@ RSpec.describe "Admin::Organization", type: :request do
       it "has 404 response" do
         organization = create(:organization)
 
-        expect {
-          get edit_admin_organization_path(organization)
-        }.to raise_error(ActionController::RoutingError)
+        get edit_admin_organization_path(organization)
+
+        expect(response).to be_not_found
       end
     end
   end

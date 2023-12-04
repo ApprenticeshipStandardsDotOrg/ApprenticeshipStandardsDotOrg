@@ -5,9 +5,11 @@ RSpec.describe Scraper::AppreticeshipBulletinsJob, type: :job do
     context "when files have not been downloaded previously" do
       it "downloads any file to a standards import record" do
         stub_responses
-        expect {
-          described_class.new.perform
-        }.to change(StandardsImport, :count).by(6)
+        perform_enqueued_jobs do
+          expect {
+            described_class.new.perform
+          }.to change(StandardsImport, :count).by(6)
+        end
 
         standard_import = StandardsImport.last
         expect(standard_import.files.count).to eq 1
@@ -29,9 +31,11 @@ RSpec.describe Scraper::AppreticeshipBulletinsJob, type: :job do
         name: "https://www.apprenticeship.gov/sites/default/files/bulletins/Bulletin_2016-22.pdf",
         organization: "Wildland Fire Fighter Specialist")
       stub_responses
-      expect {
-        described_class.new.perform
-      }.to change(StandardsImport, :count).by(5)
+      perform_enqueued_jobs do
+        expect {
+          described_class.new.perform
+        }.to change(StandardsImport, :count).by(5)
+      end
 
       standard_import = StandardsImport.last
       expect(standard_import.files.count).to eq 1

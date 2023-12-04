@@ -8,14 +8,16 @@ class StandardsImportDashboard < Administrate::BaseDashboard
     name: Field::String,
     notes: Field::Text,
     organization: Field::String,
+    courtesy_notification: EnumField.with_options(searchable: false),
     created_at: Field::DateTime,
     updated_at: Field::DateTime
   }.freeze
 
   COLLECTION_ATTRIBUTES = %i[
-    id
-    email
-    files
+    name
+    organization
+    courtesy_notification
+    created_at
   ].freeze
 
   SHOW_PAGE_ATTRIBUTES = %i[
@@ -25,6 +27,7 @@ class StandardsImportDashboard < Administrate::BaseDashboard
     name
     notes
     organization
+    courtesy_notification
     created_at
     updated_at
   ].freeze
@@ -34,12 +37,12 @@ class StandardsImportDashboard < Administrate::BaseDashboard
     email
     organization
     notes
-    files
+    courtesy_notification
   ].freeze
 
   COLLECTION_FILTERS = {}.freeze
 
-  def permitted_attributes
+  def permitted_attributes(action = nil)
     super + [attachments: []]
   end
 end

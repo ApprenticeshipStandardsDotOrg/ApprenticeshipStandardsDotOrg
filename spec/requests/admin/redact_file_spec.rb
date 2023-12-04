@@ -6,8 +6,7 @@ RSpec.describe "Admin::SourceFiles::RedactFile", type: :request do
       context "when admin user" do
         it "returns http success" do
           admin = create(:admin)
-          active_storage_attachment = create(:active_storage_attachment)
-          source_file = create(:source_file, active_storage_attachment: active_storage_attachment)
+          source_file = create(:source_file)
 
           sign_in admin
           get new_admin_source_file_redact_file_path(source_file)
@@ -19,8 +18,7 @@ RSpec.describe "Admin::SourceFiles::RedactFile", type: :request do
       context "when converter" do
         it "returns http success" do
           admin = create(:user, :converter)
-          active_storage_attachment = create(:active_storage_attachment)
-          source_file = create(:source_file, active_storage_attachment: active_storage_attachment)
+          source_file = create(:source_file)
 
           sign_in admin
           get new_admin_source_file_redact_file_path(source_file)
@@ -31,8 +29,7 @@ RSpec.describe "Admin::SourceFiles::RedactFile", type: :request do
 
       context "when guest" do
         it "redirects to root path" do
-          active_storage_attachment = create(:active_storage_attachment)
-          source_file = create(:source_file, active_storage_attachment: active_storage_attachment)
+          source_file = create(:source_file)
 
           get new_admin_source_file_redact_file_path(source_file)
 
@@ -43,11 +40,11 @@ RSpec.describe "Admin::SourceFiles::RedactFile", type: :request do
 
     context "on non-admin subdomain" do
       it "has 404 response" do
-        active_storage_attachment = create(:active_storage_attachment)
-        source_file = create(:source_file, active_storage_attachment: active_storage_attachment)
-        expect {
-          get new_admin_source_file_redact_file_path(source_file)
-        }.to raise_error(ActionController::RoutingError)
+        source_file = create(:source_file)
+
+        get new_admin_source_file_redact_file_path(source_file)
+
+        expect(response).to be_not_found
       end
     end
   end
@@ -58,15 +55,10 @@ RSpec.describe "Admin::SourceFiles::RedactFile", type: :request do
         context "without redacted file" do
           it "returns http success" do
             admin = create(:admin)
-            active_storage_attachment = create(:active_storage_attachment)
-            source_file = create(:source_file, active_storage_attachment: active_storage_attachment)
-
-            params = {
-              format: :json
-            }
+            source_file = create(:source_file)
 
             sign_in admin
-            post admin_source_file_redact_file_path(source_file), params: params
+            post admin_source_file_redact_file_path(source_file), as: :json
 
             expect(response).to be_successful
           end
@@ -75,8 +67,27 @@ RSpec.describe "Admin::SourceFiles::RedactFile", type: :request do
         context "with redacted file" do
           it "returns http success" do
             admin = create(:admin)
-            active_storage_attachment = create(:active_storage_attachment)
-            source_file = create(:source_file, active_storage_attachment: active_storage_attachment)
+            source_file = create(:source_file)
+            redacted_file = fixture_file_upload("pixel1x1.jpg", "image/jpeg")
+
+            sign_in admin
+            post admin_source_file_redact_file_path(source_file), params: {
+              format: :json,
+              redacted_file: redacted_file
+            }
+
+            source_file.reload
+
+            expect(response).to be_successful
+            expect(source_file.redacted_source_file).to be_attached
+          end
+        end
+
+        context "without occupation standard" do
+          it "only updates redacted_source_file" do
+            admin = create(:admin)
+            data_import = create(:data_import, occupation_standard: nil)
+            source_file = create(:source_file, data_imports: [data_import])
             redacted_file = fixture_file_upload("pixel1x1.jpg", "image/jpeg")
 
             params = {

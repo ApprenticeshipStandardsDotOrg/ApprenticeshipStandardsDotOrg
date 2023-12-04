@@ -17,19 +17,22 @@ RSpec.describe "StandardsImports", type: :request do
           stub_recaptcha_high_score
 
           expect_any_instance_of(StandardsImport).to receive(:notify_admin)
-          expect {
-            post standards_imports_path, params: {
-              standards_import: {
-                name: "Mickey Mouse",
-                email: "mickey@mouse.com",
-                organization: "Disney",
-                notes: "a" * 500,
-                files: [fixture_file_upload("spec/fixtures/files/pixel1x1.jpg", "image/jpeg")],
-                public_document: true
+          perform_enqueued_jobs do
+            expect {
+              post standards_imports_path, params: {
+                standards_import: {
+                  name: "Mickey Mouse",
+                  email: "mickey@mouse.com",
+                  organization: "Disney",
+                  notes: "a" * 500,
+                  files: [fixture_file_upload("spec/fixtures/files/pixel1x1.jpg", "image/jpeg")],
+                  public_document: true
+                }
               }
-            }
-          }.to change(StandardsImport, :count).by(1)
-            .and change(ActiveStorage::Attachment, :count).by(1)
+            }.to change(StandardsImport, :count).by(1)
+              .and change(ActiveStorage::Attachment, :count).by(1)
+              .and change(SourceFile, :count).by(1)
+          end
 
           si = StandardsImport.last
           expect(si.name).to eq "Mickey Mouse"
@@ -38,6 +41,10 @@ RSpec.describe "StandardsImports", type: :request do
           expect(si.notes).to eq "a" * 500
           expect(si.files.count).to eq 1
           expect(si.public_document?).to be false
+          expect(si).to be_courtesy_notification_pending
+
+          source_file = SourceFile.last
+          expect(source_file).to be_courtesy_notification_pending
 
           expect(response).to redirect_to standards_import_path(si)
           Flipper.disable :recaptcha
@@ -51,19 +58,22 @@ RSpec.describe "StandardsImports", type: :request do
 
           sign_in admin
           expect_any_instance_of(StandardsImport).to_not receive(:notify_admin)
-          expect {
-            post standards_imports_path, params: {
-              standards_import: {
-                name: "Mickey Mouse",
-                email: "mickey@mouse.com",
-                organization: "Disney",
-                notes: "a" * 500,
-                files: [fixture_file_upload("spec/fixtures/files/pixel1x1.jpg", "image/jpeg")],
-                public_document: true
+          perform_enqueued_jobs do
+            expect {
+              post standards_imports_path, params: {
+                standards_import: {
+                  name: "Mickey Mouse",
+                  email: "mickey@mouse.com",
+                  organization: "Disney",
+                  notes: "a" * 500,
+                  files: [fixture_file_upload("spec/fixtures/files/pixel1x1.jpg", "image/jpeg")],
+                  public_document: true
+                }
               }
-            }
-          }.to change(StandardsImport, :count).by(1)
-            .and change(ActiveStorage::Attachment, :count).by(1)
+            }.to change(StandardsImport, :count).by(1)
+              .and change(ActiveStorage::Attachment, :count).by(1)
+              .and change(SourceFile, :count).by(1)
+          end
 
           si = StandardsImport.last
           expect(si.name).to eq "Mickey Mouse"
@@ -72,6 +82,10 @@ RSpec.describe "StandardsImports", type: :request do
           expect(si.notes).to eq "a" * 500
           expect(si.files.count).to eq 1
           expect(si.public_document?).to be true
+          expect(si).to be_courtesy_notification_not_required
+
+          source_file = SourceFile.last
+          expect(source_file).to be_courtesy_notification_not_required
 
           expect(response).to redirect_to admin_source_files_path
           Flipper.disable :recaptcha
@@ -137,19 +151,18 @@ RSpec.describe "StandardsImports", type: :request do
         Flipper.enable :recaptcha
         stub_recaptcha_high_score
 
-        allow_any_instance_of(StandardsImport).to receive(:save).and_return(false)
         expect {
           post standards_imports_path, params: {
             standards_import: {
-              name: "Mickey Mouse",
-              email: "mickey@mouse.com",
+              name: "",
+              email: "",
               organization: "Disney",
               notes: "a" * 500
             }
           }
         }.to_not change(StandardsImport, :count)
 
-        expect(response).to have_http_status(:ok)
+        expect(response).to have_http_status(:unprocessable_entity)
         Flipper.disable :recaptcha
       end
     end

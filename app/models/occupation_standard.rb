@@ -134,7 +134,7 @@ class OccupationStandard < ApplicationRecord
 
   def as_indexed_json(_ = {})
     as_json(
-      only: [:title, :ojt_type, :onet_code, :rapids_code, :national_standard_type, :created_at]
+      only: [:title, :ojt_type, :onet_code, :rapids_code, :created_at]
     ).merge(
       industry_name: industry_name,
       national_standard_type: national_standard_type_with_adjustment,

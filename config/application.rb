@@ -12,7 +12,10 @@ require "action_mailbox/engine"
 require "action_text/engine"
 require "action_view/railtie"
 require "rack/rewrite"
-# require "action_cable/engine"
+# We are not currently using action_cable, but engine is required until
+# turbo-rails issue fixed:
+# https://github.com/hotwired/turbo-rails/issues/512
+require "action_cable/engine"
 # require "rails/test_unit/railtie"
 
 # Display information about the search request (duration, search definition)
@@ -27,6 +30,11 @@ module ApprenticeshipStandardsDotOrg
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
+
+    # Please, add to the `ignore` list any other `lib` subdirectories that do
+    # not contain `.rb` files, or that should not be reloaded or eager loaded.
+    # Common ones are `templates`, `generators`, or `middleware`, for example.
+    config.autoload_lib(ignore: %w[assets tasks])
 
     # Configuration for the application, engines, and railties goes here.
     #

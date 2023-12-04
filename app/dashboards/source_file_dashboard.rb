@@ -9,13 +9,18 @@ class SourceFileDashboard < Administrate::BaseDashboard
     notes: Field::String.with_options(searchable: false),
     organization: Field::String.with_options(searchable: false),
     status: EnumField.with_options(searchable: false),
+    courtesy_notification: EnumField.with_options(searchable: false),
     url: Field::Url.with_options(searchable: false),
     assignee: AssigneeField,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
     public_document: Field::Boolean,
     redacted_source_file: Field::ActiveStorage,
-    redacted_source_file_url: Field::Url.with_options(searchable: false)
+    redacted_source_file_url: Field::Url.with_options(searchable: false),
+    associated_occupation_standards: HasManyAssociatedOccupationStandardsField,
+    standards_import: GenericRecordField,
+    plain_text_version: Field::Text
+
   }.freeze
 
   COLLECTION_ATTRIBUTES = %i[
@@ -29,6 +34,7 @@ class SourceFileDashboard < Administrate::BaseDashboard
 
   SHOW_PAGE_ATTRIBUTES = %i[
     status
+    courtesy_notification
     data_imports
     metadata
     organization
@@ -39,6 +45,9 @@ class SourceFileDashboard < Administrate::BaseDashboard
     public_document
     redacted_source_file
     redacted_source_file_url
+    associated_occupation_standards
+    standards_import
+    plain_text_version
     created_at
     updated_at
   ].freeze
@@ -48,6 +57,7 @@ class SourceFileDashboard < Administrate::BaseDashboard
     status
     assignee
     public_document
+    courtesy_notification
   ].freeze
 
   COLLECTION_FILTERS = {}.freeze
