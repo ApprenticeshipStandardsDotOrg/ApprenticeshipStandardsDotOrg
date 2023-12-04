@@ -199,6 +199,22 @@ RSpec.describe OccupationStandard, type: :model do
     end
   end
 
+  describe ".recently_added" do
+    it "returns up to MAX_RECENTLY_ADDED_OCCUPATIONS_TO_DISPLAY" do
+      create_list(:occupation_standard, 10)
+
+      expect(described_class.recently_added.count).to eq described_class::MAX_RECENTLY_ADDED_OCCUPATIONS_TO_DISPLAY
+    end
+
+    it "returns results sorted by creation date" do
+      first_occupation = create(:occupation_standard, created_at: 3.days.ago)
+      second_occupation = create(:occupation_standard, created_at:  30.minutes.ago)
+      third_occupation = create(:occupation_standard, created_at: 2.day.ago)
+
+      expect(described_class.recently_added).to match [third_occupation, second_occupation, first_occupation]
+    end
+  end
+
   describe ".industry_count" do
     it "returns count of standards with industry prefix" do
       create(:occupation_standard, onet_code: "49-1234")

@@ -49,6 +49,7 @@ class OccupationStandardsController < ApplicationController
   def occupation_standards_search_params
     params.permit(
       :q,
+      :sort,
       :state_id,
       :state,
       :onet_prefix,

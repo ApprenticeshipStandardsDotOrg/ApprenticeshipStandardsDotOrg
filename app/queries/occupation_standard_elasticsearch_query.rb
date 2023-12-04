@@ -12,9 +12,15 @@ class OccupationStandardElasticsearchQuery
 
   def call
     definition = search do
-      sort do
-        by :_score, order: :desc
-        by :created_at, order: :desc
+      if search_params[:sort]
+        sort do
+          by search_params[:sort], order: :desc
+        end
+      else
+        sort do
+          by :_score, order: :desc
+          by :created_at, order: :desc
+        end
       end
       collapse :headline do
         inner_hits :children

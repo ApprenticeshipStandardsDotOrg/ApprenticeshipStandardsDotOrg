@@ -3,6 +3,7 @@ class PagesController < ApplicationController
     @popular_onet_codes = PopularOnetCodesQuery.run
     @popular_industries = Industry.popular
     @popular_states = State.popular
+    @recently_added_occupation_standards = OccupationStandard.recently_added
   end
 
   def about

@@ -370,4 +370,25 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
     expect(response.results[0].inner_hits.children.first[1].hits[1]._id).to eq os1.id
     expect(response.results[1].inner_hits.children.first[1].hits[0]._id).to eq os3.id
   end
+
+  it "allows using a field to override default sorting" do
+    # Occupations with occupational_framework have a better score by default
+    os1 = create(:occupation_standard, :with_work_processes, :occupational_framework, title: "Technical A", created_at: 3.days.ago)
+    os2 = create(:occupation_standard, :with_work_processes, title: "Technical B", created_at: 2.days.ago)
+    os3 = create(:occupation_standard, :with_work_processes, title: "Something else", created_at: 1.day.ago)
+
+    OccupationStandard.import
+    OccupationStandard.__elasticsearch__.refresh_index!
+
+    params = {}
+    response = described_class.new(search_params: params).call
+
+    expect(response.records.pluck(:id)).to eq [os1.id, os3.id, os2.id]
+
+    # We are sorting only by created_at dismissing the score
+    params = {sort: :created_at}
+    response = described_class.new(search_params: params).call
+
+    expect(response.records.pluck(:id)).to eq [os3.id, os2.id, os1.id]
+  end
 end

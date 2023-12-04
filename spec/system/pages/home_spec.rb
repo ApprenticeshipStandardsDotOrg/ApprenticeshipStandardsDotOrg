@@ -277,4 +277,26 @@ RSpec.describe "pages/home" do
       expect(page).to have_text mechanic.title
     end
   end
+
+  describe "Recently Added" do
+    it "displays a link to a search of occupation standards sorted by creation date" do
+      mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, national_standard_type: :guideline_standard, title: "Mechanic")
+
+      visit home_page_path
+
+      click_link("See All", href: "/occupation_standards?sort=created_at")
+
+      expect(page).to have_text "Mechanic"
+    end
+
+    it "displays a link to latest occupation standard" do
+      mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, national_standard_type: :guideline_standard, title: "Mechanic")
+
+      visit home_page_path
+
+      click_on("Mechanic")
+
+      expect(page).to have_text "Mechanic"
+    end
+  end
 end
