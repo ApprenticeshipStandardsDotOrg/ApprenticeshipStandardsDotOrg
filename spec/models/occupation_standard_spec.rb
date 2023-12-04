@@ -201,16 +201,18 @@ RSpec.describe OccupationStandard, type: :model do
 
   describe ".recently_added" do
     it "excludes occupations without work processes" do
-      create_list(:occupation_standard, 4)
+      create_list(:occupation_standard, 2)
       occupation_with_work_proccesses = create(:occupation_standard, :with_work_processes)
 
       expect(described_class.recently_added).to match [occupation_with_work_proccesses]
     end
 
     it "returns up to MAX_RECENTLY_ADDED_OCCUPATIONS_TO_DISPLAY" do
-      create_list(:occupation_standard, 5, :with_work_processes)
+      stub_const("OccupationStandard::MAX_RECENTLY_ADDED_OCCUPATIONS_TO_DISPLAY", 2)
 
-      expect(described_class.recently_added.count).to eq described_class::MAX_RECENTLY_ADDED_OCCUPATIONS_TO_DISPLAY
+      create_list(:occupation_standard, 3, :with_work_processes)
+
+      expect(described_class.recently_added.count).to eq 2
     end
 
     it "returns results sorted by creation date" do
