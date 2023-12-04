@@ -12,6 +12,8 @@ module OccupationStandardsHelper
   def standard_descendants_toggle_icon(record)
     if record.has_details_to_display?
       "before:content-['+']"
+    else
+      "before:content-['•']"
     end
   end
 
