@@ -18,4 +18,24 @@ RSpec.describe RelatedInstruction, type: :model do
     new_related_instruction.code = "T002"
     expect(new_related_instruction).to be_valid
   end
+
+  describe "#has_details_to_display?" do
+    it "is false if description is nil" do
+      related_instruction = build(:related_instruction, description: nil)
+
+      expect(related_instruction).to_not have_details_to_display
+    end
+
+    it "is false if description is empty" do
+      related_instruction = build(:related_instruction, description: "")
+
+      expect(related_instruction).to_not have_details_to_display
+    end
+
+    it "is true if description not blank" do
+      related_instruction = build(:related_instruction, description: "desc")
+
+      expect(related_instruction).to have_details_to_display
+    end
+  end
 end

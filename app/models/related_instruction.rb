@@ -22,4 +22,8 @@ class RelatedInstruction < ApplicationRecord
       }
     )
   end
+
+  def has_details_to_display?
+    description.present?
+  end
 end

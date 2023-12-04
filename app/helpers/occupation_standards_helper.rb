@@ -3,6 +3,18 @@ module OccupationStandardsHelper
     occupation_standard.ojt_type&.titleize
   end
 
+  def standard_descendants_accordion_class(record)
+    if record.has_details_to_display?
+      "accordion"
+    end
+  end
+
+  def standard_descendants_toggle_icon(record)
+    if record.has_details_to_display?
+      "before:content-['+']"
+    end
+  end
+
   def filters_class
     if params[:state_id].blank? && params[:national_standard_type].blank? && params[:ojt_type].blank?
       "hidden"

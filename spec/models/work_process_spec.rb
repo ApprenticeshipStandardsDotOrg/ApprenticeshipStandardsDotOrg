@@ -26,4 +26,25 @@ RSpec.describe WorkProcess, type: :model do
       expect(work_process.hours).to eq nil
     end
   end
+
+  describe "#has_details_to_display?" do
+    it "returns false if work_process description is blank and there are no competencies" do
+      work_process = build(:work_process, description: nil)
+
+      expect(work_process).to_not have_details_to_display
+    end
+
+    it "returns true if work_process description is present but there are no competencies" do
+      work_process = build(:work_process, description: "desc")
+
+      expect(work_process).to have_details_to_display
+    end
+
+    it "returns true if work_process description is blank but there are competencies" do
+      competency = build(:competency)
+      work_process = build_stubbed(:work_process, description: nil, competencies: [competency])
+
+      expect(work_process).to have_details_to_display
+    end
+  end
 end

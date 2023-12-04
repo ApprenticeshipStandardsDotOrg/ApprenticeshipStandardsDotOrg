@@ -1,29 +1,17 @@
-<div class='accordion w-full mx-auto'>
-  <% related_instructions.each do |related_instruction| %>
-    <details class="w-full bg-white border-b-2 border-seafoam-300 cursor-pointer">
-      <summary class="w-full items-center bg-seafoam-200 flex space-x-4 px-4 py-2 before:content-['+'] before:mr-4 before:font-bold before:text-3xl before:text-secondary-600">
-        <div class="flex w-full items-center justify-between">
-          <div class="space-x-3 flex-col md:flex-row">
-            <span class="skill-title text-xl text-primary-900 font-bold"><%= related_instruction.title %></span>
-            <span class="skill-code text-primary-600"></span>
-          </div>
+<% related_instructions.each do |related_instruction| %>
+  <%= render "accordion", record: related_instruction do %>
 
-          <div class="flex items-center">
-            <div class="flex flex-col md:flex-row">
-              <% unless related_instruction.hours.nil? %>
-                <div class="m-1.5 w-28 rounded bg-pear-100 px-1 py-3 text-center">
-                  <div class="text-3xl font-bold text-pear-700"><%= hours_in_human_format(related_instruction.hours) %></div>
-                </div>
-              <% end %>
-            </div>
-          </div>
+    <%= render "accordion_summary", record: related_instruction do %>
+      <div class="m-1.5 w-28 rounded bg-pear-100 px-1 py-3 text-center <%= related_instruction_hours_display_class(related_instruction) %>">
+        <div class="text-3xl font-bold text-pear-700">
+          <%= hours_in_human_format(related_instruction.hours) %>
         </div>
-      </summary>
-      <div class="accordion-content space-y-4 p-8 text-primary-600">
-        <p>
-          <%= related_instruction.description %>
-        </p>
       </div>
-    </details>
+    <% end %>
+
+    <%= render "accordion_details", record: related_instruction do %>
+      <p><%= related_instruction.description %></p>
+    <% end %>
+
   <% end %>
-</div>
+<% end %>

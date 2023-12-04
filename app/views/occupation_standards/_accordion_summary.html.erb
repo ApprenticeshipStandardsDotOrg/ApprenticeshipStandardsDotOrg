@@ -1,0 +1,16 @@
+<summary class="w-full items-center bg-seafoam-200 flex space-x-4 px-4 py-2 before:mr-4 before:font-bold before:text-3xl before:text-secondary-600 <%= standard_descendants_toggle_icon(record) %>">
+  <div class="flex w-full items-center justify-between">
+    <div class="space-x-3 flex-col md:flex-row">
+      <span class="skill-title text-xl text-primary-900 font-bold">
+        <%= record.title %>
+      </span>
+      <span class="skill-code text-primary-600"></span>
+    </div>
+
+    <div class="flex items-center">
+      <div class="flex flex-col md:flex-row">
+        <%= yield %>
+      </div>
+    </div>
+  </div>
+</summary>

@@ -54,4 +54,44 @@ RSpec.describe WorkProcessesHelper, type: :helper do
       expect(helper.hours_in_human_format(144)).to eq "140"
     end
   end
+
+  describe "#competencies_count_display_class" do
+    it "returns invisible if competencies count is 0" do
+      work_process = build(:work_process)
+
+      expect(helper.competencies_count_display_class(work_process)).to eq "invisible"
+    end
+
+    it "returns visible if competencies count is > 0" do
+      competency = build(:competency)
+      work_process = create(:work_process, competencies: [competency])
+
+      expect(helper.competencies_count_display_class(work_process)).to eq "visible"
+    end
+  end
+
+  describe "#work_process_hours_display_class" do
+    it "returns invisible if work_process hours field is blank" do
+      work_process = build(:work_process)
+      allow(work_process).to receive(:hours).and_return(nil)
+
+      expect(helper.work_process_hours_display_class(work_process)).to eq "invisible"
+    end
+
+    it "returns invisible if work_process hours is present but the total work process hours is 0" do
+      work_process = build(:work_process)
+      allow(work_process).to receive(:hours).and_return(5)
+      allow(work_process).to receive(:occupation_standard_work_processes_hours).and_return(0)
+
+      expect(helper.work_process_hours_display_class(work_process)).to eq "invisible"
+    end
+
+    it "returns visible if work_process hours is present and the total work process hours is > 0" do
+      work_process = build(:work_process)
+      allow(work_process).to receive(:hours).and_return(5)
+      allow(work_process).to receive(:occupation_standard_work_processes_hours).and_return(5)
+
+      expect(helper.work_process_hours_display_class(work_process)).to eq "visible"
+    end
+  end
 end

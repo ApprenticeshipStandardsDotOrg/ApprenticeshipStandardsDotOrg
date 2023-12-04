@@ -1,0 +1,5 @@
+<% if record.has_details_to_display? %>
+  <div class="accordion-content space-y-4 p-8 text-primary-600">
+    <%= yield %>
+  </div>
+<% end %>
