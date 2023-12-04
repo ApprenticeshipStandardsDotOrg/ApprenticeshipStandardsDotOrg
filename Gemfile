@@ -59,6 +59,7 @@ gem "administrate-field-jsonb"
 gem "pundit"
 gem "image_processing"
 gem "pagy"
+gem "ruby-openai"
 
 # Throttle excessive requests
 gem "rack-attack"
