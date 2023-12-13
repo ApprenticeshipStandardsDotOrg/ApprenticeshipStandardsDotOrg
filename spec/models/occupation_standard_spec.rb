@@ -223,12 +223,12 @@ RSpec.describe OccupationStandard, type: :model do
       expect(described_class.recently_added).to match [second_occupation, third_occupation, first_occupation]
     end
 
-     it "does not return duplicates" do
-       occupation_standard = create(:occupation_standard)
-       create_pair(:work_process, occupation_standard:  occupation_standard)
+    it "does not return duplicates" do
+      occupation_standard = create(:occupation_standard)
+      create_pair(:work_process, occupation_standard: occupation_standard)
 
       expect(described_class.recently_added).to match [occupation_standard]
-     end
+    end
   end
 
   describe ".industry_count" do
