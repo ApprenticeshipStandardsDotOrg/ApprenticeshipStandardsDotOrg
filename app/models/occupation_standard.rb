@@ -219,7 +219,7 @@ class OccupationStandard < ApplicationRecord
 
   scope :with_work_processes, -> { joins(:work_processes).distinct }
 
-  scope :recently_added, -> { where.associated(:work_processes).order(created_at: :desc).limit(MAX_RECENTLY_ADDED_OCCUPATIONS_TO_DISPLAY) }
+  scope :recently_added, -> { where.associated(:work_processes).distinct.order(created_at: :desc).limit(MAX_RECENTLY_ADDED_OCCUPATIONS_TO_DISPLAY) }
 
   class << self
     def industry_count(onet_prefix)
