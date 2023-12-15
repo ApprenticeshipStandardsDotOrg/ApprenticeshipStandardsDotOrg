@@ -14,7 +14,12 @@ class OccupationStandardsController < ApplicationController
         page: current_page,
         count: es_response.response.aggregations.total.value
       )
-      @occupation_standards = add_inner_hits_from_results(es_response.records)
+      occupation_standards_array = add_inner_hits_from_results(es_response.records)
+      @occupation_standards = OccupationStandard
+        .includes(
+          :organization, :work_processes, :occupation, registration_agency: :state
+        )
+        .where(id: occupation_standards_array.map(&:id))
     else
       @occupation_standards_search = OccupationStandardQuery::Container.new(
         search_term_params: search_term_params
