@@ -359,7 +359,7 @@ RSpec.describe "occupation_standards/index" do
       create(:occupation_standard, :with_work_processes, :with_data_import, title: "Pipe Fitter")
       os1 = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
       new_wp = create(:work_process, title: os1.work_processes.first.title)
-      os2 = create(:occupation_standard, :with_data_import, work_processes: [new_wp], title: "Mechanic")
+      _os2 = create(:occupation_standard, :with_data_import, work_processes: [new_wp], title: "Mechanic")
 
       OccupationStandard.import
       OccupationStandard.__elasticsearch__.refresh_index!
