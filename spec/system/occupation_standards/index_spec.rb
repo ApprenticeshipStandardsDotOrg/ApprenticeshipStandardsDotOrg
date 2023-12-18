@@ -286,7 +286,6 @@ RSpec.describe "occupation_standards/index" do
     end
 
     it "expands similar results accordion when accordion button is clicked", js: true do
-      Flipper.enable :similar_programs_accordion
       create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
       create(:occupation_standard, :with_work_processes, :with_data_import, :program_standard, title: "Mechanic")
 
@@ -295,11 +294,9 @@ RSpec.describe "occupation_standards/index" do
       find('button[data-action="click->accordion#changeVisibility"]', match: :first).click
 
       expect(page).to have_selector(:button, "Collapse duplicates")
-      Flipper.disable :similar_programs_accordion
     end
 
     it "closes similar results accordion when accordion button is clicked", js: true do
-      Flipper.enable :similar_programs_accordion
       mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
       create(:occupation_standard, :with_work_processes, :with_data_import, :program_standard, title: "Mechanic")
 
@@ -309,7 +306,6 @@ RSpec.describe "occupation_standards/index" do
       click_on "Collapse duplicates"
 
       expect(page).not_to have_selector("#accordion-#{mechanic.id}")
-      Flipper.disable :similar_programs_accordion
     end
 
     it "displays toolip on hover", js: true do
@@ -771,7 +767,6 @@ RSpec.describe "occupation_standards/index" do
 
     xit "adds onet prefix to search when clicking on typeahead result", :js do
       Flipper.enable :use_elasticsearch_for_search
-      Flipper.enable :similar_programs_accordion
       Flipper.enable :similar_programs_elasticsearch
 
       mechanic_onet = create(:onet, code: "12-3456")
@@ -811,13 +806,11 @@ RSpec.describe "occupation_standards/index" do
       expect(page).to have_text "Mechanic Two"
       expect(page).to have_no_text "Mechanic Three"
       Flipper.disable :use_elasticsearch_for_search
-      Flipper.disable :similar_programs_accordion
       Flipper.disable :similar_programs_elasticsearch
     end
 
     it "expands similar results accordion when accordion button is clicked", js: true do
       Flipper.enable :use_elasticsearch_for_search
-      Flipper.enable :similar_programs_accordion
       create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
       create(:occupation_standard, :with_work_processes, :with_data_import, :program_standard, title: "Mechanic")
 
@@ -829,13 +822,11 @@ RSpec.describe "occupation_standards/index" do
       find('button[data-action="click->accordion#changeVisibility"]', match: :first).click
 
       expect(page).to have_selector(:button, "Collapse duplicates")
-      Flipper.disable :similar_programs_accordion
       Flipper.disable :use_elasticsearch_for_search
     end
 
     it "closes similar results accordion when accordion button is clicked", js: true do
       Flipper.enable :use_elasticsearch_for_search
-      Flipper.enable :similar_programs_accordion
       create(:occupation_standard, :with_work_processes, :with_data_import, :program_standard, title: "Mechanic")
       mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
 
@@ -848,7 +839,6 @@ RSpec.describe "occupation_standards/index" do
       click_on "Collapse duplicates"
 
       expect(page).not_to have_selector("#accordion-#{mechanic.id}")
-      Flipper.disable :similar_programs_accordion
       Flipper.disable :use_elasticsearch_for_search
     end
 

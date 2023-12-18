@@ -132,7 +132,6 @@ RSpec.describe "occupations/index", type: :view do
   end
 
   it "shows similar results accordion button if they are present" do
-    Flipper.enable :similar_programs_accordion
     allow_any_instance_of(ActionView::TestCase::TestController).to receive(:controller_name).and_return("occupation_standards")
     allow_any_instance_of(ActionView::TestCase::TestController).to receive(:current_user).and_return(nil)
     create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
@@ -144,11 +143,9 @@ RSpec.describe "occupations/index", type: :view do
     render template: "occupation_standards/index"
 
     expect(rendered).to have_text "1 program with similar or identical criteria."
-    Flipper.disable :similar_programs_accordion
   end
 
   it "does not show similar results accordion button if they are not present" do
-    Flipper.enable :similar_programs_accordion
     allow_any_instance_of(ActionView::TestCase::TestController).to receive(:controller_name).and_return("occupation_standards")
     allow_any_instance_of(ActionView::TestCase::TestController).to receive(:current_user).and_return(nil)
     create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
@@ -160,7 +157,6 @@ RSpec.describe "occupations/index", type: :view do
     render template: "occupation_standards/index"
 
     expect(rendered).not_to have_text "program with similar or identical criteria."
-    Flipper.disable :similar_programs_accordion
   end
 
   it "shows alert if the occupation_standard hours do not meet the occupation required hours" do
