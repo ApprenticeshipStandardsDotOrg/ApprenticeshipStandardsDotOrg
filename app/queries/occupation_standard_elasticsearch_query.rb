@@ -29,6 +29,9 @@ class OccupationStandardElasticsearchQuery
           by :created_at, order: :desc
         end
       end
+      aggregation :total do
+        cardinality field: "headline"
+      end
       query do
         bool do
           must match_all: {}

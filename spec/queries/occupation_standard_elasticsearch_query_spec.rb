@@ -369,6 +369,8 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
     expect(response.results[0].inner_hits.children.first[1].hits[0]._id).to eq os2.id
     expect(response.results[0].inner_hits.children.first[1].hits[1]._id).to eq os1.id
     expect(response.results[1].inner_hits.children.first[1].hits[0]._id).to eq os3.id
+    expect(response.response.hits.total.value).to eq 3
+    expect(response.response.aggregations.total.value).to eq 2
   end
 
   it "allows using a field to override default sorting" do

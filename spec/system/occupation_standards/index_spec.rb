@@ -322,7 +322,7 @@ RSpec.describe "occupation_standards/index" do
   end
 
   context "when using elasticsearch for search", :elasticsearch do
-    it "displays pagination" do
+    it "displays pagination correctly when no collapsed items" do
       Flipper.enable :use_elasticsearch_for_search
       default_items = Pagy::DEFAULT[:items]
       Pagy::DEFAULT[:items] = 2
@@ -341,6 +341,43 @@ RSpec.describe "occupation_standards/index" do
         click_on "2"
       end
       expect(page).to have_text "HR Specialist"
+
+      Pagy::DEFAULT[:items] = default_items
+      Flipper.disable :use_elasticsearch_for_search
+    end
+
+    it "displays pagination correctly when there are collapsed items" do
+      Flipper.enable :use_elasticsearch_for_search
+      default_items = Pagy::DEFAULT[:items]
+      Pagy::DEFAULT[:items] = 2
+
+      # 2nd page
+      create(:occupation_standard, :with_work_processes, :with_data_import, title: "HR Specialist")
+      create(:occupation_standard, :with_work_processes, :with_data_import, title: "Dental Assistant")
+
+      # 1st page
+      create(:occupation_standard, :with_work_processes, :with_data_import, title: "Pipe Fitter")
+      os1 = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
+      new_wp = create(:work_process, title: os1.work_processes.first.title)
+      _os2 = create(:occupation_standard, :with_data_import, work_processes: [new_wp], title: "Mechanic")
+
+      OccupationStandard.import
+      OccupationStandard.__elasticsearch__.refresh_index!
+
+      visit occupation_standards_path
+
+      expect(page).to have_text "Mechanic"
+      expect(page).to have_text "Pipe Fitter"
+      expect(page).to_not have_text "HR Specialist"
+      expect(page).to_not have_text "Dental Assistant"
+
+      within(".pagy-nav") do
+        expect(page).to have_link "2", href: occupation_standards_path(page: 2)
+        expect(page).to_not have_link "3"
+        click_on "2"
+      end
+      expect(page).to have_text "HR Specialist"
+      expect(page).to have_text "Dental Assistant"
 
       Pagy::DEFAULT[:items] = default_items
       Flipper.disable :use_elasticsearch_for_search
