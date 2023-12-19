@@ -3,30 +3,21 @@ require "elasticsearch/dsl"
 class SimilarOccupationStandards
   include Elasticsearch::DSL
 
-  attr_reader :occupation_standard, :debug
+  attr_reader :occupation_standard
 
   RESULTS_SIZE = 5
   MINIMUM_SCORE = 0.2
 
-  def self.similar_to(occupation_standard, debug = false)
-    new(occupation_standard, debug).similar_to
+  def self.similar_to(occupation_standard)
+    new(occupation_standard).similar_to
   end
 
-  def initialize(occupation_standard, debug = false)
+  def initialize(occupation_standard)
     @occupation_standard = occupation_standard
-    @debug = debug
   end
 
   def similar_to
     response = OccupationStandard.__elasticsearch__.search(query(occupation_standard))
-    if debug
-      puts "QUERY"
-      puts response.search.definition[:body][:query].to_json
-      puts "HITS: #{response.results.total}"
-      response.results.each do |result|
-        puts "#{result._id}: #{result._score}"
-      end
-    end
     response.records.to_a
   end
 
