@@ -346,7 +346,7 @@ RSpec.describe "occupation_standards/index" do
     end
 
     it "displays pagination correctly when there are collapsed items" do
-      Flipper.enable :use_elasticsearch_for_search
+      stub_feature_flag(:use_elasticsearch_for_search, true)
       default_items = Pagy::DEFAULT[:items]
       Pagy::DEFAULT[:items] = 2
 
@@ -379,7 +379,6 @@ RSpec.describe "occupation_standards/index" do
       expect(page).to have_text "Dental Assistant"
 
       Pagy::DEFAULT[:items] = default_items
-      Flipper.disable :use_elasticsearch_for_search
     end
 
     it "filters standards based on search term" do
