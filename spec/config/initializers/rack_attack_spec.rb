@@ -34,8 +34,6 @@ describe Rack::Attack do
 
   describe "throttle excessive ip requests" do
     it "changes the request status to 429 when higher than limit" do
-      Flipper.enable(:updated_home)
-
       travel_to Time.current do
         300.times do |i|
           get "/", {}, {"REMOTE_ADDR" => "103.1.3.1}"}
@@ -48,8 +46,6 @@ describe Rack::Attack do
         expect(last_response.status).to eq(429)
         expect(last_response.body).to include("Retry later")
       end
-
-      Flipper.disable(:updated_home)
     end
   end
 
