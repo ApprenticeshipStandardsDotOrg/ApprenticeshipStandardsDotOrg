@@ -12,7 +12,7 @@ RSpec.describe "ContactRequest", type: :request do
   describe "POST /create" do
     context "with valid params and decent Google recaptcha score" do
       it "creates a contact_request record" do
-        Flipper.enable :recaptcha
+        stub_feature_flag(:recaptcha, true)
         stub_recaptcha_high_score
 
         expect {
@@ -32,13 +32,12 @@ RSpec.describe "ContactRequest", type: :request do
         expect(contact.organization).to eq "Disney"
         expect(contact.message).to eq "We are happy"
         expect(response).to redirect_to guest_root_path
-        Flipper.disable :recaptcha
       end
     end
 
     context "with valid params and recaptcha flag false" do
       it "creates a contact_request record" do
-        Flipper.disable :recaptcha
+        stub_feature_flag(:recaptcha, false)
 
         expect {
           post contact_requests_path, params: {
@@ -62,7 +61,7 @@ RSpec.describe "ContactRequest", type: :request do
 
     context "with valid params and poor Google recaptcha score" do
       it "does not create a contact_request record" do
-        Flipper.enable :recaptcha
+        stub_feature_flag(:recaptcha, true)
         stub_recaptcha_low_score
 
         expect {
@@ -78,13 +77,12 @@ RSpec.describe "ContactRequest", type: :request do
         }.to_not change(ContactRequest, :count)
 
         expect(response).to redirect_to guest_root_path
-        Flipper.disable :recaptcha
       end
     end
 
     context "with valid params and unsuccessful recaptcha score" do
       it "does not create a contact_request record and reports error" do
-        Flipper.enable :recaptcha
+        stub_feature_flag(:recaptcha, true)
         stub_recaptcha_failure
 
         expect_any_instance_of(ErrorSubscriber).to receive(:report).and_call_original
@@ -101,13 +99,12 @@ RSpec.describe "ContactRequest", type: :request do
         }.to_not change(ContactRequest, :count)
 
         expect(response).to redirect_to guest_root_path
-        Flipper.disable :recaptcha
       end
     end
 
     context "with invalid params" do
       it "does not creates a contact_request record" do
-        Flipper.enable :recaptcha
+        stub_feature_flag(:recaptcha, true)
         stub_recaptcha_high_score
 
         expect {
@@ -123,7 +120,6 @@ RSpec.describe "ContactRequest", type: :request do
         }.to_not change(ContactRequest, :count)
 
         expect(response).to have_http_status(:unprocessable_entity)
-        Flipper.disable :recaptcha
       end
     end
   end
