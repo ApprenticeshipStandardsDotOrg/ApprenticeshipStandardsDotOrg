@@ -341,9 +341,10 @@ class OccupationStandard < ApplicationRecord
   end
 
   # #duplicates is used in OccupationStandardsController#index
-  # It gets the values from ES collapse if feature flag enabled
+  # It gets the values from ES collapse to display in the Expand Duplicates
+  # section.
   def duplicates
-    if Flipper.enabled?(:similar_programs_elasticsearch)
+    if Flipper.enabled?(:use_elasticsearch_for_search)
       inner_hits&.reject { |hit| hit.id == id } || []
     else
       similar_programs_deprecated

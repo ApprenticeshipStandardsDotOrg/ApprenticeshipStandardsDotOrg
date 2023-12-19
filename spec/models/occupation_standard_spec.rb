@@ -441,7 +441,7 @@ RSpec.describe OccupationStandard, type: :model do
   describe "#duplicates" do
     context "with the similar_programs_elasticsearch flag enabled" do
       it "returns from OccupationStandard#inner_hits excluding self" do
-        stub_feature_flag(:similar_programs_elasticsearch, true)
+        stub_feature_flag(:use_elasticsearch_for_search, true)
 
         occupation_standard = create(:occupation_standard)
         duplicate_inner_hit = create(:inner_hit, id: "1", title: "Duplicate")
@@ -456,7 +456,7 @@ RSpec.describe OccupationStandard, type: :model do
 
     context "with the similar_programs_elasticsearch flag disabled" do
       it "returns occupations that match the title regardless of capitalization" do
-        stub_feature_flag(:similar_programs_elasticsearch, false)
+        stub_feature_flag(:use_elasticsearch_for_search, false)
 
         occupation_standard = create(:occupation_standard, title: "Human Resource Specialist")
         similar_program1 = create(:occupation_standard, title: "HUMAN RESOURCE SPECIALIST")
@@ -467,7 +467,7 @@ RSpec.describe OccupationStandard, type: :model do
       end
 
       it "returns up to MAX_SIMILAR_PROGRAMS_TO_DISPLAY occupations" do
-        stub_feature_flag(:similar_programs_elasticsearch, false)
+        stub_feature_flag(:use_elasticsearch_for_search, false)
 
         stub_const("OccupationStandard::MAX_SIMILAR_PROGRAMS_TO_DISPLAY", 1)
         occupation_standard = create(:occupation_standard, title: "Human Resource Specialist")
@@ -477,7 +477,7 @@ RSpec.describe OccupationStandard, type: :model do
       end
 
       it "excludes itself" do
-        stub_feature_flag(:similar_programs_elasticsearch, false)
+        stub_feature_flag(:use_elasticsearch_for_search, false)
         occupation_standard = create(:occupation_standard, title: "Human Resource Specialist")
 
         expect(occupation_standard.duplicates).to be_empty

@@ -848,8 +848,9 @@ RSpec.describe "occupation_standards/index" do
 
     it "expands similar results accordion when accordion button is clicked", js: true do
       Flipper.enable :use_elasticsearch_for_search
-      create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
-      create(:occupation_standard, :with_work_processes, :with_data_import, :program_standard, title: "Mechanic")
+      os = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
+      new_wp = create(:work_process, title: os.work_processes.first.title)
+      create(:occupation_standard, :with_data_import, :program_standard, work_processes: [new_wp], title: "Mechanic")
 
       OccupationStandard.import
       OccupationStandard.__elasticsearch__.refresh_index!
@@ -864,8 +865,9 @@ RSpec.describe "occupation_standards/index" do
 
     it "closes similar results accordion when accordion button is clicked", js: true do
       Flipper.enable :use_elasticsearch_for_search
-      create(:occupation_standard, :with_work_processes, :with_data_import, :program_standard, title: "Mechanic")
-      mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
+      os = create(:occupation_standard, :with_work_processes, :with_data_import, :program_standard, title: "Mechanic")
+      new_wp = create(:work_process, title: os.work_processes.first.title)
+      mechanic = create(:occupation_standard, :with_data_import, work_processes: [new_wp], title: "Mechanic")
 
       OccupationStandard.import
       OccupationStandard.__elasticsearch__.refresh_index!
