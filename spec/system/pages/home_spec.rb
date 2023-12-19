@@ -109,10 +109,9 @@ RSpec.describe "pages/home" do
   end
 
   context "with Elasticsearch enabled", :elasticsearch do
-    around(:each) do |example|
-      Flipper.enable(:use_elasticsearch_for_search)
-      example.run
-      Flipper.disable(:use_elasticsearch_for_search)
+    before(:each) do |example|
+      stub_feature_flag(:use_elasticsearch_for_search, true)
+      stub_feature_flag(:show_recently_added_section, true)
     end
 
     it "filters occupations based on search term" do
@@ -279,9 +278,13 @@ RSpec.describe "pages/home" do
   end
 
   describe "Recently Added" do
-    it "displays a link to a search of occupation standards sorted by creation date" do
-      Flipper.enable :show_recently_added_section
+    before(:each) do |example|
+      stub_feature_flag(:show_recently_added_section, true)
+      stub_feature_flag(:similar_programs_elasticsearch, false)
+      stub_feature_flag(:use_elasticsearch_for_search, false)
+    end
 
+    it "displays a link to a search of occupation standards sorted by creation date" do
       create(:occupation_standard, :with_work_processes, :with_data_import, national_standard_type: :guideline_standard, title: "Mechanic")
 
       visit home_page_path
@@ -289,13 +292,9 @@ RSpec.describe "pages/home" do
       click_link("See All", href: "/occupation_standards?sort=created_at")
 
       expect(page).to have_text "Mechanic"
-
-      Flipper.disable :show_recently_added_section
     end
 
     it "displays a link to latest occupation standard" do
-      Flipper.enable :show_recently_added_section
-
       create(:occupation_standard, :with_work_processes, :with_data_import, national_standard_type: :guideline_standard, title: "Mechanic")
 
       visit home_page_path
@@ -303,7 +302,6 @@ RSpec.describe "pages/home" do
       click_on("Mechanic")
 
       expect(page).to have_text "Mechanic"
-      Flipper.disable :show_recently_added_section
     end
   end
 end
