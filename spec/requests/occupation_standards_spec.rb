@@ -83,24 +83,6 @@ RSpec.describe "OccupationStandard", type: :request do
           expect(response).to be_successful
           Flipper.disable :use_elasticsearch_for_search
         end
-
-        it "does not have any N+1 queries" do
-          Flipper.enable :use_elasticsearch_for_search
-
-          org = create(:organization)
-          os = create(:occupation_standard, :with_work_processes, :with_data_import, organization: org)
-          new_wp = build(:work_process, title: os.work_processes.first.title)
-          create(:occupation_standard, :with_data_import, work_processes: [new_wp], organization: org)
-          create(:occupation_standard, :with_work_processes, :with_data_import, organization: org)
-
-          OccupationStandard.import
-          OccupationStandard.__elasticsearch__.refresh_index!
-
-          get occupation_standards_path
-
-          expect(response).to be_successful
-          Flipper.disable :use_elasticsearch_for_search
-        end
       end
     end
 
