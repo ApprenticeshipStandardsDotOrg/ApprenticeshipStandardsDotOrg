@@ -278,3 +278,6 @@ You can turn on a feature flag by running:
 and check if it's enabled with:
 
 `Flipper.enabled?(:search) # true`
+
+When writing specs, there is a helper method to use:
+`stub_feature_flag(:my_feature_flag, <boolean value>)`.
