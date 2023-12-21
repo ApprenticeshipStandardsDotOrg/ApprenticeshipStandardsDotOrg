@@ -30,7 +30,7 @@ class ExportFileAttachments
     Zip::File.open(zip_file) do |zip_file|
       zip_file.each do |entry|
         next unless entry.name.include?("docx") || entry.name.include?(".bin")
-        entry.name.sub!(".bin", ".pdf") if entry.name.include?(".bin")
+        entry.name.sub!(".bin", ".pdf")
 
         file_path = "#{Rails.root}/tmp/#{File.basename(entry.name)}"
         entry.extract(@entry_path = file_path)
@@ -46,7 +46,7 @@ class ExportFileAttachments
       name: "Source File #{source_file.id}",
       organization: nil
     ).first_or_initialize(
-      notes: "Extracted from Apprenticeship Bulletings",
+      notes: "Extracted from Apprenticeship Bulletins",
       public_document: true,
       source_url: BULLETIN_LIST_URL
     )
