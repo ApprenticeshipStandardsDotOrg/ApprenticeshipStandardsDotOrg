@@ -12,13 +12,12 @@ RSpec.describe ExportFileAttachments do
     end
 
     context "with file that doesn't have attachments" do
-      it "creates a StandardImport and 0 files attached to it" do
+      it "does not create a StandardImport" do
         create(:standards_import, :with_files)
         source_file = SourceFile.last
 
         expect { described_class.new(source_file).call }
-          .to change { StandardsImport.count }.by(1)
-        expect(StandardsImport.last.files.count).to eq(0)
+          .to change { StandardsImport.count }.by(0)
       end
     end
   end
