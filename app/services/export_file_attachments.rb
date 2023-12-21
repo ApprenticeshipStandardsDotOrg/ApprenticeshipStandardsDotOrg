@@ -25,14 +25,16 @@ class ExportFileAttachments
   def unzip_attachments_and_list_file_names(zip_file)
     file_names = []
 
-    Zip::File.open(zip_file) do |zip_file|
-      zip_file.each do |entry|
-        next unless entry.name.include?("docx") || entry.name.include?(".bin")
-        entry.name.sub!(".bin", ".pdf")
+    if !File.zero?(zip_file)
+      Zip::File.open(zip_file) do |zip_file|
+        zip_file.each do |entry|
+          next unless entry.name.include?("docx") || entry.name.include?(".bin")
+          entry.name.sub!(".bin", ".pdf")
 
-        file_path = "#{Rails.root}/tmp/#{File.basename(entry.name)}"
-        entry.extract(@entry_path = file_path)
-        file_names << file_path
+          file_path = "#{Rails.root}/tmp/#{File.basename(entry.name)}"
+          entry.extract(@entry_path = file_path)
+          file_names << file_path
+        end
       end
     end
 
