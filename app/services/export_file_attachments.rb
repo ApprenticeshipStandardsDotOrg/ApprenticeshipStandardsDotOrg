@@ -1,12 +1,10 @@
 class ExportFileAttachments
-  attr_reader :source_file, :blob
+  attr_reader :source_file
 
   TEMP_FILE_PATH = "#{Rails.root}/tmp/foo.zip"
-  BULLETIN_LIST_URL = "https://www.apprenticeship.gov/about-us/legislation-regulations-guidance/bulletins/export?search=&category%5B0%5D=National%20Guideline%20Standards&category%5B1%5D=National%20Program%20Standards&category%5B2%5D=Occupations&page&_format=csv"
 
-  def initialize(source_file, blob)
+  def initialize(source_file)
     @source_file = source_file
-    @blob = blob
   end
 
   def call
@@ -20,7 +18,7 @@ class ExportFileAttachments
 
   def create_zip_version_of_source_file
     zip_file = Tempfile.open(TEMP_FILE_PATH, encoding: "ascii-8bit")
-    blob.download { |chunk| zip_file.write(chunk) }
+    source_file.active_storage_attachment.blob.download { |chunk| zip_file.write(chunk) }
     zip_file
   end
 
@@ -48,7 +46,7 @@ class ExportFileAttachments
     ).first_or_initialize(
       notes: "Extracted from Apprenticeship Bulletins",
       public_document: true,
-      source_url: BULLETIN_LIST_URL
+      source_url: Rails.application.routes.url_helpers.admin_source_file_path(source_file)
     )
 
     if standards_import.new_record?
