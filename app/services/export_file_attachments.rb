@@ -1,7 +1,7 @@
 class ExportFileAttachments
   attr_reader :source_file, :blob
 
-  TEMP_FILE_PATH = "foo.zip"
+  TEMP_FILE_PATH = "#{Rails.root}/tmp/foo.zip"
   BULLETIN_LIST_URL = "https://www.apprenticeship.gov/about-us/legislation-regulations-guidance/bulletins/export?search=&category%5B0%5D=National%20Guideline%20Standards&category%5B1%5D=National%20Program%20Standards&category%5B2%5D=Occupations&page&_format=csv"
 
   def initialize(source_file, blob)
@@ -11,7 +11,7 @@ class ExportFileAttachments
 
   def call
     zip_file = create_zip_version_of_source_file
-    file_names = unzip_attachments_and_list_file_names
+    file_names = unzip_attachments_and_list_file_names(zip_file)
     save_attachments_to_db(file_names)
     delete_extracted_files(file_names, zip_file)
   end
@@ -24,10 +24,10 @@ class ExportFileAttachments
     zip_file
   end
 
-  def unzip_attachments_and_list_file_names
+  def unzip_attachments_and_list_file_names(zip_file)
     file_names = []
 
-    Zip::File.open(TEMP_FILE_PATH) do |zip_file|
+    Zip::File.open(zip_file) do |zip_file|
       zip_file.each do |entry|
         next unless entry.name.include?("docx") || entry.name.include?(".bin")
         entry.name.sub!(".bin", ".pdf") if entry.name.include?(".bin")
