@@ -32,8 +32,9 @@ class ExportFileAttachments
         next unless entry.name.include?("docx") || entry.name.include?(".bin")
         entry.name.sub!(".bin", ".pdf") if entry.name.include?(".bin")
 
-        entry.extract
-        file_names << entry.name
+        file_path = "#{Rails.root}/tmp/#{File.basename(entry.name)}"
+        entry.extract(@entry_path = file_path)
+        file_names << file_path
       end
     end
 
