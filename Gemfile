@@ -60,6 +60,7 @@ gem "pundit"
 gem "image_processing"
 gem "pagy"
 gem "ruby-openai"
+gem "pdf-reader"
 
 # Throttle excessive requests
 gem "rack-attack"
