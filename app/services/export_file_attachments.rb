@@ -42,6 +42,8 @@ class ExportFileAttachments
   end
 
   def save_attachments_to_db(file_names)
+    return if file_names.empty?
+
     standards_import = StandardsImport.where(
       name: "Source File #{source_file.id}",
       organization: nil

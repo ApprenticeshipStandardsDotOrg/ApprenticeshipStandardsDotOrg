@@ -5,6 +5,9 @@ RSpec.describe Scraper::AppreticeshipBulletinsJob, type: :job do
     context "when files have not been downloaded previously" do
       it "downloads any file to a standards import record" do
         stub_responses
+        service = double("service", call: nil)
+        expect(ExportFileAttachments).to receive(:new).with(kind_of(SourceFile)).and_return(service).exactly(6)
+        expect(service).to receive(:call)
         perform_enqueued_jobs do
           expect {
             described_class.new.perform
@@ -31,6 +34,8 @@ RSpec.describe Scraper::AppreticeshipBulletinsJob, type: :job do
         name: "https://www.apprenticeship.gov/sites/default/files/bulletins/Bulletin_2016-22.pdf",
         organization: "Wildland Fire Fighter Specialist")
       stub_responses
+      service = double("service", call: nil)
+      expect(ExportFileAttachments).to receive(:new).with(kind_of(SourceFile)).and_return(service).exactly(5)
       perform_enqueued_jobs do
         expect {
           described_class.new.perform
