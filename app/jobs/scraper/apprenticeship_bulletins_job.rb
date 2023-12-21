@@ -1,4 +1,4 @@
-class Scraper::AppreticeshipBulletinsJob < ApplicationJob
+class Scraper::ApprenticeshipBulletinsJob < ApplicationJob
   queue_as :default
 
   BULLETIN_LIST_URL = "https://www.apprenticeship.gov/about-us/legislation-regulations-guidance/bulletins/export?search=&category%5B0%5D=National%20Guideline%20Standards&category%5B1%5D=National%20Program%20Standards&category%5B2%5D=Occupations&page&_format=csv"
@@ -14,7 +14,7 @@ class Scraper::AppreticeshipBulletinsJob < ApplicationJob
         name: file_uri,
         organization: row["Title"]
       ).first_or_initialize(
-        notes: "From Scraper::AppreticeshipBulletinsJob",
+        notes: "From Scraper::ApprenticeshipBulletinsJob",
         public_document: true,
         source_url: BULLETIN_LIST_URL
       )
