@@ -569,6 +569,7 @@ DEPENDENCIES
   rswag-specs
   rswag-ui
   ruby-openai
+  rubyzip
   sablon
   selenium-webdriver
   sidekiq (~> 7)
