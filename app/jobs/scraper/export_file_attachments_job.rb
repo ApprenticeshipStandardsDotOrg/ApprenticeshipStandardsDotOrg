@@ -24,7 +24,7 @@ class Scraper::ExportFileAttachmentsJob < ApplicationJob
     unless File.zero?(zip_file)
       Zip::File.open(zip_file) do |zip_file|
         zip_file.each do |entry|
-          next unless entry.name.end_with?("docx") || entry.name.end_with?(".bin")
+          next unless entry.name.end_with?("docx", ".bin")
           entry.name.sub!(".bin", ".pdf")
 
           file_path = "#{Rails.root}/tmp/#{File.basename(entry.name)}"
