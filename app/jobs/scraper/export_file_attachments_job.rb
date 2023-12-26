@@ -21,10 +21,10 @@ class Scraper::ExportFileAttachmentsJob < ApplicationJob
   def unzip_attachments_and_list_file_names(zip_file)
     file_names = []
 
-    if !File.zero?(zip_file)
+    unless File.zero?(zip_file)
       Zip::File.open(zip_file) do |zip_file|
         zip_file.each do |entry|
-          next unless entry.name.include?("docx") || entry.name.include?(".bin")
+          next unless entry.name.end_with?("docx") || entry.name.end_with?(".bin")
           entry.name.sub!(".bin", ".pdf")
 
           file_path = "#{Rails.root}/tmp/#{File.basename(entry.name)}"
