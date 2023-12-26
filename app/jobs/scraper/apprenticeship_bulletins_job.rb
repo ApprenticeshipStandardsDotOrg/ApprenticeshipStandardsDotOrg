@@ -29,7 +29,7 @@ class Scraper::ApprenticeshipBulletinsJob < ApplicationJob
               date: row["Date"]
             }
           )
-          ExportFileAttachments.new(source_file).call
+          Scraper::ExportFileAttachmentsJob.new.perform_later(source_file)
         end
       end
     end

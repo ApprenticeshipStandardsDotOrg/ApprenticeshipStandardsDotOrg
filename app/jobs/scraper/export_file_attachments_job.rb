@@ -1,22 +1,18 @@
-class ExportFileAttachments
-  attr_reader :source_file
+class Scraper::ExportFileAttachmentsJob < ApplicationJob
+  queue_as :default
 
   TEMP_FILE_PATH = "#{Rails.root}/tmp/foo.zip"
 
-  def initialize(source_file)
-    @source_file = source_file
-  end
-
-  def call
-    zip_file = create_zip_version_of_source_file
+  def perform(source_file)
+    zip_file = create_zip_version_of_source_file(source_file)
     file_names = unzip_attachments_and_list_file_names(zip_file)
-    save_attachments_to_db(file_names)
+    save_attachments_to_db(file_names, source_file)
     delete_extracted_files(file_names, zip_file)
   end
 
   private
 
-  def create_zip_version_of_source_file
+  def create_zip_version_of_source_file(source_file)
     zip_file = Tempfile.open(TEMP_FILE_PATH, encoding: "ascii-8bit")
     source_file.active_storage_attachment.blob.download { |chunk| zip_file.write(chunk) }
     zip_file
@@ -41,7 +37,7 @@ class ExportFileAttachments
     file_names
   end
 
-  def save_attachments_to_db(file_names)
+  def save_attachments_to_db(file_names, source_file)
     return if file_names.empty?
 
     standards_import = StandardsImport.where(
