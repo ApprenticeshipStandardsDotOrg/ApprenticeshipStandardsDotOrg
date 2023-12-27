@@ -29,7 +29,7 @@ Bundler.require(*Rails.groups)
 module ApprenticeshipStandardsDotOrg
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.0
+    config.load_defaults 7.1
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
@@ -59,5 +59,7 @@ module ApprenticeshipStandardsDotOrg
       r301 %r{admin/source_files/([^/]*)/redact_file/lib/(.*)}, "/assets/lib/$2"
       r301 %r{admin/source_files/([^/]*)/redact_file/server/(.*)}, "/assets/server/$2"
     end
+
+    config.active_support.cache_format_version = 7.1
   end
 end
