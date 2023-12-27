@@ -9,14 +9,18 @@ module Elasticsearchable
     end
 
     after_commit on: [:update] do
-      unless elasticsearch_disabled?
-        __elasticsearch__.update_document
-      end
+      update_document
     end
 
     after_commit on: [:destroy] do
       unless elasticsearch_disabled?
         __elasticsearch__.delete_document
+      end
+    end
+
+    def update_document
+      unless elasticsearch_disabled?
+        __elasticsearch__.update_document
       end
     end
   end

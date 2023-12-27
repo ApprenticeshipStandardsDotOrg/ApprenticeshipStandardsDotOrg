@@ -30,6 +30,8 @@ RSpec.describe ProcessDataImportJob, type: :job do
       ).and_return(work_processes_mock)
       expect(work_processes_mock).to receive(:call)
 
+      expect_any_instance_of(OccupationStandard).to receive(:update_document).twice
+
       described_class.new.perform(data_import: data_import)
 
       expect(data_import.source_file).to be_pending
