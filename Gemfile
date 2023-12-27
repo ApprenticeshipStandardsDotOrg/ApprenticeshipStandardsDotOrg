@@ -12,6 +12,7 @@ gem "elasticsearch-dsl"
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
+gem "rubyzip"
 
 # This is needed to make FoxitSDK work since it uses relative references to files without digest
 gem "non-digest-assets", github: "mvz/non-digest-assets", branch: "master"
