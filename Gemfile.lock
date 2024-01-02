@@ -113,7 +113,7 @@ GEM
       kaminari (>= 1.0)
       sassc-rails (~> 2.1)
       selectize-rails (~> 0.6)
-    administrate-field-active_storage (1.0.0)
+    administrate-field-active_storage (1.0.1)
       administrate (>= 0.2.2)
       rails (>= 7.0)
     administrate-field-jsonb (0.4.6)
@@ -288,7 +288,7 @@ GEM
     multi_json (1.15.0)
     multipart-post (2.3.0)
     mutex_m (0.2.0)
-    net-imap (0.4.3)
+    net-imap (0.4.9)
       date
       net-protocol
     net-pop (0.1.2)
@@ -297,7 +297,7 @@ GEM
       timeout
     net-smtp (0.4.0)
       net-protocol
-    nio4r (2.6.0)
+    nio4r (2.7.0)
     nokogiri (1.16.0-aarch64-linux)
       racc (~> 1.4)
     nokogiri (1.16.0-arm64-darwin)
