@@ -50,6 +50,18 @@ brew install mailcatcher
 
 [mailcatcher_brew]: https://formulae.brew.sh/formula/mailcatcher
 
+### Libreoffice
+
+
+If you want to convert doc and docx documents to PDF, you can install install [libreoffice][libreoffice] with [brew][libreoffice_brew]:
+
+```bash
+brew install --cask libreoffice
+```
+
+[libreoffice]: https://www.libreoffice.org/
+[libreoffice_brew]: https://formulae.brew.sh/cask/libreoffice#default
+
 ## Staging access
 [Staging information](https://www.notion.so/Engineering-f05ed81462494b80946bf83df50cb400)
 

@@ -14,6 +14,7 @@ RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends \
   tzdata \
   vim \
   yarn \
+  libreoffice \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
