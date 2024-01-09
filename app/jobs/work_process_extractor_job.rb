@@ -9,7 +9,7 @@ class WorkProcessExtractorJob < ApplicationJob
     prompt = "Could you identify the work processes and the hours spent in them in this document in a json with name of the process as key and hours as an array with the values of minimum and maximum hours? Use 'N/A' when there is no hour, and fill both values of the array with the same number when there is only one value for hour. #{text}"
     response = ChatGptGenerateText.new(prompt).call
 
-    chatgpt_work_processes= JSON.parse(response)
+    chatgpt_work_processes = JSON.parse(response)
     chatgpt_work_processes.each do |key, value|
       work_process = WorkProcess.find_or_initialize_by(
         occupation_standard: occupation_standard,
@@ -17,9 +17,9 @@ class WorkProcessExtractorJob < ApplicationJob
       )
 
       work_process.update!(
-          description: key,
-          minimum_hours: value.first,
-          maximum_hours: value.last,
+        description: key,
+        minimum_hours: value.first,
+        maximum_hours: value.last
       )
 
       create_or_update_competency(work_process, competency_data) if competency_data.present?

@@ -4,7 +4,7 @@ RSpec.describe WorkProcessExtractorJob, type: :job do
   describe "#perform" do
     it "populates db with work process and competencies extracted with chatgpt" do
       occupation_standard = create(:occupation_standard)
-      competency_data = { skill_title: "Title", sort_order: "Asc"}
+      competency_data = {skill_title: "Title", sort_order: "Asc"}
       chatgpt_data = {
         "Length of Training": [2, 2],
         "Related Supplemental (Classroom) Instruction": [144, 144],
@@ -12,7 +12,7 @@ RSpec.describe WorkProcessExtractorJob, type: :job do
         "Competency Evaluation": ["N/A", "N/A"]
       }
       chatgpt_mock = instance_double("ChatGptGenerateText", call: chatgpt_data.to_json)
-      
+
       expect(ChatGptGenerateText).to receive(:new).and_return(chatgpt_mock)
       expect {
         described_class.perform_now(occupation_standard, competency_data)
@@ -30,7 +30,7 @@ RSpec.describe WorkProcessExtractorJob, type: :job do
           "Competency Evaluation": ["N/A", "N/A"]
         }
         chatgpt_mock = instance_double("ChatGptGenerateText", call: chatgpt_data.to_json)
-      
+
         expect(ChatGptGenerateText).to receive(:new).and_return(chatgpt_mock)
         expect {
           described_class.perform_now(occupation_standard, nil)
