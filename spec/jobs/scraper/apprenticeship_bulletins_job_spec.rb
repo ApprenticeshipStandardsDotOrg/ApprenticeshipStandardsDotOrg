@@ -1,10 +1,11 @@
 require "rails_helper"
 
-RSpec.describe Scraper::AppreticeshipBulletinsJob, type: :job do
+RSpec.describe Scraper::ApprenticeshipBulletinsJob, type: :job do
   describe "#perform" do
     context "when files have not been downloaded previously" do
       it "downloads any file to a standards import record" do
         stub_responses
+        expect(Scraper::ExportFileAttachmentsJob).to receive(:perform_later).with(kind_of(SourceFile)).exactly(6).times
         perform_enqueued_jobs do
           expect {
             described_class.new.perform
@@ -15,9 +16,9 @@ RSpec.describe Scraper::AppreticeshipBulletinsJob, type: :job do
         expect(standard_import.files.count).to eq 1
         expect(standard_import.name).to eq "https://www.apprenticeship.gov/sites/default/files/bulletins/Bulletin_2016-22.pdf"
         expect(standard_import.organization).to eq "Wildland Fire Fighter Specialist"
-        expect(standard_import.notes).to eq "From Scraper::AppreticeshipBulletinsJob"
+        expect(standard_import.notes).to eq "From Scraper::ApprenticeshipBulletinsJob"
         expect(standard_import.public_document).to be true
-        expect(standard_import.source_url).to eq Scraper::AppreticeshipBulletinsJob::BULLETIN_LIST_URL
+        expect(standard_import.source_url).to eq Scraper::ApprenticeshipBulletinsJob::BULLETIN_LIST_URL
 
         source_file = SourceFile.last
         expect(source_file.metadata).to eq({"date" => "03/11/16"})
@@ -31,6 +32,7 @@ RSpec.describe Scraper::AppreticeshipBulletinsJob, type: :job do
         name: "https://www.apprenticeship.gov/sites/default/files/bulletins/Bulletin_2016-22.pdf",
         organization: "Wildland Fire Fighter Specialist")
       stub_responses
+      expect(Scraper::ExportFileAttachmentsJob).to receive(:perform_later).with(kind_of(SourceFile)).exactly(5).times
       perform_enqueued_jobs do
         expect {
           described_class.new.perform
@@ -49,7 +51,7 @@ RSpec.describe Scraper::AppreticeshipBulletinsJob, type: :job do
 
   def stub_responses
     bulletin_document = file_fixture("scraper/bulletins-results.csv")
-    stub_request(:get, Scraper::AppreticeshipBulletinsJob::BULLETIN_LIST_URL)
+    stub_request(:get, Scraper::ApprenticeshipBulletinsJob::BULLETIN_LIST_URL)
       .to_return(status: 200, body: bulletin_document.read, headers: {})
 
     first_docx_bulletin_with_attachments = file_fixture("scraper/bulletins/Bulletin 2023-52 New NGS AFSA.docx")

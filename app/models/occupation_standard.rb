@@ -219,7 +219,7 @@ class OccupationStandard < ApplicationRecord
 
   scope :with_work_processes, -> { joins(:work_processes).distinct }
 
-  scope :recently_added, -> { where.associated(:work_processes).order(created_at: :desc).limit(MAX_RECENTLY_ADDED_OCCUPATIONS_TO_DISPLAY) }
+  scope :recently_added, -> { where.associated(:work_processes).distinct.order(created_at: :desc).limit(MAX_RECENTLY_ADDED_OCCUPATIONS_TO_DISPLAY) }
 
   class << self
     def industry_count(onet_prefix)
@@ -341,9 +341,10 @@ class OccupationStandard < ApplicationRecord
   end
 
   # #duplicates is used in OccupationStandardsController#index
-  # It gets the values from ES collapse if feature flag enabled
+  # It gets the values from ES collapse to display in the Expand Duplicates
+  # section.
   def duplicates
-    if Flipper.enabled?(:similar_programs_elasticsearch)
+    if Flipper.enabled?(:use_elasticsearch_for_search)
       inner_hits&.reject { |hit| hit.id == id } || []
     else
       similar_programs_deprecated

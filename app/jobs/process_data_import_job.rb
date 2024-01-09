@@ -47,5 +47,9 @@ class ProcessDataImportJob < ApplicationJob
     if last_file
       data_import.source_file.completed!
     end
+
+    # We need to reload the occupation prior to update ES for the application to have all the updated data
+    occupation_standard.reload
+    occupation_standard.update_document
   end
 end

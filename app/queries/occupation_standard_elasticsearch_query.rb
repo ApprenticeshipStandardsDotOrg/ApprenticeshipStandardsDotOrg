@@ -29,6 +29,9 @@ class OccupationStandardElasticsearchQuery
           by :created_at, order: :desc
         end
       end
+      aggregation :total do
+        cardinality field: "headline"
+      end
       query do
         bool do
           must match_all: {}
@@ -125,8 +128,10 @@ class OccupationStandardElasticsearchQuery
               end
             end
           end
-          should do
-            term national_standard_type: "occupational_framework"
+          unless search_params[:sort]
+            should do
+              term national_standard_type: "occupational_framework"
+            end
           end
         end
       end

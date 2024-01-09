@@ -9,10 +9,10 @@ class OccupationStandardsController < ApplicationController
         search_params: search_term_params,
         offset: offset
       ).call
-      @pagy = Pagy.new_from_elasticsearch_rails(
-        es_response,
+      @pagy = Pagy.new(
         items: Pagy::DEFAULT[:items],
-        page: current_page
+        page: current_page,
+        count: es_response.response.aggregations.total.value
       )
       @occupation_standards = add_inner_hits_from_results(es_response.records)
     else
