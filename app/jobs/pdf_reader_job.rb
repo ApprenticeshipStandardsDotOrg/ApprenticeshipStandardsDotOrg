@@ -4,7 +4,7 @@ class PdfReaderJob < ApplicationJob
   def perform(source_file_id)
     source_file = SourceFile.find(source_file_id)
     return unless source_file.pdf?
-    io = URI.open(source_file.url)
+    io = URI.parse(source_file.url).open
 
     reader = PDF::Reader.new(io)
     text = reader.pages.map { |page| page.text }.to_s
