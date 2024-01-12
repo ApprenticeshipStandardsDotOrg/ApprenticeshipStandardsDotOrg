@@ -17,6 +17,8 @@ RSpec.describe PdfReaderJob do
     it "returns an array of templates with ChatGPT responses" do
       source_file = create(:source_file)
       allow_any_instance_of(SourceFile).to receive(:pdf?).and_return true
+      
+      stub_request(:get, source_file.url).to_return(status: 200, body: "", headers: {})
       reader_mock = instance_double "PDF::Reader"
 
       allow(PDF::Reader).to receive(:new).and_return(reader_mock)
