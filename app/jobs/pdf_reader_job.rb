@@ -7,7 +7,7 @@ class PdfReaderJob < ApplicationJob
     io = URI.open(source_file.url)
 
     reader = PDF::Reader.new(io)
-    text = reader.pages.map{|page| page.text}.to_s
+    text = reader.pages.map { |page| page.text }.to_s
 
     template = '{ "Title": "", "Type": "(Time based, Competency based, or Hybrid)" }'
 
