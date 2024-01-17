@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_18_194224) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_17_170330) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -238,6 +238,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_18_194224) do
     t.boolean "public_document", default: false, null: false
     t.text "plain_text_version"
     t.integer "courtesy_notification", default: 0
+    t.datetime "redacted_at"
     t.index ["active_storage_attachment_id"], name: "index_source_files_on_active_storage_attachment_id"
     t.index ["assignee_id"], name: "index_source_files_on_assignee_id"
   end
