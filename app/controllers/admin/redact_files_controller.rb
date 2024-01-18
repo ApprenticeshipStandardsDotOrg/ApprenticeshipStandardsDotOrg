@@ -17,6 +17,7 @@ module Admin
             @source_file.associated_occupation_standards.each do |occupation_standard|
               occupation_standard.redacted_document.attach(params[:redacted_file])
             end
+            @source_file.update(redacted_at: Time.current)
             render json: {
               message: "Redacted document saved for all occupation standards associated to this source file",
               status: :ok
