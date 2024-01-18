@@ -27,4 +27,14 @@ class AdminMailer < ApplicationMailer
         subject: "Daily imported standards report #{date}"
     end
   end
+
+  def daily_redacted_files_report
+    @recently_redacted_source_files = SourceFile.includes(active_storage_attachment: :blob).recently_redacted
+
+    if @recently_redacted_source_files.any?
+      date = Time.zone.yesterday.to_date
+      mail to: "info@workhands.us",
+        subject: "Daily redacted source files report #{date}"
+    end
+  end
 end
