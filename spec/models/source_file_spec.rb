@@ -133,4 +133,30 @@ RSpec.describe SourceFile, type: :model do
       expect(source_file.file_for_redaction).to eq source_file.active_storage_attachment
     end
   end
+
+  describe ".recently_redacted" do
+    it "returns records created the day before by default" do
+      travel_to(Time.zone.local(2023, 6, 15)) do
+        recent_records = [
+          create(:source_file, redacted_at: Time.zone.local(2023, 6, 14)),
+          create(:source_file, redacted_at: Time.zone.local(2023, 6, 14, 23, 59, 59))
+        ]
+        create(:source_file, redacted_at: Time.zone.local(2023, 6, 13, 23, 59, 59))
+
+        expect(described_class.recently_redacted).to match_array recent_records
+      end
+    end
+
+    it "returns records within the passed start and end time" do
+      recent_records = [
+        create(:source_file, redacted_at: Time.zone.local(2022, 6, 14)),
+        create(:source_file, redacted_at: Time.zone.local(2022, 6, 14, 22, 59, 59))
+      ]
+      create(:source_file, redacted_at: Time.zone.local(2022, 6, 14, 23, 59, 59))
+
+      start_time = Time.zone.local(2022, 6, 14)
+      end_time = Time.zone.local(2022, 6, 14, 23)
+      expect(described_class.recently_redacted(start_time: start_time, end_time: end_time)).to match_array recent_records
+    end
+  end
 end

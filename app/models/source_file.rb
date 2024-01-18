@@ -53,4 +53,12 @@ class SourceFile < ApplicationRecord
   def file_for_redaction
     redacted_source_file.attached? ? redacted_source_file : active_storage_attachment
   end
+
+  def self.recently_redacted(start_time: Time.zone.yesterday.beginning_of_day, end_time: Time.zone.yesterday.end_of_day)
+    where(
+      redacted_at: (
+        start_time..end_time
+      )
+    )
+  end
 end
