@@ -8,7 +8,6 @@ RSpec.describe "Admin::SourceFiles::RedactFile", type: :request do
           admin = create(:admin)
           source_file = create(:source_file)
 
-
           sign_in admin
           get new_admin_source_file_redact_file_path(source_file)
 
