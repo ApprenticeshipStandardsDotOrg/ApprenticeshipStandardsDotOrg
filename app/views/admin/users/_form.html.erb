@@ -33,11 +33,13 @@ and renders all form fields for a resource's editable attributes.
     </div>
   <% end %>
 
-  <% page.attributes(controller.action_name).each do |attribute| -%>
-    <% next if attribute.attribute == :password && page.resource.persisted? %>
-    <div class="field-unit field-unit--<%= attribute.html_class %> field-unit--<%= requireness(attribute) %>">
-      <%= render_field attribute, f: f %>
-    </div>
+  <% page.attributes(controller.action_name).each do |_title, attributes| -%>
+    <% attributes.each do |attribute| %>
+      <% next if attribute.attribute == :password && page.resource.persisted? %>
+      <div class="field-unit field-unit--<%= attribute.html_class %> field-unit--<%= requireness(attribute) %>">
+        <%= render_field attribute, f: f %>
+      </div>
+    <% end %>
   <% end -%>
 
   <div class="form-actions">

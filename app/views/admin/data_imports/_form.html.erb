@@ -20,10 +20,12 @@
     </div>
   <% end %>
 
-  <% page.attributes(controller.action_name).each do |attribute| -%>
-    <div class="field-unit field-unit--<%= attribute.html_class %> field-unit--<%= requireness(attribute) %>">
-      <%= render_field attribute, f: f %>
-    </div>
+  <% page.attributes(controller.action_name).each do |_title, attributes| -%>
+    <% attributes.each do |attribute| %>
+      <div class="field-unit field-unit--<%= attribute.html_class %> field-unit--<%= requireness(attribute) %>">
+        <%= render_field attribute, f: f %>
+      </div>
+    <% end %>
   <% end -%>
 
   <div class="field-unit field-unit--last_file">
