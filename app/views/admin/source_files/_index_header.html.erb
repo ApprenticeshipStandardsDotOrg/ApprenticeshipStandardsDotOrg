@@ -7,6 +7,22 @@
     <%= content_for(:title) %>
   </h1>
 
+  <div>
+    <% if params[:ready_for_redaction] %>
+      <%= link_to(
+            "Show all files",
+            admin_source_files_path,
+            class: "button"
+          ) %>
+  <% else %>
+    <%= link_to(
+          "Only show files ready for redaction",
+          admin_source_files_path(ready_for_redaction: true),
+          class: "button"
+        ) %>
+    <% end %>
+  </div>
+
   <% if show_search_bar %>
     <%= render(
           "search",
@@ -24,5 +40,4 @@
           ) %>
     <% end %>
   </div>
-
 </header>
