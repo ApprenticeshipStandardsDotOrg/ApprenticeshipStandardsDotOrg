@@ -20,7 +20,7 @@ FactoryBot.define do
 
     trait :with_pdf_attachment do
       initialize_with do
-        standards_import = create(:standards_import, :with_pdf_file_with_attachments)
+        standards_import = create(:standards_import, :with_pdf_file)
         SourceFile.where(
           active_storage_attachment: standards_import.files.first
         ).first
