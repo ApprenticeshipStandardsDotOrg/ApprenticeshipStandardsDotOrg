@@ -26,5 +26,19 @@ FactoryBot.define do
         ).first
       end
     end
+
+    trait :without_redacted_source_file do
+      redacted_source_file { nil }
+    end
+
+    trait :with_redacted_source_file do
+      redacted_source_file {
+        Rack::Test::UploadedFile.new(
+          Rails.root.join(
+            "spec", "fixtures", "files", "pixel1x1.pdf"
+          )
+        )
+      }
+    end
   end
 end

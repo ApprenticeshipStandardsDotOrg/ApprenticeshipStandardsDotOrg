@@ -73,4 +73,12 @@ class SourceFile < ApplicationRecord
       }
     )
   end
+
+  def self.not_redacted
+    includes(:redacted_source_file_attachment).where(
+      redacted_source_file_attachment: {
+        id: nil
+      }
+    )
+  end
 end

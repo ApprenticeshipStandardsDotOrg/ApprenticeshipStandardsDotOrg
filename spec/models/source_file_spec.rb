@@ -168,4 +168,13 @@ RSpec.describe SourceFile, type: :model do
       expect(described_class.pdf_attachment).to match_array [source_file_with_pdf_attachment]
     end
   end
+
+  describe ".not_redacted" do
+    it "returns only source file without redacted source file" do
+      create(:source_file, :with_redacted_source_file)
+      source_file_without_redacted_source_file = create(:source_file, :without_redacted_source_file)
+
+      expect(described_class.not_redacted).to match_array [source_file_without_redacted_source_file]
+    end
+  end
 end
