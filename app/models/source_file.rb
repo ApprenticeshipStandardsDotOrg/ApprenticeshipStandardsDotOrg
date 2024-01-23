@@ -81,4 +81,8 @@ class SourceFile < ApplicationRecord
       }
     )
   end
+
+  def self.ready_for_redaction
+    completed.not_redacted.pdf_attachment
+  end
 end
