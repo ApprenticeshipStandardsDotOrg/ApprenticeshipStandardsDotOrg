@@ -2,6 +2,15 @@ FactoryBot.define do
   factory :source_file do
     traits_for_enum :status, SourceFile.statuses
 
+    trait :with_redacted_file do
+      redacted_source_file do
+        Rack::Test::UploadedFile.new(
+          Rails.root.join("spec", "fixtures", "files", "pixel1x1.pdf"),
+          "application/pdf"
+        )
+      end
+    end
+
     initialize_with do
       standards_import = create(:standards_import, :with_files)
       SourceFile.where(
