@@ -17,7 +17,7 @@ describe SourceFilePolicy do
     end
   end
 
-  permissions :edit?, :destroy? do
+  permissions :edit?, :destroy?, :destroy_redacted_source_file? do
     it "grants access if user is an admin" do
       admin = build(:admin)
       source_file = build(:source_file)

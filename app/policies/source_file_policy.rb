@@ -21,6 +21,10 @@ class SourceFilePolicy < ApplicationPolicy
     user.admin?
   end
 
+  def destroy_redacted_source_file?
+    user.admin?
+  end
+
   def permitted_attributes
     if user.converter?
       [:status, :assignee_id]
