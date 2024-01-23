@@ -17,7 +17,7 @@
   <% else %>
     <%= link_to(
           "Only show files ready for redaction",
-          admin_source_files_path(ready_for_redaction: true),
+          url_for(ready_for_redaction: true),
           class: "button"
         ) %>
     <% end %>
