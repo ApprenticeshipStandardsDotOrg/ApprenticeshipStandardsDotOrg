@@ -253,5 +253,87 @@ RSpec.describe "admin/source_files/index", :admin do
       expect(page).to have_text "Amy Applebaum"
       expect(page).to_not have_button "Claim"
     end
+
+    it "shows a link to filter files ready for redaction" do
+      source_file_with_all_conditions = create(:source_file,
+        :with_pdf_attachment,
+        :without_redacted_source_file,
+        :completed)
+
+      source_file_not_complete = create(:source_file,
+        :with_pdf_attachment,
+        :without_redacted_source_file,
+        :pending)
+
+      source_file_with_docx_attachment = create(:source_file,
+        :with_docx_attachment,
+        :without_redacted_source_file,
+        :completed)
+
+      source_file_with_redacted_source_file = create(:source_file,
+        :with_pdf_attachment,
+        :with_redacted_source_file,
+        :completed)
+
+      admin = create(:user, :converter)
+
+      login_as admin
+      visit admin_source_files_path
+
+      expect(page).to have_link(
+        source_file_with_all_conditions.filename,
+        href: admin_source_file_path(source_file_with_all_conditions.id)
+      )
+      expect(page).to have_link(
+        source_file_not_complete.filename,
+        href: admin_source_file_path(source_file_not_complete.id)
+      )
+      expect(page).to have_link(
+        source_file_with_docx_attachment.filename,
+        href: admin_source_file_path(source_file_with_docx_attachment.id)
+      )
+      expect(page).to have_link(
+        source_file_with_redacted_source_file.filename,
+        href: admin_source_file_path(source_file_with_redacted_source_file.id)
+      )
+
+      click_link "Only show files ready for redaction"
+
+      expect(page).to have_link(
+        source_file_with_all_conditions.filename,
+        href: admin_source_file_path(source_file_with_all_conditions.id)
+      )
+      expect(page).to_not have_link(
+        source_file_not_complete.filename,
+        href: admin_source_file_path(source_file_not_complete.id)
+      )
+      expect(page).to_not have_link(
+        source_file_with_docx_attachment.filename,
+        href: admin_source_file_path(source_file_with_docx_attachment.id)
+      )
+      expect(page).to_not have_link(
+        source_file_with_redacted_source_file.filename,
+        href: admin_source_file_path(source_file_with_redacted_source_file.id)
+      )
+
+      click_link "Show all files"
+
+      expect(page).to have_link(
+        source_file_with_all_conditions.filename,
+        href: admin_source_file_path(source_file_with_all_conditions.id)
+      )
+      expect(page).to have_link(
+        source_file_not_complete.filename,
+        href: admin_source_file_path(source_file_not_complete.id)
+      )
+      expect(page).to have_link(
+        source_file_with_docx_attachment.filename,
+        href: admin_source_file_path(source_file_with_docx_attachment.id)
+      )
+      expect(page).to have_link(
+        source_file_with_redacted_source_file.filename,
+        href: admin_source_file_path(source_file_with_redacted_source_file.id)
+      )
+    end
   end
 end
