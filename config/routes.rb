@@ -33,6 +33,7 @@ Rails.application.routes.draw do
       resources :source_files, only: [:index, :edit, :show, :update, :destroy] do
         resource :redact_file, only: [:new, :create]
         resources :data_imports, except: [:index]
+        delete :redacted_source_file, on: :member, action: :destroy_redacted_source_file
       end
       resources :occupation_standards, only: [:index, :show, :edit, :update]
       resources :occupations, only: [:index, :show, :edit, :update]

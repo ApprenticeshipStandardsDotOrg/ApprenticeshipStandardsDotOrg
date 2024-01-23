@@ -210,4 +210,36 @@ RSpec.describe "Admin::SourceFiles", type: :request do
       end
     end
   end
+
+  describe "DELETE /redacted_source_file" do
+    context "on admin subdomain", :admin do
+      context "when admin user" do
+        it "deletes redacted source file" do
+          admin = create(:admin)
+          file = create(:source_file, :with_redacted_source_file)
+
+          sign_in admin
+          expect {
+            delete redacted_source_file_admin_source_file_path(file, attachment_id: file.redacted_source_file.id)
+          }.to change(ActiveStorage::Attachment, :count).by(-1)
+          expect(file.reload.redacted_source_file).to_not be_attached
+          expect(response).to redirect_to admin_source_file_path(file)
+        end
+      end
+
+      context "when converter" do
+        it "does not delete redacted source file" do
+          admin = create(:user, :converter)
+          file = create(:source_file, :with_redacted_source_file)
+
+          sign_in admin
+          expect {
+            delete redacted_source_file_admin_source_file_path(file, attachment_id: file.redacted_source_file.id)
+          }.to_not change(ActiveStorage::Attachment, :count)
+          expect(file.reload.redacted_source_file).to be_attached
+          expect(response).to redirect_to root_path
+        end
+      end
+    end
+  end
 end

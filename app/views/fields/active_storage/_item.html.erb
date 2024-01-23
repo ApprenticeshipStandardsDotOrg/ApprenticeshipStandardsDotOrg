@@ -1,0 +1,20 @@
+<% if field.show_display_preview? && attachment.persisted? %>
+  <div>
+    <%= render partial: "fields/active_storage/preview", locals: local_assigns %>
+  </div>
+<% end %>
+
+<% if attachment.persisted? %>
+  <div>
+    <%= link_to attachment.filename, field.blob_url(attachment), title: attachment.filename %>
+  </div>
+<% end %>
+
+<% if field.destroy_url.present? && accessible_action?(field.resource, :"destroy_#{field.attribute}") %>
+  <% destroy_url = field.destroy_url.call(namespace, field.data.record, attachment) %>
+  <div>
+    <%= link_to I18n.t("administrate.fields.active_storage.remove", default: "Remove"),
+          destroy_url, method: :delete, class: "button button--danger", data: {confirm: t("administrate.actions.confirm")} %>
+  </div>
+  <hr>
+<% end %>
