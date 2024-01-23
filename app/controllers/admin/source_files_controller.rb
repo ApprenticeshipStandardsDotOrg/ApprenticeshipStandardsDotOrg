@@ -20,6 +20,12 @@ module Admin
       ).run
     end
 
+    def destroy_redacted_source_file
+      redacted_source_file = requested_resource.redacted_source_file
+      redacted_source_file.purge
+      redirect_to admin_source_file_path(requested_resource)
+    end
+
     private
 
     def resource_params

@@ -15,7 +15,11 @@ class SourceFileDashboard < Administrate::BaseDashboard
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
     public_document: Field::Boolean,
-    redacted_source_file: Field::ActiveStorage,
+    redacted_source_file: Field::ActiveStorage.with_options(
+      destroy_url: proc do |namespace, resource, attachment|
+        [:redacted_source_file_admin_source_file, {attachment_id: attachment.id}]
+      end
+    ),
     redacted_source_file_url: Field::Url.with_options(searchable: false),
     associated_occupation_standards: HasManyAssociatedOccupationStandardsField,
     standards_import: GenericRecordField,
@@ -58,6 +62,7 @@ class SourceFileDashboard < Administrate::BaseDashboard
     assignee
     public_document
     courtesy_notification
+    redacted_source_file
   ].freeze
 
   COLLECTION_FILTERS = {}.freeze

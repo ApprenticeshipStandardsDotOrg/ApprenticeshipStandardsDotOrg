@@ -35,7 +35,7 @@ FactoryBot.define do
       redacted_source_file {
         Rack::Test::UploadedFile.new(
           Rails.root.join(
-            "spec", "fixtures", "files", "pixel1x1.pdf"
+            "spec", "fixtures", "files", "pixel1x1_redacted.pdf"
           )
         )
       }
