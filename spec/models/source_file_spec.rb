@@ -159,4 +159,48 @@ RSpec.describe SourceFile, type: :model do
       expect(described_class.recently_redacted(start_time: start_time, end_time: end_time)).to match_array recent_records
     end
   end
+
+  describe ".pdf_attachment" do
+    it "returns only source file with pdf as attachment" do
+      create(:source_file, :with_docx_attachment)
+      source_file_with_pdf_attachment = create(:source_file, :with_pdf_attachment)
+
+      expect(described_class.pdf_attachment).to match_array [source_file_with_pdf_attachment]
+    end
+  end
+
+  describe ".not_redacted" do
+    it "returns only source file without redacted source file" do
+      create(:source_file, :with_redacted_source_file)
+      source_file_without_redacted_source_file = create(:source_file, :without_redacted_source_file)
+
+      expect(described_class.not_redacted).to match_array [source_file_without_redacted_source_file]
+    end
+  end
+
+  describe ".ready_for_redaction" do
+    it "returns only source files without attachment, completed and pdf files" do
+      source_file_with_all_conditions = create(:source_file,
+        :with_pdf_attachment,
+        :without_redacted_source_file,
+        :completed)
+
+      _source_file_not_complete = create(:source_file,
+        :with_pdf_attachment,
+        :without_redacted_source_file,
+        :pending)
+
+      _source_file_with_docx_attachment = create(:source_file,
+        :with_docx_attachment,
+        :without_redacted_source_file,
+        :completed)
+
+      _source_file_with_redacted_source_file = create(:source_file,
+        :with_pdf_attachment,
+        :with_redacted_source_file,
+        :completed)
+
+      expect(described_class.ready_for_redaction).to match_array [source_file_with_all_conditions]
+    end
+  end
 end

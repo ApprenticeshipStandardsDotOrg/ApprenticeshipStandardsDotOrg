@@ -27,9 +27,9 @@ class SourceFilePolicy < ApplicationPolicy
 
   def permitted_attributes
     if user.converter?
-      [:status, :assignee_id]
+      [:status, :assignee_id, :ready_for_redaction]
     else
-      [:status, :assignee_id, :metadata, :public_document, :courtesy_notification]
+      [:status, :assignee_id, :metadata, :public_document, :courtesy_notification, :ready_for_redaction]
     end
   end
 end
