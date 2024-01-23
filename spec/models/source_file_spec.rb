@@ -159,4 +159,13 @@ RSpec.describe SourceFile, type: :model do
       expect(described_class.recently_redacted(start_time: start_time, end_time: end_time)).to match_array recent_records
     end
   end
+
+  describe ".pdf_attachment" do
+    it "returns only source file with pdf as attachment" do
+      create(:source_file, :with_docx_attachment)
+      source_file_with_pdf_attachment = create(:source_file, :with_pdf_attachment)
+
+      expect(described_class.pdf_attachment).to match_array [source_file_with_pdf_attachment]
+    end
+  end
 end
