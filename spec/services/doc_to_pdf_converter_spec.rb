@@ -3,20 +3,20 @@ require "rails_helper"
 RSpec.describe DocToPdfConverter do
   describe ".convert_all" do
     it "converts docx files" do
-      pdf_file = create(:standards_import, :with_files).source_files.first
-      docx_file = create(:standards_import, :with_docx_file_with_attachments).source_files.first
+      pdf = create(:source_file, :pdf)
+      docx = create(:source_file, :docx)
       expect(described_class::ConvertJob)
         .not_to receive(:perform_later)
-        .with(pdf_file)
+        .with(pdf)
       expect(described_class::ConvertJob)
         .to receive(:perform_later)
-        .with(docx_file)
+        .with(docx)
 
       described_class.convert_all
     end
 
     it "doesn't convert a source file which already had a redacted_source_file" do
-      source_file = create(:source_file, :with_redacted_file)
+      source_file = create(:source_file, :with_redacted_source_file)
       expect(described_class::ConvertJob)
         .not_to receive(:perform_later)
         .with(source_file)
@@ -28,7 +28,7 @@ RSpec.describe DocToPdfConverter do
   describe ".convert" do
     it "converts a docx to a pdf" do
       with_tmp_dir do |tmp_dir|
-        source_file = create(:standards_import, :with_docx_file).source_files.first
+        source_file = create(:source_file, :docx)
         attachment = source_file.active_storage_attachment
         stub_soffice_install
         fake_pdf_conversion(source_file, tmp_dir:) => {docx_path:, pdf_path:}
@@ -71,7 +71,7 @@ RSpec.describe DocToPdfConverter do
 
     it "does not attempt to convert a docx with attachments" do
       with_tmp_dir do |dir|
-        source_file = create(:standards_import, :with_docx_file_with_attachments).source_files.first
+        source_file = create(:source_file, :docx_with_attachments)
         stub_soffice_install
 
         described_class.convert(source_file, tmp_dir: dir)

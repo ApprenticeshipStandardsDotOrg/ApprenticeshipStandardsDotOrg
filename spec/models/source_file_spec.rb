@@ -51,8 +51,8 @@ RSpec.describe SourceFile, type: :model do
 
   describe ".pdf_attachment" do
     it "returns only source file with pdf as attachment" do
-      create(:source_file, :with_docx_attachment)
-      source_file_with_pdf_attachment = create(:source_file, :with_pdf_attachment)
+      create(:source_file, :docx)
+      source_file_with_pdf_attachment = create(:source_file, :pdf)
 
       expect(described_class.pdf_attachment).to match_array [source_file_with_pdf_attachment]
     end
@@ -60,8 +60,8 @@ RSpec.describe SourceFile, type: :model do
 
   describe ".docx_attachment" do
     it "includes only source files with docx attachments" do
-      _pdf = create(:source_file, :with_pdf_attachment)
-      docx = create(:source_file, :with_docx_attachment)
+      _pdf = create(:source_file, :pdf)
+      docx = create(:source_file, :docx)
 
       result = described_class.docx_attachment.pluck(:id)
 
@@ -81,22 +81,22 @@ RSpec.describe SourceFile, type: :model do
   describe ".ready_for_redaction" do
     it "returns only source files without attachment, completed and pdf files" do
       source_file_with_all_conditions = create(:source_file,
-        :with_pdf_attachment,
+        :pdf,
         :without_redacted_source_file,
         :completed)
 
       _source_file_not_complete = create(:source_file,
-        :with_pdf_attachment,
+        :pdf,
         :without_redacted_source_file,
         :pending)
 
       _source_file_with_docx_attachment = create(:source_file,
-        :with_docx_attachment,
+        :docx,
         :without_redacted_source_file,
         :completed)
 
       _source_file_with_redacted_source_file = create(:source_file,
-        :with_pdf_attachment,
+        :pdf,
         :with_redacted_source_file,
         :completed)
 
