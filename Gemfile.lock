@@ -1,10 +1,10 @@
 GIT
   remote: https://github.com/citizensadvice/capybara_accessible_selectors
-  revision: 55fa9e13f3c030787c0b36e168940dfc0ad74ebf
-  tag: v0.10.0
+  revision: 679abc42cce81b43ed81d31bbe7ad6a96dbe7fef
+  tag: v0.11.0
   specs:
-    capybara_accessible_selectors (0.10.0)
-      capybara (>= 3.36.0)
+    capybara_accessible_selectors (0.11.0)
+      capybara (~> 3.36)
 
 GIT
   remote: https://github.com/elastic/elasticsearch-rails.git
@@ -103,7 +103,7 @@ GEM
       minitest (>= 5.1)
       mutex_m
       tzinfo (~> 2.0)
-    addressable (2.8.5)
+    addressable (2.8.6)
       public_suffix (>= 2.0.2, < 6.0)
     administrate (0.20.0)
       actionpack (>= 6.0, < 8.0)
@@ -371,7 +371,7 @@ GEM
       redis-client (>= 0.17.0)
     redis-client (0.18.0)
       connection_pool
-    regexp_parser (2.8.1)
+    regexp_parser (2.9.0)
     reline (0.4.2)
       io-console (~> 0.5)
     responders (3.1.1)
