@@ -16,8 +16,6 @@ class PdfReaderJob < ApplicationJob
 
     occupations_response = JSON.parse(occupations).map do |occupation|
       prompt = "Please fill out the template based on the given information for this occupation: #{occupation} and return as JSON array"
-      puts "*" * 10
-      puts occupation
       response = ChatGptGenerateText.new("#{prompt} information:#{text} template: #{template}").call
       JSON.parse(response)
     end
