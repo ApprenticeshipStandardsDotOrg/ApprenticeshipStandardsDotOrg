@@ -1,7 +1,11 @@
 module Admin
   class SourceFilesController < Admin::ApplicationController
     def scoped_resource
-      SourceFile.includes(:assignee, :data_imports, active_storage_attachment: [:blob, :record]).order(created_at: :desc)
+      if params[:ready_for_redaction]
+        SourceFile.preload(active_storage_attachment: [:record]).ready_for_redaction
+      else
+        SourceFile.includes(:assignee, :data_imports, active_storage_attachment: [:blob, :record]).order(created_at: :desc)
+      end
     end
 
     def after_resource_updated_path(resource)
@@ -14,6 +18,12 @@ module Admin
         dashboard,
         search_term
       ).run
+    end
+
+    def destroy_redacted_source_file
+      redacted_source_file = requested_resource.redacted_source_file
+      redacted_source_file.purge
+      redirect_to admin_source_file_path(requested_resource)
     end
 
     private

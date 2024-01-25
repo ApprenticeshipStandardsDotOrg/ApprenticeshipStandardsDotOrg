@@ -41,15 +41,17 @@
 
 <section aria-labelledby="title_id" class="main-content__body">
   <dl>
-    <% page.attributes.each do |attribute| %>
-      <dt class="attribute-label" id="<%= attribute.name %>">
+    <% page.attributes.each do |_title, attributes| %>
+      <% attributes.each do |attribute| %>
+        <dt class="attribute-label" id="<%= attribute.name %>">
         <%= t("helpers.label.#{resource_name}.#{attribute.name}",
               default: page.resource.class.human_attribute_name(attribute.name)) %>
-      </dt>
+        </dt>
 
-      <dd class="attribute-data attribute-data--<%= attribute.html_class %>">
+        <dd class="attribute-data attribute-data--<%= attribute.html_class %>">
         <%= render_field attribute, page: page %>
-      </dd>
+        </dd>
+      <% end %>
     <% end %>
   </dl>
 </section>

@@ -21,11 +21,15 @@ class SourceFilePolicy < ApplicationPolicy
     user.admin?
   end
 
+  def destroy_redacted_source_file?
+    user.admin?
+  end
+
   def permitted_attributes
     if user.converter?
-      [:status, :assignee_id]
+      [:status, :assignee_id, :ready_for_redaction]
     else
-      [:status, :assignee_id, :metadata, :public_document, :courtesy_notification]
+      [:status, :assignee_id, :metadata, :public_document, :courtesy_notification, :ready_for_redaction]
     end
   end
 end

@@ -8,6 +8,8 @@ class SourceFile < ApplicationRecord
   enum :status, [:pending, :completed, :needs_support, :needs_human_review]
   enum courtesy_notification: [:not_required, :pending, :completed], _prefix: true
 
+  PDF_CONTENT_TYPE = "application/pdf"
+
   def filename
     active_storage_attachment.blob.filename
   end
@@ -43,7 +45,7 @@ class SourceFile < ApplicationRecord
   end
 
   def pdf?
-    active_storage_attachment.blob.content_type == "application/pdf"
+    active_storage_attachment.blob.content_type == PDF_CONTENT_TYPE
   end
 
   def redacted_source_file_url
@@ -52,5 +54,35 @@ class SourceFile < ApplicationRecord
 
   def file_for_redaction
     redacted_source_file.attached? ? redacted_source_file : active_storage_attachment
+  end
+
+  def self.recently_redacted(start_time: Time.zone.yesterday.beginning_of_day, end_time: Time.zone.yesterday.end_of_day)
+    where(
+      redacted_at: (
+        start_time..end_time
+      )
+    )
+  end
+
+  def self.pdf_attachment
+    includes(active_storage_attachment: :blob).where(
+      active_storage_attachment: {
+        active_storage_blobs: {
+          content_type: PDF_CONTENT_TYPE
+        }
+      }
+    )
+  end
+
+  def self.not_redacted
+    includes(:redacted_source_file_attachment).where(
+      redacted_source_file_attachment: {
+        id: nil
+      }
+    )
+  end
+
+  def self.ready_for_redaction
+    completed.not_redacted.pdf_attachment
   end
 end

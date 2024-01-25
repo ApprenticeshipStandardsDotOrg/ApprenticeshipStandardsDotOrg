@@ -53,4 +53,39 @@ RSpec.describe "admin/source_files/show", :admin do
       expect(page).to have_text "Needs Support"
     end
   end
+
+  it "allows admin to remove a redacted file" do
+    admin = create(:user, :admin)
+    source_file = create(:source_file, :with_redacted_source_file)
+
+    login_as admin
+    visit admin_source_file_path(source_file)
+
+    expect(page).to have_text source_file.redacted_source_file.filename
+
+    expect(page).to have_link(
+      "Remove",
+      href: redacted_source_file_admin_source_file_path(
+        source_file,
+        attachment_id: source_file.redacted_source_file.id
+      )
+    )
+
+    click_link "Remove"
+
+    expect(page).to_not have_text source_file.redacted_source_file.filename
+    expect(page).to have_text "No attachment"
+    expect(page).to_not have_link "Remove"
+  end
+
+  it "prevents converter users to remove a redacted file" do
+    converter = create(:user, :converter)
+    source_file = create(:source_file, :with_redacted_source_file)
+
+    login_as converter
+    visit admin_source_file_path(source_file)
+
+    expect(page).to have_text source_file.redacted_source_file.filename
+    expect(page).to_not have_link "Remove"
+  end
 end

@@ -81,4 +81,29 @@ RSpec.describe AdminMailer, type: :mailer do
       }.not_to change(ActionMailer::Base.deliveries, :count)
     end
   end
+
+  describe "#daily_redacted_files_report" do
+    it "renders the header and body correctly" do
+      travel_to(Time.zone.local(2023, 6, 15)) do
+        source_file = create(:source_file, redacted_at: Time.zone.local(2023, 6, 14))
+
+        mail = described_class.daily_redacted_files_report
+
+        expect(mail.subject).to eq("Daily redacted source files report 2023-06-14")
+        expect(mail.to).to eq(["info@workhands.us"])
+        expect(mail.from).to eq(["no-reply@apprenticeshipstandards.org"])
+
+        mail.body.parts.each do |part|
+          expect(part.body.encoded).to match source_file.active_storage_attachment.filename.to_s
+          expect(part.body.encoded).to match admin_source_file_url(source_file)
+        end
+      end
+    end
+
+    it "does not send mail if no imports" do
+      expect {
+        described_class.daily_redacted_files_report.deliver_now
+      }.not_to change(ActionMailer::Base.deliveries, :count)
+    end
+  end
 end
