@@ -1,12 +1,14 @@
 require "rails_helper"
 
 RSpec.describe PdfReaderJob do
-  before do
-    ActiveStorage::Current.url_options = {
-      host: "localhost:3000"
-    }
-  end
   describe "#perform" do
+    let(:pdf_file) { "" }
+
+    before do
+      allow_any_instance_of(SourceFile).to receive(:url).and_return("http://example.com/mock.pdf")
+      stub_request(:get, "http://example.com/mock.pdf").to_return(status: 200, body: pdf_file)
+    end
+
     it "returns if source file is not a pdf" do
       source_file = create(:source_file)
       allow_any_instance_of(SourceFile).to receive(:pdf?).and_return false
