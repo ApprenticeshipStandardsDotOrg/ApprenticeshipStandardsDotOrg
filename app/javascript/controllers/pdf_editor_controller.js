@@ -29,41 +29,31 @@ export default class extends Controller {
         getDefaultFragments: function() {
           return [
             {
-              action: UIExtension.UIConsts.FRAGMENT_ACTION.APPEND,
-              target: 'home-tab-group-hand',
+              target: 'home-tab-group-hand::childAt(2)',
+              action: UIExtension.UIConsts.FRAGMENT_ACTION.AFTER,
               template: `
-                <contextmenu-item
-                  icon-class="fv__icon-search-save"
-                  name="show-hello-button"
-                  data-action="click->pdf-editor#saveDocument"
-                >Save Document
-                </contextmenu-item>
-              `,
-              config: [
-                {
-                  target: 'show-hello-button',
-                },
-              ]
-            },
+              <xbutton
+              class="fv__ui-toolbar-show-text-button"
+              icon-class="fv__icon-float-bar-previous-page"
+              data-action="click->pdf-editor#goBack"
+              name="select-pdf-file-button"
+              >Go back
+              </xbutton>
+                `
+              },
             {
-              action: UIExtension.UIConsts.FRAGMENT_ACTION.APPEND,
-              target: 'home-tab-group-hand',
+              target: 'home-tab-group-hand::childAt(2)',
+              action: UIExtension.UIConsts.FRAGMENT_ACTION.AFTER,
               template: `
-                <contextmenu-item
-                  icon-class="fv__icon-float-bar-previous-page"
-                  name="select-pdf-file-button"
-                  data-action="click->pdf-editor#goBack"
-                >Go back
-                </contextmenu-item>
-              `,
-              config: [
-                {
-                  target: 'select-pdf-file-button',
-                }
-              ]
+                <xbutton
+                  class="fv__ui-toolbar-show-text-button"
+                  icon-class="fv__icon-search-save"
+                  data-action="click->pdf-editor#saveDocument"
+                  >Save Document
+                </xbutton>
+              `
             },
-
-          ]
+          ];
         }
       }),
       renderTo: this.renderToTarget,
