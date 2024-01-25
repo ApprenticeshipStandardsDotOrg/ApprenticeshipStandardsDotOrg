@@ -9,7 +9,7 @@ RSpec.describe ChatGptGenerateText do
         "id" => "chatcmpl1",
         "object" => "chat.completion",
         "created" => 1701713529,
-        "model" => "gpt-3.5-turbo-0613",
+        "model" => "gpt-4",
         "choices" =>
           [{"index" => 0,
             "message" =>
@@ -20,7 +20,7 @@ RSpec.describe ChatGptGenerateText do
       }
       allow(client_mock).to receive(:chat).with(
         parameters: {
-          model: "gpt-3.5-turbo",
+          model: "gpt-4",
           messages: [{role: "user", content: "Hello"}],
           temperature: 0.7
         }
