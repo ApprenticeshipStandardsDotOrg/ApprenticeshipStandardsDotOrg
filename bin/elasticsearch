@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+if curl -s localhost:9200 >> /dev/null; then
+  echo "elasticsearch already running. Not attempting to start"
+  tail -f /dev/null
+else
+  elasticsearch
+fi
