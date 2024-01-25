@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_17_170330) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_25_130851) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -239,8 +239,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_17_170330) do
     t.text "plain_text_version"
     t.integer "courtesy_notification", default: 0
     t.datetime "redacted_at"
+    t.string "link_to_pdf_filename"
+    t.uuid "original_source_file_id"
     t.index ["active_storage_attachment_id"], name: "index_source_files_on_active_storage_attachment_id"
     t.index ["assignee_id"], name: "index_source_files_on_assignee_id"
+    t.index ["original_source_file_id"], name: "index_source_files_on_original_source_file_id"
   end
 
   create_table "standards_imports", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -351,6 +354,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_17_170330) do
   add_foreign_key "related_instructions", "occupation_standards"
   add_foreign_key "related_instructions", "organizations"
   add_foreign_key "source_files", "active_storage_attachments"
+  add_foreign_key "source_files", "source_files", column: "original_source_file_id"
   add_foreign_key "source_files", "users", column: "assignee_id"
   add_foreign_key "wage_steps", "occupation_standards"
   add_foreign_key "work_processes", "occupation_standards"

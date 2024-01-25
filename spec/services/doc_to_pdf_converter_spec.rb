@@ -29,6 +29,7 @@ RSpec.describe DocToPdfConverter do
     it "converts a docx to a pdf" do
       with_tmp_dir do |tmp_dir|
         source_file = create(:source_file, :docx)
+        import = source_file.standards_import
         attachment = source_file.active_storage_attachment
         stub_soffice_install
         fake_pdf_conversion(source_file, tmp_dir:) => {docx_path:, pdf_path:}
@@ -38,11 +39,11 @@ RSpec.describe DocToPdfConverter do
 
           described_class.convert(source_file, tmp_dir:)
 
-          redacted_file = source_file.reload.redacted_source_file
-          expect(redacted_file).to be_attached
-          expect(redacted_file.filename.to_s).to eql(
-            attachment.filename.to_s.gsub(".docx", ".pdf")
-          )
+          expect(import.reload.files.size).to eql(2)
+          most_recent_file = import.files.order(:created_at).last
+          pdf_filename = attachment.filename.to_s.gsub(".docx", ".pdf")
+          expect(most_recent_file.filename.to_s).to eql(pdf_filename)
+          expect(source_file.reload.link_to_pdf_filename).to eql(pdf_filename)
         end
       end
     end

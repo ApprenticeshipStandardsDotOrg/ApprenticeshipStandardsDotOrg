@@ -1,11 +1,12 @@
 class SourceFile < ApplicationRecord
   belongs_to :active_storage_attachment, class_name: "ActiveStorage::Attachment"
   belongs_to :assignee, class_name: "User", optional: true
+  belongs_to :original_source_file, class_name: "SourceFile", optional: true
   has_many :data_imports, -> { includes(:occupation_standard, file_attachment: :blob) }
   has_many :associated_occupation_standards, through: :data_imports, source: :occupation_standard
   has_one_attached :redacted_source_file
 
-  enum :status, [:pending, :completed, :needs_support, :needs_human_review]
+  enum :status, [:pending, :completed, :needs_support, :needs_human_review, :archived]
   enum courtesy_notification: [:not_required, :pending, :completed], _prefix: true
 
   PDF_CONTENT_TYPE = "application/pdf"
@@ -21,10 +22,9 @@ class SourceFile < ApplicationRecord
   end
 
   def self.docx_attachment
-    content_type = Mime::Type.lookup_by_extension("docx").to_s
     joins(active_storage_attachment: :blob).where(
       active_storage_attachment: {
-        active_storage_blobs: {content_type:}
+        active_storage_blobs: {content_type: DocxFile.content_type}
       }
     )
   end
@@ -85,6 +85,10 @@ class SourceFile < ApplicationRecord
 
   def pdf?
     active_storage_attachment.blob.content_type == PDF_CONTENT_TYPE
+  end
+
+  def docx?
+    active_storage_attachment.blob.content_type == DocxFile.content_type
   end
 
   def redacted_source_file_url

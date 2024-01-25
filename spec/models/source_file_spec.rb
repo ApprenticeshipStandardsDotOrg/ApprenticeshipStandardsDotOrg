@@ -171,19 +171,25 @@ RSpec.describe SourceFile, type: :model do
 
   describe "#pdf?" do
     it "returns true when attachment is a pdf file" do
-      file = fixture_file_upload("pixel1x1.pdf", "application/pdf")
-      create(:standards_import, files: [file])
-      source_file = SourceFile.last
-
-      expect(source_file.pdf?).to be true
+      source_file = create(:source_file, :pdf)
+      expect(source_file.pdf?).to be(true)
     end
 
-    it "returns false when attachment is an image" do
-      file = fixture_file_upload("pixel1x1.jpg", "image/jpeg")
-      create(:standards_import, files: [file])
-      source_file = SourceFile.last
+    it "returns false when attachment is docx" do
+      source_file = create(:source_file, :docx)
+      expect(source_file.pdf?).to be(false)
+    end
+  end
 
-      expect(source_file.pdf?).to be false
+  describe "#docx?" do
+    it "is true if the content_type is docx" do
+      source_file = create(:source_file, :docx)
+      expect(source_file.docx?).to be(true)
+    end
+
+    it "is false if the content_type is not docx" do
+      source_file = create(:source_file, :pdf)
+      expect(source_file.docx?).to be(false)
     end
   end
 

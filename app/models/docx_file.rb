@@ -1,4 +1,6 @@
 class DocxFile
+  def self.content_type = Mime::Type.lookup_by_extension("docx").to_s
+
   def self.has_embedded_files?(...) = new(...).has_embedded_files?
 
   def initialize(file)
