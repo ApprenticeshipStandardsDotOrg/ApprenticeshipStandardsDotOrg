@@ -104,6 +104,15 @@ RSpec.describe SourceFile, type: :model do
     end
   end
 
+  describe ".not_archived" do
+    it "returns records which don't have an archived status" do
+      _archived = create(:source_file, status: "archived")
+      pending = create(:source_file, status: "pending")
+
+      expect(described_class.not_archived.pluck(:id)).to eql([pending.id])
+    end
+  end
+
   describe "#needs_courtesy_notification?" do
     it "is false if status is pending" do
       source_file = build(:source_file, :pending)

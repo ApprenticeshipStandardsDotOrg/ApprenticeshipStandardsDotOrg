@@ -13,6 +13,13 @@ module Admin
     end
 
     def filter_resources(resources, search_term:)
+      resources =
+        if Administrate::SourceFileSearch.user_is_filtering_by_status?(search_term)
+          resources
+        else
+          resources.not_archived
+        end
+
       Administrate::SourceFileSearch.new(
         resources,
         dashboard,
@@ -36,6 +43,14 @@ end
 
 module Administrate
   class SourceFileSearch < Search
+    def self.user_is_filtering_by_status?(term)
+      db_value_for_status(term).present?
+    end
+
+    def self.db_value_for_status(term)
+      SourceFile.statuses[term.parameterize(separator: "_")]
+    end
+
     private
 
     def query_template
@@ -45,14 +60,26 @@ module Administrate
         .push("LOWER(standards_imports.organization) LIKE ?")
         .push("LOWER(users.name) LIKE ?")
         .push("source_files.public_document = ?")
-        .push("status = ?")
         .join(" OR ")
+        .then { add_status_query(_1) }
     end
 
     def query_values
       values = super
       term = values.first
-      values + [term, term, term, db_value_for_public_doc(term), db_value_for_status(term)]
+      values +=
+        [
+          term, # filename
+          term, # organization
+          term, # user name
+          db_value_for_public_doc(term) # public doc
+        ]
+
+      if self.class.user_is_filtering_by_status?(term)
+        values + [self.class.db_value_for_status(term)]
+      else
+        values
+      end
     end
 
     def search_results(resources)
@@ -62,8 +89,12 @@ module Administrate
         .joins("LEFT JOIN standards_imports ON (active_storage_attachments.record_id = standards_imports.id AND active_storage_attachments.record_type = 'StandardsImport')")
     end
 
-    def db_value_for_status(term)
-      SourceFile.statuses[term.parameterize(separator: "_")]
+    def add_status_query(query)
+      if self.class.user_is_filtering_by_status?(term)
+        "#{query} OR status = ?"
+      else
+        query
+      end
     end
 
     def db_value_for_public_doc(term)

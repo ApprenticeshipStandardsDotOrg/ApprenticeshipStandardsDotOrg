@@ -34,6 +34,30 @@ RSpec.describe "Admin::SourceFiles", type: :request do
           expect(response).to redirect_to new_user_session_path
         end
       end
+
+      it "filters out archived source files by default" do
+        sign_in(create(:admin))
+        archived = create(:source_file, status: "archived")
+        pending = create(:source_file, status: "pending")
+
+        get(admin_source_files_path)
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include(pending.id)
+        expect(response.body).not_to include(archived.id)
+      end
+
+      it "allows filtering by status" do
+        sign_in(create(:admin))
+        pending = create(:source_file, status: "pending")
+        archived = create(:source_file, status: "archived")
+
+        get(admin_source_files_path(search: "archived"))
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include(archived.id)
+        expect(response.body).not_to include(pending.id)
+      end
     end
 
     context "on non-admin subdomain" do
