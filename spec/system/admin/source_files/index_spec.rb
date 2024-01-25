@@ -256,22 +256,22 @@ RSpec.describe "admin/source_files/index", :admin do
 
     it "shows a link to filter files ready for redaction" do
       source_file_with_all_conditions = create(:source_file,
-        :with_pdf_attachment,
+        :pdf,
         :without_redacted_source_file,
         :completed)
 
       source_file_not_complete = create(:source_file,
-        :with_pdf_attachment,
+        :pdf,
         :without_redacted_source_file,
         :pending)
 
       source_file_with_docx_attachment = create(:source_file,
-        :with_docx_attachment,
+        :docx,
         :without_redacted_source_file,
         :completed)
 
       source_file_with_redacted_source_file = create(:source_file,
-        :with_pdf_attachment,
+        :pdf,
         :with_redacted_source_file,
         :completed)
 
