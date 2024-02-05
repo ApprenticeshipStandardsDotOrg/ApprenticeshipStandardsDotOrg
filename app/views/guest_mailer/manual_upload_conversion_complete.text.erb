@@ -1,9 +1,8 @@
-The following standards have been added to https://apprenticeshipstandards.org:
+ We've received and converted the standards you uploaded to
+https://apprenticeshipstandards.org. You can now view them live in the library:
 
 <% @source_files.each do |source_file| %>
-<%= source_file.filename %>
   <% source_file.associated_occupation_standards.each do |standard| %>
-    <%= occupation_standard_url(standard, host: @host) %>
+    <%= standard.title %> <%= occupation_standard_url(standard, host: @host) %> from <%= source_file.filename %>
   <% end %>
-
 <% end %>
