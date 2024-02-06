@@ -9,6 +9,6 @@ class GuestMailer < ApplicationMailer
     @host = ENV.fetch("PUBLIC_DOMAIN", Rails.application.config.action_mailer.default_url_options[:host])
 
     mail to: email,
-      subject: "Standards conversion completion"
+      subject: "Your standards are live in the Apprenticeship Standards Library"
   end
 end

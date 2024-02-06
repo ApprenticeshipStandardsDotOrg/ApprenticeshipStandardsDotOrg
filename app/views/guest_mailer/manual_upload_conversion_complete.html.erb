@@ -1,16 +1,16 @@
 <p>
-  The following standards have been added to <a href="https://apprenticeshipstandards.org">apprenticeshipstandards.org</a>:
+  We've received and converted the standards you uploaded to
+  <%= link_to "apprenticeshipstandards.org", "https://apprenticeshipstandards.org" %>.
+  You can now view them live in the library:
 </p>
 
-<% @source_files.each do |source_file| %>
-  <div style="margin-top: 24px;">
-    <p><%= source_file.filename %></p>
-    <ul>
-      <% source_file.associated_occupation_standards.each do |standard| %>
-        <li>
-          <%= link_to occupation_standard_url(standard, host: @host), occupation_standard_url(standard, host: @host) %>
-        </li>
-      <% end %>
-    </ul>
-  </div>
-<% end %>
+<ul>
+  <% @source_files.each do |source_file| %>
+    <% source_file.associated_occupation_standards.each do |standard| %>
+      <li>
+        <%= link_to standard.title, occupation_standard_url(standard, host: @host) %>
+        <small>from <%= source_file.filename %></small>
+      </li>
+    <% end %>
+  <% end %>
+</ul>
