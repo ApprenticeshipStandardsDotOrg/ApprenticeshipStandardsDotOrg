@@ -3,7 +3,7 @@ class SourceFile < ApplicationRecord
   belongs_to :assignee, class_name: "User", optional: true
   belongs_to :original_source_file, class_name: "SourceFile", optional: true
   has_many :data_imports, -> { includes(:occupation_standard, file_attachment: :blob) }
-  has_many :associated_occupation_standards, through: :data_imports, source: :occupation_standard
+  has_many :associated_occupation_standards, -> { distinct }, through: :data_imports, source: :occupation_standard
   has_one_attached :redacted_source_file
 
   enum :status, [:pending, :completed, :needs_support, :needs_human_review, :archived]
