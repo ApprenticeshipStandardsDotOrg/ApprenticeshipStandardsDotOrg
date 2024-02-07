@@ -62,6 +62,7 @@ gem "image_processing"
 gem "pagy"
 gem "ruby-openai"
 gem "pdf-reader"
+gem "oauth2", "~> 2.0", ">= 2.0.9"
 
 # Throttle excessive requests
 gem "rack-attack"
