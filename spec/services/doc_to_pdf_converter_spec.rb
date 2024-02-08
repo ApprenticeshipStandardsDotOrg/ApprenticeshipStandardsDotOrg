@@ -39,6 +39,15 @@ RSpec.describe DocToPdfConverter do
       end
     end
 
+    it "will do nothing if non-docx file" do
+      with_tmp_dir do |tmp_dir|
+        source_file = create(:source_file, :pdf)
+        expect_any_instance_of(ActiveStorage::Attachment).to_not receive(:open)
+
+        described_class.convert(source_file, tmp_dir:)
+      end
+    end
+
     it "raises if libreoffice not installed" do
       source_file = create(:source_file)
       stub_soffice_install(installed: false)
