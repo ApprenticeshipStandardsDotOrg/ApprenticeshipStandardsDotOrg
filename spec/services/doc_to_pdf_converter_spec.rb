@@ -3,8 +3,13 @@ require "rails_helper"
 RSpec.describe DocToPdfConverter do
   describe ".convert_all" do
     it "converts docx files" do
+      # Turn off the auto-conversion that happens in the CreateSourceFilesJob
+      # so we can test this service directly
+      allow(described_class).to receive(:convert).and_return(nil)
       pdf = create(:source_file, :pdf)
       docx = create(:source_file, :docx)
+      allow(described_class).to receive(:convert).and_call_original
+
       expect(described_class::ConvertJob)
         .not_to receive(:perform_later)
         .with(pdf)
@@ -19,7 +24,12 @@ RSpec.describe DocToPdfConverter do
   describe ".convert" do
     it "converts a docx to a pdf" do
       with_tmp_dir do |tmp_dir|
+        # Turn off the auto-conversion that happens in the CreateSourceFilesJob
+        # so we can test this service directly
+        allow(described_class).to receive(:convert).and_return(nil)
         source_file = create(:source_file, :docx)
+        allow(described_class).to receive(:convert).and_call_original
+
         import = source_file.standards_import
         attachment = source_file.active_storage_attachment
         stub_soffice_install
@@ -49,7 +59,12 @@ RSpec.describe DocToPdfConverter do
     end
 
     it "raises if libreoffice not installed" do
-      source_file = create(:source_file)
+      # Turn off the auto-conversion that happens in the CreateSourceFilesJob
+      # so we can test this service directly
+      allow(described_class).to receive(:convert).and_return(nil)
+      source_file = create(:source_file, :docx)
+      allow(described_class).to receive(:convert).and_call_original
+
       stub_soffice_install(installed: false)
 
       expect {
@@ -59,7 +74,12 @@ RSpec.describe DocToPdfConverter do
 
     it "raises if conversion failed" do
       with_tmp_dir do |dir|
-        source_file = create(:source_file)
+        # Turn off the auto-conversion that happens in the CreateSourceFilesJob
+        # so we can test this service directly
+        allow(described_class).to receive(:convert).and_return(nil)
+        source_file = create(:source_file, :docx)
+        allow(described_class).to receive(:convert).and_call_original
+
         allow(DocxFile).to receive(:has_embedded_files?).and_return(false)
         stub_soffice_install
         stub_soffice_conversion(successful: false)
@@ -72,7 +92,12 @@ RSpec.describe DocToPdfConverter do
 
     it "does not attempt to convert a docx with attachments" do
       with_tmp_dir do |dir|
+        # Turn off the auto-conversion that happens in the CreateSourceFilesJob
+        # so we can test this service directly
+        allow(described_class).to receive(:convert).and_return(nil)
         source_file = create(:source_file, :docx_with_attachments)
+        allow(described_class).to receive(:convert).and_call_original
+
         stub_soffice_install
 
         described_class.convert(source_file, tmp_dir: dir)
