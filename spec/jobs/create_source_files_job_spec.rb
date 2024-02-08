@@ -60,7 +60,6 @@ RSpec.describe CreateSourceFilesJob, "#perform", type: :job do
   end
 
   it "links a new pdf source file to its original docx version" do
-    allow(DocToPdfConverter).to receive(:convert).and_return(nil)
     docx_file = file_fixture("document.docx")
     pdf_file = file_fixture("pixel1x1.pdf")
     import = create(:standards_import, files: [docx_file, pdf_file])
