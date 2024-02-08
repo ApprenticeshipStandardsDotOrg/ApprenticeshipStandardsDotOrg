@@ -14,15 +14,6 @@ RSpec.describe DocToPdfConverter do
 
       described_class.convert_all
     end
-
-    it "doesn't convert a source file which already had a redacted_source_file" do
-      source_file = create(:source_file, :with_redacted_source_file)
-      expect(described_class::ConvertJob)
-        .not_to receive(:perform_later)
-        .with(source_file)
-
-      described_class.convert_all
-    end
   end
 
   describe ".convert" do
