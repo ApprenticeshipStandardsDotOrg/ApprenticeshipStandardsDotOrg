@@ -17,12 +17,12 @@ RSpec.describe CreateSourceFilesJob, "#perform", type: :job do
     expect(source_file2.active_storage_attachment).to eq import.files.last
   end
 
-  it "calls DocToPdfConverter service" do
+  it "calls DocToPdfConverter job" do
     file = file_fixture("document.docx")
     import = create(:standards_import, files: [file])
     SourceFile.destroy_all # Remove source files created from factory
 
-    expect(DocToPdfConverter).to receive(:convert).once
+    expect(DocToPdfConverterJob).to receive(:perform_later).once
 
     described_class.new.perform(import)
   end

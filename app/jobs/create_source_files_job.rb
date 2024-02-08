@@ -16,7 +16,7 @@ class CreateSourceFilesJob < ApplicationJob
             .create_with(courtesy_notification:)
             .find_or_create_by!(active_storage_attachment_id: file.id)
             .tap { maybe_link_to_original_source_file(_1, linkable_docx_files) }
-          DocToPdfConverter.convert(source_file)
+          DocToPdfConverterJob.perform_later(source_file)
         end
       end
     end
