@@ -71,7 +71,7 @@ RSpec.describe CreateSourceFilesJob, "#perform", type: :job do
   it "links a new pdf source file to its original docx version" do
     docx_file = file_fixture("document.docx")
     pdf_file = file_fixture("pixel1x1.pdf")
-    import = create(:standards_import, files: [docx_file, pdf_file])
+    import = create(:standards_import, files: [docx_file, pdf_file], courtesy_notification: :pending, name: "Mickey", email: "mouse@example.com")
     docx = import.source_files.find(&:docx?)
     pdf = import.source_files.find(&:pdf?)
     docx.update!(link_to_pdf_filename: "pixel1x1.pdf")
@@ -82,7 +82,8 @@ RSpec.describe CreateSourceFilesJob, "#perform", type: :job do
     expect(import.reload.source_files.size).to eql(2)
     expect(docx.reload).to have_attributes(
       status: "archived",
-      link_to_pdf_filename: nil
+      link_to_pdf_filename: nil,
+      courtesy_notification: "not_required"
     )
     pdf = import.source_files.find(&:pdf?)
     expect(pdf.original_source_file_id).to eql(docx.id)
