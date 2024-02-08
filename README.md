@@ -80,23 +80,17 @@ The staging app will be deployed automatically any time code is merged to the
 
 ### Production
 Once code changes have gone through QA on staging, the changes can be deployed
-to production by promoting the app:
+to production on the command line:
 
 ```
-heroku pipelines:promote -r staging
+git push production main
 ```
 
-or
+If you name your production remote something other than "production", then be sure to
+replace "production" with the name of your remote.
 
-```
-heroku pipelines:promote -a apprenticeship-standards-stag
-```
-
-If you name your staging remote something other than "staging", then be sure to
-replace "staging" with the name of your remote if using the `promote -r`
-command.
-
-The promotion can also be done through the Heroku Dashboard on the [Pipelines page](https://dashboard.heroku.com/pipelines/3657e91f-455e-4fa7-9da7-f6ddc1beb854).
+The deployment can also be done through the Heroku Dashboard. Promoting the
+staging slug does not work since the application is built with Docker.
 
 ## Elasticsearch setup
 We are currently using Elasticsearch version 8.10.3. See the [Elasticsearch
