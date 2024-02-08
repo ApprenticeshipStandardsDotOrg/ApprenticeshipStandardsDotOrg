@@ -17,6 +17,16 @@ RSpec.describe CreateSourceFilesJob, "#perform", type: :job do
     expect(source_file2.active_storage_attachment).to eq import.files.last
   end
 
+  it "calls DocToPdfConverter service" do
+    file = file_fixture("document.docx")
+    import = create(:standards_import, files: [file])
+    SourceFile.destroy_all # Remove source files created from factory
+
+    expect(DocToPdfConverter).to receive(:convert).once
+
+    described_class.new.perform(import)
+  end
+
   it "marks source_file courtesy_notification as pending if import courtesy notification is pending" do
     import = create(:standards_import, :with_files, email: "foo@example.com", name: "Foo", courtesy_notification: :pending)
     SourceFile.destroy_all # Remove source files created from factory
@@ -50,6 +60,7 @@ RSpec.describe CreateSourceFilesJob, "#perform", type: :job do
   end
 
   it "links a new pdf source file to its original docx version" do
+    allow(DocToPdfConverter).to receive(:convert).and_return(nil)
     docx_file = file_fixture("document.docx")
     pdf_file = file_fixture("pixel1x1.pdf")
     import = create(:standards_import, files: [docx_file, pdf_file])
