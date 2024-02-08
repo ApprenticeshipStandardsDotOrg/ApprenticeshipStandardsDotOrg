@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe DocToPdfConverterJob, "#perform", type: :job do
   it "calls DocToPdfConverter service" do
