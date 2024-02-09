@@ -30,5 +30,12 @@ RSpec.describe ActiveStorage::Attachment, type: :model do
 
       expect(attachment).to_not have_linked_original_file
     end
+
+    it "is false if no linked source file" do
+      source_file = create(:source_file)
+      attachment = source_file.active_storage_attachment
+
+      expect(attachment).to_not have_linked_original_file
+    end
   end
 end

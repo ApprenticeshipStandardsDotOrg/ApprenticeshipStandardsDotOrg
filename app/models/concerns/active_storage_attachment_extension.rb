@@ -6,6 +6,6 @@ module ActiveStorageAttachmentExtension
   end
 
   def has_linked_original_file?
-    source_file.original_source_file.present?
+    source_file&.original_source_file.present?
   end
 end
