@@ -113,6 +113,17 @@ RSpec.describe SourceFile, type: :model do
     end
   end
 
+  describe "#associated_occupation_standards" do
+    it "returns unique occupation standards" do
+      source_file = create(:source_file)
+      data_import = create(:data_import, source_file: source_file)
+      occupation_standard = data_import.occupation_standard
+      create(:data_import, source_file: source_file, occupation_standard: occupation_standard)
+
+      expect(source_file.associated_occupation_standards).to eq [occupation_standard]
+    end
+  end
+
   describe "#needs_courtesy_notification?" do
     it "is false if status is pending" do
       source_file = build(:source_file, :pending)

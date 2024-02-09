@@ -25,6 +25,7 @@ RSpec.describe GuestMailer, type: :mailer do
       expect(mail.subject).to eq("Your standards are live in the Apprenticeship Standards Library")
       expect(mail.to).to eq(["foo@example.com"])
       expect(mail.from).to eq(["no-reply@apprenticeshipstandards.org"])
+      expect(mail.bcc).to eq(["info@workhands.us"])
 
       mail.body.parts.each do |part|
         expect(part.body).to match "received and converted"

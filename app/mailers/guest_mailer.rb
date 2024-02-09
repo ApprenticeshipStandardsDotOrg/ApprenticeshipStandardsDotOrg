@@ -9,6 +9,7 @@ class GuestMailer < ApplicationMailer
     @host = ENV.fetch("PUBLIC_DOMAIN", Rails.application.config.action_mailer.default_url_options[:host])
 
     mail to: email,
+      bcc: "info@workhands.us",
       subject: "Your standards are live in the Apprenticeship Standards Library"
   end
 end
