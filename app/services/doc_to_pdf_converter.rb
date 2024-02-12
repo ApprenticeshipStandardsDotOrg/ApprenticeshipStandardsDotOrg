@@ -19,7 +19,7 @@ class DocToPdfConverter
 
   def convert
     return unless source_file.docx?
-    raise DependencyNotFoundError unless Kernel.system("command -v soffice")
+    raise DependencyNotFoundError unless Kernel.system("soffice --version")
     dir = ensure_dir
 
     attachment.open do |file|
