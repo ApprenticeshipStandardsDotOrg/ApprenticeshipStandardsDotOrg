@@ -113,6 +113,20 @@ RSpec.describe SourceFile, type: :model do
     end
   end
 
+  describe "#convert_doc_file_to_pdf" do
+    it "calls DocToPdfConverter job on create if docx file" do
+      expect(DocToPdfConverterJob).to receive(:perform_later)
+
+      create(:source_file, :docx)
+    end
+
+    it "does not call DocToPdfConverter job on create if not docx file" do
+      expect(DocToPdfConverterJob).to_not receive(:perform_later)
+
+      create(:source_file, :pdf)
+    end
+  end
+
   describe "#associated_occupation_standards" do
     it "returns unique occupation standards" do
       source_file = create(:source_file)

@@ -7,6 +7,7 @@ RSpec.describe Scraper::ApprenticeshipBulletinsJob, type: :job do
         stub_responses
         expect(Scraper::ExportFileAttachmentsJob).to receive(:perform_later).with(kind_of(SourceFile)).exactly(6).times
         perform_enqueued_jobs do
+          allow(DocToPdfConverter).to receive(:convert).and_return(nil)
           expect {
             described_class.new.perform
           }.to change(StandardsImport, :count).by(6)
@@ -34,6 +35,7 @@ RSpec.describe Scraper::ApprenticeshipBulletinsJob, type: :job do
       stub_responses
       expect(Scraper::ExportFileAttachmentsJob).to receive(:perform_later).with(kind_of(SourceFile)).exactly(5).times
       perform_enqueued_jobs do
+        allow(DocToPdfConverter).to receive(:convert).and_return(nil)
         expect {
           described_class.new.perform
         }.to change(StandardsImport, :count).by(5)

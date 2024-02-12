@@ -18,6 +18,7 @@ class DocToPdfConverter
   end
 
   def convert
+    return unless source_file.docx?
     raise DependencyNotFoundError unless Kernel.system("command -v soffice")
     dir = ensure_dir
 

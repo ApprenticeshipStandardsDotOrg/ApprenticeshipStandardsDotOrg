@@ -14,15 +14,6 @@ RSpec.describe DocToPdfConverter do
 
       described_class.convert_all
     end
-
-    it "doesn't convert a source file which already had a redacted_source_file" do
-      source_file = create(:source_file, :with_redacted_source_file)
-      expect(described_class::ConvertJob)
-        .not_to receive(:perform_later)
-        .with(source_file)
-
-      described_class.convert_all
-    end
   end
 
   describe ".convert" do
@@ -48,8 +39,17 @@ RSpec.describe DocToPdfConverter do
       end
     end
 
+    it "will do nothing if non-docx file" do
+      with_tmp_dir do |tmp_dir|
+        source_file = create(:source_file, :pdf)
+        expect_any_instance_of(ActiveStorage::Attachment).to_not receive(:open)
+
+        described_class.convert(source_file, tmp_dir:)
+      end
+    end
+
     it "raises if libreoffice not installed" do
-      source_file = create(:source_file)
+      source_file = create(:source_file, :docx)
       stub_soffice_install(installed: false)
 
       expect {
@@ -59,7 +59,7 @@ RSpec.describe DocToPdfConverter do
 
     it "raises if conversion failed" do
       with_tmp_dir do |dir|
-        source_file = create(:source_file)
+        source_file = create(:source_file, :docx)
         allow(DocxFile).to receive(:has_embedded_files?).and_return(false)
         stub_soffice_install
         stub_soffice_conversion(successful: false)

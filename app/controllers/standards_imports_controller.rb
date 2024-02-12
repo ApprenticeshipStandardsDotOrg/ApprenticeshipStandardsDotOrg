@@ -25,7 +25,7 @@ class StandardsImportsController < ApplicationController
   end
 
   def show
-    @standards_import = StandardsImport.includes(files_attachments: :blob).find(params[:id])
+    @standards_import = StandardsImport.includes(files_attachments: [:blob, source_file: :original_source_file]).find(params[:id])
   end
 
   private
