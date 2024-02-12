@@ -88,7 +88,7 @@ RSpec.describe DocToPdfConverter do
 
   def stub_soffice_install(installed: true)
     allow(Kernel).to receive(:system)
-      .with("command -v soffice")
+      .with("soffice --version")
       .and_return(installed)
   end
 
