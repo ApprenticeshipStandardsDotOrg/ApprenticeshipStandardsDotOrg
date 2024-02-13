@@ -9,6 +9,8 @@ class SourceFile < ApplicationRecord
   enum :status, [:pending, :completed, :needs_support, :needs_human_review, :archived]
   enum courtesy_notification: [:not_required, :pending, :completed], _prefix: true
 
+  after_create :convert_doc_file_to_pdf
+
   PDF_CONTENT_TYPE = "application/pdf"
 
   def self.pdf_attachment
@@ -97,5 +99,13 @@ class SourceFile < ApplicationRecord
 
   def file_for_redaction
     redacted_source_file.attached? ? redacted_source_file : active_storage_attachment
+  end
+
+  private
+
+  def convert_doc_file_to_pdf
+    if docx?
+      DocToPdfConverterJob.perform_later(self)
+    end
   end
 end

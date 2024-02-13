@@ -7,6 +7,7 @@ RSpec.describe Scraper::ExportFileAttachmentsJob do
       source_file = SourceFile.last
 
       perform_enqueued_jobs do
+        allow(DocToPdfConverter).to receive(:convert).and_return(nil)
         expect { described_class.new.perform(source_file) }
           .to change { StandardsImport.count }.by(1)
           .and change { StandardsImport.last.files.count }.by(6)
@@ -19,6 +20,7 @@ RSpec.describe Scraper::ExportFileAttachmentsJob do
         source_file = SourceFile.last
 
         perform_enqueued_jobs do
+          allow(DocToPdfConverter).to receive(:convert).and_return(nil)
           expect { described_class.new.perform(source_file) }
             .to change { StandardsImport.count }.by(0)
         end

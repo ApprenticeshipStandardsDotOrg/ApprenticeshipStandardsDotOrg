@@ -56,6 +56,7 @@ ENV RAILS_SERVE_STATIC_FILES=true
 
 RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends \
   google-chrome-stable \
+  libreoffice \
   nodejs \
   postgresql-client \
   tzdata \

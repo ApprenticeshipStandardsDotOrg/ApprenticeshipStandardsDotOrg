@@ -1,7 +1,7 @@
 class StandardsImport < ApplicationRecord
   has_many_attached :files
 
-  after_commit :create_source_files
+  after_save_commit :create_source_files
 
   enum courtesy_notification: [:not_required, :pending, :completed], _prefix: true
 

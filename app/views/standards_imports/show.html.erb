@@ -51,6 +51,7 @@
           <div class="mb-4">
             <div class="show-label">Files</div>
             <% @standards_import.files.each do |file| %>
+              <% next if file.has_linked_original_file? %>
               <div class="w-full mb-1">
                 <%= link_to file.filename.to_s, url_for(file), class: "text-blue-600 hover:text-blue-800 visited:text-purple-600" %>
               </div>

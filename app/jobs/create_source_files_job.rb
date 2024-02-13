@@ -34,7 +34,8 @@ class CreateSourceFilesJob < ApplicationJob
       source_file.update!(original_source_file:)
       original_source_file.update!(
         link_to_pdf_filename: nil,
-        status: :archived
+        status: :archived,
+        courtesy_notification: :not_required
       )
     end
   end
