@@ -297,7 +297,7 @@ RSpec.describe "admin/source_files/index", :admin do
         href: admin_source_file_path(source_file_with_redacted_source_file.id)
       )
 
-      click_link "Only show files ready for redaction"
+      click_link "Needs Redaction"
 
       expect(page).to have_link(
         source_file_with_all_conditions.filename,
@@ -316,7 +316,7 @@ RSpec.describe "admin/source_files/index", :admin do
         href: admin_source_file_path(source_file_with_redacted_source_file.id)
       )
 
-      click_link "Show all files"
+      click_link "Show All"
 
       expect(page).to have_link(
         source_file_with_all_conditions.filename,
@@ -329,6 +329,52 @@ RSpec.describe "admin/source_files/index", :admin do
       expect(page).to have_link(
         source_file_with_docx_attachment.filename,
         href: admin_source_file_path(source_file_with_docx_attachment.id)
+      )
+      expect(page).to have_link(
+        source_file_with_redacted_source_file.filename,
+        href: admin_source_file_path(source_file_with_redacted_source_file.id)
+      )
+    end
+
+    it "shows a link to filter files already redacted" do
+      source_file_without_redacted_source_file = create(
+        :source_file,
+        :docx,
+        :without_redacted_source_file
+      )
+
+      source_file_with_redacted_source_file = create(:source_file, :with_redacted_source_file)
+
+      admin = create(:user, :converter)
+
+      login_as admin
+      visit admin_source_files_path
+
+      expect(page).to have_link(
+        source_file_without_redacted_source_file.filename,
+        href: admin_source_file_path(source_file_without_redacted_source_file.id)
+      )
+      expect(page).to have_link(
+        source_file_with_redacted_source_file.filename,
+        href: admin_source_file_path(source_file_with_redacted_source_file.id)
+      )
+
+      click_link "Redacted"
+
+      expect(page).to have_link(
+        source_file_with_redacted_source_file.filename,
+        href: admin_source_file_path(source_file_with_redacted_source_file.id)
+      )
+      expect(page).to_not have_link(
+        source_file_without_redacted_source_file.filename,
+        href: admin_source_file_path(source_file_without_redacted_source_file.id)
+      )
+
+      click_link "Show All"
+
+      expect(page).to have_link(
+        source_file_without_redacted_source_file.filename,
+        href: admin_source_file_path(source_file_without_redacted_source_file.id)
       )
       expect(page).to have_link(
         source_file_with_redacted_source_file.filename,

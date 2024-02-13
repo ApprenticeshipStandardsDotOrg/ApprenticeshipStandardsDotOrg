@@ -113,6 +113,15 @@ RSpec.describe SourceFile, type: :model do
     end
   end
 
+  describe ".already_redacted" do
+    it "returns only source files that are already redacted" do
+      source_file_with_redacted_source_file = create(:source_file, :with_redacted_source_file)
+      create(:source_file, :without_redacted_source_file)
+
+      expect(described_class.already_redacted).to match_array [source_file_with_redacted_source_file]
+    end
+  end
+
   describe "#convert_doc_file_to_pdf" do
     it "calls DocToPdfConverter job on create if docx file" do
       expect(DocToPdfConverterJob).to receive(:perform_later)
