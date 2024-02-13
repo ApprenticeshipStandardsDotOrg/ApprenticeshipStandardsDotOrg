@@ -1,11 +1,13 @@
-<script src="https://www.google.com/recaptcha/api.js"></script>
-<script>
-  function onSubmit(token) {
-    var form = document.getElementById("<%= form_id %>");
-    if (form.checkValidity()) {
-      form.submit();
-    } else {
-      form.reportValidity();
+<% if Flipper.enabled?(:recaptcha) %>
+  <script src="https://www.google.com/recaptcha/api.js"></script>
+  <script>
+    function onSubmit(token) {
+      var form = document.getElementById("<%= form_id %>");
+      if (form.checkValidity()) {
+        form.submit();
+      } else {
+        form.reportValidity();
+      }
     }
-  }
-</script>
+  </script>
+<% end %>
