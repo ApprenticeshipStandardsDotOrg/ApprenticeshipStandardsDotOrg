@@ -1,8 +1,10 @@
 module Admin
   class SourceFilesController < Admin::ApplicationController
     def scoped_resource
-      if params[:ready_for_redaction]
+      if params[:filter_by] == "needs_redaction"
         SourceFile.preload(active_storage_attachment: [:record]).ready_for_redaction
+      elsif params[:filter_by] == "redacted"
+        SourceFile.preload(active_storage_attachment: [:record, :blob]).already_redacted
       else
         SourceFile.includes(:assignee, :data_imports, active_storage_attachment: [:blob, :record]).order(created_at: :desc)
       end

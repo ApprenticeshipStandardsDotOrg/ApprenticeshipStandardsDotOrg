@@ -7,21 +7,7 @@
     <%= content_for(:title) %>
   </h1>
 
-  <div>
-    <% if params[:ready_for_redaction] %>
-      <%= link_to(
-            "Show all files",
-            admin_source_files_path,
-            class: "button"
-          ) %>
-  <% else %>
-    <%= link_to(
-          "Only show files ready for redaction",
-          url_for(ready_for_redaction: true),
-          class: "button"
-        ) %>
-    <% end %>
-  </div>
+  <%= render partial: "filters", locals: {filter_by: params[:filter_by]} %>
 
   <% if show_search_bar %>
     <%= render(
