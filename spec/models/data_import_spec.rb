@@ -13,6 +13,16 @@ RSpec.describe DataImport, type: :model do
     expect(data_import).to_not be_valid
   end
 
+  it "deletes associated occupation standards when deleted" do
+    os = create(:occupation_standard)
+    data_import = create(:data_import, occupation_standard: os)
+
+    expect {
+      data_import.destroy!
+    }.to change(DataImport, :count).by(-1)
+      .and change(OccupationStandard, :count).by(-1)
+  end
+
   describe ".recent_uploads" do
     it "returns records created the day before by default" do
       travel_to(Time.zone.local(2023, 6, 15)) do

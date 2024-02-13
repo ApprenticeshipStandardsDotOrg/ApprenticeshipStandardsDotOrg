@@ -4,7 +4,7 @@ class DataImport < ApplicationRecord
   belongs_to :user
   belongs_to :source_file
 
-  belongs_to :occupation_standard, optional: true
+  belongs_to :occupation_standard, optional: true, dependent: :destroy
 
   validate :file_presence
   validate :file_mime_type
