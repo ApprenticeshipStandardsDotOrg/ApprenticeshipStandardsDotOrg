@@ -40,5 +40,13 @@ module Admin
       end
       redirect_to after_resource_destroyed_path(requested_resource)
     end
+
+    def default_sorting_attribute
+      :word
+    end
+
+    def default_sorting_direction
+      :asc
+    end
   end
 end
