@@ -130,10 +130,11 @@ RSpec.describe StandardsImport, type: :model do
   end
 
   describe "#create_source_files" do
-    it "calls CreateSourceFiles background job" do
+    it "calls CreateSourceFiles background job on update only" do
       expect(CreateSourceFilesJob).to receive(:perform_later).with(kind_of(StandardsImport))
 
-      create(:standards_import)
+      si = create(:standards_import)
+      si.update!(name: "Mickey Mouse")
     end
   end
 
