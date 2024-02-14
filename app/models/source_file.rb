@@ -47,6 +47,10 @@ class SourceFile < ApplicationRecord
     )
   end
 
+  def self.already_redacted
+    not_redacted.invert_where
+  end
+
   def self.ready_for_redaction
     completed.not_redacted.pdf_attachment
   end

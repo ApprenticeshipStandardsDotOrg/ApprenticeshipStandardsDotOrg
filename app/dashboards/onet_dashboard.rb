@@ -5,18 +5,21 @@ class OnetDashboard < Administrate::BaseDashboard
     id: Field::String,
     code: Field::String,
     title: Field::String,
+    version: Field::String,
     related_job_titles: Field::String,
     created_at: Field::DateTime,
     updated_at: Field::DateTime
   }.freeze
 
   COLLECTION_ATTRIBUTES = %i[
+    version
     code
     title
   ].freeze
 
   SHOW_PAGE_ATTRIBUTES = %i[
     id
+    version
     code
     title
     related_job_titles

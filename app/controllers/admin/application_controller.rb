@@ -18,5 +18,13 @@ module Admin
       flash[:alert] = "You are not authorized to perform this action."
       redirect_back(fallback_location: root_path)
     end
+
+    def default_sorting_attribute
+      :created_at
+    end
+
+    def default_sorting_direction
+      :desc
+    end
   end
 end
