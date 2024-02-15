@@ -4,10 +4,13 @@ class Scraper::ExportFileAttachmentsJob < ApplicationJob
   TEMP_FILE_PATH = "#{Rails.root}/tmp/foo.zip"
 
   def perform(source_file)
+    return if source_file.archived?
+
     zip_file = create_zip_version_of_source_file(source_file)
     file_names = unzip_attachments_and_list_file_names(zip_file)
     save_attachments_to_db(file_names, source_file)
     delete_extracted_files(file_names, zip_file)
+    source_file.archived!
   end
 
   private
@@ -40,21 +43,10 @@ class Scraper::ExportFileAttachmentsJob < ApplicationJob
   def save_attachments_to_db(file_names, source_file)
     return if file_names.empty?
 
-    standards_import = StandardsImport.where(
-      name: "Source File #{source_file.id}",
-      organization: nil
-    ).first_or_initialize(
-      notes: "Extracted from Apprenticeship Bulletins",
-      public_document: true,
-      source_url: Rails.application.routes.url_helpers.admin_source_file_path(source_file)
-    )
+    standards_import = source_file.standards_import
 
-    if standards_import.new_record?
-      standards_import.save!
-
-      file_names.each do |file|
-        standards_import.files.attach(io: File.open(file), filename: File.basename(file))
-      end
+    file_names.each do |file|
+      standards_import.files.attach(io: File.open(file), filename: File.basename(file))
     end
   end
 
