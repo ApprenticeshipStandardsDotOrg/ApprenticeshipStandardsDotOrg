@@ -4,42 +4,43 @@
 
 <section aria-label="main content" role="main" class="bg-seafoam-50">
   <div class="mx-auto max-w-screen-xl py-8 px-4 sm:py-16 lg:px-6">
-    <div>
-      <h3 class="font-bold text-2xl mt-4 mb-2">About</h3>
-      <p class="mb-4">
-        The Registered Apprenticeship Standards Library is a central repository
-        of approved apprenticeship programs from across the country. Whether you
-        are just beginning to explore apprenticeships or you are ready to
-        develop or update a program, the Library can help you easily find
-        examples of approved programs. The Library is a comprehensive collection
-        of apprenticeship program training standards registered at both the
-        national and state levels and includes standards for hundreds of
-        occupations across all industry sectors.
-      </p>
+    <h3 class="font-bold text-2xl mt-4 mb-2">About</h3>
+    <p class="mb-4">
+      The Registered Apprenticeship Standards Library is a central repository
+      of approved apprenticeship programs from across the country. Whether you
+      are just beginning to explore apprenticeships or you are ready to
+      develop or update a program, the Library can help you easily find
+      examples of approved programs. The Library is a comprehensive collection
+      of apprenticeship program training standards registered at both the
+      national and state levels and includes standards for hundreds of
+      occupations across all industry sectors.
+    </p>
 
-      <div class="lg:flex space-x-4">
-        <div class="flex-1 mb-2">
-          <h4 class="font-bold text-xl mt-4 mb-2">How to Use the Registered Apprenticeship Standards Library</h4>
-          <p class="mb-1">The Library can help you:</p>
-          <ul class="list-disc list-inside" style="list-style-type: disc;">
-            <li class="mb-1.5"><strong><em>Search by industry, occupation, state, and more</em></strong> to find the apprenticeship program training standards most helpful for you.</li>
-            <li class="mb-1.5"><strong><em>Find multiple examples of program standards for one occupation</em></strong> to provide options and ideas for your own apprenticeship.</li>
-            <li class="mb-1.5"><strong><em>Access approved work process schedules and related instruction outlines</em></strong> you can use as a starting point.</li>
-            <li><strong><em>Build from existing program standards</em></strong> to help you more quickly design your apprenticeship program.</li>
-          </ul>
-        </div>
-        <div class="flex-1">
-          <%= video_tag "https://d3q9ptzrqxwilf.cloudfront.net/urban_institute_rasl.mp4", controls: true, autobuffer: true %>
-        </div>
+    <div class="flex flex-col space-y-6 space-x-0 md:flex-row md:space-x-4 md:space-y-0">
+      <div class="h-full w-full px-2">
+        <h4 class="font-bold text-xl mt-4 mb-2">How to Use the Registered Apprenticeship Standards Library</h4>
+        <p class="mb-1">The Library can help you:</p>
+        <ul class="list-disc list-inside" style="list-style-type: disc;">
+          <li class="mb-1.5"><strong><em>Search by industry, occupation, state, and more</em></strong> to find the apprenticeship program training standards most helpful for you.</li>
+          <li class="mb-1.5"><strong><em>Find multiple examples of program standards for one occupation</em></strong> to provide options and ideas for your own apprenticeship.</li>
+          <li class="mb-1.5"><strong><em>Access approved work process schedules and related instruction outlines</em></strong> you can use as a starting point.</li>
+          <li><strong><em>Build from existing program standards</em></strong> to help you more quickly design your apprenticeship program.</li>
+        </ul>
       </div>
-
-      <h4 class="font-bold text-xl mt-6 mb-2">Additional Resources</h4>
-      <ul class="list-disc list-inside" style="list-style-type: disc;">
-        <li class="mb-2">Read the <%= link_to "fact sheet", asset_path("documents/Urban-FACTSHEET-RASL.pdf", skip_pipeline: true), class: "underline underline-offset-4", style: "text-underline-offset: 4px" %> to learn more about the Registered Apprenticeship Standards Library.</li>
-        <li class="mb-2">Access <%= link_to "definitions of key terms", definitions_page_path, class: "underline", style: "text-underline-offset: 4px" %> used throughout the Library.</li>
-        <li class="mb-2"><%= link_to "Contribute", new_standards_import_path, class: "underline", style: "text-underline-offset: 4px" %> your approved apprenticeship program training standards to the Library.</li>
-      </ul>
-
-      <p class="mt-6">Questions? Please visit the <%= link_to "Contact page", contact_page_path, class: "underline", style: "text-underline-offset: 4px" %> to get in touch with us.</p>
+      <div class="h-full w-full">
+        <%= video_tag "https://d3q9ptzrqxwilf.cloudfront.net/urban_institute_rasl.mp4", controls: true, autobuffer: true, size: "611.98x344.23", class: "mx-auto" %>
+      </div>
     </div>
+
+    <h4 class="font-bold text-xl mt-6 mb-2">Additional Resources</h4>
+    <ul class="list-disc list-inside" style="list-style-type: disc;">
+      <li class="mb-2">Read the <%= link_to "fact sheet", asset_path("documents/Urban-FACTSHEET-RASL.pdf", skip_pipeline: true), class: "underline underline-offset-4", style: "text-underline-offset: 4px" %> to learn more about the Registered Apprenticeship Standards Library.</li>
+      <li class="mb-2">Access <%= link_to "definitions of key terms", definitions_page_path, class: "underline", style: "text-underline-offset: 4px" %> used throughout the Library.</li>
+      <li class="mb-2"><%= link_to "Contribute", new_standards_import_path, class: "underline", style: "text-underline-offset: 4px" %> your approved apprenticeship program training standards to the Library.</li>
+    </ul>
+
+    <p class="mt-6">
+      Questions? Please visit the <%= link_to "Contact page", contact_page_path, class: "underline", style: "text-underline-offset: 4px" %> to get in touch with us.
+    </p>
+  </div>
 </section>
