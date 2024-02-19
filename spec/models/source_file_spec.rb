@@ -134,6 +134,14 @@ RSpec.describe SourceFile, type: :model do
 
       create(:source_file, :pdf)
     end
+
+    it "does not call DocToPdfConverter job if source file is persisted" do
+      source_file = create(:source_file, :docx)
+
+      expect(DocToPdfConverterJob).to_not receive(:perform_later)
+
+      source_file.courtesy_notification_completed!
+    end
   end
 
   describe "#associated_occupation_standards" do
