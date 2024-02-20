@@ -189,19 +189,23 @@ RSpec.describe SourceFile, type: :model do
 
   describe "#organization" do
     it "returns organization from standards_import association" do
-      create(:standards_import, :with_files, organization: "Pipe Fitters R Us")
-      source_file = SourceFile.last
+      perform_enqueued_jobs do
+        create(:standards_import, :with_files, organization: "Pipe Fitters R Us")
+        source_file = SourceFile.last
 
-      expect(source_file.organization).to eq "Pipe Fitters R Us"
+        expect(source_file.organization).to eq "Pipe Fitters R Us"
+      end
     end
   end
 
   describe "#notes" do
     it "returns notes from standards_import association" do
-      create(:standards_import, :with_files, notes: "From scraper job")
-      source_file = SourceFile.last
+      perform_enqueued_jobs do
+        create(:standards_import, :with_files, notes: "From scraper job")
+        source_file = SourceFile.last
 
-      expect(source_file.notes).to eq "From scraper job"
+        expect(source_file.notes).to eq "From scraper job"
+      end
     end
   end
 

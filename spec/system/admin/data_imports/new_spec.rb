@@ -2,8 +2,7 @@ require "rails_helper"
 
 RSpec.describe "admin/data_imports/new" do
   it "allows admin user to create data import", :admin do
-    create(:standards_import, :with_files)
-    source_file = SourceFile.first
+    source_file = create(:source_file)
     admin = create :admin
 
     login_as admin
@@ -32,8 +31,7 @@ RSpec.describe "admin/data_imports/new" do
   end
 
   it "does not allow invalid file types", :admin do
-    create(:standards_import, :with_files)
-    source_file = SourceFile.first
+    source_file = create(:source_file)
     admin = create(:admin)
 
     login_as admin
@@ -49,8 +47,7 @@ RSpec.describe "admin/data_imports/new" do
   end
 
   it "allows admin user to process file with last_file flag", :admin do
-    create(:standards_import, :with_files)
-    source_file = SourceFile.first
+    source_file = create(:source_file)
     admin = create :admin
 
     login_as admin

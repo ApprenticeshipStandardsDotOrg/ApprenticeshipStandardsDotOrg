@@ -14,6 +14,8 @@ module ActiveStorageAttachmentExtension
   private
 
   def create_source_file
-    CreateSourceFileJob.perform_later(self)
+    if record_type == "StandardsImport"
+      CreateSourceFileJob.perform_later(self)
+    end
   end
 end
