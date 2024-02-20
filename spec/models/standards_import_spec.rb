@@ -130,45 +130,12 @@ RSpec.describe StandardsImport, type: :model do
   end
 
   describe "source_file creation" do
-    it "marks source_file courtesy_notification as pending if import courtesy notification is pending" do
-      import = create(:standards_import, :with_files, email: "foo@example.com", name: "Foo", courtesy_notification: :pending)
+    it "calls CreateSourceFileJob" do
+      expect(CreateSourceFileJob).to receive(:perform_later).twice
 
-      source_file = SourceFile.last
-      expect(source_file).to be_courtesy_notification_pending
-    end
-
-    it "does not mark source_file courtesy_notification as pending if import courtesy notification is not_required" do
-      import = create(:standards_import, :with_files, courtesy_notification: :not_required)
-
-      source_file = SourceFile.last
-      expect(source_file).to be_courtesy_notification_not_required
-    end
-
-    it "publishes error message if creating source file record fails" do
-      error = StandardError.new("some error")
-      allow(SourceFile).to receive(:create!).and_raise(error)
-
-      expect_any_instance_of(ErrorSubscriber).to receive(:report).and_call_original
-      expect {
-        create(:standards_import, :with_files)
-      }.to_not change(SourceFile, :count)
-    end
-
-    it "links a new pdf source file to its original docx version" do
-      perform_enqueued_jobs do
-        docx_file = file_fixture("document.docx")
-        import = create(:standards_import, files: [docx_file], courtesy_notification: :pending, name: "Mickey", email: "mouse@example.com")
-        docx = import.source_files.find(&:docx?)
-
-        expect(import.reload.source_files.size).to eql(2)
-        expect(docx.reload).to have_attributes(
-          status: "archived",
-          link_to_pdf_filename: nil,
-          courtesy_notification: "not_required"
-        )
-        pdf = import.source_files.find(&:pdf?)
-        expect(pdf.original_source_file_id).to eql(docx.id)
-      end
+      file1 = file_fixture("pixel1x1.pdf")
+      file2 = file_fixture("pixel1x1.jpg")
+      import = create(:standards_import, files: [file1, file2])
     end
   end
 
