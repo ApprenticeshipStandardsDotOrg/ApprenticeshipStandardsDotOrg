@@ -7,18 +7,16 @@ RSpec.describe "standards_imports/show", type: :view do
     # Simulate a guest user uploading a docx file that gets converted to a pdf
     # by the time they are shown the standards_imports/show page. We do not want
     # to display the converted pdf file to them.
-    docx_file = file_fixture("document.docx")
-    pdf_file = file_fixture("pixel1x1.pdf")
-    import = create(:standards_import, files: [docx_file, pdf_file])
-    docx_source_file = SourceFile.all.detect { |sf| sf.docx? }
-    pdf_source_file = SourceFile.all.detect { |sf| sf.pdf? }
-    pdf_source_file.update!(original_source_file: docx_source_file)
+    perform_enqueued_jobs do
+      docx_file = file_fixture("document.docx")
+      import = create(:standards_import, files: [docx_file])
 
-    assign :standards_import, import
+      assign :standards_import, import.reload
 
-    render template: "standards_imports/show", layout: "layouts/application"
+      render template: "standards_imports/show", layout: "layouts/application"
 
-    expect(rendered).to have_content "document.docx"
-    expect(rendered).to_not have_content "pixel1x1.pdf"
+      expect(rendered).to have_content "document.docx"
+      expect(rendered).to_not have_content "document.pdf"
+    end
   end
 end

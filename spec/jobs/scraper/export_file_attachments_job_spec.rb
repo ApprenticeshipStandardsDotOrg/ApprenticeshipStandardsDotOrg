@@ -3,7 +3,8 @@ require "rails_helper"
 RSpec.describe Scraper::ExportFileAttachmentsJob do
   describe "#perform" do
     it "creates a StandardImport and 6 files attached to it" do
-      create(:standards_import, :with_docx_file_with_attachments)
+      import = create(:standards_import, :with_docx_file_with_attachments)
+      CreateSourceFileJob.perform_now(import.files.last)
       source_file = SourceFile.last
 
       perform_enqueued_jobs do
@@ -16,7 +17,8 @@ RSpec.describe Scraper::ExportFileAttachmentsJob do
 
     context "with file that doesn't have attachments" do
       it "does not create a StandardImport" do
-        create(:standards_import, :with_files)
+        import = create(:standards_import, :with_files)
+        CreateSourceFileJob.perform_now(import.files.last)
         source_file = SourceFile.last
 
         perform_enqueued_jobs do

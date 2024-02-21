@@ -15,10 +15,5 @@ FactoryBot.define do
     trait :with_pdf_file do
       files { [Rack::Test::UploadedFile.new(Rails.root.join("spec", "fixtures", "files", "pixel1x1.pdf"))] }
     end
-
-    to_create do |obj, _context|
-      obj.save!
-      CreateSourceFilesJob.perform_now(obj)
-    end
   end
 end

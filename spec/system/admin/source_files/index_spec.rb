@@ -3,13 +3,12 @@ require "rails_helper"
 RSpec.describe "admin/source_files/index", :admin do
   context "when admin user" do
     it "displays status, link to file, and option to convert or edit" do
-      create(:standards_import, :with_files)
+      source_file = create(:source_file)
       admin = create :admin
 
       login_as admin
       visit admin_source_files_path
 
-      source_file = SourceFile.last
       expect(page).to have_link("New source file", href: new_standards_import_path)
       expect(page).to have_link("pixel1x1.pdf")
 
@@ -31,8 +30,7 @@ RSpec.describe "admin/source_files/index", :admin do
     end
 
     it "can search on filename" do
-      create(:standards_import, :with_files)
-      source_file = SourceFile.last
+      source_file = create(:source_file)
       admin = create :admin
 
       login_as admin
@@ -89,52 +87,56 @@ RSpec.describe "admin/source_files/index", :admin do
     end
 
     it "can search on organization" do
-      create(:standards_import, :with_files, organization: "Google")
-      create(:standards_import, :with_files, organization: "Tesla")
+      perform_enqueued_jobs do
+        create(:standards_import, :with_files, organization: "Google")
+        create(:standards_import, :with_files, organization: "Tesla")
 
-      admin = create(:admin)
+        admin = create(:admin)
 
-      login_as admin
-      visit admin_source_files_path
+        login_as admin
+        visit admin_source_files_path
 
-      expect(page).to have_text "Google"
-      expect(page).to have_text "Tesla"
+        expect(page).to have_text "Google"
+        expect(page).to have_text "Tesla"
 
-      visit admin_source_files_path(search: "Google")
+        visit admin_source_files_path(search: "Google")
 
-      expect(page).to have_text "Google"
-      expect(page).to_not have_text "Tesla"
+        expect(page).to have_text "Google"
+        expect(page).to_not have_text "Tesla"
+      end
     end
 
     it "can search on assignee" do
-      create(:standards_import, :with_files, organization: "Google")
+      perform_enqueued_jobs do
+        create(:standards_import, :with_files, organization: "Google")
 
-      converter1 = create(:user, :converter, name: "Mickey")
-      create(:source_file, assignee: converter1)
+        converter1 = create(:user, :converter, name: "Mickey")
+        create(:source_file, assignee: converter1)
 
-      converter2 = create(:user, :converter, name: "Goofy")
-      create(:source_file, assignee: converter2)
+        converter2 = create(:user, :converter, name: "Goofy")
+        create(:source_file, assignee: converter2)
 
-      admin = create(:admin)
+        admin = create(:admin)
 
-      login_as admin
-      visit admin_source_files_path
+        login_as admin
+        visit admin_source_files_path
 
-      expect(page).to have_text "Google"
-      expect(page).to have_text "Mickey"
-      expect(page).to have_text "Goofy"
+        expect(page).to have_text "Google"
+        expect(page).to have_text "Mickey"
+        expect(page).to have_text "Goofy"
 
-      visit admin_source_files_path(search: "Mickey")
+        visit admin_source_files_path(search: "Mickey")
 
-      expect(page).to_not have_text "Google"
-      expect(page).to have_text "Mickey"
-      expect(page).to_not have_text "Goofy"
+        expect(page).to_not have_text "Google"
+        expect(page).to have_text "Mickey"
+        expect(page).to_not have_text "Goofy"
 
-      visit admin_source_files_path(search: "goo")
+        visit admin_source_files_path(search: "goo")
 
-      expect(page).to have_text "Google"
-      expect(page).to_not have_text "Mickey"
-      expect(page).to have_text "Goofy"
+        expect(page).to have_text "Google"
+        expect(page).to_not have_text "Mickey"
+        expect(page).to have_text "Goofy"
+      end
     end
 
     it "can search on public_document" do
@@ -189,13 +191,12 @@ RSpec.describe "admin/source_files/index", :admin do
 
   context "when converter" do
     it "displays status, link to file, and option to convert or edit" do
-      create(:standards_import, :with_files)
+      source_file = create(:source_file)
       admin = create(:user, :converter)
 
       login_as admin
       visit admin_source_files_path
 
-      source_file = SourceFile.last
       expect(page).to_not have_link("New source file", href: new_standards_import_path)
       expect(page).to have_link("pixel1x1.pdf")
 
@@ -214,8 +215,7 @@ RSpec.describe "admin/source_files/index", :admin do
     end
 
     it "can search on filename" do
-      create(:standards_import, :with_files)
-      source_file = SourceFile.last
+      source_file = create(:source_file)
       admin = create(:user, :converter)
 
       login_as admin
