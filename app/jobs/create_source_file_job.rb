@@ -2,7 +2,6 @@ class CreateSourceFileJob < ApplicationJob
   queue_as :default
 
   def perform(attachment)
-#    puts attachment.inspect
     standards_import = attachment.record
     linkable_docx_files =
       SourceFile
@@ -13,12 +12,10 @@ class CreateSourceFileJob < ApplicationJob
     courtesy_notification = standards_import.courtesy_notification
     Rails.error.handle do
       SourceFile.transaction do
-sf=        SourceFile
+        SourceFile
           .create_with(courtesy_notification:)
           .find_or_create_by!(active_storage_attachment_id: attachment.id)
           .tap { maybe_link_to_original_source_file(_1, linkable_docx_files) }
-#puts "SF INSPECT"
-#puts sf.inspect
       end
     end
   end
