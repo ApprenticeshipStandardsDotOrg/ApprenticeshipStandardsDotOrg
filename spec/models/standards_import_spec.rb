@@ -141,7 +141,7 @@ RSpec.describe StandardsImport, type: :model do
 
       file1 = file_fixture("pixel1x1.pdf")
       file2 = file_fixture("pixel1x1.jpg")
-      import = create(:standards_import, files: [file1, file2])
+      create(:standards_import, files: [file1, file2])
     end
   end
 
