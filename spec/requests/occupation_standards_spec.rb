@@ -82,29 +82,31 @@ RSpec.describe "OccupationStandard", type: :request do
 
     context "on staging" do
       it "returns unauthorized if no http basic auth credentials" do
-        stub_const "ENV", ENV.to_h.merge("APP_ENVIRONMENT" => "staging", "BASIC_AUTH_USERNAME" => "admin", "BASIC_AUTH_PASSWORD" => "password")
+        Dotenv.modify("APP_ENVIRONMENT" => "staging", "BASIC_AUTH_USERNAME" => "admin", "BASIC_AUTH_PASSWORD" => "password") do
+          get occupation_standards_path
 
-        get occupation_standards_path
-
-        expect(response).to be_unauthorized
+          expect(response).to be_unauthorized
+        end
       end
 
       it "returns unauthorized if incorrect http basic auth credentials passed" do
-        stub_const "ENV", ENV.to_h.merge("APP_ENVIRONMENT" => "staging", "BASIC_AUTH_USERNAME" => "admin", "BASIC_AUTH_PASSWORD" => "password")
-        authorization = ActionController::HttpAuthentication::Basic.encode_credentials("admin", "badpassword")
+        Dotenv.modify("APP_ENVIRONMENT" => "staging", "BASIC_AUTH_USERNAME" => "admin", "BASIC_AUTH_PASSWORD" => "password") do
+          authorization = ActionController::HttpAuthentication::Basic.encode_credentials("admin", "badpassword")
 
-        get occupation_standards_path, headers: {"HTTP_AUTHORIZATION" => authorization}
+          get occupation_standards_path, headers: {"HTTP_AUTHORIZATION" => authorization}
 
-        expect(response).to be_unauthorized
+          expect(response).to be_unauthorized
+        end
       end
 
       it "is successful if correct http basic auth credentials passed" do
-        stub_const "ENV", ENV.to_h.merge("APP_ENVIRONMENT" => "staging", "BASIC_AUTH_USERNAME" => "admin", "BASIC_AUTH_PASSWORD" => "password")
-        authorization = ActionController::HttpAuthentication::Basic.encode_credentials("admin", "password")
+        Dotenv.modify("APP_ENVIRONMENT" => "staging", "BASIC_AUTH_USERNAME" => "admin", "BASIC_AUTH_PASSWORD" => "password") do
+          authorization = ActionController::HttpAuthentication::Basic.encode_credentials("admin", "password")
 
-        get occupation_standards_path, headers: {"HTTP_AUTHORIZATION" => authorization}
+          get occupation_standards_path, headers: {"HTTP_AUTHORIZATION" => authorization}
 
-        expect(response).to be_successful
+          expect(response).to be_successful
+        end
       end
     end
   end
