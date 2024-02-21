@@ -44,16 +44,23 @@ class Scraper::ExportFileAttachmentsJob < ApplicationJob
     return if file_names.empty?
 
     standards_import = source_file.standards_import
+    existing_file_names = standards_import.files.map(&:filename)
 
-    file_names.each do |file|
-      standards_import.files.attach(io: File.open(file), filename: File.basename(file))
+    file_names.each do |file_name|
+      basename = File.basename(file_name)
+      next if existing_file_names.include?(basename)
+
+      standards_import.files.attach(
+        io: File.open(file_name),
+        filename: basename
+      )
     end
   end
 
   def delete_extracted_files(file_names, temp_file)
     temp_file.unlink
-    file_names.each do |file|
-      File.delete(file)
+    file_names.each do |file_name|
+      File.delete(file_name)
     end
   end
 end
