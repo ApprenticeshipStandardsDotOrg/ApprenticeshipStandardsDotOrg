@@ -7,11 +7,11 @@ RSpec.describe Scraper::ExportFileAttachmentsJob do
         # When viewing this file it looks to only have 6 attachments, but when
         # the files are extracted, there are 2 Word docs and 5 PDFs. Not sure
         # why only 4 PDFs are visible when viewing the doc.
-        standards_import = create(:standards_import, :with_docx_file_with_attachments)
-        source_file = SourceFile.last
-
         perform_enqueued_jobs do
           allow(DocToPdfConverter).to receive(:convert).and_return(nil)
+          standards_import = create(:standards_import, :with_docx_file_with_attachments)
+          source_file = SourceFile.last
+
           expect { described_class.new.perform(source_file) }
             .to change { StandardsImport.count }.by(0)
           expect(standards_import.files.count).to eq 8
@@ -22,11 +22,11 @@ RSpec.describe Scraper::ExportFileAttachmentsJob do
 
     context "with file that doesn't have attachments" do
       it "does not attach any files to the StandardImport and marks original source_file as archived" do
-        standards_import = create(:standards_import, :with_files)
-        source_file = SourceFile.last
-
         perform_enqueued_jobs do
           allow(DocToPdfConverter).to receive(:convert).and_return(nil)
+          standards_import = create(:standards_import, :with_files)
+          source_file = SourceFile.last
+
           expect { described_class.new.perform(source_file) }
             .to change { standards_import.files.count }.by(0)
           expect(source_file.reload).to be_archived
@@ -36,12 +36,12 @@ RSpec.describe Scraper::ExportFileAttachmentsJob do
 
     context "with already archived source file" do
       it "exits without creating new files" do
-        standards_import = create(:standards_import, :with_docx_file_with_attachments)
-        source_file = SourceFile.last
-        source_file.archived!
-
         perform_enqueued_jobs do
           allow(DocToPdfConverter).to receive(:convert).and_return(nil)
+          standards_import = create(:standards_import, :with_docx_file_with_attachments)
+          source_file = SourceFile.last
+          source_file.archived!
+
           expect { described_class.new.perform(source_file) }
             .to change { StandardsImport.count }.by(0)
           expect(standards_import.files.count).to eq 1
