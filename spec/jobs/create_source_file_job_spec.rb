@@ -64,14 +64,23 @@ RSpec.describe CreateSourceFileJob, "#perform", type: :job do
     }.to_not change(SourceFile, :count)
   end
 
-  it "implicitly check job behavior of linking a new pdf source file to its original docx version" do
-    docx_file = file_fixture("document.docx")
+  it "links a new pdf source file to its original docx version" do
     perform_enqueued_jobs do
-      import = create(:standards_import, files: [docx_file], courtesy_notification: :pending, name: "Mickey", email: "mouse@example.com")
+      allow(DocToPdfConverter).to receive(:convert).and_return(nil)
+
+      docx_file = file_fixture("document.docx")
+      pdf_file = file_fixture("pixel1x1.pdf")
+      import = create(:standards_import, files: [docx_file, pdf_file], courtesy_notification: :pending, name: "Mickey", email: "mouse@example.com")
       docx = import.source_files.find(&:docx?)
+      pdf = import.source_files.find(&:pdf?)
+      docx.update!(link_to_pdf_filename: "pixel1x1.pdf")
+      attachment = pdf.active_storage_attachment
+      pdf.destroy # so we can pretend we're creating it for the first time
+
+      described_class.new.perform(attachment)
 
       expect(import.reload.source_files.size).to eql(2)
-      expect(docx).to have_attributes(
+      expect(docx.reload).to have_attributes(
         status: "archived",
         link_to_pdf_filename: nil,
         courtesy_notification: "not_required"
