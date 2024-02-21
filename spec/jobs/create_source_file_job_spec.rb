@@ -72,8 +72,9 @@ RSpec.describe CreateSourceFileJob, "#perform", type: :job do
       pdf_file = file_fixture("pixel1x1.pdf")
       import = create(:standards_import, files: [docx_file, pdf_file], courtesy_notification: :pending, name: "Mickey", email: "mouse@example.com")
       docx = import.source_files.find(&:docx?)
-      pdf = import.source_files.find(&:pdf?)
       docx.update!(link_to_pdf_filename: "pixel1x1.pdf")
+
+      pdf = import.source_files.find(&:pdf?)
       attachment = pdf.active_storage_attachment
       pdf.destroy # so we can pretend we're creating it for the first time
 
