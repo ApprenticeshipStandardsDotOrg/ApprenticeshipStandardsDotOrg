@@ -42,9 +42,11 @@ class ChatGptGenerateText
       @type = error_hash["type"]
       @param = error_hash["param"]
       @code = error_hash["code"]
-      super("#{message} (code: #{@code}; param: #{param || '-nil-'})")
+      super("#{message} (code: #{@code})")
     end
   end
+
   class InvalidRequestError < ChatGptError; end
+
   class UnknownError < ChatGptError; end
 end

@@ -6,7 +6,7 @@ class WorkProcessExtractorJob < ApplicationJob
     puts response
   end
 
-private
+  private
 
   def prompt
     "Could you identify the work processes and the hours spent in them in this document " \
