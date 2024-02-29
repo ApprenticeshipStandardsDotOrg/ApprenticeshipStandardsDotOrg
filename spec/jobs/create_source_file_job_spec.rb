@@ -32,6 +32,16 @@ RSpec.describe CreateSourceFileJob, "#perform", type: :job do
     described_class.new.perform(source_file.active_storage_attachment)
   end
 
+  it "sets public_document field to match standards_import field" do
+    import = create(:standards_import, :with_files, public_document: true)
+    attachment = import.files.first
+
+    described_class.new.perform(attachment)
+
+    source_file = SourceFile.last
+    expect(source_file).to be_public_document
+  end
+
   it "marks source_file courtesy_notification as pending if import courtesy notification is pending" do
     import = create(:standards_import, :with_files, email: "foo@example.com", name: "Foo", courtesy_notification: :pending)
     attachment = import.files.first
