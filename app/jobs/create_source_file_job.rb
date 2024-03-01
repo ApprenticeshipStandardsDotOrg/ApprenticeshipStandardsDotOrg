@@ -13,7 +13,10 @@ class CreateSourceFileJob < ApplicationJob
     Rails.error.handle do
       SourceFile.transaction do
         SourceFile
-          .create_with(courtesy_notification:)
+          .create_with(
+            courtesy_notification:,
+            public_document: standards_import.public_document
+          )
           .find_or_create_by!(active_storage_attachment_id: attachment.id)
           .tap { maybe_link_to_original_source_file(_1, linkable_docx_files) }
       end
