@@ -20,8 +20,7 @@ FactoryBot.define do
     after(:create) do |work_process, context|
       if context.with_detailed_work_activities.positive?
         work_process["dwas"] = create_list(:rapids_api_detailed_work_activity,
-                                                  context.with_detailed_work_activities
-                                                 )
+          context.with_detailed_work_activities)
       end
     end
 
