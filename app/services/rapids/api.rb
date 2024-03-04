@@ -2,8 +2,7 @@ require "oauth2"
 
 module RAPIDS
   class API
-    RAPIDS_SERVER_ENVIRONMENT = ENV["RAPIDS_SERVER_ENVIRONMENT"]
-    BASE_URL = "https://#{RAPIDS_SERVER_ENVIRONMENT}.appiancloud.com".freeze
+    BASE_URL = "https://#{ENV["RAPIDS_SERVER_DOMAIN"]}".freeze
     TOKEN_URL = "#{BASE_URL}/suite/authorization/oauth/token".freeze
     BASE_PATH = "/suite/webapi/rapids/data-sharing/sponsor"
 
