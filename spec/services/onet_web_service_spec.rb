@@ -31,29 +31,32 @@ RSpec.describe OnetWebService do
   end
 
   def stub_responses
-    stub_const "ENV", ENV.to_h.merge("ONET_WEB_SERVICES_USERNAME" => "username", "ONET_WEB_SERVICES_PASSWORD" => "secret")
-    json_file = file_fixture("onet_web_service_response.json")
-    stub_request(:get, /services.onetcenter.org/)
-      .to_return(
-        {status: 200, body: json_file.read, headers: {}}
-      )
+    Dotenv.modify("ONET_WEB_SERVICES_USERNAME" => "username", "ONET_WEB_SERVICES_PASSWORD" => "secret") do
+      json_file = file_fixture("onet_web_service_response.json")
+      stub_request(:get, /services.onetcenter.org/)
+        .to_return(
+          {status: 200, body: json_file.read, headers: {}}
+        )
+    end
   end
 
   def stub_responses_empty_field
-    stub_const "ENV", ENV.to_h.merge("ONET_WEB_SERVICES_USERNAME" => "username", "ONET_WEB_SERVICES_PASSWORD" => "secret")
-    json_file = file_fixture("onet_web_service_response_empty_field.json")
-    stub_request(:get, /services.onetcenter.org/)
-      .to_return(
-        {status: 200, body: json_file.read, headers: {}}
-      )
+    Dotenv.modify("ONET_WEB_SERVICES_USERNAME" => "username", "ONET_WEB_SERVICES_PASSWORD" => "secret") do
+      json_file = file_fixture("onet_web_service_response_empty_field.json")
+      stub_request(:get, /services.onetcenter.org/)
+        .to_return(
+          {status: 200, body: json_file.read, headers: {}}
+        )
+    end
   end
 
   def stub_responses_missing_field
-    stub_const "ENV", ENV.to_h.merge("ONET_WEB_SERVICES_USERNAME" => "username", "ONET_WEB_SERVICES_PASSWORD" => "secret")
-    json_file = file_fixture("onet_web_service_response_missing_field.json")
-    stub_request(:get, /services.onetcenter.org/)
-      .to_return(
-        {status: 200, body: json_file.read, headers: {}}
-      )
+    Dotenv.modify("ONET_WEB_SERVICES_USERNAME" => "username", "ONET_WEB_SERVICES_PASSWORD" => "secret") do
+      json_file = file_fixture("onet_web_service_response_missing_field.json")
+      stub_request(:get, /services.onetcenter.org/)
+        .to_return(
+          {status: 200, body: json_file.read, headers: {}}
+        )
+    end
   end
 end

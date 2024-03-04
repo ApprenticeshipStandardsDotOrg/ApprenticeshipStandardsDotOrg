@@ -259,8 +259,7 @@ RSpec.describe OccupationStandard, type: :model do
 
   describe "#source_file" do
     it "returns the linked source_file record" do
-      create(:standards_import, :with_files)
-      source_file = SourceFile.last
+      source_file = create(:source_file)
       data_import = create(:data_import, source_file: source_file)
       occupation_standard = build(:occupation_standard, data_imports: [data_import])
 
