@@ -1,24 +1,28 @@
 class Scraper::ExportFileAttachmentsJob < ApplicationJob
   queue_as :default
 
+  attr_reader :source_file
+
   def perform(source_file)
     return if source_file.archived?
 
-    zip_file = create_zip_version_of_source_file(source_file)
+    @source_file = source_file
+
+    zip_file = create_zip_version_of_source_file
     file_names = unzip_attachments_and_list_file_names(zip_file)
-    save_attachments_to_db(file_names, source_file)
+    save_attachments_to_db(file_names)
     delete_extracted_files(file_names, zip_file)
     source_file.archived!
   end
 
   private
 
-  def temp_file_path(source_file)
+  def temp_file_path
     Rails.root.join("tmp", "#{source_file.id}.zip").to_s
   end
 
-  def create_zip_version_of_source_file(source_file)
-    zip_file = Tempfile.open(temp_file_path(source_file), encoding: "ascii-8bit")
+  def create_zip_version_of_source_file
+    zip_file = Tempfile.open(temp_file_path, encoding: "ascii-8bit")
     source_file.active_storage_attachment.blob.download { |chunk| zip_file.write(chunk) }
     zip_file
   end
@@ -32,7 +36,8 @@ class Scraper::ExportFileAttachmentsJob < ApplicationJob
           next unless entry.name.end_with?("docx", ".bin")
           entry.name.sub!(".bin", ".pdf")
 
-          file_path = "#{Rails.root}/tmp/#{File.basename(entry.name)}"
+          FileUtils.mkdir_p(Rails.root.join("tmp", source_file.id))
+          file_path = Rails.root.join("tmp", source_file.id, File.basename(entry.name)).to_s
           entry.extract(@entry_path = file_path)
           file_names << file_path
         end
@@ -42,7 +47,7 @@ class Scraper::ExportFileAttachmentsJob < ApplicationJob
     file_names
   end
 
-  def save_attachments_to_db(file_names, source_file)
+  def save_attachments_to_db(file_names)
     return if file_names.empty?
 
     standards_import = source_file.standards_import
