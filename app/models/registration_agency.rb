@@ -11,4 +11,8 @@ class RegistrationAgency < ApplicationRecord
     state_name = state&.name || "National"
     "#{state_name} (#{agency_type.upcase})"
   end
+
+  def self.registration_agency_for_national_program
+    find_by(state_id: nil)
+  end
 end

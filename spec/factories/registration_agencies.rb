@@ -4,5 +4,9 @@ FactoryBot.define do
 
     state
     agency_type { :oa }
+
+    trait :for_national_program do
+      state { nil }
+    end
   end
 end
