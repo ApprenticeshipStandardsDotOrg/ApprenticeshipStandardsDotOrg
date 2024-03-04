@@ -1,8 +1,6 @@
 class Scraper::ExportFileAttachmentsJob < ApplicationJob
   queue_as :default
 
-  TEMP_FILE_PATH = "#{Rails.root}/tmp/foo.zip"
-
   def perform(source_file)
     return if source_file.archived?
 
@@ -15,8 +13,12 @@ class Scraper::ExportFileAttachmentsJob < ApplicationJob
 
   private
 
+  def temp_file_path(source_file)
+    Rails.root.join("tmp", "#{source_file.id}.zip").to_s
+  end
+
   def create_zip_version_of_source_file(source_file)
-    zip_file = Tempfile.open(TEMP_FILE_PATH, encoding: "ascii-8bit")
+    zip_file = Tempfile.open(temp_file_path(source_file), encoding: "ascii-8bit")
     source_file.active_storage_attachment.blob.download { |chunk| zip_file.write(chunk) }
     zip_file
   end
