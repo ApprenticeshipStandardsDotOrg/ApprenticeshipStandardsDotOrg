@@ -79,7 +79,7 @@ RSpec.describe SourceFile, type: :model do
   end
 
   describe ".ready_for_redaction" do
-    it "returns only source files without attachment, completed and pdf files" do
+    it "returns only private source files without attachment, completed and pdf files" do
       source_file_with_all_conditions = create(:source_file,
         :pdf,
         :without_redacted_source_file,
@@ -99,6 +99,12 @@ RSpec.describe SourceFile, type: :model do
         :pdf,
         :with_redacted_source_file,
         :completed)
+
+      _source_file_public = create(:source_file,
+        :pdf,
+        :without_redacted_source_file,
+        :completed,
+        public_document: true)
 
       expect(described_class.ready_for_redaction).to match_array [source_file_with_all_conditions]
     end
