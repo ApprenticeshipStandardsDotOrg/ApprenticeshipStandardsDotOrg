@@ -2,16 +2,16 @@ class WorkProcessExtractorJob < ApplicationJob
   queue_as :default
 
   def perform(occupation_standard, competency_data)
-    response = ChatGptGenerateText.new(prompt).call
+    # response = ChatGptGenerateText.new(prompt).call
 
-    JSON.parse(response).each do |description, hour_bounds|
-      WorkProcessExtraction.extract(
-        occupation_standard:,
-        competency_data:,
-        description:,
-        hour_bounds:
-      )
-    end
+    # JSON.parse(response).each do |description, hour_bounds|
+    #   WorkProcessExtraction.extract(
+    #     occupation_standard:,
+    #     competency_data:,
+    #     description:,
+    #     hour_bounds:
+    #   )
+    # end
   end
 
   private
