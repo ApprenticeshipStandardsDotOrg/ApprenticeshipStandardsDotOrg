@@ -25,10 +25,6 @@ module RAPIDS
       get("/wps", params)
     end
 
-    def work_processes_for_program_number(program_number, params = {})
-      get("#{program_number}/wps", params)
-    end
-
     private
 
     # Params supported by API:
