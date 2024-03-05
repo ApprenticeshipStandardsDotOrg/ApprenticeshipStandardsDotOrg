@@ -5,10 +5,7 @@ class PdfReaderJob < ApplicationJob
     source_file = SourceFile.find(source_file_id)
     return unless source_file.pdf?
     io = URI.parse(source_file.url).open
-
-    reader = PDF::Reader.new(io)
-    text = reader.pages.map { |page| page.text }.to_s
-
+    text = PdfFile.text(io)
     template = '{ "Title": "", "Type": "(Time based, Competency based, or Hybrid)" }'
 
     occupation_array_prompt = "Create an array of the occupation(s) from the text. Return as a JSON array"
