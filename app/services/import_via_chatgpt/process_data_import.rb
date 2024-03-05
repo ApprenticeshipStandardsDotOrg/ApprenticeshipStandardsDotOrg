@@ -5,19 +5,20 @@ module ImportViaChatgpt
       @text = PdfFile.text(attachment)
     end
 
-    def work_processes(occ, compdata)
-      @work_processes ||= query_work_processes(occ, compdata)
+    # TODO: move 'occ' somewhere else? At least name it better!
+    def work_processes(occ)
+      @work_processes ||= import_work_processes(occ)
     end
 
     private
 
     attr_reader :attachment, :text
 
-    def query_work_processes(occ, compdata)
+    def import_work_processes(occ)
       response = ChatGptGenerateText.new(prompt(:work_processes)).call
 
-      JSON.parse(response).each do |description, hour_bounds|
-        WorkProcesses.extract(
+      JSON.parse(response).map do |description, hour_bounds|
+        WorkProcesses.import(
           occupation_standard: occ,
           description:,
           hour_bounds:

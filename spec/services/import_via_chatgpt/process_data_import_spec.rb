@@ -14,8 +14,36 @@ allow: ["chromedriver.storage.googleapis.com"]
 )
 end
 
-  it 'retrieves work processes' do
-    occupation_standard = create(:occupation_standard)
+  describe '#work_processes' do
+    it 'imports work processes into the database' do
+      data = mock_chatgpt
+      occupation_standard = create(:occupation_standard)
+      attachment = file_fixture("process_data_example_01.pdf")
+
+      expect {
+        described_class.new(attachment:).work_processes(occupation_standard)
+      }.to change(WorkProcess, :count).by(data.size)
+    end
+
+    it 'makes array of imported work processes available' do
+      data = mock_chatgpt
+      occupation_standard = create(:occupation_standard)
+      attachment = file_fixture("process_data_example_01.pdf")
+
+      work_processes = described_class.new(attachment:).work_processes(occupation_standard)
+      expect(work_processes.size).to eq 16
+
+      first = work_processes.first
+      expect(first.description).to eq data.keys.first
+      expect([first.minimum_hours, first.maximum_hours]).to eq data.values.first
+
+      last = work_processes.last
+      expect(last.description).to eq data.keys.last
+      expect([last.minimum_hours, last.maximum_hours]).to eq data.values.last
+    end
+  end
+
+  def mock_chatgpt
     chatgpt_data = {
       "Safety"=>[40, 40],
       "CNG Engines"=>[200, 200],
@@ -38,10 +66,6 @@ end
 
     allow(ChatGptGenerateText).to receive(:new).and_return(chatgpt_mock)
 
-    attachment = file_fixture("process_data_example_01.pdf")
-
-    expect {
-      described_class.new(attachment:).work_processes(occupation_standard, nil)
-    }.to change(WorkProcess, :count).by(16).and change(Competency, :count).by(0)
+    chatgpt_data
   end
 end

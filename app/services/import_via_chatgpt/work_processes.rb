@@ -1,6 +1,6 @@
 module ImportViaChatgpt
   class WorkProcesses
-    def self.extract(...) = new(...).extract
+    def self.import(...) = new(...).import
 
     def initialize(occupation_standard:, description:, hour_bounds:)
       @occupation_standard = occupation_standard
@@ -9,12 +9,13 @@ module ImportViaChatgpt
       @maximum_hours = hour_bounds.last
     end
 
-    def extract
+    def import
       work_process = WorkProcess.find_or_initialize_by(
         occupation_standard:,
         title: description.presence
       )
       work_process.update!(description:, minimum_hours:, maximum_hours:)
+      work_process
     end
 
     private
