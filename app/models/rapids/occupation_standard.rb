@@ -38,7 +38,7 @@ module RAPIDS
           )
 
           if state
-            registration_agency = state.registration_agencies.last
+            registration_agency = state.registration_agencies.find_by(agency_type: "oa")
           end
         end
 
