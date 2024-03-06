@@ -35,7 +35,9 @@ class Scraper::ApprenticeshipBulletinsJob < ApplicationJob
               date: row["Date"]
             }
           )
-          Scraper::ExportFileAttachmentsJob.perform_later(source_file)
+          if source_file.word?
+            Scraper::ExportFileAttachmentsJob.perform_later(source_file)
+          end
         end
       end
     end
