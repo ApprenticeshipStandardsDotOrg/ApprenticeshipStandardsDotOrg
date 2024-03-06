@@ -1,5 +1,4 @@
 class PdfFile < SimpleDelegator
-
   alias_method :pdf_reader, :__getobj__
 
   def self.text(...) = new(PDF::Reader.new(...)).text
