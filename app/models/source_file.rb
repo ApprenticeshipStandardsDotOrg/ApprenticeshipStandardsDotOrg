@@ -9,7 +9,7 @@ class SourceFile < ApplicationRecord
   enum :status, [:pending, :completed, :needs_support, :needs_human_review, :archived]
   enum courtesy_notification: [:not_required, :pending, :completed], _prefix: true
 
-  after_create :convert_doc_file_to_pdf
+  after_create_commit :convert_doc_file_to_pdf
 
   PDF_CONTENT_TYPE = "application/pdf"
 
