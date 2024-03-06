@@ -23,7 +23,7 @@ class DocToPdfConverter
     dir = ensure_dir
 
     attachment.open do |file|
-      next if DocxFile.has_embedded_files?(file)
+      next if WordFile.has_embedded_files?(file)
 
       command = "soffice --headless --convert-to pdf #{file.path} --outdir #{dir}"
       raise FileConversionError unless Kernel.system(command)
