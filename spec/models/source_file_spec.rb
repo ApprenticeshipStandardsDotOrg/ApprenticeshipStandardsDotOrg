@@ -134,7 +134,13 @@ RSpec.describe SourceFile, type: :model do
       create(:source_file, :docx)
     end
 
-    it "does not call DocToPdfConverter job on create if not docx file" do
+    it "calls DocToPdfConverter job on create if doc file" do
+      expect(DocToPdfConverterJob).to receive(:perform_later)
+
+      create(:source_file, :doc)
+    end
+
+    it "does not call DocToPdfConverter job on create if not word file" do
       expect(DocToPdfConverterJob).to_not receive(:perform_later)
 
       create(:source_file, :pdf)

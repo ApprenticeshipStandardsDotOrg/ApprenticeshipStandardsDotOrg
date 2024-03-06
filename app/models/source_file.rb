@@ -112,7 +112,7 @@ class SourceFile < ApplicationRecord
   private
 
   def convert_doc_file_to_pdf
-    if docx?
+    if word?
       DocToPdfConverterJob.perform_later(self)
     end
   end

@@ -3,7 +3,7 @@ class DocToPdfConverter
 
   def self.convert_all
     SourceFile
-      .docx_attachment
+      .word_attachment
       .select(:id)
       .find_each { ConvertJob.perform_later(_1) }
   end
@@ -18,7 +18,7 @@ class DocToPdfConverter
   end
 
   def convert
-    return unless source_file.docx?
+    return unless source_file.word?
     raise DependencyNotFoundError unless Kernel.system("soffice --version")
     dir = ensure_dir
 
