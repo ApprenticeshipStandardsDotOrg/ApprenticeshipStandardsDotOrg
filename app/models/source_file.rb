@@ -23,10 +23,10 @@ class SourceFile < ApplicationRecord
     )
   end
 
-  def self.docx_attachment
+  def self.word_attachment
     joins(active_storage_attachment: :blob).where(
       active_storage_attachment: {
-        active_storage_blobs: {content_type: DocxFile.content_type}
+        active_storage_blobs: {content_type: WordFile.content_types}
       }
     )
   end

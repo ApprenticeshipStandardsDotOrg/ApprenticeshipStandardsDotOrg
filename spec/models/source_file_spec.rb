@@ -58,14 +58,13 @@ RSpec.describe SourceFile, type: :model do
     end
   end
 
-  describe ".docx_attachment" do
-    it "includes only source files with docx attachments" do
+  describe ".word_attachment" do
+    it "includes only source files with doc or docx attachments" do
       _pdf = create(:source_file, :pdf)
+      doc = create(:source_file, :doc)
       docx = create(:source_file, :docx)
 
-      result = described_class.docx_attachment.pluck(:id)
-
-      expect(result).to eql([docx.id])
+      expect(described_class.word_attachment).to contain_exactly(doc, docx)
     end
   end
 
