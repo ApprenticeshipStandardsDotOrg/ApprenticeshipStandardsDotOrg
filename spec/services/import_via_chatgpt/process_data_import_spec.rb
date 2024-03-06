@@ -2,17 +2,17 @@ require "rails_helper"
 
 RSpec.describe ImportViaChatgpt::ProcessDataImport, type: :model do
 
-# TODO: for building the spec only -- REMOVE when mocks are good
-before do
-WebMock.allow_net_connect!
-end
+  # # TODO: for building the spec only -- REMOVE when mocks are good
+  # before do
+  # WebMock.allow_net_connect!
+  # end
 
-after do
-WebMock.disable_net_connect!(
-allow_localhost: true,
-allow: ["chromedriver.storage.googleapis.com"]
-)
-end
+  # after do
+  # WebMock.disable_net_connect!(
+  # allow_localhost: true,
+  # allow: ["chromedriver.storage.googleapis.com"]
+  # )
+  # end
 
   describe '#work_processes' do
     it 'imports work processes into the database' do
