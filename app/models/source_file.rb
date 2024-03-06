@@ -93,10 +93,6 @@ class SourceFile < ApplicationRecord
     active_storage_attachment.blob.content_type == PDF_CONTENT_TYPE
   end
 
-  def docx?
-    active_storage_attachment.blob.content_type == DocxFile.content_type
-  end
-
   def word?
     WordFile.content_types.include?(active_storage_attachment.blob.content_type)
   end

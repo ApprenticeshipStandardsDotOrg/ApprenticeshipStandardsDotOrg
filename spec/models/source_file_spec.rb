@@ -247,18 +247,6 @@ RSpec.describe SourceFile, type: :model do
     end
   end
 
-  describe "#docx?" do
-    it "is true if the content_type is docx" do
-      source_file = create(:source_file, :docx)
-      expect(source_file.docx?).to be(true)
-    end
-
-    it "is false if the content_type is not docx" do
-      source_file = create(:source_file, :pdf)
-      expect(source_file.docx?).to be(false)
-    end
-  end
-
   describe "#word?" do
     it "is true if the content_type is docx" do
       source_file = create(:source_file, :docx)
