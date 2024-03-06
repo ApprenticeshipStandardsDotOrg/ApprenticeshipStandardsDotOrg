@@ -97,6 +97,10 @@ class SourceFile < ApplicationRecord
     active_storage_attachment.blob.content_type == DocxFile.content_type
   end
 
+  def word?
+    WordFile.content_types.include?(active_storage_attachment.blob.content_type)
+  end
+
   def redacted_source_file_url
     redacted_source_file&.blob&.url
   end

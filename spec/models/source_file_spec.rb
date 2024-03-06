@@ -253,6 +253,26 @@ RSpec.describe SourceFile, type: :model do
     end
   end
 
+  describe "#word?" do
+    it "is true if the content_type is docx" do
+      source_file = create(:source_file, :docx)
+
+      expect(source_file).to be_word
+    end
+
+    it "is true if the content_type is doc" do
+      source_file = create(:source_file, :doc)
+
+      expect(source_file).to be_word
+    end
+
+    it "is false if the content_type is not doc or docx" do
+      source_file = create(:source_file, :pdf)
+
+      expect(source_file).to_not be_word
+    end
+  end
+
   describe "#redacted_source_file_url" do
     it "returns nil if file not present" do
       source_file = build(:source_file, redacted_source_file: nil)
