@@ -15,7 +15,7 @@ class ImportDataFromRAPIDSJob < ApplicationJob
       )
       parsed_response = response.parsed
       occupation_standards = process_api_response(parsed_response)
-      occupation_standards.map(&:save!)
+      occupation_standards.map(&:save)
       total_records = parsed_response["totalCount"]
       start_index += PER_PAGE_SIZE
 
