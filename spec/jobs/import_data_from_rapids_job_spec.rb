@@ -26,7 +26,6 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
         occupation_standard = OccupationStandard.last
 
         expect(occupation_standard.ojt_type).to eq "competency"
-
       end
     end
   end
@@ -39,7 +38,7 @@ end
 def stub_rapids_api_response(arguments, response)
   allow_any_instance_of(RAPIDS::API).to receive(:get).with("/wps", arguments).and_return(
     OpenStruct.new(
-      parsed: response,
+      parsed: response
     )
   )
 end
