@@ -24,7 +24,13 @@ class ImportDataFromRAPIDSJob < ApplicationJob
 
   def process_api_response(response)
     response["wps"].map do |occupation_standard_response|
-      process_occupation_standard(occupation_standard_response)
+      occupation_standard = process_occupation_standard(occupation_standard_response)
+
+      occupation_standard.work_processes = process_work_processes(
+        occupation_standard_response["dwas"]
+      )
+
+      occupation_standard
     end
   end
 
@@ -32,5 +38,13 @@ class ImportDataFromRAPIDSJob < ApplicationJob
     RAPIDS::OccupationStandard.initialize_from_response(
       occupation_standard_response
     )
+  end
+
+  def process_work_processes(work_processes_response)
+    work_processes_response.map do |work_process_response|
+      RAPIDS::WorkProcess.initialize_from_response(
+        work_process_response
+      )
+    end
   end
 end

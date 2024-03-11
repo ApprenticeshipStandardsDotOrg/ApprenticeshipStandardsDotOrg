@@ -9,7 +9,12 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
         mi = create(:state, abbreviation: "MI")
         create(:registration_agency, state: mi, agency_type: :oa)
 
-        occupation_standard_response = create_list(:rapids_api_occupation_standard, 1, :competency)
+        occupation_standard_response = create_list(
+          :rapids_api_occupation_standard,
+          1,
+          :competency,
+          with_detailed_work_activities: 3
+        )
         rapids_response = create(:rapids_response, totalCount: 1, wps: occupation_standard_response)
 
         stub_rapids_api_response(
@@ -21,9 +26,11 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
         )
         expect {
           described_class.perform_now
-        }.to change(OccupationStandard, :count).to eq 1
+        }.to change(OccupationStandard, :count).by(1).and \
+          change(WorkProcess, :count).by(3)
 
         occupation_standard = OccupationStandard.last
+        work_process = occupation_standard.work_processes.last
 
         expect(occupation_standard.ojt_type).to eq "competency"
       end
@@ -36,7 +43,12 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
         mi = create(:state, abbreviation: "MI")
         create(:registration_agency, state: mi, agency_type: :oa)
 
-        occupation_standard_response = create_list(:rapids_api_occupation_standard, 1, :time)
+        occupation_standard_response = create_list(
+          :rapids_api_occupation_standard,
+          1,
+          :time,
+          with_detailed_work_activities: 2
+        )
         rapids_response = create(:rapids_response, totalCount: 1, wps: occupation_standard_response)
 
         stub_rapids_api_response(
@@ -48,7 +60,8 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
         )
         expect {
           described_class.perform_now
-        }.to change(OccupationStandard, :count).to eq 1
+        }.to change(OccupationStandard, :count).by(1).and \
+          change(WorkProcess, :count).by(2)
 
         occupation_standard = OccupationStandard.last
 
@@ -63,7 +76,12 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
         mi = create(:state, abbreviation: "MI")
         create(:registration_agency, state: mi, agency_type: :oa)
 
-        occupation_standard_response = create_list(:rapids_api_occupation_standard, 1, :hybrid)
+        occupation_standard_response = create_list(
+          :rapids_api_occupation_standard,
+          1,
+          :hybrid,
+          with_detailed_work_activities: 4
+        )
         rapids_response = create(:rapids_response, totalCount: 1, wps: occupation_standard_response)
 
         stub_rapids_api_response(
@@ -75,59 +93,60 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
         )
         expect {
           described_class.perform_now
-        }.to change(OccupationStandard, :count).to eq 1
+        }.to change(OccupationStandard, :count).by(1).and \
+          change(WorkProcess, :count).by(4)
 
         occupation_standard = OccupationStandard.last
 
         expect(occupation_standard.ojt_type).to eq "hybrid"
       end
     end
-  end
 
-  context "pagination" do
-    it "performs more than one call with correct arguments when records exceed batch size" do
-      stub_get_token!
-      stub_const("ImportDataFromRAPIDSJob::PER_PAGE_SIZE", 1)
+    context "pagination" do
+      it "performs more than one call with correct arguments when records exceed batch size" do
+        stub_get_token!
+        stub_const("ImportDataFromRAPIDSJob::PER_PAGE_SIZE", 1)
 
-      mi = create(:state, abbreviation: "MI")
-      create(:registration_agency, state: mi, agency_type: :oa)
+        mi = create(:state, abbreviation: "MI")
+        create(:registration_agency, state: mi, agency_type: :oa)
 
-      (first_occupation, second_occupation, third_occupation) = create_list(:rapids_api_occupation_standard, 3, :hybrid)
+        (first_occupation, second_occupation, third_occupation) = create_list(:rapids_api_occupation_standard, 3, :hybrid)
 
-      first_rapids_response = create(:rapids_response, totalCount: 3, wps: [first_occupation])
-      second_rapids_response = create(:rapids_response, totalCount: 3, wps: [second_occupation])
-      third_rapids_response = create(:rapids_response, totalCount: 3, wps: [third_occupation])
+        first_rapids_response = create(:rapids_response, totalCount: 3, wps: [first_occupation])
+        second_rapids_response = create(:rapids_response, totalCount: 3, wps: [second_occupation])
+        third_rapids_response = create(:rapids_response, totalCount: 3, wps: [third_occupation])
 
-      expect_any_instance_of(RAPIDS::API).to receive(:get).with("/wps", {
-        batchSize: 1,
-        startIndex: 1
-      }).and_return(
-        OpenStruct.new(
-          parsed: first_rapids_response
+        expect_any_instance_of(RAPIDS::API).to receive(:get).with("/wps", {
+          batchSize: 1,
+          startIndex: 1
+        }).and_return(
+          OpenStruct.new(
+            parsed: first_rapids_response
+          )
         )
-      )
 
-      expect_any_instance_of(RAPIDS::API).to receive(:get).with("/wps", {
-        batchSize: 1,
-        startIndex: 2
-      }).and_return(
-        OpenStruct.new(
-          parsed: second_rapids_response
+        expect_any_instance_of(RAPIDS::API).to receive(:get).with("/wps", {
+          batchSize: 1,
+          startIndex: 2
+        }).and_return(
+          OpenStruct.new(
+            parsed: second_rapids_response
+          )
         )
-      )
 
-      expect_any_instance_of(RAPIDS::API).to receive(:get).with("/wps", {
-        batchSize: 1,
-        startIndex: 3
-      }).and_return(
-        OpenStruct.new(
-          parsed: third_rapids_response
+        expect_any_instance_of(RAPIDS::API).to receive(:get).with("/wps", {
+          batchSize: 1,
+          startIndex: 3
+        }).and_return(
+          OpenStruct.new(
+            parsed: third_rapids_response
+          )
         )
-      )
 
-      expect {
-        described_class.perform_now
-      }.to change(OccupationStandard, :count).to eq 3
+        expect {
+          described_class.perform_now
+        }.to change(OccupationStandard, :count).to eq 3
+      end
     end
   end
 end
