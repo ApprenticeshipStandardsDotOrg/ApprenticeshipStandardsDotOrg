@@ -10,6 +10,16 @@ FactoryBot.define do
 
     traits_for_enum :status, SourceFile.statuses
 
+    trait :doc do
+      initialize_with do
+        standards_import = create(:standards_import, :with_doc_file)
+        CreateSourceFileJob.perform_now(standards_import.files.first)
+        SourceFile.where(
+          active_storage_attachment: standards_import.files.first
+        ).first
+      end
+    end
+
     trait :docx do
       initialize_with do
         standards_import = create(:standards_import, :with_docx_file)

@@ -4,6 +4,10 @@ FactoryBot.define do
       files { [Rack::Test::UploadedFile.new(Rails.root.join("spec", "fixtures", "files", "pixel1x1.pdf"), "application/pdf")] }
     end
 
+    trait :with_doc_file do
+      files { [Rack::Test::UploadedFile.new(Rails.root.join("spec", "fixtures", "files", "document.doc"))] }
+    end
+
     trait :with_docx_file do
       files { [Rack::Test::UploadedFile.new(Rails.root.join("spec", "fixtures", "files", "document.docx"))] }
     end

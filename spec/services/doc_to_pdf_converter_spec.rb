@@ -2,15 +2,19 @@ require "rails_helper"
 
 RSpec.describe DocToPdfConverter do
   describe ".convert_all" do
-    it "converts docx files" do
+    it "converts word files" do
       pdf = create(:source_file, :pdf)
       docx = create(:source_file, :docx)
+      doc = create(:source_file, :doc)
       expect(described_class::ConvertJob)
         .not_to receive(:perform_later)
         .with(pdf)
       expect(described_class::ConvertJob)
         .to receive(:perform_later)
         .with(docx)
+      expect(described_class::ConvertJob)
+        .to receive(:perform_later)
+        .with(doc)
 
       described_class.convert_all
     end
@@ -23,16 +27,38 @@ RSpec.describe DocToPdfConverter do
         import = source_file.standards_import
         attachment = source_file.active_storage_attachment
         stub_soffice_install
-        fake_pdf_conversion(source_file, tmp_dir:) => {docx_path:, pdf_path:}
+        fake_pdf_conversion(source_file, tmp_dir:) => {word_path:, pdf_path:}
 
-        File.open(docx_path) do |docx|
-          allow_any_instance_of(ActiveStorage::Attachment).to receive(:open).and_yield(docx)
+        File.open(word_path) do |word|
+          allow_any_instance_of(ActiveStorage::Attachment).to receive(:open).and_yield(word)
 
           described_class.convert(source_file, tmp_dir:)
 
           expect(import.reload.files.size).to eql(2)
           most_recent_file = import.files.order(:created_at).last
           pdf_filename = attachment.filename.to_s.gsub(".docx", ".pdf")
+          expect(most_recent_file.filename.to_s).to eql(pdf_filename)
+          expect(source_file.reload.link_to_pdf_filename).to eql(pdf_filename)
+        end
+      end
+    end
+
+    it "converts a doc to a pdf" do
+      with_tmp_dir do |tmp_dir|
+        source_file = create(:source_file, :doc)
+        import = source_file.standards_import
+        attachment = source_file.active_storage_attachment
+        stub_soffice_install
+        fake_pdf_conversion(source_file, tmp_dir:) => {word_path:, pdf_path:}
+
+        File.open(word_path) do |word|
+          allow_any_instance_of(ActiveStorage::Attachment).to receive(:open).and_yield(word)
+
+          described_class.convert(source_file, tmp_dir:)
+
+          expect(import.reload.files.size).to eql(2)
+          most_recent_file = import.files.order(:created_at).last
+          pdf_filename = attachment.filename.to_s.gsub(".doc", ".pdf")
           expect(most_recent_file.filename.to_s).to eql(pdf_filename)
           expect(source_file.reload.link_to_pdf_filename).to eql(pdf_filename)
         end
@@ -60,7 +86,7 @@ RSpec.describe DocToPdfConverter do
     it "raises if conversion failed" do
       with_tmp_dir do |dir|
         source_file = create(:source_file, :docx)
-        allow(DocxFile).to receive(:has_embedded_files?).and_return(false)
+        allow(WordFile).to receive(:has_embedded_files?).and_return(false)
         stub_soffice_install
         stub_soffice_conversion(successful: false)
 
@@ -106,15 +132,15 @@ RSpec.describe DocToPdfConverter do
 
     subdir = "#{tmp_dir}/#{source_file.id}"
     FileUtils.mkdir_p(subdir)
-    docx_path = "#{subdir}/hello.docx"
+    word_path = "#{subdir}/hello.docx"
     attachment = source_file.active_storage_attachment
-    File.open(docx_path, "wb") { _1.write(attachment.download) }
+    File.open(word_path, "wb") { _1.write(attachment.download) }
     pdf_path = "#{subdir}/hello.pdf"
     File.write(pdf_path, "hello")
 
     {
       subdir:,
-      docx_path:,
+      word_path:,
       pdf_path:
     }
   end

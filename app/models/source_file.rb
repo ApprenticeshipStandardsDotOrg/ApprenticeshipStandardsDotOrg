@@ -23,10 +23,10 @@ class SourceFile < ApplicationRecord
     )
   end
 
-  def self.docx_attachment
+  def self.word_attachment
     joins(active_storage_attachment: :blob).where(
       active_storage_attachment: {
-        active_storage_blobs: {content_type: DocxFile.content_type}
+        active_storage_blobs: {content_type: WordFile.content_types}
       }
     )
   end
@@ -93,8 +93,8 @@ class SourceFile < ApplicationRecord
     active_storage_attachment.blob.content_type == PDF_CONTENT_TYPE
   end
 
-  def docx?
-    active_storage_attachment.blob.content_type == DocxFile.content_type
+  def word?
+    WordFile.content_types.include?(active_storage_attachment.blob.content_type)
   end
 
   def redacted_source_file_url
@@ -108,7 +108,7 @@ class SourceFile < ApplicationRecord
   private
 
   def convert_doc_file_to_pdf
-    if docx?
+    if word?
       DocToPdfConverterJob.perform_later(self)
     end
   end

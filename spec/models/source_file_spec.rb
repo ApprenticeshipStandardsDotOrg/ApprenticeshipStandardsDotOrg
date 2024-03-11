@@ -58,14 +58,13 @@ RSpec.describe SourceFile, type: :model do
     end
   end
 
-  describe ".docx_attachment" do
-    it "includes only source files with docx attachments" do
+  describe ".word_attachment" do
+    it "includes only source files with doc or docx attachments" do
       _pdf = create(:source_file, :pdf)
+      doc = create(:source_file, :doc)
       docx = create(:source_file, :docx)
 
-      result = described_class.docx_attachment.pluck(:id)
-
-      expect(result).to eql([docx.id])
+      expect(described_class.word_attachment).to contain_exactly(doc, docx)
     end
   end
 
@@ -135,7 +134,13 @@ RSpec.describe SourceFile, type: :model do
       create(:source_file, :docx)
     end
 
-    it "does not call DocToPdfConverter job on create if not docx file" do
+    it "calls DocToPdfConverter job on create if doc file" do
+      expect(DocToPdfConverterJob).to receive(:perform_later)
+
+      create(:source_file, :doc)
+    end
+
+    it "does not call DocToPdfConverter job on create if not word file" do
       expect(DocToPdfConverterJob).to_not receive(:perform_later)
 
       create(:source_file, :pdf)
@@ -242,15 +247,23 @@ RSpec.describe SourceFile, type: :model do
     end
   end
 
-  describe "#docx?" do
+  describe "#word?" do
     it "is true if the content_type is docx" do
       source_file = create(:source_file, :docx)
-      expect(source_file.docx?).to be(true)
+
+      expect(source_file).to be_word
     end
 
-    it "is false if the content_type is not docx" do
+    it "is true if the content_type is doc" do
+      source_file = create(:source_file, :doc)
+
+      expect(source_file).to be_word
+    end
+
+    it "is false if the content_type is not doc or docx" do
       source_file = create(:source_file, :pdf)
-      expect(source_file.docx?).to be(false)
+
+      expect(source_file).to_not be_word
     end
   end
 
