@@ -265,6 +265,12 @@ RSpec.describe OccupationStandard, type: :model do
 
       expect(occupation_standard.source_file).to eq source_file
     end
+
+    it "returns nil if standard does not have an associated data import" do
+      occupation_standard = build(:occupation_standard)
+
+      expect(occupation_standard.source_file).to be_nil
+    end
   end
 
   describe "#compentencies_count" do
@@ -569,6 +575,12 @@ RSpec.describe OccupationStandard, type: :model do
       allow_any_instance_of(StandardsImport).to receive(:public_document).and_return(true)
 
       expect(occupation_standard.public_document?).to be true
+    end
+
+    it "returns false if no source_file or standard_import is associated to the occupation standard" do
+      occupation_standard = build(:occupation_standard)
+
+      expect(occupation_standard.public_document?).to be false
     end
   end
 
