@@ -10,7 +10,7 @@ RSpec.describe RAPIDS::WorkProcess, type: :model do
         maxHours: 200
       )
 
-      work_process = RAPIDS::WorkProcess.initialize_from_response(work_process_response)
+      work_process = described_class.initialize_from_response(work_process_response)
 
       expect(work_process.title).to eq "Sample work process"
       expect(work_process.minimum_hours).to eq 20
