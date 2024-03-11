@@ -17,10 +17,26 @@ FactoryBot.define do
       with_detailed_work_activities { 0 }
     end
 
-    after(:create) do |work_process, context|
+    after(:create) do |occupation_standard, context|
       if context.with_detailed_work_activities.positive?
-        work_process["dwas"] = create_list(:rapids_api_detailed_work_activity,
-          context.with_detailed_work_activities)
+        occupation_standard["dwas"] =
+          case occupation_standard["occType"]
+          when "Hybrid"
+            create_list(
+              :rapids_api_detailed_work_activity_for_hybrid,
+              context.with_detailed_work_activities
+            )
+          when "Time-Based"
+            create_list(
+              :rapids_api_detailed_work_activity_for_time_based,
+              context.with_detailed_work_activities
+            )
+          when "Competency-Based"
+            create_list(
+              :rapids_api_detailed_work_activity_for_competency_based,
+              context.with_detailed_work_activities
+            )
+          end
       end
     end
 
