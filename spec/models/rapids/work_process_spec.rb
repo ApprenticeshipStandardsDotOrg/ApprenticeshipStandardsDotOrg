@@ -4,7 +4,7 @@ RSpec.describe RAPIDS::WorkProcess, type: :model do
   describe ".initialize_from_response" do
     it "returns work process with correct data" do
       work_process_response = create(
-        :rapids_api_work_process,
+        :rapids_api_detailed_work_activity,
         title: "Sample work process",
         minHours: 20,
         maxHours: 200
