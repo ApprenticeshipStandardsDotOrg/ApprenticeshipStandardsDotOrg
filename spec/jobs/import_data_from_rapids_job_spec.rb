@@ -30,7 +30,6 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
           change(WorkProcess, :count).by(3)
 
         occupation_standard = OccupationStandard.last
-        work_process = occupation_standard.work_processes.last
 
         expect(occupation_standard.ojt_type).to eq "competency"
       end
