@@ -15,7 +15,7 @@ class SourceFile < ApplicationRecord
     includes(active_storage_attachment: :blob).where(
       active_storage_attachment: {
         active_storage_blobs: {
-          content_type: PDF_CONTENT_TYPE
+          content_type: Mime::Type.lookup_by_extension("pdf").to_s
         }
       }
     )
