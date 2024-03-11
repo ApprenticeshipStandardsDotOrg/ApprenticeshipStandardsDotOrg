@@ -32,6 +32,7 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
         occupation_standard = OccupationStandard.last
 
         expect(occupation_standard.ojt_type).to eq "competency"
+        expect(occupation_standard.work_processes.count).to eq 3
       end
     end
 
@@ -65,6 +66,7 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
         occupation_standard = OccupationStandard.last
 
         expect(occupation_standard.ojt_type).to eq "time"
+        expect(occupation_standard.work_processes.count).to eq 2
       end
     end
 
@@ -98,6 +100,7 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
         occupation_standard = OccupationStandard.last
 
         expect(occupation_standard.ojt_type).to eq "hybrid"
+        expect(occupation_standard.work_processes.count).to eq 4
       end
     end
 
