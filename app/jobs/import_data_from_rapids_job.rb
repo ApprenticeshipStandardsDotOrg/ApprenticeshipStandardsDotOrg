@@ -8,6 +8,7 @@ class ImportDataFromRAPIDSJob < ApplicationJob
     start_index = 1
 
     loop do
+      Rails.logger.info "Processing batchSize: #{PER_PAGE_SIZE}, startIndex: #{start_index}"
       response = service.work_processes(
         batchSize: PER_PAGE_SIZE,
         startIndex: start_index
