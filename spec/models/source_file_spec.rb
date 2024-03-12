@@ -238,12 +238,28 @@ RSpec.describe SourceFile, type: :model do
   describe "#pdf?" do
     it "returns true when attachment is a pdf file" do
       source_file = create(:source_file, :pdf)
+
       expect(source_file.pdf?).to be(true)
     end
 
     it "returns false when attachment is docx" do
       source_file = create(:source_file, :docx)
+
       expect(source_file.pdf?).to be(false)
+    end
+  end
+
+  describe "#docx?" do
+    it "returns true when attachment is a docx file" do
+      source_file = create(:source_file, :docx)
+
+      expect(source_file.docx?).to be(true)
+    end
+
+    it "returns false when attachment is not docx" do
+      source_file = create(:source_file, :doc)
+
+      expect(source_file.docx?).to be(false)
     end
   end
 

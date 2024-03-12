@@ -11,13 +11,11 @@ class SourceFile < ApplicationRecord
 
   after_create_commit :convert_doc_file_to_pdf
 
-  PDF_CONTENT_TYPE = "application/pdf"
-
   def self.pdf_attachment
     includes(active_storage_attachment: :blob).where(
       active_storage_attachment: {
         active_storage_blobs: {
-          content_type: PDF_CONTENT_TYPE
+          content_type: Mime::Type.lookup_by_extension("pdf").to_s
         }
       }
     )
@@ -90,7 +88,11 @@ class SourceFile < ApplicationRecord
   end
 
   def pdf?
-    active_storage_attachment.blob.content_type == PDF_CONTENT_TYPE
+    active_storage_attachment.blob.content_type == Mime::Type.lookup_by_extension("pdf").to_s
+  end
+
+  def docx?
+    active_storage_attachment.blob.content_type == Mime::Type.lookup_by_extension("docx").to_s
   end
 
   def word?

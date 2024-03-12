@@ -5,7 +5,7 @@ RSpec.describe Scraper::ApprenticeshipBulletinsJob, type: :job do
     context "when files have not been downloaded previously" do
       it "downloads any file to a standards import record and calls the file attachment extraction job only for word files" do
         stub_responses
-        expect(Scraper::ExportFileAttachmentsJob).to receive(:perform_later).with(kind_of(SourceFile)).exactly(5).times
+        expect(Scraper::ExportFileAttachmentsJob).to receive(:perform_later).with(kind_of(SourceFile)).exactly(4).times
         perform_enqueued_jobs do
           allow(DocToPdfConverter).to receive(:convert).and_return(nil)
           expect {
@@ -33,7 +33,7 @@ RSpec.describe Scraper::ApprenticeshipBulletinsJob, type: :job do
         name: "https://www.apprenticeship.gov/sites/default/files/bulletins/Bulletin_2016-22.pdf",
         organization: "Wildland Fire Fighter Specialist")
       stub_responses
-      expect(Scraper::ExportFileAttachmentsJob).to receive(:perform_later).with(kind_of(SourceFile)).exactly(5).times
+      expect(Scraper::ExportFileAttachmentsJob).to receive(:perform_later).with(kind_of(SourceFile)).exactly(4).times
       perform_enqueued_jobs do
         allow(DocToPdfConverter).to receive(:convert).and_return(nil)
         expect {
