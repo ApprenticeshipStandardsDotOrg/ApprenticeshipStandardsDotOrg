@@ -88,15 +88,15 @@ class SourceFile < ApplicationRecord
   end
 
   def pdf?
-    active_storage_attachment.blob.content_type == Mime::Type.lookup_by_extension("pdf").to_s
+    active_storage_attachment.content_type == Mime::Type.lookup_by_extension("pdf").to_s
   end
 
   def docx?
-    active_storage_attachment.blob.content_type == Mime::Type.lookup_by_extension("docx").to_s
+    active_storage_attachment.content_type == Mime::Type.lookup_by_extension("docx").to_s
   end
 
   def word?
-    WordFile.content_types.include?(active_storage_attachment.blob.content_type)
+    WordFile.content_types.include?(active_storage_attachment.content_type)
   end
 
   def redacted_source_file_url
