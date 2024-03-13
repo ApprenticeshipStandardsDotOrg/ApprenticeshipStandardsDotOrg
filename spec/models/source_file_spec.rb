@@ -314,7 +314,7 @@ RSpec.describe SourceFile, type: :model do
       expect(source_file.can_be_converted_to_pdf?).to be_truthy
     end
 
-    it "is true is doc if doc file and not bulletin" do
+    it "is true if doc file and not bulletin" do
       source_file = build(:source_file, :doc)
 
       expect(source_file.can_be_converted_to_pdf?).to be_truthy
