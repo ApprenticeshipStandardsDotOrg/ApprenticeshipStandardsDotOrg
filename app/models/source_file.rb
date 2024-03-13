@@ -17,12 +17,13 @@ class SourceFile < ApplicationRecord
     Mime::Type.lookup_by_extension("docx").to_s,
     Mime::Type.lookup_by_extension("doc").to_s
   ]
+  PDF_CONTENT_TYPE = Mime::Type.lookup_by_extension("pdf").to_s
 
   def self.pdf_attachment
     includes(active_storage_attachment: :blob).where(
       active_storage_attachment: {
         active_storage_blobs: {
-          content_type: Mime::Type.lookup_by_extension("pdf").to_s
+          content_type: PDF_CONTENT_TYPE
         }
       }
     )
