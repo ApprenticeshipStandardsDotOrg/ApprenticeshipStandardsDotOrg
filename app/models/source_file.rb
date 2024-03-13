@@ -115,10 +115,14 @@ class SourceFile < ApplicationRecord
     redacted_source_file.attached? ? redacted_source_file : active_storage_attachment
   end
 
+  def can_be_converted_to_pdf?
+    word? && !bulletin?
+  end
+
   private
 
   def convert_doc_file_to_pdf
-    if word? && !bulletin?
+    if can_be_converted_to_pdf?
       DocToPdfConverterJob.perform_later(self)
     end
   end

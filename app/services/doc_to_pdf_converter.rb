@@ -18,7 +18,7 @@ class DocToPdfConverter
   end
 
   def convert
-    return if source_file.bulletin? || !source_file.word?
+    return unless source_file.can_be_converted_to_pdf?
 
     raise DependencyNotFoundError unless Kernel.system("soffice --version")
     dir = ensure_dir

@@ -128,22 +128,18 @@ RSpec.describe SourceFile, type: :model do
   end
 
   describe "#convert_doc_file_to_pdf" do
-    it "calls DocToPdfConverter job on create if docx file and not bulletin" do
+    it "calls DocToPdfConverter job if can be converted" do
+      allow_any_instance_of(SourceFile).to receive(:can_be_converted_to_pdf?).and_return(true)
       expect(DocToPdfConverterJob).to receive(:perform_later)
 
       create(:source_file, :docx)
     end
 
-    it "calls DocToPdfConverter job on create if doc file" do
-      expect(DocToPdfConverterJob).to receive(:perform_later)
-
-      create(:source_file, :doc)
-    end
-
-    it "does not call DocToPdfConverter job on create if not word file" do
+    it "does not call DocToPdfConverter job on create if does not have conditions to convert" do
+      allow_any_instance_of(SourceFile).to receive(:can_be_converted_to_pdf?).and_return(false)
       expect(DocToPdfConverterJob).to_not receive(:perform_later)
 
-      create(:source_file, :pdf, :bulletin)
+      create(:source_file, :pdf)
     end
 
     it "does not call DocToPdfConverter job if source file is persisted" do
@@ -152,12 +148,6 @@ RSpec.describe SourceFile, type: :model do
       expect(DocToPdfConverterJob).to_not receive(:perform_later)
 
       source_file.courtesy_notification_completed!
-    end
-
-    it "does not call DocToPdfConverter job on create if word file but is marked as a bulletin" do
-      expect(DocToPdfConverterJob).to_not receive(:perform_later)
-
-      create(:source_file, :docx, :bulletin)
     end
   end
 
@@ -314,6 +304,32 @@ RSpec.describe SourceFile, type: :model do
       source_file = create(:source_file, redacted_source_file: nil)
 
       expect(source_file.file_for_redaction).to eq source_file.active_storage_attachment
+    end
+  end
+
+  describe "#can_be_converted_to_pdf?" do
+    it "is true if docx file and not bulletin" do
+      source_file = build(:source_file, :docx)
+
+      expect(source_file.can_be_converted_to_pdf?).to be_truthy
+    end
+
+    it "is true is doc if doc file and not bulletin" do
+      source_file = build(:source_file, :doc)
+
+      expect(source_file.can_be_converted_to_pdf?).to be_truthy
+    end
+
+    it "is false if not word file" do
+      source_file = build(:source_file, :pdf)
+
+      expect(source_file.can_be_converted_to_pdf?).to be_falsey
+    end
+
+    it "is false if word file but is marked as a bulletin" do
+      source_file = build(:source_file, :docx, :bulletin)
+
+      expect(source_file.can_be_converted_to_pdf?).to be_falsey
     end
   end
 end

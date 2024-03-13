@@ -65,9 +65,10 @@ RSpec.describe DocToPdfConverter do
       end
     end
 
-    it "will do nothing if non-docx file" do
+    it "will do nothing if file cannot be converted" do
       with_tmp_dir do |tmp_dir|
-        source_file = create(:source_file, :pdf)
+        source_file = create(:source_file)
+        allow(source_file).to receive(:can_be_converted_to_pdf?).and_return(false)
         expect_any_instance_of(ActiveStorage::Attachment).to_not receive(:open)
 
         described_class.convert(source_file, tmp_dir:)
@@ -92,17 +93,6 @@ RSpec.describe DocToPdfConverter do
         expect {
           described_class.convert(source_file, tmp_dir: dir)
         }.to raise_exception(described_class::FileConversionError)
-      end
-    end
-
-    it "does not attempt to convert a docx bulletin file" do
-      with_tmp_dir do |dir|
-        source_file = create(:source_file, :bulletin)
-        stub_soffice_install
-
-        described_class.convert(source_file, tmp_dir: dir)
-
-        expect(source_file.reload.redacted_source_file).not_to be_attached
       end
     end
   end
