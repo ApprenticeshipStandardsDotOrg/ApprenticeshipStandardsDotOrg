@@ -86,7 +86,6 @@ RSpec.describe DocToPdfConverter do
     it "raises if conversion failed" do
       with_tmp_dir do |dir|
         source_file = create(:source_file, :docx)
-        allow(WordFile).to receive(:has_embedded_files?).and_return(false)
         stub_soffice_install
         stub_soffice_conversion(successful: false)
 

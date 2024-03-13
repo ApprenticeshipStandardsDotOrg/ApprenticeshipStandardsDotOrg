@@ -13,6 +13,11 @@ class SourceFile < ApplicationRecord
 
   after_create_commit :convert_doc_file_to_pdf
 
+  WORD_FILE_CONTENT_TYPES = [
+    Mime::Type.lookup_by_extension("docx").to_s,
+    Mime::Type.lookup_by_extension("doc").to_s
+  ]
+
   def self.pdf_attachment
     includes(active_storage_attachment: :blob).where(
       active_storage_attachment: {
@@ -26,7 +31,7 @@ class SourceFile < ApplicationRecord
   def self.word_attachment
     joins(active_storage_attachment: :blob).where(
       active_storage_attachment: {
-        active_storage_blobs: {content_type: WordFile.content_types}
+        active_storage_blobs: {content_type: WORD_FILE_CONTENT_TYPES}
       }
     )
   end
@@ -98,7 +103,7 @@ class SourceFile < ApplicationRecord
   end
 
   def word?
-    WordFile.content_types.include?(active_storage_attachment.content_type)
+    WORD_FILE_CONTENT_TYPES.include?(active_storage_attachment.content_type)
   end
 
   def redacted_source_file_url
