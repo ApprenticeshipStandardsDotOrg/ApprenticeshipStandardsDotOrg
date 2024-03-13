@@ -24,7 +24,6 @@ class DocToPdfConverter
     dir = ensure_dir
 
     attachment.open do |file|
-
       command = "soffice --headless --convert-to pdf #{file.path} --outdir #{dir}"
       raise FileConversionError unless Kernel.system(command)
 
