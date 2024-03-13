@@ -63,5 +63,15 @@ FactoryBot.define do
         )
       }
     end
+
+    trait :bulletin do
+      initialize_with do
+        standards_import = create(:standards_import, :with_docx_file, bulletin: true)
+        CreateSourceFileJob.perform_now(standards_import.files.first)
+        SourceFile.where(
+          active_storage_attachment: standards_import.files.first
+        ).first
+      end
+    end
   end
 end

@@ -110,7 +110,7 @@ class SourceFile < ApplicationRecord
   private
 
   def convert_doc_file_to_pdf
-    if word?
+    if word? && !standards_import.bulletin?
       DocToPdfConverterJob.perform_later(self)
     end
   end

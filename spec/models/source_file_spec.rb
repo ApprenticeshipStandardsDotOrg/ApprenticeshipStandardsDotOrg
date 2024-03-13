@@ -128,7 +128,7 @@ RSpec.describe SourceFile, type: :model do
   end
 
   describe "#convert_doc_file_to_pdf" do
-    it "calls DocToPdfConverter job on create if docx file" do
+    it "calls DocToPdfConverter job on create if docx file and not bulletin" do
       expect(DocToPdfConverterJob).to receive(:perform_later)
 
       create(:source_file, :docx)
@@ -143,7 +143,7 @@ RSpec.describe SourceFile, type: :model do
     it "does not call DocToPdfConverter job on create if not word file" do
       expect(DocToPdfConverterJob).to_not receive(:perform_later)
 
-      create(:source_file, :pdf)
+      create(:source_file, :pdf, :bulletin)
     end
 
     it "does not call DocToPdfConverter job if source file is persisted" do
@@ -152,6 +152,12 @@ RSpec.describe SourceFile, type: :model do
       expect(DocToPdfConverterJob).to_not receive(:perform_later)
 
       source_file.courtesy_notification_completed!
+    end
+
+    it "does not call DocToPdfConverter job on create if word file but is marked as a bulletin" do
+      expect(DocToPdfConverterJob).to_not receive(:perform_later)
+
+      create(:source_file, :docx, :bulletin)
     end
   end
 
