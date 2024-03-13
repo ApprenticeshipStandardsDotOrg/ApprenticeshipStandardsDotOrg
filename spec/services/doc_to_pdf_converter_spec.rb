@@ -96,9 +96,9 @@ RSpec.describe DocToPdfConverter do
       end
     end
 
-    it "does not attempt to convert a docx with attachments" do
+    it "does not attempt to convert a docx bulletin file" do
       with_tmp_dir do |dir|
-        source_file = create(:source_file, :docx_with_attachments)
+        source_file = create(:source_file, :bulletin)
         stub_soffice_install
 
         described_class.convert(source_file, tmp_dir: dir)
