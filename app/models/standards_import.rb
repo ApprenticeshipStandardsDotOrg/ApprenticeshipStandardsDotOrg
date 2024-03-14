@@ -20,7 +20,7 @@ class StandardsImport < ApplicationRecord
   end
 
   def source_files
-    files.map(&:source_file)
+    files.includes(source_file: {active_storage_attachment: :blob}).map(&:source_file)
   end
 
   def has_converted_source_file_in_need_of_notification?
