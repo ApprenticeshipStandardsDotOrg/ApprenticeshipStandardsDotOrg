@@ -20,14 +20,12 @@ namespace :scraper do
     # that existed before we added that flag.
     StandardsImport.where(bulletin: false).where("notes LIKE ?", "%BulletinsJob%").find_each do |standards_import|
       standards_import.source_files.each do |source_file|
-        begin
-          if source_file.docx?
-            Scraper::ExportFileAttachmentsJob.perform_now(source_file)
-          end
-          standards_import.update!(bulletin: true)
-        rescue => e
-          Rails.error.report(e)
+        if source_file.docx?
+          Scraper::ExportFileAttachmentsJob.perform_now(source_file)
         end
+        standards_import.update!(bulletin: true)
+      rescue => e
+        Rails.error.report(e)
       end
     end
   end
