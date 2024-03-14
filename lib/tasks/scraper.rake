@@ -13,4 +13,22 @@ namespace :scraper do
       puts "Use FORCE=true to force this task"
     end
   end
+
+  desc "one-off task to extract attachments from bulletins"
+  task back_extract_bulletins: :environment do
+    # Checking for bulletin: false since we want to back extract Bulletins
+    # that existed before we added that flag.
+    StandardsImport.where(bulletin: false).where("notes LIKE ?", "%BulletinsJob%").find_each do |standards_import|
+      standards_import.source_files.each do |source_file|
+        if source_file.docx?
+          begin
+            Scraper::ExportFileAttachmentsJob.perform_now(source_file)
+            standards_import.update!(bulletin: true)
+          rescue => e
+            Rails.error.report(e)
+          end
+        end
+      end
+    end
+  end
 end
