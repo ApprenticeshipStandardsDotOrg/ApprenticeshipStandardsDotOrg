@@ -3,6 +3,7 @@ require "administrate/base_dashboard"
 class StandardsImportDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     id: Field::String,
+    bulletin: Field::Boolean,
     email: Field::String,
     files: Field::ActiveStorage,
     name: Field::String,
@@ -14,10 +15,10 @@ class StandardsImportDashboard < Administrate::BaseDashboard
   }.freeze
 
   COLLECTION_ATTRIBUTES = %i[
+    created_at
     name
     organization
-    courtesy_notification
-    created_at
+    bulletin
   ].freeze
 
   SHOW_PAGE_ATTRIBUTES = %i[
@@ -27,6 +28,7 @@ class StandardsImportDashboard < Administrate::BaseDashboard
     name
     notes
     organization
+    bulletin
     courtesy_notification
     created_at
     updated_at
@@ -37,6 +39,7 @@ class StandardsImportDashboard < Administrate::BaseDashboard
     email
     organization
     notes
+    bulletin
     courtesy_notification
   ].freeze
 
