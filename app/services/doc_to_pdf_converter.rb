@@ -18,13 +18,12 @@ class DocToPdfConverter
   end
 
   def convert
-    return unless source_file.word?
+    return unless source_file.can_be_converted_to_pdf?
+
     raise DependencyNotFoundError unless Kernel.system("soffice --version")
     dir = ensure_dir
 
     attachment.open do |file|
-      next if source_file.docx? && WordFile.has_embedded_files?(file)
-
       command = "soffice --headless --convert-to pdf #{file.path} --outdir #{dir}"
       raise FileConversionError unless Kernel.system(command)
 

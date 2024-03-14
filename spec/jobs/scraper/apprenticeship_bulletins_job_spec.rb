@@ -20,6 +20,7 @@ RSpec.describe Scraper::ApprenticeshipBulletinsJob, type: :job do
         expect(standard_import.notes).to eq "From Scraper::ApprenticeshipBulletinsJob"
         expect(standard_import.public_document).to be true
         expect(standard_import.source_url).to eq Scraper::ApprenticeshipBulletinsJob::BULLETIN_LIST_URL
+        expect(standard_import).to be_bulletin
 
         source_file = SourceFile.last
         expect(source_file.metadata).to eq({"date" => "03/11/16"})

@@ -9,13 +9,21 @@ class SourceFile < ApplicationRecord
   enum :status, [:pending, :completed, :needs_support, :needs_human_review, :archived]
   enum courtesy_notification: [:not_required, :pending, :completed], _prefix: true
 
+  delegate :bulletin?, to: :standards_import
+
   after_create_commit :convert_doc_file_to_pdf
+
+  WORD_FILE_CONTENT_TYPES = [
+    Mime::Type.lookup_by_extension("docx").to_s,
+    Mime::Type.lookup_by_extension("doc").to_s
+  ]
+  PDF_CONTENT_TYPE = Mime::Type.lookup_by_extension("pdf").to_s
 
   def self.pdf_attachment
     includes(active_storage_attachment: :blob).where(
       active_storage_attachment: {
         active_storage_blobs: {
-          content_type: Mime::Type.lookup_by_extension("pdf").to_s
+          content_type: PDF_CONTENT_TYPE
         }
       }
     )
@@ -24,7 +32,7 @@ class SourceFile < ApplicationRecord
   def self.word_attachment
     joins(active_storage_attachment: :blob).where(
       active_storage_attachment: {
-        active_storage_blobs: {content_type: WordFile.content_types}
+        active_storage_blobs: {content_type: WORD_FILE_CONTENT_TYPES}
       }
     )
   end
@@ -96,7 +104,7 @@ class SourceFile < ApplicationRecord
   end
 
   def word?
-    WordFile.content_types.include?(active_storage_attachment.content_type)
+    WORD_FILE_CONTENT_TYPES.include?(active_storage_attachment.content_type)
   end
 
   def redacted_source_file_url
@@ -107,10 +115,14 @@ class SourceFile < ApplicationRecord
     redacted_source_file.attached? ? redacted_source_file : active_storage_attachment
   end
 
+  def can_be_converted_to_pdf?
+    word? && !bulletin?
+  end
+
   private
 
   def convert_doc_file_to_pdf
-    if word?
+    if can_be_converted_to_pdf?
       DocToPdfConverterJob.perform_later(self)
     end
   end
