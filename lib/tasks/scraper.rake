@@ -23,6 +23,7 @@ namespace :scraper do
         if source_file.docx?
           Scraper::ExportFileAttachmentsJob.perform_now(source_file)
         end
+        source_file.update!(assignee: nil)
         standards_import.update!(bulletin: true)
       rescue => e
         Rails.error.report(e)
