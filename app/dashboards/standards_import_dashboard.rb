@@ -5,10 +5,10 @@ class StandardsImportDashboard < Administrate::BaseDashboard
     id: Field::String,
     bulletin: Field::Boolean,
     email: Field::String,
-    files: Field::ActiveStorage,
     name: Field::String,
     notes: Field::Text,
     organization: Field::String,
+    source_files: HasManySourceFilesField,
     courtesy_notification: EnumField.with_options(searchable: false),
     created_at: Field::DateTime,
     updated_at: Field::DateTime
@@ -24,7 +24,7 @@ class StandardsImportDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = %i[
     id
     email
-    files
+    source_files
     name
     notes
     organization
