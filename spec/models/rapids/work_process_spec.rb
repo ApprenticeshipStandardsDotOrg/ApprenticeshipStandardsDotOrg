@@ -20,7 +20,7 @@ RSpec.describe RAPIDS::WorkProcess, type: :model do
     it "returns work process with competencies if available" do
       work_process_response = create(
         :rapids_api_detailed_work_activity,
-        tasks: ["Competency #1; Competency #2; Competency #3"]
+        tasks: ["Competency #1; Competency #2;Competency #3"]
       )
 
       work_process = described_class.initialize_from_response(work_process_response)
