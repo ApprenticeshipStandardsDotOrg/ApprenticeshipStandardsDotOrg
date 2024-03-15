@@ -25,7 +25,7 @@ module RAPIDS
       end
 
       def process_competencies(tasks)
-        tasks_titles = tasks.first.split("; ")
+        tasks_titles = tasks.first.split(/\s?;\s?/)
         tasks_titles.map do |task_title|
           Competency.initialize_from_response({
             "title" => task_title
