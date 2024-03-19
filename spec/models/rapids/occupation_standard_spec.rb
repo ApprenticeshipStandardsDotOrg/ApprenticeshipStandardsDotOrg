@@ -123,5 +123,95 @@ RSpec.describe RAPIDS::OccupationStandard, type: :model do
         end
       end
     end
+
+    context "rapids_code" do
+      it "sanitizes rapids code" do
+        occupation_standard_response = create(
+          :rapids_api_occupation_standard,
+          rapidsCode: "0870CB"
+        )
+
+        occupation_standard = RAPIDS::OccupationStandard.initialize_from_response(occupation_standard_response)
+
+        expect(occupation_standard.rapids_code).to eq "0870"
+      end
+    end
+
+    context "occupation" do
+      it "sets occupation using rapids code if present" do
+        occupation = create(:occupation, rapids_code: "0221")
+
+        occupation_standard_response = create(
+          :rapids_api_occupation_standard,
+          rapidsCode: "0221"
+        )
+
+        occupation_standard = RAPIDS::OccupationStandard.initialize_from_response(occupation_standard_response)
+
+        expect(occupation_standard.occupation).to eq occupation
+      end
+
+      it "sets occupation using sanitized rapids code if present" do
+        occupation = create(:occupation, rapids_code: "0221")
+
+        occupation_standard_response = create(
+          :rapids_api_occupation_standard,
+          rapidsCode: "0221CB"
+        )
+
+        occupation_standard = RAPIDS::OccupationStandard.initialize_from_response(occupation_standard_response)
+
+        expect(occupation_standard.occupation).to eq occupation
+      end
+
+      it "sets occupation as nil if rapids is not present" do
+        occupation_standard_response = create(
+          :rapids_api_occupation_standard,
+          rapidsCode: ""
+        )
+
+        occupation_standard = RAPIDS::OccupationStandard.initialize_from_response(occupation_standard_response)
+
+        expect(occupation_standard.occupation).to be_nil
+      end
+
+      it "sets occupation as nil if occupation does not exist" do
+        occupation_standard_response = create(
+          :rapids_api_occupation_standard,
+          rapidsCode: "0221CB"
+        )
+
+        occupation_standard = RAPIDS::OccupationStandard.initialize_from_response(occupation_standard_response)
+
+        expect(occupation_standard.occupation).to be_nil
+      end
+
+      context "when occupation by rapids code is not found" do
+        it "sets occupation using onet code" do
+          onet = create(:onet, code: "47-2121.00")
+          occupation = create(:occupation, rapids_code: nil, onet: onet)
+
+          occupation_standard_response = create(
+            :rapids_api_occupation_standard,
+            onetSocCode: onet.code
+          )
+
+          occupation_standard = RAPIDS::OccupationStandard.initialize_from_response(occupation_standard_response)
+
+          expect(occupation_standard.occupation).to eq occupation
+        end
+
+        it "sets occupation as nil if onet not present" do
+          occupation_standard_response = create(
+            :rapids_api_occupation_standard,
+            onetSocCode: "47-2121.00"
+          )
+
+          occupation_standard = RAPIDS::OccupationStandard.initialize_from_response(occupation_standard_response)
+
+          expect(occupation_standard.occupation).to be_nil
+        end
+      end
+    end
   end
 end

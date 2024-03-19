@@ -6,7 +6,7 @@ FactoryBot.define do
     sponsorNumber { "2024-MI-136422" }
     occupationTitle { "ALARM  OPERATOR (Gov Serv) (0870CBV1)" }
     onetSocCode { "43-5031.00" }
-    rapidsCode { "0870CB" }
+    rapidsCode { "0870" }
     jobDesc { "Operate telephone, radio, or other communication systems to receive and communicate requests for emergency assistance at 9-1-1." }
     jobZone { "Job Zone Two: Some Preparation Needed." }
     isWPSUploaded { false }
