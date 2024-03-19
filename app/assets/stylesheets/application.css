@@ -87,12 +87,12 @@
   font-weight: bold;
 }
 
-.pagy-nav.pagination a {
+.pagy-nav.pagination a[href] {
   text-decoration: none;
   color: #066B6E;
 }
 
-.pagy-nav.pagination a:hover {
+.pagy-nav.pagination a[href]:hover {
   color: #018083;
 }
 
