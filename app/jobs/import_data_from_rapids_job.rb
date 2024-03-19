@@ -28,7 +28,8 @@ class ImportDataFromRAPIDSJob < ApplicationJob
       occupation_standard = process_occupation_standard(occupation_standard_response)
 
       occupation_standard.work_processes = process_work_processes(
-        occupation_standard_response["dwas"]
+        occupation_standard_response["dwas"],
+        occupation_standard
       )
 
       occupation_standard
@@ -41,11 +42,12 @@ class ImportDataFromRAPIDSJob < ApplicationJob
     )
   end
 
-  def process_work_processes(work_processes_response)
+  def process_work_processes(work_processes_response, occupation_standard)
     work_processes_response.filter_map do |work_process_response|
       work_process = RAPIDS::WorkProcess.initialize_from_response(
         work_process_response
       )
+      work_process.occupation_standard = occupation_standard
       work_process if work_process.valid?
     end
   end
