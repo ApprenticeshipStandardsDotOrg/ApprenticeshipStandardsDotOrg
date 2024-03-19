@@ -8,6 +8,7 @@ class StandardsImportDashboard < Administrate::BaseDashboard
     name: Field::String,
     notes: Field::Text,
     organization: Field::String,
+    files: Field::ActiveStorage,
     source_files: HasManySourceFilesField,
     courtesy_notification: EnumField.with_options(searchable: false),
     created_at: Field::DateTime,
@@ -39,6 +40,7 @@ class StandardsImportDashboard < Administrate::BaseDashboard
     email
     organization
     notes
+    files
     bulletin
     courtesy_notification
   ].freeze
