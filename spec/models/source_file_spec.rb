@@ -317,13 +317,13 @@ RSpec.describe SourceFile, type: :model do
   end
 
   describe "#can_be_converted_to_pdf?" do
-    it "is true if docx file and not bulletin" do
+    it "is true if docx file, not bulletin, and not archived" do
       source_file = build(:source_file, :docx)
 
       expect(source_file.can_be_converted_to_pdf?).to be_truthy
     end
 
-    it "is true if doc file and not bulletin" do
+    it "is true if doc file, not bulletin, and not archived" do
       source_file = build(:source_file, :doc)
 
       expect(source_file.can_be_converted_to_pdf?).to be_truthy
@@ -337,6 +337,13 @@ RSpec.describe SourceFile, type: :model do
 
     it "is false if word file but is marked as a bulletin" do
       source_file = build(:source_file, :docx, :bulletin)
+
+      expect(source_file.can_be_converted_to_pdf?).to be_falsey
+    end
+
+    it "is false if word file, not a bulletin, but archived" do
+      source_file = create(:source_file, :docx, :archived)
+      _pdf = create(:source_file, :pdf, original_source_file: source_file)
 
       expect(source_file.can_be_converted_to_pdf?).to be_falsey
     end
