@@ -42,10 +42,11 @@ class ImportDataFromRAPIDSJob < ApplicationJob
   end
 
   def process_work_processes(work_processes_response)
-    work_processes_response.map do |work_process_response|
-      RAPIDS::WorkProcess.initialize_from_response(
+    work_processes_response.filter_map do |work_process_response|
+      work_process = RAPIDS::WorkProcess.initialize_from_response(
         work_process_response
       )
+      work_process if work_process.valid?
     end
   end
 end
