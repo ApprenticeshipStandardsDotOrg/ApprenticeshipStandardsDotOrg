@@ -12,7 +12,7 @@ module RAPIDS
         onet_code = response["onetSocCode"]
         ::OccupationStandard.new(
           title: fix_encoding(response["occupationTitle"]),
-          onet_code: response["onetSocCode"],
+          onet_code: onet_code,
           rapids_code: rapids_code,
           ojt_type: ojt_type(response["occType"]),
           registration_agency: find_registration_agency_by_sponsor_number(
