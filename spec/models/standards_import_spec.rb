@@ -147,15 +147,24 @@ RSpec.describe StandardsImport, type: :model do
 
   describe "#source_files" do
     it "returns source files associated to each file attachment" do
-      file1 = file_fixture("pixel1x1.pdf")
-      file2 = file_fixture("pixel1x1.jpg")
+      perform_enqueued_jobs do
+        file1 = file_fixture("pixel1x1.pdf")
+        file2 = file_fixture("pixel1x1.jpg")
+        file3 = file_fixture("pixel1x1-2.jpg")
 
-      import = create(:standards_import, email: "foo@example.com", name: "Foo", files: [file1, file2], courtesy_notification: :pending)
-      source_file1 = SourceFile.first
-      source_file2 = SourceFile.last
-      create(:source_file)
+        import = create(:standards_import, email: "foo@example.com", name: "Foo", files: [file1, file2, file3], courtesy_notification: :pending)
+        source_file1 = SourceFile.first
+        source_file2 = SourceFile.second
+        source_file3 = SourceFile.last
 
-      expect(import.source_files).to contain_exactly(source_file1, source_file2)
+        # Simulate an active storage attachment that does not have a source file
+        # yet
+        source_file3.destroy!
+
+        create(:source_file)
+
+        expect(import.source_files).to contain_exactly(source_file1, source_file2)
+      end
     end
   end
 
