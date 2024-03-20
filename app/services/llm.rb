@@ -1,6 +1,6 @@
 require "openai"
 
-class ChatGPT
+class LLM
   def initialize
     @client = OpenAI::Client.new
   end
@@ -10,12 +10,12 @@ class ChatGPT
       parameters: {
         model: "gpt-4",
         messages: [{ role: "user", content: prompt }],
-        temperature: 0.7
+        temperature: 0.1
       }
     )
  pp response.dig("choices", 0, "message", "content")
     response.dig("choices", 0, "message", "content")
-  rescue Faraday::TooManyRequestsError => e
+  rescue Faraday::TooManyRequestsError, Net::ReadTimeout => e
     on_error(e)
   end
 
@@ -30,4 +30,5 @@ class ChatGPT
   end
 
   class OpenAIError < StandardError; end
+  class Timeout < StandardError; end
 end

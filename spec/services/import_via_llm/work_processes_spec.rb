@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe ImportViaChatgpt::WorkProcesses, type: :model do
+RSpec.describe ImportViaLLM::WorkProcesses, type: :model do
   describe ".import" do
     it "populates db with a work process" do
       occupation_standard = create(:occupation_standard)

@@ -9,11 +9,11 @@ class PdfReaderJob < ApplicationJob
     template = '{ "Title": "", "Type": "(Time based, Competency based, or Hybrid)" }'
 
     occupation_array_prompt = "Create an array of the occupation(s) from the text. Return as a JSON array"
-    occupations = ChatGptGenerateText.new("#{occupation_array_prompt} #{text}").call
+    occupations = LLM.new.chat("#{occupation_array_prompt} #{text}")
 
     occupations_response = JSON.parse(occupations).map do |occupation|
       prompt = "Please fill out the template based on the given information for this occupation: #{occupation} and return as JSON array"
-      response = ChatGptGenerateText.new("#{prompt} information:#{text} template: #{template}").call
+      response = LLM.new.chat("#{prompt} information:#{text} template: #{template}")
       JSON.parse(response)
     end
 

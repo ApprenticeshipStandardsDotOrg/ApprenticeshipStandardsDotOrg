@@ -1,4 +1,4 @@
-module ImportViaChatgpt
+module ImportViaLLM
   class WorkProcesses
     def self.import(...) = new(...).import
 
