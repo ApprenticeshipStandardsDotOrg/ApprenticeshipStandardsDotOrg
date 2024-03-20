@@ -20,7 +20,11 @@ class StandardsImport < ApplicationRecord
   end
 
   def source_files
-    files.includes(source_file: {active_storage_attachment: :blob}).map(&:source_file).compact
+    files
+      .includes(source_file: {active_storage_attachment: :blob})
+      .order("active_storage_blobs.filename")
+      .map(&:source_file)
+      .compact
   end
 
   def has_converted_source_file_in_need_of_notification?

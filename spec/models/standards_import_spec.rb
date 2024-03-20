@@ -146,7 +146,7 @@ RSpec.describe StandardsImport, type: :model do
   end
 
   describe "#source_files" do
-    it "returns source files associated to each file attachment" do
+    it "returns source files associated to each file attachment, alphabetically by filename" do
       perform_enqueued_jobs do
         file1 = file_fixture("pixel1x1.pdf")
         file2 = file_fixture("pixel1x1.jpg")
@@ -163,7 +163,7 @@ RSpec.describe StandardsImport, type: :model do
 
         create(:source_file)
 
-        expect(import.source_files).to contain_exactly(source_file1, source_file2)
+        expect(import.source_files).to eq [source_file2, source_file1]
       end
     end
   end
