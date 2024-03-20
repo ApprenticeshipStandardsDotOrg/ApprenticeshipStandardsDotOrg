@@ -342,7 +342,7 @@ RSpec.describe SourceFile, type: :model do
     end
 
     it "is false if word file, not a bulletin, but archived" do
-      source_file = create(:source_file, :docx, :archived)
+      source_file = build(:source_file, :docx, :archived)
 
       expect(source_file.can_be_converted_to_pdf?).to be_falsey
     end
