@@ -10,8 +10,6 @@ class SourceFile < ApplicationRecord
   enum :status, [:pending, :completed, :needs_support, :needs_human_review, :archived]
   enum courtesy_notification: [:not_required, :pending, :completed], _prefix: true
 
-  delegate :bulletin?, to: :standards_import
-
   after_create_commit :convert_doc_file_to_pdf
 
   WORD_FILE_CONTENT_TYPES = [
