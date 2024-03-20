@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe ChatGPT do
+RSpec.describe LLM do
   describe "#chat" do
     it "returns generated text" do
       mock_client
@@ -37,7 +37,7 @@ RSpec.describe ChatGPT do
           parameters: {
             model: "gpt-4",
             messages: [{role: "user", content: "Hello"}],
-            temperature: 0.7
+            temperature: 0.1
           }
         )
         .and_return mocked_response
