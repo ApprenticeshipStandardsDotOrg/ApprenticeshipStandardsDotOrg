@@ -117,7 +117,7 @@ class SourceFile < ApplicationRecord
   end
 
   def can_be_converted_to_pdf?
-    word? && !bulletin?
+    word? && !bulletin? && !archived?
   end
 
   private
