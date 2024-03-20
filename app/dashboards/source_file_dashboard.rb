@@ -23,6 +23,7 @@ class SourceFileDashboard < Administrate::BaseDashboard
     redacted_source_file_url: Field::Url.with_options(searchable: false),
     associated_occupation_standards: HasManyAssociatedOccupationStandardsField,
     original_source_file: Field::BelongsTo,
+    converted_source_file: Field::BelongsTo,
     standards_import: GenericRecordField,
     plain_text_version: Field::Text
 
@@ -51,6 +52,7 @@ class SourceFileDashboard < Administrate::BaseDashboard
     redacted_source_file
     redacted_source_file_url
     original_source_file
+    converted_source_file
     associated_occupation_standards
     standards_import
     plain_text_version

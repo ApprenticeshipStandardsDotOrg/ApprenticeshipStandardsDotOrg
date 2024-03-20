@@ -23,6 +23,15 @@ RSpec.describe SourceFile, type: :model do
     expect(source_file.reload.metadata).to eq({"date" => "03/29/2023"})
   end
 
+  describe "#converted_source_file" do
+    it "returns the converted source file (pdf)" do
+      word = create(:source_file, :docx)
+      pdf = create(:source_file, :pdf, original_source_file: word)
+
+      expect(word.converted_source_file).to eq pdf
+    end
+  end
+
   describe ".recently_redacted" do
     it "returns records created the day before by default" do
       travel_to(Time.zone.local(2023, 6, 15)) do
