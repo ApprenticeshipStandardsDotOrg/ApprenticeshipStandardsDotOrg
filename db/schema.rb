@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_13_194108) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_20_194256) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -241,6 +241,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_13_194108) do
     t.datetime "redacted_at"
     t.string "link_to_pdf_filename"
     t.uuid "original_source_file_id"
+    t.boolean "bulletin", default: false, null: false
     t.index ["active_storage_attachment_id"], name: "index_source_files_on_active_storage_attachment_id"
     t.index ["assignee_id"], name: "index_source_files_on_assignee_id"
     t.index ["original_source_file_id"], name: "index_source_files_on_original_source_file_id"

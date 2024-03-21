@@ -24,6 +24,7 @@ RSpec.describe Scraper::ApprenticeshipBulletinsJob, type: :job do
 
         source_file = SourceFile.last
         expect(source_file.metadata).to eq({"date" => "03/11/16"})
+        expect(source_file).to be_bulletin
       end
     end
   end

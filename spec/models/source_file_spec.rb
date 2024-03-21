@@ -336,7 +336,7 @@ RSpec.describe SourceFile, type: :model do
     end
 
     it "is false if word file but is marked as a bulletin" do
-      source_file = build(:source_file, :docx, :bulletin)
+      source_file = build(:source_file, :docx, bulletin: true)
 
       expect(source_file.can_be_converted_to_pdf?).to be_falsey
     end

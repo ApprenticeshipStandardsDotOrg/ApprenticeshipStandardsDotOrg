@@ -34,7 +34,8 @@ class Scraper::ApprenticeshipBulletinsJob < ApplicationJob
           source_file.update!(
             metadata: {
               date: row["Date"]
-            }
+            },
+            bulletin: true
           )
           if source_file.docx?
             Scraper::ExportFileAttachmentsJob.perform_later(source_file)

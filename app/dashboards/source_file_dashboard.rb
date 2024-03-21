@@ -25,6 +25,7 @@ class SourceFileDashboard < Administrate::BaseDashboard
     original_source_file: Field::BelongsTo,
     converted_source_file: Field::BelongsTo,
     standards_import: GenericRecordField,
+    bulletin: Field::Boolean,
     plain_text_version: Field::Text
 
   }.freeze
@@ -55,6 +56,7 @@ class SourceFileDashboard < Administrate::BaseDashboard
     converted_source_file
     associated_occupation_standards
     standards_import
+    bulletin
     plain_text_version
     created_at
     updated_at
