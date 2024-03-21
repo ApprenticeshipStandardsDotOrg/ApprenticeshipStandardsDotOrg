@@ -9,7 +9,7 @@ namespace :after_party do
           if source_file.original_source_file.nil? && source_file.converted_source_file.nil?
             # File started as a pdf OR it was a docx file with embedded
             # attachments, so mark it as the bulletin
-            souce_file.update!(bulletin: true)
+            source_file.update!(bulletin: true)
           elsif source_file.converted_source_file.present?
             # This file was originally a doc file that was converted, so mark it
             # as the bulletin
