@@ -33,11 +33,15 @@ class CreateSourceFileJob < ApplicationJob
     end
 
     if original_source_file.present?
-      source_file.update!(original_source_file:)
+      source_file.update!(
+        original_source_file:,
+        assignee: original_source_file.assignee
+      )
       original_source_file.update!(
         link_to_pdf_filename: nil,
         status: :archived,
-        courtesy_notification: :not_required
+        courtesy_notification: :not_required,
+        assignee: nil
       )
     end
   end

@@ -82,7 +82,8 @@ RSpec.describe CreateSourceFileJob, "#perform", type: :job do
       pdf_file = file_fixture("pixel1x1.pdf")
       import = create(:standards_import, files: [docx_file, pdf_file], courtesy_notification: :pending, name: "Mickey", email: "mouse@example.com")
       docx = import.source_files.find(&:word?)
-      docx.update!(link_to_pdf_filename: "pixel1x1.pdf")
+      assignee = create(:admin)
+      docx.update!(link_to_pdf_filename: "pixel1x1.pdf", assignee: assignee)
 
       pdf = import.source_files.find(&:pdf?)
       attachment = pdf.active_storage_attachment
@@ -94,10 +95,12 @@ RSpec.describe CreateSourceFileJob, "#perform", type: :job do
       expect(docx.reload).to have_attributes(
         status: "archived",
         link_to_pdf_filename: nil,
-        courtesy_notification: "not_required"
+        courtesy_notification: "not_required",
+        assignee: nil
       )
       pdf = import.source_files.find(&:pdf?)
       expect(pdf.original_source_file_id).to eql(docx.id)
+      expect(pdf.assignee).to eql(assignee)
     end
   end
 end
