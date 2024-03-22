@@ -37,6 +37,7 @@ RSpec.describe PdfReaderJob do
       ).to receive(:new).with(
         "Please fill out the template based on the given information for this occupation: Welder (Industrial) and return as JSON array information:[\"Welder (Industrial)\\n(Competency based)\\n\\n\"] template: { \"Title\": \"\", \"Type\": \"(Time based, Competency based, or Hybrid)\" }"
       ).and_return chat_gpt_generator_mock("[\n  {\n    \"Title\": \"Welder (Industrial)\",\n    \"Type\": \"Competency based\"\n  }\n]")
+
       expect(described_class.new.perform(source_file.id)).to eq [{"Title" => "Welder (Industrial)", "Type" => "Competency based"}]
     end
   end
