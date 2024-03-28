@@ -18,8 +18,7 @@ RSpec.describe Scraper::HcapJob, type: :job do
           expect(standards_import1.organization).to eq "National Center for Healthcare Apprenticeships"
           expect(standards_import1.notes).to eq "From Scraper::HcapJob"
           expect(standards_import1.public_document).to be true
-          source_file1 = standards_import1.files.last.source_file
-          metadata1 = source_file1.metadata
+          metadata1 = standards_import1.metadata
           expect(metadata1["Location"]).to eq "California"
           expect(metadata1["Care Setting"]).to eq "Ambulatory"
           expect(metadata1["Approval Date"]).to eq "Signed in 2017"
@@ -30,6 +29,8 @@ RSpec.describe Scraper::HcapJob, type: :job do
           expect(metadata1["Resource Type"]).to eq "Work Processes, Related Outline"
           expect(metadata1["Occupation"]).to eq "Emergency Medical Technician"
           expect(metadata1["Apprenticeship Type"]).to eq "Competency-based"
+          source_file1 = standards_import1.files.last.source_file
+          expect(source_file1.metadata).to eq standards_import1.metadata
 
           standards_import2 = StandardsImport.second
           expect(standards_import2.files.count).to eq 1
@@ -37,8 +38,7 @@ RSpec.describe Scraper::HcapJob, type: :job do
           expect(standards_import2.organization).to eq "AHIMA Foundation"
           expect(standards_import2.notes).to eq "From Scraper::HcapJob"
           expect(standards_import2.public_document).to be true
-          source_file2 = standards_import2.files.last.source_file
-          metadata2 = source_file2.metadata
+          metadata2 = standards_import2.metadata
           expect(metadata2["Location"]).to eq "No results"
           expect(metadata2["Care Setting"]).to eq "Acute, Ambulatory"
           expect(metadata2["Approval Date"]).to eq "Signed in 2018"
@@ -49,6 +49,8 @@ RSpec.describe Scraper::HcapJob, type: :job do
           expect(metadata2["Resource Type"]).to eq "Work Processes, Related Outline"
           expect(metadata2["Occupation"]).to eq "Health Information Management Business Analyst"
           expect(metadata2["Apprenticeship Type"]).to eq "Competency-based"
+          source_file2 = standards_import2.files.last.source_file
+          expect(source_file2.metadata).to eq standards_import2.metadata
 
           standards_import3 = StandardsImport.third
           expect(standards_import3.files.count).to eq 1
@@ -56,8 +58,7 @@ RSpec.describe Scraper::HcapJob, type: :job do
           expect(standards_import3.organization).to eq "Institute for Wellness Education"
           expect(standards_import3.notes).to eq "From Scraper::HcapJob"
           expect(standards_import3.public_document).to be true
-          source_file3 = standards_import3.files.last.source_file
-          metadata3 = source_file3.metadata
+          metadata3 = standards_import3.metadata
           expect(metadata3["Location"]).to eq "New Jersey"
           expect(metadata3["Care Setting"]).to eq "Ambulatory"
           expect(metadata3["Approval Date"]).to eq "Signed in 2013"
@@ -67,6 +68,8 @@ RSpec.describe Scraper::HcapJob, type: :job do
           expect(metadata3["Resource Type"]).to eq "Work Processes, Related Outline"
           expect(metadata3["Occupation"]).to eq "Wellness Coach"
           expect(metadata3["Apprenticeship Type"]).to eq "Hybrid"
+          source_file3 = standards_import3.files.last.source_file
+          expect(source_file3.metadata).to eq standards_import3.metadata
         end
       end
     end
