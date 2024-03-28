@@ -15,7 +15,8 @@ class CreateSourceFileJob < ApplicationJob
         SourceFile
           .create_with(
             courtesy_notification:,
-            public_document: standards_import.public_document
+            public_document: standards_import.public_document,
+            metadata: standards_import.metadata
           )
           .find_or_create_by!(active_storage_attachment_id: attachment.id)
           .tap { maybe_link_to_original_source_file(_1, linkable_word_files) }
