@@ -17,7 +17,8 @@ class Scraper::ApprenticeshipBulletinsJob < ApplicationJob
         notes: "From Scraper::ApprenticeshipBulletinsJob",
         public_document: true,
         source_url: BULLETIN_LIST_URL,
-        bulletin: true
+        bulletin: true,
+        metadata: {date: row["Date"]}
       )
 
       if standards_import.new_record?
@@ -32,9 +33,6 @@ class Scraper::ApprenticeshipBulletinsJob < ApplicationJob
           end
 
           source_file.update!(
-            metadata: {
-              date: row["Date"]
-            },
             bulletin: true
           )
           if source_file.docx?

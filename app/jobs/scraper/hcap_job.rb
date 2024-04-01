@@ -34,18 +34,15 @@ class Scraper::HcapJob < ApplicationJob
           organization: fields["Sponsor"]
         ).first_or_initialize(
           notes: "From Scraper::HcapJob",
-          public_document: true
+          public_document: true,
+          metadata: fields
         )
 
         if standards_import.new_record?
           standards_import.save!
-
-          if standards_import.files.attach(io: URI.parse(pdf_uri).open, filename: File.basename(pdf_uri))
-            source_file = standards_import.files.last.source_file
-            source_file.update!(
-              metadata: fields
-            )
-          end
+          standards_import.files.attach(
+            io: URI.parse(pdf_uri).open, filename: File.basename(pdf_uri)
+          )
         end
       end
     end
