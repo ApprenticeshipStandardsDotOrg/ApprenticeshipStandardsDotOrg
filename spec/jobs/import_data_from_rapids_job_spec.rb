@@ -118,7 +118,7 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
         second_rapids_response = create(:rapids_response, totalCount: 3, wps: [second_occupation])
         third_rapids_response = create(:rapids_response, totalCount: 3, wps: [third_occupation])
 
-        expect_any_instance_of(RAPIDS::API).to receive(:get).with("/wps", {
+        expect_any_instance_of(RAPIDS::API).to receive(:get).with("/sponsor/wps", {
           batchSize: 1,
           startIndex: 1
         }).and_return(
@@ -127,7 +127,7 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
           )
         )
 
-        expect_any_instance_of(RAPIDS::API).to receive(:get).with("/wps", {
+        expect_any_instance_of(RAPIDS::API).to receive(:get).with("/sponsor/wps", {
           batchSize: 1,
           startIndex: 2
         }).and_return(
@@ -136,7 +136,7 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
           )
         )
 
-        expect_any_instance_of(RAPIDS::API).to receive(:get).with("/wps", {
+        expect_any_instance_of(RAPIDS::API).to receive(:get).with("/sponsor/wps", {
           batchSize: 1,
           startIndex: 3
         }).and_return(
@@ -194,7 +194,7 @@ def stub_get_token!
 end
 
 def stub_rapids_api_response(arguments, response)
-  allow_any_instance_of(RAPIDS::API).to receive(:get).with("/wps", arguments).and_return(
+  allow_any_instance_of(RAPIDS::API).to receive(:get).with("/sponsor/wps", arguments).and_return(
     OpenStruct.new(
       parsed: response
     )
