@@ -4,7 +4,7 @@ module RAPIDS
   class API
     BASE_URL = "https://#{ENV["RAPIDS_SERVER_DOMAIN"]}".freeze
     TOKEN_URL = "#{BASE_URL}/suite/authorization/oauth/token".freeze
-    BASE_PATH = "/suite/webapi/rapids/data-sharing/sponsor"
+    BASE_PATH = "/suite/webapi/rapids/data-sharing"
 
     def self.call
       new
@@ -22,7 +22,13 @@ module RAPIDS
     end
 
     def work_processes(params = {})
-      get("/wps", params)
+      get("/sponsor/wps", params)
+    end
+
+    def documents(wps_id:)
+      post("/documents/wps/#{wps_id}")
+    rescue OAuth2::Error
+      nil
     end
 
     private
@@ -33,6 +39,10 @@ module RAPIDS
 
     def get(path, params = {})
       @access.get("#{BASE_URL}#{BASE_PATH}#{path}", params: params)
+    end
+
+    def post(path)
+      @access.post("#{BASE_URL}#{BASE_PATH}#{path}")
     end
 
     def get_token!
