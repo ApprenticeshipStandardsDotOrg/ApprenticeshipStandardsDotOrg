@@ -16,7 +16,7 @@ RSpec.describe RAPIDS::API do
 
         result = described_class.call
 
-        expect(result).to receive(:get).with("/wps", {})
+        expect(result).to receive(:get).with("/sponsor/wps", {})
         result.work_processes
       end
     end
@@ -26,8 +26,34 @@ RSpec.describe RAPIDS::API do
         stub_get_token!
 
         result = described_class.call
-        expect(result).to receive(:get).with("/wps", {batchSize: 50, startIndex: 10})
+        expect(result).to receive(:get).with("/sponsor/wps", {batchSize: 50, startIndex: 10})
         result.work_processes(batchSize: 50, startIndex: 10)
+      end
+    end
+  end
+
+  describe "#documents" do
+    context "when standards has document available" do
+      it "calls the correct end-point" do
+        stub_get_token!
+        wps_id = 123456
+
+        result = described_class.call
+        expect(result).to receive(:post).with("/documents/wps/#{wps_id}")
+        result.documents(wps_id: wps_id)
+      end
+    end
+
+    context "when standard does not have associated document" do
+      it "returns nil" do
+        stub_get_token!
+        wps_id = 500
+
+        result = described_class.call
+        allow(result).to receive(:post).with("/documents/wps/#{wps_id}").and_raise(OAuth2::Error, "internal server error")
+
+        document = result.documents(wps_id: wps_id)
+        expect(document).to be_nil
       end
     end
   end
