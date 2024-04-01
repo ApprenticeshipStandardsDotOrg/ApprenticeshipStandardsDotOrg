@@ -36,6 +36,8 @@ module RAPIDS
     # Params supported by API:
     # batchSize: The maximum number of items to return in the response. If set to -1, all items will be returned.
     # startIndex: Index of the array in which to start returning values for the subset. Valid values include those greater than zero
+    # rapidsCode: To filter the data based on Unique ID - rapidsCode
+    # onetSocCode: To filter the data based on Unique ID - onetSocCode
 
     def get(path, params = {})
       @access.get("#{BASE_URL}#{BASE_PATH}#{path}", params: params)
