@@ -4,11 +4,11 @@ class ImportDataFromRAPIDSJob < ApplicationJob
   PER_PAGE_SIZE = 50
 
   def perform
-    service = RAPIDS::API.call
+    @service = RAPIDS::API.call
     start_index = 1
 
     loop do
-      response = service.work_processes(
+      response = @service.work_processes(
         batchSize: PER_PAGE_SIZE,
         startIndex: start_index
       )
@@ -31,6 +31,16 @@ class ImportDataFromRAPIDSJob < ApplicationJob
         occupation_standard
       )
 
+      if work_process_document_available?(occupation_standard_response)
+        document = fetch_document_response(occupation_standard.external_id)
+        if document
+          attachment = convert_response_to_attachment(document)
+          occupation_standard.redacted_document.attach(
+            io: attachment, filename: "#{occupation_standard.external_id}.docx"
+          )
+        end
+      end
+
       occupation_standard
     end
   end
@@ -49,5 +59,20 @@ class ImportDataFromRAPIDSJob < ApplicationJob
       work_process.occupation_standard = occupation_standard
       work_process if work_process.valid?
     end
+  end
+
+  def work_process_document_available?(work_process_response)
+    work_process_response.fetch("isWPSUploaded", false)
+  end
+
+  def fetch_document_response(external_id)
+    response = @service.documents(wps_id: external_id)
+    response&.body
+  end
+
+  def convert_response_to_attachment(document_response)
+    attachment = StringIO.new(document_response)
+    attachment.set_encoding Encoding::BINARY
+    attachment
   end
 end

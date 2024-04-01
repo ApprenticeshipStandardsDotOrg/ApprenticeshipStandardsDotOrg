@@ -212,6 +212,17 @@ RSpec.describe RAPIDS::OccupationStandard, type: :model do
           expect(occupation_standard.occupation).to be_nil
         end
       end
+
+      it "extracts external id from wpsDocument value" do
+        occupation_standard_response = build(
+          :rapids_api_occupation_standard,
+          wpsDocument: "https://entbpmpstg.dol.gov/suite/webapi/rapids/data-sharing/documents/wps/111111"
+        )
+
+        occupation_standard = RAPIDS::OccupationStandard.initialize_from_response(occupation_standard_response)
+
+        expect(occupation_standard.external_id).to eq "111111"
+      end
     end
   end
 end

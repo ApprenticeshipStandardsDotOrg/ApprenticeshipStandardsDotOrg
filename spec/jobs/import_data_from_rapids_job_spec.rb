@@ -176,6 +176,113 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
           change(WorkProcess, :count).by(0)
       end
     end
+
+    context "wps document" do
+      context "when document is mark as not uploaded" do
+        it "does not attach a document" do
+          stub_get_token!
+          create_registration_agency_for("MI", agency_type: :oa)
+
+          occupation_standard_response = create_list(
+            :rapids_api_occupation_standard,
+            1,
+            :competency,
+            isWPSUploaded: false
+          )
+          rapids_response = create(:rapids_response, totalCount: 1, wps: occupation_standard_response)
+
+          stub_rapids_api_response(
+            {
+              batchSize: ImportDataFromRAPIDSJob::PER_PAGE_SIZE,
+              startIndex: 1
+            },
+            rapids_response
+          )
+
+          expect {
+            described_class.perform_now
+          }.to change(OccupationStandard, :count).by(1)
+
+          occupation_standard = OccupationStandard.last
+
+          expect(occupation_standard.redacted_document).to_not be_attached
+        end
+      end
+
+      context "when document is mark as uploaded" do
+        context "when response has a document" do
+          it "attaches the document" do
+            stub_get_token!
+            create_registration_agency_for("MI", agency_type: :oa)
+
+            occupation_standard_response = create_list(
+              :rapids_api_occupation_standard,
+              1,
+              :competency,
+              :with_wps_document,
+              wpsDocument: "https://entbpmpstg.dol.gov/suite/webapi/rapids/data-sharing/documents/wps/123456"
+            )
+            rapids_response = create(:rapids_response, totalCount: 1, wps: occupation_standard_response)
+
+            stub_rapids_api_response(
+              {
+                batchSize: ImportDataFromRAPIDSJob::PER_PAGE_SIZE,
+                startIndex: 1
+              },
+              rapids_response
+            )
+
+            document = File.read(Rails.root.join(
+              "spec", "fixtures", "files", "document.docx"
+            ))
+
+            stub_documents_response("123456", document)
+
+            expect {
+              described_class.perform_now
+            }.to change(OccupationStandard, :count).by(1)
+
+            occupation_standard = OccupationStandard.last
+
+            expect(occupation_standard.redacted_document).to be_attached
+          end
+        end
+
+        context "when response does not have a document" do
+          it "skips document attachment" do
+            stub_get_token!
+            create_registration_agency_for("MI", agency_type: :oa)
+
+            occupation_standard_response = create_list(
+              :rapids_api_occupation_standard,
+              1,
+              :competency,
+              :with_wps_document,
+              wpsDocument: "https://entbpmpstg.dol.gov/suite/webapi/rapids/data-sharing/documents/wps/123456"
+            )
+            rapids_response = create(:rapids_response, totalCount: 1, wps: occupation_standard_response)
+
+            stub_rapids_api_response(
+              {
+                batchSize: ImportDataFromRAPIDSJob::PER_PAGE_SIZE,
+                startIndex: 1
+              },
+              rapids_response
+            )
+
+            stub_documents_response("123456", nil)
+
+            expect {
+              described_class.perform_now
+            }.to change(OccupationStandard, :count).by(1)
+
+            occupation_standard = OccupationStandard.last
+
+            expect(occupation_standard.redacted_document).to_not be_attached
+          end
+        end
+      end
+    end
   end
 end
 
@@ -192,6 +299,14 @@ def stub_rapids_api_response(arguments, response)
   allow_any_instance_of(RAPIDS::API).to receive(:get).with("/sponsor/wps", arguments).and_return(
     OpenStruct.new(
       parsed: response
+    )
+  )
+end
+
+def stub_documents_response(wps_id, document)
+  allow_any_instance_of(RAPIDS::API).to receive(:post).with("/documents/wps/#{wps_id}").and_return(
+    OpenStruct.new(
+      body: document
     )
   )
 end
