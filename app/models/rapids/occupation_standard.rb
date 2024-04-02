@@ -18,7 +18,8 @@ module RAPIDS
           registration_agency: find_registration_agency_by_sponsor_number(
             response["sponsorNumber"]
           ),
-          occupation: find_occupation(rapids_code, onet_code)
+          occupation: find_occupation(rapids_code, onet_code),
+          external_id: extract_wps_id(response["wpsDocument"])
         )
       end
 
@@ -72,6 +73,11 @@ module RAPIDS
         return if rapids_code.blank?
 
         rapids_code.gsub(/[A-Za-z]+\z/, "").ljust(4, "0")
+      end
+
+      def extract_wps_id(wps_document_url)
+        result = wps_document_url.match(/.*\/(?<wps_id>\d*)/)
+        result && result[:wps_id]
       end
     end
   end

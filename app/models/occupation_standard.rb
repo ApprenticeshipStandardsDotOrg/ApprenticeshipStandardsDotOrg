@@ -30,7 +30,7 @@ class OccupationStandard < ApplicationRecord
   validates :title, :ojt_type, presence: true
   validates :registration_agency, presence: true
 
-  attr_accessor :inner_hits
+  attr_accessor :inner_hits, :external_id
 
   MAX_SIMILAR_PROGRAMS_TO_DISPLAY = 5
   MAX_RECENTLY_ADDED_OCCUPATIONS_TO_DISPLAY = 4

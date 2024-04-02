@@ -10,7 +10,7 @@ FactoryBot.define do
     jobDesc { "Operate telephone, radio, or other communication systems to receive and communicate requests for emergency assistance at 9-1-1." }
     jobZone { "Job Zone Two: Some Preparation Needed." }
     isWPSUploaded { false }
-    wpsDocument { "https://entbpmpstg.dol.gov/suite/webapi/rapids/data-sharing/documents/wps/145973" }
+    sequence(:wpsDocument) { |n| "https://entbpmpstg.dol.gov/suite/webapi/rapids/data-sharing/documents/wps/#{n}" }
     dwas { [] }
 
     transient do
@@ -50,6 +50,10 @@ FactoryBot.define do
 
     trait :competency do
       occType { "Competency-Based" }
+    end
+
+    trait :with_wps_document do
+      isWPSUploaded { true }
     end
 
     initialize_with { attributes.stringify_keys }
