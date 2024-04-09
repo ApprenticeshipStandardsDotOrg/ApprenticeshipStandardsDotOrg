@@ -3,21 +3,20 @@ FactoryBot.define do
     traits_for_enum :agency_type, RegistrationAgency.agency_types
 
     agency_type { :oa }
-
-    trait :for_national_program do
-      state { nil }
-    end
+    state {
+      if for_state_abbreviation
+        build(:state, abbreviation: for_state_abbreviation)
+      else
+        build(:state)
+      end
+    }
 
     transient do
       for_state_abbreviation { nil }
     end
 
-    after(:build) do |registration_agency, context|
-      registration_agency.state ||= if (context.for_state_abbreviation)
-        FactoryBot.build(:state, abbreviation: context.for_state_abbreviation)
-      else
-        FactoryBot.build(:state)
-      end
+    trait :for_national_program do
+      state { nil }
     end
   end
 end
