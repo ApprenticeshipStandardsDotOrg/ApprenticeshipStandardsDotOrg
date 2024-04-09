@@ -5,7 +5,7 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
     context "when receiving a competency-based standard" do
       it "creates the associated records" do
         stub_get_token!
-        create_registration_agency_for("MI", agency_type: :oa)
+        create(:registration_agency,  for_state_abbreviation: "MI", agency_type: :oa)
 
         occupation_standard_response = create_list(
           :rapids_api_occupation_standard,
@@ -37,7 +37,7 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
     context "when receiving a time-based standard" do
       it "creates the associated records" do
         stub_get_token!
-        create_registration_agency_for("MI", agency_type: :oa)
+        create(:registration_agency,  for_state_abbreviation: "MI", agency_type: :oa)
 
         occupation_standard_response = create_list(
           :rapids_api_occupation_standard,
@@ -69,7 +69,7 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
     context "when receiving a hybrid standard" do
       it "creates the associated records" do
         stub_get_token!
-        create_registration_agency_for("MI", agency_type: :oa)
+        create(:registration_agency,  for_state_abbreviation: "MI", agency_type: :oa)
 
         occupation_standard_response = create_list(
           :rapids_api_occupation_standard,
@@ -101,7 +101,7 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
     context "pagination" do
       it "performs more than one call with correct arguments when records exceed batch size" do
         stub_get_token!
-        create_registration_agency_for("MI", agency_type: :oa)
+        create(:registration_agency,  for_state_abbreviation: "MI", agency_type: :oa)
         stub_const("ImportDataFromRAPIDSJob::PER_PAGE_SIZE", 1)
 
         (first_occupation, second_occupation, third_occupation) = create_list(:rapids_api_occupation_standard, 3, :hybrid)
@@ -146,7 +146,7 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
     context "invalid records" do
       it "saves the occupation standard discarding invalid work processes" do
         stub_get_token!
-        create_registration_agency_for("MI", agency_type: :oa)
+        create(:registration_agency,  for_state_abbreviation: "MI", agency_type: :oa)
 
         invalid_detailed_work_activity = create_list(
           :rapids_api_detailed_work_activity_for_hybrid,
@@ -181,7 +181,7 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
       context "when document is mark as not uploaded" do
         it "does not attach a document" do
           stub_get_token!
-          create_registration_agency_for("MI", agency_type: :oa)
+          create(:registration_agency,  for_state_abbreviation: "MI", agency_type: :oa)
 
           occupation_standard_response = create_list(
             :rapids_api_occupation_standard,
@@ -213,7 +213,7 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
         context "when response has a document" do
           it "attaches the document" do
             stub_get_token!
-            create_registration_agency_for("MI", agency_type: :oa)
+            create(:registration_agency,  for_state_abbreviation: "MI", agency_type: :oa)
 
             occupation_standard_response = create_list(
               :rapids_api_occupation_standard,
@@ -251,7 +251,7 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
         context "when response does not have a document" do
           it "skips document attachment" do
             stub_get_token!
-            create_registration_agency_for("MI", agency_type: :oa)
+            create(:registration_agency,  for_state_abbreviation: "MI", agency_type: :oa)
 
             occupation_standard_response = create_list(
               :rapids_api_occupation_standard,
@@ -288,11 +288,6 @@ end
 
 def stub_get_token!
   allow_any_instance_of(RAPIDS::API).to receive(:get_token!).and_return "xxx"
-end
-
-def create_registration_agency_for(state_abbreviation, agency_type:)
-  state = create(:state, abbreviation: "MI")
-  create(:registration_agency, state: state, agency_type: agency_type)
 end
 
 def stub_rapids_api_response(arguments, response)
