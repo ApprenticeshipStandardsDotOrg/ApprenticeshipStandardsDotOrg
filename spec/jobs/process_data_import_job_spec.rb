@@ -3,8 +3,7 @@ require "rails_helper"
 RSpec.describe ProcessDataImportJob, type: :job do
   describe "#perform" do
     it "calls the separate services to process each tab of the file" do
-      ca = create(:state, abbreviation: "CA")
-      create(:registration_agency, state: ca, agency_type: :oa)
+      create(:registration_agency, for_state_abbreviation: "CA", agency_type: :oa)
       data_import = create(:data_import, :pending)
       create(:industry, prefix: "13")
 
@@ -38,8 +37,7 @@ RSpec.describe ProcessDataImportJob, type: :job do
     end
 
     it "deletes old related instructions, wage schedules, work processes when editing" do
-      ca = create(:state, abbreviation: "CA")
-      create(:registration_agency, state: ca, agency_type: :oa)
+      create(:registration_agency, for_state_abbreviation: "CA", agency_type: :oa)
       data_import = create(:data_import)
       occupation_standard = data_import.occupation_standard
       create(:related_instruction, occupation_standard: occupation_standard, sort_order: 99)
@@ -62,8 +60,7 @@ RSpec.describe ProcessDataImportJob, type: :job do
     end
 
     it "marks the associated source file as complete if last_file is true, marks the occupation standard as in_review, and marks data_import as completed" do
-      ca = create(:state, abbreviation: "CA")
-      create(:registration_agency, state: ca, agency_type: :oa)
+      create(:registration_agency, for_state_abbreviation: "CA", agency_type: :oa)
       data_import = create(:data_import, :pending)
       create(:industry, prefix: "13")
 

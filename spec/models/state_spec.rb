@@ -9,23 +9,18 @@ RSpec.describe State, type: :model do
 
   describe "#occupation_standards_count" do
     it "returns an occupation standards count by state" do
-      state = create(:state)
-      registration_agency = create(:registration_agency, state: state)
+      registration_agency = create(:registration_agency)
       create_list(:occupation_standard, 3, :with_work_processes, registration_agency: registration_agency)
 
-      expect(state.occupation_standards_count).to eq(3)
+      expect(registration_agency.state.occupation_standards_count).to eq(3)
     end
   end
 
   describe ".popular" do
     it "returns a list of states by number of occupation standards" do
-      ca = create(:state)
-      va = create(:state, name: "Virginia", abbreviation: "VA")
-      nc = create(:state, name: "North Carolina", abbreviation: "NC")
-
-      ca_agency = create(:registration_agency, state: ca)
-      va_agency = create(:registration_agency, state: va)
-      nc_agency = create(:registration_agency, state: nc)
+      ca_agency = create(:registration_agency, for_state_abbreviation: "CA")
+      va_agency = create(:registration_agency, for_state_abbreviation: "VA")
+      nc_agency = create(:registration_agency, for_state_abbreviation: "NC")
 
       create_list(:occupation_standard, 3, :with_work_processes, registration_agency: ca_agency)
       create(:occupation_standard, :with_work_processes, registration_agency: va_agency)

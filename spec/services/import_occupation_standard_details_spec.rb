@@ -3,8 +3,7 @@ require "rails_helper"
 RSpec.describe ImportOccupationStandardDetails do
   describe "#call" do
     it "returns an occupation standards record" do
-      ca = create(:state, abbreviation: "CA")
-      create(:registration_agency, state: ca, agency_type: :oa)
+      create(:registration_agency, for_state_abbreviation: "CA", agency_type: :oa)
       create(:industry, prefix: "13")
 
       data_import = create(:data_import, :pending)
@@ -15,9 +14,8 @@ RSpec.describe ImportOccupationStandardDetails do
 
     context "when data_import has no occupation_standard associated" do
       it "creates an occupation standards record for time-based" do
-        ca = create(:state, abbreviation: "CA")
-        ca_oa = create(:registration_agency, state: ca, agency_type: :oa)
-        _ca_saa = create(:registration_agency, state: ca, agency_type: :saa)
+        ca_oa = create(:registration_agency, for_state_abbreviation: "CA", agency_type: :oa)
+        _ca_saa = create(:registration_agency, for_state_abbreviation: "CA", agency_type: :saa)
         onet = create(:onet, code: "13-1071.01")
         industry = create(:industry, prefix: "13")
 
@@ -53,8 +51,7 @@ RSpec.describe ImportOccupationStandardDetails do
       end
 
       it "creates an occupation standards record for competency-based" do
-        ca = create(:state, abbreviation: "CA")
-        ca_oa = create(:registration_agency, state: ca, agency_type: :oa)
+        ca_oa = create(:registration_agency, for_state_abbreviation: "CA", agency_type: :oa)
 
         create(:onet, code: "13-1071.01")
         industry = create(:industry, prefix: "13")
@@ -87,8 +84,7 @@ RSpec.describe ImportOccupationStandardDetails do
       end
 
       it "creates an occupation standards record when there is no RAPIDS code" do
-        ca = create(:state, abbreviation: "CA")
-        ca_oa = create(:registration_agency, state: ca, agency_type: :oa)
+        ca_oa = create(:registration_agency, for_state_abbreviation: "CA", agency_type: :oa)
 
         onet = create(:onet, code: "31-1071.01")
         industry = create(:industry, prefix: "31")
@@ -152,8 +148,7 @@ RSpec.describe ImportOccupationStandardDetails do
       end
 
       it "uses occupation's RAPIDS code if no RAPIDS code" do
-        ca = create(:state, abbreviation: "CA")
-        create(:registration_agency, state: ca, agency_type: :oa)
+        create(:registration_agency, for_state_abbreviation: "CA", agency_type: :oa)
 
         onet = create(:onet, code: "31-1071.01")
         create(:industry, prefix: "31")
@@ -170,8 +165,7 @@ RSpec.describe ImportOccupationStandardDetails do
       end
 
       it "does not set RAPIDS code if blank and occupation does not exist" do
-        ca = create(:state, abbreviation: "CA")
-        create(:registration_agency, state: ca, agency_type: :oa)
+        create(:registration_agency, for_state_abbreviation: "CA", agency_type: :oa)
         create(:industry, prefix: "31")
 
         data_import = create(:data_import, :no_rapids, :pending)
@@ -185,8 +179,7 @@ RSpec.describe ImportOccupationStandardDetails do
       end
 
       it "uses occupation's ONET code if no ONET code" do
-        ca = create(:state, abbreviation: "CA")
-        create(:registration_agency, state: ca, agency_type: :oa)
+        create(:registration_agency, for_state_abbreviation: "CA", agency_type: :oa)
 
         onet = create(:onet, code: "13-1081.01")
         create(:industry, prefix: "13")
@@ -203,8 +196,7 @@ RSpec.describe ImportOccupationStandardDetails do
       end
 
       it "does not set ONET code if blank and occupation does not exist" do
-        ca = create(:state, abbreviation: "CA")
-        create(:registration_agency, state: ca, agency_type: :oa)
+        create(:registration_agency, for_state_abbreviation: "CA", agency_type: :oa)
 
         data_import = create(:data_import, :no_onet, :pending)
 
@@ -217,8 +209,7 @@ RSpec.describe ImportOccupationStandardDetails do
       end
 
       it "finds and updates the occupation standard record linked to the same source file with the same name if one exists" do
-        ca = create(:state, abbreviation: "CA")
-        ca_oa = create(:registration_agency, state: ca, agency_type: :oa)
+        ca_oa = create(:registration_agency, for_state_abbreviation: "CA", agency_type: :oa)
 
         create(:onet, code: "13-1071.01")
         industry = create(:industry, prefix: "13")
@@ -259,8 +250,7 @@ RSpec.describe ImportOccupationStandardDetails do
 
     context "when data_import already has an occupation_standard associated" do
       it "updates the occupation standards record" do
-        ca = create(:state, abbreviation: "CA")
-        ca_oa = create(:registration_agency, state: ca, agency_type: :oa)
+        ca_oa = create(:registration_agency, for_state_abbreviation: "CA", agency_type: :oa)
 
         create(:onet, code: "13-1071.01")
         industry = create(:industry, prefix: "13")
