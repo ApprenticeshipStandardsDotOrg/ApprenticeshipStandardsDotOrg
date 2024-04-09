@@ -174,10 +174,8 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
   end
 
   it "allows filtering occupation standards by state id" do
-    ca = create(:state)
-    wa = create(:state)
-    ra_ca = create(:registration_agency, state: ca)
-    ra_wa = create(:registration_agency, state: wa)
+    ra_ca = create(:registration_agency, for_state_abbreviation: "CA")
+    ra_wa = create(:registration_agency, for_state_abbreviation: "WA")
     os1 = create(:occupation_standard, :with_work_processes, registration_agency: ra_ca)
     os2 = create(:occupation_standard, :with_work_processes, registration_agency: ra_ca)
     create(:occupation_standard, :with_work_processes, registration_agency: ra_wa)
@@ -185,17 +183,15 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
     OccupationStandard.import
     OccupationStandard.__elasticsearch__.refresh_index!
 
-    params = {state_id: ca.id}
+    params = {state_id: ra_ca.state.id}
     response = described_class.new(search_params: params).call
 
     expect(response.records.pluck(:id)).to contain_exactly(os1.id, os2.id)
   end
 
   it "allows filtering occupation standards by state abbreviation" do
-    ca = create(:state, abbreviation: "CA")
-    wa = create(:state, abbreviation: "WA")
-    ra_ca = create(:registration_agency, state: ca)
-    ra_wa = create(:registration_agency, state: wa)
+    ra_ca = create(:registration_agency, for_state_abbreviation: "CA")
+    ra_wa = create(:registration_agency, for_state_abbreviation: "WA")
     os1 = create(:occupation_standard, :with_work_processes, registration_agency: ra_ca)
     os2 = create(:occupation_standard, :with_work_processes, registration_agency: ra_ca)
     create(:occupation_standard, :with_work_processes, registration_agency: ra_wa)
@@ -203,7 +199,7 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
     OccupationStandard.import
     OccupationStandard.__elasticsearch__.refresh_index!
 
-    params = {state: ca.abbreviation}
+    params = {state: ra_ca.state.abbreviation}
     response = described_class.new(search_params: params).call
 
     expect(response.records.pluck(:id)).to contain_exactly(os1.id, os2.id)
@@ -248,10 +244,8 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
   end
 
   it "allows searching by title and filtering occupation standards by state and national_standard_type and ojt_type" do
-    ca = create(:state)
-    wa = create(:state)
-    ra_ca = create(:registration_agency, state: ca)
-    ra_wa = create(:registration_agency, state: wa)
+    ra_ca = create(:registration_agency, for_state_abbreviation: "CA")
+    ra_wa = create(:registration_agency, for_state_abbreviation: "WA")
 
     os1 = create(:occupation_standard, :with_work_processes, :program_standard, :hybrid, registration_agency: ra_wa, title: "Pipe Fitter")
     create(:occupation_standard, :with_work_processes, :program_standard, :hybrid, registration_agency: ra_wa, title: "HR")
@@ -264,7 +258,7 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
 
     params = {
       q: "pipe",
-      state_id: wa.id,
+      state_id: ra_wa.state_id,
       national_standard_type: {program_standard: "1"},
       ojt_type: {hybrid: "1"}
     }
@@ -343,8 +337,7 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
   end
 
   it "collapses search results across headline" do
-    state = create(:state)
-    agency = create(:registration_agency, state: state)
+    agency = create(:registration_agency)
 
     os1 = create(:occupation_standard, :time, registration_agency: agency, title: "Pipe Fitter")
     create(:work_process, occupation_standard: os1, sort_order: 2, title: "fox jumps over", maximum_hours: 100)
