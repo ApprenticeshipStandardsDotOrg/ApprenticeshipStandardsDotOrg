@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/citizensadvice/capybara_accessible_selectors
-  revision: 679abc42cce81b43ed81d31bbe7ad6a96dbe7fef
-  tag: v0.11.0
+  revision: 347bbe06cb420416855e80bb4e3a3016b2d5872c
+  tag: v0.12.0
   specs:
     capybara_accessible_selectors (0.11.0)
       capybara (~> 3.36)
@@ -334,13 +334,13 @@ GEM
     pg (1.5.6)
     psych (5.1.2)
       stringio
-    public_suffix (5.0.4)
+    public_suffix (5.0.5)
     puma (6.4.2)
       nio4r (~> 2.0)
     pundit (2.3.1)
       activesupport (>= 3.0.0)
     racc (1.7.3)
-    rack (3.0.9.1)
+    rack (3.0.10)
     rack-attack (6.7.0)
       rack (>= 1.0, < 4)
     rack-cors (2.0.2)
