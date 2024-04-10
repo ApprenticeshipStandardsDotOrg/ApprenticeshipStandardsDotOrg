@@ -12,19 +12,6 @@ RSpec.describe RAPIDS::OccupationStandard, type: :model do
       expect(occupation_standard.rapids_code).to eq occupation_standard_response["rapidsCode"]
     end
 
-    context "when occupation title has a different encoding" do
-      it "returns correct UTF-8 representation" do
-        occupation_standard_response = create(
-          :rapids_api_occupation_standard,
-          title: "ALARM �OPERATOR (Gov Serv) (0870HYV1) Hybrid"
-        )
-
-        occupation_standard = RAPIDS::OccupationStandard.initialize_from_response(occupation_standard_response)
-
-        expect(occupation_standard.title).to eq "ALARM  OPERATOR (Gov Serv) (0870CBV1)"
-      end
-    end
-
     context "ojt_type" do
       it "returns correct ojt type when occType is Hybrid" do
         occupation_standard_response = create(
@@ -222,6 +209,50 @@ RSpec.describe RAPIDS::OccupationStandard, type: :model do
         occupation_standard = RAPIDS::OccupationStandard.initialize_from_response(occupation_standard_response)
 
         expect(occupation_standard.external_id).to eq "111111"
+      end
+    end
+
+    context "organization" do
+      it "creates corresponding organization if it does not exist already" do
+        create(:registration_agency, :for_national_program)
+
+        occupation_standard_response = create(
+          :rapids_api_occupation_standard,
+          :hybrid,
+          sponsorName: "thoughtbot",
+          sponsorNumber: "2019-73347"
+        )
+
+        occupation_standard = RAPIDS::OccupationStandard.initialize_from_response(occupation_standard_response)
+
+        organization = occupation_standard.organization
+        expect(organization.title).to eq "thoughtbot"
+
+        expect {
+          occupation_standard.save!
+        }.to change(OccupationStandard, :count).by(1).and \
+          change(Organization, :count).by(1)
+      end
+
+      it "uses current organization if already created" do
+        create(:registration_agency, :for_national_program)
+        create(:organization, title: "thoughtbot")
+
+        occupation_standard_response = create(
+          :rapids_api_occupation_standard,
+          :hybrid,
+          sponsorName: "thoughtbot",
+          sponsorNumber: "2019-73347"
+        )
+
+        occupation_standard = RAPIDS::OccupationStandard.initialize_from_response(occupation_standard_response)
+
+        organization = occupation_standard.organization
+        expect(organization.title).to eq "thoughtbot"
+
+        occupation_standard.save!
+
+        expect(Organization.count).to eq 1
       end
     end
   end

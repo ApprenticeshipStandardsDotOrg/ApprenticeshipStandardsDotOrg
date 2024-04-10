@@ -4,7 +4,7 @@ FactoryBot.define do
 
     sponsorName { "Sponsor RTI Provider" }
     sponsorNumber { "2024-MI-136422" }
-    occupationTitle { "ALARM  OPERATOR (Gov Serv) (0870CBV1)" }
+    sequence(:occupationTitle) { |n| "ALARM OPERATOR (Gov Serv) (0870CBV1) #{n}" }
     onetSocCode { "43-5031.00" }
     rapidsCode { "0870" }
     jobDesc { "Operate telephone, radio, or other communication systems to receive and communicate requests for emergency assistance at 9-1-1." }
