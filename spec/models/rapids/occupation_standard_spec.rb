@@ -65,9 +65,8 @@ RSpec.describe RAPIDS::OccupationStandard, type: :model do
 
       context "when sponsorNumber contains the name of the state" do
         it "sets OA registration agency for that specific state" do
-          california = create(:state, name: "California", abbreviation: "CA")
-          oa_registration_agency_for_california = create(:registration_agency, state: california, agency_type: "oa")
-          _saa_registration_agency_for_california = create(:registration_agency, state: california, agency_type: "saa")
+          oa_registration_agency_for_california = create(:registration_agency, for_state_abbreviation: "CA", agency_type: "oa")
+          _saa_registration_agency_for_california = create(:registration_agency, for_state_abbreviation: "CA", agency_type: "saa")
 
           occupation_standard_response = create(
             :rapids_api_occupation_standard,

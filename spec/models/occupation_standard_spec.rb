@@ -64,15 +64,13 @@ RSpec.describe OccupationStandard, type: :model do
 
   describe ".by_state_id" do
     it "returns records that have a registration agency for that state" do
-      ca = create(:state)
-      wa = create(:state)
-      ra_ca = create(:registration_agency, state: ca)
-      ra_wa = create(:registration_agency, state: wa)
+      ra_ca = create(:registration_agency, for_state_abbreviation: "CA")
+      ra_wa = create(:registration_agency, for_state_abbreviation: "WA")
       os1 = create(:occupation_standard, registration_agency: ra_ca)
       os2 = create(:occupation_standard, registration_agency: ra_ca)
       create(:occupation_standard, registration_agency: ra_wa)
 
-      expect(described_class.by_state_id(ca.id)).to contain_exactly(os1, os2)
+      expect(described_class.by_state_id(ra_ca.state_id)).to contain_exactly(os1, os2)
     end
 
     it "returns all records if state_id not provided" do
@@ -84,16 +82,14 @@ RSpec.describe OccupationStandard, type: :model do
 
   describe ".by_state_abbreviation" do
     it "returns records that have a registration agency for that state abbreviation" do
-      california = create(:state, abbreviation: "CA")
-      washington = create(:state, abbreviation: "WA")
-      agency_california = create(:registration_agency, state: california)
-      agency_washington = create(:registration_agency, state: washington)
+      agency_california = create(:registration_agency, for_state_abbreviation: "CA")
+      agency_washington = create(:registration_agency, for_state_abbreviation: "WA")
       standard_1 = create(:occupation_standard, registration_agency: agency_california)
       standard_2 = create(:occupation_standard, registration_agency: agency_california)
       create(:occupation_standard, registration_agency: agency_washington)
       create(:occupation_standard, registration_agency: agency_washington)
 
-      expect(described_class.by_state_abbreviation(california.abbreviation)).to contain_exactly(standard_1, standard_2)
+      expect(described_class.by_state_abbreviation(agency_california.state.abbreviation)).to contain_exactly(standard_1, standard_2)
     end
 
     it "returns all records if state_abbreviation not provided" do
@@ -621,8 +617,7 @@ RSpec.describe OccupationStandard, type: :model do
     end
 
     it "returns state abbreviation when registration agency has state" do
-      state = create(:state, name: "California", abbreviation: "CA")
-      registration_agency = create(:registration_agency, state: state)
+      registration_agency = create(:registration_agency, for_state_abbreviation: "CA")
       occupation_standard = create(:occupation_standard, registration_agency: registration_agency)
 
       expect(occupation_standard.state_abbreviation).to eq "CA"
@@ -638,11 +633,10 @@ RSpec.describe OccupationStandard, type: :model do
     end
 
     it "returns state id when registration agency has state" do
-      state = create(:state)
-      registration_agency = create(:registration_agency, state: state)
+      registration_agency = create(:registration_agency)
       occupation_standard = create(:occupation_standard, registration_agency: registration_agency)
 
-      expect(occupation_standard.state_id).to eq state.id
+      expect(occupation_standard.state_id).to eq registration_agency.state_id
     end
   end
 
@@ -721,8 +715,7 @@ RSpec.describe OccupationStandard, type: :model do
     context "when time-based standard" do
       context "when state exists" do
         it "concatenates state, type, title, work process hours, work process titles" do
-          state = create(:state)
-          agency = create(:registration_agency, state: state)
+          agency = create(:registration_agency)
           occupation_standard = create(:occupation_standard, :time, registration_agency: agency, title: "Pipe Fitter")
           create(:work_process, occupation_standard: occupation_standard, sort_order: 2, title: "fox jumps over", maximum_hours: 100)
           create(:work_process, occupation_standard: occupation_standard, sort_order: 1, title: "The quick brown", maximum_hours: 200)
@@ -731,7 +724,7 @@ RSpec.describe OccupationStandard, type: :model do
           occupation_standard.reload
 
           expect(occupation_standard.headline).to eq Digest::SHA2.hexdigest(
-            "#{state.abbreviation}-time-pipe-fitter-700-the-quick-brown-fox-jumps-over-the-lazy-dog"
+            "#{agency.state.abbreviation}-time-pipe-fitter-700-the-quick-brown-fox-jumps-over-the-lazy-dog"
           )
         end
       end
@@ -756,8 +749,7 @@ RSpec.describe OccupationStandard, type: :model do
     context "when competency-based standard" do
       context "when state exists" do
         it "concatenates state, type, title, skill names" do
-          state = create(:state)
-          agency = create(:registration_agency, state: state)
+          agency = create(:registration_agency)
           occupation_standard = create(:occupation_standard, :competency, registration_agency: agency, title: "Pipe Fitter")
           wp1 = create(:work_process, occupation_standard: occupation_standard, sort_order: 2)
           wp2 = create(:work_process, occupation_standard: occupation_standard, sort_order: 1)
@@ -769,7 +761,7 @@ RSpec.describe OccupationStandard, type: :model do
           occupation_standard.reload
 
           expect(occupation_standard.headline).to eq Digest::SHA2.hexdigest(
-            "#{state.abbreviation}-competency-pipe-fitter-0-the-quick-brown-fox-jumps-over-the-lazy-dog"
+            "#{agency.state.abbreviation}-competency-pipe-fitter-0-the-quick-brown-fox-jumps-over-the-lazy-dog"
           )
         end
       end
@@ -797,8 +789,7 @@ RSpec.describe OccupationStandard, type: :model do
     context "when hybrid standard" do
       context "when state exists" do
         it "concatenates state, type, title, work process hours, skill names, work process titles" do
-          state = create(:state)
-          agency = create(:registration_agency, state: state)
+          agency = create(:registration_agency)
           occupation_standard = create(:occupation_standard, :hybrid, registration_agency: agency, title: "Pipe Fitter")
           wp1 = create(:work_process, title: "wp1", occupation_standard: occupation_standard, sort_order: 2, maximum_hours: 200)
           wp2 = create(:work_process, title: "wp2", occupation_standard: occupation_standard, sort_order: 1, maximum_hours: 500)
@@ -810,7 +801,7 @@ RSpec.describe OccupationStandard, type: :model do
           occupation_standard.reload
 
           expect(occupation_standard.headline).to eq Digest::SHA2.hexdigest(
-            "#{state.abbreviation}-hybrid-pipe-fitter-700-the-quick-brown-fox-jumps-over-the-lazy-dog-wp2-wp1"
+            "#{agency.state.abbreviation}-hybrid-pipe-fitter-700-the-quick-brown-fox-jumps-over-the-lazy-dog-wp2-wp1"
           )
         end
       end
