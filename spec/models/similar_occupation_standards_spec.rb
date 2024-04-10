@@ -3,10 +3,8 @@ require "rails_helper"
 RSpec.describe SimilarOccupationStandards, type: :model do
   describe ".similar_to", :elasticsearch do
     it "returns records that are similar to the passed occupation standard" do
-      wa = create(:state, name: "Washington", abbreviation: "WA")
-      al = create(:state, name: "Alabama", abbreviation: "AL")
-      wa_reg_agency = create(:registration_agency, state: wa)
-      al_reg_agency = create(:registration_agency, state: al)
+      al_reg_agency = create(:registration_agency, for_state_abbreviation: "AL")
+      wa_reg_agency = create(:registration_agency, for_state_abbreviation: "WA")
 
       os1 = create(:occupation_standard, :time, title: "Childcare worker", registration_agency: wa_reg_agency)
       create(:work_process, title: "Principles of Child Growth and Development", occupation_standard: os1)

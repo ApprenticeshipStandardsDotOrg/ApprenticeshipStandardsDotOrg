@@ -26,12 +26,11 @@ RSpec.describe "OccupationStandard", type: :request do
 
         it "makes one Elasticsearch query if only filter params" do
           stub_feature_flag(:use_elasticsearch_for_search, true)
-          state = create(:state)
-          ra = create(:registration_agency, state: state)
+          ra = create(:registration_agency)
           create(:occupation_standard, :with_work_processes, :with_data_import, registration_agency: ra)
 
           expect(OccupationStandardElasticsearchQuery).to receive(:new).once.and_call_original
-          get occupation_standards_path(state_id: state.id)
+          get occupation_standards_path(state_id: ra.state_id)
 
           expect(response).to be_successful
         end

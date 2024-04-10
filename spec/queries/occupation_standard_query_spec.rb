@@ -42,15 +42,14 @@ RSpec.describe OccupationStandardQuery do
   end
 
   it "allows filtering occupation standards by state" do
-    ca = create(:state)
-    wa = create(:state)
-    ra_ca = create(:registration_agency, state: ca)
-    ra_wa = create(:registration_agency, state: wa)
+    ra_ca = create(:registration_agency, for_state_abbreviation: "CA")
+    ra_wa = create(:registration_agency, for_state_abbreviation: "WA")
+
     os1 = create(:occupation_standard, registration_agency: ra_ca)
     os2 = create(:occupation_standard, registration_agency: ra_ca)
     create(:occupation_standard, registration_agency: ra_wa)
 
-    params = {state_id: ca.id}
+    params = {state_id: ra_ca.state_id}
 
     occupation_standard_search = OccupationStandardQuery.run(
       OccupationStandard.all, params
@@ -60,15 +59,14 @@ RSpec.describe OccupationStandardQuery do
   end
 
   it "allows filtering occupation standards by state abbreviation" do
-    ca = create(:state, abbreviation: "CA")
-    wa = create(:state, abbreviation: "WA")
-    ra_ca = create(:registration_agency, state: ca)
-    ra_wa = create(:registration_agency, state: wa)
+    ra_ca = create(:registration_agency, for_state_abbreviation: "CA")
+    ra_wa = create(:registration_agency, for_state_abbreviation: "WA")
+
     os1 = create(:occupation_standard, registration_agency: ra_ca)
     os2 = create(:occupation_standard, registration_agency: ra_ca)
     create(:occupation_standard, registration_agency: ra_wa)
 
-    params = {state: ca.abbreviation}
+    params = {state: ra_ca.state.abbreviation}
 
     occupation_standard_search = OccupationStandardQuery.run(
       OccupationStandard.all, params
@@ -116,10 +114,8 @@ RSpec.describe OccupationStandardQuery do
   end
 
   it "allows searching by title and filtering occupation standards by state and national_standard_type and ojt_type" do
-    ca = create(:state)
-    wa = create(:state)
-    ra_ca = create(:registration_agency, state: ca)
-    ra_wa = create(:registration_agency, state: wa)
+    ra_ca = create(:registration_agency, for_state_abbreviation: "CA")
+    ra_wa = create(:registration_agency, for_state_abbreviation: "WA")
 
     os1 = create(:occupation_standard, :program_standard, :hybrid, registration_agency: ra_wa, title: "Mechanic")
     create(:occupation_standard, :program_standard, :hybrid, registration_agency: ra_wa, title: "HR")
@@ -129,7 +125,7 @@ RSpec.describe OccupationStandardQuery do
 
     params = {
       q: "mech",
-      state_id: wa.id,
+      state_id: ra_wa.state_id,
       national_standard_type: {program_standard: "1"},
       ojt_type: {hybrid: "1"}
     }

@@ -2,11 +2,8 @@ require "rails_helper"
 
 RSpec.describe ":state/occupation_standards" do
   it "shows occupations from registration matching state initials" do
-    new_york = create(:state, name: "New York", abbreviation: "NY")
-    nevada = create(:state, name: "Nevada", abbreviation: "NV")
-
-    new_york_registration_agency = create(:registration_agency, state: new_york)
-    nevada_registration_agency = create(:registration_agency, state: nevada)
+    new_york_registration_agency = create(:registration_agency, for_state_abbreviation: "NY")
+    nevada_registration_agency = create(:registration_agency, for_state_abbreviation: "NV")
 
     standard_from_new_york = create(:occupation_standard,
       :with_work_processes,
@@ -19,7 +16,7 @@ RSpec.describe ":state/occupation_standards" do
       title: "Pipe Fitter",
       registration_agency: nevada_registration_agency)
 
-    visit occupation_standards_by_state_path(state: new_york.abbreviation)
+    visit occupation_standards_by_state_path(state: new_york_registration_agency.state.abbreviation)
 
     expect(page).to have_link "Mechanic", href: occupation_standard_path(standard_from_new_york)
     expect(page).not_to have_link "Pipe Fitter"
