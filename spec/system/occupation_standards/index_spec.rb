@@ -564,7 +564,6 @@ RSpec.describe "occupation_standards/index" do
 
     it "filters standards with state shortcode" do
       stub_feature_flag(:use_elasticsearch_for_search, true)
-      # washington = create(:state, name: "Washington", abbreviation: "WA")
       washington_registration_agency = create(:registration_agency, for_state_abbreviation: "WA")
       mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", onet_code: "12.3456", registration_agency: washington_registration_agency)
       create(:occupation_standard, :with_work_processes, :with_data_import, title: "Pipe Fitter", onet_code: "12.34567")
