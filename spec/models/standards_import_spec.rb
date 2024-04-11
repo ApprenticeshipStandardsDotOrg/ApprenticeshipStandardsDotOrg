@@ -66,6 +66,29 @@ RSpec.describe StandardsImport, type: :model do
     end
   end
 
+  describe "imports" do
+    it "builds a tree of imports" do
+      standards_import = create(:standards_import)
+      standards_import.imports.build(attributes_for(:imports_uncategorized, parent: nil))
+      uncategorized = standards_import.imports.first
+      uncategorized.build_import(attributes_for(:imports_docx_listing, parent: nil))
+      docx_listing = uncategorized.import
+      docx_listing.imports.build(attributes_for(:imports_docx, parent: nil))
+      docx = docx_listing.imports.first
+      docx.build_pdf(attributes_for(:imports_pdf, parent: nil))
+
+      expect(standards_import.save).to be_truthy
+      standards_import.reload
+
+      expect(standards_import.imports.count).to eq(1)
+      expect(standards_import.imports.first).to be_an(Imports::Uncategorized)
+      expect(standards_import.imports.first.import).to be_an(Imports::DocxListing)
+      expect(standards_import.imports.first.import.imports.count).to eq(1)
+      expect(standards_import.imports.first.import.imports.first).to be_an(Imports::Docx)
+      expect(standards_import.imports.first.import.imports.first.pdf).to be_an(Imports::Pdf)
+    end
+  end
+
   describe ".manual_submissions_in_need_of_courtesy_notification" do
     context "when no email passed" do
       it "returns all standards imports that need notification" do
