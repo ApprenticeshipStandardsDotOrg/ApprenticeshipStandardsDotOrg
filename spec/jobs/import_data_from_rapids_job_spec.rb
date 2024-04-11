@@ -98,6 +98,34 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
       end
     end
 
+    context "when receiving an existing standard" do
+      it "does not create a duplicated record" do
+        stub_get_token!
+        create(:registration_agency, for_state_abbreviation: "MI", agency_type: :oa)
+
+        occupation_standard_response = create_list(
+          :rapids_api_occupation_standard,
+          2,
+          :hybrid,
+          occupationTitle: "Occupation 1",
+          sponsorName: "thoughtbot",
+          with_detailed_work_activities: 1
+        )
+        rapids_response = create(:rapids_response, totalCount: 2, wps: occupation_standard_response)
+
+        stub_rapids_api_response(
+          {
+            batchSize: ImportDataFromRAPIDSJob::PER_PAGE_SIZE,
+            startIndex: 1
+          },
+          rapids_response
+        )
+        expect {
+          described_class.perform_now
+        }.to change(OccupationStandard, :count).by(1)
+      end
+    end
+
     context "pagination" do
       it "performs more than one call with correct arguments when records exceed batch size" do
         stub_get_token!

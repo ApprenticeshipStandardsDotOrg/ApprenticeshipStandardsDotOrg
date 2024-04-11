@@ -13,8 +13,7 @@ class ImportDataFromRAPIDSJob < ApplicationJob
         startIndex: start_index
       )
       parsed_response = response.parsed
-      occupation_standards = process_api_response(parsed_response)
-      occupation_standards.map(&:save)
+      process_api_response(parsed_response)
       total_records = parsed_response["totalCount"]
       start_index += PER_PAGE_SIZE
 
@@ -23,7 +22,7 @@ class ImportDataFromRAPIDSJob < ApplicationJob
   end
 
   def process_api_response(response)
-    response["wps"].map do |occupation_standard_response|
+    response["wps"].each do |occupation_standard_response|
       occupation_standard = process_occupation_standard(occupation_standard_response)
 
       occupation_standard.work_processes = process_work_processes(
@@ -40,14 +39,23 @@ class ImportDataFromRAPIDSJob < ApplicationJob
           )
         end
       end
-
-      occupation_standard
+      occupation_standard.save
     end
   end
 
   def process_occupation_standard(occupation_standard_response)
-    RAPIDS::OccupationStandard.initialize_from_response(
-      occupation_standard_response
+    find_occupation_standard(occupation_standard_response) ||
+      RAPIDS::OccupationStandard.initialize_from_response(
+        occupation_standard_response
+      )
+  end
+
+  def find_occupation_standard(occupation_standard_response)
+    ::OccupationStandard.includes(:organization).find_by(
+      title: occupation_standard_response["occupationTitle"],
+      organization: {
+        title: occupation_standard_response["sponsorName"]
+      }
     )
   end
 
