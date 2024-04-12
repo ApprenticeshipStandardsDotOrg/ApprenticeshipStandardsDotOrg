@@ -3,14 +3,6 @@ module Imports
     has_one :pdf, as: :parent, dependent: :destroy, autosave: true
     has_one_attached :file
 
-    enum :status, [
-      :pending,
-      :completed,
-      :needs_support,
-      :needs_human_review,
-      :archived,
-    ]
-
     def process
       output_pdf_path = ConvertDocToPdf.call(id, file)
 
