@@ -22,7 +22,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_29_183351) do
     t.uuid "blob_id", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
-    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness",
+                                                             unique: true
   end
 
   create_table "active_storage_blobs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -132,8 +133,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_29_183351) do
     t.jsonb "metadata", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "processed_at", precision: nil
+    t.text "processing_errors"
     t.index ["assignee_id"], name: "index_imports_on_assignee_id"
     t.index ["parent_type", "parent_id"], name: "index_imports_on_parent"
+    t.index ["processed_at"], name: "index_imports_on_processed_at"
   end
 
   create_table "industries", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -194,7 +198,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_29_183351) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["next_version_onet_id"], name: "index_onet_mappings_on_next_version_onet_id"
-    t.index ["onet_id", "next_version_onet_id"], name: "index_onet_mappings_on_onet_id_and_next_version_onet_id", unique: true
+    t.index ["onet_id", "next_version_onet_id"], name: "index_onet_mappings_on_onet_id_and_next_version_onet_id",
+                                                 unique: true
   end
 
   create_table "onets", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

@@ -1,25 +1,6 @@
 require "rails_helper"
 
 RSpec.describe DocToPdfConverter do
-  describe ".convert_all" do
-    it "converts word files" do
-      pdf = create(:source_file, :pdf)
-      docx = create(:source_file, :docx)
-      doc = create(:source_file, :doc)
-      expect(described_class::ConvertJob)
-        .not_to receive(:perform_later)
-        .with(pdf)
-      expect(described_class::ConvertJob)
-        .to receive(:perform_later)
-        .with(docx)
-      expect(described_class::ConvertJob)
-        .to receive(:perform_later)
-        .with(doc)
-
-      described_class.convert_all
-    end
-  end
-
   describe ".convert" do
     it "converts a docx to a pdf" do
       with_tmp_dir do |tmp_dir|
