@@ -103,9 +103,8 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
         stub_get_token!
         create(:registration_agency, for_state_abbreviation: "MI", agency_type: :oa)
 
-        occupation_standard_response = create_list(
+        occupation_standard_response = create_pair(
           :rapids_api_occupation_standard,
-          2,
           :hybrid,
           occupationTitle: "\xA0Occupation 1",
           sponsorName: "thoughtbot",
