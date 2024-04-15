@@ -9,5 +9,19 @@ RSpec.describe RAPIDS::Competency, type: :model do
 
       expect(competency.title).to eq "Competency #1"
     end
+
+    it "sets the sort_order if provided" do
+      competency_response = create(:rapids_api_competency)
+
+      competency = described_class.initialize_from_response(
+        competency_response.merge(
+          {
+            "sort_order" => 2
+          }
+        )
+      )
+
+      expect(competency.sort_order).to eq 2
+    end
   end
 end

@@ -26,9 +26,10 @@ module RAPIDS
 
       def process_competencies(tasks)
         tasks_titles = tasks.first.split(/\s?;\s?/)
-        tasks_titles.map do |task_title|
+        tasks_titles.map.with_index do |task_title, index|
           Competency.initialize_from_response({
-            "title" => task_title
+            "title" => task_title,
+            "sort_order" => index
           })
         end
       end

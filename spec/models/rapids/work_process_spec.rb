@@ -29,8 +29,11 @@ RSpec.describe RAPIDS::WorkProcess, type: :model do
 
       expect(work_process.competencies.size).to eq 3
       expect(first_competency.title).to eq "Competency #1"
+      expect(first_competency.sort_order).to eq 0
       expect(second_competency.title).to eq "Competency #2"
+      expect(second_competency.sort_order).to eq 1
       expect(third_competency.title).to eq "Competency #3"
+      expect(third_competency.sort_order).to eq 2
     end
 
     it "returns correct number of competencies regardless of extra or missing spacing" do
