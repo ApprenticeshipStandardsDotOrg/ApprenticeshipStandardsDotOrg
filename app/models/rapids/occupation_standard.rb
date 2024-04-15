@@ -1,5 +1,6 @@
 module RAPIDS
   class OccupationStandard
+
     OCC_TYPE_MAPPING = {
       "Time-Based" => :time,
       "Competency-Based" => :competency,
@@ -7,6 +8,8 @@ module RAPIDS
     }
 
     class << self
+      include Sanitizable
+
       def initialize_from_response(response)
         rapids_code = sanitize_rapids_code(response["rapidsCode"])
         onet_code = response["onetSocCode"]
@@ -49,10 +52,6 @@ module RAPIDS
         end
 
         registration_agency || RegistrationAgency.registration_agency_for_national_program
-      end
-
-      def fix_encoding(text)
-        text.encode("UTF-8", "UTF-8", invalid: :replace, replace: "")
       end
 
       def find_or_create_organization_by_organization_name(organization_name)

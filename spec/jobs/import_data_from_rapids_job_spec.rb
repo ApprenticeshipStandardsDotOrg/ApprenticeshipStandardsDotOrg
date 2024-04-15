@@ -107,7 +107,7 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
           :rapids_api_occupation_standard,
           2,
           :hybrid,
-          occupationTitle: "Occupation 1",
+          occupationTitle: "\xA0Occupation 1",
           sponsorName: "thoughtbot",
           with_detailed_work_activities: 1
         )
@@ -122,7 +122,8 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
         )
         expect {
           described_class.perform_now
-        }.to change(OccupationStandard, :count).by(1)
+        }.to change(OccupationStandard, :count).by(1).and \
+          change(WorkProcess, :count).by(1)
       end
     end
 
