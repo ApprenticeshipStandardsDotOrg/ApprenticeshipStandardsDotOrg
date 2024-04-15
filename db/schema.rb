@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_28_221229) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_04_161634) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -119,6 +119,21 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_28_221229) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["feature_key", "key", "value"], name: "index_flipper_gates_on_feature_key_and_key_and_value", unique: true
+  end
+
+  create_table "imports", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.integer "status", default: 0, null: false
+    t.uuid "assignee_id"
+    t.boolean "public_document", default: false, null: false
+    t.integer "courtesy_notification", default: 0
+    t.string "parent_type", null: false
+    t.uuid "parent_id", null: false
+    t.string "type", null: false
+    t.jsonb "metadata", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assignee_id"], name: "index_imports_on_assignee_id"
+    t.index ["parent_type", "parent_id"], name: "index_imports_on_parent"
   end
 
   create_table "industries", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -344,6 +359,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_28_221229) do
   add_foreign_key "data_imports", "occupation_standards"
   add_foreign_key "data_imports", "source_files"
   add_foreign_key "data_imports", "users"
+  add_foreign_key "imports", "users", column: "assignee_id"
   add_foreign_key "occupation_standards", "industries"
   add_foreign_key "occupation_standards", "occupations"
   add_foreign_key "occupation_standards", "organizations"
