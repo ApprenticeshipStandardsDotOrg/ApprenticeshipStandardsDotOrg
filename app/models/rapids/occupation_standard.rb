@@ -1,6 +1,5 @@
 module RAPIDS
   class OccupationStandard
-
     OCC_TYPE_MAPPING = {
       "Time-Based" => :time,
       "Competency-Based" => :competency,
