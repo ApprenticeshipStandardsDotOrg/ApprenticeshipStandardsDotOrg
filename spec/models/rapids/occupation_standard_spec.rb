@@ -12,6 +12,19 @@ RSpec.describe RAPIDS::OccupationStandard, type: :model do
       expect(occupation_standard.rapids_code).to eq occupation_standard_response["rapidsCode"]
     end
 
+    context "when occupation title has a different encoding" do
+      it "returns correct UTF-8 representation" do
+        occupation_standard_response = create(
+          :rapids_api_occupation_standard,
+          occupationTitle: "\xA0ALARM OPERATOR (Gov Serv) (0870HYV1) Hybrid"
+        )
+
+        occupation_standard = RAPIDS::OccupationStandard.initialize_from_response(occupation_standard_response)
+
+        expect(occupation_standard.title).to eq "ALARM OPERATOR (Gov Serv) (0870HYV1) Hybrid"
+      end
+    end
+
     context "ojt_type" do
       it "returns correct ojt type when occType is Hybrid" do
         occupation_standard_response = create(

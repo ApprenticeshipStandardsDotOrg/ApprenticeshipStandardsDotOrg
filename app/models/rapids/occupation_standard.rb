@@ -10,8 +10,9 @@ module RAPIDS
       def initialize_from_response(response)
         rapids_code = sanitize_rapids_code(response["rapidsCode"])
         onet_code = response["onetSocCode"]
+        title = fix_encoding(response["occupationTitle"])
         ::OccupationStandard.new(
-          title: response["occupationTitle"],
+          title: title,
           onet_code: onet_code,
           rapids_code: rapids_code,
           ojt_type: ojt_type(response["occType"]),
@@ -48,6 +49,10 @@ module RAPIDS
         end
 
         registration_agency || RegistrationAgency.registration_agency_for_national_program
+      end
+
+      def fix_encoding(text)
+        text.encode("UTF-8", "UTF-8", invalid: :replace, replace: "")
       end
 
       def find_or_create_organization_by_organization_name(organization_name)
