@@ -24,17 +24,20 @@ FactoryBot.define do
           when "Hybrid"
             create_list(
               :rapids_api_detailed_work_activity_for_hybrid,
-              context.with_detailed_work_activities
+              context.with_detailed_work_activities,
+              with_tasks: 1
             )
           when "Time-Based"
             create_list(
               :rapids_api_detailed_work_activity_for_time_based,
-              context.with_detailed_work_activities
+              context.with_detailed_work_activities,
+              with_tasks: 1
             )
           when "Competency-Based"
             create_list(
               :rapids_api_detailed_work_activity_for_competency_based,
-              context.with_detailed_work_activities
+              context.with_detailed_work_activities,
+              with_tasks: 1
             )
           end
       end

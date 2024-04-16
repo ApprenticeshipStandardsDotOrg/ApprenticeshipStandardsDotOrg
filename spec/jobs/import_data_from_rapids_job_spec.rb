@@ -25,7 +25,8 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
         expect {
           described_class.perform_now
         }.to change(OccupationStandard, :count).by(1).and \
-          change(WorkProcess, :count).by(3)
+          change(WorkProcess, :count).by(3).and \
+            change(Competency, :count).by(3)
 
         occupation_standard = OccupationStandard.last
 
@@ -57,7 +58,8 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
         expect {
           described_class.perform_now
         }.to change(OccupationStandard, :count).by(1).and \
-          change(WorkProcess, :count).by(2)
+          change(WorkProcess, :count).by(2).and \
+            change(Competency, :count).by(0)
 
         occupation_standard = OccupationStandard.last
 
@@ -89,7 +91,8 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
         expect {
           described_class.perform_now
         }.to change(OccupationStandard, :count).by(1).and \
-          change(WorkProcess, :count).by(4)
+          change(WorkProcess, :count).by(4).and \
+            change(Competency, :count).by(4)
 
         occupation_standard = OccupationStandard.last
 

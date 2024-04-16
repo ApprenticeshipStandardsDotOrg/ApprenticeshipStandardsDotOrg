@@ -51,5 +51,52 @@ RSpec.describe RAPIDS::WorkProcess, type: :model do
       expect(second_competency.title).to eq "Competency #2"
       expect(third_competency.title).to eq "Competency #3"
     end
+
+    context "when receiving ojt_type" do
+      it "creates competencies when ojt_type is hybrid" do
+        work_process_response = create(
+          :rapids_api_detailed_work_activity,
+          tasks: ["Competency #1 ; Competency #2;Competency #3"]
+        )
+
+        work_process = described_class.initialize_from_response(
+          work_process_response,
+          ojt_type: :hybrid
+        )
+
+        expect(work_process.description).to be_nil
+        expect(work_process.competencies.size).to eq 3
+      end
+
+      it "creates competencies when ojt_type is competency" do
+        work_process_response = create(
+          :rapids_api_detailed_work_activity,
+          tasks: ["Competency #1 ; Competency #2;Competency #3"]
+        )
+
+        work_process = described_class.initialize_from_response(
+          work_process_response,
+          ojt_type: :competency
+        )
+
+        expect(work_process.description).to be_nil
+        expect(work_process.competencies.size).to eq 3
+      end
+
+      it "populates description when ojt_type is time" do
+        work_process_response = create(
+          :rapids_api_detailed_work_activity,
+          tasks: ["Competency #1 ; Competency #2;Competency #3"]
+        )
+
+        work_process = described_class.initialize_from_response(
+          work_process_response,
+          ojt_type: :time
+        )
+
+        expect(work_process.description).to eq "Competency #1; Competency #2; Competency #3"
+        expect(work_process.competencies.size).to eq 0
+      end
+    end
   end
 end

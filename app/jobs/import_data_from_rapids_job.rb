@@ -66,7 +66,8 @@ class ImportDataFromRAPIDSJob < ApplicationJob
   def process_work_processes(work_processes_response, occupation_standard)
     work_processes_response.filter_map do |work_process_response|
       work_process = RAPIDS::WorkProcess.initialize_from_response(
-        work_process_response
+        work_process_response,
+        ojt_type: occupation_standard&.ojt_type&.to_sym
       )
       work_process.occupation_standard = occupation_standard
       work_process if work_process.valid?
