@@ -12,7 +12,7 @@ RSpec.describe Imports::Docx, type: :model do
 
       expect(docx.pdf).to be_present
       pdf = docx.pdf
-      expect(pdf.status).to eq("pending")
+      expect(pdf.status).to eq("completed")
       expect(pdf.public_document).to eq(true)
       expect(pdf.courtesy_notification).to eq("not_required")
 
@@ -46,6 +46,19 @@ RSpec.describe Imports::Docx, type: :model do
       expect(docx.processed_at).to be_blank
       expect(docx.processing_errors).to be_present
       expect(docx.status).to eq("needs_support")
+    end
+
+    it "processes the PDF" do
+      allow(ConvertDocToPdf).to receive(:call).and_return(
+        Rails.root.join("spec", "fixtures", "files", "pixel1x1.pdf")
+      )
+      pdf_import = double(:pdf, process: nil)
+      docx = create(:imports_docx)
+      allow(docx).to receive(:pdf).and_return(pdf_import)
+
+      docx.process(arg: 1)
+
+      expect(pdf_import).to have_received(:process).with(arg: 1)
     end
   end
 
