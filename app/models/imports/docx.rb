@@ -3,7 +3,7 @@ module Imports
     has_one :pdf, as: :parent, dependent: :destroy, autosave: true
     has_one_attached :file
 
-    def process
+    def process(**_)
       output_pdf_path = ConvertDocToPdf.call(id, file)
 
       transaction do
