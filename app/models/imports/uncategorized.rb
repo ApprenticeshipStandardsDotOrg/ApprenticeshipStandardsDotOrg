@@ -13,7 +13,7 @@ module Imports
       update!(
         processed_at: nil,
         processing_errors: e.message,
-        status: :needs_support
+        status: :needs_backend_support
       )
       raise
     end

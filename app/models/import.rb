@@ -7,6 +7,7 @@ class Import < ApplicationRecord
     :needs_support,
     :needs_human_review,
     :archived,
+    :needs_backend_support,
   ]
   enum courtesy_notification: [
     :not_required,

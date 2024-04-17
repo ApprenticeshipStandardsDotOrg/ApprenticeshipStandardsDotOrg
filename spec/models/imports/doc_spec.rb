@@ -31,7 +31,7 @@ RSpec.describe Imports::Doc, type: :model do
       expect(doc.pdf).to be_blank
       expect(doc.processed_at).to be_blank
       expect(doc.processing_errors).to be_present
-      expect(doc.status).to eq("needs_support")
+      expect(doc.status).to eq("needs_backend_support")
     end
 
     it "updates the Doc for failed soffice" do
@@ -45,7 +45,7 @@ RSpec.describe Imports::Doc, type: :model do
       expect(doc.pdf).to be_blank
       expect(doc.processed_at).to be_blank
       expect(doc.processing_errors).to be_present
-      expect(doc.status).to eq("needs_support")
+      expect(doc.status).to eq("needs_backend_support")
     end
 
     it "processes the PDF" do

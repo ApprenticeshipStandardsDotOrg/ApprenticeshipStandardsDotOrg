@@ -76,7 +76,7 @@ RSpec.describe Imports::Uncategorized, type: :model do
 
       expect(import.processed_at).to be_blank
       expect(import.processing_errors).to be_present
-      expect(import.status).to eq("needs_support")
+      expect(import.status).to eq("needs_backend_support")
     end
   end
 end
