@@ -278,7 +278,6 @@ RSpec.describe "pages/home" do
 
   describe "Recently Added" do
     before(:each) do |example|
-      stub_feature_flag(:show_recently_added_section, true)
       stub_feature_flag(:similar_programs_elasticsearch, false)
       stub_feature_flag(:use_elasticsearch_for_search, false)
     end
