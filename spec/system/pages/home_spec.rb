@@ -111,7 +111,6 @@ RSpec.describe "pages/home" do
   context "with Elasticsearch enabled", :elasticsearch do
     before(:each) do |example|
       stub_feature_flag(:use_elasticsearch_for_search, true)
-      stub_feature_flag(:show_recently_added_section, true)
     end
 
     it "filters occupations based on search term" do
