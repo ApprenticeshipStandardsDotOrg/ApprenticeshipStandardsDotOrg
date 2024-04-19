@@ -63,7 +63,7 @@ RSpec.describe Imports::Uncategorized, type: :model do
 
       expect(import.processed_at).to be_present
       expect(import.processing_errors).to be_blank
-      expect(import.status).to eq("completed")
+      expect(import.status).to eq("archived")
     end
 
     it "stores errors" do

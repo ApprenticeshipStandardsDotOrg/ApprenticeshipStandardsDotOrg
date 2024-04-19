@@ -20,6 +20,10 @@ module Imports
 
     private
 
+    DOCX_CONTENT_TYPE = Mime::Type.lookup_by_extension("docx").to_s
+    DOC_CONTENT_TYPE = Mime::Type.lookup_by_extension("doc").to_s
+    PDF_CONTENT_TYPE = Mime::Type.lookup_by_extension("pdf").to_s
+
     def create_child!(listing:)
       create_import!(
         status: :pending,
@@ -40,25 +44,21 @@ module Imports
       update!(
         processed_at: Time.current,
         processing_errors: nil,
-        status: :completed
+        status: :archived,
       )
     end
 
     def child_type(listing:)
-      case filename_suffix
-      in "doc"
+      case file_blob.content_type
+      in DOC_CONTENT_TYPE
         "Imports::Doc"
-      in "docx" if listing
+      in DOCX_CONTENT_TYPE if listing
         "Imports::DocxListing"
-      in "docx" if !listing
+      in DOCX_CONTENT_TYPE if !listing
         "Imports::Docx"
-      in "pdf"
+      in PDF_CONTENT_TYPE
         "Imports::Pdf"
       end
-    end
-
-    def filename_suffix
-      file_attachment.filename.extension
     end
   end
 end

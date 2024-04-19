@@ -18,7 +18,7 @@ RSpec.describe Imports::Docx, type: :model do
 
       expect(docx.processed_at).to be_present
       expect(docx.processing_errors).to be_blank
-      expect(docx.status).to eq("completed")
+      expect(docx.status).to eq("archived")
     end
 
     it "updates the Docx for missing soffice" do

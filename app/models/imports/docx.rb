@@ -16,7 +16,7 @@ module Imports
         update!(
           processed_at: Time.current,
           processing_errors: nil,
-          status: :completed,
+          status: :archived
         )
       end
     rescue ConvertDocToPdf::PdfConversionError => e
