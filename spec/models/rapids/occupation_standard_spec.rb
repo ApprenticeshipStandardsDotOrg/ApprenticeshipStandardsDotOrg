@@ -23,6 +23,7 @@ RSpec.describe RAPIDS::OccupationStandard, type: :model do
         occupation_standard = RAPIDS::OccupationStandard.initialize_from_response(occupation_standard_response)
 
         expect(occupation_standard.title).to eq "ALARM OPERATOR (Gov Serv) (0870HYV1) Hybrid"
+        expect(occupation_standard.metadata["occupationTitle"]).to eq "ALARM OPERATOR (Gov Serv) (0870HYV1) Hybrid"
       end
     end
 
