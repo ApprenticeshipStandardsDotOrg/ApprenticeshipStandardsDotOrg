@@ -22,6 +22,9 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
           },
           rapids_response
         )
+
+        stub_documents_response("1234", nil)
+
         expect {
           described_class.perform_now
         }.to change(OccupationStandard, :count).by(1).and \
@@ -55,6 +58,9 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
           },
           rapids_response
         )
+
+        stub_documents_response("1234", nil)
+
         expect {
           described_class.perform_now
         }.to change(OccupationStandard, :count).by(1).and \
@@ -88,6 +94,9 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
           },
           rapids_response
         )
+
+        stub_documents_response("1234", nil)
+
         expect {
           described_class.perform_now
         }.to change(OccupationStandard, :count).by(1).and \
@@ -122,6 +131,9 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
           },
           rapids_response
         )
+
+        stub_documents_response("1234", nil)
+
         expect {
           described_class.perform_now
         }.to change(OccupationStandard, :count).by(1).and \
@@ -168,6 +180,8 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
           )
         )
 
+        stub_documents_response("1234", nil)
+
         expect {
           described_class.perform_now
         }.to change(OccupationStandard, :count).to eq 3
@@ -201,6 +215,9 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
           },
           rapids_response
         )
+
+        stub_documents_response("1234", nil)
+
         expect {
           described_class.perform_now
         }.to change(OccupationStandard, :count).by(1).and \
@@ -209,8 +226,8 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
     end
 
     context "wps document" do
-      context "when document is mark as not uploaded" do
-        it "does not attach a document" do
+      context "when response has a document" do
+        it "attaches the document" do
           stub_get_token!
           create(:registration_agency, for_state_abbreviation: "MI", agency_type: :oa)
 
@@ -218,7 +235,8 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
             :rapids_api_occupation_standard,
             1,
             :competency,
-            isWPSUploaded: false
+            :with_wps_document,
+            wpsDocument: "https://entbpmpstg.dol.gov/suite/webapi/rapids/data-sharing/documents/wps/123456"
           )
           rapids_response = create(:rapids_response, totalCount: 1, wps: occupation_standard_response)
 
@@ -230,6 +248,46 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
             rapids_response
           )
 
+          document = File.read(Rails.root.join(
+            "spec", "fixtures", "files", "document.docx"
+          ))
+
+          stub_documents_response("123456", document)
+
+          expect {
+            described_class.perform_now
+          }.to change(OccupationStandard, :count).by(1)
+
+          occupation_standard = OccupationStandard.last
+
+          expect(occupation_standard.redacted_document).to be_attached
+        end
+      end
+
+      context "when response does not have a document" do
+        it "skips document attachment" do
+          stub_get_token!
+          create(:registration_agency, for_state_abbreviation: "MI", agency_type: :oa)
+
+          occupation_standard_response = create_list(
+            :rapids_api_occupation_standard,
+            1,
+            :competency,
+            :with_wps_document,
+            wpsDocument: "https://entbpmpstg.dol.gov/suite/webapi/rapids/data-sharing/documents/wps/123456"
+          )
+          rapids_response = create(:rapids_response, totalCount: 1, wps: occupation_standard_response)
+
+          stub_rapids_api_response(
+            {
+              batchSize: ImportDataFromRAPIDSJob::PER_PAGE_SIZE,
+              startIndex: 1
+            },
+            rapids_response
+          )
+
+          stub_documents_response("123456", nil)
+
           expect {
             described_class.perform_now
           }.to change(OccupationStandard, :count).by(1)
@@ -237,80 +295,6 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
           occupation_standard = OccupationStandard.last
 
           expect(occupation_standard.redacted_document).to_not be_attached
-        end
-      end
-
-      context "when document is mark as uploaded" do
-        context "when response has a document" do
-          it "attaches the document" do
-            stub_get_token!
-            create(:registration_agency, for_state_abbreviation: "MI", agency_type: :oa)
-
-            occupation_standard_response = create_list(
-              :rapids_api_occupation_standard,
-              1,
-              :competency,
-              :with_wps_document,
-              wpsDocument: "https://entbpmpstg.dol.gov/suite/webapi/rapids/data-sharing/documents/wps/123456"
-            )
-            rapids_response = create(:rapids_response, totalCount: 1, wps: occupation_standard_response)
-
-            stub_rapids_api_response(
-              {
-                batchSize: ImportDataFromRAPIDSJob::PER_PAGE_SIZE,
-                startIndex: 1
-              },
-              rapids_response
-            )
-
-            document = File.read(Rails.root.join(
-              "spec", "fixtures", "files", "document.docx"
-            ))
-
-            stub_documents_response("123456", document)
-
-            expect {
-              described_class.perform_now
-            }.to change(OccupationStandard, :count).by(1)
-
-            occupation_standard = OccupationStandard.last
-
-            expect(occupation_standard.redacted_document).to be_attached
-          end
-        end
-
-        context "when response does not have a document" do
-          it "skips document attachment" do
-            stub_get_token!
-            create(:registration_agency, for_state_abbreviation: "MI", agency_type: :oa)
-
-            occupation_standard_response = create_list(
-              :rapids_api_occupation_standard,
-              1,
-              :competency,
-              :with_wps_document,
-              wpsDocument: "https://entbpmpstg.dol.gov/suite/webapi/rapids/data-sharing/documents/wps/123456"
-            )
-            rapids_response = create(:rapids_response, totalCount: 1, wps: occupation_standard_response)
-
-            stub_rapids_api_response(
-              {
-                batchSize: ImportDataFromRAPIDSJob::PER_PAGE_SIZE,
-                startIndex: 1
-              },
-              rapids_response
-            )
-
-            stub_documents_response("123456", nil)
-
-            expect {
-              described_class.perform_now
-            }.to change(OccupationStandard, :count).by(1)
-
-            occupation_standard = OccupationStandard.last
-
-            expect(occupation_standard.redacted_document).to_not be_attached
-          end
         end
       end
     end
