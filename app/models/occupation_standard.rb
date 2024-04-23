@@ -404,6 +404,10 @@ class OccupationStandard < ApplicationRecord
     base_onet
   end
 
+  def sponsor_number
+    metadata["sponsorNumber"]
+  end
+
   private
 
   def national?

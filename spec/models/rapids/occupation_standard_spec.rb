@@ -10,6 +10,7 @@ RSpec.describe RAPIDS::OccupationStandard, type: :model do
       expect(occupation_standard.title).to eq occupation_standard_response["occupationTitle"]
       expect(occupation_standard.onet_code).to eq occupation_standard_response["onetSocCode"]
       expect(occupation_standard.rapids_code).to eq occupation_standard_response["rapidsCode"]
+      expect(occupation_standard.metadata).to eq occupation_standard_response
     end
 
     context "when occupation title has a different encoding" do
