@@ -1,17 +1,17 @@
 module ImportViaLLM
   class ProcessDataImport
-    attr_reader :attachment, :text
+    attr_reader :attachment #, :text
 
     def initialize(attachment:)
       @attachment = attachment
-      @text = PdfFile.text(attachment)
+      # @text = PdfFile.text(attachment)
       @ai = LLM.new
-      @appendix_a = determine_appendix_a
+      # @appendix_a = determine_appendix_a
     end
 
-    def appendix_a?
-      @appendix_a
-    end
+    # def appendix_a?
+    #   @appendix_a
+    # end
 
     # TODO: collect occupation_standard from document
     def work_processes(occupation_standard)
@@ -22,31 +22,60 @@ module ImportViaLLM
 
     attr_reader :ai
 
-    def determine_appendix_a
-      answer = ai.chat(prompt(:appendix_a))
-      ActiveModel::Type::Boolean.new.cast(answer&.downcase)
-    end
+    # def determine_appendix_a
+    #   answer = ai.chat(prompt(:appendix_a))
+    #   ActiveModel::Type::Boolean.new.cast(answer&.downcase)
+    # end
 
     # @returns [Array<WorkProcess>]
     def import_work_processes(occupation_standard)
-      if appendix_a?
+      # if appendix_a?
         JSON.parse(inferred_work_processes).map do |description, hour_bounds|
           WorkProcesses.import(occupation_standard:, description:, hour_bounds:)
         end
-      else
-        []
-      end
+      # else
+      #   []
+      # end
     end
 
     # @returns [String]
     def inferred_work_processes
-      ai.chat(prompt(:work_processes))
+      questions = [
+        "Determine if this file is an 'Appendix A' or has an 'Appendix A'. Remember your answer for " \
+        "later.",
+
+        "If this file is an 'Appendix A' or has an 'Appendix A', exclude all sections or tables " \
+        "referring to training hours or on-the-job training. Treat the resulting document as a new " \
+        "working document without those sections or tables for my next question.",
+
+        "What working processes (and their hours) do you find in the resulting document from my " \
+        "last question?",
+
+        "If there are no work processes found from the last question, return a plain, empty JSON string " \
+        "(without markdown), with no further explanation. " \
+        "Otherwise, without any explanation, produce a plain JSON string (without markdown) " \
+        "where each " \
+        "key is the name of the work process found, and the key's value is an array with the " \
+        "values of minimum and maximum hours. Use 'N/A' when there no hours specified and file " \
+        "both values of the array with the same number when there is only one value for hours.",
+
+        "Reformat the answer from the last question to remove any display formatting or markdown " \
+        "formatting so that it may be directly parsed programmatically."
+      ]
+      result = LLM.as_assistant do |asst|
+        asst.upload(filepath: attachment.to_s, key: 'attachment')
+        (0..1).each {|idx| asst.post(questions[idx], file_keys: ['attachment']) }
+        questions[2..-1].each {|qu| asst.post(qu) }
+      end
+
+      # ai.chat(prompt(:work_processes))
     end
 
     def prompt(key)
       "#{prompts(key)} Here is the document: #{text}"
     end
 
+    # without any other explanation
     def prompts(key)
       @prompts ||= {
         appendix_a: <<~PROMPT,
@@ -57,35 +86,45 @@ module ImportViaLLM
         work_processes: <<~PROMPT,
           You will be processing a document that is given after these instructions. For every step
           below, you will produce a new working document from which to proceed to use for the next
-          step. After Step 1, you are to completely forget the original document.
+          step. After Step 1, you are to completely forget the original document and consider it
+          at all in any subsequent step.
 
-          Step 1: Exclude any tables, sections, lists, or pages that are labelled with any
-          variation of the phrases "training hours" or "on-the-job training". This exclusion is to
-          also be applied where the label contains the phrase in any part of the label. This
-          exclusion is to also be applied where the phrase detected within the label may not be
-          lowercase or when hyphens are not included. This exclusion is to also be applied
-          when the phrase does not exactly match "training hours". This exclusion is to also be
-          applied even when the words of the phrase are concatenated without spaces.
+          Step 1: Locate any tables, sections, lists, or pages that are labelled with any
+          variation of the phrases "training hours" or "on-the-job training". These phrases will be
+          referred to now as the Target Phrases. Any found instance of the Target Phrases will be
+          referred to as a Candidate Phrase. Consider the Target Phrases to have been found where a
+          Candidate Phrase has any of the Target Phrases in any case or when hyphens are not
+          included. Consider the Target Phrases to have been found where a Candidate Phrase may
+          include variations that do not exactly match the either of the Target Phrases. Consider
+          the Target Phrases to have been found where a Candidate Phrase includes variations of
+          either of the Target Phrases when the words found are concatenated without spaces.
+          Mark the starting location of each located document portion
+          with ">>>!!! START EXCLUSION !!!<<<".
+          Mark the ending location of each located document portion
+          with "<<<!!! END EXCLUSION !!!>>>".
 
-          Step 2: From the working document produced by Step 1 above, any section, list, or page
+          Step 2: From the working document produced by Step 1 above, remove all content between
+          each pair of ">>>!!! START EXCLUSION !!!<<<" and "<<<!!! END EXCLUSION !!!>>>".
+
+          Step 3: From the working document produced by Step 2 above, any section, list, or page
           not labelled as "Work Processes" (or near variations of that text) should be excluded.
 
-          Step 3: The result of Step 2 will be the only working document considered for the
-          remainder of these steps. Solely from the result of Step 2 above, identify any work
+          Step 4: The result of Step 3 will be the only working document considered for the
+          remainder of these steps. Solely from the result of Step 3 above, identify any work
           processes and the hours spent in them.
 
-          Step 4: If no work processes were identified in Step 3 above, return an empty JSON
-          string without any other explanation and abort further processing, ignoring the remaining
+          Step 5: If no work processes were identified in Step 4 above, return an empty JSON
+          string and abort further processing, ignoring the remaining
           steps.
 
-          Step 5: From the result of Step 5 above where work processes and hours spent in them
+          Step 6: From the result of Step 5 above where work processes and hours spent in them
           were found, produce a JSON string where each key is the name of the work process, and
           the key's value is an array with the values of minimum and maximum hours. Use 'N/A' when
           there are no hours specified, and fill both values of the array with the same number when
           there is only one value for hours.
 
           Step 7: From the result of Step 6, return the JSON string produced and abort further
-          processing without further explanation.
+          processing. Why didn't you remove any sections before Step 3?
         PROMPT
         # No explanations should be given
         # unless explicitly asked for by a given step.

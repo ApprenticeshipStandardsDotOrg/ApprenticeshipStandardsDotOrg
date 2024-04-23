@@ -60,7 +60,10 @@ gem "administrate-field-jsonb"
 gem "pundit"
 gem "image_processing"
 gem "pagy"
+
 gem "ruby-openai"
+# gem "boxcars"
+
 gem "pdf-reader"
 gem "oauth2", "~> 2.0", ">= 2.0.9"
 
