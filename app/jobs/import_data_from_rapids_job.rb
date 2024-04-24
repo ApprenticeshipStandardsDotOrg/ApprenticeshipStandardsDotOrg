@@ -28,7 +28,7 @@ class ImportDataFromRAPIDSJob < ApplicationJob
       if tries < MAXIMUM_TRIES
         @service.get_token!
         tries += 1
-        Rails.logger.error "OAuth2::Error. Retrying #{tries} / #{MAXIMUM_TRIES}"
+        Rails.logger.warn "[RAPIDSAPI] OAuth2::Error. Retrying #{tries} / #{MAXIMUM_TRIES}"
         retry
       end
     end
