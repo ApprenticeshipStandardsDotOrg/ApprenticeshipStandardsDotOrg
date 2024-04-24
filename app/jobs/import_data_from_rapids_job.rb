@@ -30,6 +30,8 @@ class ImportDataFromRAPIDSJob < ApplicationJob
         tries += 1
         Rails.logger.warn "[RAPIDSAPI] OAuth2::Error. Retrying #{tries} / #{MAXIMUM_TRIES}"
         retry
+      else
+        Rails.logger.warn "[RAPIDSAPI] Maximum tries reached"
       end
     end
   end
