@@ -10,7 +10,7 @@ FactoryBot.define do
     jobDesc { "Operate telephone, radio, or other communication systems to receive and communicate requests for emergency assistance at 9-1-1." }
     jobZone { "Job Zone Two: Some Preparation Needed." }
     isWPSUploaded { false }
-    sequence(:wpsDocument) { |n| "https://entbpmpstg.dol.gov/suite/webapi/rapids/data-sharing/documents/wps/#{n}" }
+    wpsDocument { "https://entbpmpstg.dol.gov/suite/webapi/rapids/data-sharing/documents/wps/1234" }
     dwas { [] }
 
     transient do
