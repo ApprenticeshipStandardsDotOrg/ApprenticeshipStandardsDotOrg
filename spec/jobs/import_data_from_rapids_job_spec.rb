@@ -152,6 +152,8 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
         first_rapids_response = create(:rapids_response, totalCount: 2, wps: [first_occupation])
         second_rapids_response = create(:rapids_response, totalCount: 2, wps: [second_occupation])
 
+        stub_documents_response("1234", nil)
+
         expect_any_instance_of(RAPIDS::API).to receive(:get).once.with("/sponsor/wps", {
           batchSize: 1,
           startIndex: 1
