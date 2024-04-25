@@ -47,14 +47,12 @@ class ImportDataFromRAPIDSJob < ApplicationJob
         occupation_standard
       )
 
-      if work_process_document_available?(occupation_standard_response)
-        document = fetch_document_response(occupation_standard.external_id)
-        if document
-          attachment = convert_response_to_attachment(document)
-          occupation_standard.redacted_document.attach(
-            io: attachment, filename: "#{occupation_standard.external_id}.docx"
-          )
-        end
+      document = fetch_document_response(occupation_standard.external_id)
+      if document
+        attachment = convert_response_to_attachment(document)
+        occupation_standard.redacted_document.attach(
+          io: attachment, filename: "#{occupation_standard.external_id}.docx"
+        )
       end
       occupation_standard.save
     end
@@ -85,10 +83,6 @@ class ImportDataFromRAPIDSJob < ApplicationJob
       work_process.occupation_standard = occupation_standard
       work_process if work_process.valid?
     end
-  end
-
-  def work_process_document_available?(work_process_response)
-    work_process_response.fetch("isWPSUploaded", false)
   end
 
   def fetch_document_response(external_id)
