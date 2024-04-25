@@ -135,7 +135,7 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
         create(:registration_agency, for_state_abbreviation: "MI", agency_type: :oa)
         stub_const("ImportDataFromRAPIDSJob::PER_PAGE_SIZE", 1)
 
-        (first_occupation, second_occupation) = create_list(:rapids_api_occupation_standard, 2, :hybrid)
+        (first_occupation, second_occupation) = create_pair(:rapids_api_occupation_standard, :hybrid)
 
         first_rapids_response = create(:rapids_response, totalCount: 2, wps: [first_occupation])
         second_rapids_response = create(:rapids_response, totalCount: 2, wps: [second_occupation])
