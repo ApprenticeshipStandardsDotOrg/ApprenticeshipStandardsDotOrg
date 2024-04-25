@@ -4,22 +4,35 @@ class ImportDataFromRAPIDSJob < ApplicationJob
   include Sanitizable
 
   PER_PAGE_SIZE = 50
+  MAXIMUM_TRIES = 5
 
   def perform
     @service = RAPIDS::API.call
     start_index = 1
+    tries = 0
 
-    loop do
-      response = @service.work_processes(
-        batchSize: PER_PAGE_SIZE,
-        startIndex: start_index
-      )
-      parsed_response = response.parsed
-      process_api_response(parsed_response)
-      total_records = parsed_response["totalCount"]
-      start_index += PER_PAGE_SIZE
+    begin
+      loop do
+        response = @service.work_processes(
+          batchSize: PER_PAGE_SIZE,
+          startIndex: start_index
+        )
+        parsed_response = response.parsed
+        process_api_response(parsed_response)
+        total_records = parsed_response["totalCount"]
+        start_index += PER_PAGE_SIZE
 
-      break if start_index > total_records
+        break if start_index > total_records
+      end
+    rescue OAuth2::Error
+      if tries < MAXIMUM_TRIES
+        @service.get_token!
+        tries += 1
+        Rails.logger.warn "[RAPIDSAPI] OAuth2::Error. Retrying #{tries} / #{MAXIMUM_TRIES}"
+        retry
+      else
+        Rails.logger.warn "[RAPIDSAPI] Maximum tries reached"
+      end
     end
   end
 

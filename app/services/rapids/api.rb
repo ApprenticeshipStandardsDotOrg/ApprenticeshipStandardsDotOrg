@@ -31,6 +31,10 @@ module RAPIDS
       nil
     end
 
+    def get_token!
+      @access = @client.client_credentials.get_token
+    end
+
     private
 
     # Params supported by API:
@@ -45,10 +49,6 @@ module RAPIDS
 
     def post(path)
       @access.post("#{BASE_URL}#{BASE_PATH}#{path}")
-    end
-
-    def get_token!
-      @access = @client.client_credentials.get_token
     end
   end
 end

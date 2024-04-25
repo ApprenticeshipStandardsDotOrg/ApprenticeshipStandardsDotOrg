@@ -141,6 +141,50 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
       end
     end
 
+    context "retries" do
+      it "performs a second attempt to fetch API when token expires" do
+        stub_get_token!
+        create(:registration_agency, for_state_abbreviation: "MI", agency_type: :oa)
+        stub_const("ImportDataFromRAPIDSJob::PER_PAGE_SIZE", 1)
+
+        (first_occupation, second_occupation) = create_pair(:rapids_api_occupation_standard, :hybrid)
+
+        first_rapids_response = create(:rapids_response, totalCount: 2, wps: [first_occupation])
+        second_rapids_response = create(:rapids_response, totalCount: 2, wps: [second_occupation])
+
+        stub_documents_response("1234", nil)
+
+        expect_any_instance_of(RAPIDS::API).to receive(:get).once.with("/sponsor/wps", {
+          batchSize: 1,
+          startIndex: 1
+        }).and_raise(
+          OAuth2::Error, "invalid oauth token"
+        )
+
+        expect_any_instance_of(RAPIDS::API).to receive(:get).with("/sponsor/wps", {
+          batchSize: 1,
+          startIndex: 1
+        }).and_return(
+          OpenStruct.new(
+            parsed: first_rapids_response
+          )
+        )
+
+        expect_any_instance_of(RAPIDS::API).to receive(:get).with("/sponsor/wps", {
+          batchSize: 1,
+          startIndex: 2
+        }).and_return(
+          OpenStruct.new(
+            parsed: second_rapids_response
+          )
+        )
+
+        expect {
+          described_class.perform_now
+        }.to change(OccupationStandard, :count).to eq 2
+      end
+    end
+
     context "pagination" do
       it "performs more than one call with correct arguments when records exceed batch size" do
         stub_get_token!
