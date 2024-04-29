@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_23_175343) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_29_183351) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -168,7 +168,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_23_175343) do
     t.date "registration_date"
     t.date "latest_update_date"
     t.uuid "industry_id"
-    t.jsonb "metadata", default: {}, null: false
     t.index ["industry_id"], name: "index_occupation_standards_on_industry_id"
     t.index ["occupation_id"], name: "index_occupation_standards_on_occupation_id"
     t.index ["organization_id"], name: "index_occupation_standards_on_organization_id"
@@ -214,6 +213,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_23_175343) do
     t.string "organization_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "sponsor_number"
   end
 
   create_table "registration_agencies", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
