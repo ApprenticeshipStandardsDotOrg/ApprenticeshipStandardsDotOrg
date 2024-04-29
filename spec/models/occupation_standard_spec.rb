@@ -902,24 +902,4 @@ RSpec.describe OccupationStandard, type: :model do
       expect(occupation_standard.related_onet_code_versions).to eq(["12.3456.00", "12.3456"])
     end
   end
-
-  describe "#sponsor_number" do
-    context "when metadata is present" do
-      it "returns sponsor number from API response" do
-        rapids_api_response = create(:rapids_api_occupation_standard, sponsorNumber: "1234-CA-12")
-
-        occupation_standard = build(:occupation_standard, metadata: rapids_api_response)
-
-        expect(occupation_standard.sponsor_number).to eq "1234-CA-12"
-      end
-    end
-
-    context "when metadata is empty" do
-      it "returns nil" do
-        occupation_standard = build(:occupation_standard, metadata: {})
-
-        expect(occupation_standard.sponsor_number).to be_nil
-      end
-    end
-  end
 end
