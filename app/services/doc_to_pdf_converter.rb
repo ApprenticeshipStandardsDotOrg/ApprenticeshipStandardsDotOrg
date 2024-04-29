@@ -16,7 +16,7 @@ class DocToPdfConverter
     output_pdf_path = ConvertDocToPdf.call(
       source_file.id,
       attachment,
-      tmp_dir,
+      tmp_dir
     )
 
     ActiveRecord::Base.transaction do

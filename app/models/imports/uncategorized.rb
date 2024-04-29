@@ -1,4 +1,7 @@
 module Imports
+  class UnknownFileTypeError < StandardError
+  end
+
   class Uncategorized < Import
     has_one_attached :file
     has_one :import, as: :parent, dependent: :destroy, autosave: true
@@ -24,7 +27,7 @@ module Imports
     DOC_CONTENT_TYPE = Mime::Type.lookup_by_extension("doc").to_s
     PDF_CONTENT_TYPE = Mime::Type.lookup_by_extension("pdf").to_s
 
-    def create_child!(listing:)
+    def create_child!(**kwargs)
       create_import!(
         status: :pending,
         assignee_id: assignee_id,
@@ -32,32 +35,34 @@ module Imports
         courtesy_notification: courtesy_notification,
         metadata: metadata,
         file: file_blob,
-        type: child_type(listing:)
+        type: child_type(kwargs[:listing])
       )
     end
 
-    def process_child(**kwargs)
-      import.process(**kwargs)
+    def process_child(**)
+      import.process(**)
     end
 
     def complete_processing
       update!(
         processed_at: Time.current,
         processing_errors: nil,
-        status: :archived,
+        status: :archived
       )
     end
 
-    def child_type(listing:)
+    def child_type(is_listing)
       case file_blob.content_type
       in DOC_CONTENT_TYPE
         "Imports::Doc"
-      in DOCX_CONTENT_TYPE if listing
+      in DOCX_CONTENT_TYPE if is_listing
         "Imports::DocxListing"
-      in DOCX_CONTENT_TYPE if !listing
+      in DOCX_CONTENT_TYPE if !is_listing
         "Imports::Docx"
       in PDF_CONTENT_TYPE
         "Imports::Pdf"
+      else
+        raise Imports::UnknownFileTypeError, file_blob.content_type
       end
     end
   end

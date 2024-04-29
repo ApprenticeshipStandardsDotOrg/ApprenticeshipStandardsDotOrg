@@ -5,6 +5,9 @@ RSpec.describe Imports::Doc, type: :model do
 
   describe "#process" do
     it "attaches a PDF to the Doc" do
+      allow(ConvertDocToPdf).to receive(:call).and_return(
+        Rails.root.join("spec", "fixtures", "files", "pixel1x1.pdf")
+      )
       doc = create(:imports_doc, public_document: true)
 
       doc.process
@@ -22,24 +25,10 @@ RSpec.describe Imports::Doc, type: :model do
     end
 
     it "updates the Doc for missing soffice" do
+      allow(ConvertDocToPdf).to receive(:call).and_raise(ConvertDocToPdf::PdfConversionError)
       doc = create(:imports_doc)
-      stub_soffice_install(installed: false)
 
-      doc.process
-      doc.reload
-
-      expect(doc.pdf).to be_blank
-      expect(doc.processed_at).to be_blank
-      expect(doc.processing_errors).to be_present
-      expect(doc.status).to eq("needs_backend_support")
-    end
-
-    it "updates the Doc for failed soffice" do
-      doc = create(:imports_doc)
-      stub_soffice_install(installed: true)
-      stub_soffice_conversion(successful: false)
-
-      doc.process
+      expect { doc.process }.to raise_error(ConvertDocToPdf::PdfConversionError)
       doc.reload
 
       expect(doc.pdf).to be_blank
@@ -60,17 +49,5 @@ RSpec.describe Imports::Doc, type: :model do
 
       expect(pdf_import).to have_received(:process).with(arg: 1)
     end
-  end
-
-  def stub_soffice_install(installed:)
-    allow(Kernel).to receive(:system)
-      .with("soffice --version")
-      .and_return(installed)
-  end
-
-  def stub_soffice_conversion(successful:)
-    allow(Kernel).to receive(:system)
-      .with(/soffice --headless --convert-to pdf .*/)
-      .and_return(successful)
   end
 end

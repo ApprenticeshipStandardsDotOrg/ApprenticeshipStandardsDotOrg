@@ -54,6 +54,23 @@ RSpec.describe Imports::Uncategorized, type: :model do
       expect(pdf_import).to have_received(:process).with(listing: false)
     end
 
+    it "skips unknown files" do
+      import = create(
+        :imports_uncategorized,
+        file: Rack::Test::UploadedFile.new(
+          Rails.root.join("spec", "fixtures", "files", "oleObject1.bin"),
+          "application/x-ole-storage"
+        )
+      )
+
+      expect { import.process(listing: false) }.to raise_error(Imports::UnknownFileTypeError)
+      import.reload
+
+      expect(import.import).to be_blank
+      expect(import.status).to eq("needs_backend_support")
+      expect(import.processing_errors).to be_present
+    end
+
     it "updates the processing data" do
       allow_any_instance_of(Imports::Pdf).to receive(:process)
       import = create(:imports_uncategorized, :pdf)
@@ -67,7 +84,6 @@ RSpec.describe Imports::Uncategorized, type: :model do
     end
 
     it "stores errors" do
-      pdf_import = double(:pdf, process: nil)
       import = create(:imports_uncategorized, :pdf)
       allow(import).to receive(:import).and_raise(ActiveRecord::RecordNotUnique)
 

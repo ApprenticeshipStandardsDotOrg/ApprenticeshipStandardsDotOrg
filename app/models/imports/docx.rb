@@ -10,7 +10,7 @@ module Imports
         create_pdf!(
           file: File.open(output_pdf_path),
           public_document: public_document,
-          metadata: metadata,
+          metadata: metadata
         )
         pdf.process(**kwargs)
         update!(
@@ -19,12 +19,13 @@ module Imports
           status: :archived
         )
       end
-    rescue ConvertDocToPdf::PdfConversionError => e
+    rescue => e
       update!(
         processed_at: nil,
         processing_errors: e.message,
-        status: :needs_backend_support,
+        status: :needs_backend_support
       )
+      raise
     end
   end
 end
