@@ -4,7 +4,7 @@ en:
       nav:
         one: "Page"
         other: "Pages"
-      previous: "Previous"
+      prev: "Previous"
       next: "Next"
     prev: "&lt; Prev"
     next: "Next &gt;"
