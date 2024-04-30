@@ -9,7 +9,7 @@ RSpec.describe "occupation_standards/index" do
 
       visit occupation_standards_path
 
-      within(".pagy-nav") do
+      within(".pagy.nav") do
         expect(page).to have_link "2", href: occupation_standards_path(page: 2)
       end
       Pagy::DEFAULT[:items] = default_items
@@ -335,7 +335,7 @@ RSpec.describe "occupation_standards/index" do
 
       expect(page).to_not have_text "HR Specialist"
 
-      within(".pagy-nav") do
+      within(".pagy.nav") do
         expect(page).to have_link "2", href: occupation_standards_path(page: 2)
         click_on "2"
       end
@@ -369,7 +369,7 @@ RSpec.describe "occupation_standards/index" do
       expect(page).to_not have_text "HR Specialist"
       expect(page).to_not have_text "Dental Assistant"
 
-      within(".pagy-nav") do
+      within(".pagy.nav") do
         expect(page).to have_link "2", href: occupation_standards_path(page: 2)
         expect(page).to_not have_link "3"
         click_on "2"

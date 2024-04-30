@@ -81,41 +81,41 @@
   animation-fill-mode: forwards;
 }
 
-.pagy-nav.pagination {
+.pagy.nav {
   font-family: 'Montserrat', sans-serif;
   color: #066B6E;
   font-weight: bold;
 }
 
-.pagy-nav.pagination a[href] {
+.pagy.nav a[href] {
   text-decoration: none;
   color: #066B6E;
 }
 
-.pagy-nav.pagination a[href]:hover {
+.pagy.nav a[href]:hover {
   color: #018083;
 }
 
-.pagy-nav.pagination .page {
+.pagy.nav a {
   padding: 7px 10px;
   text-align: center;
 }
 
-.pagy-nav.pagination .active {
+.pagy.nav .current {
   color: #fff;
   background-color: #018083;
   border-radius: 7px;
 }
 
-.pagy-nav.pagination .disabled {
+.pagy.nav [aria-disabled='true'] {
   color: #9AC1C1;
 }
 
-.pagy-nav.pagination .prev {
+.pagy.nav [aria-label='Previous'] {
   margin-right: 15px
 }
 
-.pagy-nav.pagination .next {
+.pagy.nav [aria-label='Next'] {
   margin-left: 15px
 }
 
