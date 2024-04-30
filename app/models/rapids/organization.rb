@@ -1,8 +1,9 @@
 module RAPIDS
   class Organization
-    def self.initialize_from_response(work_process_data)
+    def self.initialize_from_response(occupation_standard_data)
       ::Organization.new(
-        title: work_process_data["sponsorName"]
+        title: occupation_standard_data["sponsorName"],
+        sponsor_number: occupation_standard_data["sponsorNumber"]
       )
     end
   end
