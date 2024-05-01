@@ -62,8 +62,8 @@ RSpec.describe ProcessApprenticeshipBulletin do
   end
 
   def stub_responses
-    docx_bulletin_with_attachments = file_fixture("scraper/bulletins/Bulletin 2023-52 New NGS AFSA.docx")
+    file = file_fixture("scraper/bulletins/Bulletin 2023-52 New NGS AFSA.docx")
     stub_request(:get, /Bulletin%202023-52%20New%20NGS%20AFSA.docx/)
-      .to_return(status: 200, body: docx_bulletin_with_attachments)
+      .to_return(status: 200, body: file)
   end
 end
