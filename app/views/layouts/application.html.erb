@@ -18,6 +18,8 @@
     <main class="container-full mx-auto">
       <%= yield %>
     </main>
-    <%= render partial: "layouts/footer" %>
+    <% unless request.subdomain.match?("admin") %>
+      <%= render partial: "layouts/footer" %>
+    <% end %>
   </body>
 </html>
