@@ -14,13 +14,12 @@
   </head>
 
   <body>
-    <% if user_signed_in? %>
-      <%= render partial: "layouts/header" %>
-    <% end %>
     <%= render partial: "layouts/alerts" %>
     <main class="container-full mx-auto">
       <%= yield %>
     </main>
-    <%= render partial: "layouts/footer" %>
+    <% unless request.subdomain.match?("admin") %>
+      <%= render partial: "layouts/footer" %>
+    <% end %>
   </body>
 </html>
