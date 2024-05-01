@@ -9,32 +9,11 @@ class Scraper::ApprenticeshipBulletinsJob < ApplicationJob
     xlsx.parse(headers: true).each_with_index do |row, index|
       next if index < 1
 
-      file_uri = row["File URI"]
-      standards_import = StandardsImport.where(
-        name: file_uri,
-        organization: row["Title"]
-      ).first_or_initialize(
-        notes: "From Scraper::ApprenticeshipBulletinsJob",
-        public_document: true,
-        source_url: BULLETIN_LIST_URL,
-        bulletin: true,
-        metadata: {date: row["Date"]}
+      ProcessApprenticeshipBulletin.call(
+        file_uri: row["File URI"],
+        title: row["Title"],
+        date: row["Date"]
       )
-
-      if standards_import.new_record?
-        standards_import.save!
-
-        filename = File.basename(URI.decode_uri_component(file_uri))
-        if standards_import.files.attach(io: URI.parse(file_uri).open, filename: filename)
-          import = standards_import.imports.create(
-            type: "Imports::Uncategorized",
-            file: standards_import.files.first.blob,
-            public_document: true,
-            metadata: standards_import.metadata
-          )
-          import.process
-        end
-      end
     end
   end
 end
