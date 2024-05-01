@@ -24,20 +24,15 @@ class Scraper::ApprenticeshipBulletinsJob < ApplicationJob
       if standards_import.new_record?
         standards_import.save!
 
-        if standards_import.files.attach(io: URI.parse(file_uri).open, filename: File.basename(file_uri))
-
-          # SourceFile is created in background job so wait until it exists
-          source_file = nil
-          until source_file.present?
-            source_file = standards_import.reload.files.last.source_file
-          end
-
-          source_file.update!(
-            bulletin: true
+        filename = File.basename(URI.decode_uri_component(file_uri))
+        if standards_import.files.attach(io: URI.parse(file_uri).open, filename: filename)
+          import = standards_import.imports.create(
+            type: "Imports::Uncategorized",
+            file: standards_import.files.first.blob,
+            public_document: true,
+            metadata: standards_import.metadata
           )
-          if source_file.docx?
-            Scraper::ExportFileAttachmentsJob.perform_later(source_file)
-          end
+          import.process
         end
       end
     end
