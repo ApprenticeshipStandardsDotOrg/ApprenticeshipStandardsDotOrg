@@ -5,7 +5,8 @@ RSpec.describe ProcessApprenticeshipBulletin do
     it "downloads file to a standards import record and creates an Uncategorized Import child" do
       stub_responses
 
-      file_uri = "https://www.apprenticeship.gov/sites/default/files/bulletins/Bulletin%202023-52%20New%20NGS%20AFSA.docx"
+      encoded_filename = "Bulletin%202023-52%20New%20NGS%20AFSA.docx"
+      file_uri = "https://www.apprenticeship.gov/sites/default/files/bulletins/#{encoded_filename}"
 
       expect_any_instance_of(Imports::Uncategorized).to receive(:process)
 
@@ -20,7 +21,6 @@ RSpec.describe ProcessApprenticeshipBulletin do
 
       standards_import = StandardsImport.last
       expect(standards_import.files.count).to eq 1
-      encoded_filename = URI.encode_uri_component("Bulletin 2023-52 New NGS AFSA.docx")
       expect(standards_import.name).to eq "https://www.apprenticeship.gov/sites/default/files/bulletins/#{encoded_filename}"
       expect(standards_import.organization).to eq "Specialist"
       expect(standards_import.notes).to eq "From Scraper::ApprenticeshipBulletinsJob"
@@ -32,15 +32,14 @@ RSpec.describe ProcessApprenticeshipBulletin do
       import = Imports::Uncategorized.last
       expect(import.metadata).to eq({"date" => "01/11/2023"})
       expect(import.file.attached?).to be_truthy
-      puts standards_import.files.first.blob.filename.to_s
       expect(import.file.blob.filename.to_s).to eq "Bulletin 2023-52 New NGS AFSA.docx"
       expect(import.parent).to eq standards_import
     end
   end
 
   def stub_responses
-    first_docx_bulletin_with_attachments = file_fixture("scraper/bulletins/Bulletin 2023-52 New NGS AFSA.docx")
+    docx_bulletin_with_attachments = file_fixture("scraper/bulletins/Bulletin 2023-52 New NGS AFSA.docx")
     stub_request(:get, /Bulletin%202023-52%20New%20NGS%20AFSA.docx/)
-      .to_return(status: 200, body: first_docx_bulletin_with_attachments)
+      .to_return(status: 200, body: docx_bulletin_with_attachments)
   end
 end

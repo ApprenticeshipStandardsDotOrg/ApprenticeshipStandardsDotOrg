@@ -1,6 +1,6 @@
 class ProcessApprenticeshipBulletin
-  def self.call(**kwargs)
-    new(**kwargs).call
+  def self.call(**)
+    new(**).call
   end
 
   def initialize(**kwargs)
