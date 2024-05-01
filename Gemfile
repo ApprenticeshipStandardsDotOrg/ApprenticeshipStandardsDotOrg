@@ -84,6 +84,7 @@ gem "flipper"
 gem "flipper-active_record"
 
 gem "sablon" # Word document templating tool
+gem "ruby-ole"
 
 # Use Sass to process CSS
 # gem "sassc-rails"
