@@ -9,37 +9,11 @@ class Scraper::ApprenticeshipBulletinsJob < ApplicationJob
     xlsx.parse(headers: true).each_with_index do |row, index|
       next if index < 1
 
-      file_uri = row["File URI"]
-      standards_import = StandardsImport.where(
-        name: file_uri,
-        organization: row["Title"]
-      ).first_or_initialize(
-        notes: "From Scraper::ApprenticeshipBulletinsJob",
-        public_document: true,
-        source_url: BULLETIN_LIST_URL,
-        bulletin: true,
-        metadata: {date: row["Date"]}
+      ProcessApprenticeshipBulletin.call(
+        uri: row["File URI"],
+        title: row["Title"],
+        date: row["Date"]
       )
-
-      if standards_import.new_record?
-        standards_import.save!
-
-        if standards_import.files.attach(io: URI.parse(file_uri).open, filename: File.basename(file_uri))
-
-          # SourceFile is created in background job so wait until it exists
-          source_file = nil
-          until source_file.present?
-            source_file = standards_import.reload.files.last.source_file
-          end
-
-          source_file.update!(
-            bulletin: true
-          )
-          if source_file.docx?
-            Scraper::ExportFileAttachmentsJob.perform_later(source_file)
-          end
-        end
-      end
     end
   end
 end
