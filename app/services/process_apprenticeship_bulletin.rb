@@ -34,7 +34,7 @@ class ProcessApprenticeshipBulletin
       import.file.attach(io: URI.parse(uri).open, filename: filename)
       standards_import.files.attach(import.file_blob)
 
-      import.process
+      import.process(listing: true)
     end
   end
 

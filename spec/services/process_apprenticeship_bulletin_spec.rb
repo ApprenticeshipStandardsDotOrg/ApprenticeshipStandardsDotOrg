@@ -8,7 +8,7 @@ RSpec.describe ProcessApprenticeshipBulletin do
 
         file_uri = "https://www.apprenticeship.gov/sites/default/files/bulletins/Bulletin%202023-52%20New%20NGS%20AFSA.docx"
 
-        expect_any_instance_of(Imports::Uncategorized).to receive(:process)
+        expect_any_instance_of(Imports::Uncategorized).to receive(:process).with(listing: true)
 
         expect {
           described_class.call(
