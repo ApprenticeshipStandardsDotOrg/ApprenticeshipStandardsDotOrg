@@ -6,8 +6,7 @@ RSpec.describe ProcessApprenticeshipBulletin do
       it "downloads file to a standards import record and creates an Uncategorized Import child" do
         stub_responses
 
-        encoded_filename = "Bulletin%202023-52%20New%20NGS%20AFSA.docx"
-        file_uri = "https://www.apprenticeship.gov/sites/default/files/bulletins/#{encoded_filename}"
+        file_uri = "https://www.apprenticeship.gov/sites/default/files/bulletins/Bulletin%202023-52%20New%20NGS%20AFSA.docx"
 
         expect_any_instance_of(Imports::Uncategorized).to receive(:process)
 
@@ -22,7 +21,7 @@ RSpec.describe ProcessApprenticeshipBulletin do
 
         standards_import = StandardsImport.last
         expect(standards_import.files.count).to eq 1
-        expect(standards_import.name).to eq "https://www.apprenticeship.gov/sites/default/files/bulletins/#{encoded_filename}"
+        expect(standards_import.name).to eq file_uri
         expect(standards_import.organization).to eq "Specialist"
         expect(standards_import.notes).to eq "From Scraper::ApprenticeshipBulletinsJob"
         expect(standards_import.public_document).to be true
