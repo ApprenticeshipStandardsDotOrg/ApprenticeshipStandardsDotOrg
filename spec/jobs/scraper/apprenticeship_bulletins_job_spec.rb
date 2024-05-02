@@ -6,12 +6,12 @@ RSpec.describe Scraper::ApprenticeshipBulletinsJob, type: :job do
       stub_responses
 
       expect(ProcessApprenticeshipBulletin).to receive(:call).with(
-        file_uri: "https://www.apprenticeship.gov/sites/default/files/bulletins/Bulletin%202023-52%20New%20NGS%20AFSA.docx",
+        uri: "https://www.apprenticeship.gov/sites/default/files/bulletins/Bulletin%202023-52%20New%20NGS%20AFSA.docx",
         title: "2023-52",
         date: "01/11/2023"
       )
       expect(ProcessApprenticeshipBulletin).to receive(:call).with(
-        file_uri: "https://www.apprenticeship.gov/sites/default/files/bulletins/Bulletin_2016-22.pdf",
+        uri: "https://www.apprenticeship.gov/sites/default/files/bulletins/Bulletin_2016-22.pdf",
         title: "Wildland Fire Fighter Specialist",
         date: "03/11/16"
       )

@@ -12,7 +12,7 @@ RSpec.describe ProcessApprenticeshipBulletin do
 
         expect {
           described_class.call(
-            file_uri: file_uri, title: "Specialist", date: "01/11/2023"
+            uri: file_uri, title: "Specialist", date: "01/11/2023"
           )
         }.to change(StandardsImport, :count).by(1)
           .and change(Imports::Uncategorized, :count).by(1)
@@ -51,7 +51,7 @@ RSpec.describe ProcessApprenticeshipBulletin do
 
       expect {
         described_class.call(
-          file_uri: file_uri, title: "Specialist", date: "01/11/2023"
+          uri: file_uri, title: "Specialist", date: "01/11/2023"
         )
       }.to change(StandardsImport, :count).by(0)
         .and change(Imports::Uncategorized, :count).by(0)

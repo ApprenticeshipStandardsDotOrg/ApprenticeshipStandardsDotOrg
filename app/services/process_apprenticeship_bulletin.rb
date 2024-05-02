@@ -1,17 +1,17 @@
 class ProcessApprenticeshipBulletin
-  def self.call(**)
-    new(**).call
+  def self.call(uri:, title:, date:)
+    new(uri:, title:, date:).call
   end
 
-  def initialize(**kwargs)
-    @file_uri = kwargs[:file_uri]
-    @title = kwargs[:title]
-    @date = kwargs[:date]
+  def initialize(uri:, title:, date:)
+    @uri = uri
+    @title = title
+    @date = date
   end
 
   def call
     standards_import = StandardsImport.where(
-      name: file_uri,
+      name: uri,
       organization: title
     ).first_or_initialize(
       notes: "From Scraper::ApprenticeshipBulletinsJob",
@@ -24,8 +24,8 @@ class ProcessApprenticeshipBulletin
     if standards_import.new_record?
       standards_import.save!
 
-      filename = File.basename(URI.decode_uri_component(file_uri))
-      if standards_import.files.attach(io: URI.parse(file_uri).open, filename: filename)
+      filename = File.basename(URI.decode_uri_component(uri))
+      if standards_import.files.attach(io: URI.parse(uri).open, filename: filename)
         import = standards_import.imports.create(
           type: "Imports::Uncategorized",
           file: standards_import.files.first.blob,
@@ -39,5 +39,5 @@ class ProcessApprenticeshipBulletin
 
   private
 
-  attr_reader :file_uri, :title, :date
+  attr_reader :uri, :title, :date
 end

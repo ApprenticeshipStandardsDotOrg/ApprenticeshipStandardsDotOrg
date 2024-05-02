@@ -10,7 +10,7 @@ class Scraper::ApprenticeshipBulletinsJob < ApplicationJob
       next if index < 1
 
       ProcessApprenticeshipBulletin.call(
-        file_uri: row["File URI"],
+        uri: row["File URI"],
         title: row["Title"],
         date: row["Date"]
       )
