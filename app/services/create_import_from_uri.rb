@@ -1,15 +1,15 @@
 class CreateImportFromUri
-  def self.call(uri:, title:, notes:, source:, listing: false, date: nil)
-    new(uri:, title:, notes:, source:, listing:, date:).call
+  def self.call(uri:, title:, notes:, source:, listing: false, metadata: {})
+    new(uri:, title:, notes:, source:, listing:, metadata:).call
   end
 
-  def initialize(uri:, title:, notes:, source:, listing:, date:)
+  def initialize(uri:, title:, notes:, source:, listing:, metadata:)
     @uri = uri
     @title = title
     @notes = notes
     @source = source
     @listing = listing
-    @date = date
+    @metadata = metadata
   end
 
   def call
@@ -19,12 +19,9 @@ class CreateImportFromUri
     ).first_or_initialize(
       notes: notes,
       public_document: true,
-      source_url: source
-    ).tap do |import|
-      if date
-        import[:metadata][:date] = date
-      end
-    end
+      source_url: source,
+      metadata: metadata
+    )
 
     if standards_import.new_record?
       standards_import.save!
@@ -45,5 +42,5 @@ class CreateImportFromUri
 
   private
 
-  attr_reader :uri, :title, :notes, :source, :listing, :date
+  attr_reader :uri, :title, :notes, :source, :listing, :metadata
 end

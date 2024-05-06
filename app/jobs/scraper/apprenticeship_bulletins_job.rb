@@ -14,7 +14,7 @@ class Scraper::ApprenticeshipBulletinsJob < ApplicationJob
         title: row["Title"],
         notes: "From Scraper::ApprenticeshipBulletinsJob",
         source: Scraper::ApprenticeshipBulletinsJob::BULLETIN_LIST_URL,
-        date: row["Date"],
+        metadata: {date: row["Date"]},
         listing: true
       )
     end

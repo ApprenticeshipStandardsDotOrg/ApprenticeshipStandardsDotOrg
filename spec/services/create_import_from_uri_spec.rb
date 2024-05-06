@@ -17,7 +17,7 @@ RSpec.describe CreateImportFromUri do
             notes: "Some notes",
             source: "Some source URL",
             listing: true,
-            date: "01/11/2023"
+            metadata: {date: "01/11/2023"}
           )
         }.to change(StandardsImport, :count).by(1)
           .and change(Imports::Uncategorized, :count).by(1)
@@ -38,27 +38,6 @@ RSpec.describe CreateImportFromUri do
         expect(import.file.attached?).to be_truthy
         expect(import.file.blob.filename.to_s).to eq "Bulletin 2023-52 New NGS AFSA.docx"
         expect(import.parent).to eq standards_import
-      end
-
-      it "does not include meta field if no date" do
-        stub_responses
-
-        file_uri = "https://www.apprenticeship.gov/sites/default/files/bulletins/Bulletin%202023-52%20New%20NGS%20AFSA.docx"
-
-        expect_any_instance_of(Imports::Uncategorized).to receive(:process).with(listing: false)
-
-        described_class.call(
-          uri: file_uri,
-          title: "Specialist",
-          notes: "Some notes",
-          source: "Some source URL"
-        )
-
-        standards_import = StandardsImport.last
-        expect(standards_import.metadata).to eq({})
-
-        import = Imports::Uncategorized.last
-        expect(import.metadata).to eq({})
       end
     end
   end
@@ -81,7 +60,7 @@ RSpec.describe CreateImportFromUri do
           notes: "Some notes",
           source: "Some source URL",
           listing: true,
-          date: "01/11/2023"
+          metadata: {date: "01/11/2023"}
         )
       }.to change(StandardsImport, :count).by(0)
         .and change(Imports::Uncategorized, :count).by(0)

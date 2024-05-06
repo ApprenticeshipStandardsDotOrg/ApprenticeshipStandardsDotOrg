@@ -10,7 +10,7 @@ RSpec.describe Scraper::ApprenticeshipBulletinsJob, type: :job do
         title: "2023-52",
         notes: "From Scraper::ApprenticeshipBulletinsJob",
         source: Scraper::ApprenticeshipBulletinsJob::BULLETIN_LIST_URL,
-        date: "01/11/2023",
+        metadata: {date: "01/11/2023"},
         listing: true
       )
       expect(CreateImportFromUri).to receive(:call).with(
@@ -18,7 +18,7 @@ RSpec.describe Scraper::ApprenticeshipBulletinsJob, type: :job do
         title: "Wildland Fire Fighter Specialist",
         notes: "From Scraper::ApprenticeshipBulletinsJob",
         source: Scraper::ApprenticeshipBulletinsJob::BULLETIN_LIST_URL,
-        date: "03/11/16",
+        metadata: {date: "03/11/16"},
         listing: true
       )
 
