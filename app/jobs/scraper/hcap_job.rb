@@ -29,21 +29,13 @@ class Scraper::HcapJob < ApplicationJob
 
       pdf_uri = fields["PDF Download Resource"]
       if pdf_uri.present?
-        standards_import = StandardsImport.where(
-          name: pdf_uri,
-          organization: fields["Sponsor"]
-        ).first_or_initialize(
+        CreateImportFromUri.call(
+          uri: pdf_uri,
+          title: fields["Sponsor"],
           notes: "From Scraper::HcapJob",
-          public_document: true,
+          source: nil,
           metadata: fields
         )
-
-        if standards_import.new_record?
-          standards_import.save!
-          standards_import.files.attach(
-            io: URI.parse(pdf_uri).open, filename: File.basename(pdf_uri)
-          )
-        end
       end
     end
   end
