@@ -48,6 +48,17 @@ class StandardsImport < ApplicationRecord
     source_files.count == source_files.count { |source_file| source_file.courtesy_notification_completed? }
   end
 
+  def files=(files)
+    files.each do |file|
+      imports.build(
+        type: "Imports::Uncategorized",
+        status: :pending,
+        public_document: public_document,
+        file: file
+      )
+    end
+  end
+
   def file_count
     files.count
   end

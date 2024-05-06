@@ -34,7 +34,7 @@ RSpec.describe "StandardsImports", type: :request do
               }
             }.to change(StandardsImport, :count).by(1)
               .and change(ActiveStorage::Attachment, :count).by(2)
-              .and change(SourceFile, :count).by(2)
+              .and change(Imports::Uncategorized, :count).by(2)
           end
 
           si = StandardsImport.last
@@ -42,12 +42,21 @@ RSpec.describe "StandardsImports", type: :request do
           expect(si.email).to eq "mickey@mouse.com"
           expect(si.organization).to eq "Disney"
           expect(si.notes).to eq "a" * 500
-          expect(si.files.count).to eq 2
+          expect(si.files.count).to eq 0
           expect(si.public_document?).to be false
           expect(si).to be_courtesy_notification_pending
 
-          source_file = SourceFile.last
-          expect(source_file).to be_courtesy_notification_pending
+          import1 = Imports::Uncategorized.first
+          expect(import1).to be_courtesy_notification_pending
+          expect(import1.file.blob.filename.to_s).to eq "pixel1x1.pdf"
+          expect(import1).to_not be_public_document
+          expect(import1.parent).to eq si
+
+          import2 = Imports::Uncategorized.last
+          expect(import2).to be_courtesy_notification_pending
+          expect(import2.file.blob.filename.to_s).to eq "pixel1x1_redacted.pdf"
+          expect(import2).to_not be_public_document
+          expect(import2.parent).to eq si
 
           expect(response).to redirect_to standards_import_path(si)
         end
@@ -69,13 +78,13 @@ RSpec.describe "StandardsImports", type: :request do
                   email: "mickey@mouse.com",
                   organization: "Disney",
                   notes: "a" * 500,
-                  files: [fixture_file_upload("spec/fixtures/files/pixel1x1.jpg", "image/jpeg")],
+                  files: [fixture_file_upload("spec/fixtures/files/pixel1x1.pdf")],
                   public_document: true
                 }
               }
             }.to change(StandardsImport, :count).by(1)
               .and change(ActiveStorage::Attachment, :count).by(1)
-              .and change(SourceFile, :count).by(1)
+              .and change(Imports::Uncategorized, :count).by(1)
           end
 
           si = StandardsImport.last
@@ -83,12 +92,14 @@ RSpec.describe "StandardsImports", type: :request do
           expect(si.email).to eq "mickey@mouse.com"
           expect(si.organization).to eq "Disney"
           expect(si.notes).to eq "a" * 500
-          expect(si.files.count).to eq 1
+          expect(si.files.count).to eq 0
           expect(si.public_document?).to be true
           expect(si).to be_courtesy_notification_not_required
 
-          source_file = SourceFile.last
-          expect(source_file).to be_courtesy_notification_not_required
+          import = Imports::Uncategorized.last
+          expect(import).to be_courtesy_notification_not_required
+          expect(import.file.blob.filename.to_s).to eq "pixel1x1.pdf"
+          expect(import).to be_public_document
 
           expect(response).to redirect_to admin_source_files_path
         end
