@@ -1,12 +1,15 @@
-class ProcessApprenticeshipBulletin
-  def self.call(uri:, title:, date:)
-    new(uri:, title:, date:).call
+class CreateImportFromUri
+  def self.call(uri:, title:, notes:, source:, listing: false, metadata: {})
+    new(uri:, title:, notes:, source:, listing:, metadata:).call
   end
 
-  def initialize(uri:, title:, date:)
+  def initialize(uri:, title:, notes:, source:, listing:, metadata:)
     @uri = uri
     @title = title
-    @date = date
+    @notes = notes
+    @source = source
+    @listing = listing
+    @metadata = metadata
   end
 
   def call
@@ -14,11 +17,10 @@ class ProcessApprenticeshipBulletin
       name: uri,
       organization: title
     ).first_or_initialize(
-      notes: "From Scraper::ApprenticeshipBulletinsJob",
+      notes: notes,
       public_document: true,
-      source_url: Scraper::ApprenticeshipBulletinsJob::BULLETIN_LIST_URL,
-      bulletin: true,
-      metadata: {date: date}
+      source_url: source,
+      metadata: metadata
     )
 
     if standards_import.new_record?
@@ -34,11 +36,11 @@ class ProcessApprenticeshipBulletin
       import.file.attach(io: URI.parse(uri).open, filename: filename)
       standards_import.files.attach(import.file_blob)
 
-      import.process(listing: true)
+      import.process(listing: listing)
     end
   end
 
   private
 
-  attr_reader :uri, :title, :date
+  attr_reader :uri, :title, :notes, :source, :listing, :metadata
 end

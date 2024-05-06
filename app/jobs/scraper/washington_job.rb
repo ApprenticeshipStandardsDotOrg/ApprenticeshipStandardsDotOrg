@@ -45,23 +45,12 @@ class Scraper::WashingtonJob < Scraper::WatirJob
       organization = browser.h3(class: "lni-u-heading--3").text
 
       begin
-        standards_import = StandardsImport.where(
-          name: file
-        ).first_or_initialize(
-          organization: organization,
+        CreateImportFromUri.call(
+          uri: "https://#{file_path}",
+          title: organization,
           notes: "From Scraper::WashingtonJob",
-          public_document: true,
-          source_url: program_link
+          source: program_link
         )
-
-        if standards_import.new_record?
-          standards_import.save!
-
-          standards_import.files.attach(
-            io: URI.open("https://#{file_path}"),
-            filename: File.basename(file)
-          )
-        end
       rescue OpenURI::HTTPError
         next
       rescue Watir::Exception::UnknownObjectException => e

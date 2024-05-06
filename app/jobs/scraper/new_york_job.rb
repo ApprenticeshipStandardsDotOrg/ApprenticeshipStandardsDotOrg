@@ -20,24 +20,15 @@ class Scraper::NewYorkJob < ApplicationJob
         file_name
       end
 
-      standards_import = StandardsImport.where(
-        name: file_name
-      ).first_or_initialize(
-        notes: "From Scraper::NewYorkJob",
-        public_document: true,
-        source_url: url
-      )
-
-      if standards_import.new_record?
-        begin
-          standards_import.files.attach(
-            io: URI.open("https://#{download_url_base}#{file_path}.pdf"),
-            filename: File.basename(file_name)
-          )
-          standards_import.save!
-        rescue OpenURI::HTTPError
-          next
-        end
+      begin
+        CreateImportFromUri.call(
+          uri: "https://#{download_url_base}#{file_path}.pdf",
+          title: file_name,
+          notes: "From Scraper::NewYorkJob",
+          source: url
+        )
+      rescue OpenURI::HTTPError
+        next
       end
     end
   end

@@ -18,6 +18,7 @@ RSpec.describe Scraper::HcapJob, type: :job do
           expect(standards_import1.organization).to eq "National Center for Healthcare Apprenticeships"
           expect(standards_import1.notes).to eq "From Scraper::HcapJob"
           expect(standards_import1.public_document).to be true
+          expect(standards_import1.source_url).to be_nil
           metadata1 = standards_import1.metadata
           expect(metadata1["Location"]).to eq "California"
           expect(metadata1["Care Setting"]).to eq "Ambulatory"
@@ -38,6 +39,7 @@ RSpec.describe Scraper::HcapJob, type: :job do
           expect(standards_import2.organization).to eq "AHIMA Foundation"
           expect(standards_import2.notes).to eq "From Scraper::HcapJob"
           expect(standards_import2.public_document).to be true
+          expect(standards_import2.source_url).to be_nil
           metadata2 = standards_import2.metadata
           expect(metadata2["Location"]).to eq "No results"
           expect(metadata2["Care Setting"]).to eq "Acute, Ambulatory"
