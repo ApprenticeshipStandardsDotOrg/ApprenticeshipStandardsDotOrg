@@ -33,23 +33,12 @@ class Scraper::OregonJob < Scraper::WatirJob
           file_path = file["href"]
           file_name = file.content
 
-          standards_import = StandardsImport.where(
-            name: base + file_path,
-            organization: organization
-          ).first_or_initialize(
+          CreateImportFromUri.call(
+            uri: base + file_path,
+            title: organization,
             notes: "From Scraper::OregonJob",
-            public_document: true,
-            source_url: apprenticeship_url + "apprenticeship-opportunities.aspx"
+            source: apprenticeship_url + "apprenticeship-opportunities.aspx"
           )
-
-          if standards_import.new_record?
-            standards_import.save!
-
-            standards_import.files.attach(
-              io: URI.open("https://www.oregon.gov#{file_path}"),
-              filename: File.basename(file_name)
-            )
-          end
         end
       end
     end
