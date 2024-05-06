@@ -27,6 +27,8 @@ class Import < ApplicationRecord
     :completed
   ], _prefix: true
 
+  before_save :set_courtesy_notification
+
   def filename
     file.blob.filename.to_s
   end
@@ -39,5 +41,15 @@ class Import < ApplicationRecord
 
   def import_root
     parent.import_root
+  end
+
+  def standard_courtesy_notification
+    parent.standard_courtesy_notification
+  end
+
+  private
+
+  def set_courtesy_notification
+    self.courtesy_notification = standard_courtesy_notification
   end
 end

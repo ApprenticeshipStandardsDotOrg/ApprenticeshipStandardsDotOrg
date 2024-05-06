@@ -10,9 +10,6 @@ class StandardsImportsController < ApplicationController
 
     unless user_signed_in?
       @standards_import.courtesy_notification = :pending
-      @standards_import.imports.each do |import|
-        import.courtesy_notification = :pending
-      end
     end
 
     if @standards_import.save

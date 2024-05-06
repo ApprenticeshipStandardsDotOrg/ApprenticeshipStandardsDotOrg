@@ -20,8 +20,13 @@ class StandardsImport < ApplicationRecord
     end
   end
 
+
   def import_root
     self
+  end
+
+  def standard_courtesy_notification
+    courtesy_notification
   end
 
   def source_files
