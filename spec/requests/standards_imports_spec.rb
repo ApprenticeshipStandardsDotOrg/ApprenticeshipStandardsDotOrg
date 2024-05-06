@@ -17,6 +17,8 @@ RSpec.describe "StandardsImports", type: :request do
           stub_feature_flag(:show_imports_in_administrate, false)
           stub_recaptcha_high_score
 
+          file1 = fixture_file_upload("spec/fixtures/files/pixel1x1.pdf")
+          file2 = fixture_file_upload("spec/fixtures/files/pixel1x1_redacted.pdf")
           expect_any_instance_of(StandardsImport).to receive(:notify_admin)
           perform_enqueued_jobs do
             expect {
@@ -26,13 +28,13 @@ RSpec.describe "StandardsImports", type: :request do
                   email: "mickey@mouse.com",
                   organization: "Disney",
                   notes: "a" * 500,
-                  files: [fixture_file_upload("spec/fixtures/files/pixel1x1.jpg", "image/jpeg")],
+                  files: [file1, file2],
                   public_document: true
                 }
               }
             }.to change(StandardsImport, :count).by(1)
-              .and change(ActiveStorage::Attachment, :count).by(1)
-              .and change(SourceFile, :count).by(1)
+              .and change(ActiveStorage::Attachment, :count).by(2)
+              .and change(SourceFile, :count).by(2)
           end
 
           si = StandardsImport.last
@@ -40,7 +42,7 @@ RSpec.describe "StandardsImports", type: :request do
           expect(si.email).to eq "mickey@mouse.com"
           expect(si.organization).to eq "Disney"
           expect(si.notes).to eq "a" * 500
-          expect(si.files.count).to eq 1
+          expect(si.files.count).to eq 2
           expect(si.public_document?).to be false
           expect(si).to be_courtesy_notification_pending
 
