@@ -20,22 +20,20 @@ RSpec.describe "StandardsImports", type: :request do
           file1 = fixture_file_upload("spec/fixtures/files/pixel1x1.pdf")
           file2 = fixture_file_upload("spec/fixtures/files/pixel1x1_redacted.pdf")
           expect_any_instance_of(StandardsImport).to receive(:notify_admin)
-          perform_enqueued_jobs do
-            expect {
-              post standards_imports_path, params: {
-                standards_import: {
-                  name: "Mickey Mouse",
-                  email: "mickey@mouse.com",
-                  organization: "Disney",
-                  notes: "a" * 500,
-                  files: [file1, file2],
-                  public_document: true
-                }
+          expect {
+            post standards_imports_path, params: {
+              standards_import: {
+                name: "Mickey Mouse",
+                email: "mickey@mouse.com",
+                organization: "Disney",
+                notes: "a" * 500,
+                files: [file1, file2],
+                public_document: true
               }
-            }.to change(StandardsImport, :count).by(1)
-              .and change(ActiveStorage::Attachment, :count).by(2)
-              .and change(Imports::Uncategorized, :count).by(2)
-          end
+            }
+          }.to change(StandardsImport, :count).by(1)
+            .and change(ActiveStorage::Attachment, :count).by(2)
+            .and change(Imports::Uncategorized, :count).by(2)
 
           si = StandardsImport.last
           expect(si.name).to eq "Mickey Mouse"
@@ -70,22 +68,20 @@ RSpec.describe "StandardsImports", type: :request do
 
           sign_in admin
           expect_any_instance_of(StandardsImport).to_not receive(:notify_admin)
-          perform_enqueued_jobs do
-            expect {
-              post standards_imports_path, params: {
-                standards_import: {
-                  name: "Mickey Mouse",
-                  email: "mickey@mouse.com",
-                  organization: "Disney",
-                  notes: "a" * 500,
-                  files: [fixture_file_upload("spec/fixtures/files/pixel1x1.pdf")],
-                  public_document: true
-                }
+          expect {
+            post standards_imports_path, params: {
+              standards_import: {
+                name: "Mickey Mouse",
+                email: "mickey@mouse.com",
+                organization: "Disney",
+                notes: "a" * 500,
+                files: [fixture_file_upload("spec/fixtures/files/pixel1x1.pdf")],
+                public_document: true
               }
-            }.to change(StandardsImport, :count).by(1)
-              .and change(ActiveStorage::Attachment, :count).by(1)
-              .and change(Imports::Uncategorized, :count).by(1)
-          end
+            }
+          }.to change(StandardsImport, :count).by(1)
+            .and change(ActiveStorage::Attachment, :count).by(1)
+            .and change(Imports::Uncategorized, :count).by(1)
 
           si = StandardsImport.last
           expect(si.name).to eq "Mickey Mouse"
