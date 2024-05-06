@@ -57,6 +57,7 @@ class StandardsImport < ApplicationRecord
         file: file
       )
     end
+    super(files) # still attach to standards_import for now
   end
 
   def file_count
