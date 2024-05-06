@@ -9,10 +9,13 @@ class Scraper::ApprenticeshipBulletinsJob < ApplicationJob
     xlsx.parse(headers: true).each_with_index do |row, index|
       next if index < 1
 
-      ProcessApprenticeshipBulletin.call(
+      CreateImportFromUri.call(
         uri: row["File URI"],
         title: row["Title"],
-        date: row["Date"]
+        notes: "From Scraper::ApprenticeshipBulletinsJob",
+        source: Scraper::ApprenticeshipBulletinsJob::BULLETIN_LIST_URL,
+        date: row["Date"],
+        listing: true
       )
     end
   end
