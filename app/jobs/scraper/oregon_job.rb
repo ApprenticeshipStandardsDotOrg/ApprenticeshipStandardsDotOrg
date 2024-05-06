@@ -31,7 +31,6 @@ class Scraper::OregonJob < Scraper::WatirJob
         standards_table.css("tr").each do |row|
           file = row.css("td > a").first
           file_path = file["href"]
-          file_name = file.content
 
           CreateImportFromUri.call(
             uri: base + file_path,

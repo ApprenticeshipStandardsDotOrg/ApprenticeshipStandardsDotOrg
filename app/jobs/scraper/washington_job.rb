@@ -47,7 +47,7 @@ class Scraper::WashingtonJob < Scraper::WatirJob
       begin
         CreateImportFromUri.call(
           uri: "https://#{file_path}",
-          title: file,
+          title: organization,
           notes: "From Scraper::WashingtonJob",
           source: program_link
         )
