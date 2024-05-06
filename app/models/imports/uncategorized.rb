@@ -9,6 +9,7 @@ module Imports
     def process(**kwargs)
       transaction do
         create_child!(**kwargs)
+        kwargs[:listing] = false
         process_child(**kwargs)
         complete_processing
       end
