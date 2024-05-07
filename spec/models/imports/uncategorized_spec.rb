@@ -5,7 +5,7 @@ RSpec.describe Imports::Uncategorized, type: :model do
 
   describe "#process" do
     it "detects Docx listings" do
-      allow_any_instance_of(Imports::DocxListing).to receive(:process)
+      allow_any_instance_of(Imports::DocxListing).to receive(:process).with(hash_including(listing: false))
       import = create(:imports_uncategorized, :docx_listing)
 
       import.process(listing: true)
