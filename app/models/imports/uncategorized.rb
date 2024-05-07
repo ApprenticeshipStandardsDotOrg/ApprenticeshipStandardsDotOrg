@@ -7,11 +7,9 @@ module Imports
     has_one :import, as: :parent, dependent: :destroy, autosave: true
 
     def process(**kwargs)
-      transaction do
-        create_child!(**kwargs)
-        process_child(**kwargs, listing: false)
-        complete_processing
-      end
+      create_child!(**kwargs)
+      process_child(**kwargs, listing: false)
+      complete_processing
     rescue => e
       update!(
         processed_at: nil,
