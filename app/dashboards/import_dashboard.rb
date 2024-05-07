@@ -19,7 +19,6 @@ class ImportDashboard < Administrate::BaseDashboard
     processing_errors: Field::Text,
     public_document: Field::Boolean,
     status: Field::Select.with_options(searchable: false, collection: ->(field) { field.resource.class.send(field.attribute.to_s.pluralize).keys }),
-    type: Field::String,
     created_at: Field::DateTime,
     updated_at: Field::DateTime
   }.freeze
