@@ -17,6 +17,9 @@ RSpec.describe "admin/imports/index" do
       expect(page).to have_text "Imports::DocxListing"
       expect(page).to have_text "Imports::Pdf"
 
+      click_on "Imports::Uncategorized", match: :first
+      expect(page).to have_text "StandardsImport" # parent
+
       stub_feature_flag(:show_imports_in_administrate, false)
     end
   end
@@ -36,6 +39,9 @@ RSpec.describe "admin/imports/index" do
       expect(page).to_not have_text "Imports::Uncategorized"
       expect(page).to_not have_text "Imports::DocxListing"
       expect(page).to have_text "Imports::Pdf"
+
+      click_on "Imports::Pdf", match: :first
+      expect(page).to have_text "Imports::Uncategorized" # parent
 
       stub_feature_flag(:show_imports_in_administrate, false)
     end

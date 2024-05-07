@@ -1,2 +1,2 @@
-class Imports::PdfPolicy < AdminPolicy
+class Imports::PdfPolicy < ImportPolicy
 end
