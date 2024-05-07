@@ -29,7 +29,12 @@ module Admin
     #   end
     # end
     def scoped_resource
-      resource_class.includes(file_attachment: :blob)
+      scope = resource_class.includes(file_attachment: :blob)
+      if current_user.admin?
+        scope
+      else
+        scope.where(type: "Imports::Pdf")
+      end
     end
 
     # Override `resource_params` if you want to transform the submitted
