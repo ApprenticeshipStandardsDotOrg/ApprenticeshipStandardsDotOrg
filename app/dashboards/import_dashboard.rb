@@ -40,16 +40,16 @@ class ImportDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
     id
+    type
     file
     assignee
-    courtesy_notification
+    status
     metadata
-    parent
+    public_document
     processed_at
     processing_errors
-    public_document
-    status
-    type
+    courtesy_notification
+    parent
     created_at
     updated_at
   ].freeze
