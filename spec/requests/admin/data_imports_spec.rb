@@ -58,7 +58,7 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
   describe "POST /create" do
     context "with valid parameters" do
       context "when admin" do
-        it "creates new data import record, calls parse job, and redirects to show page" do
+        it "when import flag off: creates new data import record, calls parse job, and redirects to show page" do
           admin = create(:admin)
           source_file = create(:source_file)
 
@@ -82,10 +82,40 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
 
           expect(response).to redirect_to admin_source_file_data_import_path(source_file, di)
         end
+
+        it "when import flag on: creates new data import record, calls parse job, and redirects to show page" do
+          stub_feature_flag(:show_imports_in_administrate, true)
+
+          admin = create(:admin)
+          imports_pdf = create(:imports_pdf)
+
+          sign_in admin
+          expect(ProcessDataImportJob).to receive(:perform_later).with(data_import: kind_of(DataImport), last_file: true)
+          expect {
+            post admin_import_data_imports_path(imports_pdf), params: {
+              data_import: {
+                description: "A new occupation standard",
+                file: fixture_file_upload("comp-occupation-standards-template.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+              },
+              last_file: "1"
+            }
+          }.to change(DataImport, :count).by(1)
+            .and change(ActiveStorage::Attachment, :count).by(1)
+
+          di = DataImport.last
+          expect(di.source_file).to be_nil
+          expect(di.import).to eq imports_pdf
+          expect(di.description).to eq "A new occupation standard"
+          expect(di.file).to be
+
+          expect(response).to redirect_to admin_import_data_import_path(imports_pdf, di)
+
+          stub_feature_flag(:show_imports_in_administrate, false)
+        end
       end
 
       context "when converter" do
-        it "creates new data import record, calls parse job, and redirects to show page" do
+        it "when import flag off: creates new data import record, calls parse job, and redirects to show page" do
           admin = create(:user, :converter)
           source_file = create(:source_file)
 
@@ -109,11 +139,41 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
 
           expect(response).to redirect_to admin_source_file_data_import_path(source_file, di)
         end
+
+        it "when import flag on: creates new data import record, calls parse job, and redirects to show page" do
+          stub_feature_flag(:show_imports_in_administrate, true)
+
+          admin = create(:user, :converter)
+          imports_pdf = create(:imports_pdf)
+
+          sign_in admin
+          expect(ProcessDataImportJob).to receive(:perform_later).with(data_import: kind_of(DataImport), last_file: true)
+          expect {
+            post admin_import_data_imports_path(imports_pdf), params: {
+              data_import: {
+                description: "A new occupation standard",
+                file: fixture_file_upload("comp-occupation-standards-template.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+              },
+              last_file: "1"
+            }
+          }.to change(DataImport, :count).by(1)
+            .and change(ActiveStorage::Attachment, :count).by(1)
+
+          di = DataImport.last
+          expect(di.source_file).to be_nil
+          expect(di.import).to eq imports_pdf
+          expect(di.description).to eq "A new occupation standard"
+          expect(di.file).to be
+
+          expect(response).to redirect_to admin_import_data_import_path(imports_pdf, di)
+
+          stub_feature_flag(:show_imports_in_administrate, false)
+        end
       end
     end
 
     context "with invalid parameters" do
-      it "does not create new data import record and renders new" do
+      it "with import flag off: does not create new data import record and renders new" do
         admin = create(:admin)
         source_file = create(:source_file)
 
@@ -128,6 +188,27 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
         }.to_not change(DataImport, :count)
 
         expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it "with import flag on: does not create new data import record and renders new" do
+        stub_feature_flag(:show_imports_in_administrate, true)
+
+        admin = create(:admin)
+        imports_pdf = create(:imports_pdf)
+
+        sign_in admin
+        allow_any_instance_of(DataImport).to receive(:save).and_return(false)
+        expect {
+          post admin_import_data_imports_path(imports_pdf), params: {
+            data_import: {
+              description: "Description"
+            }
+          }
+        }.to_not change(DataImport, :count)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+
+        stub_feature_flag(:show_imports_in_administrate, false)
       end
     end
   end

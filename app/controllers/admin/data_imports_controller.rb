@@ -21,21 +21,39 @@ module Admin
     end
 
     def create
-      data_import = @source_file.data_imports.build(resource_params)
-      data_import.user = current_user
-      authorize_resource(data_import)
+      if Flipper.enabled?(:show_imports_in_administrate)
+        data_import = @import.data_imports.build(resource_params)
+        data_import.user = current_user
+        authorize_resource(data_import)
 
-      if data_import.save
-        ProcessDataImportJob.perform_later(data_import: data_import, last_file: last_file_flag)
+        if data_import.save!
+          ProcessDataImportJob.perform_later(data_import: data_import, last_file: last_file_flag)
 
-        redirect_to(
-          after_data_import_created_path(@source_file, data_import),
-          notice: "Thank you for submitting your occupation standard!"
-        )
+          redirect_to(
+            after_data_import_created_path(@import, data_import),
+          )
+        else
+          render :new, locals: {
+            page: Administrate::Page::Form.new(dashboard, data_import)
+          }, status: :unprocessable_entity
+        end
       else
-        render :new, locals: {
-          page: Administrate::Page::Form.new(dashboard, data_import)
-        }, status: :unprocessable_entity
+        data_import = @source_file.data_imports.build(resource_params)
+        data_import.user = current_user
+        authorize_resource(data_import)
+
+        if data_import.save
+          ProcessDataImportJob.perform_later(data_import: data_import, last_file: last_file_flag)
+
+          redirect_to(
+            after_data_import_created_path(@source_file, data_import),
+            notice: "Thank you for submitting your occupation standard!"
+          )
+        else
+          render :new, locals: {
+            page: Administrate::Page::Form.new(dashboard, data_import)
+          }, status: :unprocessable_entity
+        end
       end
     end
 
@@ -81,8 +99,12 @@ module Admin
       params[:last_file] == "1"
     end
 
-    def after_data_import_created_path(source_file, data_import)
-      admin_source_file_data_import_path(source_file, data_import)
+    def after_data_import_created_path(parent, data_import)
+      if Flipper.enabled?(:show_imports_in_administrate)
+        admin_import_data_import_path(parent, data_import)
+      else
+        admin_source_file_data_import_path(parent, data_import)
+      end
     end
 
     def after_resource_updated_path(source_file, data_import)
