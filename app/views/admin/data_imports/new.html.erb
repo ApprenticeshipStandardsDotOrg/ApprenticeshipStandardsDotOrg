@@ -1,8 +1,8 @@
 <% content_for(:title) do %>
   <% if Flipper.enabled?(:show_imports_in_administrate) %>
-    <%= "Import data for pdf file: #{@import.filename}" %>
+    <%= "Import data for pdf file: #{@parent.filename}" %>
   <% else %>
-    <%= "Import data for source file: #{@source_file.filename}" %>
+    <%= "Import data for source file: #{@parent.filename}" %>
   <% end %>
 <% end %>
 
