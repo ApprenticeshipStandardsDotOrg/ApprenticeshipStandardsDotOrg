@@ -420,7 +420,7 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
   describe "PUT /update/:id" do
     context "on admin subdomain" do
       context "when admin user" do
-        it "updates record and redirects to index" do
+        it "with import flag off: updates record and redirects to index" do
           admin = create(:admin)
           data_import = create(:data_import)
           source_file = data_import.source_file
@@ -437,10 +437,32 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
           expect(data_import.reload.description).to eq "A new description"
           expect(response).to redirect_to admin_source_file_data_import_path(source_file, data_import)
         end
+
+        it "with import flag on: updates record and redirects to index" do
+          stub_feature_flag(:show_imports_in_administrate, true)
+
+          admin = create(:admin)
+          imports_pdf = create(:imports_pdf)
+          data_import = create(:data_import, import: imports_pdf)
+
+          sign_in admin
+          expect(ProcessDataImportJob).to receive(:perform_later).with(data_import: data_import, last_file: false)
+          patch admin_import_data_import_path(imports_pdf, data_import),
+            params: {
+              data_import: {
+                description: "A new description"
+              }
+            }
+
+          expect(data_import.reload.description).to eq "A new description"
+          expect(response).to redirect_to admin_import_data_import_path(imports_pdf, data_import)
+
+          stub_feature_flag(:show_imports_in_administrate, false)
+        end
       end
 
       context "when converter" do
-        it "does not update and redirects" do
+        it "with import flag off: does not update and redirects" do
           admin = create(:user, :converter)
           data_import = create(:data_import, description: "old description")
           source_file = data_import.source_file
@@ -456,6 +478,28 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
 
           expect(data_import.reload.description).to eq "old description"
           expect(response).to redirect_to root_path
+        end
+
+        it "with import flag on: does not update and redirects" do
+          stub_feature_flag(:show_imports_in_administrate, true)
+
+          admin = create(:user, :converter)
+          imports_pdf = create(:imports_pdf)
+          data_import = create(:data_import, import: imports_pdf, description: "old description")
+
+          sign_in admin
+          expect(ProcessDataImportJob).to_not receive(:perform_later)
+          patch admin_import_data_import_path(imports_pdf, data_import),
+            params: {
+              data_import: {
+                description: "A new description"
+              }
+            }
+
+          expect(data_import.reload.description).to eq "old description"
+          expect(response).to redirect_to root_path
+
+          stub_feature_flag(:show_imports_in_administrate, false)
         end
       end
     end

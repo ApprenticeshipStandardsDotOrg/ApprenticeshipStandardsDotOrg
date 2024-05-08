@@ -60,10 +60,17 @@ module Admin
     def update
       if requested_resource.update(resource_params)
         ProcessDataImportJob.perform_later(data_import: requested_resource, last_file: last_file_flag)
-        redirect_to(
-          after_resource_updated_path(@source_file, requested_resource),
-          notice: translate_with_resource("update.success")
-        )
+        if Flipper.enabled?(:show_imports_in_administrate)
+          redirect_to(
+            after_resource_updated_path(@import, requested_resource),
+            notice: translate_with_resource("update.success")
+          )
+        else
+          redirect_to(
+            after_resource_updated_path(@source_file, requested_resource),
+            notice: translate_with_resource("update.success")
+          )
+        end
       else
         render :edit, locals: {
           page: Administrate::Page::Form.new(dashboard, requested_resource)
@@ -111,8 +118,12 @@ module Admin
       end
     end
 
-    def after_resource_updated_path(source_file, data_import)
-      admin_source_file_data_import_path(source_file, data_import)
+    def after_resource_updated_path(parent, data_import)
+      if Flipper.enabled?(:show_imports_in_administrate)
+        admin_import_data_import_path(parent, data_import)
+      else
+        admin_source_file_data_import_path(parent, data_import)
+      end
     end
 
     def after_resource_destroyed_path(parent)
