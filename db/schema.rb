@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_29_183351) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_08_172440) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -101,6 +101,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_29_183351) do
     t.uuid "occupation_standard_id"
     t.uuid "source_file_id", null: false
     t.integer "status", default: 0, null: false
+    t.uuid "import_id"
+    t.index ["import_id"], name: "index_data_imports_on_import_id"
     t.index ["occupation_standard_id"], name: "index_data_imports_on_occupation_standard_id"
     t.index ["source_file_id"], name: "index_data_imports_on_source_file_id"
     t.index ["user_id"], name: "index_data_imports_on_user_id"
@@ -362,6 +364,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_29_183351) do
   add_foreign_key "api_keys", "users"
   add_foreign_key "competencies", "work_processes"
   add_foreign_key "courses", "organizations"
+  add_foreign_key "data_imports", "imports"
   add_foreign_key "data_imports", "occupation_standards"
   add_foreign_key "data_imports", "source_files"
   add_foreign_key "data_imports", "users"
