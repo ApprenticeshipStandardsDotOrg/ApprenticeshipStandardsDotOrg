@@ -22,6 +22,26 @@ RSpec.describe "admin/imports/index" do
 
       stub_feature_flag(:show_imports_in_administrate, false)
     end
+
+    it "shows Convert link on Imports::Pdf" do
+      stub_feature_flag(:show_imports_in_administrate, true)
+
+      admin = create(:admin)
+      docx = create(:imports_docx_listing)
+      pdf = create(:imports_pdf)
+
+      login_as admin
+      visit admin_imports_path
+
+      expect(page).to have_link("Convert", href: new_admin_import_data_import_path(pdf))
+      expect(page).to_not have_link("Convert", href: new_admin_import_data_import_path(docx))
+
+      click_on "Convert"
+
+      expect(page).to have_text "The file imported on this screen"
+
+      stub_feature_flag(:show_imports_in_administrate, false)
+    end
   end
 
   context "when converter" do

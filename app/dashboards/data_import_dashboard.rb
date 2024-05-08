@@ -9,6 +9,7 @@ class DataImportDashboard < Administrate::BaseDashboard
     occupation_standard: Field::BelongsTo,
     occupation_standard_title: Field::String,
     source_file: Field::BelongsTo,
+    import: Field::BelongsTo.with_options(class_name: "Import"),
     status: Field::String,
     created_at: Field::DateTime,
     updated_at: Field::DateTime
@@ -24,6 +25,7 @@ class DataImportDashboard < Administrate::BaseDashboard
     description
     file
     source_file
+    import
     occupation_standard
     status
     created_at

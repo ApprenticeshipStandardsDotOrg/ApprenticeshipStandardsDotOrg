@@ -7,8 +7,7 @@ to display a collection of resources in an HTML table.
 ## Local variables:
 
 - `collection_presenter`:
-  An instance of [Administrate::Page::Collection][1].
-  The table presenter uses `ResourceDashboard::COLLECTION_ATTRIBUTES` to determine
+  An instance of [Administrate::Page::Collection][1].  The table presenter uses `ResourceDashboard::COLLECTION_ATTRIBUTES` to determine
   the columns displayed in the table
 - `resources`:
   An ActiveModel::Relation collection of resources to be displayed in the table.
@@ -52,6 +51,7 @@ to display a collection of resources in an HTML table.
             resources: resources,
             table_title: "page-title"
           ) %>
+      <th scope="col"></th>
     </tr>
   </thead>
 
@@ -74,6 +74,11 @@ to display a collection of resources in an HTML table.
             <% end -%>
           </td>
         <% end %>
+        <td class="cell-data cell-data--convert">
+          <% if resource.is_a?(Imports::Pdf) %>
+            <%= link_to "Convert", new_admin_import_data_import_path(resource) %>
+          <% end %>
+        </td>
 
         <%= render(
               "collection_item_actions",
