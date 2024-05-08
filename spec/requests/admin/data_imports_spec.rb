@@ -508,7 +508,7 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
   describe "DELETE /destroy/:id" do
     context "when admin user" do
       context "when occupation standard has other data imports" do
-        it "destroys record and leaves occupation standard unchanged" do
+        it "with import flag off: destroys record and leaves occupation standard unchanged" do
           admin = create(:admin)
           occupation_standard = create(:occupation_standard)
           data_import = create(:data_import, occupation_standard: occupation_standard)
@@ -523,10 +523,30 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
 
           expect(response).to redirect_to(admin_source_file_path(source_file))
         end
+
+        it "with import flag on: destroys record and leaves occupation standard unchanged" do
+          stub_feature_flag(:show_imports_in_administrate, true)
+
+          admin = create(:admin)
+          occupation_standard = create(:occupation_standard)
+          imports_pdf = create(:imports_pdf)
+          data_import = create(:data_import, import: imports_pdf, occupation_standard: occupation_standard)
+          create(:data_import, import: imports_pdf, occupation_standard: occupation_standard)
+
+          sign_in admin
+          expect {
+            delete admin_import_data_import_path(imports_pdf, data_import)
+          }.to change(DataImport, :count).by(-1)
+            .and change(OccupationStandard, :count).by(0)
+
+          expect(response).to redirect_to(admin_import_path(imports_pdf))
+
+          stub_feature_flag(:show_imports_in_administrate, false)
+        end
       end
 
       context "when occupation standard has no other data imports" do
-        it "destroys record and destroys occupation standard" do
+        it "with import flag off: destroys record and destroys occupation standard" do
           admin = create(:admin)
           occupation_standard = create(:occupation_standard)
           data_import = create(:data_import, occupation_standard: occupation_standard)
@@ -540,10 +560,29 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
 
           expect(response).to redirect_to(admin_source_file_path(source_file))
         end
+
+        it "with import flag on: destroys record and destroys occupation standard" do
+          stub_feature_flag(:show_imports_in_administrate, true)
+
+          admin = create(:admin)
+          occupation_standard = create(:occupation_standard)
+          imports_pdf = create(:imports_pdf)
+          data_import = create(:data_import, import: imports_pdf, occupation_standard: occupation_standard)
+
+          sign_in admin
+          expect {
+            delete admin_import_data_import_path(imports_pdf, data_import)
+          }.to change(DataImport, :count).by(-1)
+            .and change(OccupationStandard, :count).by(-1)
+
+          expect(response).to redirect_to(admin_import_path(imports_pdf))
+
+          stub_feature_flag(:show_imports_in_administrate, false)
+        end
       end
 
       context "when data_import is not linked to occupation standard" do
-        it "destroys record" do
+        it "with import flag off: destroys record" do
           admin = create(:admin)
           data_import = create(:data_import, occupation_standard: nil)
           source_file = data_import.source_file
@@ -556,11 +595,29 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
 
           expect(response).to redirect_to(admin_source_file_path(source_file))
         end
+
+        it "with import flag on: destroys record" do
+          stub_feature_flag(:show_imports_in_administrate, true)
+
+          admin = create(:admin)
+          imports_pdf = create(:imports_pdf)
+          data_import = create(:data_import, import: imports_pdf, occupation_standard: nil)
+
+          sign_in admin
+          expect {
+            delete admin_import_data_import_path(imports_pdf, data_import)
+          }.to change(DataImport, :count).by(-1)
+            .and change(OccupationStandard, :count).by(0)
+
+          expect(response).to redirect_to(admin_import_path(imports_pdf))
+
+          stub_feature_flag(:show_imports_in_administrate, false)
+        end
       end
     end
 
     context "when converter" do
-      it "does not destroy and redirects" do
+      it "with import flag off: does not destroy and redirects" do
         admin = create(:user, :converter)
         data_import = create(:data_import)
         source_file = data_import.source_file
@@ -572,6 +629,24 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
           .and change(OccupationStandard, :count).by(0)
 
         expect(response).to redirect_to root_path
+      end
+
+      it "with import flag on: does not destroy and redirects" do
+        stub_feature_flag(:show_imports_in_administrate, true)
+
+        admin = create(:user, :converter)
+        imports_pdf = create(:imports_pdf)
+        data_import = create(:data_import, import: imports_pdf)
+
+        sign_in admin
+        expect {
+          delete admin_import_data_import_path(imports_pdf, data_import)
+        }.to change(DataImport, :count).by(0)
+          .and change(OccupationStandard, :count).by(0)
+
+        expect(response).to redirect_to root_path
+
+        stub_feature_flag(:show_imports_in_administrate, false)
       end
     end
   end
