@@ -24,7 +24,7 @@ module Admin
         ProcessDataImportJob.perform_later(data_import: data_import, last_file: last_file_flag)
 
         redirect_to(
-          after_data_import_created_path(@parent, data_import),
+          after_data_import_created_path(@parent, data_import)
         )
       else
         render :new, locals: {
