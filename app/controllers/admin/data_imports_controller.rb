@@ -20,7 +20,7 @@ module Admin
       data_import.user = current_user
       authorize_resource(data_import)
 
-      if data_import.save!
+      if data_import.save
         ProcessDataImportJob.perform_later(data_import: data_import, last_file: last_file_flag)
 
         redirect_to(
