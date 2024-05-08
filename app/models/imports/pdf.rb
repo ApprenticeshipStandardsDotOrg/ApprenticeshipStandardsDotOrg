@@ -1,6 +1,7 @@
 module Imports
   class Pdf < Import
     has_one_attached :file
+    has_many :data_imports
 
     def process(**_)
       update!(
