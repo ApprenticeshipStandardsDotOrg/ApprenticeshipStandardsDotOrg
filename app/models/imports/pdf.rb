@@ -10,5 +10,9 @@ module Imports
         status: :pending
       )
     end
+
+    def filename
+      file.blob.filename.to_s
+    end
   end
 end

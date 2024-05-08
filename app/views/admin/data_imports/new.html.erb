@@ -1,5 +1,9 @@
 <% content_for(:title) do %>
-  <%= "Import data for source file: #{@source_file.filename}" %>
+  <% if Flipper.enabled?(:show_imports_in_administrate) %>
+    <%= "Import data for pdf file: #{@import.filename}" %>
+  <% else %>
+    <%= "Import data for source file: #{@source_file.filename}" %>
+  <% end %>
 <% end %>
 
 <header class="main-content__header" role="banner">
@@ -13,5 +17,9 @@
 </header>
 
 <section aria-labelledby="title_id" class="main-content__body">
-  <%= render "form", page: page %>
+  <% if Flipper.enabled?(:show_imports_in_administrate) %>
+    <%= render "form_new", page: page %>
+  <% else %>
+    <%= render "form", page: page %>
+  <% end %>
 </section>

@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe "Admin::DataImports", type: :request, admin: true do
   describe "GET /new" do
     context "when admin" do
-      it "returns http success" do
+      it "when import flag off: returns http success" do
         admin = create(:admin)
         source_file = create(:source_file)
 
@@ -12,10 +12,24 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
 
         expect(response).to be_successful
       end
+
+      it "when import flag on: returns http success" do
+        stub_feature_flag(:show_imports_in_administrate, true)
+
+        admin = create(:admin)
+        imports_pdf = create(:imports_pdf)
+
+        sign_in admin
+        get new_admin_import_data_import_path(imports_pdf)
+
+        expect(response).to be_successful
+
+        stub_feature_flag(:show_imports_in_administrate, false)
+      end
     end
 
     context "when converter" do
-      it "returns http success" do
+      it "when import flag off: returns http success" do
         admin = create(:user, :converter)
         source_file = create(:source_file)
 
@@ -23,6 +37,20 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
         get new_admin_source_file_data_import_path(source_file)
 
         expect(response).to be_successful
+      end
+
+      it "when import flag on: returns http success" do
+        stub_feature_flag(:show_imports_in_administrate, true)
+
+        admin = create(:user, :converter)
+        imports_pdf = create(:imports_pdf)
+
+        sign_in admin
+        get new_admin_import_data_import_path(imports_pdf)
+
+        expect(response).to be_successful
+
+        stub_feature_flag(:show_imports_in_administrate, false)
       end
     end
   end

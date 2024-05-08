@@ -1,14 +1,23 @@
 module Admin
   class DataImportsController < Admin::ApplicationController
-    before_action :set_source_file, except: [:show]
+    before_action :set_parent, except: [:show]
 
     def new
-      resource = new_resource
-      resource.source_file = @source_file
-      authorize_resource(resource)
-      render locals: {
-        page: Administrate::Page::Form.new(dashboard, resource)
-      }
+      if Flipper.enabled?(:show_imports_in_administrate)
+        resource = new_resource
+        resource.import = @import
+        authorize_resource(resource)
+        render locals: {
+          page: Administrate::Page::Form.new(dashboard, resource)
+        }
+      else
+        resource = new_resource
+        resource.source_file = @source_file
+        authorize_resource(resource)
+        render locals: {
+          page: Administrate::Page::Form.new(dashboard, resource)
+        }
+      end
     end
 
     def create
@@ -60,8 +69,12 @@ module Admin
 
     private
 
-    def set_source_file
-      @source_file = SourceFile.find(params[:source_file_id])
+    def set_parent
+      if Flipper.enabled?(:show_imports_in_administrate)
+        @import = Imports::Pdf.find(params[:import_id])
+      else
+        @source_file = SourceFile.find(params[:source_file_id])
+      end
     end
 
     def last_file_flag

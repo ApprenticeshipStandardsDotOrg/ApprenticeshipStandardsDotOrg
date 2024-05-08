@@ -1,0 +1,51 @@
+<div class="w-full max-w-prose mx-auto bg-slate-300 my-5 p-3">
+  The file imported on this screen should be based on the <%= link_to "import template", "https://www.notion.so/888b37991598495cb22d0dabc08ae3b2?v=f29055b156fa471ea9c30e9467238e66", class: "default-colors", target: :_blank %>. Please review instructions for filling that template on the <%= link_to "ApprenticeshipStandards Notion", "https://www.notion.so/Instructions-060de1705e7d471fa8bee7a7c535a2d6", class: "default-colors", target: :_blank %>.
+</div>
+<%= form_with(model: page.resource, url: admin_import_data_imports_path(page.resource.import), html: {class: "form"}) do |f| %>
+  <% if page.resource.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= t(
+              "administrate.form.errors",
+              pluralized_errors: pluralize(page.resource.errors.count, t("administrate.form.error")),
+              resource_name: display_resource_name(page.resource_name, singular: true)
+            ) %>
+      </h2>
+
+      <ul>
+        <% page.resource.errors.full_messages.each do |message| %>
+          <li class="flash-error"><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% page.attributes(controller.action_name).each do |_title, attributes| -%>
+    <% attributes.each do |attribute| %>
+      <div class="field-unit field-unit--<%= attribute.html_class %> field-unit--<%= requireness(attribute) %>">
+        <%= render_field attribute, f: f %>
+      </div>
+    <% end %>
+  <% end -%>
+
+  <div class="field-unit field-unit--last_file">
+    <div class="field-unit__label">
+    </div>
+    <div class="field-unit__field">
+      <p>This is the last import for <%= @import.filename %>. Change its status to Completed after this import completes.</p>
+    </div>
+  </div>
+
+  <div class="field-unit field-unit--last_file">
+    <div class="field-unit__label">
+      <%= label_tag :last_file %>
+    </div>
+    <div class="field-unit__field">
+      <%= check_box_tag :last_file %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit "Submit" %>
+  </div>
+<% end %>
