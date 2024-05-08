@@ -273,7 +273,7 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
 
   describe "DELETE /destroy" do
     context "when admin" do
-      it "deletes record and redirects to new page" do
+      it "with import flag off: deletes record and redirects to new page" do
         admin = create(:admin)
         data_import = create(:data_import)
         source_file = data_import.source_file
@@ -284,10 +284,26 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
         }.to change(DataImport, :count).by(-1)
         expect(response).to redirect_to(admin_source_file_path(source_file))
       end
+
+      it "with import flag on: deletes record and redirects to new page" do
+        stub_feature_flag(:show_imports_in_administrate, true)
+
+        admin = create(:admin)
+        imports_pdf = create(:imports_pdf)
+        data_import = create(:data_import, import: imports_pdf)
+
+        sign_in admin
+        expect {
+          delete admin_import_data_import_path(imports_pdf, data_import)
+        }.to change(DataImport, :count).by(-1)
+        expect(response).to redirect_to(admin_import_path(imports_pdf))
+
+        stub_feature_flag(:show_imports_in_administrate, false)
+      end
     end
 
     context "when converter" do
-      it "does not delete record" do
+      it "with import flag off: does not delete record" do
         admin = create(:user, :converter)
         data_import = create(:data_import)
         source_file = data_import.source_file
@@ -297,6 +313,22 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
           delete admin_source_file_data_import_path(source_file, data_import)
         }.to_not change(DataImport, :count)
         expect(response).to redirect_to root_path
+      end
+
+      it "with import flag on: does not delete record" do
+        stub_feature_flag(:show_imports_in_administrate, true)
+
+        admin = create(:user, :converter)
+        imports_pdf = create(:imports_pdf)
+        data_import = create(:data_import, import: imports_pdf)
+
+        sign_in admin
+        expect {
+          delete admin_import_data_import_path(imports_pdf, data_import)
+        }.to_not change(DataImport, :count)
+        expect(response).to redirect_to root_path
+
+        stub_feature_flag(:show_imports_in_administrate, false)
       end
     end
   end

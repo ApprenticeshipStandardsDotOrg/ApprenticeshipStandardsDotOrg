@@ -82,7 +82,11 @@ module Admin
       else
         flash[:error] = requested_resource.errors.full_messages.join("<br/>")
       end
-      redirect_to after_resource_destroyed_path(@source_file)
+      if Flipper.enabled?(:show_imports_in_administrate)
+        redirect_to after_resource_destroyed_path(@import)
+      else
+        redirect_to after_resource_destroyed_path(@source_file)
+      end
     end
 
     private
@@ -111,8 +115,12 @@ module Admin
       admin_source_file_data_import_path(source_file, data_import)
     end
 
-    def after_resource_destroyed_path(source_file)
-      admin_source_file_path(source_file)
+    def after_resource_destroyed_path(parent)
+      if Flipper.enabled?(:show_imports_in_administrate)
+        admin_import_path(parent)
+      else
+        admin_source_file_path(parent)
+      end
     end
   end
 end
