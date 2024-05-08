@@ -215,7 +215,7 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
 
   describe "GET /show" do
     context "when admin" do
-      it "returns http success" do
+      it "with import flag off: returns http success" do
         admin = create(:admin)
         data_import = create(:data_import)
         source_file = data_import.source_file
@@ -225,10 +225,25 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
 
         expect(response).to be_successful
       end
+
+      it "with import flag on: returns http success" do
+        stub_feature_flag(:show_imports_in_administrate, true)
+
+        admin = create(:admin)
+        imports_pdf = create(:imports_pdf)
+        data_import = create(:data_import, import: imports_pdf)
+
+        sign_in admin
+        get admin_import_data_import_path(imports_pdf, data_import)
+
+        expect(response).to be_successful
+
+        stub_feature_flag(:show_imports_in_administrate, false)
+      end
     end
 
     context "when converter" do
-      it "returns http success" do
+      it "with import flag off: returns http success" do
         admin = create(:user, :converter)
         data_import = create(:data_import)
         source_file = data_import.source_file
@@ -237,6 +252,21 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
         get admin_source_file_data_import_path(source_file, data_import)
 
         expect(response).to be_successful
+      end
+
+      it "with import flag on: returns http success" do
+        stub_feature_flag(:show_imports_in_administrate, true)
+
+        admin = create(:user, :converter)
+        imports_pdf = create(:imports_pdf)
+        data_import = create(:data_import, import: imports_pdf)
+
+        sign_in admin
+        get admin_import_data_import_path(imports_pdf, data_import)
+
+        expect(response).to be_successful
+
+        stub_feature_flag(:show_imports_in_administrate, false)
       end
     end
   end
