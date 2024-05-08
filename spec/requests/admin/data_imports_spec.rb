@@ -336,7 +336,7 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
   describe "GET /edit/:id" do
     context "on admin subdomain" do
       context "when admin user" do
-        it "returns http success" do
+        it "with import flag off: returns http success" do
           admin = create(:admin)
           data_import = create(:data_import)
           source_file = data_import.source_file
@@ -346,10 +346,25 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
 
           expect(response).to be_successful
         end
+
+        it "with import flag on: returns http success" do
+          stub_feature_flag(:show_imports_in_administrate, true)
+
+          admin = create(:admin)
+          imports_pdf = create(:imports_pdf)
+          data_import = create(:data_import, import: imports_pdf)
+
+          sign_in admin
+          get edit_admin_import_data_import_path(imports_pdf, data_import)
+
+          expect(response).to be_successful
+
+          stub_feature_flag(:show_imports_in_administrate, false)
+        end
       end
 
       context "when converter" do
-        it "redirects" do
+        it "with import flag off: redirects" do
           admin = create(:user, :converter)
           data_import = create(:data_import)
           source_file = data_import.source_file
@@ -359,16 +374,44 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
 
           expect(response).to redirect_to root_path
         end
+
+        it "with import flag on: redirects" do
+          stub_feature_flag(:show_imports_in_administrate, true)
+
+          admin = create(:user, :converter)
+          imports_pdf = create(:imports_pdf)
+          data_import = create(:data_import, import: imports_pdf)
+
+          sign_in admin
+          get edit_admin_import_data_import_path(imports_pdf, data_import)
+
+          expect(response).to redirect_to root_path
+
+          stub_feature_flag(:show_imports_in_administrate, false)
+        end
       end
 
       context "when guest" do
-        it "redirects to root path" do
+        it "with import flag off: redirects to root path" do
           data_import = create(:data_import)
           source_file = data_import.source_file
 
           get edit_admin_source_file_data_import_path(source_file, data_import)
 
           expect(response).to redirect_to new_user_session_path
+        end
+
+        it "with import flag on: redirects to root path" do
+          stub_feature_flag(:show_imports_in_administrate, true)
+
+          imports_pdf = create(:imports_pdf)
+          data_import = create(:data_import, import: imports_pdf)
+
+          get edit_admin_import_data_import_path(imports_pdf, data_import)
+
+          expect(response).to redirect_to new_user_session_path
+
+          stub_feature_flag(:show_imports_in_administrate, false)
         end
       end
     end
