@@ -35,6 +35,7 @@ class ImportDashboard < Administrate::BaseDashboard
     file
     assignee
     public_document
+    status
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
