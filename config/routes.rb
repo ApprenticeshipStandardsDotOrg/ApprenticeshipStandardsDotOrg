@@ -36,6 +36,7 @@ Rails.application.routes.draw do
         delete :redacted_source_file, on: :member, action: :destroy_redacted_source_file
       end
       resources :standards_imports
+      resources :imports
       resources :occupation_standards, only: [:index, :show, :edit, :update]
       resources :occupations, only: [:index, :show, :edit, :update]
       resources :organizations, only: [:index, :show, :edit, :update]
