@@ -1,9 +1,5 @@
 <% content_for(:title) do %>
-  <% if Flipper.enabled?(:show_imports_in_administrate) %>
-    <%= "Import data for pdf file: #{@parent.filename}" %>
-  <% else %>
-    <%= "Import data for source file: #{@parent.filename}" %>
-  <% end %>
+  <%= "Import data for #{@parent.filename}" %>
 <% end %>
 
 <header class="main-content__header" role="banner">
