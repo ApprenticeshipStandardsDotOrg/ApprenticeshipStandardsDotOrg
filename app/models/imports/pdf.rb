@@ -1,7 +1,6 @@
 module Imports
   class Pdf < Import
     has_one_attached :file
-    has_many :data_imports, inverse_of: "import"
 
     def process(**_)
       update!(

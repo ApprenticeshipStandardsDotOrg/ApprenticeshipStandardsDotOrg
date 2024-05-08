@@ -1,6 +1,7 @@
 class Import < ApplicationRecord
   belongs_to :parent, polymorphic: true
   belongs_to :assignee, class_name: "User", optional: true
+  has_many :data_imports, inverse_of: "import"
 
   enum :status, [
     :pending,
