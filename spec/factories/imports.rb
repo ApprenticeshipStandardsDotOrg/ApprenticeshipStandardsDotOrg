@@ -5,6 +5,7 @@ FactoryBot.define do
     file {
       Rack::Test::UploadedFile.new(Rails.root.join("spec", "fixtures", "files", "pixel1x1.pdf"), "application/pdf")
     }
+    status { :unfurled }
 
     trait :docx_listing do
       file { Rack::Test::UploadedFile.new(Rails.root.join("spec", "fixtures", "files", "docx_file_attachments.docx")) }
@@ -22,6 +23,7 @@ FactoryBot.define do
       file {
         Rack::Test::UploadedFile.new(Rails.root.join("spec", "fixtures", "files", "pixel1x1.pdf"), "application/pdf")
       }
+      status { :pending }
     end
   end
 
@@ -29,18 +31,21 @@ FactoryBot.define do
     parent factory: :imports_uncategorized
     type { "Imports::DocxListing" }
     file { Rack::Test::UploadedFile.new(Rails.root.join("spec", "fixtures", "files", "docx_file_attachments.docx")) }
+    status { :unfurled }
   end
 
   factory :imports_docx, class: Imports::Docx do
     parent factory: :imports_uncategorized
     type { "Imports::Docx" }
     file { Rack::Test::UploadedFile.new(Rails.root.join("spec", "fixtures", "files", "document.docx")) }
+    status { :unfurled }
   end
 
   factory :imports_doc, class: Imports::Doc do
     parent factory: :imports_uncategorized
     type { "Imports::Doc" }
     file { Rack::Test::UploadedFile.new(Rails.root.join("spec", "fixtures", "files", "document.doc")) }
+    status { :unfurled }
   end
 
   factory :imports_pdf, class: Imports::Pdf do
@@ -49,5 +54,6 @@ FactoryBot.define do
     file {
       Rack::Test::UploadedFile.new(Rails.root.join("spec", "fixtures", "files", "pixel1x1.pdf"), "application/pdf")
     }
+    status { :pending }
   end
 end
