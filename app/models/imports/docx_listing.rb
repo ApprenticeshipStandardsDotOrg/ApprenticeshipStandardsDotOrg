@@ -9,7 +9,7 @@ module Imports
           file_names.each do |file_name|
             imports.create!(
               type: "Imports::Uncategorized",
-              status: :pending,
+              status: :unfurled,
               assignee_id: assignee_id,
               public_document: public_document,
               courtesy_notification: courtesy_notification,

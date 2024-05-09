@@ -38,6 +38,7 @@ RSpec.describe CreateImportFromUri do
         expect(import.file.attached?).to be_truthy
         expect(import.file.blob.filename.to_s).to eq "Bulletin 2023-52 New NGS AFSA.docx"
         expect(import.parent).to eq standards_import
+        expect(import.status).to eq "unfurled"
       end
     end
   end

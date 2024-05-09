@@ -29,7 +29,8 @@ class CreateImportFromUri
       import = standards_import.imports.create(
         type: "Imports::Uncategorized",
         public_document: true,
-        metadata: standards_import.metadata
+        metadata: standards_import.metadata,
+        status: :unfurled
       )
 
       filename = File.basename(URI.decode_uri_component(uri))
