@@ -19,8 +19,10 @@ class ImportPolicy < ApplicationPolicy
     user.admin?
   end
 
+  # Allowing converters to update so they can claim an import. But we do not
+  # currently want them to access the edit page.
   def update?
-    edit?
+    admin_or_converter?
   end
 
   def destroy?
