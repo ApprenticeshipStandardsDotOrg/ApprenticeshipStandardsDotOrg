@@ -9,7 +9,7 @@ class ImportDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     id: Field::String,
-    assignee: Field::BelongsTo,
+    assignee: AssigneeField,
     type: Field::String,
     courtesy_notification: Field::Select.with_options(searchable: false, collection: ->(field) { field.resource.class.send(field.attribute.to_s.pluralize).keys }),
     metadata: Field::String.with_options(searchable: false),
@@ -61,7 +61,7 @@ class ImportDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
-    assignee_id
+    assignee
     courtesy_notification
     metadata
     parent

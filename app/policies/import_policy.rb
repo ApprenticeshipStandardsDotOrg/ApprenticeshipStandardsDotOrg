@@ -16,7 +16,7 @@ class ImportPolicy < ApplicationPolicy
   end
 
   def edit?
-    false
+    user.admin?
   end
 
   def update?
@@ -27,18 +27,11 @@ class ImportPolicy < ApplicationPolicy
     false
   end
 
-  class Scope
-    def initialize(user, scope)
-      @user = user
-      @scope = scope
+  def permitted_attributes
+    if user.converter?
+      [:status, :assignee_id, :ready_for_redaction]
+    else
+      [:status, :assignee_id, :metadata, :public_document, :courtesy_notification, :ready_for_redaction]
     end
-
-    def resolve
-      scope.all
-    end
-
-    private
-
-    attr_reader :user, :scope
   end
 end

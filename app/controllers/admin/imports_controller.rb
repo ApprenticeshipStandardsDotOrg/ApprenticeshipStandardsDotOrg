@@ -30,18 +30,14 @@ module Admin
       end
     end
 
-    # Override `resource_params` if you want to transform the submitted
-    # data before it's persisted. For example, the following would turn all
-    # empty values into nil values. It uses other APIs such as `resource_class`
-    # and `dashboard`:
-    #
-    # def resource_params
-    #   params.require(resource_class.model_name.param_key).
-    #     permit(dashboard.permitted_attributes(action_name)).
-    #     transform_values { |value| value == "" ? nil : value }
-    # end
+    private
 
-    # See https://administrate-demo.herokuapp.com/customizing_controller_actions
-    # for more information
+    def resource_params
+      super.permit(policy(requested_resource).permitted_attributes)
+    end
+
+    def after_resource_updated_path(import)
+      admin_import_path(import)
+    end
   end
 end
