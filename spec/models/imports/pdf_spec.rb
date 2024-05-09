@@ -11,6 +11,6 @@ RSpec.describe Imports::Pdf, type: :model do
 
     expect(pdf.processed_at).to be_present
     expect(pdf.processing_errors).to be_blank
-    expect(pdf.status).to eq("completed")
+    expect(pdf.status).to eq("pending")
   end
 end

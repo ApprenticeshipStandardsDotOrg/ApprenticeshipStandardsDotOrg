@@ -6,7 +6,7 @@ module Imports
       update!(
         processed_at: Time.current,
         processing_errors: nil,
-        status: :completed
+        status: :pending
       )
     end
   end

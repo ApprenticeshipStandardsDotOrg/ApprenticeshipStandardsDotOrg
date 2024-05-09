@@ -15,7 +15,7 @@ RSpec.describe Imports::Doc, type: :model do
 
       expect(doc.pdf).to be_present
       pdf = doc.pdf
-      expect(pdf.status).to eq("completed")
+      expect(pdf.status).to eq("pending")
       expect(pdf.public_document).to eq(true)
       expect(pdf.courtesy_notification).to eq("not_required")
 
