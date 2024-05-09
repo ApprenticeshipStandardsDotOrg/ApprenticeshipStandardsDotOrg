@@ -27,7 +27,7 @@ module Imports
 
     def create_child!(**kwargs)
       create_import!(
-        status: :pending,
+        status: child_status,
         assignee_id: assignee_id,
         public_document: public_document,
         courtesy_notification: courtesy_notification,
@@ -61,6 +61,15 @@ module Imports
         "Imports::Pdf"
       else
         raise Imports::UnknownFileTypeError, file_blob.content_type
+      end
+    end
+
+    def child_status
+      case file_blob.content_type
+      in PDF_CONTENT_TYPE
+        :pending
+      else
+        :unfurled
       end
     end
   end

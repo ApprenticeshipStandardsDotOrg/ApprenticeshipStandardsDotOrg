@@ -12,6 +12,7 @@ RSpec.describe Imports::Uncategorized, type: :model do
       import.reload
 
       expect(import.import).to be_a(Imports::DocxListing)
+      expect(import.import).to be_unfurled
     end
 
     it "detects Docx files" do
@@ -22,6 +23,7 @@ RSpec.describe Imports::Uncategorized, type: :model do
       import.reload
 
       expect(import.import).to be_a(Imports::Docx)
+      expect(import.import).to be_unfurled
     end
 
     it "detects Doc files" do
@@ -32,6 +34,7 @@ RSpec.describe Imports::Uncategorized, type: :model do
       import.reload
 
       expect(import.import).to be_a(Imports::Doc)
+      expect(import.import).to be_unfurled
     end
 
     it "detects PDF files" do
@@ -42,6 +45,7 @@ RSpec.describe Imports::Uncategorized, type: :model do
       import.reload
 
       expect(import.import).to be_a(Imports::Pdf)
+      expect(import.import).to be_pending
     end
 
     it "processes the child" do
