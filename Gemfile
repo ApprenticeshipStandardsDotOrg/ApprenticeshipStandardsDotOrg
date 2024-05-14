@@ -105,7 +105,7 @@ end
 group :development do
   gem "erb_lint", require: false
   gem "erblint-github"
-  gem "standard", "~> 1.35", ">= 1.35.1"
+  gem "standard", "~> 1.36"
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
 
