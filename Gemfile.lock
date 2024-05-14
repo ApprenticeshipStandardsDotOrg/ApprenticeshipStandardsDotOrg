@@ -19,7 +19,7 @@ GIT
 
 GIT
   remote: https://github.com/mvz/non-digest-assets.git
-  revision: f276ef7f35d93c6f60ce6513005e3512b8befeec
+  revision: 0a6f0794c8895944046abea1046521005342c0c0
   branch: master
   specs:
     non-digest-assets (2.3.0)
@@ -342,7 +342,7 @@ GEM
     pundit (2.3.2)
       activesupport (>= 3.0.0)
     racc (1.7.3)
-    rack (3.0.10)
+    rack (3.0.11)
     rack-attack (6.7.0)
       rack (>= 1.0, < 4)
     rack-cors (2.0.2)
