@@ -1,4 +1,4 @@
-class Imports::DocxPolicy < AdminPolicy
+class Imports::DocxPolicy < ImportPolicy
   def show?
     user.admin?
   end
