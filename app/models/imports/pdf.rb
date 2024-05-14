@@ -1,6 +1,7 @@
 module Imports
   class Pdf < Import
     has_one_attached :file
+    has_many :data_imports, inverse_of: "import"
 
     def process(**_)
       update!(
@@ -8,6 +9,10 @@ module Imports
         processing_errors: nil,
         status: :pending
       )
+    end
+
+    def filename
+      file.blob.filename.to_s
     end
   end
 end

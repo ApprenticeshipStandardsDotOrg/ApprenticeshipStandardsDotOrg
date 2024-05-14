@@ -19,6 +19,7 @@ class ImportDashboard < Administrate::BaseDashboard
     processing_errors: Field::Text,
     public_document: Field::Boolean,
     status: Field::Select.with_options(searchable: false, collection: ->(field) { field.resource.class.send(field.attribute.to_s.pluralize).keys }),
+    data_imports: HasManyDataImportsField,
     created_at: Field::DateTime,
     updated_at: Field::DateTime
   }.freeze
@@ -34,6 +35,7 @@ class ImportDashboard < Administrate::BaseDashboard
     file
     assignee
     public_document
+    status
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -50,6 +52,7 @@ class ImportDashboard < Administrate::BaseDashboard
     processing_errors
     courtesy_notification
     parent
+    data_imports
     created_at
     updated_at
   ].freeze

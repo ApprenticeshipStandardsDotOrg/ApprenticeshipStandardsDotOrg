@@ -45,7 +45,11 @@ class ProcessDataImportJob < ApplicationJob
     occupation_standard.in_review!
 
     if last_file
-      data_import.source_file.completed!
+      if Flipper.enabled?(:show_imports_in_administrate)
+        data_import.import.completed!
+      else
+        data_import.source_file.completed!
+      end
     end
 
     # We need to reload the occupation prior to update ES for the application to have all the updated data

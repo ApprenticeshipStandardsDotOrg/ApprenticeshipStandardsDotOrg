@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_29_183351) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_08_181029) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -22,8 +22,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_29_183351) do
     t.uuid "blob_id", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
-    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness",
-                                                             unique: true
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
   create_table "active_storage_blobs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -99,8 +98,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_29_183351) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "occupation_standard_id"
-    t.uuid "source_file_id", null: false
+    t.uuid "source_file_id"
     t.integer "status", default: 0, null: false
+    t.uuid "import_id"
+    t.index ["import_id"], name: "index_data_imports_on_import_id"
     t.index ["occupation_standard_id"], name: "index_data_imports_on_occupation_standard_id"
     t.index ["source_file_id"], name: "index_data_imports_on_source_file_id"
     t.index ["user_id"], name: "index_data_imports_on_user_id"
@@ -198,8 +199,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_29_183351) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["next_version_onet_id"], name: "index_onet_mappings_on_next_version_onet_id"
-    t.index ["onet_id", "next_version_onet_id"], name: "index_onet_mappings_on_onet_id_and_next_version_onet_id",
-                                                 unique: true
+    t.index ["onet_id", "next_version_onet_id"], name: "index_onet_mappings_on_onet_id_and_next_version_onet_id", unique: true
   end
 
   create_table "onets", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -362,6 +362,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_29_183351) do
   add_foreign_key "api_keys", "users"
   add_foreign_key "competencies", "work_processes"
   add_foreign_key "courses", "organizations"
+  add_foreign_key "data_imports", "imports"
   add_foreign_key "data_imports", "occupation_standards"
   add_foreign_key "data_imports", "source_files"
   add_foreign_key "data_imports", "users"

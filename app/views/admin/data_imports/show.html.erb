@@ -36,7 +36,12 @@
             ) %>
         </dt>
 
-        <dd class="attribute-data attribute-data--<%= attribute.html_class %>"><%= render_field attribute, page: page %></dd>
+        <dd class="attribute-data attribute-data--<%= attribute.html_class %>">
+          <% if attribute.attribute == :import && attribute.data.present? %>
+            <%= link_to attribute.display_associated_resource, admin_import_path(attribute.data) %>
+          <% else %>
+            <%= render_field attribute, page: page %></dd>
+          <% end %>
       <% end %>
     <% end %>
   </dl>
