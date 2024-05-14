@@ -84,10 +84,21 @@ class ImportDashboard < Administrate::BaseDashboard
   #   }.freeze
   COLLECTION_FILTERS = {
     status: ->(resources, arg) { resources.where(status: arg) },
-    assignee: ->(resources, arg) { resources.joins(:assignee).where("users.name ILIKE ?", "%#{arg}%") },
-    organization: ->(resources, arg) { resources.joins("JOIN standards_imports ON (standards_imports.id = imports.parent_id AND imports.parent_type = 'StandardsImport')").where("standards_imports.organization ILIKE ?", "%#{arg}%") },
+    assignee: ->(resources, arg) {
+      resources.joins(:assignee).where("users.name ILIKE ?", "%#{arg}%")
+    },
+    organization: ->(resources, arg) {
+      resources
+        .joins("JOIN standards_imports ON (standards_imports.id = imports.parent_id AND imports.parent_type = 'StandardsImport')")
+        .where("standards_imports.organization ILIKE ?", "%#{arg}%")
+    },
     public_document: ->(resources, arg) { resources.where(public_document: arg) },
-    file: ->(resources, arg) { resources.joins("JOIN active_storage_attachments ON (active_storage_attachments.record_id = imports.id)").joins("JOIN active_storage_blobs ON (active_storage_attachments.blob_id = active_storage_blobs.id)").where("active_storage_blobs.filename ILIKE ?", "%#{arg}%") }
+    file: ->(resources, arg) {
+      resources
+        .joins("JOIN active_storage_attachments ON (active_storage_attachments.record_id = imports.id)")
+        .joins("JOIN active_storage_blobs ON (active_storage_attachments.blob_id = active_storage_blobs.id)")
+        .where("active_storage_blobs.filename ILIKE ?", "%#{arg}%")
+    }
   }.freeze
 
   # Overwrite this method to customize how imports are displayed
