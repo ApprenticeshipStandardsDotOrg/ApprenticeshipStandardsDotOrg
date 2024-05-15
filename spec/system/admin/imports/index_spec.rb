@@ -73,9 +73,9 @@ RSpec.describe "admin/imports/index", :admin do
       stub_feature_flag(:show_imports_in_administrate, true)
 
       admin = create(:admin)
-      import_uncategorized = create(:imports_uncategorized)
-      import_redacted = create(:imports_pdf, :with_redacted_pdf, status: :pending)
-      import_not_redacted = create(:imports_pdf, status: :needs_support)
+      create(:imports_uncategorized)
+      create(:imports_pdf, :with_redacted_pdf, status: :pending)
+      create(:imports_pdf, status: :needs_support)
 
       login_as admin
       visit admin_imports_path
@@ -138,8 +138,8 @@ RSpec.describe "admin/imports/index", :admin do
       stub_feature_flag(:show_imports_in_administrate, true)
 
       admin = create(:admin, :converter)
-      import_redacted = create(:imports_pdf, :with_redacted_pdf, status: :pending)
-      import_not_redacted = create(:imports_pdf, status: :needs_support)
+      create(:imports_pdf, :with_redacted_pdf, status: :pending)
+      create(:imports_pdf, status: :needs_support)
 
       login_as admin
       visit admin_imports_path
