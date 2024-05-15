@@ -58,6 +58,8 @@ module ApprenticeshipStandardsDotOrg
       r301 %r{lib/uix-addons/(.*)}, "/assets/lib/uix-addons/$1"
       r301 %r{admin/source_files/([^/]*)/redact_file/lib/(.*)}, "/assets/lib/$2"
       r301 %r{admin/source_files/([^/]*)/redact_file/server/(.*)}, "/assets/server/$2"
+      r301 %r{admin/imports/([^/]*)/redact_file/lib/(.*)}, "/assets/lib/$2"
+      r301 %r{admin/imports/([^/]*)/redact_file/server/(.*)}, "/assets/server/$2"
     end
 
     config.active_support.cache_format_version = 7.1
