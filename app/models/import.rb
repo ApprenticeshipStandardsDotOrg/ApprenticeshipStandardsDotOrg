@@ -22,7 +22,6 @@ class Import < ApplicationRecord
     :completed
   ], _prefix: true
 
-
   def filename
     file.blob.filename.to_s
   end
