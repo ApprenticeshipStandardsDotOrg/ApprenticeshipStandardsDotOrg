@@ -10,6 +10,12 @@
   </div>
 <% end %>
 
+<%
+  # This authorized_action? was changed from accessible_action? since Imports
+  # STI is causing issues looking up the correct dashboard. The
+  # accessible_action first makes sure that a valid Dashboard exists before
+  # checking if the action is authorized.
+%>
 <% if field.destroy_url.present? && authorized_action?(field.resource, :"destroy_#{field.attribute}") %>
   <% destroy_url = field.destroy_url.call(namespace, field.data.record, attachment) %>
   <div>
