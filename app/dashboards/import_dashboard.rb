@@ -9,7 +9,7 @@ class ImportDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     id: Field::String,
-    assignee: Field::BelongsTo,
+    assignee: AssigneeField,
     type: Field::String,
     courtesy_notification: Field::Select.with_options(searchable: false, collection: ->(field) { field.resource.class.send(field.attribute.to_s.pluralize).keys }),
     metadata: Field::String.with_options(searchable: false),
@@ -61,7 +61,7 @@ class ImportDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
-    assignee_id
+    assignee
     courtesy_notification
     metadata
     parent
@@ -82,7 +82,24 @@ class ImportDashboard < Administrate::BaseDashboard
   #   COLLECTION_FILTERS = {
   #     open: ->(resources) { resources.where(open: true) }
   #   }.freeze
-  COLLECTION_FILTERS = {}.freeze
+  COLLECTION_FILTERS = {
+    status: ->(resources, arg) { resources.where(status: arg) },
+    assignee: ->(resources, arg) {
+      resources.joins(:assignee).where("users.name ILIKE ?", "%#{arg}%")
+    },
+    organization: ->(resources, arg) {
+      resources
+        .joins("JOIN standards_imports ON (standards_imports.id = imports.parent_id AND imports.parent_type = 'StandardsImport')")
+        .where("standards_imports.organization ILIKE ?", "%#{arg}%")
+    },
+    public_document: ->(resources, arg) { resources.where(public_document: arg) },
+    file: ->(resources, arg) {
+      resources
+        .joins("JOIN active_storage_attachments ON (active_storage_attachments.record_id = imports.id)")
+        .joins("JOIN active_storage_blobs ON (active_storage_attachments.blob_id = active_storage_blobs.id)")
+        .where("active_storage_blobs.filename ILIKE ?", "%#{arg}%")
+    }
+  }.freeze
 
   # Overwrite this method to customize how imports are displayed
   # across all pages of the admin dashboard.

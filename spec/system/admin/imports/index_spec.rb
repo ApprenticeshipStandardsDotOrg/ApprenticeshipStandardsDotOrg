@@ -1,8 +1,8 @@
 require "rails_helper"
 
-RSpec.describe "admin/imports/index" do
+RSpec.describe "admin/imports/index", :admin do
   context "when admin" do
-    it "views Imports of all types", :admin do
+    it "views Imports of all types" do
       stub_feature_flag(:show_imports_in_administrate, true)
 
       admin = create(:admin)
@@ -27,7 +27,7 @@ RSpec.describe "admin/imports/index" do
       stub_feature_flag(:show_imports_in_administrate, false)
     end
 
-    it "shows Convert link on Imports::Pdf", :admin do
+    it "shows Convert link on Imports::Pdf" do
       stub_feature_flag(:show_imports_in_administrate, true)
 
       admin = create(:admin)
@@ -46,10 +46,32 @@ RSpec.describe "admin/imports/index" do
 
       stub_feature_flag(:show_imports_in_administrate, false)
     end
+
+    it "can claim an import" do
+      stub_feature_flag(:show_imports_in_administrate, true)
+
+      converter = create(:user, :converter, name: "Mickey Mouse")
+      create(:imports_pdf)
+      create(:imports_pdf, assignee: converter)
+      admin = create(:admin, name: "Amy Applebaum")
+
+      login_as admin
+      visit admin_imports_path
+
+      expect(page).to have_text "Mickey Mouse"
+      expect(page).to have_button("Claim").once
+
+      click_button "Claim"
+
+      expect(page).to have_text "Amy Applebaum"
+      expect(page).to_not have_button "Claim"
+
+      stub_feature_flag(:show_imports_in_administrate, false)
+    end
   end
 
   context "when converter" do
-    it "views Imports of Pdf type only", :admin do
+    it "views Imports of Pdf type only" do
       stub_feature_flag(:show_imports_in_administrate, true)
 
       admin = create(:admin, :converter)
@@ -66,6 +88,25 @@ RSpec.describe "admin/imports/index" do
 
       click_on "Imports::Pdf", match: :first
       expect(page).to have_text "Imports::Uncategorized" # parent
+
+      stub_feature_flag(:show_imports_in_administrate, false)
+    end
+
+    it "can claim an import" do
+      stub_feature_flag(:show_imports_in_administrate, true)
+
+      create(:imports_pdf)
+      admin = create(:user, :converter, name: "Amy Applebaum")
+
+      login_as admin
+      visit admin_imports_path
+
+      expect(page).to have_button("Claim").once
+
+      click_button "Claim"
+
+      expect(page).to have_text "Amy Applebaum"
+      expect(page).to_not have_button "Claim"
 
       stub_feature_flag(:show_imports_in_administrate, false)
     end

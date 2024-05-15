@@ -1,13 +1,5 @@
 module Admin
   class ImportsController < Admin::ApplicationController
-    # Overwrite any of the RESTful controller actions to implement custom behavior
-    # For example, you may want to send an email after a foo is updated.
-    #
-    # def update
-    #   super
-    #   send_foo_updated_email(requested_resource)
-    # end
-
     # Override this method to specify custom lookup behavior.
     # This will be used to set the resource for the `show`, `edit`, and `update`
     # actions.
@@ -22,7 +14,7 @@ module Admin
     # this will be used to set the records shown on the `index` action.
     #
     def scoped_resource
-      scope = resource_class.includes(file_attachment: :blob)
+      scope = resource_class&.preload(file_attachment: :blob)
       if current_user.admin?
         scope
       else
@@ -30,18 +22,14 @@ module Admin
       end
     end
 
-    # Override `resource_params` if you want to transform the submitted
-    # data before it's persisted. For example, the following would turn all
-    # empty values into nil values. It uses other APIs such as `resource_class`
-    # and `dashboard`:
-    #
-    # def resource_params
-    #   params.require(resource_class.model_name.param_key).
-    #     permit(dashboard.permitted_attributes(action_name)).
-    #     transform_values { |value| value == "" ? nil : value }
-    # end
+    private
 
-    # See https://administrate-demo.herokuapp.com/customizing_controller_actions
-    # for more information
+    def resource_params
+      super.permit(policy(requested_resource).permitted_attributes)
+    end
+
+    def after_resource_updated_path(resource)
+      params[:redirect_back_to].presence || admin_imports_path
+    end
   end
 end
