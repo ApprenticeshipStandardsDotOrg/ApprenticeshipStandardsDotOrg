@@ -35,10 +35,6 @@ module Imports
       )
     end
 
-    def filename
-      file.blob.filename.to_s
-    end
-
     def redacted_pdf_url
       redacted_pdf&.blob&.url
     end

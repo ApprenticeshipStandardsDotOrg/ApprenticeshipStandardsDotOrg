@@ -21,4 +21,8 @@ class Import < ApplicationRecord
     :pending,
     :completed
   ], _prefix: true
+
+  def filename
+    file.blob.filename.to_s
+  end
 end
