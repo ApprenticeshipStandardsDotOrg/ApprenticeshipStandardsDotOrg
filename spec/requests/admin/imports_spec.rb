@@ -179,18 +179,36 @@ RSpec.describe "Admin::Imports", type: :request do
     end
 
     context "when converter" do
-      it "returns http success" do
-        stub_feature_flag(:show_imports_in_administrate, true)
+      context "when Imports::Pdf type" do
+        it "returns http success" do
+          stub_feature_flag(:show_imports_in_administrate, true)
 
-        admin = create(:user, :converter)
-        import = create(:imports_pdf)
+          admin = create(:user, :converter)
+          import = create(:imports_pdf)
 
-        sign_in admin
-        get admin_import_path(import)
+          sign_in admin
+          get admin_import_path(import)
 
-        expect(response).to be_successful
+          expect(response).to be_successful
 
-        stub_feature_flag(:show_imports_in_administrate, false)
+          stub_feature_flag(:show_imports_in_administrate, false)
+        end
+      end
+
+      context "when not Imports::Pdf type" do
+        it "returns 404" do
+          stub_feature_flag(:show_imports_in_administrate, true)
+
+          admin = create(:user, :converter)
+          import = create(:imports_uncategorized)
+
+          sign_in admin
+          get admin_import_path(import)
+
+          expect(response).to be_not_found
+
+          stub_feature_flag(:show_imports_in_administrate, false)
+        end
       end
     end
   end
