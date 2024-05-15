@@ -37,6 +37,7 @@ Rails.application.routes.draw do
       end
       resources :standards_imports
       resources :imports do
+        resource :redact_file, only: [:new, :create]
         resources :data_imports, except: [:index]
       end
       resources :occupation_standards, only: [:index, :show, :edit, :update]
