@@ -68,6 +68,48 @@ RSpec.describe "admin/imports/index", :admin do
 
       stub_feature_flag(:show_imports_in_administrate, false)
     end
+
+    it "allows filtering by redaction status" do
+      stub_feature_flag(:show_imports_in_administrate, true)
+
+      admin = create(:admin)
+      create(:imports_uncategorized)
+      create(:imports_pdf, :with_redacted_pdf, status: :pending)
+      create(:imports_pdf, status: :needs_support)
+
+      login_as admin
+      visit admin_imports_path
+
+      expect(page).to have_content("Imports::Uncategorized")
+      expect(page).to have_content("Imports::Pdf").twice
+
+      expect(page).to have_button "Filter by:"
+      click_on "Filter by"
+      click_on "Needs Redaction"
+
+      expect(page).to have_text "needs_support"
+      expect(page).to_not have_text "pending"
+      expect(page).to_not have_content("Imports::Uncategorized")
+      expect(page).to have_content("Imports::Pdf").once
+
+      click_on "Filter by"
+      click_on "Redacted"
+
+      expect(page).to_not have_text "needs_support"
+      expect(page).to have_text "pending"
+      expect(page).to_not have_content("Imports::Uncategorized")
+      expect(page).to have_content("Imports::Pdf").once
+
+      click_on "Filter by"
+      click_on "Show All"
+
+      expect(page).to have_text "needs_support"
+      expect(page).to have_text "pending"
+      expect(page).to have_content("Imports::Uncategorized")
+      expect(page).to have_content("Imports::Pdf").twice
+
+      stub_feature_flag(:show_imports_in_administrate, false)
+    end
   end
 
   context "when converter" do
@@ -88,6 +130,38 @@ RSpec.describe "admin/imports/index", :admin do
 
       click_on "Imports::Pdf", match: :first
       expect(page).to have_text "Imports::Uncategorized" # parent
+
+      stub_feature_flag(:show_imports_in_administrate, false)
+    end
+
+    it "allows filtering by redaction status" do
+      stub_feature_flag(:show_imports_in_administrate, true)
+
+      admin = create(:admin, :converter)
+      create(:imports_pdf, :with_redacted_pdf, status: :pending)
+      create(:imports_pdf, status: :needs_support)
+
+      login_as admin
+      visit admin_imports_path
+
+      expect(page).to have_button "Filter by:"
+      click_on "Filter by"
+      click_on "Needs Redaction"
+
+      expect(page).to have_text "needs_support"
+      expect(page).to_not have_text "pending"
+
+      click_on "Filter by"
+      click_on "Redacted"
+
+      expect(page).to_not have_text "needs_support"
+      expect(page).to have_text "pending"
+
+      click_on "Filter by"
+      click_on "Show All"
+
+      expect(page).to have_text "needs_support"
+      expect(page).to have_text "pending"
 
       stub_feature_flag(:show_imports_in_administrate, false)
     end

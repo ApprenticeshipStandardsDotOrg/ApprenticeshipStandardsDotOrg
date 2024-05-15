@@ -98,7 +98,9 @@ class ImportDashboard < Administrate::BaseDashboard
         .joins("JOIN active_storage_attachments ON (active_storage_attachments.record_id = imports.id)")
         .joins("JOIN active_storage_blobs ON (active_storage_attachments.blob_id = active_storage_blobs.id)")
         .where("active_storage_blobs.filename ILIKE ?", "%#{arg}%")
-    }
+    },
+    not_redacted: ->(resources) { resources.not_redacted },
+    redacted: ->(resources) { resources.already_redacted }
   }.freeze
 
   # Overwrite this method to customize how imports are displayed
