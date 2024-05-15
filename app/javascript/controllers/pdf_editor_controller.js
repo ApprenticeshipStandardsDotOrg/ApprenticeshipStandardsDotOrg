@@ -110,7 +110,7 @@ export default class extends Controller {
           body: formData,
         }).then((response) => {
           if (response.status == 200) {
-            alert("Redacted document saved for all occupation standards associated to this source file")
+            alert("Redacted document saved for all occupation standards associated to this file")
             Turbo.visit(this.goBackUrlValue)
           } else {
             alert("Oh no, something went wrong!");
