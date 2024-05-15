@@ -92,6 +92,38 @@ RSpec.describe "admin/imports/index", :admin do
       stub_feature_flag(:show_imports_in_administrate, false)
     end
 
+    it "has Filter by" do
+      stub_feature_flag(:show_imports_in_administrate, true)
+
+      admin = create(:admin, :converter)
+      import_redacted = create(:imports_pdf, :with_redacted_pdf, status: :pending)
+      import_not_redacted = create(:imports_pdf, status: :needs_support)
+
+      login_as admin
+      visit admin_imports_path
+
+      expect(page).to have_button "Filter by:"
+      click_on "Filter by"
+      click_on "Needs Redaction"
+
+      expect(page).to have_text "needs_support"
+      expect(page).to_not have_text "pending"
+
+      click_on "Filter by"
+      click_on "Redacted"
+
+      expect(page).to_not have_text "needs_support"
+      expect(page).to have_text "pending"
+
+      click_on "Filter by"
+      click_on "Show All"
+
+      expect(page).to have_text "needs_support"
+      expect(page).to have_text "pending"
+
+      stub_feature_flag(:show_imports_in_administrate, false)
+    end
+
     it "can claim an import" do
       stub_feature_flag(:show_imports_in_administrate, true)
 
