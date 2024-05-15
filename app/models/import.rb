@@ -7,8 +7,6 @@ class Import < ApplicationRecord
   # of Administrate.
   has_many :data_imports, -> { none }, inverse_of: "import"
 
-  has_one_attached :redacted_pdf
-
   enum :status, [
     :pending,
     :completed,
