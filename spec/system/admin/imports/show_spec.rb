@@ -21,6 +21,30 @@ RSpec.describe "admin/imports/show", :admin do
 
         stub_feature_flag(:show_imports_in_administrate, false)
       end
+
+      it "allows admin to remove a redacted file" do
+        admin = create(:admin)
+        import = create(:imports_pdf, :with_redacted_pdf)
+
+        login_as admin
+        visit admin_import_path(import)
+
+        expect(page).to have_text import.redacted_pdf.filename
+
+        expect(page).to have_link(
+          "Remove",
+          href: redacted_import_admin_import_path(
+            import,
+            attachment_id: import.redacted_pdf.id
+          )
+        )
+
+        click_link "Remove"
+
+        expect(page).to_not have_text import.redacted_pdf.filename
+        expect(page).to have_text "No attachment"
+        expect(page).to_not have_link "Remove"
+      end
     end
 
     context "when converter" do

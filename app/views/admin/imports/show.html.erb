@@ -65,6 +65,7 @@
         <% end %>
 
         <% attributes.each do |attribute| %>
+          <% next if attribute.name.match?("redacted") && !page.resource.is_a?(Imports::Pdf) %>
           <dt class="attribute-label" id="<%= attribute.name %>">
             <%= t(
                   "helpers.label.#{resource_name}.#{attribute.name}",

@@ -10,7 +10,7 @@
   </div>
 <% end %>
 
-<% if field.destroy_url.present? && accessible_action?(field.resource, :"destroy_#{field.attribute}") %>
+<% if field.destroy_url.present? && authorized_action?(field.resource, :"destroy_#{field.attribute}") %>
   <% destroy_url = field.destroy_url.call(namespace, field.data.record, attachment) %>
   <div>
     <%= link_to I18n.t("administrate.fields.active_storage.remove", default: "Remove"),

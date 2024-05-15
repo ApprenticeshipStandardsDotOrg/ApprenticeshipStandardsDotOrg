@@ -22,7 +22,14 @@ class Import < ApplicationRecord
     :completed
   ], _prefix: true
 
+
   def filename
     file.blob.filename.to_s
+  end
+
+  def redacted_pdf
+  end
+
+  def redacted_pdf_url
   end
 end

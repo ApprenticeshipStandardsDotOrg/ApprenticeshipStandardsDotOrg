@@ -18,6 +18,12 @@ class ImportDashboard < Administrate::BaseDashboard
     processed_at: Field::DateTime,
     processing_errors: Field::Text,
     public_document: Field::Boolean,
+    redacted_pdf: Field::ActiveStorage.with_options(
+      destroy_url: proc do |namespace, resource, attachment|
+        [:redacted_import_admin_import, {attachment_id: attachment.id}]
+      end
+    ),
+    redacted_pdf_url: Field::Url.with_options(searchable: false),
     status: Field::Select.with_options(searchable: false, collection: ->(field) { field.resource.class.send(field.attribute.to_s.pluralize).keys }),
     data_imports: HasManyDataImportsField,
     created_at: Field::DateTime,
@@ -48,6 +54,8 @@ class ImportDashboard < Administrate::BaseDashboard
     status
     metadata
     public_document
+    redacted_pdf
+    redacted_pdf_url
     processed_at
     processing_errors
     courtesy_notification
