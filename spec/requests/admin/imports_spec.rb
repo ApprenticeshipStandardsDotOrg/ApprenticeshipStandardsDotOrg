@@ -133,6 +133,42 @@ RSpec.describe "Admin::Imports", type: :request do
 
           stub_feature_flag(:show_imports_in_administrate, false)
         end
+
+        it "allows filtering by needs redaction" do
+          stub_feature_flag(:show_imports_in_administrate, true)
+
+          admin = create(:admin, :converter)
+          redacted = create(:imports_pdf, :with_redacted_pdf)
+          not_redacted = create(:imports_pdf)
+
+          sign_in admin
+
+          get admin_imports_path(search: "not_redacted:")
+
+          expect(response).to be_successful
+          expect(response.body).to include(not_redacted.id)
+          expect(response.body).not_to include(redacted.id)
+
+          stub_feature_flag(:show_imports_in_administrate, false)
+        end
+
+        it "allows filtering by redacted" do
+          stub_feature_flag(:show_imports_in_administrate, true)
+
+          admin = create(:admin, :converter)
+          redacted = create(:imports_pdf, :with_redacted_pdf)
+          not_redacted = create(:imports_pdf)
+
+          sign_in admin
+
+          get admin_imports_path(search: "redacted:")
+
+          expect(response).to be_successful
+          expect(response.body).to include(redacted.id)
+          expect(response.body).not_to include(not_redacted.id)
+
+          stub_feature_flag(:show_imports_in_administrate, false)
+        end
       end
 
       context "when guest" do

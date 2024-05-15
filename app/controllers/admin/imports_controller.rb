@@ -14,11 +14,10 @@ module Admin
     # this will be used to set the records shown on the `index` action.
     #
     def scoped_resource
-      scope = resource_class&.preload(file_attachment: :blob)
       if current_user.admin?
-        scope
+        resource_class&.preload(file_attachment: :blob)
       else
-        scope.where(type: "Imports::Pdf")
+        Imports::Pdf.preload(file_attachment: :blob)
       end
     end
 
