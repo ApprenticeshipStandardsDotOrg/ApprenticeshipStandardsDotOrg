@@ -39,7 +39,7 @@ module Admin
             }.to_json
           else
             render json: {
-              error: "Redacted document saved for all occupation standards associated to this source file",
+              error: "No redacted document was saved",
               status: :unprocessable_entity
             }.to_json
           end
