@@ -14,11 +14,12 @@ module Admin
     # this will be used to set the records shown on the `index` action.
     #
     def scoped_resource
-      if current_user.converter? || params[:pdf_only] == "true"
-        Imports::Pdf.preload(file_attachment: :blob)
+      scope = if current_user.converter? || params[:pdf_only] == "true"
+        Imports::Pdf
       else
-        resource_class&.preload(file_attachment: :blob)
+        resource_class
       end
+      scope.preload(file_attachment: :blob)
     end
 
     private
