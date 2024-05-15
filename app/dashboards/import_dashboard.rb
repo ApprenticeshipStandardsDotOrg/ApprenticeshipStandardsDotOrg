@@ -106,7 +106,7 @@ class ImportDashboard < Administrate::BaseDashboard
   # Overwrite this method to customize how imports are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(import)
-  #   "Import ##{import.id}"
-  # end
+  def display_resource(import)
+    import.filename
+  end
 end
