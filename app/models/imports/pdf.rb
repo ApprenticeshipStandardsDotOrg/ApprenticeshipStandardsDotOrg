@@ -3,6 +3,7 @@ module Imports
     has_one_attached :file
     has_one_attached :redacted_pdf
     has_many :data_imports, inverse_of: "import"
+    has_many :associated_occupation_standards, -> { distinct }, through: :data_imports, source: :occupation_standard
 
     def self.recently_redacted(start_time: Time.zone.yesterday.beginning_of_day, end_time: Time.zone.yesterday.end_of_day)
       where(

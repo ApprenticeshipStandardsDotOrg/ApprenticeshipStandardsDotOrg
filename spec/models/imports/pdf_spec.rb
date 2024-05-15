@@ -108,4 +108,14 @@ RSpec.describe Imports::Pdf, type: :model do
       expect(import.file_for_redaction).to eq import.file
     end
   end
+
+  describe "#associated_occupation_standards" do
+    it "returns unique occupation standards" do
+      import = create(:imports_pdf)
+      occupation_standard = create(:occupation_standard)
+      create_pair(:data_import, import: import, occupation_standard: occupation_standard)
+
+      expect(import.associated_occupation_standards).to eq [occupation_standard]
+    end
+  end
 end
