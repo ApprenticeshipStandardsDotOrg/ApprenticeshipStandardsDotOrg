@@ -1,7 +1,30 @@
 module Imports
   class Pdf < Import
     has_one_attached :file
+    has_one_attached :redacted_pdf
     has_many :data_imports, inverse_of: "import"
+
+    def self.recently_redacted(start_time: Time.zone.yesterday.beginning_of_day, end_time: Time.zone.yesterday.end_of_day)
+      where(
+        redacted_at: (
+          start_time..end_time
+        )
+      )
+    end
+
+    def self.not_redacted
+      includes(:redacted_pdf_attachment)
+        .where(redacted_pdf_attachment: {id: nil})
+    end
+
+    def self.ready_for_redaction
+      where(public_document: false).completed.not_redacted
+    end
+
+    def self.already_redacted
+      includes(:redacted_pdf_attachment)
+        .where.not(redacted_pdf_attachment: {id: nil})
+    end
 
     def process(**_)
       update!(
@@ -13,6 +36,14 @@ module Imports
 
     def filename
       file.blob.filename.to_s
+    end
+
+    def redacted_pdf_url
+      redacted_pdf&.blob&.url
+    end
+
+    def file_for_redaction
+      redacted_pdf.attached? ? redacted_pdf : file
     end
   end
 end

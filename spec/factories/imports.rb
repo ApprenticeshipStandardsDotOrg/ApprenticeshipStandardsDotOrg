@@ -55,5 +55,19 @@ FactoryBot.define do
       Rack::Test::UploadedFile.new(Rails.root.join("spec", "fixtures", "files", "pixel1x1.pdf"), "application/pdf")
     }
     status { :pending }
+
+    trait :without_redacted_pdf do
+      redacted_pdf { nil }
+    end
+
+    trait :with_redacted_pdf do
+      redacted_pdf {
+        Rack::Test::UploadedFile.new(
+          Rails.root.join(
+            "spec", "fixtures", "files", "pixel1x1_redacted.pdf"
+          )
+        )
+      }
+    end
   end
 end
