@@ -28,7 +28,7 @@ RSpec.describe "admin/imports/show", :admin do
         stub_feature_flag(:show_imports_in_administrate, true)
 
         admin = create(:admin, :converter)
-        import = create(:imports_pdf)
+        import = create(:imports_pdf, status: :pending)
 
         login_as admin
         visit admin_import_path(import)
@@ -39,6 +39,11 @@ RSpec.describe "admin/imports/show", :admin do
         expect(page).to have_link "Redact document", href: new_admin_import_redact_file_path(import)
         expect(page).to_not have_link "Edit", href: edit_admin_import_path(import)
         expect(page).to_not have_link "Destroy"
+
+        click_on "Needs support"
+
+        expect(page).to have_text "needs_support"
+        expect(import.reload).to be_needs_support
 
         stub_feature_flag(:show_imports_in_administrate, false)
       end
