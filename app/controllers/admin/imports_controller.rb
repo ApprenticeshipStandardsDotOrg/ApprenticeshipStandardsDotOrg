@@ -22,6 +22,13 @@ module Admin
       scope.preload(file_attachment: :blob)
     end
 
+    def destroy_redacted_pdf
+      redacted_pdf = requested_resource.redacted_pdf
+      redacted_pdf.purge
+
+      redirect_to admin_import_path(requested_resource)
+    end
+
     private
 
     def resource_params
