@@ -44,4 +44,27 @@ RSpec.describe "admin/imports/show", :admin do
       end
     end
   end
+
+  context "when not Imports::Pdf type" do
+    context "when admin" do
+      it "does not have buttons for needing support, data import or redact" do
+        stub_feature_flag(:show_imports_in_administrate, true)
+
+        admin = create(:admin)
+        import = create(:imports_uncategorized)
+
+        login_as admin
+        visit admin_import_path(import)
+
+        expect(page).to have_text "Imports::Uncategorized"
+        expect(page).to_not have_button "Needs support"
+        expect(page).to_not have_link "New data import"
+        expect(page).to_not have_link "Redact document"
+        expect(page).to have_link "Edit", href: edit_admin_import_path(import)
+        expect(page).to_not have_link "Destroy"
+
+        stub_feature_flag(:show_imports_in_administrate, false)
+      end
+    end
+  end
 end
