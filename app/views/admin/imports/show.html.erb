@@ -1,46 +1,58 @@
-<%#
-# Show
-
-This view is the template for the show page.
-It renders the attributes of a resource,
-as well as a link to its edit page.
-
-## Local variables:
-
-- `page`:
-  An instance of [Administrate::Page::Show][1].
-  Contains methods for accessing the resource to be displayed on the page,
-  as well as helpers for describing how each attribute of the resource
-  should be displayed.
-
-[1]: http://www.rubydoc.info/gems/administrate/Administrate/Page/Show
-%>
-
 <% content_for(:title) { t("administrate.actions.show_resource", name: page.page_title) } %>
 
-<header class="main-content__header">
-  <h1 class="main-content__page-title">
+<header class="main-content__header" role="banner">
+  <h1 id="title_id" class="main-content__page-title">
     <%= content_for(:title) %>
   </h1>
 
   <div>
-    <% if accessible_action?(page.resource, :edit) %>
+    <% if page.resource.is_a?(Imports::Pdf) %>
+      <%= if current_user.converter?
+            button_to(
+              "Needs support",
+              admin_import_path(page.resource),
+              params: {
+                import: {status: "needs_support"},
+                redirect_back_to: admin_import_path(page.resource)
+              },
+              method: :patch,
+              class: "button",
+              form_class: "form-button"
+            )
+          end %>
+
       <%= link_to(
-            t("administrate.actions.edit_resource", name: page.page_title),
-            [:edit, namespace, page.resource],
+            "New data import",
+            new_admin_import_data_import_path(page.resource),
             class: "button"
           ) %>
+
+      <%= if accessible_action?(:redact_file, :new)
+            link_to(
+              "Redact document",
+              new_admin_import_redact_file_path(page.resource),
+              class: "button"
+            )
+          end %>
     <% end %>
 
-    <% if accessible_action?(page.resource, :destroy) %>
-      <%= link_to(
+    <%= if authorized_action?(page.resource, :edit)
+          link_to(
+            t("administrate.actions.edit_resource", name: page.page_title),
+            edit_admin_import_path(page.resource),
+            class: "button"
+          )
+        end %>
+
+    <%= if authorized_action?(page.resource, :destroy)
+          link_to(
             t("administrate.actions.destroy"),
-            [namespace, page.resource],
+            admin_import_path(page.resource),
             class: "button button--danger",
             method: :delete,
             data: {confirm: t("administrate.actions.confirm")}
-          ) %>
-    <% end %>
+          )
+        end %>
   </div>
 </header>
 
