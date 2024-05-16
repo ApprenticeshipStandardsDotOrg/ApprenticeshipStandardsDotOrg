@@ -21,7 +21,6 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
     related_job_titles: Field::String.with_options(searchable: false),
     rsi_hours_max: Field::Number,
     rsi_hours_min: Field::Number,
-    source_file: Field::String.with_options(searchable: false),
     status: EnumField,
     term_months: Field::Number,
     title: Field::String,
