@@ -398,7 +398,8 @@ GEM
     responders (3.1.1)
       actionpack (>= 5.2)
       railties (>= 5.2)
-    rexml (3.2.6)
+    rexml (3.2.8)
+      strscan (>= 3.0.9)
     rollbar (3.5.2)
     roo (2.10.1)
       nokogiri (~> 1)
@@ -469,7 +470,7 @@ GEM
       sprockets-rails
       tilt
     selectize-rails (0.12.6)
-    selenium-webdriver (4.20.1)
+    selenium-webdriver (4.21.0)
       base64 (~> 0.2)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
@@ -505,6 +506,7 @@ GEM
     stimulus-rails (1.3.3)
       railties (>= 6.0.0)
     stringio (3.1.0)
+    strscan (3.1.0)
     tailwindcss-rails (2.6.0-aarch64-linux)
       railties (>= 7.0.0)
     tailwindcss-rails (2.6.0-arm64-darwin)
