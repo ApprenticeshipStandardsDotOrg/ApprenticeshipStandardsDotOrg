@@ -39,6 +39,7 @@ Rails.application.routes.draw do
       resources :imports do
         resource :redact_file, only: [:new, :create]
         resources :data_imports, except: [:index]
+        delete :redacted_import, on: :member, action: :destroy_redacted_pdf
       end
       resources :occupation_standards, only: [:index, :show, :edit, :update]
       resources :occupations, only: [:index, :show, :edit, :update]

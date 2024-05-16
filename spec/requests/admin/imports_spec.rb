@@ -420,4 +420,38 @@ RSpec.describe "Admin::Imports", type: :request do
       end
     end
   end
+
+  describe "DELETE /redacted_import" do
+    context "on admin subdomain", :admin do
+      context "when admin user" do
+        it "deletes redacted import" do
+          admin = create(:admin)
+          import = create(:imports_pdf, :with_redacted_pdf)
+
+          sign_in admin
+
+          expect {
+            delete redacted_import_admin_import_path(import, attachment_id: import.redacted_pdf.id)
+          }.to change(ActiveStorage::Attachment, :count).by(-1)
+          expect(import.reload.redacted_pdf).to_not be_attached
+          expect(response).to redirect_to admin_import_path(import)
+        end
+      end
+
+      context "when converter" do
+        it "does not delete redacted import" do
+          admin = create(:user, :converter)
+          import = create(:imports_pdf, :with_redacted_pdf)
+
+          sign_in admin
+
+          expect {
+            delete redacted_import_admin_import_path(import, attachment_id: import.redacted_pdf.id)
+          }.to_not change(ActiveStorage::Attachment, :count)
+          expect(import.reload.redacted_pdf).to be_attached
+          expect(response).to redirect_to root_path
+        end
+      end
+    end
+  end
 end
