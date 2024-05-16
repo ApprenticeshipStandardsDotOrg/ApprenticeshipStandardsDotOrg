@@ -12,7 +12,7 @@ class ImportDashboard < Administrate::BaseDashboard
     assignee: AssigneeField,
     type: Field::String,
     courtesy_notification: Field::Select.with_options(searchable: false, collection: ->(field) { field.resource.class.send(field.attribute.to_s.pluralize).keys }),
-    metadata: Field::String.with_options(searchable: false),
+    metadata: Field::JSONB,
     file: Field::ActiveStorage,
     parent: Field::Polymorphic,
     processed_at: Field::DateTime,
@@ -70,14 +70,10 @@ class ImportDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
     assignee
-    courtesy_notification
     metadata
-    parent
-    processed_at
-    processing_errors
     public_document
     status
-    type
+    courtesy_notification
   ].freeze
 
   # COLLECTION_FILTERS

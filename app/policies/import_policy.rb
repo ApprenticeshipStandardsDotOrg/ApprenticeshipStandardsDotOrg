@@ -31,9 +31,9 @@ class ImportPolicy < ApplicationPolicy
 
   def permitted_attributes
     if user.converter?
-      [:status, :assignee_id, :ready_for_redaction]
+      [:status, :assignee_id]
     else
-      [:status, :assignee_id, :metadata, :public_document, :courtesy_notification, :ready_for_redaction]
+      [:status, :assignee_id, :metadata, :public_document, :courtesy_notification]
     end
   end
 end
