@@ -317,7 +317,6 @@ RSpec.describe OccupationStandard, type: :model do
       it "returns nil if no data_imports" do
         stub_feature_flag(:show_imports_in_administrate, true)
 
-        standards_import = create(:standards_import)
         occupation_standard = create(:occupation_standard, data_imports: [])
 
         expect(occupation_standard.standards_import).to be_nil
