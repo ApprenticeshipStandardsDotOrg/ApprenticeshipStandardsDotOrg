@@ -31,4 +31,12 @@ class Import < ApplicationRecord
 
   def redacted_pdf_url
   end
+
+  def root
+    if parent.is_a?(StandardsImport)
+      parent
+    else
+      parent.root
+    end
+  end
 end

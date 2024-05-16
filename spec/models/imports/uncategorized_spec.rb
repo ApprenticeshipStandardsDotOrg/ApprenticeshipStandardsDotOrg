@@ -99,4 +99,13 @@ RSpec.describe Imports::Uncategorized, type: :model do
       expect(import.status).to eq("needs_backend_support")
     end
   end
+
+  describe "#root" do
+    it "retrieves the standards_import at the root" do
+      standards_import = create(:standards_import)
+      uncat = create(:imports_uncategorized, parent: standards_import)
+
+      expect(uncat.root).to eq standards_import
+    end
+  end
 end

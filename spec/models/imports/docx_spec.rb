@@ -49,4 +49,15 @@ RSpec.describe Imports::Docx, type: :model do
       expect(pdf_import).to have_received(:process).with(arg: 1)
     end
   end
+
+  describe "#root" do
+    it "retrieves the standards_import at the root" do
+      standards_import = create(:standards_import)
+      uncat = create(:imports_uncategorized, parent: standards_import)
+      docx_listing = create(:imports_docx_listing, parent: uncat)
+      docx = create(:imports_docx, parent: docx_listing)
+
+      expect(docx.root).to eq standards_import
+    end
+  end
 end
