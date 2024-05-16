@@ -1,6 +1,6 @@
 module Admin
   class SourceFilesController < Admin::ApplicationController
-    skip_after_action :verify_authorized, only:  :index
+    skip_after_action :verify_authorized, only: :index
 
     def index
       if Flipper.enabled?(:show_imports_in_administrate)
