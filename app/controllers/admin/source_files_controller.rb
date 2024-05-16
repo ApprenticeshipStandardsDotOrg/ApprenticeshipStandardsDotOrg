@@ -1,5 +1,15 @@
 module Admin
   class SourceFilesController < Admin::ApplicationController
+    skip_after_action :verify_authorized, only:  :index
+
+    def index
+      if Flipper.enabled?(:show_imports_in_administrate)
+        redirect_to admin_imports_url
+      else
+        super
+      end
+    end
+
     def scoped_resource
       if params[:filter_by] == "needs_redaction"
         SourceFile.preload(active_storage_attachment: [:record]).ready_for_redaction

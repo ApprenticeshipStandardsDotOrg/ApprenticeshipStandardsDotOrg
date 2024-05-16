@@ -1,6 +1,6 @@
 class SourceFilePolicy < ApplicationPolicy
   def index?
-    admin_or_converter?
+    !Flipper.enabled?(:show_imports_in_administrate) && admin_or_converter?
   end
 
   def show?
