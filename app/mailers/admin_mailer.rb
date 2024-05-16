@@ -29,12 +29,16 @@ class AdminMailer < ApplicationMailer
   end
 
   def daily_redacted_files_report
-    @recently_redacted_source_files = SourceFile.includes(active_storage_attachment: :blob).recently_redacted
+    @recently_redacted_records = if Flipper.enabled?(:show_imports_in_administrate)
+      Imports::Pdf.includes(file_attachment: :blob).recently_redacted
+    else
+      SourceFile.includes(active_storage_attachment: :blob).recently_redacted
+    end
 
-    if @recently_redacted_source_files.any?
+    if @recently_redacted_records.any?
       date = Time.zone.yesterday.to_date
       mail to: "info@workhands.us",
-        subject: "Daily redacted source files report #{date}"
+        subject: "Daily redacted files report #{date}"
     end
   end
 end
