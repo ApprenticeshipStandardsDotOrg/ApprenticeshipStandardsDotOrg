@@ -20,7 +20,6 @@ class OccupationStandard < ApplicationRecord
   delegate :title, to: :organization, prefix: true, allow_nil: true
   delegate :title, to: :occupation, prefix: true, allow_nil: true
   delegate :name, to: :industry, prefix: true, allow_nil: true
-  delegate :standards_import, to: :source_file, allow_nil: true
   delegate :state, to: :registration_agency, allow_nil: true
 
   enum ojt_type: [:time, :competency, :hybrid], _suffix: :based
@@ -229,6 +228,14 @@ class OccupationStandard < ApplicationRecord
 
   def sponsor_name
     organization&.title
+  end
+
+  def standards_import
+    if Flipper.enabled?(:show_imports_in_administrate)
+      source_file&.root
+    else
+      source_file&.standards_import
+    end
   end
 
   def data_import

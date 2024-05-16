@@ -281,6 +281,52 @@ RSpec.describe OccupationStandard, type: :model do
     end
   end
 
+  describe "#standards_import" do
+    context "with imports feature flag off" do
+      it "returns the source_file's standards_import" do
+        source_file = create(:source_file)
+        standards_import = StandardsImport.first
+        data_import = create(:data_import, source_file: source_file)
+        occupation_standard = create(:occupation_standard, data_imports: [data_import])
+
+        expect(occupation_standard.standards_import).to eq standards_import
+      end
+
+      it "is nil if no source file" do
+        occupation_standard = build(:occupation_standard)
+
+        expect(occupation_standard.standards_import).to be_nil
+      end
+    end
+
+    context "with imports feature flag on" do
+      it "returns the ultimate parent standards_import" do
+        stub_feature_flag(:show_imports_in_administrate, true)
+
+        standards_import = create(:standards_import)
+        import_uncat = create(:imports_uncategorized, parent: standards_import)
+        import = create(:imports_pdf, parent: import_uncat)
+        data_import = create(:data_import, source_file: nil, import: import)
+        occupation_standard = create(:occupation_standard, data_imports: [data_import])
+
+        expect(occupation_standard.standards_import).to eq standards_import
+
+        stub_feature_flag(:show_imports_in_administrate, false)
+      end
+
+      it "returns nil if no data_imports" do
+        stub_feature_flag(:show_imports_in_administrate, true)
+
+        standards_import = create(:standards_import)
+        occupation_standard = create(:occupation_standard, data_imports: [])
+
+        expect(occupation_standard.standards_import).to be_nil
+
+        stub_feature_flag(:show_imports_in_administrate, false)
+      end
+    end
+  end
+
   describe "#compentencies_count" do
     it "sums competencies from all the work processes" do
       occupation_standard = create(:occupation_standard)
