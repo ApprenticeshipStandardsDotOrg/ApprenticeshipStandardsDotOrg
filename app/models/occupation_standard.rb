@@ -250,7 +250,11 @@ class OccupationStandard < ApplicationRecord
   end
 
   def source_file
-    data_import&.source_file
+    if Flipper.enabled?(:show_imports_in_administrate)
+      data_import&.import
+    else
+      data_import&.source_file
+    end
   end
 
   def public_document?

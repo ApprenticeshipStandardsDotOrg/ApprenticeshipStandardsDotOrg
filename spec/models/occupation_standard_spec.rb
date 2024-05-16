@@ -267,6 +267,18 @@ RSpec.describe OccupationStandard, type: :model do
 
       expect(occupation_standard.source_file).to be_nil
     end
+
+    it "with import feature flag: returns the linked import record" do
+      stub_feature_flag(:show_imports_in_administrate, true)
+
+      import = create(:imports_pdf)
+      data_import = create(:data_import, import: import, source_file: nil)
+      occupation_standard = build(:occupation_standard, data_imports: [data_import])
+
+      expect(occupation_standard.source_file).to eq import
+
+      stub_feature_flag(:show_imports_in_administrate, false)
+    end
   end
 
   describe "#compentencies_count" do
