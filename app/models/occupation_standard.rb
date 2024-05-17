@@ -232,7 +232,7 @@ class OccupationStandard < ApplicationRecord
 
   def standards_import
     if Flipper.enabled?(:show_imports_in_administrate)
-      source_file&.root
+      source_file&.import_root
     else
       source_file&.standards_import
     end

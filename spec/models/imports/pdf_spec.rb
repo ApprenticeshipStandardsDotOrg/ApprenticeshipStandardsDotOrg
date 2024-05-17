@@ -119,14 +119,14 @@ RSpec.describe Imports::Pdf, type: :model do
     end
   end
 
-  describe "#root" do
+  describe "#import_root" do
     it "retrieves the standards_import at the root" do
       standards_import = create(:standards_import)
       uncat = create(:imports_uncategorized, parent: standards_import)
       docx_listing = create(:imports_docx_listing, parent: uncat)
       pdf = create(:imports_pdf, parent: docx_listing)
 
-      expect(pdf.root).to eq standards_import
+      expect(pdf.import_root).to eq standards_import
     end
   end
 end

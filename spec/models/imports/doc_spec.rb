@@ -51,14 +51,14 @@ RSpec.describe Imports::Doc, type: :model do
     end
   end
 
-  describe "#root" do
+  describe "#import_root" do
     it "retrieves the standards_import at the root" do
       standards_import = create(:standards_import)
       uncat = create(:imports_uncategorized, parent: standards_import)
       docx_listing = create(:imports_docx_listing, parent: uncat)
       doc = create(:imports_doc, parent: docx_listing)
 
-      expect(doc.root).to eq standards_import
+      expect(doc.import_root).to eq standards_import
     end
   end
 end
