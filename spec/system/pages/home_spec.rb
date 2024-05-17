@@ -110,6 +110,7 @@ RSpec.describe "pages/home" do
 
   context "with Elasticsearch enabled", :elasticsearch do
     before(:each) do |example|
+      stub_feature_flag(:show_imports_in_administrate, false)
       stub_feature_flag(:use_elasticsearch_for_search, true)
     end
 
@@ -277,29 +278,60 @@ RSpec.describe "pages/home" do
   end
 
   describe "Recently Added" do
-    before(:each) do |example|
-      stub_feature_flag(:similar_programs_elasticsearch, false)
-      stub_feature_flag(:use_elasticsearch_for_search, false)
+    context "with imports flag off" do
+      before(:each) do |example|
+        stub_feature_flag(:similar_programs_elasticsearch, false)
+        stub_feature_flag(:use_elasticsearch_for_search, false)
+        stub_feature_flag(:show_imports_in_administrate, false)
+      end
+
+      it "displays a link to a search of occupation standards sorted by creation date" do
+        create(:occupation_standard, :with_work_processes, :with_data_import, national_standard_type: :guideline_standard, title: "Mechanic")
+
+        visit home_page_path
+
+        click_link("See All", href: "/occupation_standards?sort=created_at")
+
+        expect(page).to have_text "Mechanic"
+      end
+
+      it "displays a link to latest occupation standard" do
+        create(:occupation_standard, :with_work_processes, :with_data_import, national_standard_type: :guideline_standard, title: "Mechanic")
+
+        visit home_page_path
+
+        click_on("Mechanic")
+
+        expect(page).to have_text "Mechanic"
+      end
     end
 
-    it "displays a link to a search of occupation standards sorted by creation date" do
-      create(:occupation_standard, :with_work_processes, :with_data_import, national_standard_type: :guideline_standard, title: "Mechanic")
+    context "with imports flag on" do
+      before(:each) do |example|
+        stub_feature_flag(:similar_programs_elasticsearch, false)
+        stub_feature_flag(:use_elasticsearch_for_search, false)
+        stub_feature_flag(:show_imports_in_administrate, true)
+      end
 
-      visit home_page_path
+      it "displays a link to a search of occupation standards sorted by creation date" do
+        create(:occupation_standard, :with_work_processes, :with_data_import, national_standard_type: :guideline_standard, title: "Mechanic")
 
-      click_link("See All", href: "/occupation_standards?sort=created_at")
+        visit home_page_path
 
-      expect(page).to have_text "Mechanic"
-    end
+        click_link("See All", href: "/occupation_standards?sort=created_at")
 
-    it "displays a link to latest occupation standard" do
-      create(:occupation_standard, :with_work_processes, :with_data_import, national_standard_type: :guideline_standard, title: "Mechanic")
+        expect(page).to have_text "Mechanic"
+      end
 
-      visit home_page_path
+      it "displays a link to latest occupation standard" do
+        create(:occupation_standard, :with_work_processes, :with_data_import, national_standard_type: :guideline_standard, title: "Mechanic")
 
-      click_on("Mechanic")
+        visit home_page_path
 
-      expect(page).to have_text "Mechanic"
+        click_on("Mechanic")
+
+        expect(page).to have_text "Mechanic"
+      end
     end
   end
 end

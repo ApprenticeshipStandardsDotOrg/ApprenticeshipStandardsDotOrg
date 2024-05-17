@@ -323,6 +323,33 @@ RSpec.describe "occupation_standards/index" do
   context "when using elasticsearch for search", :elasticsearch do
     it "displays pagination correctly when no collapsed items" do
       stub_feature_flag(:use_elasticsearch_for_search, true)
+      stub_feature_flag(:show_imports_in_administrate, false)
+
+      default_items = Pagy::DEFAULT[:items]
+      Pagy::DEFAULT[:items] = 2
+      create(:occupation_standard, :with_work_processes, :with_data_import, title: "HR Specialist")
+      create_list(:occupation_standard, 2, :with_work_processes, :with_data_import)
+
+      OccupationStandard.import
+      OccupationStandard.__elasticsearch__.refresh_index!
+
+      visit occupation_standards_path
+
+      expect(page).to_not have_text "HR Specialist"
+
+      within(".pagy.nav") do
+        expect(page).to have_link "2", href: occupation_standards_path(page: 2)
+        click_on "2"
+      end
+      expect(page).to have_text "HR Specialist"
+
+      Pagy::DEFAULT[:items] = default_items
+    end
+
+    it "when import feature flag on: displays pagination correctly when no collapsed items" do
+      stub_feature_flag(:use_elasticsearch_for_search, true)
+      stub_feature_flag(:show_imports_in_administrate, true)
+
       default_items = Pagy::DEFAULT[:items]
       Pagy::DEFAULT[:items] = 2
       create(:occupation_standard, :with_work_processes, :with_data_import, title: "HR Specialist")
@@ -346,6 +373,8 @@ RSpec.describe "occupation_standards/index" do
 
     it "displays pagination correctly when there are collapsed items" do
       stub_feature_flag(:use_elasticsearch_for_search, true)
+      stub_feature_flag(:show_imports_in_administrate, false)
+
       default_items = Pagy::DEFAULT[:items]
       Pagy::DEFAULT[:items] = 2
 
@@ -382,6 +411,8 @@ RSpec.describe "occupation_standards/index" do
 
     it "filters standards based on search term" do
       stub_feature_flag(:use_elasticsearch_for_search, true)
+      stub_feature_flag(:show_imports_in_administrate, false)
+
       dental = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Dental Assistant", onet_code: "12-3456.01")
       medical = create(:occupation_standard, :with_work_processes, :program_standard, :with_data_import, title: "Medical Assistant", onet_code: "12-9876.00")
       create(:occupation_standard, :with_work_processes, :program_standard, :with_data_import, title: "Other Assistant With Different ONET Code Prefix", onet_code: "13-9876.00")
@@ -407,6 +438,8 @@ RSpec.describe "occupation_standards/index" do
 
     it "can handle a search that returns no results" do
       stub_feature_flag(:use_elasticsearch_for_search, true)
+      stub_feature_flag(:show_imports_in_administrate, false)
+
       create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
 
       OccupationStandard.import
@@ -425,6 +458,8 @@ RSpec.describe "occupation_standards/index" do
 
     it "filters standards based on rapids_code search term" do
       stub_feature_flag(:use_elasticsearch_for_search, true)
+      stub_feature_flag(:show_imports_in_administrate, false)
+
       mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", rapids_code: "1234")
       pipe_fitter = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Pipe Fitter", rapids_code: "1234CB")
       create(:occupation_standard, :with_work_processes, :with_data_import, title: "HR", rapids_code: "9876")
@@ -448,6 +483,8 @@ RSpec.describe "occupation_standards/index" do
 
     it "filters standards based on onet_code search term" do
       stub_feature_flag(:use_elasticsearch_for_search, true)
+      stub_feature_flag(:show_imports_in_administrate, false)
+
       mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", onet_code: "12.3456")
       pipe_fitter = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Pipe Fitter", onet_code: "12.34567")
       create(:occupation_standard, :with_work_processes, :with_data_import, title: "HR", onet_code: "12.34")
@@ -471,6 +508,8 @@ RSpec.describe "occupation_standards/index" do
 
     it "filters standards based on onet_code search term and state filter", :js do
       stub_feature_flag(:use_elasticsearch_for_search, true)
+      stub_feature_flag(:show_imports_in_administrate, false)
+
       wa = create(:state, name: "Washington")
       ra = create(:registration_agency, state: wa)
       mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", onet_code: "12.3456", registration_agency: ra)
@@ -499,6 +538,8 @@ RSpec.describe "occupation_standards/index" do
 
     it "filters standards based on onet_code search term and national_standard_type filter", :js do
       stub_feature_flag(:use_elasticsearch_for_search, true)
+      stub_feature_flag(:show_imports_in_administrate, false)
+
       mechanic = create(:occupation_standard, :with_work_processes, :program_standard, :with_data_import, title: "Mechanic", onet_code: "12.3456")
       medical_assistant = create(:occupation_standard, :with_work_processes, :occupational_framework, :with_data_import, title: "Medical Assistant", onet_code: "12.34567")
       create(:occupation_standard, :with_work_processes, :guideline_standard, :with_data_import, title: "Pipe Fitter", onet_code: "12.34567")
@@ -532,6 +573,8 @@ RSpec.describe "occupation_standards/index" do
 
     it "filters standards based on onet_code search term and ojt_type filter", :js do
       stub_feature_flag(:use_elasticsearch_for_search, true)
+      stub_feature_flag(:show_imports_in_administrate, false)
+
       mechanic = create(:occupation_standard, :with_work_processes, :hybrid, :with_data_import, title: "Mechanic", onet_code: "12.3456")
       medical_assistant = create(:occupation_standard, :with_work_processes, :time, :with_data_import, title: "Medical Assistant", onet_code: "12.34567")
       create(:occupation_standard, :with_work_processes, :competency, :with_data_import, title: "Pipe Fitter", onet_code: "12.34567")
@@ -564,6 +607,8 @@ RSpec.describe "occupation_standards/index" do
 
     it "filters standards with state shortcode" do
       stub_feature_flag(:use_elasticsearch_for_search, true)
+      stub_feature_flag(:show_imports_in_administrate, false)
+
       washington_registration_agency = create(:registration_agency, for_state_abbreviation: "WA")
       mechanic = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", onet_code: "12.3456", registration_agency: washington_registration_agency)
       create(:occupation_standard, :with_work_processes, :with_data_import, title: "Pipe Fitter", onet_code: "12.34567")
@@ -588,6 +633,8 @@ RSpec.describe "occupation_standards/index" do
 
     it "filters standards with national_standard_type shortcode" do
       stub_feature_flag(:use_elasticsearch_for_search, true)
+      stub_feature_flag(:show_imports_in_administrate, false)
+
       mechanic = create(:occupation_standard, :with_work_processes, :program_standard, :with_data_import, title: "Mechanic", onet_code: "12.3456")
       create(:occupation_standard, :with_work_processes, :occupational_framework, :with_data_import, title: "Medical Assistant", onet_code: "12.34567")
       create(:occupation_standard, :with_work_processes, :guideline_standard, :with_data_import, title: "Pipe Fitter", onet_code: "12.34567")
@@ -614,6 +661,8 @@ RSpec.describe "occupation_standards/index" do
 
     it "filters standards with ojt_type shortcode" do
       stub_feature_flag(:use_elasticsearch_for_search, true)
+      stub_feature_flag(:show_imports_in_administrate, false)
+
       mechanic = create(:occupation_standard, :with_work_processes, :hybrid, :with_data_import, title: "Mechanic", onet_code: "12.3456")
       create(:occupation_standard, :with_work_processes, :time, :with_data_import, title: "Medical Assistant", onet_code: "12.34567")
       create(:occupation_standard, :with_work_processes, :competency, :with_data_import, title: "Pipe Fitter", onet_code: "12.34567")
@@ -638,6 +687,8 @@ RSpec.describe "occupation_standards/index" do
 
     it "can clear form", :js do
       stub_feature_flag(:use_elasticsearch_for_search, true)
+      stub_feature_flag(:show_imports_in_administrate, false)
+
       wa = create(:state, name: "Washington")
       ra = create(:registration_agency, state: wa)
       mechanic = create(:occupation_standard, :with_work_processes, :hybrid, :with_data_import, title: "Mechanic", onet_code: "12.3456", registration_agency: ra)
@@ -711,6 +762,8 @@ RSpec.describe "occupation_standards/index" do
 
     it "shows suggestions based on occupation title", :js do
       stub_feature_flag(:use_elasticsearch_for_search, true)
+      stub_feature_flag(:show_imports_in_administrate, false)
+
       mechanic = create(:occupation, title: "Mechanic")
       pipe_fitter = create(:occupation, title: "Pipe Fitter")
       pippen_apple_collector = create(:occupation, title: "Pippen Apple Collector")
@@ -747,6 +800,8 @@ RSpec.describe "occupation_standards/index" do
 
     it "shows suggestions based on onet code", :js do
       stub_feature_flag(:use_elasticsearch_for_search, true)
+      stub_feature_flag(:show_imports_in_administrate, false)
+
       mechanic_onet = create(:onet, code: "12-1234")
       mechanic = create(:occupation, title: "Mechanic", onet: mechanic_onet)
       pipe_fitter_onet = create(:onet, code: "51-6789")
@@ -767,6 +822,8 @@ RSpec.describe "occupation_standards/index" do
 
     it "shows suggestions based on rapids code", :js do
       stub_feature_flag(:use_elasticsearch_for_search, true)
+      stub_feature_flag(:show_imports_in_administrate, false)
+
       mechanic = create(:occupation, title: "Mechanic", rapids_code: "9108")
       pipe_fitter = create(:occupation, title: "Pipe Fitter", rapids_code: "1582")
 
@@ -826,6 +883,8 @@ RSpec.describe "occupation_standards/index" do
 
     it "expands similar results accordion when accordion button is clicked", js: true do
       stub_feature_flag(:use_elasticsearch_for_search, true)
+      stub_feature_flag(:show_imports_in_administrate, false)
+
       os = create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
       new_wp = create(:work_process, title: os.work_processes.first.title)
       create(:occupation_standard, :with_data_import, :program_standard, work_processes: [new_wp], title: "Mechanic")
@@ -842,6 +901,8 @@ RSpec.describe "occupation_standards/index" do
 
     it "closes similar results accordion when accordion button is clicked", js: true do
       stub_feature_flag(:use_elasticsearch_for_search, true)
+      stub_feature_flag(:show_imports_in_administrate, false)
+
       os = create(:occupation_standard, :with_work_processes, :with_data_import, :program_standard, title: "Mechanic")
       new_wp = create(:work_process, title: os.work_processes.first.title)
       mechanic = create(:occupation_standard, :with_data_import, work_processes: [new_wp], title: "Mechanic")
@@ -859,6 +920,8 @@ RSpec.describe "occupation_standards/index" do
 
     it "displays toolip on hover", js: true do
       stub_feature_flag(:use_elasticsearch_for_search, true)
+      stub_feature_flag(:show_imports_in_administrate, false)
+
       occupation = create(:occupation, time_based_hours: 2000)
       occupation_standard = create(:occupation_standard, :with_data_import, occupation: occupation)
       create(:work_process, maximum_hours: 1000, occupation_standard: occupation_standard)

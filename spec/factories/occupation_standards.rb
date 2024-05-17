@@ -18,7 +18,12 @@ FactoryBot.define do
 
     trait :with_data_import do
       after :create do |occupation_standard|
-        create(:data_import, occupation_standard: occupation_standard)
+        if Flipper.enabled?(:show_imports_in_administrate)
+          import = build(:imports_pdf)
+          create(:data_import, import: import, source_file: nil, occupation_standard: occupation_standard)
+        else
+          create(:data_import, occupation_standard: occupation_standard)
+        end
       end
     end
 

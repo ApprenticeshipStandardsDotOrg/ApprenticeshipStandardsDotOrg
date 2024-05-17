@@ -20,6 +20,10 @@ class StandardsImport < ApplicationRecord
     end
   end
 
+  def import_root
+    self
+  end
+
   def source_files
     files
       .includes(source_file: {active_storage_attachment: :blob})
