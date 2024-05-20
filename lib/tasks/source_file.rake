@@ -1,7 +1,7 @@
 namespace :source_file do
   task create_imports: :environment do
+    count = 0
     SourceFile.missing_import.find_each do |source_file|
-      count = 0
       import = source_file.create_import!
 
       if import
