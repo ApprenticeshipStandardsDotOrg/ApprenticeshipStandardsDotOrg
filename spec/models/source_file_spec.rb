@@ -379,7 +379,7 @@ RSpec.describe SourceFile, type: :model do
         create(:imports_uncategorized, source_file: source_file)
 
         resp = nil
-        expect{
+        expect {
           resp = source_file.create_import!
         }.to_not change(Import, :count)
         expect(resp).to be_nil
@@ -391,7 +391,7 @@ RSpec.describe SourceFile, type: :model do
         source_file = create(:source_file, :archived)
 
         resp = nil
-        expect{
+        expect {
           resp = source_file.create_import!
         }.to_not change(Import, :count)
         expect(resp).to be_nil
@@ -402,7 +402,7 @@ RSpec.describe SourceFile, type: :model do
         source_file = create(:source_file, :pending, public_document: true, metadata: metadata)
 
         import = nil
-        expect{
+        expect {
           import = source_file.create_import!
         }.to change(Imports::Uncategorized, :count).by(1)
           .and change(ActiveStorage::Attachment, :count).by(1)

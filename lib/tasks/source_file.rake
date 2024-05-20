@@ -8,7 +8,7 @@ namespace :source_file do
         count += 1
 
         if count % 200 == 0
-          puts "Record count: #{index+1}"
+          puts "Record count: #{index + 1}"
           sleep 10
         end
       end

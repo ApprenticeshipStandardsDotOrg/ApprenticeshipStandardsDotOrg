@@ -8,11 +8,9 @@ namespace :import do
     ].each do |model|
       puts "Processing unfurled #{model} records"
       model.unfurled.find_each.with_index do |import, index|
-        begin
-          import.process
-          rest(index)
-        rescue
-        end
+        import.process
+        rest(index)
+      rescue
       end
 
       sleep 60
@@ -20,8 +18,8 @@ namespace :import do
   end
 
   def rest(index)
-    if (index+1) % 100 == 0
-      puts "Record count: #{index+1}"
+    if (index + 1) % 100 == 0
+      puts "Record count: #{index + 1}"
       sleep 15
     end
   end
