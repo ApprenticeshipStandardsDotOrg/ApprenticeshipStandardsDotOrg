@@ -371,4 +371,51 @@ RSpec.describe SourceFile, type: :model do
       expect(source_file.can_be_converted_to_pdf?).to be_falsey
     end
   end
+
+  describe "#create_import!" do
+    context "when import already exists" do
+      it "does not create import record" do
+        source_file = create(:source_file, :pending)
+        create(:imports_uncategorized, source_file: source_file)
+
+        resp = nil
+        expect{
+          resp = source_file.create_import!
+        }.to_not change(Import, :count)
+        expect(resp).to be_nil
+      end
+    end
+
+    context "when import does not already exist" do
+      it "when archived, it does not create Uncategorized::Import record" do
+        source_file = create(:source_file, :archived)
+
+        resp = nil
+        expect{
+          resp = source_file.create_import!
+        }.to_not change(Import, :count)
+        expect(resp).to be_nil
+      end
+
+      it "when not archived, creates Uncategorized::Import record" do
+        metadata = {"foo" => "bar"}
+        source_file = create(:source_file, :pending, public_document: true, metadata: metadata)
+
+        import = nil
+        expect{
+          import = source_file.create_import!
+        }.to change(Imports::Uncategorized, :count).by(1)
+          .and change(ActiveStorage::Attachment, :count).by(1)
+          .and change(ActiveStorage::Blob, :count).by(0)
+
+        expect(import).to be_a(Imports::Uncategorized)
+        expect(import.source_file).to eq source_file
+        expect(import.parent).to eq source_file.standards_import
+        expect(import.filename.to_s).to eq source_file.filename.to_s
+        expect(import).to be_public_document
+        expect(import.metadata).to eq metadata
+        expect(import).to be_unfurled
+      end
+    end
+  end
 end

@@ -65,6 +65,21 @@ class SourceFile < ApplicationRecord
     where(public_document: false).completed.not_redacted.pdf_attachment
   end
 
+  def create_import!
+    if !archived? && import.nil?
+      import = standards_import.imports.create(
+        type: "Imports::Uncategorized",
+        public_document: public_document,
+        metadata: metadata,
+        status: :unfurled,
+        source_file: self
+      )
+
+      import.file.attach(active_storage_attachment.blob)
+      import
+    end
+  end
+
   def filename
     active_storage_attachment.blob.filename
   end
