@@ -23,6 +23,30 @@ RSpec.describe SourceFile, type: :model do
     expect(source_file.reload.metadata).to eq({"date" => "03/29/2023"})
   end
 
+  describe ".mising_import" do
+    it "returns all non-archived source files which do not have an import" do
+      sf1a = create(:source_file, :pending)
+      sf1b = create(:source_file, :pending)
+      create(:imports_uncategorized, source_file: sf1b)
+
+      sf2a = create(:source_file, :completed)
+      sf2b = create(:source_file, :completed)
+      create(:imports_uncategorized, source_file: sf2b)
+
+      sf3a = create(:source_file, :needs_support)
+      sf3b = create(:source_file, :needs_support)
+      create(:imports_uncategorized, source_file: sf3b)
+
+      sf4a = create(:source_file, :needs_human_review)
+      sf4b = create(:source_file, :needs_human_review)
+      create(:imports_uncategorized, source_file: sf4b)
+
+      create(:source_file, :archived)
+
+      expect(described_class.missing_import).to contain_exactly(sf1a, sf2a, sf3a, sf4a)
+    end
+  end
+
   describe "#converted_source_file" do
     it "returns the converted source file (pdf)" do
       word = create(:source_file, :docx)
