@@ -23,7 +23,7 @@ RSpec.describe SourceFile, type: :model do
     expect(source_file.reload.metadata).to eq({"date" => "03/29/2023"})
   end
 
-  describe ".mising_import" do
+  describe ".missing_import" do
     it "returns all non-archived source files which do not have an import" do
       sf1a = create(:source_file, :pending)
       sf1b = create(:source_file, :pending)
