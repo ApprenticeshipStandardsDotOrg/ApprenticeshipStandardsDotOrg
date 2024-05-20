@@ -6,7 +6,7 @@ class SourceFile < ApplicationRecord
   has_many :data_imports, -> { includes(:occupation_standard, file_attachment: :blob) }
   has_many :associated_occupation_standards, -> { distinct }, through: :data_imports, source: :occupation_standard
   has_one_attached :redacted_source_file
-  has_one :import, class_name: "Imports::Uncategorized"
+  has_one :import
 
   enum :status, [:pending, :completed, :needs_support, :needs_human_review, :archived]
   enum courtesy_notification: [:not_required, :pending, :completed], _prefix: true
