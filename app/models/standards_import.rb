@@ -20,7 +20,6 @@ class StandardsImport < ApplicationRecord
     end
   end
 
-
   def import_root
     self
   end
