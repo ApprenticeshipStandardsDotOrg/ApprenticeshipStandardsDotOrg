@@ -125,7 +125,7 @@ RSpec.describe "admin/imports/index", :admin do
       expect(page).to have_text "unfurled"
       expect(page).to have_text "pending"
 
-      expect{
+      expect {
         click_on "Destroy", match: :first
       }.to change(Import, :count).by(-2)
         .and change(SourceFile, :count).by(0)
