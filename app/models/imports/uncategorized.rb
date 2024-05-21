@@ -19,6 +19,10 @@ module Imports
       raise
     end
 
+    def pdf_leaf
+      import&.pdf_leaf
+    end
+
     private
 
     DOCX_CONTENT_TYPE = Mime::Type.lookup_by_extension("docx").to_s

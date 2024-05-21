@@ -27,5 +27,9 @@ module Imports
       )
       raise
     end
+
+    def pdf_leaf
+      pdf
+    end
   end
 end

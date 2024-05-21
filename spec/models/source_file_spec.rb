@@ -23,6 +23,30 @@ RSpec.describe SourceFile, type: :model do
     expect(source_file.reload.metadata).to eq({"date" => "03/29/2023"})
   end
 
+  describe ".missing_import" do
+    it "returns all non-archived source files which do not have an import" do
+      sf1a = create(:source_file, :pending)
+      sf1b = create(:source_file, :pending)
+      create(:imports_uncategorized, source_file: sf1b)
+
+      sf2a = create(:source_file, :completed)
+      sf2b = create(:source_file, :completed)
+      create(:imports_uncategorized, source_file: sf2b)
+
+      sf3a = create(:source_file, :needs_support)
+      sf3b = create(:source_file, :needs_support)
+      create(:imports_uncategorized, source_file: sf3b)
+
+      sf4a = create(:source_file, :needs_human_review)
+      sf4b = create(:source_file, :needs_human_review)
+      create(:imports_uncategorized, source_file: sf4b)
+
+      create(:source_file, :archived)
+
+      expect(described_class.missing_import).to contain_exactly(sf1a, sf2a, sf3a, sf4a)
+    end
+  end
+
   describe "#converted_source_file" do
     it "returns the converted source file (pdf)" do
       word = create(:source_file, :docx)
@@ -345,6 +369,53 @@ RSpec.describe SourceFile, type: :model do
       source_file = build(:source_file, :docx, :archived)
 
       expect(source_file.can_be_converted_to_pdf?).to be_falsey
+    end
+  end
+
+  describe "#create_import!" do
+    context "when import already exists" do
+      it "does not create import record" do
+        source_file = create(:source_file, :pending)
+        create(:imports_uncategorized, source_file: source_file)
+
+        resp = nil
+        expect {
+          resp = source_file.create_import!
+        }.to_not change(Import, :count)
+        expect(resp).to be_nil
+      end
+    end
+
+    context "when import does not already exist" do
+      it "when archived, it does not create Uncategorized::Import record" do
+        source_file = create(:source_file, :archived)
+
+        resp = nil
+        expect {
+          resp = source_file.create_import!
+        }.to_not change(Import, :count)
+        expect(resp).to be_nil
+      end
+
+      it "when not archived, creates Uncategorized::Import record" do
+        metadata = {"foo" => "bar"}
+        source_file = create(:source_file, :pending, public_document: true, metadata: metadata)
+
+        import = nil
+        expect {
+          import = source_file.create_import!
+        }.to change(Imports::Uncategorized, :count).by(1)
+          .and change(ActiveStorage::Attachment, :count).by(1)
+          .and change(ActiveStorage::Blob, :count).by(0)
+
+        expect(import).to be_a(Imports::Uncategorized)
+        expect(import.source_file).to eq source_file
+        expect(import.parent).to eq source_file.standards_import
+        expect(import.filename.to_s).to eq source_file.filename.to_s
+        expect(import).to be_public_document
+        expect(import.metadata).to eq metadata
+        expect(import).to be_unfurled
+      end
     end
   end
 end

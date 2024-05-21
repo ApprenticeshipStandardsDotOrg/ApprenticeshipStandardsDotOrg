@@ -72,4 +72,40 @@ RSpec.describe DataImport, type: :model do
       expect(data_import_corrected.related_occupation_standard("HUMAN RESOURCE SPECIALIST")).to eq different_os_for_same_source_file
     end
   end
+
+  describe "#set_import_field!" do
+    context "when no source_file" do
+      it "does not change the import_id field" do
+        pdf = create(:imports_pdf)
+        data_import = create(:data_import, import: pdf, source_file: nil)
+
+        data_import.set_import_field!
+
+        expect(data_import.reload.import_id).to eq pdf.id
+      end
+    end
+
+    context "when no pdf leaf for linked source_file import" do
+      it "does not set the import_id field" do
+        source_file = create(:source_file)
+        create(:imports_uncategorized, parent: source_file.standards_import, source_file: source_file)
+        data_import = create(:data_import, source_file: source_file, import: nil)
+
+        data_import.set_import_field!
+
+        expect(data_import.reload.import_id).to be_nil
+      end
+    end
+
+    it "sets the import to be the pdf leaf of the related source_file import" do
+      source_file = create(:source_file)
+      uncat = create(:imports_uncategorized, parent: source_file.standards_import, source_file: source_file)
+      pdf = create(:imports_pdf, parent: uncat)
+      data_import = create(:data_import, source_file: source_file, import: nil)
+
+      data_import.set_import_field!
+
+      expect(data_import.reload.import_id).to eq pdf.id
+    end
+  end
 end

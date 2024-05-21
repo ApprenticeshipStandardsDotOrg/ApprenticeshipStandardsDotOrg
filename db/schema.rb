@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_14_222448) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_20_214503) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -137,9 +137,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_14_222448) do
     t.datetime "processed_at", precision: nil
     t.text "processing_errors"
     t.datetime "redacted_at", precision: nil
+    t.uuid "source_file_id"
     t.index ["assignee_id"], name: "index_imports_on_assignee_id"
     t.index ["parent_type", "parent_id"], name: "index_imports_on_parent"
     t.index ["processed_at"], name: "index_imports_on_processed_at"
+    t.index ["source_file_id"], name: "index_imports_on_source_file_id"
   end
 
   create_table "industries", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -367,6 +369,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_14_222448) do
   add_foreign_key "data_imports", "occupation_standards"
   add_foreign_key "data_imports", "source_files"
   add_foreign_key "data_imports", "users"
+  add_foreign_key "imports", "source_files"
   add_foreign_key "imports", "users", column: "assignee_id"
   add_foreign_key "occupation_standards", "industries"
   add_foreign_key "occupation_standards", "occupations"
