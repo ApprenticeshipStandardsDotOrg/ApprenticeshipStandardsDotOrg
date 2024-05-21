@@ -9,8 +9,8 @@ namespace :source_file do
       if import
         count += 1
 
-        if count % 200 == 0
-          puts "Record count: #{index + 1}"
+        if count % 500 == 0
+          puts "Record count: #{count + 1}"
           sleep 10
         end
       end
