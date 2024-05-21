@@ -7,7 +7,8 @@ RSpec.describe Imports::Docx, type: :model do
     it "attaches a PDF to the Docx" do
       pdf_path = Rails.root.join("spec", "fixtures", "files", "pixel1x1.pdf")
       allow(ConvertDocToPdf).to receive(:call).and_return(pdf_path)
-      docx = create(:imports_docx, public_document: true)
+      assignee = create(:user, :converter)
+      docx = create(:imports_docx, public_document: true, courtesy_notification: :pending, assignee: assignee)
 
       docx.process
       docx.reload
@@ -16,7 +17,8 @@ RSpec.describe Imports::Docx, type: :model do
       pdf = docx.pdf
       expect(pdf.status).to eq("pending")
       expect(pdf.public_document).to eq(true)
-      expect(pdf.courtesy_notification).to eq("not_required")
+      expect(pdf.courtesy_notification).to eq("pending")
+      expect(pdf.assignee).to eq assignee
 
       expect(docx.processed_at).to be_present
       expect(docx.processing_errors).to be_blank

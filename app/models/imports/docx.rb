@@ -10,7 +10,9 @@ module Imports
         create_pdf!(
           file: File.open(output_pdf_path),
           public_document: public_document,
-          metadata: metadata
+          metadata: metadata,
+          courtesy_notification: courtesy_notification,
+          assignee: assignee
         )
         pdf.process(**kwargs)
         update!(

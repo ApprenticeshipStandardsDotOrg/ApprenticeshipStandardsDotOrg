@@ -8,7 +8,8 @@ RSpec.describe Imports::Doc, type: :model do
       allow(ConvertDocToPdf).to receive(:call).and_return(
         Rails.root.join("spec", "fixtures", "files", "pixel1x1.pdf")
       )
-      doc = create(:imports_doc, public_document: true)
+      assignee = create(:user, :converter)
+      doc = create(:imports_doc, public_document: true, courtesy_notification: :pending, assignee: assignee)
 
       doc.process
       doc.reload
@@ -17,7 +18,8 @@ RSpec.describe Imports::Doc, type: :model do
       pdf = doc.pdf
       expect(pdf.status).to eq("pending")
       expect(pdf.public_document).to eq(true)
-      expect(pdf.courtesy_notification).to eq("not_required")
+      expect(pdf.courtesy_notification).to eq("pending")
+      expect(pdf.assignee).to eq assignee
 
       expect(doc.processed_at).to be_present
       expect(doc.processing_errors).to be_blank
