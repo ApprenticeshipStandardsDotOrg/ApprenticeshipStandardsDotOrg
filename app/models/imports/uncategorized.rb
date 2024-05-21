@@ -23,6 +23,13 @@ module Imports
       import&.pdf_leaf
     end
 
+    def transfer_source_file_data!
+      pdf = pdf_leaf
+      if source_file && pdf
+        pdf.update!(status: source_file.status)
+      end
+    end
+
     private
 
     DOCX_CONTENT_TYPE = Mime::Type.lookup_by_extension("docx").to_s

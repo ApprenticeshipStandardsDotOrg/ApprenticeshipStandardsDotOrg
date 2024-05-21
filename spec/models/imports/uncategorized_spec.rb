@@ -128,4 +128,30 @@ RSpec.describe Imports::Uncategorized, type: :model do
       expect(uncat.import_root).to eq standards_import
     end
   end
+
+  describe "#transfer_source_file_data!" do
+    it "transfers the status to the pdf leaf" do
+      source_file = create(:source_file, status: :completed)
+      uncat = create(:imports_uncategorized, source_file: source_file)
+      pdf = create(:imports_pdf, parent: uncat, status: :pending)
+
+      uncat.transfer_source_file_data!
+
+      pdf.reload
+      expect(pdf.status).to eq "completed"
+    end
+
+    it "returns nil if no pdf_leaf" do
+      source_file = create(:source_file)
+      uncat = create(:imports_uncategorized, source_file: source_file)
+
+      expect(uncat.transfer_source_file_data!).to be_nil
+    end
+
+    it "returns nil if no source_file" do
+      uncat = create(:imports_uncategorized, source_file: nil)
+
+      expect(uncat.transfer_source_file_data!).to be_nil
+    end
+  end
 end
