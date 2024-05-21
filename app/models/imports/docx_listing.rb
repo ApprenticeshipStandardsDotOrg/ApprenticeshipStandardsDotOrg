@@ -35,5 +35,9 @@ module Imports
       )
       raise
     end
+
+    def pdf_leaf
+      raise NoMethodError.new("#{self.class.name} records do not have a PDF leaf")
+    end
   end
 end
