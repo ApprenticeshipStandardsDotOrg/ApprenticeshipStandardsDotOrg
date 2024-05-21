@@ -1,7 +1,6 @@
 class Import < ApplicationRecord
   belongs_to :parent, polymorphic: true
   belongs_to :assignee, class_name: "User", optional: true
-  belongs_to :source_file, optional: true
 
   # DataImport records can only be linked to type Imports::Pdf,
   # but this association is needed for all types due to limitations
