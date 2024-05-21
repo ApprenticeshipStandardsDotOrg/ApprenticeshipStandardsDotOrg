@@ -88,7 +88,7 @@ RSpec.describe DataImport, type: :model do
     context "when no pdf leaf for linked source_file import" do
       it "does not set the import_id field" do
         source_file = create(:source_file)
-        uncat = create(:imports_uncategorized, parent: source_file.standards_import, source_file: source_file)
+        create(:imports_uncategorized, parent: source_file.standards_import, source_file: source_file)
         data_import = create(:data_import, source_file: source_file, import: nil)
 
         data_import.set_import_field!

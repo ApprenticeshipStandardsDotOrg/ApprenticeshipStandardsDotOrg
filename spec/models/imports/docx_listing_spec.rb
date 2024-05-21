@@ -84,7 +84,7 @@ RSpec.describe Imports::DocxListing, type: :model do
     it "raises a not implemented error" do
       docx_listing = create(:imports_docx_listing)
 
-      expect{
+      expect {
         docx_listing.pdf_leaf
       }.to raise_error(NoMethodError, "Imports::DocxListing records do not have a PDF leaf")
     end
