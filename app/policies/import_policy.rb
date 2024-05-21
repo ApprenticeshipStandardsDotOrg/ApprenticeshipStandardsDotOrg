@@ -26,7 +26,7 @@ class ImportPolicy < ApplicationPolicy
   end
 
   def destroy?
-    false
+    user.admin?
   end
 
   def permitted_attributes

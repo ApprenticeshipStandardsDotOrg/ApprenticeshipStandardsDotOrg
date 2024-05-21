@@ -110,6 +110,30 @@ RSpec.describe "admin/imports/index", :admin do
 
       stub_feature_flag(:show_imports_in_administrate, false)
     end
+
+    it "can delete import" do
+      stub_feature_flag(:show_imports_in_administrate, true)
+
+      admin = create(:admin)
+      source_file = create(:source_file)
+      uncat = create(:imports_uncategorized, source_file: source_file, status: "unfurled")
+      create(:imports_pdf, parent: uncat, status: "pending", created_at: 1.day.ago) # inaccurately set the created_at date so we can easily Destroy the uncat record
+
+      login_as admin
+      visit admin_imports_path
+
+      expect(page).to have_text "unfurled"
+      expect(page).to have_text "pending"
+
+      expect{
+        click_on "Destroy", match: :first
+      }.to change(Import, :count).by(-2)
+        .and change(SourceFile, :count).by(0)
+
+      expect(page).to_not have_text "unfurled"
+
+      stub_feature_flag(:show_imports_in_administrate, false)
+    end
   end
 
   context "when converter" do
@@ -119,7 +143,7 @@ RSpec.describe "admin/imports/index", :admin do
       admin = create(:admin, :converter)
       create(:imports_uncategorized)
       create(:imports_docx_listing)
-      create(:imports_pdf)
+      pdf = create(:imports_pdf)
 
       login_as admin
       visit admin_imports_path
@@ -127,6 +151,9 @@ RSpec.describe "admin/imports/index", :admin do
       expect(page).to_not have_text "Imports::Uncategorized"
       expect(page).to_not have_text "Imports::DocxListing"
       expect(page).to have_text "Imports::Pdf"
+
+      expect(page).to_not have_link "Edit", href: edit_admin_import_path(pdf)
+      expect(page).to_not have_text "Destroy"
 
       click_on "Imports::Pdf", match: :first
       expect(page).to have_text "Imports::Uncategorized" # parent
