@@ -129,4 +129,12 @@ RSpec.describe Imports::Pdf, type: :model do
       expect(pdf.import_root).to eq standards_import
     end
   end
+
+  describe "#pdf_leaf" do
+    it "returns self" do
+      pdf = create(:imports_pdf)
+
+      expect(pdf.pdf_leaf).to eq pdf
+    end
+  end
 end

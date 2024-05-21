@@ -42,5 +42,9 @@ module Imports
     def file_for_redaction
       redacted_pdf.attached? ? redacted_pdf : file
     end
+
+    def pdf_leaf
+      self
+    end
   end
 end
