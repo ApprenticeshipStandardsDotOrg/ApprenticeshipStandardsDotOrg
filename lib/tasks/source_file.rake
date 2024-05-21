@@ -16,4 +16,10 @@ namespace :source_file do
       end
     end
   end
+
+  task transfer_data_to_import: :environment do
+    Imports::Uncategorized.joins(:source_file).each do |import|
+      import.transfer_source_file_data!
+    end
+  end
 end

@@ -62,6 +62,7 @@ FactoryBot.define do
           )
         )
       }
+      redacted_at { Time.current }
     end
 
     trait :bulletin do
