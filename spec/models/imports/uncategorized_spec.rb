@@ -141,6 +141,18 @@ RSpec.describe Imports::Uncategorized, type: :model do
       expect(pdf.status).to eq "completed"
     end
 
+    it "transfers the redacted file to the pdf leaf" do
+      source_file = create(:source_file, :with_redacted_source_file)
+      uncat = create(:imports_uncategorized, source_file: source_file)
+      pdf = create(:imports_pdf, parent: uncat, status: :pending)
+
+      uncat.transfer_source_file_data!
+
+      pdf.reload
+      expect(pdf.redacted_pdf.attached?).to be_truthy
+      expect(pdf.redacted_at).to be_present
+    end
+
     it "returns nil if no pdf_leaf" do
       source_file = create(:source_file)
       uncat = create(:imports_uncategorized, source_file: source_file)

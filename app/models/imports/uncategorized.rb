@@ -26,7 +26,11 @@ module Imports
     def transfer_source_file_data!
       pdf = pdf_leaf
       if source_file && pdf
-        pdf.update!(status: source_file.status)
+        pdf.update!(
+          status: source_file.status,
+          redacted_at: source_file.redacted_at,
+          redacted_pdf: source_file.redacted_source_file&.blob
+        )
       end
     end
 
