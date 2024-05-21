@@ -37,6 +37,13 @@ class DataImport < ApplicationRecord
       .first
   end
 
+  def set_import_field!
+    source_file_import = source_file&.import
+    if source_file_import
+      update!(import_id: source_file_import.pdf_leaf&.id)
+    end
+  end
+
   private
 
   def file_presence
