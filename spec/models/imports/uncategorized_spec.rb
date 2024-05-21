@@ -100,6 +100,26 @@ RSpec.describe Imports::Uncategorized, type: :model do
     end
   end
 
+  describe "#pdf_leaf" do
+    context "when pdf leaf exists" do
+      it "returns the Imports::Pdf record" do
+        uncat = create(:imports_uncategorized)
+        doc = create(:imports_doc, parent: uncat)
+        pdf = create(:imports_pdf, parent: doc)
+
+        expect(uncat.pdf_leaf).to eq pdf
+      end
+    end
+
+    context "when pdf leaf does not exist" do
+      it "returns nil" do
+        uncat = create(:imports_uncategorized)
+
+        expect(uncat.pdf_leaf).to be_nil
+      end
+    end
+  end
+
   describe "#import_root" do
     it "retrieves the standards_import at the root" do
       standards_import = create(:standards_import)
