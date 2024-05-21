@@ -60,4 +60,23 @@ RSpec.describe Imports::Docx, type: :model do
       expect(docx.import_root).to eq standards_import
     end
   end
+
+  describe "#pdf_leaf" do
+    context "when pdf exists" do
+      it "returns the Imports::Pdf record" do
+        docx = create(:imports_docx)
+        pdf = create(:imports_pdf, parent: docx)
+
+        expect(docx.pdf_leaf).to eq pdf
+      end
+    end
+
+    context "when pdf does not exist" do
+      it "returns nil" do
+        docx = create(:imports_docx)
+
+        expect(docx.pdf_leaf).to be_nil
+      end
+    end
+  end
 end
