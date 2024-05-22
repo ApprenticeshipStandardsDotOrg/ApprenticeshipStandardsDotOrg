@@ -159,12 +159,23 @@ RSpec.describe StandardsImport, type: :model do
   end
 
   describe "source_file creation" do
-    it "calls CreateSourceFileJob" do
+    it "without import flag: calls CreateSourceFileJob" do
       expect(CreateSourceFileJob).to receive(:perform_later).twice
 
       file1 = file_fixture("pixel1x1.pdf")
       file2 = file_fixture("pixel1x1.jpg")
       create(:standards_import, files: [file1, file2])
+    end
+
+    it "with import flag: does not call CreateSourceFileJob" do
+      stub_feature_flag(:show_imports_in_administrate, true)
+
+      expect(CreateSourceFileJob).to_not receive(:perform_later)
+
+      file = file_fixture("pixel1x1.pdf")
+      create(:standards_import, files: [file])
+
+      stub_feature_flag(:show_imports_in_administrate, false)
     end
   end
 
