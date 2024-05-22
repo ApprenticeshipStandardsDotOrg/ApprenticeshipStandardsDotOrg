@@ -14,6 +14,7 @@ RSpec.describe "StandardsImports", type: :request do
       context "when guest" do
         it "creates new standards import record, redirects to show page, and notifies admin" do
           stub_feature_flag(:recaptcha, true)
+          stub_feature_flag(:show_imports_in_administrate, false)
           stub_recaptcha_high_score
 
           expect_any_instance_of(StandardsImport).to receive(:notify_admin)
@@ -53,6 +54,7 @@ RSpec.describe "StandardsImports", type: :request do
       context "when admin", :admin do
         it "creates new standards import record, redirects to source files page, and does not notify admin" do
           stub_feature_flag(:recaptcha, true)
+          stub_feature_flag(:show_imports_in_administrate, false)
           admin = create(:admin)
 
           sign_in admin
