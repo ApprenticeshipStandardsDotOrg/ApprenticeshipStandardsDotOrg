@@ -17,7 +17,7 @@ RSpec.describe "admin/imports/show", :admin do
         expect(page).to have_link "New data import", href: new_admin_import_data_import_path(import)
         expect(page).to have_link "Redact document", href: new_admin_import_redact_file_path(import)
         expect(page).to have_link "Edit", href: edit_admin_import_path(import)
-        expect(page).to_not have_link "Destroy"
+        expect(page).to have_link "Destroy"
 
         stub_feature_flag(:show_imports_in_administrate, false)
       end
@@ -90,7 +90,7 @@ RSpec.describe "admin/imports/show", :admin do
         expect(page).to_not have_link "New data import"
         expect(page).to_not have_link "Redact document"
         expect(page).to have_link "Edit", href: edit_admin_import_path(import)
-        expect(page).to_not have_link "Destroy"
+        expect(page).to have_link "Destroy"
 
         stub_feature_flag(:show_imports_in_administrate, false)
       end
