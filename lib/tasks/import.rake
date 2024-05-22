@@ -12,13 +12,11 @@ namespace :import do
         rest(index)
       rescue
       end
-
-      sleep 60
     end
   end
 
   def rest(index)
-    if (index + 1) % 100 == 0
+    if (index + 1) % 500 == 0
       puts "Record count: #{index + 1}"
       sleep 15
     end
