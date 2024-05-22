@@ -14,6 +14,7 @@ class ImportDashboard < Administrate::BaseDashboard
     courtesy_notification: Field::Select.with_options(searchable: false, collection: ->(field) { field.resource.class.send(field.attribute.to_s.pluralize).keys }),
     metadata: Field::JSONB,
     file: Field::ActiveStorage,
+    filename: Field::String.with_options(searchable: false),
     parent: Field::Polymorphic,
     processed_at: Field::DateTime,
     processing_errors: Field::Text,
@@ -38,7 +39,7 @@ class ImportDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = %i[
     created_at
     type
-    file
+    filename
     assignee
     public_document
     status
