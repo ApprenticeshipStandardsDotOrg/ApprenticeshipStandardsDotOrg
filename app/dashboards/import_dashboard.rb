@@ -17,6 +17,7 @@ class ImportDashboard < Administrate::BaseDashboard
     filename: Field::String.with_options(searchable: false),
     parent: Field::Polymorphic,
     import: Field::BelongsTo,
+    imports: Field::HasMany,
     processed_at: Field::DateTime,
     processing_errors: Field::Text,
     public_document: Field::Boolean,
@@ -63,6 +64,7 @@ class ImportDashboard < Administrate::BaseDashboard
     courtesy_notification
     parent
     import
+    imports
     data_imports
     created_at
     updated_at

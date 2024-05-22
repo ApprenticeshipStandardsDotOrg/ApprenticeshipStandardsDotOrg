@@ -26,3 +26,4 @@ en:
     label:
       import:
         import: Child
+        imports: Children
