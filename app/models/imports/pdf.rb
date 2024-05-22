@@ -46,5 +46,8 @@ module Imports
     def pdf_leaf
       self
     end
+
+    def import
+    end
   end
 end

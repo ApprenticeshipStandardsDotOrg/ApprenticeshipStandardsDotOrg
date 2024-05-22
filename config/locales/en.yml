@@ -22,3 +22,7 @@ en:
   time:
     formats:
       default: "%Y-%m-%d %H:%M:%S %Z"
+  helpers:
+    label:
+      import:
+        import: Child
