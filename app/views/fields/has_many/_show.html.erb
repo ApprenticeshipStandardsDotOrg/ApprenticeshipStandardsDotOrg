@@ -27,14 +27,14 @@ from the associated resource class's dashboard.
     <% partial_name = "collection" %>
   <% end %>
   <%= render(
-    partial_name,
-    collection_presenter: field.associated_collection(order),
-    collection_field_name: field.name,
-    page: page,
-    resources: field.resources(page_number, order),
-    table_title: field.name,
-    resource_class: field.associated_class,
-  ) %>
+        partial_name,
+        collection_presenter: field.associated_collection(order),
+        collection_field_name: field.name,
+        page: page,
+        resources: field.resources(page_number, order),
+        table_title: field.name,
+        resource_class: field.associated_class
+      ) %>
   <% if field.more_than_limit? %>
     <%= render("pagination", resources: field.resources(page_number), param_name: "#{field.name}[page]") %>
   <% end %>
