@@ -47,6 +47,7 @@ module Imports
       self
     end
 
+    # For Administrate
     def import
     end
   end
