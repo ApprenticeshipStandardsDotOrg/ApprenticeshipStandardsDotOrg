@@ -111,6 +111,15 @@ RSpec.describe Imports::Uncategorized, type: :model do
       end
     end
 
+    context "when import is a docx_listing" do
+      it "returns nil" do
+        uncat = create(:imports_uncategorized)
+        create(:imports_docx_listing, parent: uncat)
+
+        expect(uncat.pdf_leaf).to be_nil
+      end
+    end
+
     context "when pdf leaf does not exist" do
       it "returns nil" do
         uncat = create(:imports_uncategorized)

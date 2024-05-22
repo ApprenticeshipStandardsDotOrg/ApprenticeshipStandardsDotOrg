@@ -22,6 +22,7 @@ module Imports
 
     def pdf_leaf
       import&.pdf_leaf
+    rescue NoPdfLeafError
     end
 
     def transfer_source_file_data!

@@ -1,4 +1,7 @@
 module Imports
+  class NoPdfLeafError < NoMethodError
+  end
+
   class DocxListing < Import
     has_many :imports, as: :parent, dependent: :destroy, autosave: true
     has_one_attached :file
@@ -37,7 +40,7 @@ module Imports
     end
 
     def pdf_leaf
-      raise NoMethodError.new("#{self.class.name} records do not have a PDF leaf")
+      raise Imports::NoPdfLeafError, "#{self.class.name} records do not have a PDF leaf"
     end
   end
 end
