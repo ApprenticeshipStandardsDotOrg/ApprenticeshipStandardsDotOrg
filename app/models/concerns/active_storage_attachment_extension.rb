@@ -14,7 +14,7 @@ module ActiveStorageAttachmentExtension
   private
 
   def create_source_file
-    if record_type == "StandardsImport"
+    if !Flipper.enabled?(:show_imports_in_administrate) && record_type == "StandardsImport"
       CreateSourceFileJob.perform_later(self)
     end
   end
