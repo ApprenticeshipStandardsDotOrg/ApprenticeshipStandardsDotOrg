@@ -7,6 +7,8 @@ module Imports
     has_one :import, as: :parent, dependent: :destroy, autosave: true
     belongs_to :source_file, optional: true
 
+    before_save :set_courtesy_notification
+
     def process(**)
       create_child!(**)
       process_child(**, listing: false)
@@ -88,6 +90,12 @@ module Imports
       else
         :unfurled
       end
+    end
+
+    private
+
+    def set_courtesy_notification
+      self.courtesy_notification = import_root.courtesy_notification
     end
   end
 end
