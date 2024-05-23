@@ -84,11 +84,7 @@
               <% end %>
             <% elsif attribute.name == "import" %>
               <% if attribute.data %>
-                <% if page.resource.is_a?(Imports::Uncategorized) %>
-                  <%= link_to attribute.data.type, admin_import_path(attribute.data.id) %>
-                <% elsif page.resource.is_a?(Imports::Doc) || page.resource.is_a?(Imports::Docx) %>
-                  <%= link_to attribute.data.type, admin_import_path(attribute.data.id) %>
-                <% end %>
+                <%= link_to attribute.data.type, admin_import_path(attribute.data.id) %>
               <% end %>
             <% else %>
               <%= render_field attribute, page: page %></dd>
