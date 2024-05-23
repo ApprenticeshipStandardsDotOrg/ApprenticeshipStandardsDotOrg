@@ -33,21 +33,21 @@ RSpec.describe "StandardsImports", type: :request do
             }.to change(StandardsImport, :count).by(1)
               .and change(ActiveStorage::Attachment, :count).by(1)
               .and change(SourceFile, :count).by(1)
-
-            si = StandardsImport.last
-            expect(si.name).to eq "Mickey Mouse"
-            expect(si.email).to eq "mickey@mouse.com"
-            expect(si.organization).to eq "Disney"
-            expect(si.notes).to eq "a" * 500
-            expect(si.files.count).to eq 1
-            expect(si.public_document?).to be false
-            expect(si).to be_courtesy_notification_pending
-
-            source_file = SourceFile.last
-            expect(source_file).to be_courtesy_notification_pending
-
-            expect(response).to redirect_to standards_import_path(si)
           end
+
+          si = StandardsImport.last
+          expect(si.name).to eq "Mickey Mouse"
+          expect(si.email).to eq "mickey@mouse.com"
+          expect(si.organization).to eq "Disney"
+          expect(si.notes).to eq "a" * 500
+          expect(si.files.count).to eq 1
+          expect(si.public_document?).to be false
+          expect(si).to be_courtesy_notification_pending
+
+          source_file = SourceFile.last
+          expect(source_file).to be_courtesy_notification_pending
+
+          expect(response).to redirect_to standards_import_path(si)
         end
 
         it "with import feature flag on: creates new standards import record, redirects to show page, and notifies admin" do
@@ -124,21 +124,21 @@ RSpec.describe "StandardsImports", type: :request do
             }.to change(StandardsImport, :count).by(1)
               .and change(ActiveStorage::Attachment, :count).by(1)
               .and change(SourceFile, :count).by(1)
-
-            si = StandardsImport.last
-            expect(si.name).to eq "Mickey Mouse"
-            expect(si.email).to eq "mickey@mouse.com"
-            expect(si.organization).to eq "Disney"
-            expect(si.notes).to eq "a" * 500
-            expect(si.files.count).to eq 1
-            expect(si.public_document?).to be true
-            expect(si).to be_courtesy_notification_not_required
-
-            source_file = SourceFile.last
-            expect(source_file).to be_courtesy_notification_not_required
-
-            expect(response).to redirect_to admin_source_files_path
           end
+
+          si = StandardsImport.last
+          expect(si.name).to eq "Mickey Mouse"
+          expect(si.email).to eq "mickey@mouse.com"
+          expect(si.organization).to eq "Disney"
+          expect(si.notes).to eq "a" * 500
+          expect(si.files.count).to eq 1
+          expect(si.public_document?).to be true
+          expect(si).to be_courtesy_notification_not_required
+
+          source_file = SourceFile.last
+          expect(source_file).to be_courtesy_notification_not_required
+
+          expect(response).to redirect_to admin_source_files_path
         end
 
         it "with import feature flag on: creates new standards import record, redirects to source files page, and does not notify admin" do
