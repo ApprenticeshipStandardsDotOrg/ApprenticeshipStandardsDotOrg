@@ -1,3 +1,5 @@
 <% field.resource.associated_occupation_standards.each do |occupation_standard| %>
-  <%= link_to occupation_standard.title, occupation_standard_url(occupation_standard), target: "_blank" %>
+  <div>
+    <%= link_to occupation_standard.title, occupation_standard_url(occupation_standard), target: "_blank" %>
+  </div>
 <% end %>
