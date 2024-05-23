@@ -21,6 +21,7 @@ class ImportDashboard < Administrate::BaseDashboard
     processed_at: Field::DateTime,
     processing_errors: Field::Text,
     public_document: Field::Boolean,
+    associated_occupation_standards: HasManyAssociatedOccupationStandardsField,
     redacted_pdf: Field::ActiveStorage.with_options(
       destroy_url: proc do |namespace, resource, attachment|
         [:redacted_import_admin_import, {attachment_id: attachment.id}]
@@ -66,6 +67,7 @@ class ImportDashboard < Administrate::BaseDashboard
     import
     imports
     data_imports
+    associated_occupation_standards
     created_at
     updated_at
   ].freeze
