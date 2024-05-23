@@ -3,9 +3,10 @@ class Import < ApplicationRecord
   belongs_to :assignee, class_name: "User", optional: true
 
   # DataImport records can only be linked to type Imports::Pdf,
-  # but this association is needed for all types due to limitations
+  # but these associations are needed for all types due to limitations
   # of Administrate.
   has_many :data_imports, -> { none }, inverse_of: "import"
+  has_many :associated_occupation_standards, -> { none }, through: :data_imports, source: :occupation_standard
 
   # Only Imports::DocxListing have multiple imports, but this
   # association is needed for all types due to limitation of Administrate
