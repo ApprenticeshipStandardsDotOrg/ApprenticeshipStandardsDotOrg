@@ -24,10 +24,6 @@ class StandardsImport < ApplicationRecord
     self
   end
 
-  def standard_courtesy_notification
-    courtesy_notification
-  end
-
   def source_files
     files
       .includes(source_file: {active_storage_attachment: :blob})
@@ -53,13 +49,15 @@ class StandardsImport < ApplicationRecord
   end
 
   def files=(files)
-    files.each do |file|
-      imports.build(
-        type: "Imports::Uncategorized",
-        status: :pending,
-        public_document: public_document,
-        file: file
-      )
+    if Flipper.enabled?(:show_imports_in_administrate)
+      files.each do |file|
+        imports.build(
+          type: "Imports::Uncategorized",
+          status: :pending,
+          public_document: public_document,
+          file: file
+        )
+      end
     end
     super(files) # still attach to standards_import for now
   end
