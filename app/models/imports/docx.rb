@@ -33,5 +33,10 @@ module Imports
     def pdf_leaf
       pdf
     end
+
+    # For Administrate
+    def import
+      pdf
+    end
   end
 end

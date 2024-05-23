@@ -7,6 +7,10 @@ class Import < ApplicationRecord
   # of Administrate.
   has_many :data_imports, -> { none }, inverse_of: "import"
 
+  # Only Imports::DocxListing have multiple imports, but this
+  # association is needed for all types due to limitation of Administrate
+  has_many :imports, -> { none }
+
   enum :status, [
     :pending,
     :completed,

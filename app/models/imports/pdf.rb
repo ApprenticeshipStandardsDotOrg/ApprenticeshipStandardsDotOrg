@@ -46,5 +46,9 @@ module Imports
     def pdf_leaf
       self
     end
+
+    # For Administrate
+    def import
+    end
   end
 end

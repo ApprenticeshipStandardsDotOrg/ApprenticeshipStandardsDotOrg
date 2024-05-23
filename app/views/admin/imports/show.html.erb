@@ -66,6 +66,8 @@
 
         <% attributes.each do |attribute| %>
           <% next if attribute.name.match?("redacted") && !page.resource.is_a?(Imports::Pdf) %>
+          <% next if attribute.name == "import" && (page.resource.is_a?(Imports::Pdf) || page.resource.is_a?(Imports::DocxListing)) %>
+          <% next if attribute.name == "imports" && !page.resource.is_a?(Imports::DocxListing) %>
           <dt class="attribute-label" id="<%= attribute.name %>">
             <%= t(
                   "helpers.label.#{resource_name}.#{attribute.name}",
@@ -78,6 +80,10 @@
               <% if attribute.data.is_a?(StandardsImport) %>
                 <%= link_to "StandardsImport", admin_standards_import_path(attribute.data.id) %>
               <% else %>
+                <%= link_to attribute.data.type, admin_import_path(attribute.data.id) %>
+              <% end %>
+            <% elsif attribute.name == "import" %>
+              <% if attribute.data %>
                 <%= link_to attribute.data.type, admin_import_path(attribute.data.id) %>
               <% end %>
             <% else %>

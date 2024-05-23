@@ -40,6 +40,9 @@ module Admin
     #     resource_class.with_less_stuff
     #   end
     # end
+    def scoped_resource
+      resource_class.includes(imports: :file_attachment)
+    end
 
     # Override `resource_params` if you want to transform the submitted
     # data before it's persisted. For example, the following would turn all
