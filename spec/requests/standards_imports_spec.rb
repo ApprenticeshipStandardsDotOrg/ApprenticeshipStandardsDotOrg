@@ -55,8 +55,8 @@ RSpec.describe "StandardsImports", type: :request do
           stub_feature_flag(:show_imports_in_administrate, true)
           stub_recaptcha_high_score
 
-          file1 = fixture_file_upload("spec/fixtures/files/pixel1x1.pdf")
-          file2 = fixture_file_upload("spec/fixtures/files/pixel1x1_redacted.pdf")
+          file1 = fixture_file_upload("pixel1x1.pdf")
+          file2 = fixture_file_upload("pixel1x1_redacted.pdf")
           expect_any_instance_of(StandardsImport).to receive(:notify_admin)
           expect {
             post standards_imports_path, params: {
@@ -155,7 +155,7 @@ RSpec.describe "StandardsImports", type: :request do
                 email: "mickey@mouse.com",
                 organization: "Disney",
                 notes: "a" * 500,
-                files: [fixture_file_upload("spec/fixtures/files/pixel1x1.pdf")],
+                files: [fixture_file_upload("pixel1x1.pdf")],
                 public_document: true
               }
             }
@@ -199,7 +199,7 @@ RSpec.describe "StandardsImports", type: :request do
                 email: "mickey@mouse.com",
                 organization: "Disney",
                 notes: "a" * 500,
-                files: [fixture_file_upload("spec/fixtures/files/pixel1x1.jpg", "image/jpeg")],
+                files: [fixture_file_upload("pixel1x1.pdf")],
                 public_document: true
               }
             }
@@ -225,7 +225,7 @@ RSpec.describe "StandardsImports", type: :request do
                 email: "mickey@mouse.com",
                 organization: "Disney",
                 notes: "a" * 500,
-                files: [fixture_file_upload("spec/fixtures/files/pixel1x1.jpg", "image/jpeg")],
+                files: [fixture_file_upload("pixel1x1.pdf")],
                 public_document: true
               }
             }
