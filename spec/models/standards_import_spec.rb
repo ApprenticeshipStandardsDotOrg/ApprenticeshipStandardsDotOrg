@@ -408,6 +408,33 @@ RSpec.describe StandardsImport, type: :model do
         end
       end
 
+      context "when number of source files matches non-completed source_files but data_imports exist" do
+        it "does not delete any source files" do
+          allow(DocToPdfConverter).to receive(:convert)
+          perform_enqueued_jobs do
+            si = create(:standards_import, :with_docx_file_with_attachments, bulletin: true)
+            si.files.attach(file_fixture("document.doc"))
+            si.files.attach(file_fixture("pixel1x1.pdf"))
+
+            doc_source_file = si.files[-2].source_file
+            pdf_source_file = si.files.last.source_file
+            doc_source_file.update!(converted_source_file: pdf_source_file)
+            create(:data_import, source_file: pdf_source_file)
+
+            expect {
+              si.clean_up_unprocessed_bulletin!
+            }.to change(ActiveStorage::Attachment, :count).by(0)
+              .and change(SourceFile, :count).by(0)
+
+            si.reload
+
+            expect(si.files.count).to eq 3
+            expect(si.source_files.count).to eq 3
+            expect(si.bulletin?).to be_truthy
+          end
+        end
+      end
+
       context "when number of source files does not match non-completed source_files" do
         it "does not delete any source files" do
           allow(DocToPdfConverter).to receive(:convert)
