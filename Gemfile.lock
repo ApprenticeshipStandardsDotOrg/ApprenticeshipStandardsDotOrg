@@ -460,6 +460,14 @@ GEM
     sablon (0.4.0)
       nokogiri (>= 1.8.5)
       rubyzip (>= 1.3.0)
+    sassc (2.4.0)
+      ffi (~> 1.9)
+    sassc-rails (2.1.2)
+      railties (>= 4.0.0)
+      sassc (>= 2.0)
+      sprockets (> 3.0)
+      sprockets-rails
+      tilt
     selenium-webdriver (4.21.1)
       base64 (~> 0.2)
       rexml (~> 3.2, >= 3.2.5)
@@ -506,6 +514,7 @@ GEM
     tailwindcss-rails (2.6.0-x86_64-linux)
       railties (>= 7.0.0)
     thor (1.3.1)
+    tilt (2.3.0)
     timeout (0.4.1)
     ttfunk (1.7.0)
     turbo-rails (2.0.5)
@@ -604,6 +613,7 @@ DEPENDENCIES
   ruby-openai
   rubyzip
   sablon
+  sassc-rails
   selenium-webdriver
   sidekiq (~> 7)
   sprockets-rails
