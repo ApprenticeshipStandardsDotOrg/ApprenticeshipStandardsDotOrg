@@ -32,6 +32,7 @@ module Imports
       if source_file && pdf
         pdf.update!(
           status: source_file.status,
+          assignee: source_file.assignee,
           redacted_at: source_file.redacted_at,
           redacted_pdf: source_file.redacted_source_file&.blob
         )
