@@ -83,25 +83,25 @@ RSpec.describe "admin/imports/index", :admin do
       expect(page).to have_content("Imports::Uncategorized")
       expect(page).to have_content("Imports::Pdf").twice
 
-      expect(page).to have_button "Filter by:"
-      click_on "Filter by"
-      click_on "Needs Redaction"
+      expect(page).to have_button "Filter"
+      select "Needs Redaction"
+      click_on "Filter"
 
       expect(page).to have_text "needs_support"
       expect(page).to_not have_text "pending"
       expect(page).to_not have_content("Imports::Uncategorized")
       expect(page).to have_content("Imports::Pdf").once
 
-      click_on "Filter by"
-      click_on "Redacted"
+      select "Redacted"
+      click_on "Filter"
 
       expect(page).to_not have_text "needs_support"
       expect(page).to have_text "pending"
       expect(page).to_not have_content("Imports::Uncategorized")
       expect(page).to have_content("Imports::Pdf").once
 
-      click_on "Filter by"
-      click_on "Show All"
+      select "Show All"
+      click_on "Filter"
 
       expect(page).to have_text "needs_support"
       expect(page).to have_text "pending"
@@ -171,21 +171,21 @@ RSpec.describe "admin/imports/index", :admin do
       login_as admin
       visit admin_imports_path
 
-      expect(page).to have_button "Filter by:"
-      click_on "Filter by"
-      click_on "Needs Redaction"
+      expect(page).to have_button "Filter"
+      select "Needs Redaction"
+      click_on "Filter"
 
       expect(page).to have_text "needs_support"
       expect(page).to_not have_text "pending"
 
-      click_on "Filter by"
-      click_on "Redacted"
+      select "Redacted"
+      click_on "Filter"
 
       expect(page).to_not have_text "needs_support"
       expect(page).to have_text "pending"
 
-      click_on "Filter by"
-      click_on "Show All"
+      select "Show All"
+      click_on "Filter"
 
       expect(page).to have_text "needs_support"
       expect(page).to have_text "pending"

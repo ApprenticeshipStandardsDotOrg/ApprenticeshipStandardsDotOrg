@@ -14,7 +14,7 @@ module Admin
     # this will be used to set the records shown on the `index` action.
     #
     def scoped_resource
-      scope = if current_user.converter? || params[:pdf_only] == "true"
+      scope = if current_user.converter? || (params[:search].present? && params[:pdf_only] == "true")
         Imports::Pdf
       else
         resource_class

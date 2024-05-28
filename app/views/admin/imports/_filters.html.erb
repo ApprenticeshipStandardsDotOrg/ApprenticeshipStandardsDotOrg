@@ -1,7 +1,7 @@
 <%= form_with url: admin_imports_path, method: :get, id: "redacted-filter" do |f| %>
   <%= hidden_field_tag :pdf_only, true %>
   <%= label_tag "filter" do %>
-    <%= select_tag :search, options_for_select([["Not redacted", "not_redacted:"], ["Redacted", "redacted:"], ["Show All", ""]], params[:search]), id: "filter" %>
+    <%= select_tag :search, options_for_select([["Show All", ""], ["Needs Redaction", "not_redacted:"], ["Redacted", "redacted:"]], params[:search]), id: "filter" %>
   <% end %>
   <%= f.submit "Filter", id: "filter-submit" %>
 <% end %>
