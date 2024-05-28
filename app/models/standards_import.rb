@@ -46,7 +46,7 @@ class StandardsImport < ApplicationRecord
 
   def clean_up_unprocessed_bulletin!
     if bulletin?
-      uncompleted_source_files = source_files.select { |sf| !sf.completed? }
+      uncompleted_source_files = source_files.select { |sf| !sf.completed? && sf.data_imports.empty? }
       if source_files.count == uncompleted_source_files.count
         files.order(:created_at).each_with_index do |file, index|
           next if index.zero?
