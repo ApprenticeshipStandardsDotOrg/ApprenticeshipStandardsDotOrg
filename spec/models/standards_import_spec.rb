@@ -368,8 +368,12 @@ RSpec.describe StandardsImport, type: :model do
           allow(DocToPdfConverter).to receive(:convert)
           perform_enqueued_jobs do
             si = create(:standards_import, :with_docx_file_with_attachments, bulletin: true)
-            si.files.attach(file_fixture("pixel1x1.pdf"))
             si.files.attach(file_fixture("document.doc"))
+            si.files.attach(file_fixture("pixel1x1.pdf"))
+
+            doc_source_file = si.files[-2].source_file
+            pdf_source_file = si.files.last.source_file
+            doc_source_file.update!(converted_source_file: pdf_source_file)
 
             expect {
               si.clean_up_unprocessed_bulletin!
