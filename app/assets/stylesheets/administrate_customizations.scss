@@ -6,3 +6,13 @@ so reinstate initial behavior */
     background-color: #1976d2;
   }
 }
+
+/* The input search is turning blue on hover.
+Seems like this is an Administrate issue,
+but will look into it more later. */
+input#search {
+  &:hover {
+    background-color: #fff;
+    color: #111;
+  }
+}
