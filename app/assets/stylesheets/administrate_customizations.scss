@@ -4,6 +4,22 @@ so reinstate initial behavior */
   button, input, .button {
     appearance: auto;
     background-color: #1976d2;
+
+    &:hover {
+      background-color: #145ea8;
+      color: #fff;
+    }
+  }
+}
+
+/* Fix some Flowbite styling that is getting overridden by Administrate */
+div#dropdown {
+  a {
+    color: inherit;
+
+    &:hover {
+      color: #13599e;
+    }
   }
 }
 
@@ -11,8 +27,10 @@ so reinstate initial behavior */
 Seems like this is an Administrate issue,
 but will look into it more later. */
 input#search {
+  color: rgb(41, 63, 84);
+
   &:hover {
     background-color: #fff;
-    color: #111;
+    color: rgb(41, 63, 84);
   }
 }
