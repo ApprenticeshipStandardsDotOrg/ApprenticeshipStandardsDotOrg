@@ -7,11 +7,8 @@
     <title>
       <%= content_for(:title) %> - <%= application_title %>
     </title>
-    <%= render "stylesheet" %>
-    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
-
     <%= stylesheet_link_tag "https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" %>
-
+    <%= render "stylesheet" %>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag if defined?(csp_meta_tag) %>
   </head>
