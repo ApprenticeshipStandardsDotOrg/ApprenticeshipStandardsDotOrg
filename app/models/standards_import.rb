@@ -51,7 +51,13 @@ class StandardsImport < ApplicationRecord
         files.order(:created_at).each_with_index do |file, index|
           next if index.zero?
 
-          file.destroy!
+          begin
+            file.destroy!
+          rescue ActiveRecord::InvalidForeignKey
+            source_file = file.source_file
+            source_file.converted_source_file.destroy!
+            file.destroy!
+          end
         end
 
         update!(bulletin: false)
