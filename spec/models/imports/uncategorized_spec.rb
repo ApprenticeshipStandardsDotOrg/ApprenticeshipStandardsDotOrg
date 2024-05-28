@@ -146,8 +146,18 @@ RSpec.describe Imports::Uncategorized, type: :model do
 
       uncat.transfer_source_file_data!
 
-      pdf.reload
-      expect(pdf.status).to eq "completed"
+      expect(pdf.reload.status).to eq "completed"
+    end
+
+    it "transfers the assignee to the pdf leaf" do
+      assignee = create(:user, :converter)
+      source_file = create(:source_file, assignee: assignee)
+      uncat = create(:imports_uncategorized, source_file: source_file)
+      pdf = create(:imports_pdf, parent: uncat)
+
+      uncat.transfer_source_file_data!
+
+      expect(pdf.reload.assignee).to eq assignee
     end
 
     it "transfers the redacted file to the pdf leaf" do
