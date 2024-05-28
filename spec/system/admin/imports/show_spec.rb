@@ -18,6 +18,10 @@ RSpec.describe "admin/imports/show", :admin do
         expect(page).to have_link "Redact document", href: new_admin_import_redact_file_path(import)
         expect(page).to have_link "Edit", href: edit_admin_import_path(import)
         expect(page).to have_link "Destroy"
+        expect(page).to have_text "Data import"
+        expect(page).to have_text "Courtesy notification"
+        expect(page).to have_text "Parent"
+        expect(page).to have_text "Associated occupation standards"
 
         stub_feature_flag(:show_imports_in_administrate, false)
       end
@@ -57,12 +61,18 @@ RSpec.describe "admin/imports/show", :admin do
         login_as admin
         visit admin_import_path(import)
 
-        expect(page).to have_text "Imports::Pdf"
         expect(page).to have_button "Needs support"
         expect(page).to have_link "New data import", href: new_admin_import_data_import_path(import)
         expect(page).to have_link "Redact document", href: new_admin_import_redact_file_path(import)
+        expect(page).to have_text "Data imports"
         expect(page).to_not have_link "Edit", href: edit_admin_import_path(import)
         expect(page).to_not have_link "Destroy"
+        expect(page).to_not have_text "Courtesy notification"
+        expect(page).to_not have_text "Parent"
+        expect(page).to_not have_text "Child"
+        expect(page).to_not have_text "Type"
+        expect(page).to_not have_text "Imports::Pdf"
+        expect(page).to_not have_text "Associated occupation standards"
 
         click_on "Needs support"
 
@@ -91,6 +101,12 @@ RSpec.describe "admin/imports/show", :admin do
         expect(page).to_not have_link "Redact document"
         expect(page).to have_link "Edit", href: edit_admin_import_path(import)
         expect(page).to have_link "Destroy"
+        expect(page).to have_text "Data import"
+        expect(page).to have_text "Courtesy notification"
+        expect(page).to have_text "Parent"
+        expect(page).to have_text "Child"
+        expect(page).to have_text "Type"
+        expect(page).to have_text "Associated occupation standards"
 
         stub_feature_flag(:show_imports_in_administrate, false)
       end
