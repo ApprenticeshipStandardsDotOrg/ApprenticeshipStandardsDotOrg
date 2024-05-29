@@ -30,5 +30,9 @@
   <% end %>
 
   Data Import: <%= admin_data_import_url(data_import) %>
-  Source File: <%= admin_source_file_url(data_import.source_file) %>
+  <% if Flipper.enabled?(:show_imports_in_administrate) %>
+    Source File: <%= admin_import_url(data_import.import) %>
+  <% else %>
+    Source File: <%= admin_source_file_url(data_import.source_file) %>
+  <% end %>
 <% end %>
