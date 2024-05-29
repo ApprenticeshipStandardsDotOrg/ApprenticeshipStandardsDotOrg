@@ -110,7 +110,7 @@ class ImportDashboard < Administrate::BaseDashboard
         .joins("JOIN active_storage_blobs ON (active_storage_attachments.blob_id = active_storage_blobs.id)")
         .where("active_storage_blobs.filename ILIKE ?", "%#{arg}%")
     },
-    not_redacted: ->(resources) { resources.not_redacted },
+    needs_redaction: ->(resources) { resources.ready_for_redaction },
     redacted: ->(resources) { resources.already_redacted }
   }.freeze
 

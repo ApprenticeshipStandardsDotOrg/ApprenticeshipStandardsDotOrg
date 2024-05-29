@@ -123,11 +123,11 @@ RSpec.describe "Admin::Imports", type: :request do
 
           admin = create(:admin)
           redacted = create(:imports_pdf, :with_redacted_pdf)
-          not_redacted = create(:imports_pdf)
+          not_redacted = create(:imports_pdf, status: :completed, public_document: false)
 
           sign_in admin
 
-          get admin_imports_path(search: "not_redacted:", pdf_only: true)
+          get admin_imports_path(search: "needs_redaction:", pdf_only: true)
 
           expect(response).to be_successful
           expect(response.body).to include(not_redacted.id)
@@ -175,11 +175,11 @@ RSpec.describe "Admin::Imports", type: :request do
 
           admin = create(:admin, :converter)
           redacted = create(:imports_pdf, :with_redacted_pdf)
-          not_redacted = create(:imports_pdf)
+          not_redacted = create(:imports_pdf, status: :completed, public_document: false)
 
           sign_in admin
 
-          get admin_imports_path(search: "not_redacted:")
+          get admin_imports_path(search: "needs_redaction:")
 
           expect(response).to be_successful
           expect(response.body).to include(not_redacted.id)

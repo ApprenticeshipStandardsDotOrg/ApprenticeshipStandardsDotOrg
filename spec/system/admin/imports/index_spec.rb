@@ -75,38 +75,42 @@ RSpec.describe "admin/imports/index", :admin do
       admin = create(:admin)
       create(:imports_uncategorized)
       create(:imports_pdf, :with_redacted_pdf, status: :pending)
-      create(:imports_pdf, status: :needs_support)
+      create(:imports_pdf, status: :completed, public_document: false)
+      create(:imports_pdf, status: :needs_backend_support, public_document: true)
 
       login_as admin
       visit admin_imports_path
 
       expect(page).to have_content("Imports::Uncategorized")
-      expect(page).to have_content("Imports::Pdf").twice
+      expect(page).to have_content("Imports::Pdf").thrice
 
       expect(page).to have_button "Filter by:"
       click_on "Filter by"
       click_on "Needs Redaction"
 
-      expect(page).to have_text "needs_support"
+      expect(page).to have_text "completed"
       expect(page).to_not have_text "pending"
+      expect(page).to_not have_text "needs_backend_support"
       expect(page).to_not have_content("Imports::Uncategorized")
       expect(page).to have_content("Imports::Pdf").once
 
       click_on "Filter by"
       click_on "Redacted"
 
-      expect(page).to_not have_text "needs_support"
+      expect(page).to_not have_text "completed"
       expect(page).to have_text "pending"
+      expect(page).to_not have_text "needs_backend_support"
       expect(page).to_not have_content("Imports::Uncategorized")
       expect(page).to have_content("Imports::Pdf").once
 
       click_on "Filter by"
       click_on "Show All"
 
-      expect(page).to have_text "needs_support"
+      expect(page).to have_text "completed"
       expect(page).to have_text "pending"
+      expect(page).to have_text "needs_backend_support"
       expect(page).to have_content("Imports::Uncategorized")
-      expect(page).to have_content("Imports::Pdf").twice
+      expect(page).to have_content("Imports::Pdf").thrice
 
       stub_feature_flag(:show_imports_in_administrate, false)
     end
@@ -117,7 +121,7 @@ RSpec.describe "admin/imports/index", :admin do
       admin = create(:admin)
       source_file = create(:source_file)
       uncat = create(:imports_uncategorized, source_file: source_file, status: "unfurled")
-      create(:imports_pdf, parent: uncat, status: "pending", created_at: 1.day.ago) # inaccurately set the created_at date so we can easily Destroy the uncat record
+      create(:imports_pdf, parent: uncat, status: "pending", created_at: 1.day.ago) # inaccurately set the created_at date so we can easily Destroy the uncat record by matching on the first record
 
       login_as admin
       visit admin_imports_path
@@ -166,7 +170,8 @@ RSpec.describe "admin/imports/index", :admin do
 
       admin = create(:admin, :converter)
       create(:imports_pdf, :with_redacted_pdf, status: :pending)
-      create(:imports_pdf, status: :needs_support)
+      create(:imports_pdf, status: :completed)
+      create(:imports_pdf, status: :needs_backend_support, public_document: true)
 
       login_as admin
       visit admin_imports_path
@@ -175,20 +180,23 @@ RSpec.describe "admin/imports/index", :admin do
       click_on "Filter by"
       click_on "Needs Redaction"
 
-      expect(page).to have_text "needs_support"
+      expect(page).to have_text "completed"
       expect(page).to_not have_text "pending"
+      expect(page).to_not have_text "needs_backend_support"
 
       click_on "Filter by"
       click_on "Redacted"
 
-      expect(page).to_not have_text "needs_support"
+      expect(page).to_not have_text "completed"
       expect(page).to have_text "pending"
+      expect(page).to_not have_text "needs_backend_support"
 
       click_on "Filter by"
       click_on "Show All"
 
-      expect(page).to have_text "needs_support"
+      expect(page).to have_text "completed"
       expect(page).to have_text "pending"
+      expect(page).to have_text "needs_backend_support"
 
       stub_feature_flag(:show_imports_in_administrate, false)
     end
