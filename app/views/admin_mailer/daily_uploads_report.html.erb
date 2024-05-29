@@ -6,7 +6,12 @@
       <%= link_to "Public", occupation_standard_url(data_import.occupation_standard, host: ENV.fetch("PUBLIC_DOMAIN", Rails.application.config.action_mailer.default_url_options[:host])) %> |
       <%= link_to "Admin", admin_occupation_standard_url(data_import.occupation_standard) %> |
       <%= link_to "Data Import", admin_data_import_url(data_import) %> |
-      <%= link_to "Source File", admin_source_file_url(data_import.source_file) %> <br> <br>
+      <% if Flipper.enabled?(:show_imports_in_administrate) %>
+        <%= link_to "Source File", admin_import_url(data_import.import) %>
+      <% else %>
+        <%= link_to "Source File", admin_source_file_url(data_import.source_file) %>
+      <% end %>
+      <br> <br>
 
       <%= render "daily_uploads_report_field", label: "Competencies count", value: data_import.occupation_standard.competencies_count %>
       <%= render "daily_uploads_report_field", label: "OJT hours min", value: data_import.occupation_standard.ojt_hours_min %>
