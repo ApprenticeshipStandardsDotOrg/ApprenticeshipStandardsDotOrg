@@ -143,7 +143,7 @@ RSpec.describe "admin/imports/index", :admin do
       admin = create(:admin, :converter)
       create(:imports_uncategorized)
       create(:imports_docx_listing)
-      pdf = create(:imports_pdf)
+      pdf = create(:imports_pdf, status: :completed)
 
       login_as admin
       visit admin_imports_path
@@ -156,7 +156,7 @@ RSpec.describe "admin/imports/index", :admin do
       expect(page).to_not have_text "Destroy"
 
       click_on "Imports::Pdf", match: :first
-      expect(page).to have_text "Imports::Uncategorized" # parent
+      expect(page).to have_text "completed"
 
       stub_feature_flag(:show_imports_in_administrate, false)
     end
