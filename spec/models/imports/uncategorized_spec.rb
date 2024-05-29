@@ -3,6 +3,21 @@ require "rails_helper"
 RSpec.describe Imports::Uncategorized, type: :model do
   it_behaves_like "an imported file"
 
+  describe ".needs_unfurling" do
+    it "returns unfurled records that were created more than a day ago" do
+      match_records = [
+        create(:imports_uncategorized, status: :unfurled, created_at: 2.days.ago),
+        create(:imports_docx, status: :unfurled, created_at: 26.hours.ago),
+        create(:imports_doc, status: :unfurled, created_at: 1.week.ago)
+      ]
+      create(:imports_uncategorized, status: :unfurled, created_at: 23.hours.ago)
+      create(:imports_docx, status: :unfurled)
+      create(:imports_doc, status: :archived, created_at: 1.week.ago)
+
+      expect(Import.needs_unfurling).to match_array match_records
+    end
+  end
+
   describe "#process" do
     it "detects Docx listings" do
       allow_any_instance_of(Imports::DocxListing).to receive(:process).with(hash_including(listing: false))

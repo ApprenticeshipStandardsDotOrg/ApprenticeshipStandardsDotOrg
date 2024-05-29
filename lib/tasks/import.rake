@@ -7,7 +7,7 @@ namespace :import do
       Imports::Uncategorized
     ].each do |model|
       puts "Processing unfurled #{model} records"
-      model.unfurled.find_each.with_index do |import, index|
+      model.needs_unfurling.find_each.with_index do |import, index|
         import.process
         rest(index)
       rescue
