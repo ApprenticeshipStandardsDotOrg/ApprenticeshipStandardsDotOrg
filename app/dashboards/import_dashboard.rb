@@ -54,8 +54,9 @@ class ImportDashboard < Administrate::BaseDashboard
     id
     type
     file
-    assignee
+    data_imports
     status
+    assignee
     metadata
     public_document
     redacted_pdf
@@ -66,7 +67,6 @@ class ImportDashboard < Administrate::BaseDashboard
     parent
     import
     imports
-    data_imports
     associated_occupation_standards
     created_at
     updated_at

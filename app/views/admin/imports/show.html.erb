@@ -68,6 +68,7 @@
           <% next if attribute.name.match?("redacted") && !page.resource.is_a?(Imports::Pdf) %>
           <% next if attribute.name == "import" && (page.resource.is_a?(Imports::Pdf) || page.resource.is_a?(Imports::DocxListing)) %>
           <% next if attribute.name == "imports" && !page.resource.is_a?(Imports::DocxListing) %>
+          <% next if %w[courtesy_notification parent child associated_occupation_standards type].include?(attribute.name) && current_user.converter? %>
           <dt class="attribute-label" id="<%= attribute.name %>">
             <%= t(
                   "helpers.label.#{resource_name}.#{attribute.name}",
