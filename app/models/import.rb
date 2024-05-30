@@ -27,6 +27,8 @@ class Import < ApplicationRecord
     :completed
   ], _prefix: true
 
+  scope :needs_unfurling, -> { unfurled.where("created_at < ?", 1.day.ago) }
+
   def filename
     file.blob.filename.to_s
   end
