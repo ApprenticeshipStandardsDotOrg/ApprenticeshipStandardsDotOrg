@@ -54,7 +54,7 @@ gem "after_party"
 gem "sidekiq", "~> 7"
 gem "watir", "~> 7.3"
 gem "docx"
-gem "administrate"
+gem "administrate", "~> 1.0.0beta1"
 gem "administrate-field-active_storage"
 gem "administrate-field-jsonb"
 gem "pundit"
@@ -87,7 +87,7 @@ gem "sablon" # Word document templating tool
 gem "ruby-ole"
 
 # Use Sass to process CSS
-# gem "sassc-rails"
+gem "sassc-rails"
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
