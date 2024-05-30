@@ -32,7 +32,10 @@ module Admin
     private
 
     def resource_params
-      super.permit(policy(requested_resource).permitted_attributes)
+      params.require(requested_resource.class.model_name.param_key)
+        .permit(dashboard.permitted_attributes(action_name))
+        .transform_values { |v| read_param_value(v) }
+        .permit(policy(requested_resource).permitted_attributes)
     end
 
     def after_resource_updated_path(resource)

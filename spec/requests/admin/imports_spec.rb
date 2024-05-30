@@ -359,7 +359,7 @@ RSpec.describe "Admin::Imports", type: :request do
 
           sign_in admin
           patch admin_import_path(import), params: {
-            import: {
+            imports_uncategorized: {
               status: "archived"
             }
           }
@@ -381,7 +381,7 @@ RSpec.describe "Admin::Imports", type: :request do
 
           sign_in admin
           patch admin_import_path(import), params: {
-            import: {
+            imports_pdf: {
               status: "needs_support",
               assignee_id: assignee.id,
               metadata: {foo: "bob"}.to_json
@@ -406,7 +406,7 @@ RSpec.describe "Admin::Imports", type: :request do
 
           sign_in admin
           patch admin_import_path(import), params: {
-            import: {
+            imports_pdf: {
               status: "completed",
               assignee_id: assignee.id
             },
