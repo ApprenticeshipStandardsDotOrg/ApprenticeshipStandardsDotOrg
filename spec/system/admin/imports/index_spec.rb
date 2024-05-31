@@ -165,6 +165,20 @@ RSpec.describe "admin/imports/index", :admin do
       stub_feature_flag(:show_imports_in_administrate, false)
     end
 
+    it "does not allow user to claim archived files" do
+      stub_feature_flag(:show_imports_in_administrate, true)
+
+      admin = create(:admin, :converter)
+      create(:imports_pdf, status: :archived)
+
+      login_as admin
+      visit admin_imports_path
+
+      expect(page).to_not have_button "Claim"
+
+      stub_feature_flag(:show_imports_in_administrate, false)
+    end
+
     it "allows filtering by redaction status" do
       stub_feature_flag(:show_imports_in_administrate, true)
 
