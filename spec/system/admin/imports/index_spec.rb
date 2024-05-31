@@ -218,7 +218,7 @@ RSpec.describe "admin/imports/index", :admin do
     it "can claim an import" do
       stub_feature_flag(:show_imports_in_administrate, true)
 
-      create(:imports_pdf)
+      import = create(:imports_pdf, status: :pending)
       admin = create(:user, :converter, name: "Amy Applebaum")
 
       login_as admin
@@ -230,6 +230,7 @@ RSpec.describe "admin/imports/index", :admin do
 
       expect(page).to have_text "Amy Applebaum"
       expect(page).to_not have_button "Claim"
+      expect(import.reload.assignee).to eq admin
 
       stub_feature_flag(:show_imports_in_administrate, false)
     end
