@@ -9,7 +9,7 @@
   <% end %>
 <% else %>
   <% if Flipper.enabled?(:show_imports_in_administrate) %>
-    <% if field.resource.is_a?(Imports::Pdf) %>
+    <% if field.resource.is_a?(Imports::Pdf) && !field.resource.archived? %>
       <%= button_to "Claim",
             admin_import_path(field.resource),
             params: {
