@@ -8,6 +8,8 @@ class ImportOccupationStandardRelatedInstruction
   end
 
   def call
+    remove_existing_related_instructions(occupation_standard)
+
     data_import.file.open do |file|
       xlsx = Roo::Spreadsheet.open(file, extension: :xlsx)
       sheet = xlsx.sheet(2)
@@ -33,6 +35,14 @@ class ImportOccupationStandardRelatedInstruction
         related_instruction.hours = row["Course Hours"]
         related_instruction.save!
       end
+    end
+  end
+
+  private
+
+  def remove_existing_related_instructions(occupation_standard)
+    if occupation_standard.persisted?
+      occupation_standard.related_instructions.destroy_all
     end
   end
 end

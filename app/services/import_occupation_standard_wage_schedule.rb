@@ -8,6 +8,8 @@ class ImportOccupationStandardWageSchedule
   end
 
   def call
+    remove_existing_wage_steps(occupation_standard)
+
     data_import.file.open do |file|
       xlsx = Roo::Spreadsheet.open(file, extension: :xlsx)
       sheet = xlsx.sheet(3)
@@ -28,6 +30,14 @@ class ImportOccupationStandardWageSchedule
           rsi_hours: row["Step RSI Hours"]
         )
       end
+    end
+  end
+
+  private
+
+  def remove_existing_wage_steps(occupation_standard)
+    if occupation_standard.persisted?
+      occupation_standard.wage_steps.destroy_all
     end
   end
 end

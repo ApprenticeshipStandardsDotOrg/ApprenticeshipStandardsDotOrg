@@ -15,8 +15,6 @@ class ImportOccupationStandardDetails
       occupation_standard = build_or_retrieve_occupation_standard
       data_import.occupation_standard = occupation_standard
 
-      remove_existing_associations(occupation_standard)
-
       occupation_standard.assign_attributes(
         occupation: occupation,
         national_standard_type: national_standard_type,
@@ -113,14 +111,6 @@ class ImportOccupationStandardDetails
       if onet
         Occupation.find_by(onet: onet)
       end
-    end
-  end
-
-  def remove_existing_associations(occupation_standard)
-    if occupation_standard.persisted?
-      occupation_standard.related_instructions.destroy_all
-      occupation_standard.wage_steps.destroy_all
-      occupation_standard.work_processes.destroy_all
     end
   end
 

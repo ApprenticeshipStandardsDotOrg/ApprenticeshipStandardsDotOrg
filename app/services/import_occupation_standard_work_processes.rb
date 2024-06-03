@@ -8,6 +8,8 @@ class ImportOccupationStandardWorkProcesses
   end
 
   def call
+    remove_existing_work_processes(occupation_standard)
+
     data_import.file.open do |file|
       xlsx = Roo::Spreadsheet.open(file, extension: :xlsx)
       sheet = xlsx.sheet(1)
@@ -35,6 +37,12 @@ class ImportOccupationStandardWorkProcesses
   end
 
   private
+
+  def remove_existing_work_processes(occupation_standard)
+    if occupation_standard.persisted?
+      occupation_standard.work_processes.destroy_all
+    end
+  end
 
   def create_or_update_competency(row, work_process)
     Competency.find_or_initialize_by(
