@@ -40,10 +40,10 @@ RSpec.describe ProcessDataImportJob, type: :job do
       create(:registration_agency, for_state_abbreviation: "CA", agency_type: :oa)
       data_import = create(:data_import)
       occupation_standard = data_import.occupation_standard
-      create(:related_instruction, occupation_standard: occupation_standard, sort_order: 99)
-      create(:wage_step, occupation_standard: occupation_standard, sort_order: 99)
+      related_instr = create(:related_instruction, occupation_standard: occupation_standard, sort_order: 99)
+      wage_step = create(:wage_step, occupation_standard: occupation_standard, sort_order: 99)
       work_process = create(:work_process, occupation_standard: occupation_standard, sort_order: 99)
-      create(:competency, work_process: work_process)
+      skill = create(:competency, work_process: work_process)
       create(:industry, prefix: "13")
 
       occupation_standard.reload
@@ -57,6 +57,11 @@ RSpec.describe ProcessDataImportJob, type: :job do
         expect(occupation_standard.work_processes.count).to eq 2
         expect(Competency.count).to eq 0
       end
+
+      expect{related_instr.reload}.to raise_error(ActiveRecord::RecordNotFound)
+      expect{wage_step.reload}.to raise_error(ActiveRecord::RecordNotFound)
+      expect{work_process.reload}.to raise_error(ActiveRecord::RecordNotFound)
+      expect{skill.reload}.to raise_error(ActiveRecord::RecordNotFound)
     end
 
     it "with import flag off: marks the associated source file as complete if last_file is true, marks the occupation standard as in_review, and marks data_import as completed" do
