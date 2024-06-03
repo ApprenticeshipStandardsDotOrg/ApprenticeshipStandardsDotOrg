@@ -64,6 +64,34 @@ RSpec.describe ProcessDataImportJob, type: :job do
       expect{skill.reload}.to raise_error(ActiveRecord::RecordNotFound)
     end
 
+    it "uses linked occupation_standard if details tab is empty, and does not delete existing work processes if work processes tab is empty" do
+      create(:registration_agency, for_state_abbreviation: "CA", agency_type: :oa)
+      data_import = create(:data_import, :post_rapids_api)
+      occupation_standard = data_import.occupation_standard
+      related_instr = create(:related_instruction, occupation_standard: occupation_standard, sort_order: 99)
+      wage_step = create(:wage_step, occupation_standard: occupation_standard, sort_order: 99)
+      work_process = create(:work_process, occupation_standard: occupation_standard, sort_order: 99)
+      skill = create(:competency, work_process: work_process)
+      create(:industry, prefix: "13")
+
+      occupation_standard.reload
+
+      described_class.new.perform(data_import: data_import)
+
+      occupation_standard.reload
+      aggregate_failures do
+        expect(occupation_standard.related_instructions.count).to eq 4
+        expect(occupation_standard.wage_steps.count).to eq 3
+        expect(occupation_standard.work_processes.count).to eq 1
+        expect(Competency.count).to eq 1
+      end
+
+      expect(work_process.reload).to be
+      expect(skill.reload).to be
+      expect{related_instr.reload}.to raise_error(ActiveRecord::RecordNotFound)
+      expect{wage_step.reload}.to raise_error(ActiveRecord::RecordNotFound)
+    end
+
     it "with import flag off: marks the associated source file as complete if last_file is true, marks the occupation standard as in_review, and marks data_import as completed" do
       create(:registration_agency, for_state_abbreviation: "CA", agency_type: :oa)
       data_import = create(:data_import, :pending)

@@ -23,6 +23,10 @@ FactoryBot.define do
       file { Rack::Test::UploadedFile.new(Rails.root.join("spec", "fixtures", "files", "occupation-standards-no-onet-template.xlsx"), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") }
     end
 
+    trait :post_rapids_api do
+    file { Rack::Test::UploadedFile.new(Rails.root.join("spec", "fixtures", "files", "occupation-standards-post-rapids-api-template.xlsx"), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") }
+    end
+
     trait :national_program_standard do
       file { Rack::Test::UploadedFile.new(Rails.root.join("spec", "fixtures", "files", "occupation-standards-national-program-standards-template.xlsx"), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") }
     end
