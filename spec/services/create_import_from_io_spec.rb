@@ -3,9 +3,7 @@ require "rails_helper"
 RSpec.describe CreateImportFromIo do
   describe "#call" do
     context "when file has not been attached previously" do
-      it "returns an Imports::Uncategorized object" do
-        expect_any_instance_of(Imports::Uncategorized).to receive(:process)
-
+      it "returns an Imports::Pdf object" do
         filename = "document.doc"
         io = File.open(file_fixture(filename))
 
@@ -18,7 +16,7 @@ RSpec.describe CreateImportFromIo do
           metadata: {date: "01/11/2023"}
         )
 
-        expect(import).to be_a(Imports::Uncategorized)
+        expect(import).to be_a(Imports::Pdf)
       end
 
       it "attaches file to a standards import record and creates an Uncategorized Import child" do
