@@ -274,9 +274,7 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
         it "attaches the document" do
           stub_get_token!
 
-          allow(ConvertDocToPdf).to receive(:call).and_return(
-            Rails.root.join("spec", "fixtures", "files", "pixel1x1.pdf")
-          )
+          allow(ConvertDocToPdf).to receive(:call).and_return(file_fixture("pixel1x1.pdf"))
           create(:registration_agency, for_state_abbreviation: "MI", agency_type: :oa)
 
           occupation_standard_response = create_list(
