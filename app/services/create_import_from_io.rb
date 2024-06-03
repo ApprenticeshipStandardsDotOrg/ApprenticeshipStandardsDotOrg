@@ -37,7 +37,9 @@ class CreateImportFromIo
       import.file.attach(io: io, filename: filename)
       standards_import.files.attach(import.file_blob)
 
-      import.process(listing: listing)
+      import.tap do |import|
+        import.process(listing: listing)
+      end
     end
   end
 

@@ -3,6 +3,24 @@ require "rails_helper"
 RSpec.describe CreateImportFromIo do
   describe "#call" do
     context "when file has not been attached previously" do
+      it "returns an Imports::Uncategorized object" do
+        expect_any_instance_of(Imports::Uncategorized).to receive(:process)
+
+        filename = "document.doc"
+        io = File.open(file_fixture(filename))
+
+        import = described_class.call(
+          io: io,
+          filename: filename,
+          title: "Specialist",
+          notes: "Some notes",
+          source: "Some source URL",
+          metadata: {date: "01/11/2023"}
+        )
+
+        expect(import).to be_a(Imports::Uncategorized)
+      end
+
       it "attaches file to a standards import record and creates an Uncategorized Import child" do
         expect_any_instance_of(Imports::Uncategorized).to receive(:process)
 
@@ -43,6 +61,27 @@ RSpec.describe CreateImportFromIo do
   end
 
   context "when file has been attached previously" do
+    it "returns nil" do
+      filename = "document.doc"
+      io = File.open(file_fixture(filename))
+
+      create(:standards_import,
+        :with_files,
+        name: "document.doc",
+        organization: "Specialist")
+
+      result = described_class.call(
+        io: io,
+        filename: filename,
+        title: "Specialist",
+        notes: "Some notes",
+        source: "Some source URL",
+        metadata: {date: "01/11/2023"}
+      )
+
+      expect(result).to be_nil
+    end
+
     it "does not create new StandardsImport or Import record" do
       filename = "document.doc"
       io = File.open(file_fixture(filename))
