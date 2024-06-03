@@ -1,13 +1,12 @@
 class DataImport < ApplicationRecord
   has_one_attached :file
 
-  belongs_to :user
+  belongs_to :user, optional: true
   belongs_to :source_file, optional: true
   belongs_to :import, class_name: "Imports::Pdf", foreign_key: :import_id, optional: true
 
   belongs_to :occupation_standard, optional: true
 
-  validate :file_presence
   validate :file_mime_type
 
   delegate :title, to: :occupation_standard, prefix: true, allow_nil: true
@@ -45,12 +44,6 @@ class DataImport < ApplicationRecord
   end
 
   private
-
-  def file_presence
-    unless file.attached?
-      errors.add(:file, "must be attached")
-    end
-  end
 
   def file_mime_type
     if file.content_type && !file.content_type.in?(ACCEPTED_CONTENT_TYPES)
