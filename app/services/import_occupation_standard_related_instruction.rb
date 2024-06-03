@@ -1,6 +1,4 @@
 class ImportOccupationStandardRelatedInstruction
-  attr_reader :occupation_standard, :data_import, :row
-
   def initialize(occupation_standard:, data_import:)
     @occupation_standard = occupation_standard
     @data_import = data_import
@@ -8,7 +6,7 @@ class ImportOccupationStandardRelatedInstruction
   end
 
   def call
-    remove_existing_related_instructions(occupation_standard)
+    remove_existing_related_instructions
 
     data_import.file.open do |file|
       xlsx = Roo::Spreadsheet.open(file, extension: :xlsx)
@@ -40,7 +38,9 @@ class ImportOccupationStandardRelatedInstruction
 
   private
 
-  def remove_existing_related_instructions(occupation_standard)
+  attr_reader :occupation_standard, :data_import, :row
+
+  def remove_existing_related_instructions
     if occupation_standard.persisted?
       occupation_standard.related_instructions.destroy_all
     end

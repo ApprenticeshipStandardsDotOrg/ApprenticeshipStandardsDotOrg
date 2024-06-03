@@ -1,6 +1,4 @@
 class ImportOccupationStandardDetails
-  attr_reader :data_import, :row
-
   def initialize(data_import)
     @data_import = data_import
     @row = nil
@@ -45,6 +43,8 @@ class ImportOccupationStandardDetails
   end
 
   private
+
+  attr_reader :data_import, :row
 
   def build_or_retrieve_occupation_standard
     data_import.occupation_standard ||

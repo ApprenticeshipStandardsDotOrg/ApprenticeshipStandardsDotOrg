@@ -1,6 +1,4 @@
 class ImportOccupationStandardWorkProcesses
-  attr_reader :occupation_standard, :data_import, :row
-
   def initialize(occupation_standard:, data_import:)
     @occupation_standard = occupation_standard
     @data_import = data_import
@@ -8,7 +6,7 @@ class ImportOccupationStandardWorkProcesses
   end
 
   def call
-    remove_existing_work_processes(occupation_standard)
+    remove_existing_work_processes
 
     data_import.file.open do |file|
       xlsx = Roo::Spreadsheet.open(file, extension: :xlsx)
@@ -38,7 +36,9 @@ class ImportOccupationStandardWorkProcesses
 
   private
 
-  def remove_existing_work_processes(occupation_standard)
+  attr_reader :occupation_standard, :data_import, :row
+
+  def remove_existing_work_processes
     if occupation_standard.persisted?
       occupation_standard.work_processes.destroy_all
     end
