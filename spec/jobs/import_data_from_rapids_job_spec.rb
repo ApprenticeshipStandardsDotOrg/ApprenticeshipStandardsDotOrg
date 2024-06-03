@@ -292,9 +292,7 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
             rapids_response
           )
 
-          document = File.read(Rails.root.join(
-            "spec", "fixtures", "files", "document.docx"
-          ))
+          document = file_fixture("document.docx").read
 
           stub_documents_response("123456", document)
 
