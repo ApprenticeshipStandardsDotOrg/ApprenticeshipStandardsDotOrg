@@ -30,7 +30,7 @@ class Import < ApplicationRecord
   scope :needs_unfurling, -> { unfurled.where("created_at < ?", 1.day.ago) }
 
   def filename
-    file.blob.filename.to_s
+    file&.blob&.filename.to_s
   end
 
   def redacted_pdf

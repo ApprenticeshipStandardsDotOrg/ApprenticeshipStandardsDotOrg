@@ -200,4 +200,18 @@ RSpec.describe Imports::Uncategorized, type: :model do
       expect(uncat.transfer_source_file_data!).to be_nil
     end
   end
+
+  describe "#filename" do
+    it "returns filename if file attached" do
+      import = create(:imports_uncategorized)
+
+      expect(import.filename).to eq "pixel1x1.pdf"
+    end
+
+    it "returns empty string if no file attached" do
+      import = create(:imports_uncategorized, file: nil)
+
+      expect(import.filename).to be_blank
+    end
+  end
 end
