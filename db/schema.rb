@@ -281,7 +281,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_03_231520) do
     t.boolean "public_document", default: false, null: false
     t.string "source_url"
     t.integer "courtesy_notification", default: 0
-    t.boolean "bulletin", default: false, null: false
     t.jsonb "metadata", default: {}, null: false
   end
 

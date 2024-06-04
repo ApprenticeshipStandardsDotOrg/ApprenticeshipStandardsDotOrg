@@ -44,27 +44,6 @@ class StandardsImport < ApplicationRecord
     end
   end
 
-  def clean_up_unprocessed_bulletin!
-    if bulletin?
-      uncompleted_source_files = source_files.select { |sf| !sf.completed? && sf.data_imports.empty? }
-      if source_files.count == uncompleted_source_files.count
-        files.order(:created_at).each_with_index do |file, index|
-          next if index.zero?
-
-          begin
-            file.destroy!
-          rescue ActiveRecord::InvalidForeignKey
-            source_file = file.source_file
-            source_file.converted_source_file.destroy!
-            file.destroy!
-          end
-        end
-
-        update!(bulletin: false)
-      end
-    end
-  end
-
   def has_notified_uploader_of_all_conversions?
     source_files.count == source_files.count { |source_file| source_file.courtesy_notification_completed? }
   end

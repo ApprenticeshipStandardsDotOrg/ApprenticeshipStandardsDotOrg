@@ -3,7 +3,6 @@ require "administrate/base_dashboard"
 class StandardsImportDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     id: Field::String,
-    bulletin: Field::Boolean,
     email: Field::String,
     name: Field::String,
     notes: Field::Text,
@@ -20,7 +19,6 @@ class StandardsImportDashboard < Administrate::BaseDashboard
     created_at
     name
     organization
-    bulletin
   ].freeze
 
   SHOW_PAGE_ATTRIBUTES = %i[
@@ -30,7 +28,6 @@ class StandardsImportDashboard < Administrate::BaseDashboard
     name
     notes
     organization
-    bulletin
     courtesy_notification
     imports
     created_at
@@ -43,7 +40,6 @@ class StandardsImportDashboard < Administrate::BaseDashboard
     organization
     notes
     files
-    bulletin
     courtesy_notification
   ].freeze
 
