@@ -71,7 +71,7 @@ RSpec.describe "StandardsImports", type: :request do
             }
           }.to change(StandardsImport, :count).by(1)
             .and change(ActiveStorage::Attachment, :count).by(4)
-            .and change(ActiveStorage::Blob, :count).by(4)
+            .and change(ActiveStorage::Blob, :count).by(2)
             .and change(Imports::Uncategorized, :count).by(2)
 
           si = StandardsImport.last
@@ -161,7 +161,7 @@ RSpec.describe "StandardsImports", type: :request do
             }
           }.to change(StandardsImport, :count).by(1)
             .and change(ActiveStorage::Attachment, :count).by(2)
-            .and change(ActiveStorage::Blob, :count).by(2)
+            .and change(ActiveStorage::Blob, :count).by(1)
             .and change(Imports::Uncategorized, :count).by(1)
 
           si = StandardsImport.last
@@ -239,6 +239,7 @@ RSpec.describe "StandardsImports", type: :request do
     context "with invalid parameters" do
       it "does not create new standards import record and renders new" do
         stub_feature_flag(:recaptcha, true)
+        stub_feature_flag(:show_imports_in_administrate, true)
         stub_recaptcha_high_score
 
         expect {
@@ -253,6 +254,9 @@ RSpec.describe "StandardsImports", type: :request do
         }.to_not change(StandardsImport, :count)
 
         expect(response).to have_http_status(:unprocessable_entity)
+
+        stub_feature_flag(:recaptcha, false)
+        stub_feature_flag(:show_imports_in_administrate, false)
       end
     end
   end
