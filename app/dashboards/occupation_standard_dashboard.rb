@@ -32,6 +32,7 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
   }.freeze
 
   COLLECTION_ATTRIBUTES = %i[
+    created_at
     title
     occupation
     registration_agency
