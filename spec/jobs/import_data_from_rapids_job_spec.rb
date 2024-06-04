@@ -273,6 +273,8 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
       context "when response has a document" do
         it "attaches the document" do
           stub_get_token!
+
+          allow(ConvertDocToPdf).to receive(:call).and_return(file_fixture("pixel1x1.pdf"))
           create(:registration_agency, for_state_abbreviation: "MI", agency_type: :oa)
 
           occupation_standard_response = create_list(
@@ -292,19 +294,24 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
             rapids_response
           )
 
-          document = File.read(Rails.root.join(
-            "spec", "fixtures", "files", "document.docx"
-          ))
+          document = file_fixture("document.docx").read
 
           stub_documents_response("123456", document)
 
           expect {
             described_class.perform_now
           }.to change(OccupationStandard, :count).by(1)
+            .and change(StandardsImport, :count).by(1)
+            .and change(Imports::Uncategorized, :count).by(1)
+            .and change(Imports::Docx, :count).by(1)
+            .and change(Imports::Pdf, :count).by(1)
+            .and change(DataImport, :count).by(1)
 
           occupation_standard = OccupationStandard.last
+          pdf = Imports::Pdf.last
 
-          expect(occupation_standard.redacted_document).to be_attached
+          expect(occupation_standard.redacted_document).to_not be_attached
+          expect(pdf.associated_occupation_standards).to include(occupation_standard)
         end
       end
 
@@ -335,6 +342,11 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
           expect {
             described_class.perform_now
           }.to change(OccupationStandard, :count).by(1)
+            .and change(StandardsImport, :count).by(0)
+            .and change(Imports::Uncategorized, :count).by(0)
+            .and change(Imports::Docx, :count).by(0)
+            .and change(Imports::Pdf, :count).by(0)
+            .and change(DataImport, :count).by(0)
 
           occupation_standard = OccupationStandard.last
 

@@ -50,9 +50,14 @@ class ImportDataFromRAPIDSJob < ApplicationJob
       document = fetch_document_response(occupation_standard.external_id)
       if document
         attachment = convert_response_to_attachment(document)
-        occupation_standard.redacted_document.attach(
-          io: attachment, filename: "#{occupation_standard.external_id}.docx"
+        pdf = CreateImportFromIo.call(
+          io: attachment,
+          filename: "#{occupation_standard.external_id}.docx",
+          title: "RAPIDSAPI",
+          source: "RAPIDSAPI"
         )
+
+        pdf&.data_imports&.create!(occupation_standard: occupation_standard)
       end
       occupation_standard.save
     end

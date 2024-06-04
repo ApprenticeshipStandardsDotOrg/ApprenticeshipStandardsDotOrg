@@ -7,12 +7,6 @@ RSpec.describe DataImport, type: :model do
     expect(data_import).to be_valid
   end
 
-  it "requires a file attachment" do
-    data_import = build(:data_import, file: nil)
-
-    expect(data_import).to_not be_valid
-  end
-
   describe ".recent_uploads" do
     it "returns records created the day before by default" do
       travel_to(Time.zone.local(2023, 6, 15)) do

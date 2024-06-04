@@ -1,6 +1,4 @@
 class ImportOccupationStandardDetails
-  attr_reader :data_import, :row
-
   def initialize(data_import)
     @data_import = data_import
     @row = nil
@@ -15,38 +13,40 @@ class ImportOccupationStandardDetails
       occupation_standard = build_or_retrieve_occupation_standard
       data_import.occupation_standard = occupation_standard
 
-      remove_existing_associations(occupation_standard)
-
-      occupation_standard.assign_attributes(
-        occupation: occupation,
-        national_standard_type: national_standard_type,
-        registration_agency: registration_agency,
-        title: row["Occupation Title"],
-        existing_title: row["Existing Title"],
-        term_months: row["Term (in months)"],
-        onet_code: onet_code,
-        industry: industry,
-        rapids_code: rapids_code,
-        ojt_type: ojt_type,
-        probationary_period_months: row["Probationary Period"],
-        apprenticeship_to_journeyworker_ratio: row["Ratio of Apprentice to Journeyworker"],
-        organization: organization,
-        ojt_hours_min: row["Minimum OJT Hours"],
-        ojt_hours_max: row["Maximum OJT Hours"],
-        rsi_hours_min: row["Minimum RSI Hours"],
-        rsi_hours_max: row["Maximum RSI Hours"],
-        registration_date: parse_date(row["Registration Date"]),
-        latest_update_date: parse_date(row["Latest Registration Update"])
-      )
-      DataImport.transaction do
-        data_import.save!
-        occupation_standard.save!
+      if row
+        occupation_standard.assign_attributes(
+          occupation: occupation,
+          national_standard_type: national_standard_type,
+          registration_agency: registration_agency,
+          title: row["Occupation Title"],
+          existing_title: row["Existing Title"],
+          term_months: row["Term (in months)"],
+          onet_code: onet_code,
+          industry: industry,
+          rapids_code: rapids_code,
+          ojt_type: ojt_type,
+          probationary_period_months: row["Probationary Period"],
+          apprenticeship_to_journeyworker_ratio: row["Ratio of Apprentice to Journeyworker"],
+          organization: organization,
+          ojt_hours_min: row["Minimum OJT Hours"],
+          ojt_hours_max: row["Maximum OJT Hours"],
+          rsi_hours_min: row["Minimum RSI Hours"],
+          rsi_hours_max: row["Maximum RSI Hours"],
+          registration_date: parse_date(row["Registration Date"]),
+          latest_update_date: parse_date(row["Latest Registration Update"])
+        )
+        DataImport.transaction do
+          data_import.save!
+          occupation_standard.save!
+        end
       end
       occupation_standard
     end
   end
 
   private
+
+  attr_reader :data_import, :row
 
   def build_or_retrieve_occupation_standard
     data_import.occupation_standard ||
@@ -113,14 +113,6 @@ class ImportOccupationStandardDetails
       if onet
         Occupation.find_by(onet: onet)
       end
-    end
-  end
-
-  def remove_existing_associations(occupation_standard)
-    if occupation_standard.persisted?
-      occupation_standard.related_instructions.destroy_all
-      occupation_standard.wage_steps.destroy_all
-      occupation_standard.work_processes.destroy_all
     end
   end
 
