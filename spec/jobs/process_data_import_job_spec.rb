@@ -58,10 +58,10 @@ RSpec.describe ProcessDataImportJob, type: :job do
         expect(Competency.count).to eq 0
       end
 
-      expect{related_instr.reload}.to raise_error(ActiveRecord::RecordNotFound)
-      expect{wage_step.reload}.to raise_error(ActiveRecord::RecordNotFound)
-      expect{work_process.reload}.to raise_error(ActiveRecord::RecordNotFound)
-      expect{skill.reload}.to raise_error(ActiveRecord::RecordNotFound)
+      expect { related_instr.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      expect { wage_step.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      expect { work_process.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      expect { skill.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
     it "uses linked occupation_standard if details tab is empty, and does not delete existing work processes if work processes tab is empty" do
@@ -88,8 +88,8 @@ RSpec.describe ProcessDataImportJob, type: :job do
 
       expect(work_process.reload).to be
       expect(skill.reload).to be
-      expect{related_instr.reload}.to raise_error(ActiveRecord::RecordNotFound)
-      expect{wage_step.reload}.to raise_error(ActiveRecord::RecordNotFound)
+      expect { related_instr.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      expect { wage_step.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
     it "with import flag off: marks the associated source file as complete if last_file is true, marks the occupation standard as in_review, and marks data_import as completed" do

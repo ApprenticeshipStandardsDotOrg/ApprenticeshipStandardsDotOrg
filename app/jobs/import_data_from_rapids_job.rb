@@ -57,9 +57,7 @@ class ImportDataFromRAPIDSJob < ApplicationJob
           source: "RAPIDSAPI"
         )
 
-        if pdf
-          pdf.data_imports.create!(occupation_standard: occupation_standard)
-        end
+        pdf&.data_imports&.create!(occupation_standard: occupation_standard)
       end
       occupation_standard.save
     end

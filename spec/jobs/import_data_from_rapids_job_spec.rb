@@ -308,7 +308,6 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
             .and change(DataImport, :count).by(1)
 
           occupation_standard = OccupationStandard.last
-          data_import = DataImport.last
           pdf = Imports::Pdf.last
 
           expect(occupation_standard.redacted_document).to_not be_attached
