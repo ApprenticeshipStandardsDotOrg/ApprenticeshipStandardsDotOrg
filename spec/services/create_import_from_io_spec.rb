@@ -4,6 +4,8 @@ RSpec.describe CreateImportFromIo do
   describe "#call" do
     context "when file has not been attached previously" do
       it "returns an Imports::Pdf object" do
+        allow(ConvertDocToPdf).to receive(:call).and_return(file_fixture("pixel1x1.pdf"))
+
         filename = "document.doc"
         io = File.open(file_fixture(filename))
 
