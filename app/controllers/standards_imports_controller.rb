@@ -60,7 +60,7 @@ class StandardsImportsController < ApplicationController
       @standards_import.files.each do |file|
         @standards_import.imports.build(
           type: "Imports::Uncategorized",
-          status: :pending,
+          status: :unfurled,
           public_document: @standards_import.public_document,
           file: file.blob
         )

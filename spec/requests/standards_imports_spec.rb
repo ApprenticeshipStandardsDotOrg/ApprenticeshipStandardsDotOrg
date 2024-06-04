@@ -86,12 +86,14 @@ RSpec.describe "StandardsImports", type: :request do
           import1 = Imports::Uncategorized.first
           expect(import1).to be_courtesy_notification_pending
           expect(import1.file.blob.filename.to_s).to eq "pixel1x1.pdf"
+          expect(import1).to be_unfurled
           expect(import1).to_not be_public_document
           expect(import1.parent).to eq si
 
           import2 = Imports::Uncategorized.last
           expect(import2).to be_courtesy_notification_pending
           expect(import2.file.blob.filename.to_s).to eq "pixel1x1_redacted.pdf"
+          expect(import1).to be_unfurled
           expect(import2).to_not be_public_document
           expect(import2.parent).to eq si
 
@@ -176,6 +178,7 @@ RSpec.describe "StandardsImports", type: :request do
           import = Imports::Uncategorized.last
           expect(import).to be_courtesy_notification_not_required
           expect(import.file.blob.filename.to_s).to eq "pixel1x1.pdf"
+          expect(import).to be_unfurled
           expect(import).to be_public_document
 
           expect(response).to redirect_to admin_source_files_path
