@@ -20,6 +20,8 @@ RSpec.describe "admin/occupation_standards/show" do
     login_as admin
     visit admin_occupation_standard_path(occupation_standard)
 
+    expect(page).to have_link("Public view", href: occupation_standard_url(occupation_standard, host: ENV.fetch("PUBLIC_DOMAIN", ENV.fetch("HOST"))))
+
     expect(page).to have_selector("h1", text: "Mechanic")
 
     expect(page).to have_selector("dt", text: "Title")

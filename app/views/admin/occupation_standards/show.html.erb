@@ -6,6 +6,13 @@
   </h1>
 
   <div>
+    <%= link_to(
+          "Public view",
+          occupation_standard_url(page.resource, host: ENV.fetch("PUBLIC_DOMAIN", ENV.fetch("HOST"))),
+          class: "button",
+          target: "_blank"
+        ) %>
+
     <%= if accessible_action?(page.resource, :edit)
           link_to(
             t("administrate.actions.edit_resource", name: page.page_title),
