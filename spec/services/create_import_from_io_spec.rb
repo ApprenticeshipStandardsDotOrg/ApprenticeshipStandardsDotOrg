@@ -22,7 +22,9 @@ RSpec.describe CreateImportFromIo do
       end
 
       it "attaches file to a standards import record and creates an Uncategorized Import child" do
-        expect_any_instance_of(Imports::Uncategorized).to receive(:process)
+        stub_feature_flag(:show_imports_in_administrate, true)
+
+        allow(ConvertDocToPdf).to receive(:call).and_return(file_fixture("pixel1x1.pdf"))
 
         filename = "document.doc"
         io = File.open(file_fixture(filename))
@@ -38,8 +40,10 @@ RSpec.describe CreateImportFromIo do
           )
         }.to change(StandardsImport, :count).by(1)
           .and change(Imports::Uncategorized, :count).by(1)
-          .and change(ActiveStorage::Attachment, :count).by(2)
-          .and change(ActiveStorage::Blob, :count).by(1)
+          .and change(Imports::Doc, :count).by(1)
+          .and change(Imports::Pdf, :count).by(1)
+          .and change(ActiveStorage::Attachment, :count).by(4)
+          .and change(ActiveStorage::Blob, :count).by(2)
 
         standards_import = StandardsImport.last
         expect(standards_import.files.count).to eq 1
@@ -55,7 +59,16 @@ RSpec.describe CreateImportFromIo do
         expect(import.file.attached?).to be_truthy
         expect(import.file.blob.filename.to_s).to eq "document.doc"
         expect(import.parent).to eq standards_import
-        expect(import.status).to eq "unfurled"
+        expect(import.status).to eq "archived"
+
+        pdf = Imports::Pdf.last
+        expect(pdf.metadata).to eq({"date" => "01/11/2023"})
+        expect(pdf.file.attached?).to be_truthy
+        expect(pdf.file.blob.filename.to_s).to eq "pixel1x1.pdf"
+        expect(pdf.parent).to eq Imports::Doc.last
+        expect(pdf.status).to eq "pending"
+
+        stub_feature_flag(:show_imports_in_administrate, true)
       end
     end
   end

@@ -71,7 +71,7 @@ RSpec.describe "StandardsImports", type: :request do
             }
           }.to change(StandardsImport, :count).by(1)
             .and change(ActiveStorage::Attachment, :count).by(4)
-            .and change(ActiveStorage::Blob, :count).by(4)
+            .and change(ActiveStorage::Blob, :count).by(2)
             .and change(Imports::Uncategorized, :count).by(2)
 
           si = StandardsImport.last
@@ -86,12 +86,14 @@ RSpec.describe "StandardsImports", type: :request do
           import1 = Imports::Uncategorized.first
           expect(import1).to be_courtesy_notification_pending
           expect(import1.file.blob.filename.to_s).to eq "pixel1x1.pdf"
+          expect(import1).to be_unfurled
           expect(import1).to_not be_public_document
           expect(import1.parent).to eq si
 
           import2 = Imports::Uncategorized.last
           expect(import2).to be_courtesy_notification_pending
           expect(import2.file.blob.filename.to_s).to eq "pixel1x1_redacted.pdf"
+          expect(import1).to be_unfurled
           expect(import2).to_not be_public_document
           expect(import2.parent).to eq si
 
@@ -161,7 +163,7 @@ RSpec.describe "StandardsImports", type: :request do
             }
           }.to change(StandardsImport, :count).by(1)
             .and change(ActiveStorage::Attachment, :count).by(2)
-            .and change(ActiveStorage::Blob, :count).by(2)
+            .and change(ActiveStorage::Blob, :count).by(1)
             .and change(Imports::Uncategorized, :count).by(1)
 
           si = StandardsImport.last
@@ -176,6 +178,7 @@ RSpec.describe "StandardsImports", type: :request do
           import = Imports::Uncategorized.last
           expect(import).to be_courtesy_notification_not_required
           expect(import.file.blob.filename.to_s).to eq "pixel1x1.pdf"
+          expect(import).to be_unfurled
           expect(import).to be_public_document
 
           expect(response).to redirect_to admin_source_files_path
@@ -239,6 +242,7 @@ RSpec.describe "StandardsImports", type: :request do
     context "with invalid parameters" do
       it "does not create new standards import record and renders new" do
         stub_feature_flag(:recaptcha, true)
+        stub_feature_flag(:show_imports_in_administrate, true)
         stub_recaptcha_high_score
 
         expect {
@@ -253,6 +257,9 @@ RSpec.describe "StandardsImports", type: :request do
         }.to_not change(StandardsImport, :count)
 
         expect(response).to have_http_status(:unprocessable_entity)
+
+        stub_feature_flag(:recaptcha, false)
+        stub_feature_flag(:show_imports_in_administrate, false)
       end
     end
   end
