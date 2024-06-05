@@ -72,12 +72,34 @@ RSpec.describe "admin/imports/show", :admin do
         expect(page).to_not have_text "Child"
         expect(page).to_not have_text "Type"
         expect(page).to_not have_text "Imports::Pdf"
-        expect(page).to_not have_text "Associated occupation standards"
 
         click_on "Needs support"
 
         expect(page).to have_text "needs_support"
         expect(import.reload).to be_needs_support
+
+        stub_feature_flag(:show_imports_in_administrate, false)
+      end
+
+      it "can view the associated occupation standards" do
+        stub_feature_flag(:show_imports_in_administrate, true)
+        stub_feature_flag(:similar_programs_elasticsearch, false)
+
+        admin = create(:admin, :converter)
+        occupation_standard = create(:occupation_standard, title: "Mechanic")
+        create(:work_process, occupation_standard: occupation_standard, title: "WP1")
+        import = create(:imports_pdf, status: :pending)
+        create(:data_import, import: import, occupation_standard: occupation_standard)
+
+        login_as admin
+        visit admin_import_path(import)
+
+        expect(page).to have_text "Associated occupation standards"
+
+        click_on "Mechanic", match: :first
+
+        expect(page).to have_text "Mechanic"
+        expect(page).to have_text "WP1"
 
         stub_feature_flag(:show_imports_in_administrate, false)
       end
