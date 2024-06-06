@@ -54,6 +54,7 @@ class ImportDashboard < Administrate::BaseDashboard
     id
     type
     file
+    associated_occupation_standards
     data_imports
     status
     assignee
@@ -67,7 +68,6 @@ class ImportDashboard < Administrate::BaseDashboard
     parent
     import
     imports
-    associated_occupation_standards
     created_at
     updated_at
   ].freeze
