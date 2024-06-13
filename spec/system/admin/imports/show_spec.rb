@@ -81,6 +81,25 @@ RSpec.describe "admin/imports/show", :admin do
         stub_feature_flag(:show_imports_in_administrate, false)
       end
 
+      it "has button for archiving" do
+        stub_feature_flag(:show_imports_in_administrate, true)
+
+        admin = create(:admin, :converter)
+        import = create(:imports_pdf, status: :pending)
+
+        login_as admin
+        visit admin_import_path(import)
+
+        expect(page).to have_button "Archive"
+
+        click_on "Archive"
+
+        expect(page).to have_text "archived"
+        expect(import.reload).to be_archived
+
+        stub_feature_flag(:show_imports_in_administrate, false)
+      end
+
       it "can view the associated occupation standards" do
         stub_feature_flag(:show_imports_in_administrate, true)
         stub_feature_flag(:similar_programs_elasticsearch, false)
