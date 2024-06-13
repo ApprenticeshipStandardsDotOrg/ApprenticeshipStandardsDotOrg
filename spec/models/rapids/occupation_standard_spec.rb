@@ -278,7 +278,8 @@ RSpec.describe RAPIDS::OccupationStandard, type: :model do
           title: "Developer",
           registration_agency_id: registration_agency.id,
           organization: organization,
-          registration_date: nil)
+          registration_date: nil
+        )
 
         occupation_standard_response = create(
           :rapids_api_occupation_standard,

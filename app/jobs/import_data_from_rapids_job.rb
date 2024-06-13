@@ -38,7 +38,7 @@ class ImportDataFromRAPIDSJob < ApplicationJob
 
   def process_api_response(response)
     response["wps"].each do |occupation_standard_response|
-      occupation_standard = 
+      occupation_standard =
         RAPIDS::OccupationStandard.find_or_initialize_from_response(occupation_standard_response)
 
       if !occupation_standard.persisted?
