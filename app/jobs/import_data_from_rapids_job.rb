@@ -38,45 +38,30 @@ class ImportDataFromRAPIDSJob < ApplicationJob
 
   def process_api_response(response)
     response["wps"].each do |occupation_standard_response|
-      occupation_standard = process_occupation_standard(occupation_standard_response)
+      occupation_standard =
+        RAPIDS::OccupationStandard.find_or_initialize_from_response(occupation_standard_response)
 
-      next if occupation_standard.persisted?
-
-      occupation_standard.work_processes = process_work_processes(
-        occupation_standard_response["dwas"],
-        occupation_standard
-      )
-
-      document = fetch_document_response(occupation_standard.external_id)
-      if document
-        attachment = convert_response_to_attachment(document)
-        pdf = CreateImportFromIo.call(
-          io: attachment,
-          filename: "#{occupation_standard.external_id}.docx",
-          title: "RAPIDSAPI",
-          source: "RAPIDSAPI"
+      if !occupation_standard.persisted?
+        occupation_standard.work_processes = process_work_processes(
+          occupation_standard_response["dwas"],
+          occupation_standard
         )
 
-        pdf&.data_imports&.create!(occupation_standard: occupation_standard)
+        document = fetch_document_response(occupation_standard.external_id)
+        if document
+          attachment = convert_response_to_attachment(document)
+          pdf = CreateImportFromIo.call(
+            io: attachment,
+            filename: "#{occupation_standard.external_id}.docx",
+            title: "RAPIDSAPI",
+            source: "RAPIDSAPI"
+          )
+
+          pdf&.data_imports&.create!(occupation_standard: occupation_standard)
+        end
       end
       occupation_standard.save
     end
-  end
-
-  def process_occupation_standard(occupation_standard_response)
-    find_occupation_standard(occupation_standard_response) ||
-      RAPIDS::OccupationStandard.initialize_from_response(
-        occupation_standard_response
-      )
-  end
-
-  def find_occupation_standard(occupation_standard_response)
-    ::OccupationStandard.includes(:organization).find_by(
-      title: fix_encoding(occupation_standard_response["occupationTitle"]),
-      organization: {
-        title: occupation_standard_response["sponsorName"]
-      }
-    )
   end
 
   def process_work_processes(work_processes_response, occupation_standard)

@@ -5,7 +5,7 @@ RSpec.describe RAPIDS::OccupationStandard, type: :model do
     it "returns occupation standard with correct data" do
       occupation_standard_response = create(:rapids_api_occupation_standard)
 
-      occupation_standard = RAPIDS::OccupationStandard.initialize_from_response(occupation_standard_response)
+      occupation_standard = RAPIDS::OccupationStandard.find_or_initialize_from_response(occupation_standard_response)
 
       expect(occupation_standard.title).to eq occupation_standard_response["occupationTitle"]
       expect(occupation_standard.onet_code).to eq occupation_standard_response["onetSocCode"]
@@ -20,7 +20,7 @@ RSpec.describe RAPIDS::OccupationStandard, type: :model do
           occupationTitle: "\xA0ALARM OPERATOR (Gov Serv) (0870HYV1) Hybrid"
         )
 
-        occupation_standard = RAPIDS::OccupationStandard.initialize_from_response(occupation_standard_response)
+        occupation_standard = RAPIDS::OccupationStandard.find_or_initialize_from_response(occupation_standard_response)
 
         expect(occupation_standard.title).to eq "ALARM OPERATOR (Gov Serv) (0870HYV1) Hybrid"
       end
@@ -33,7 +33,7 @@ RSpec.describe RAPIDS::OccupationStandard, type: :model do
           occType: "Hybrid"
         )
 
-        occupation_standard = RAPIDS::OccupationStandard.initialize_from_response(occupation_standard_response)
+        occupation_standard = RAPIDS::OccupationStandard.find_or_initialize_from_response(occupation_standard_response)
 
         expect(occupation_standard.ojt_type).to eq "hybrid"
       end
@@ -44,7 +44,7 @@ RSpec.describe RAPIDS::OccupationStandard, type: :model do
           occType: "Time-Based"
         )
 
-        occupation_standard = RAPIDS::OccupationStandard.initialize_from_response(occupation_standard_response)
+        occupation_standard = RAPIDS::OccupationStandard.find_or_initialize_from_response(occupation_standard_response)
 
         expect(occupation_standard.ojt_type).to eq "time"
       end
@@ -55,7 +55,7 @@ RSpec.describe RAPIDS::OccupationStandard, type: :model do
           occType: "Competency-Based"
         )
 
-        occupation_standard = RAPIDS::OccupationStandard.initialize_from_response(occupation_standard_response)
+        occupation_standard = RAPIDS::OccupationStandard.find_or_initialize_from_response(occupation_standard_response)
 
         expect(occupation_standard.ojt_type).to eq "competency"
       end
@@ -71,7 +71,7 @@ RSpec.describe RAPIDS::OccupationStandard, type: :model do
             sponsorNumber: ""
           )
 
-          occupation_standard = RAPIDS::OccupationStandard.initialize_from_response(occupation_standard_response)
+          occupation_standard = RAPIDS::OccupationStandard.find_or_initialize_from_response(occupation_standard_response)
 
           expect(occupation_standard.registration_agency).to eq registration_agency_for_national_standard
         end
@@ -87,7 +87,7 @@ RSpec.describe RAPIDS::OccupationStandard, type: :model do
             sponsorNumber: "2019-CA-73347"
           )
 
-          occupation_standard = RAPIDS::OccupationStandard.initialize_from_response(occupation_standard_response)
+          occupation_standard = RAPIDS::OccupationStandard.find_or_initialize_from_response(occupation_standard_response)
 
           expect(occupation_standard.registration_agency).to eq oa_registration_agency_for_california
         end
@@ -102,7 +102,7 @@ RSpec.describe RAPIDS::OccupationStandard, type: :model do
             sponsorNumber: "2019-ZA-73347"
           )
 
-          occupation_standard = RAPIDS::OccupationStandard.initialize_from_response(occupation_standard_response)
+          occupation_standard = RAPIDS::OccupationStandard.find_or_initialize_from_response(occupation_standard_response)
 
           expect(occupation_standard.registration_agency).to eq registration_agency_for_national_standard
         end
@@ -117,7 +117,7 @@ RSpec.describe RAPIDS::OccupationStandard, type: :model do
             sponsorNumber: "2019-73347"
           )
 
-          occupation_standard = RAPIDS::OccupationStandard.initialize_from_response(occupation_standard_response)
+          occupation_standard = RAPIDS::OccupationStandard.find_or_initialize_from_response(occupation_standard_response)
 
           expect(occupation_standard.registration_agency).to eq registration_agency_for_national_standard
         end
@@ -131,7 +131,7 @@ RSpec.describe RAPIDS::OccupationStandard, type: :model do
           rapidsCode: "0870CB"
         )
 
-        occupation_standard = RAPIDS::OccupationStandard.initialize_from_response(occupation_standard_response)
+        occupation_standard = RAPIDS::OccupationStandard.find_or_initialize_from_response(occupation_standard_response)
 
         expect(occupation_standard.rapids_code).to eq "0870"
       end
@@ -146,7 +146,7 @@ RSpec.describe RAPIDS::OccupationStandard, type: :model do
           rapidsCode: "0221"
         )
 
-        occupation_standard = RAPIDS::OccupationStandard.initialize_from_response(occupation_standard_response)
+        occupation_standard = RAPIDS::OccupationStandard.find_or_initialize_from_response(occupation_standard_response)
 
         expect(occupation_standard.occupation).to eq occupation
       end
@@ -159,7 +159,7 @@ RSpec.describe RAPIDS::OccupationStandard, type: :model do
           rapidsCode: "0221CB"
         )
 
-        occupation_standard = RAPIDS::OccupationStandard.initialize_from_response(occupation_standard_response)
+        occupation_standard = RAPIDS::OccupationStandard.find_or_initialize_from_response(occupation_standard_response)
 
         expect(occupation_standard.occupation).to eq occupation
       end
@@ -170,7 +170,7 @@ RSpec.describe RAPIDS::OccupationStandard, type: :model do
           rapidsCode: ""
         )
 
-        occupation_standard = RAPIDS::OccupationStandard.initialize_from_response(occupation_standard_response)
+        occupation_standard = RAPIDS::OccupationStandard.find_or_initialize_from_response(occupation_standard_response)
 
         expect(occupation_standard.occupation).to be_nil
       end
@@ -181,7 +181,7 @@ RSpec.describe RAPIDS::OccupationStandard, type: :model do
           rapidsCode: "0221CB"
         )
 
-        occupation_standard = RAPIDS::OccupationStandard.initialize_from_response(occupation_standard_response)
+        occupation_standard = RAPIDS::OccupationStandard.find_or_initialize_from_response(occupation_standard_response)
 
         expect(occupation_standard.occupation).to be_nil
       end
@@ -196,7 +196,7 @@ RSpec.describe RAPIDS::OccupationStandard, type: :model do
             onetSocCode: onet.code
           )
 
-          occupation_standard = RAPIDS::OccupationStandard.initialize_from_response(occupation_standard_response)
+          occupation_standard = RAPIDS::OccupationStandard.find_or_initialize_from_response(occupation_standard_response)
 
           expect(occupation_standard.occupation).to eq occupation
         end
@@ -207,7 +207,7 @@ RSpec.describe RAPIDS::OccupationStandard, type: :model do
             onetSocCode: "47-2121.00"
           )
 
-          occupation_standard = RAPIDS::OccupationStandard.initialize_from_response(occupation_standard_response)
+          occupation_standard = RAPIDS::OccupationStandard.find_or_initialize_from_response(occupation_standard_response)
 
           expect(occupation_standard.occupation).to be_nil
         end
@@ -219,7 +219,7 @@ RSpec.describe RAPIDS::OccupationStandard, type: :model do
           wpsDocument: "https://entbpmpstg.dol.gov/suite/webapi/rapids/data-sharing/documents/wps/111111"
         )
 
-        occupation_standard = RAPIDS::OccupationStandard.initialize_from_response(occupation_standard_response)
+        occupation_standard = RAPIDS::OccupationStandard.find_or_initialize_from_response(occupation_standard_response)
 
         expect(occupation_standard.external_id).to eq "111111"
       end
@@ -236,7 +236,7 @@ RSpec.describe RAPIDS::OccupationStandard, type: :model do
           sponsorNumber: "2019-73347"
         )
 
-        occupation_standard = RAPIDS::OccupationStandard.initialize_from_response(occupation_standard_response)
+        occupation_standard = RAPIDS::OccupationStandard.find_or_initialize_from_response(occupation_standard_response)
 
         organization = occupation_standard.organization
         expect(organization.title).to eq "thoughtbot"
@@ -258,7 +258,7 @@ RSpec.describe RAPIDS::OccupationStandard, type: :model do
           sponsorNumber: "2019-73347"
         )
 
-        occupation_standard = RAPIDS::OccupationStandard.initialize_from_response(occupation_standard_response)
+        occupation_standard = RAPIDS::OccupationStandard.find_or_initialize_from_response(occupation_standard_response)
 
         organization = occupation_standard.organization
         expect(organization.title).to eq "thoughtbot"
@@ -266,6 +266,37 @@ RSpec.describe RAPIDS::OccupationStandard, type: :model do
         occupation_standard.save!
 
         expect(Organization.count).to eq 1
+      end
+    end
+
+    context "when occupation_standard is persisted" do
+      it "updates any occupation_standard attributes that have changed" do
+        registration_agency = create(:registration_agency, :for_national_program)
+        organization = create(:organization, title: "thoughtbot")
+        occupation_standard = create(
+          :occupation_standard,
+          title: "Developer",
+          registration_agency_id: registration_agency.id,
+          organization: organization,
+          registration_date: nil
+        )
+
+        occupation_standard_response = create(
+          :rapids_api_occupation_standard,
+          :hybrid,
+          occupationTitle: "Developer",
+          sponsorName: "thoughtbot",
+          sponsorNumber: "2019-73347",
+          createdDt: "2024-06-13"
+        )
+
+        expect(occupation_standard.registration_date).to be(nil)
+
+        updated_occupation_standard = RAPIDS::OccupationStandard.find_or_initialize_from_response(occupation_standard_response)
+
+        updated_occupation_standard.save!
+
+        expect(occupation_standard.reload.registration_date).to eq(occupation_standard_response["createdDt"].to_date)
       end
     end
   end
