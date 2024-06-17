@@ -256,7 +256,7 @@ RSpec.describe "StandardsImports", type: :request do
           }
         }.to_not change(StandardsImport, :count)
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
 
         stub_feature_flag(:recaptcha, false)
         stub_feature_flag(:show_imports_in_administrate, false)

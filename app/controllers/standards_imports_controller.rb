@@ -22,7 +22,7 @@ class StandardsImportsController < ApplicationController
         redirect_to standards_import_path(@standards_import)
       end
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 

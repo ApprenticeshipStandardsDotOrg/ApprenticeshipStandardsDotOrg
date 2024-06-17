@@ -13,7 +13,7 @@ class ContactRequestsController < ApplicationController
       flash[:notice] = "Thank you for contacting us! We've received your note and will reply to you soon!"
       redirect_to guest_root_path
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
