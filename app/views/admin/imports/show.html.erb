@@ -7,19 +7,30 @@
 
   <div>
     <% if page.resource.is_a?(Imports::Pdf) %>
-      <%= if current_user.converter?
-            button_to(
-              "Needs support",
-              admin_import_path(page.resource),
-              params: {
-                imports_pdf: {status: "needs_support"},
-                redirect_back_to: admin_import_path(page.resource)
-              },
-              method: :patch,
-              class: "button",
-              form_class: "form-button"
-            )
-          end %>
+      <% if current_user.converter? %>
+            <%= button_to(
+                  "Needs support",
+                  admin_import_path(page.resource),
+                  params: {
+                    imports_pdf: {status: "needs_support"},
+                    redirect_back_to: admin_import_path(page.resource)
+                  },
+                  method: :patch,
+                  class: "button",
+                  form_class: "form-button"
+                ) %>
+            <%= button_to(
+                  "Archive",
+                  admin_import_path(page.resource),
+                  params: {
+                    imports_pdf: {status: "archived"},
+                    redirect_back_to: admin_import_path(page.resource)
+                  },
+                  method: :patch,
+                  class: "button",
+                  form_class: "form-button"
+                ) %>
+        <% end %>
 
       <%= link_to(
             "New data import",
