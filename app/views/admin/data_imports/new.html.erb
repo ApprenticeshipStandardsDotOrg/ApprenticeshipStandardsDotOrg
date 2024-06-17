@@ -13,6 +13,11 @@
 </header>
 
 <section aria-labelledby="title_id" class="main-content__body">
+  <div class="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4" role="alert">
+    <p class="font-bold">Read Carefully</p>
+    <p>If you want to override only some of the data, make sure the rows in the tabs you want to keep are empty</p>
+    <p>i.e. just you want to add Related Instructions to a RAPIDS Occupation Standard that already has Work Processes, make the Work Processes tab in Excel empty and only provide the data for Related Instructions tab</p>
+  </div>
   <% if Flipper.enabled?(:show_imports_in_administrate) %>
     <%= render "form_new", page: page %>
   <% else %>
