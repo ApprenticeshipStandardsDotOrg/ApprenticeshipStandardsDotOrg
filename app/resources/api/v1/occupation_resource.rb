@@ -10,7 +10,7 @@ class API::V1::OccupationResource < JSONAPI::Resource
     end
 
     def records_for_populate(options = {})
-      super(options).includes(:onet)
+      super.includes(:onet)
     end
   end
 end

@@ -106,7 +106,7 @@ group :development do
   gem "erb_lint", require: false
   gem "erblint-github"
   gem "letter_opener"
-  gem "standard", "~> 1.36"
+  gem "standard", "~> 1.37"
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
 
