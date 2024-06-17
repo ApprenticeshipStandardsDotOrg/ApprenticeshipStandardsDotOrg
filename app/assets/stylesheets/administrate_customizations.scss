@@ -1,7 +1,7 @@
 /* Flowbite styling is causing the Submit buttons to disappear
 so reinstate initial behavior */
 .main-content__body {
-  button, input, .button {
+  button, input:not([type="text"]), .button {
     appearance: auto;
     background-color: #1976d2;
 
@@ -10,6 +10,15 @@ so reinstate initial behavior */
       color: #fff;
     }
   }
+
+  input[type="text"] {
+    background-color: #fff;
+    color: #000;
+  }
+}
+
+.field-unit--last_file_notice {
+  margin-bottom: 0;
 }
 
 /* Fix some Flowbite styling that is getting overridden by Administrate */
