@@ -47,6 +47,10 @@ module Imports
       raise Imports::NoPdfLeafError, "#{self.class.name} records do not have a PDF leaf"
     end
 
+    def pdf_leaves
+      imports.map(&:pdf_leaf)
+    end
+
     # For Administrate
     def import
     end

@@ -99,4 +99,23 @@ RSpec.describe Imports::DocxListing, type: :model do
       }.to raise_error(Imports::NoPdfLeafError, "Imports::DocxListing records do not have a PDF leaf")
     end
   end
+
+  describe "#pdf_leaves" do
+    it "returns all the pdf descendants" do
+      docx_listing = create(:imports_docx_listing)
+      uncat1 = create(:imports_uncategorized, parent: docx_listing)
+      uncat2 = create(:imports_uncategorized, parent: docx_listing)
+      uncat3 = create(:imports_uncategorized, parent: docx_listing)
+
+      doc = create(:imports_doc, parent: uncat1)
+      pdf1 = create(:imports_pdf, parent: doc)
+
+      docx = create(:imports_docx, parent: uncat2)
+      pdf2 = create(:imports_pdf, parent: docx)
+
+      pdf3 = create(:imports_pdf, parent: uncat3)
+
+      expect(docx_listing.pdf_leaves).to contain_exactly(pdf1, pdf2, pdf3)
+    end
+  end
 end
