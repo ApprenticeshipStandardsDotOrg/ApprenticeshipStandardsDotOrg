@@ -49,7 +49,7 @@ module Imports
 
     def cousins
       if docx_listing_root
-        docx_listing_root.pdf_leaves - [self]
+        (docx_listing_root.pdf_leaves - [self]).sort_by(&:filename)
       else
         []
       end

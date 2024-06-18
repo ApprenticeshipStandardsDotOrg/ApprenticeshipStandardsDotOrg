@@ -169,14 +169,14 @@ RSpec.describe Imports::Pdf, type: :model do
         uncat3 = create(:imports_uncategorized, parent: docx_listing)
 
         doc = create(:imports_doc, parent: uncat1)
-        pdf1 = create(:imports_pdf, parent: doc)
+        pdf1 = create(:imports_pdf, parent: doc, file: Rack::Test::UploadedFile.new(Rails.root.join("spec", "fixtures", "files", "pixel1x1_redacted.pdf"), "application/pdf"))
 
         docx = create(:imports_docx, parent: uncat2)
         pdf2 = create(:imports_pdf, parent: docx)
 
-        pdf3 = create(:imports_pdf, parent: uncat3)
+        pdf3 = create(:imports_pdf, parent: uncat3, file: Rack::Test::UploadedFile.new(Rails.root.join("spec", "fixtures", "files", "pixel1x1.pdf"), "application/pdf"))
 
-        expect(pdf2.cousins).to contain_exactly(pdf1, pdf3)
+        expect(pdf2.cousins).to eq [pdf3, pdf1]
       end
 
       it "when only 1 document in bulletin returns empty array" do
