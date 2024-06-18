@@ -16,6 +16,7 @@ class ImportDashboard < Administrate::BaseDashboard
     file: Field::ActiveStorage,
     filename: Field::String.with_options(searchable: false),
     parent: Field::Polymorphic,
+    cousins: Field::String.with_options(searchable: false),
     import: Field::BelongsTo,
     imports: Field::HasMany,
     processed_at: Field::DateTime,
@@ -66,6 +67,7 @@ class ImportDashboard < Administrate::BaseDashboard
     processing_errors
     courtesy_notification
     parent
+    cousins
     import
     imports
     created_at

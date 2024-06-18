@@ -48,7 +48,7 @@ module Imports
     end
 
     def pdf_leaves
-      imports.map(&:pdf_leaf)
+      imports.includes(:import).map(&:pdf_leaf)
     end
 
     # For Administrate
