@@ -46,4 +46,9 @@ class Import < ApplicationRecord
   def docx_listing_root
     parent.docx_listing_root
   end
+
+  # For Administrate
+  def cousins
+    []
+  end
 end

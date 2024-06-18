@@ -47,6 +47,14 @@ module Imports
       self
     end
 
+    def cousins
+      if docx_listing_root
+        docx_listing_root.pdf_leaves - [self]
+      else
+        []
+      end
+    end
+
     # For Administrate
     def import
     end
