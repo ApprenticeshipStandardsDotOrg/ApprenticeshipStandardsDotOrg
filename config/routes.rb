@@ -55,6 +55,7 @@ Rails.application.routes.draw do
         post :invite, on: :member
       end
       resources :api_keys, only: [:create, :index, :show, :destroy]
+      resources :docs, only: [:index]
     end
   end
 
