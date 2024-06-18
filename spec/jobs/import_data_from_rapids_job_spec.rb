@@ -309,9 +309,11 @@ RSpec.describe ImportDataFromRAPIDSJob, type: :job do
 
           occupation_standard = OccupationStandard.last
           pdf = Imports::Pdf.last
+          data_import = DataImport.last
 
           expect(occupation_standard.redacted_document).to_not be_attached
           expect(pdf.associated_occupation_standards).to include(occupation_standard)
+          expect(data_import).to be_completed
         end
       end
 

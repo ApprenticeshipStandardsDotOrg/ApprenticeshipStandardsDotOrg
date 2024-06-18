@@ -57,7 +57,10 @@ class ImportDataFromRAPIDSJob < ApplicationJob
             source: "RAPIDSAPI"
           )
 
-          pdf&.data_imports&.create!(occupation_standard: occupation_standard)
+          pdf&.data_imports&.create!(
+            occupation_standard: occupation_standard,
+            status: :completed
+          )
         end
       end
       occupation_standard.save
