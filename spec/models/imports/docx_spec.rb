@@ -64,7 +64,7 @@ RSpec.describe Imports::Docx, type: :model do
   end
 
   describe "#docx_listing_root" do
-    it "when bulletin, retrieves the docx_listing ancestor" do
+    it "when descended from bulletin, retrieves the docx_listing ancestor" do
       standards_import = create(:standards_import)
       uncat = create(:imports_uncategorized, parent: standards_import)
       docx_listing = create(:imports_docx_listing, parent: uncat)
@@ -74,7 +74,7 @@ RSpec.describe Imports::Docx, type: :model do
       expect(docx.docx_listing_root).to eq docx_listing
     end
 
-    it "when not bulletin, returns nil" do
+    it "when not descended from bulletin, returns nil" do
       standards_import = create(:standards_import)
       uncat = create(:imports_uncategorized, parent: standards_import)
       docx = create(:imports_docx, parent: uncat)
