@@ -40,7 +40,7 @@ module Admin
           else
             render json: {
               error: "No redacted document was saved",
-              status: :unprocessable_entity
+              status: :unprocessable_content
             }.to_json
           end
         end

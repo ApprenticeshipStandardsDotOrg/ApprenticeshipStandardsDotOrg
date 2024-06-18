@@ -119,7 +119,7 @@ RSpec.describe "ContactRequest", type: :request do
           }
         }.to_not change(ContactRequest, :count)
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end

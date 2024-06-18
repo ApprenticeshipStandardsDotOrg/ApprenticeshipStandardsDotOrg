@@ -187,7 +187,7 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
           }
         }.to_not change(DataImport, :count)
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
 
       it "with import flag on: does not create new data import record and renders new" do
@@ -206,7 +206,7 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
           }
         }.to_not change(DataImport, :count)
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
 
         stub_feature_flag(:show_imports_in_administrate, false)
       end
