@@ -153,6 +153,24 @@ RSpec.describe Imports::Uncategorized, type: :model do
     end
   end
 
+  describe "#docx_listing_root" do
+    it "when bulletin, retrieves the docx_listing ancestor" do
+      standards_import = create(:standards_import)
+      uncat = create(:imports_uncategorized, parent: standards_import)
+      docx_listing = create(:imports_docx_listing, parent: uncat)
+      uncat2 = create(:imports_uncategorized, parent: docx_listing)
+
+      expect(uncat2.docx_listing_root).to eq docx_listing
+    end
+
+    it "when not bulletin, returns nil" do
+      standards_import = create(:standards_import)
+      uncat = create(:imports_uncategorized, parent: standards_import)
+
+      expect(uncat.docx_listing_root).to be_nil
+    end
+  end
+
   describe "#transfer_source_file_data!" do
     it "transfers the status to the pdf leaf" do
       source_file = create(:source_file, status: :completed)

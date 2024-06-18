@@ -39,6 +39,10 @@ module Imports
       raise
     end
 
+    def docx_listing_root
+      self
+    end
+
     def pdf_leaf
       raise Imports::NoPdfLeafError, "#{self.class.name} records do not have a PDF leaf"
     end

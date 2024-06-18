@@ -42,4 +42,8 @@ class Import < ApplicationRecord
   def import_root
     parent.import_root
   end
+
+  def docx_listing_root
+    parent.docx_listing_root
+  end
 end
