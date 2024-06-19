@@ -22,6 +22,12 @@ module Imports
       raise
     end
 
+    def docx_listing_root
+      if parent.is_a?(DocxListing)
+        parent
+      end
+    end
+
     def pdf_leaf
       import&.pdf_leaf
     rescue NoPdfLeafError

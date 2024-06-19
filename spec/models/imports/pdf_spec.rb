@@ -130,11 +130,74 @@ RSpec.describe Imports::Pdf, type: :model do
     end
   end
 
+  describe "#docx_listing_root" do
+    it "when descended from bulletin, retrieves the docx_listing ancestor" do
+      standards_import = create(:standards_import)
+      uncat = create(:imports_uncategorized, parent: standards_import)
+      docx_listing = create(:imports_docx_listing, parent: uncat)
+      uncat2 = create(:imports_uncategorized, parent: docx_listing)
+      doc = create(:imports_doc, parent: uncat2)
+      pdf = create(:imports_pdf, parent: doc)
+
+      expect(pdf.docx_listing_root).to eq docx_listing
+    end
+
+    it "when not descended from bulletin, returns nil" do
+      standards_import = create(:standards_import)
+      uncat = create(:imports_uncategorized, parent: standards_import)
+      doc = create(:imports_doc, parent: uncat)
+      pdf = create(:imports_pdf, parent: doc)
+
+      expect(pdf.docx_listing_root).to be_nil
+    end
+  end
+
   describe "#pdf_leaf" do
     it "returns self" do
       pdf = create(:imports_pdf)
 
       expect(pdf.pdf_leaf).to eq pdf
+    end
+  end
+
+  describe "#cousins" do
+    context "when descended from bulletin" do
+      it "returns all the pdf_leaves of the docx_listing ancestor, excluding self" do
+        docx_listing = create(:imports_docx_listing)
+        uncat1 = create(:imports_uncategorized, parent: docx_listing)
+        uncat2 = create(:imports_uncategorized, parent: docx_listing)
+        uncat3 = create(:imports_uncategorized, parent: docx_listing)
+
+        doc = create(:imports_doc, parent: uncat1)
+        pdf1 = create(:imports_pdf, parent: doc, file: Rack::Test::UploadedFile.new(Rails.root.join("spec", "fixtures", "files", "pixel1x1_redacted.pdf"), "application/pdf"))
+
+        docx = create(:imports_docx, parent: uncat2)
+        pdf2 = create(:imports_pdf, parent: docx)
+
+        pdf3 = create(:imports_pdf, parent: uncat3, file: Rack::Test::UploadedFile.new(Rails.root.join("spec", "fixtures", "files", "pixel1x1.pdf"), "application/pdf"))
+
+        expect(pdf2.cousins).to eq [pdf3, pdf1]
+      end
+
+      it "when only 1 document in bulletin returns empty array" do
+        docx_listing = create(:imports_docx_listing)
+        uncat = create(:imports_uncategorized, parent: docx_listing)
+        doc = create(:imports_doc, parent: uncat)
+        pdf = create(:imports_pdf, parent: doc)
+
+        expect(pdf.cousins).to be_empty
+      end
+    end
+
+    context "when not descended from bulletin" do
+      it "returns empty array" do
+        standards_import = create(:standards_import)
+        uncat = create(:imports_uncategorized, parent: standards_import)
+        doc = create(:imports_doc, parent: uncat)
+        pdf = create(:imports_pdf, parent: doc)
+
+        expect(pdf.cousins).to be_empty
+      end
     end
   end
 end
