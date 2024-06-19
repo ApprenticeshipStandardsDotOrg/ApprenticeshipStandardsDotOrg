@@ -18,6 +18,16 @@ to display a collection of resources in an HTML table.
 [1]: http://www.rubydoc.info/gems/administrate/Administrate/Page/Collection
 %>
 
+<section class="ml-6">
+  <p>
+    For a full list of valid search options, go to
+    <%= link_to "docs",
+          admin_docs_path(
+            anchor: "optionsForImportsSearch"
+          ),
+          target: :_blank %> section
+  </p>
+</section>
 <table aria-labelledby="<%= table_title %>">
   <thead>
     <tr>
