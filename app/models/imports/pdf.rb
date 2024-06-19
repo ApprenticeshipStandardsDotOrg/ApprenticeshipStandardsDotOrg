@@ -55,6 +55,10 @@ module Imports
       end
     end
 
+    def available_for_redaction?
+      !public_document? && completed?
+    end
+
     # For Administrate
     def import
     end
