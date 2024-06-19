@@ -38,9 +38,9 @@
             class: "button"
           ) %>
 
-      <%= if accessible_action?(:redact_file, :new)
+      <%= if accessible_action?(:redact_file, :new) && page.resource.available_for_redaction?
             link_to(
-              "Redact document",
+              "Redact document xxx",
               new_admin_import_redact_file_path(page.resource),
               class: "button"
             )

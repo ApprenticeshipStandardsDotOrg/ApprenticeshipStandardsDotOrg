@@ -200,4 +200,24 @@ RSpec.describe Imports::Pdf, type: :model do
       end
     end
   end
+
+  describe "#available_for_redaction?" do
+    it "returns true when import is not public document and completed" do
+      pdf = create(:imports_pdf, public_document: false, status: :completed)
+
+      expect(pdf.available_for_redaction?).to be true
+    end
+
+    it "returns false when import is not public document but pending" do
+      pdf = create(:imports_pdf, public_document: false, status: :pending)
+
+      expect(pdf.available_for_redaction?).to be false
+    end
+
+    it "returns false when import is public document and completed" do
+      pdf = create(:imports_pdf, public_document: true, status: :completed)
+
+      expect(pdf.available_for_redaction?).to be false
+    end
+  end
 end
