@@ -40,13 +40,13 @@ class Scraper::WashingtonJob < Scraper::WatirJob
       program_link = url_base + "#/program-details?programId=#{id}&from=%2Fprogram-search"
       browser.goto(program_link)
       browser.refresh
-      file = browser.a(text: "Review the Program Standards").href
-      file_path = file.gsub("https://", "")
+      link = browser.a(text: "Review the Program Standards").wait_until(&:present?)
+      file = link.href
       organization = browser.h3(class: "lni-u-heading--3").text
 
       begin
         CreateImportFromUri.call(
-          uri: "https://#{file_path}",
+          uri: file,
           title: organization,
           notes: "From Scraper::WashingtonJob",
           source: program_link
