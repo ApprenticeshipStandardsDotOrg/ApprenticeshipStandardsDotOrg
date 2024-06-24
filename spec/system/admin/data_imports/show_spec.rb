@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "admin/data_imports/show" do
-  context "with import feature flag" do 
+  context "with import feature flag" do
     it "has Edit Data Import button with correct link", :admin, :js do
       stub_feature_flag(:show_imports_in_administrate, true)
 
