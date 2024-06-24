@@ -1,9 +1,19 @@
 <% if existing_action?(collection_presenter.resource_name, :edit) %>
-  <td><%= if accessible_action?(resource, :edit)
-            link_to(
-              t("administrate.actions.edit"),
-              [:edit, namespace, resource.source_file, resource],
-              class: "action-edit"
-            )
-          end %></td>
+  <% if Flipper.enabled?(:show_imports_in_administrate) %>
+    <td><%= if accessible_action?(resource, :edit)
+              link_to(
+                t("administrate.actions.edit"),
+                edit_admin_import_data_import_path(resource.import, resource),
+                class: "action-edit"
+              )
+            end %></td>
+  <% else %>
+    <td><%= if accessible_action?(resource, :edit)
+              link_to(
+                t("administrate.actions.edit"),
+                [:edit, namespace, resource.source_file, resource],
+                class: "action-edit"
+              )
+            end %></td>
+  <% end %>
 <% end %>

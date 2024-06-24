@@ -26,6 +26,22 @@ RSpec.describe "admin/imports/show", :admin do
         stub_feature_flag(:show_imports_in_administrate, false)
       end
 
+      it "displays data imports with the correct link" do
+        stub_feature_flag(:show_imports_in_administrate, true)
+
+        admin = create(:admin)
+        import = create(:imports_pdf)
+        data_import = create(:data_import, import: import)
+
+        login_as admin
+        visit admin_import_path(import)
+
+        expect(page).to have_text "occupation-standards-template.xlsx"
+        expect(page).to have_link "Edit", href: edit_admin_import_data_import_path(import, data_import)
+
+        stub_feature_flag(:show_imports_in_administrate, false)
+      end
+
       context "when import is not public document and completed" do
         it "shows redact document link" do
           stub_feature_flag(:show_imports_in_administrate, true)

@@ -64,10 +64,16 @@ module Admin
     private
 
     def set_parent
-      @parent = if Flipper.enabled?(:show_imports_in_administrate)
-        Imports::Pdf.find(params[:import_id])
+      if Flipper.enabled?(:show_imports_in_administrate)
+        @parent = Imports::Pdf.find_by(id: params[:import_id])
+        if @parent.nil?
+          @parent = requested_resource.import
+        end
       else
-        SourceFile.find(params[:source_file_id])
+        @parent = SourceFile.find_by(id: params[:source_file_id])
+        if @parent.nil?
+          @parent = requested_resource.source_file
+        end
       end
     end
 
