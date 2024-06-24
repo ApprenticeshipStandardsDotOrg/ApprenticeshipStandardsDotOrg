@@ -31,7 +31,7 @@ class Scraper::OregonJob < Scraper::WatirJob
         standards_table = Nokogiri::HTML(standards.inner_html)
         standards_table.css("tr").each do |row|
           file = row.css("td > a").first
-          file_path = file["href"]
+          file_path = file["href"].tr(" ", "_")
 
           CreateImportFromUri.call(
             uri: base + file_path,
