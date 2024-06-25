@@ -85,6 +85,12 @@ module Imports
         "Imports::Docx"
       in PDF_CONTENT_TYPE
         "Imports::Pdf"
+      in "application/x-ole-storage"
+        if file.filename.to_s.ends_with?(".doc")
+          "Imports::Doc"
+        else
+          raise Imports::UnknownFileTypeError, file_blob.content_type
+        end
       else
         raise Imports::UnknownFileTypeError, file_blob.content_type
       end

@@ -73,6 +73,17 @@ RSpec.describe Imports::Uncategorized, type: :model do
       expect(pdf_import).to have_received(:process).with(listing: false)
     end
 
+    it "assigns .doc files of application/x-ole-storage as Doc files" do
+      allow_any_instance_of(Imports::Doc).to receive(:process)
+      import = create(:imports_uncategorized, file: Rack::Test::UploadedFile.new(Rails.root.join("spec", "fixtures", "files", "x-ole-storage.doc")))
+
+      import.process(listing: false)
+      import.reload
+
+      expect(import.import).to be_a(Imports::Doc)
+      expect(import.import).to be_unfurled
+    end
+
     it "skips unknown files" do
       import = create(
         :imports_uncategorized,
