@@ -84,7 +84,7 @@ RSpec.describe "admin/imports/edit", :admin do
         login_as admin
         visit edit_admin_import_path(import)
 
-        expect(page).to have_field "Pdf"
+        expect(page).to have_field "File"
 
         select "archived"
         click_on "Update Docx"
@@ -108,7 +108,7 @@ RSpec.describe "admin/imports/edit", :admin do
         login_as admin
         visit edit_admin_import_path(import)
 
-        expect(page).to have_field "Pdf"
+        expect(page).to have_field "File"
 
         select "archived"
         click_on "Update Doc"

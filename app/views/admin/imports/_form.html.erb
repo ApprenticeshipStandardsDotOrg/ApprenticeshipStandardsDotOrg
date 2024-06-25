@@ -40,8 +40,6 @@ and renders all form fields for a resource's editable attributes.
       <% end %>
 
       <% attributes.each do |attribute| %>
-        <% next if %w[pdf].include?(attribute.name) && !(page.resource.is_a?(Imports::Doc) || page.resource.is_a?(Imports::Docx)) %>
-        <% next if %w[file].include?(attribute.name) && (page.resource.is_a?(Imports::Doc) || page.resource.is_a?(Imports::Docx)) %>
         <% next if attribute.name.eql?("assignee") && !page.resource.is_a?(Imports::Pdf) %>
         <div class="field-unit field-unit--<%= attribute.html_class %> field-unit--<%= requireness(attribute) %>">
           <%= render_field attribute, f: f %>
