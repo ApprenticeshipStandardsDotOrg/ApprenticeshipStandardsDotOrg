@@ -33,7 +33,7 @@ class ImportPolicy < ApplicationPolicy
     if user.converter?
       [:status, :assignee_id]
     else
-      [:status, :assignee_id, :metadata, :public_document, :courtesy_notification]
+      [:status, :assignee_id, :metadata, :public_document, :courtesy_notification, :file]
     end
   end
 end
