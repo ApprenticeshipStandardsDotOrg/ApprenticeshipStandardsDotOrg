@@ -39,6 +39,12 @@ class Import < ApplicationRecord
   def redacted_pdf_url
   end
 
+  def notes
+    if !import_root.public_document
+      import_root&.notes
+    end
+  end
+
   def import_root
     parent.import_root
   end
