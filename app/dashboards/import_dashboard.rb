@@ -14,6 +14,7 @@ class ImportDashboard < Administrate::BaseDashboard
     courtesy_notification: Field::Select.with_options(searchable: false, collection: ->(field) { field.resource.class.send(field.attribute.to_s.pluralize).keys }),
     metadata: Field::JSONB,
     file: Field::ActiveStorage,
+    pdf: Field::ActiveStorage,
     filename: Field::String.with_options(searchable: false),
     parent: Field::Polymorphic,
     cousins: Field::String.with_options(searchable: false),
@@ -78,6 +79,8 @@ class ImportDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
+    file
+    pdf
     assignee
     metadata
     public_document

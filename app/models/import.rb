@@ -51,4 +51,8 @@ class Import < ApplicationRecord
   def cousins
     []
   end
+
+  # For Administrate
+  def pdf
+  end
 end
