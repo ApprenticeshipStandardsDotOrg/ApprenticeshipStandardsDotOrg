@@ -15,6 +15,17 @@ so reinstate initial behavior */
     background-color: #fff;
     color: #000;
   }
+
+  input[type="file"] {
+    background-color: #fff;
+    color: #000;
+    border: 1px solid black;
+
+    &:hover {
+      background-color: #eee;
+      color: #000;
+    }
+  }
 }
 
 .field-unit--last_file_notice {
