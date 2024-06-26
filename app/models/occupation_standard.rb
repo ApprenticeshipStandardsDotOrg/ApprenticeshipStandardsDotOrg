@@ -231,11 +231,7 @@ class OccupationStandard < ApplicationRecord
   end
 
   def standards_import
-    if Flipper.enabled?(:show_imports_in_administrate)
-      source_file&.import_root
-    else
-      source_file&.standards_import
-    end
+    source_file&.import_root
   end
 
   def data_import
@@ -257,11 +253,7 @@ class OccupationStandard < ApplicationRecord
   end
 
   def source_file
-    if Flipper.enabled?(:show_imports_in_administrate)
-      data_import&.import
-    else
-      data_import&.source_file
-    end
+    data_import&.import
   end
 
   def public_document?
