@@ -6,30 +6,16 @@
   </h1>
 
   <div>
-    <% if Flipper.enabled?(:show_imports_in_administrate) %>
-      <%= if accessible_action?(page.resource, :show)
-            link_to(
-              t("administrate.actions.show_resource", name: page.page_title),
-              admin_import_data_import_path(page.resource.import, page.resource),
-              class: "button"
-            )
-          end %>
-    <% else %>
-      <%= if accessible_action?(page.resource, :show)
-            link_to(
-              t("administrate.actions.show_resource", name: page.page_title),
-              [namespace, page.resource.source_file, page.resource],
-              class: "button"
-            )
-          end %>
-    <% end %>
+    <%= if accessible_action?(page.resource, :show)
+          link_to(
+            t("administrate.actions.show_resource", name: page.page_title),
+            admin_import_data_import_path(page.resource.import, page.resource),
+            class: "button"
+          )
+        end %>
   </div>
 </header>
 
 <section aria-labelledby="title_id" class="main-content__body">
-  <% if Flipper.enabled?(:show_imports_in_administrate) %>
-    <%= render "form_new", page: page %>
-  <% else %>
-    <%= render "form", page: page %>
-  <% end %>
+  <%= render "form_new", page: page %>
 </section>
