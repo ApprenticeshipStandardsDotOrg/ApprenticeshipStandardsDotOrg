@@ -47,6 +47,10 @@ module Imports
       self
     end
 
+    def pdf_leaves
+      [pdf_leaf]
+    end
+
     def cousins
       if docx_listing_root
         (docx_listing_root.pdf_leaves - [self]).sort_by(&:filename)

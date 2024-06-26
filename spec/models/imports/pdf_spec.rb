@@ -160,6 +160,14 @@ RSpec.describe Imports::Pdf, type: :model do
     end
   end
 
+  describe "#pdf_leaves" do
+    it "returns self in an array" do
+      pdf = create(:imports_pdf)
+
+      expect(pdf.pdf_leaves).to eq [pdf]
+    end
+  end
+
   describe "#cousins" do
     context "when descended from bulletin" do
       it "returns all the pdf_leaves of the docx_listing ancestor, excluding self" do
