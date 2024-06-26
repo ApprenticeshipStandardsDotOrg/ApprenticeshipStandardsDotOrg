@@ -62,15 +62,13 @@ class StandardsImportsController < ApplicationController
   end
 
   def build_uncategorized_imports
-    if Flipper.enabled?(:show_imports_in_administrate)
-      @standards_import.files.each do |file|
-        @standards_import.imports.build(
-          type: "Imports::Uncategorized",
-          status: :unfurled,
-          public_document: @standards_import.public_document,
-          file: file.blob
-        )
-      end
+    @standards_import.files.each do |file|
+      @standards_import.imports.build(
+        type: "Imports::Uncategorized",
+        status: :unfurled,
+        public_document: @standards_import.public_document,
+        file: file.blob
+      )
     end
   end
 end
