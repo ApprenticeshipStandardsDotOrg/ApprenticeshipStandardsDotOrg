@@ -10,12 +10,12 @@ class StandardsImport < ApplicationRecord
 
   class << self
     def manual_submissions_in_need_of_courtesy_notification(email: nil)
-      imports = StandardsImport.courtesy_notification_pending
+      standards_imports = StandardsImport.courtesy_notification_pending
       if email.present?
-        imports = imports.where(email: email)
+        standards_imports = standards_imports.where(email: email)
       end
-      imports.select do |import|
-        import.has_converted_source_file_in_need_of_notification?
+      standards_imports.select do |standards_import|
+        standards_import.has_converted_source_file_in_need_of_notification?
       end
     end
   end
