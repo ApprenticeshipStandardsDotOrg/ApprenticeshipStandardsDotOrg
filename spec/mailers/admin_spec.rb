@@ -42,94 +42,44 @@ RSpec.describe AdminMailer, type: :mailer do
   end
 
   describe "#daily_uploads_report" do
-    context "with imports feature flag off" do
-      it "renders the header and body correctly" do
-        travel_to(Time.zone.local(2023, 6, 15)) do
-          data_import = create(:data_import, created_at: Time.zone.local(2023, 6, 14))
-          source_file = data_import.source_file
-          occupation_standard = data_import.occupation_standard
-          occupation_standard.update!(ojt_hours_min: 100, ojt_hours_max: 200, rsi_hours_min: 500, rsi_hours_max: 600, title: "Mechanic")
-          allow_any_instance_of(OccupationStandard).to receive(:competencies_count).and_return(123)
+    it "renders the header and body correctly" do
+      travel_to(Time.zone.local(2023, 6, 15)) do
+        pdf = create(:imports_pdf)
+        data_import = create(:data_import, created_at: Time.zone.local(2023, 6, 14), import: pdf, source_file: nil)
+        occupation_standard = data_import.occupation_standard
+        occupation_standard.update!(ojt_hours_min: 100, ojt_hours_max: 200, rsi_hours_min: 500, rsi_hours_max: 600, title: "Mechanic")
+        allow_any_instance_of(OccupationStandard).to receive(:competencies_count).and_return(123)
 
-          mail = described_class.daily_uploads_report
+        mail = described_class.daily_uploads_report
 
-          expect(mail.subject).to eq("Daily imported standards report 2023-06-14")
-          expect(mail.to).to eq(["info@workhands.us"])
-          expect(mail.from).to eq(["no-reply@apprenticeshipstandards.org"])
+        expect(mail.subject).to eq("Daily imported standards report 2023-06-14")
+        expect(mail.to).to eq(["info@workhands.us"])
+        expect(mail.from).to eq(["no-reply@apprenticeshipstandards.org"])
 
-          mail.body.parts.each do |part|
-            expect(part.body.encoded).to match "Mechanic"
-            expect(part.body.encoded).to match "Public"
-            expect(part.body.encoded).to match "Admin"
-            expect(part.body.encoded).to match "Data Import"
-            expect(part.body.encoded).to match "Source File"
-            expect(part.body.encoded).to match occupation_standard_url(occupation_standard)
-            expect(part.body.encoded).to match admin_occupation_standard_url(occupation_standard)
-            expect(part.body.encoded).to match admin_data_import_url(data_import)
-            expect(part.body.encoded).to match admin_source_file_url(source_file)
-            expect(part.body.encoded).to match "Competencies count: 123"
-            expect(part.body.encoded).to match "OJT hours min: 100"
-            expect(part.body.encoded).to match "OJT hours max: 200"
-            expect(part.body.encoded).to match "RSI hours min: 500"
-            expect(part.body.encoded).to match "RSI hours max: 600"
-          end
+        mail.body.parts.each do |part|
+          expect(part.body.encoded).to match "Mechanic"
+          expect(part.body.encoded).to match "Public"
+          expect(part.body.encoded).to match "Admin"
+          expect(part.body.encoded).to match "Data Import"
+          expect(part.body.encoded).to match "Source File"
+          expect(part.body.encoded).to match occupation_standard_url(occupation_standard)
+          expect(part.body.encoded).to match admin_occupation_standard_url(occupation_standard)
+          expect(part.body.encoded).to match admin_data_import_url(data_import)
+          expect(part.body.encoded).to match admin_import_url(pdf)
+          expect(part.body.encoded).to match "Competencies count: 123"
+          expect(part.body.encoded).to match "OJT hours min: 100"
+          expect(part.body.encoded).to match "OJT hours max: 200"
+          expect(part.body.encoded).to match "RSI hours min: 500"
+          expect(part.body.encoded).to match "RSI hours max: 600"
         end
-      end
-
-      it "does not send mail if no imports" do
-        expect {
-          described_class.daily_uploads_report.deliver_now
-        }.not_to change(ActionMailer::Base.deliveries, :count)
       end
     end
 
-    context "with imports feature flag on" do
-      it "renders the header and body correctly" do
-        stub_feature_flag(:show_imports_in_administrate, true)
+    it "does not send mail if no imports" do
+      expect {
+        described_class.daily_uploads_report.deliver_now
+      }.not_to change(ActionMailer::Base.deliveries, :count)
 
-        travel_to(Time.zone.local(2023, 6, 15)) do
-          pdf = create(:imports_pdf)
-          data_import = create(:data_import, created_at: Time.zone.local(2023, 6, 14), import: pdf, source_file: nil)
-          occupation_standard = data_import.occupation_standard
-          occupation_standard.update!(ojt_hours_min: 100, ojt_hours_max: 200, rsi_hours_min: 500, rsi_hours_max: 600, title: "Mechanic")
-          allow_any_instance_of(OccupationStandard).to receive(:competencies_count).and_return(123)
-
-          mail = described_class.daily_uploads_report
-
-          expect(mail.subject).to eq("Daily imported standards report 2023-06-14")
-          expect(mail.to).to eq(["info@workhands.us"])
-          expect(mail.from).to eq(["no-reply@apprenticeshipstandards.org"])
-
-          mail.body.parts.each do |part|
-            expect(part.body.encoded).to match "Mechanic"
-            expect(part.body.encoded).to match "Public"
-            expect(part.body.encoded).to match "Admin"
-            expect(part.body.encoded).to match "Data Import"
-            expect(part.body.encoded).to match "Source File"
-            expect(part.body.encoded).to match occupation_standard_url(occupation_standard)
-            expect(part.body.encoded).to match admin_occupation_standard_url(occupation_standard)
-            expect(part.body.encoded).to match admin_data_import_url(data_import)
-            expect(part.body.encoded).to match admin_import_url(pdf)
-            expect(part.body.encoded).to match "Competencies count: 123"
-            expect(part.body.encoded).to match "OJT hours min: 100"
-            expect(part.body.encoded).to match "OJT hours max: 200"
-            expect(part.body.encoded).to match "RSI hours min: 500"
-            expect(part.body.encoded).to match "RSI hours max: 600"
-          end
-
-          stub_feature_flag(:show_imports_in_administrate, false)
-        end
-      end
-
-      it "does not send mail if no imports" do
-        stub_feature_flag(:show_imports_in_administrate, true)
-
-        expect {
-          described_class.daily_uploads_report.deliver_now
-        }.not_to change(ActionMailer::Base.deliveries, :count)
-
-        stub_feature_flag(:show_imports_in_administrate, false)
-      end
     end
   end
 
