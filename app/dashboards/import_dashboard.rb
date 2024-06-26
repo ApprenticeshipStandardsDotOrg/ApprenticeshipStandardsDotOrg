@@ -20,6 +20,7 @@ class ImportDashboard < Administrate::BaseDashboard
     import: Field::BelongsTo,
     imports: Field::HasMany,
     notes: Field::String.with_options(searchable: false),
+    organization: Field::String.with_options(searchable: false),
     processed_at: Field::DateTime,
     processing_errors: Field::Text,
     public_document: Field::Boolean,
@@ -44,6 +45,7 @@ class ImportDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = %i[
     created_at
     type
+    organization
     filename
     assignee
     public_document
@@ -59,6 +61,7 @@ class ImportDashboard < Administrate::BaseDashboard
     associated_occupation_standards
     data_imports
     notes
+    organization
     status
     assignee
     metadata
