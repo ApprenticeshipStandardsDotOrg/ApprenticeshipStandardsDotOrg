@@ -1,7 +1,7 @@
 <div class="w-full max-w-prose mx-auto bg-slate-300 my-5 p-3">
   The file imported on this screen should be based on the <%= link_to "import template", "https://www.notion.so/888b37991598495cb22d0dabc08ae3b2?v=f29055b156fa471ea9c30e9467238e66", class: "default-colors", target: :_blank %>. Please review instructions for filling that template on the <%= link_to "ApprenticeshipStandards Notion", "https://www.notion.so/Instructions-060de1705e7d471fa8bee7a7c535a2d6", class: "default-colors", target: :_blank %>.
 </div>
-<%= form_for([namespace, page.resource.source_file, page.resource], html: {class: "form"}) do |f| %>
+<%= form_with(model: page.resource, url: admin_import_data_import_path(page.resource.import, page.resource), html: {class: "form"}) do |f| %>
   <% if page.resource.errors.any? %>
     <div id="error_explanation">
       <h2>
@@ -32,7 +32,7 @@
     <div class="field-unit__label">
     </div>
     <div class="field-unit__field">
-      <p>This is the last import for <%= @parent.filename %>. Change its status to Completed after the import completes.</p>
+      <p>This is the last import for <%= @parent.filename %>. Change its status to Completed after this import completes.</p>
     </div>
   </div>
 
