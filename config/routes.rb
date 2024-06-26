@@ -23,7 +23,7 @@ Rails.application.routes.draw do
       end
 
       authenticated :user do
-        root to: "admin/source_files#index"
+        root to: "admin/imports#index"
         mount Sidekiq::Web => "/sidekiq", :as => :sidekiq
       end
     end
