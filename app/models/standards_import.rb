@@ -37,10 +37,18 @@ class StandardsImport < ApplicationRecord
   end
 
   def source_files_in_need_of_notification
-    if courtesy_notification_pending?
-      source_files.select { |source_file| source_file.needs_courtesy_notification? }
+    if Flipper.enabled?(:show_imports_in_administrate)
+      if courtesy_notification_pending?
+        pdf_leaves.select { |pdf| pdf.needs_courtesy_notification? }
+      else
+        []
+      end
     else
-      StandardsImport.none
+      if courtesy_notification_pending?
+        source_files.select { |source_file| source_file.needs_courtesy_notification? }
+      else
+        []
+      end
     end
   end
 
