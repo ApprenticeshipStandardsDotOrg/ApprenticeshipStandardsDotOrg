@@ -19,7 +19,7 @@ FactoryBot.define do
     trait :with_data_import do
       after :create do |occupation_standard|
         import = build(:imports_pdf)
-        create(:data_import, import: import, source_file: nil, occupation_standard: occupation_standard)
+        create(:data_import, import: import, occupation_standard: occupation_standard)
       end
     end
 

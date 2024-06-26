@@ -2,7 +2,6 @@ class DataImport < ApplicationRecord
   has_one_attached :file
 
   belongs_to :user, optional: true
-  belongs_to :source_file, optional: true
   belongs_to :import, class_name: "Imports::Pdf", foreign_key: :import_id, optional: true
 
   belongs_to :occupation_standard, optional: true
