@@ -29,11 +29,7 @@ class AdminMailer < ApplicationMailer
   end
 
   def daily_redacted_files_report
-    @recently_redacted_records = if Flipper.enabled?(:show_imports_in_administrate)
-      Imports::Pdf.includes(file_attachment: :blob).recently_redacted
-    else
-      SourceFile.includes(active_storage_attachment: :blob).recently_redacted
-    end
+    @recently_redacted_records = Imports::Pdf.includes(file_attachment: :blob).recently_redacted
 
     if @recently_redacted_records.any?
       date = Time.zone.yesterday.to_date

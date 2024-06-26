@@ -86,31 +86,6 @@ RSpec.describe AdminMailer, type: :mailer do
   describe "#daily_redacted_files_report" do
     it "renders the header and body correctly" do
       travel_to(Time.zone.local(2023, 6, 15)) do
-        source_file = create(:source_file, redacted_at: Time.zone.local(2023, 6, 14))
-
-        mail = described_class.daily_redacted_files_report
-
-        expect(mail.subject).to eq("Daily redacted files report 2023-06-14")
-        expect(mail.to).to eq(["info@workhands.us"])
-        expect(mail.from).to eq(["no-reply@apprenticeshipstandards.org"])
-
-        mail.body.parts.each do |part|
-          expect(part.body.encoded).to match source_file.active_storage_attachment.filename.to_s
-          expect(part.body.encoded).to match admin_source_file_url(source_file)
-        end
-      end
-    end
-
-    it "does not send mail if no imports" do
-      expect {
-        described_class.daily_redacted_files_report.deliver_now
-      }.not_to change(ActionMailer::Base.deliveries, :count)
-    end
-
-    it "with import feature flag: renders the header and body correctly" do
-      stub_feature_flag(:show_imports_in_administrate, true)
-
-      travel_to(Time.zone.local(2023, 6, 15)) do
         import = create(:imports_pdf, redacted_at: Time.zone.local(2023, 6, 14))
 
         mail = described_class.daily_redacted_files_report
@@ -124,18 +99,12 @@ RSpec.describe AdminMailer, type: :mailer do
           expect(part.body.encoded).to match admin_import_url(import)
         end
       end
-
-      stub_feature_flag(:show_imports_in_administrate, false)
     end
 
     it "with import feature flag: does not send mail if no imports" do
-      stub_feature_flag(:show_imports_in_administrate, true)
-
       expect {
         described_class.daily_redacted_files_report.deliver_now
       }.not_to change(ActionMailer::Base.deliveries, :count)
-
-      stub_feature_flag(:show_imports_in_administrate, false)
     end
   end
 end
