@@ -300,7 +300,7 @@ RSpec.describe Imports::Pdf, type: :model do
         uncat = create(:imports_uncategorized, parent: standards_import)
         pdf = create(:imports_pdf, parent: uncat)
 
-        expect(uncat.organization).to be_blank
+        expect(pdf.organization).to be_blank
       end
     end
   end
