@@ -17,5 +17,5 @@
 </header>
 
 <section aria-labelledby="title_id" class="main-content__body">
-  <%= render "form", page: page %>
+  <%= render "form", page: page, url: admin_import_data_import_path(page.resource.import, page.resource) %>
 </section>
