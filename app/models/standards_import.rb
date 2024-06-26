@@ -1,5 +1,4 @@
 class StandardsImport < ApplicationRecord
-  has_many_attached :files
   has_many :imports, as: :parent, dependent: :destroy
 
   enum courtesy_notification: [:not_required, :pending, :completed], _prefix: true
