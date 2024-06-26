@@ -169,22 +169,22 @@ RSpec.describe StandardsImport, type: :model do
           # about the second file being completed
           standards_import1 = create(:standards_import, courtesy_notification: :pending, email: "foo@example.com", name: "Foo")
           uncat1a = create(:imports_uncategorized, parent: standards_import1)
-          pdf1a = create(:imports_pdf, parent: uncat1a, status: :completed, courtesy_notification: :completed)
+          create(:imports_pdf, parent: uncat1a, status: :completed, courtesy_notification: :completed)
           uncat1b = create(:imports_uncategorized, parent: standards_import1)
-          pdf1b = create(:imports_pdf, parent: uncat1b, status: :completed, courtesy_notification: :pending)
+          create(:imports_pdf, parent: uncat1b, status: :completed, courtesy_notification: :pending)
 
           # StandardsImport needs notifiying since user has not been notified
           # about single file conversion being completed
           standards_import2 = create(:standards_import, courtesy_notification: :pending, email: "foo2@example.com", name: "Foo2")
           uncat2 = create(:imports_uncategorized, parent: standards_import2)
-          pdf2 = create(:imports_pdf, parent: uncat2, status: :completed, courtesy_notification: :pending)
+          create(:imports_pdf, parent: uncat2, status: :completed, courtesy_notification: :pending)
 
           # StandardsImport does NOT need notifiying since user has been
           # notified about the second file, but first file conversion is not
           # complete.
           standards_import3 = create(:standards_import, courtesy_notification: :pending, email: "foo3@example.com", name: "Foo3")
           uncat3 = create(:imports_uncategorized, parent: standards_import3)
-          pdf3 = create(:imports_pdf, parent: uncat3, status: :completed, courtesy_notification: :completed)
+          create(:imports_pdf, parent: uncat3, status: :completed, courtesy_notification: :completed)
 
           # Import does NOT need notifiying since import courtesy notification
           # is marked as completed.
@@ -204,9 +204,9 @@ RSpec.describe StandardsImport, type: :model do
           # second file being completed
           standards_import1 = create(:standards_import, courtesy_notification: :pending, email: "FOO@example.com ", name: "Foo")
           uncat1a = create(:imports_uncategorized, parent: standards_import1)
-          pdf1a = create(:imports_pdf, parent: uncat1a, status: :completed, courtesy_notification: :completed)
+          create(:imports_pdf, parent: uncat1a, status: :completed, courtesy_notification: :completed)
           uncat1b = create(:imports_uncategorized, parent: standards_import1)
-          pdf1b = create(:imports_pdf, parent: uncat1b, status: :completed, courtesy_notification: :pending)
+          create(:imports_pdf, parent: uncat1b, status: :completed, courtesy_notification: :pending)
 
           # Import does not need notifiying since email doesn't match
           standards_import2 = create(:standards_import, courtesy_notification: :pending, email: "notfoo@example.com", name: "Not Foo")
@@ -340,10 +340,10 @@ RSpec.describe StandardsImport, type: :model do
         it "is true if at least one pdf conversion is complete but courtesy notification is marked as pending" do
           standards_import = create(:standards_import, courtesy_notification: :pending, email: "foo@example.com", name: "Foo")
           uncat1 = create(:imports_uncategorized, parent: standards_import)
-          pdf1 = create(:imports_pdf, parent: uncat1, status: :completed, courtesy_notification: :completed)
+          create(:imports_pdf, parent: uncat1, status: :completed, courtesy_notification: :completed)
 
           uncat2 = create(:imports_uncategorized, parent: standards_import)
-          pdf2 = create(:imports_pdf, parent: uncat2, status: :completed, courtesy_notification: :pending)
+          create(:imports_pdf, parent: uncat2, status: :completed, courtesy_notification: :pending)
 
           expect(standards_import).to have_converted_source_file_in_need_of_notification
         end
@@ -440,8 +440,9 @@ RSpec.describe StandardsImport, type: :model do
         it "returns pdf imports such that conversion is complete but courtesy notification is marked as pending" do
           standards_import = create(:standards_import, courtesy_notification: :pending, email: "foo@example.com", name: "Foo")
           uncat1 = create(:imports_uncategorized, parent: standards_import)
+          _pdf1 = create(:imports_pdf, parent: uncat1, status: :completed, courtesy_notification: :completed) # Conversion is completed and user notified
+
           uncat2 = create(:imports_uncategorized, parent: standards_import)
-          pdf1 = create(:imports_pdf, parent: uncat1, status: :completed, courtesy_notification: :completed) # Conversion is completed and user notified
           pdf2 = create(:imports_pdf, parent: uncat2, status: :completed, courtesy_notification: :pending) # Conversion is completed but user not notified
 
           expect(standards_import.source_files_in_need_of_notification).to eq [pdf2]
@@ -452,9 +453,10 @@ RSpec.describe StandardsImport, type: :model do
           # been converted.
           standards_import = create(:standards_import, courtesy_notification: :pending, email: "foo@example.com", name: "Foo")
           uncat1 = create(:imports_uncategorized, parent: standards_import)
+          create(:imports_pdf, parent: uncat1, status: :completed, courtesy_notification: :completed) # Conversion is completed and user notified
+
           uncat2 = create(:imports_uncategorized, parent: standards_import)
-          pdf1 = create(:imports_pdf, parent: uncat1, status: :completed, courtesy_notification: :completed) # Conversion is completed and user notified
-          pdf2 = create(:imports_pdf, parent: uncat2, status: :pending) # Conversion not completed
+          create(:imports_pdf, parent: uncat2, status: :pending) # Conversion not completed
 
           expect(standards_import.source_files_in_need_of_notification).to be_empty
         end

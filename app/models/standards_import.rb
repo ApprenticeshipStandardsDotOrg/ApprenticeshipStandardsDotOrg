@@ -37,6 +37,7 @@ class StandardsImport < ApplicationRecord
   end
 
   def source_files_in_need_of_notification
+    # standard:disable Style/IfInsideElse
     if Flipper.enabled?(:show_imports_in_administrate)
       if courtesy_notification_pending?
         pdf_leaves.select { |pdf| pdf.needs_courtesy_notification? }
@@ -50,6 +51,7 @@ class StandardsImport < ApplicationRecord
         []
       end
     end
+    # standard:enable Style/IfInsideElse
   end
 
   def pdf_leaves
