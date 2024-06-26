@@ -360,4 +360,41 @@ RSpec.describe StandardsImport, type: :model do
       si.notify_admin
     end
   end
+
+  describe "#pdf_leaves" do
+    it "returns all the pdf descendants" do
+      standards_import = create(:standards_import)
+
+      # Uncat -> Doc -> Pdf
+      uncat_doc = create(:imports_uncategorized, :doc, parent: standards_import)
+      doc = create(:imports_doc, parent: uncat_doc)
+      pdf_from_doc = create(:imports_pdf, parent: doc)
+
+      # Uncat -> Docx -> Pdf
+      uncat_docx = create(:imports_uncategorized, :docx, parent: standards_import)
+      docx = create(:imports_docx, parent: uncat_docx)
+      pdf_from_docx = create(:imports_pdf, parent: docx)
+
+      # Uncat -> Pdf
+      uncat_pdf = create(:imports_uncategorized, :pdf, parent: standards_import)
+      pdf = create(:imports_pdf, parent: uncat_pdf)
+
+      # Uncat -> DocxListing -> multiple pdfs
+      uncat_docx_listing = create(:imports_uncategorized, :docx_listing, parent: standards_import)
+      docx_listing = create(:imports_docx_listing, parent: uncat_docx_listing)
+      uncat1 = create(:imports_uncategorized, parent: docx_listing)
+      uncat2 = create(:imports_uncategorized, parent: docx_listing)
+      uncat3 = create(:imports_uncategorized, parent: docx_listing)
+
+      listing_doc = create(:imports_doc, parent: uncat1)
+      pdf1 = create(:imports_pdf, parent: listing_doc)
+
+      listing_docx = create(:imports_docx, parent: uncat2)
+      pdf2 = create(:imports_pdf, parent: listing_docx)
+
+      pdf3 = create(:imports_pdf, parent: uncat3)
+
+      expect(standards_import.pdf_leaves).to contain_exactly(pdf_from_doc, pdf_from_docx, pdf, pdf1, pdf2, pdf3)
+    end
+  end
 end

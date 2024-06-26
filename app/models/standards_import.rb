@@ -44,6 +44,10 @@ class StandardsImport < ApplicationRecord
     end
   end
 
+  def pdf_leaves
+    imports.includes(:import).flat_map(&:pdf_leaves)
+  end
+
   def has_notified_uploader_of_all_conversions?
     source_files.count == source_files.count { |source_file| source_file.courtesy_notification_completed? }
   end
