@@ -19,7 +19,7 @@ class ImportDashboard < Administrate::BaseDashboard
     cousins: Field::String.with_options(searchable: false),
     import: Field::BelongsTo,
     imports: Field::HasMany,
-    notes: Field::String,
+    notes: Field::String.with_options(searchable: false),
     processed_at: Field::DateTime,
     processing_errors: Field::Text,
     public_document: Field::Boolean,
