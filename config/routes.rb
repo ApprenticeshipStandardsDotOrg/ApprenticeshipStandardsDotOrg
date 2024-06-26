@@ -30,11 +30,6 @@ Rails.application.routes.draw do
 
     namespace :admin do
       resources :data_imports, except: [:index]
-      resources :source_files, only: [:index, :edit, :show, :update, :destroy] do
-        resource :redact_file, only: [:new, :create]
-        resources :data_imports, except: [:index]
-        delete :redacted_source_file, on: :member, action: :destroy_redacted_source_file
-      end
       resources :standards_imports
       resources :imports do
         resource :redact_file, only: [:new, :create]
