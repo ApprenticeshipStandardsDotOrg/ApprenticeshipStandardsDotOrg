@@ -282,4 +282,26 @@ RSpec.describe Imports::Pdf, type: :model do
       expect(pdf.needs_courtesy_notification?).to be true
     end
   end
+
+  describe "#organization" do
+    context "when standards_import has organization" do
+      it "returns standards_import organization" do
+        standards_import = create(:standards_import, organization: "Urban")
+        uncat = create(:imports_uncategorized, parent: standards_import)
+        pdf = create(:imports_pdf, parent: uncat)
+
+        expect(pdf.organization).to eq "Urban"
+      end
+    end
+
+    context "when standards_import does not have organization" do
+      it "is blank" do
+        standards_import = create(:standards_import, organization: nil)
+        uncat = create(:imports_uncategorized, parent: standards_import)
+        pdf = create(:imports_pdf, parent: uncat)
+
+        expect(uncat.organization).to be_blank
+      end
+    end
+  end
 end
