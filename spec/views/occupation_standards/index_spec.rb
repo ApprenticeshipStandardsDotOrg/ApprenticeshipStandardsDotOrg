@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "occupations/index", type: :view do
+RSpec.describe "occupation_standards/index", type: :view do
   it "displays the correct page title when page_title is present" do
     allow_any_instance_of(ActionView::TestCase::TestController).to receive(:controller_name).and_return("occupation_standards")
     allow_any_instance_of(ActionView::TestCase::TestController).to receive(:current_user).and_return(nil)
