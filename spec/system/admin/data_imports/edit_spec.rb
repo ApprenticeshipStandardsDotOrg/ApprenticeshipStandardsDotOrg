@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe "admin/data_imports/edit" do
   it "allows admin user to edit data import", :admin do
     pdf = create(:imports_pdf)
-    data_import = create(:data_import, import: pdf, source_file: nil)
+    data_import = create(:data_import, import: pdf)
     admin = create(:admin)
 
     login_as admin
@@ -31,7 +31,7 @@ RSpec.describe "admin/data_imports/edit" do
 
   it "does not allow invalid file types", :admin do
     pdf = create(:imports_pdf)
-    data_import = create(:data_import, source_file: nil, import: pdf)
+    data_import = create(:data_import, import: pdf)
     admin = create(:admin)
 
     login_as admin
