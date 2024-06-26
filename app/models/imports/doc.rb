@@ -34,10 +34,6 @@ module Imports
       pdf
     end
 
-    def pdf_leaves
-      [pdf_leaf].compact
-    end
-
     # For Administrate
     def import
       pdf
