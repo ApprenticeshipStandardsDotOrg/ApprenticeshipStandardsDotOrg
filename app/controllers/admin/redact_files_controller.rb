@@ -1,11 +1,7 @@
 module Admin
   class RedactFilesController < Admin::ApplicationController
     def new
-      @record = if Flipper.enabled?(:show_imports_in_administrate)
-        Imports::Pdf.find(params[:import_id])
-      else
-        SourceFile.find(params[:source_file_id])
-      end
+      @record = Imports::Pdf.find(params[:import_id])
       authorize :redact_file, :new?
 
       # Use a custom layout
@@ -15,19 +11,11 @@ module Admin
     def create
       respond_to do |format|
         format.json do
-          @record = if Flipper.enabled?(:show_imports_in_administrate)
-            Import.find(params[:import_id])
-          else
-            SourceFile.find(params[:source_file_id])
-          end
+          @record = Import.find(params[:import_id])
           authorize :redact_file, :new?
 
           if params[:redacted_file]
-            if Flipper.enabled?(:show_imports_in_administrate)
-              @record.redacted_pdf.attach(params[:redacted_file])
-            else
-              @record.redacted_source_file.attach(params[:redacted_file])
-            end
+            @record.redacted_pdf.attach(params[:redacted_file])
             @record.associated_occupation_standards.each do |occupation_standard|
               occupation_standard.redacted_document.attach(params[:redacted_file])
             end
