@@ -220,4 +220,26 @@ RSpec.describe Imports::Pdf, type: :model do
       expect(pdf.available_for_redaction?).to be false
     end
   end
+
+  describe "#notes" do
+    context "when standards_import is public" do
+      it "is blank" do
+        standards_import = create(:standards_import, public_document: true, notes: "from some scraper job")
+        uncat = create(:imports_uncategorized, parent: standards_import)
+        pdf = create(:imports_pdf, parent: uncat)
+
+        expect(pdf.notes).to be_blank
+      end
+    end
+
+    context "when standards_import is not public" do
+      it "returns standards_import notes" do
+        standards_import = create(:standards_import, public_document: false, notes: "Please anonymize sponsor")
+        uncat = create(:imports_uncategorized, parent: standards_import)
+        pdf = create(:imports_pdf, parent: uncat)
+
+        expect(pdf.notes).to eq "Please anonymize sponsor"
+      end
+    end
+  end
 end
