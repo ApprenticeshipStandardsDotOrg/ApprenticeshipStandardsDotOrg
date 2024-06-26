@@ -102,10 +102,6 @@ class SourceFile < ApplicationRecord
     standards_import.organization
   end
 
-  def notes
-    standards_import.notes
-  end
-
   def claimed?
     assignee.present?
   end

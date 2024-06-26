@@ -238,17 +238,6 @@ RSpec.describe SourceFile, type: :model do
     end
   end
 
-  describe "#notes" do
-    it "returns notes from standards_import association" do
-      perform_enqueued_jobs do
-        create(:standards_import, :with_files, notes: "From scraper job")
-        source_file = SourceFile.last
-
-        expect(source_file.notes).to eq "From scraper job"
-      end
-    end
-  end
-
   describe "#claimed?" do
     it "returns true if there is an assignee" do
       admin = build_stubbed(:admin)
