@@ -250,4 +250,36 @@ RSpec.describe Imports::Pdf, type: :model do
       end
     end
   end
+
+  describe "#needs_courtesy_notification?" do
+    it "is false if status is pending" do
+      pdf = build(:imports_pdf, :pending)
+
+      expect(pdf.needs_courtesy_notification?).to be false
+    end
+
+    it "is false if status is needs_support" do
+      pdf = build(:imports_pdf, :needs_support)
+
+      expect(pdf.needs_courtesy_notification?).to be false
+    end
+
+    it "is false if status is completed and courtesy_notification is completed" do
+      pdf = build(:imports_pdf, :completed, courtesy_notification: :completed)
+
+      expect(pdf.needs_courtesy_notification?).to be false
+    end
+
+    it "is false if status is completed and courtesy_notification is not_required" do
+      pdf = build(:imports_pdf, :completed, courtesy_notification: :not_required)
+
+      expect(pdf.needs_courtesy_notification?).to be false
+    end
+
+    it "is true if status is completed and courtesy_notification is pending" do
+      pdf = build(:imports_pdf, :completed, courtesy_notification: :pending)
+
+      expect(pdf.needs_courtesy_notification?).to be true
+    end
+  end
 end

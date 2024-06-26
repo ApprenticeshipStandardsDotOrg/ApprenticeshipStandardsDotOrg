@@ -43,6 +43,10 @@ module Imports
       redacted_pdf.attached? ? redacted_pdf : file
     end
 
+    def needs_courtesy_notification?
+      completed? && courtesy_notification_pending?
+    end
+
     def pdf_leaf
       self
     end
