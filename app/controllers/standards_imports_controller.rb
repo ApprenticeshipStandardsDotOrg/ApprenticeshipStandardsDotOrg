@@ -27,7 +27,13 @@ class StandardsImportsController < ApplicationController
   end
 
   def show
-    @standards_import = StandardsImport.includes(files_attachments: [:blob, source_file: :original_source_file]).find(params[:id])
+    # standard:disable Style/ConditionalAssignment
+    if Flipper.enabled?(:show_imports_in_administrate)
+      @standards_import = StandardsImport.includes(imports: {file_attachment: :blob}).find(params[:id])
+    else
+      @standards_import = StandardsImport.includes(files_attachments: [:blob, source_file: :original_source_file]).find(params[:id])
+    end
+    # standard:enable Style/ConditionalAssignment
   end
 
   private
