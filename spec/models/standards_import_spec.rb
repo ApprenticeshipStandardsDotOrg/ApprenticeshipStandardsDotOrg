@@ -203,52 +203,100 @@ RSpec.describe StandardsImport, type: :model do
   end
 
   describe "#has_converted_source_file_in_need_of_notification?" do
-    context "when courtesy notification is not_required" do
-      it "is false" do
-        import = build(:standards_import, courtesy_notification: :not_required)
+    context "with imports feature flag off" do
+      context "when courtesy notification is not_required" do
+        it "is false" do
+          import = build(:standards_import, courtesy_notification: :not_required)
 
-        expect(import).to_not have_converted_source_file_in_need_of_notification
-      end
-    end
-
-    context "when courtesy notification is completed" do
-      it "is false" do
-        import = build(:standards_import, courtesy_notification: :completed)
-
-        expect(import).to_not have_converted_source_file_in_need_of_notification
-      end
-    end
-
-    context "when courtesy notification is pending" do
-      it "is true if at least one source file conversion is complete but courtesy notification is marked as pending" do
-        perform_enqueued_jobs do
-          file1 = file_fixture("pixel1x1.pdf")
-          file2 = file_fixture("pixel1x1.jpg")
-
-          import = create(:standards_import, files: [file1, file2], courtesy_notification: :pending, email: "foo@example.com", name: "Foo")
-          source_file1 = SourceFile.first
-          source_file1.completed! # Conversion is complete
-          source_file1.courtesy_notification_completed! # User notified
-          source_file2 = SourceFile.last
-          source_file2.completed! # Conversion is complete
-
-          expect(import).to have_converted_source_file_in_need_of_notification
+          expect(import).to_not have_converted_source_file_in_need_of_notification
         end
       end
 
-      it "is false if there are no completed coversions without courtesy notification needed" do
-        perform_enqueued_jobs do
-          file1 = file_fixture("pixel1x1.pdf")
-          file2 = file_fixture("pixel1x1.jpg")
-
-          # First file has been converted and notified. Second file has not
-          # been converted.
-          import = create(:standards_import, files: [file1, file2], courtesy_notification: :pending, email: "foo@example.com", name: "Foo")
-          source_file = SourceFile.first
-          source_file.completed! # Conversion is complete
-          source_file.courtesy_notification_completed! # User notified
+      context "when courtesy notification is completed" do
+        it "is false" do
+          import = build(:standards_import, courtesy_notification: :completed)
 
           expect(import).to_not have_converted_source_file_in_need_of_notification
+        end
+      end
+
+      context "when courtesy notification is pending" do
+        it "is true if at least one source file conversion is complete but courtesy notification is marked as pending" do
+          perform_enqueued_jobs do
+            file1 = file_fixture("pixel1x1.pdf")
+            file2 = file_fixture("pixel1x1.jpg")
+
+            import = create(:standards_import, files: [file1, file2], courtesy_notification: :pending, email: "foo@example.com", name: "Foo")
+            source_file1 = SourceFile.first
+            source_file1.completed! # Conversion is complete
+            source_file1.courtesy_notification_completed! # User notified
+            source_file2 = SourceFile.last
+            source_file2.completed! # Conversion is complete
+
+            expect(import).to have_converted_source_file_in_need_of_notification
+          end
+        end
+
+        it "is false if there are no completed coversions without courtesy notification needed" do
+          perform_enqueued_jobs do
+            file1 = file_fixture("pixel1x1.pdf")
+            file2 = file_fixture("pixel1x1.jpg")
+
+            # First file has been converted and notified. Second file has not
+            # been converted.
+            import = create(:standards_import, files: [file1, file2], courtesy_notification: :pending, email: "foo@example.com", name: "Foo")
+            source_file = SourceFile.first
+            source_file.completed! # Conversion is complete
+            source_file.courtesy_notification_completed! # User notified
+
+            expect(import).to_not have_converted_source_file_in_need_of_notification
+          end
+        end
+      end
+    end
+
+    context "with imports feature flag on" do
+      before { stub_feature_flag(:show_imports_in_administrate, true) }
+      after { stub_feature_flag(:show_imports_in_administrate, false) }
+
+      context "when courtesy notification is not_required" do
+        it "is false" do
+          standards_import = build(:standards_import, courtesy_notification: :not_required)
+
+          expect(standards_import).to_not have_converted_source_file_in_need_of_notification
+        end
+      end
+
+      context "when courtesy notification is completed" do
+        it "is false" do
+          standards_import = build(:standards_import, courtesy_notification: :completed)
+
+          expect(standards_import).to_not have_converted_source_file_in_need_of_notification
+        end
+      end
+
+      context "when courtesy notification is pending" do
+        it "is true if at least one pdf conversion is complete but courtesy notification is marked as pending" do
+          standards_import = create(:standards_import, courtesy_notification: :pending, email: "foo@example.com", name: "Foo")
+          uncat1 = create(:imports_uncategorized, parent: standards_import)
+          pdf1 = create(:imports_pdf, parent: uncat1, status: :completed, courtesy_notification: :completed)
+
+          uncat2 = create(:imports_uncategorized, parent: standards_import)
+          pdf2 = create(:imports_pdf, parent: uncat2, status: :completed, courtesy_notification: :pending)
+
+          expect(standards_import).to have_converted_source_file_in_need_of_notification
+        end
+
+        it "is false if there are no completed coversions without courtesy notification needed" do
+          # First file has been converted and notified. Second file has not
+          # been converted.
+          standards_import = create(:standards_import, courtesy_notification: :pending, email: "foo@example.com", name: "Foo")
+          uncat1 = create(:imports_uncategorized, parent: standards_import)
+          create(:imports_pdf, parent: uncat1, status: :completed, courtesy_notification: :completed)
+          uncat2 = create(:imports_uncategorized, parent: standards_import)
+          create(:imports_pdf, parent: uncat2, status: :pending, courtesy_notification: :pending)
+
+          expect(standards_import).to_not have_converted_source_file_in_need_of_notification
         end
       end
     end
