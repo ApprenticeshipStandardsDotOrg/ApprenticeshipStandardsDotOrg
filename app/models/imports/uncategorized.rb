@@ -33,6 +33,14 @@ module Imports
     rescue NoPdfLeafError
     end
 
+    def pdf_leaves
+      if import
+        import.pdf_leaves
+      else
+        []
+      end
+    end
+
     def transfer_source_file_data!
       pdf = pdf_leaf
       if source_file && pdf
