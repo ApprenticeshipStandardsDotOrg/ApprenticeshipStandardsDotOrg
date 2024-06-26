@@ -48,22 +48,16 @@ RSpec.describe StandardsImport, type: :model do
   end
 
   it "deletes file import record when deleted" do
-    perform_enqueued_jobs do
-      standards_import = create(:standards_import, :with_files)
-      attachment = standards_import.files.first
-      source_file = attachment.source_file
+    standards_import = create(:standards_import, :with_files)
+    attachment = standards_import.files.first
 
-      expect(attachment).to be
-      expect(source_file).to be
+    expect(attachment).to be
 
-      expect {
-        standards_import.destroy!
-      }.to change(ActiveStorage::Attachment, :count).by(-1)
-        .and change(SourceFile, :count).by(-1)
+    expect {
+      standards_import.destroy!
+    }.to change(ActiveStorage::Attachment, :count).by(-1)
 
-      expect { attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
-      expect { source_file.reload }.to raise_error(ActiveRecord::RecordNotFound)
-    end
+    expect { attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
   end
 
   describe "imports" do
@@ -215,50 +209,6 @@ RSpec.describe StandardsImport, type: :model do
 
           expect(described_class.manual_submissions_in_need_of_courtesy_notification(email: " foo@EXAMPLE.COM")).to contain_exactly(standards_import1)
         end
-      end
-    end
-  end
-
-  describe "source_file creation" do
-    it "without import flag: calls CreateSourceFileJob" do
-      expect(CreateSourceFileJob).to receive(:perform_later).twice
-
-      file1 = file_fixture("pixel1x1.pdf")
-      file2 = file_fixture("pixel1x1.jpg")
-      create(:standards_import, files: [file1, file2])
-    end
-
-    it "with import flag: does not call CreateSourceFileJob" do
-      stub_feature_flag(:show_imports_in_administrate, true)
-
-      expect(CreateSourceFileJob).to_not receive(:perform_later)
-
-      file = file_fixture("pixel1x1.pdf")
-      create(:standards_import, files: [file])
-
-      stub_feature_flag(:show_imports_in_administrate, false)
-    end
-  end
-
-  describe "#source_files" do
-    it "returns source files associated to each file attachment, alphabetically by filename" do
-      perform_enqueued_jobs do
-        file1 = file_fixture("pixel1x1.pdf")
-        file2 = file_fixture("pixel1x1.jpg")
-        file3 = file_fixture("pixel1x1-2.jpg")
-
-        import = create(:standards_import, email: "foo@example.com", name: "Foo", files: [file1, file2, file3], courtesy_notification: :pending)
-        source_file1 = SourceFile.first
-        source_file2 = SourceFile.second
-        source_file3 = SourceFile.last
-
-        # Simulate an active storage attachment that does not have a source file
-        # yet
-        source_file3.destroy!
-
-        create(:source_file)
-
-        expect(import.source_files).to eq [source_file2, source_file1]
       end
     end
   end
