@@ -2,7 +2,6 @@ FactoryBot.define do
   factory :data_import do
     user
     occupation_standard
-    source_file
     status { :completed }
     file { Rack::Test::UploadedFile.new(Rails.root.join("spec", "fixtures", "files", "occupation-standards-template.xlsx"), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") }
 
