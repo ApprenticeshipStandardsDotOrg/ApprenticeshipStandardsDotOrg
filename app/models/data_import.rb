@@ -28,12 +28,21 @@ class DataImport < ApplicationRecord
   end
 
   def related_occupation_standard(title)
-    OccupationStandard
-      .joins(data_imports: :source_file)
-      .where(occupation_standards: {title: title})
-      .where.not(data_imports: {id: id})
-      .where(source_files: {id: source_file_id})
-      .first
+    if Flipper.enabled?(:show_imports_in_administrate)
+      OccupationStandard
+        .joins(data_imports: :import)
+        .where(occupation_standards: {title: title})
+        .where.not(data_imports: {id: id})
+        .where(imports: {id: import_id})
+        .first
+    else
+      OccupationStandard
+        .joins(data_imports: :source_file)
+        .where(occupation_standards: {title: title})
+        .where.not(data_imports: {id: id})
+        .where(source_files: {id: source_file_id})
+        .first
+    end
   end
 
   def set_import_field!
