@@ -3,11 +3,7 @@ module Admin
     skip_after_action :verify_authorized, only: :index
 
     def index
-      if Flipper.enabled?(:show_imports_in_administrate)
-        redirect_to admin_imports_url
-      else
-        super
-      end
+      redirect_to admin_imports_url
     end
 
     def scoped_resource
