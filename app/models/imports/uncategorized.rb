@@ -5,7 +5,6 @@ module Imports
   class Uncategorized < Import
     has_one_attached :file
     has_one :import, as: :parent, dependent: :destroy, autosave: true
-    belongs_to :source_file, optional: true
 
     before_save :set_courtesy_notification
 

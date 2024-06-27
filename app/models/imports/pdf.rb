@@ -2,7 +2,7 @@ module Imports
   class Pdf < Import
     has_one_attached :file
     has_one_attached :redacted_pdf
-    has_many :data_imports, -> { includes(:source_file, file_attachment: :blob) }, inverse_of: "import"
+    has_many :data_imports, -> { includes(file_attachment: :blob) }, inverse_of: "import"
     has_many :associated_occupation_standards, -> { distinct }, through: :data_imports, source: :occupation_standard
 
     def self.recently_redacted(start_time: Time.zone.yesterday.beginning_of_day, end_time: Time.zone.yesterday.end_of_day)
