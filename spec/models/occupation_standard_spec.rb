@@ -262,7 +262,7 @@ RSpec.describe OccupationStandard, type: :model do
 
     it "returns the linked import record" do
       import = create(:imports_pdf)
-      data_import = create(:data_import, import: import, source_file: nil)
+      data_import = create(:data_import, import: import)
       occupation_standard = build(:occupation_standard, data_imports: [data_import])
 
       expect(occupation_standard.source_file).to eq import
@@ -274,7 +274,7 @@ RSpec.describe OccupationStandard, type: :model do
       standards_import = create(:standards_import)
       import_uncat = create(:imports_uncategorized, parent: standards_import)
       import = create(:imports_pdf, parent: import_uncat)
-      data_import = create(:data_import, source_file: nil, import: import)
+      data_import = create(:data_import, import: import)
       occupation_standard = create(:occupation_standard, data_imports: [data_import])
 
       expect(occupation_standard.standards_import).to eq standards_import
@@ -578,7 +578,7 @@ RSpec.describe OccupationStandard, type: :model do
   describe "#public_document?" do
     it "returns true if import public_document flag is true" do
       import = create(:imports_pdf, public_document: true)
-      data_import = create(:data_import, import: import, source_file: nil)
+      data_import = create(:data_import, import: import)
       occupation_standard = create(:occupation_standard, data_imports: [data_import])
 
       expect(occupation_standard.public_document?).to be true
@@ -587,7 +587,7 @@ RSpec.describe OccupationStandard, type: :model do
     it "returns true if associated standard import is public document regardless of import public_document flag" do
       standards_import = create(:standards_import, public_document: true)
       import = create(:imports_pdf, public_document: false, parent: standards_import)
-      data_import = create(:data_import, import: import, source_file: nil)
+      data_import = create(:data_import, import: import)
       occupation_standard = create(:occupation_standard, data_imports: [data_import])
 
       expect(occupation_standard.public_document?).to be true
