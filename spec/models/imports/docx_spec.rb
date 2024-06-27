@@ -101,4 +101,23 @@ RSpec.describe Imports::Docx, type: :model do
       end
     end
   end
+
+  describe "#pdf_leaves" do
+    context "when pdf exists" do
+      it "returns the Imports::Pdf record in an array" do
+        docx = create(:imports_docx)
+        pdf = create(:imports_pdf, parent: docx)
+
+        expect(docx.pdf_leaves).to eq [pdf]
+      end
+    end
+
+    context "when pdf does not exist" do
+      it "returns empty array" do
+        docx = create(:imports_docx)
+
+        expect(docx.pdf_leaves).to be_empty
+      end
+    end
+  end
 end

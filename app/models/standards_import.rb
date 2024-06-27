@@ -10,12 +10,12 @@ class StandardsImport < ApplicationRecord
 
   class << self
     def manual_submissions_in_need_of_courtesy_notification(email: nil)
-      imports = StandardsImport.courtesy_notification_pending
+      standards_imports = StandardsImport.courtesy_notification_pending
       if email.present?
-        imports = imports.where(email: email)
+        standards_imports = standards_imports.where(email: email)
       end
-      imports.select do |import|
-        import.has_converted_source_file_in_need_of_notification?
+      standards_imports.select do |standards_import|
+        standards_import.has_converted_source_file_in_need_of_notification?
       end
     end
   end
@@ -37,11 +37,25 @@ class StandardsImport < ApplicationRecord
   end
 
   def source_files_in_need_of_notification
-    if courtesy_notification_pending?
-      source_files.select { |source_file| source_file.needs_courtesy_notification? }
+    # standard:disable Style/IfInsideElse
+    if Flipper.enabled?(:show_imports_in_administrate)
+      if courtesy_notification_pending?
+        pdf_leaves.select { |pdf| pdf.needs_courtesy_notification? }
+      else
+        []
+      end
     else
-      StandardsImport.none
+      if courtesy_notification_pending?
+        source_files.select { |source_file| source_file.needs_courtesy_notification? }
+      else
+        []
+      end
     end
+    # standard:enable Style/IfInsideElse
+  end
+
+  def pdf_leaves
+    imports.includes(:import).flat_map(&:pdf_leaves)
   end
 
   def has_notified_uploader_of_all_conversions?

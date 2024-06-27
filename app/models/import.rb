@@ -53,6 +53,10 @@ class Import < ApplicationRecord
     parent.docx_listing_root
   end
 
+  def pdf_leaves
+    [pdf_leaf].compact
+  end
+
   # For Administrate
   def cousins
     []

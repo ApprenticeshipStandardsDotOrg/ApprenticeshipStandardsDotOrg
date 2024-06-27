@@ -155,6 +155,46 @@ RSpec.describe Imports::Uncategorized, type: :model do
     end
   end
 
+  describe "#pdf_leaves" do
+    context "when pdf leaf exists" do
+      it "returns the Imports::Pdf record in an array" do
+        uncat = create(:imports_uncategorized)
+        doc = create(:imports_doc, parent: uncat)
+        pdf = create(:imports_pdf, parent: doc)
+
+        expect(uncat.pdf_leaves).to eq [pdf]
+      end
+    end
+
+    context "when import is a docx_listing" do
+      it "returns docx_listing pdf_leaves" do
+        uncat = create(:imports_uncategorized)
+        docx_listing = create(:imports_docx_listing, parent: uncat)
+        uncat1 = create(:imports_uncategorized, parent: docx_listing)
+        uncat2 = create(:imports_uncategorized, parent: docx_listing)
+        uncat3 = create(:imports_uncategorized, parent: docx_listing)
+
+        doc = create(:imports_doc, parent: uncat1)
+        pdf1 = create(:imports_pdf, parent: doc)
+
+        docx = create(:imports_docx, parent: uncat2)
+        pdf2 = create(:imports_pdf, parent: docx)
+
+        pdf3 = create(:imports_pdf, parent: uncat3)
+
+        expect(uncat.pdf_leaves).to contain_exactly(pdf1, pdf2, pdf3)
+      end
+    end
+
+    context "when pdf leaf does not exist" do
+      it "returns empty array" do
+        uncat = create(:imports_uncategorized)
+
+        expect(uncat.pdf_leaves).to be_empty
+      end
+    end
+  end
+
   describe "#import_root" do
     it "retrieves the standards_import at the root" do
       standards_import = create(:standards_import)
