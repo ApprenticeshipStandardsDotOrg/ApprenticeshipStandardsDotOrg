@@ -67,6 +67,7 @@ to display a collection of resources in an HTML table.
   </thead>
 
   <tbody>
+    <% resources = resources.preload(parent: :parent) %>
     <% resources.each do |resource| %>
       <tr class="js-table-row"
           <% if accessible_action?(resource, :show) %>

@@ -45,6 +45,10 @@ class Import < ApplicationRecord
     end
   end
 
+  def organization
+    import_root.organization
+  end
+
   def import_root
     parent.import_root
   end
