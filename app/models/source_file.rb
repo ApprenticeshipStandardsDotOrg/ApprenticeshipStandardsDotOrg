@@ -98,10 +98,6 @@ class SourceFile < ApplicationRecord
     self[:metadata] = value.is_a?(String) ? JSON.parse(value) : value
   end
 
-  def organization
-    standards_import.organization
-  end
-
   def claimed?
     assignee.present?
   end

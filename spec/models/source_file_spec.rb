@@ -227,17 +227,6 @@ RSpec.describe SourceFile, type: :model do
     end
   end
 
-  describe "#organization" do
-    it "returns organization from standards_import association" do
-      perform_enqueued_jobs do
-        create(:standards_import, :with_files, organization: "Pipe Fitters R Us")
-        source_file = SourceFile.last
-
-        expect(source_file.organization).to eq "Pipe Fitters R Us"
-      end
-    end
-  end
-
   describe "#claimed?" do
     it "returns true if there is an assignee" do
       admin = build_stubbed(:admin)
