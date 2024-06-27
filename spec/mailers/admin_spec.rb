@@ -45,7 +45,7 @@ RSpec.describe AdminMailer, type: :mailer do
     it "renders the header and body correctly" do
       travel_to(Time.zone.local(2023, 6, 15)) do
         pdf = create(:imports_pdf)
-        data_import = create(:data_import, created_at: Time.zone.local(2023, 6, 14), import: pdf, source_file: nil)
+        data_import = create(:data_import, created_at: Time.zone.local(2023, 6, 14), import: pdf)
         occupation_standard = data_import.occupation_standard
         occupation_standard.update!(ojt_hours_min: 100, ojt_hours_max: 200, rsi_hours_min: 500, rsi_hours_max: 600, title: "Mechanic")
         allow_any_instance_of(OccupationStandard).to receive(:competencies_count).and_return(123)
