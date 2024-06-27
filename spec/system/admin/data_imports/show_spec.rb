@@ -24,7 +24,7 @@ RSpec.describe "admin/data_imports/show" do
 
     expect(page).to have_link "Destroy", href: admin_import_data_import_path(import, data_import)
 
-    expect{
+    expect {
       click_on "Destroy"
     }.to change(DataImport, :count).by(-1)
   end

@@ -79,7 +79,6 @@ RSpec.describe AdminMailer, type: :mailer do
       expect {
         described_class.daily_uploads_report.deliver_now
       }.not_to change(ActionMailer::Base.deliveries, :count)
-
     end
   end
 

@@ -41,7 +41,7 @@ class StandardsImport < ApplicationRecord
   end
 
   def has_notified_uploader_of_all_conversions?
-    pdf_leaves.count == pdf_leaves.count { |pdf| pdf.courtesy_notification_completed?}
+    pdf_leaves.count == pdf_leaves.count { |pdf| pdf.courtesy_notification_completed? }
   end
 
   def file_count

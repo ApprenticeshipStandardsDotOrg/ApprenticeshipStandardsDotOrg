@@ -217,7 +217,7 @@ RSpec.describe ImportOccupationStandardDetails do
 
         os = create(:occupation_standard, title: "HUMAN RESOURCE SPECIALIST")
         pdf = create(:imports_pdf)
-        original_data_import = create(:data_import, occupation_standard: os, import: pdf)
+        create(:data_import, occupation_standard: os, import: pdf)
 
         os_other = create(:occupation_standard, title: "NOT HUMAN RESOURCE SPECIALIST")
         create(:data_import, occupation_standard: os_other, import: pdf)

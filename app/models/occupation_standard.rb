@@ -230,6 +230,10 @@ class OccupationStandard < ApplicationRecord
     organization&.title
   end
 
+  def source_file
+    data_import&.import
+  end
+
   def standards_import
     source_file&.import_root
   end
@@ -250,10 +254,6 @@ class OccupationStandard < ApplicationRecord
   def related_job_titles
     onet = Onet.find_by(code: onet_code)
     onet&.related_job_titles || []
-  end
-
-  def source_file
-    data_import&.import
   end
 
   def public_document?

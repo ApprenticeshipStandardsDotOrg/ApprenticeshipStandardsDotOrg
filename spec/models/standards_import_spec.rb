@@ -183,7 +183,6 @@ RSpec.describe StandardsImport, type: :model do
   end
 
   describe "#source_files_in_need_of_notification" do
-
     context "when courtesy notification is not_required" do
       it "is empty" do
         import = create(:standards_import, courtesy_notification: :not_required)
@@ -231,9 +230,9 @@ RSpec.describe StandardsImport, type: :model do
     it "is true if imports total matches courtesy notification total" do
       standards_import = create(:standards_import, courtesy_notification: :pending, email: "foo@example.com", name: "Foo")
       uncat1 = create(:imports_uncategorized, parent: standards_import)
-      pdf1 = create(:imports_pdf, parent: uncat1, status: :completed, courtesy_notification: :completed)
+      create(:imports_pdf, parent: uncat1, status: :completed, courtesy_notification: :completed)
       uncat2 = create(:imports_uncategorized, parent: standards_import)
-      pdf2 = create(:imports_pdf, parent: uncat2, status: :completed, courtesy_notification: :completed)
+      create(:imports_pdf, parent: uncat2, status: :completed, courtesy_notification: :completed)
 
       expect(standards_import.has_notified_uploader_of_all_conversions?).to be true
     end
@@ -241,9 +240,9 @@ RSpec.describe StandardsImport, type: :model do
     it "is false if source file total does not match courtesy notification total" do
       standards_import = create(:standards_import, courtesy_notification: :pending, email: "foo@example.com", name: "Foo")
       uncat1 = create(:imports_uncategorized, parent: standards_import)
-      pdf1 = create(:imports_pdf, parent: uncat1, status: :completed, courtesy_notification: :completed)
+      create(:imports_pdf, parent: uncat1, status: :completed, courtesy_notification: :completed)
       uncat2 = create(:imports_uncategorized, parent: standards_import)
-      pdf2 = create(:imports_pdf, parent: uncat2, status: :completed, courtesy_notification: :pending)
+      create(:imports_pdf, parent: uncat2, status: :completed, courtesy_notification: :pending)
 
       expect(standards_import.has_notified_uploader_of_all_conversions?).to be false
     end
