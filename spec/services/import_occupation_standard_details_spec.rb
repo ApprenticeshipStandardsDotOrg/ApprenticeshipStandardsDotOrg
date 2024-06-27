@@ -220,9 +220,9 @@ RSpec.describe ImportOccupationStandardDetails do
         original_data_import = create(:data_import, occupation_standard: os, import: pdf)
 
         os_other = create(:occupation_standard, title: "NOT HUMAN RESOURCE SPECIALIST")
-        create(:data_import, occupation_standard: os_other, source_file: nil, import: pdf)
+        create(:data_import, occupation_standard: os_other, import: pdf)
 
-        new_data_import = create(:data_import, occupation_standard: nil, source_file: nil, import: pdf)
+        new_data_import = create(:data_import, occupation_standard: nil, import: pdf)
 
         expect {
           described_class.new(new_data_import).call

@@ -101,8 +101,7 @@ RSpec.describe "admin/imports/index", :admin do
 
     it "can delete import" do
       admin = create(:admin)
-      source_file = create(:source_file)
-      uncat = create(:imports_uncategorized, source_file: source_file, status: "unfurled")
+      uncat = create(:imports_uncategorized, status: "unfurled")
       create(:imports_pdf, parent: uncat, status: "pending", created_at: 1.day.ago) # inaccurately set the created_at date so we can easily Destroy the uncat record by matching on the first record
 
       login_as admin
@@ -114,7 +113,6 @@ RSpec.describe "admin/imports/index", :admin do
       expect {
         click_on "Destroy", match: :first
       }.to change(Import, :count).by(-2)
-        .and change(SourceFile, :count).by(0)
 
       expect(page).to_not have_text "unfurled"
     end
