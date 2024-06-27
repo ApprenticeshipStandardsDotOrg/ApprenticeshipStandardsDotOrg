@@ -33,7 +33,7 @@ RSpec.describe ProcessDataImportJob, type: :job do
 
       described_class.new.perform(data_import: data_import)
 
-      expect(data_import.source_file).to be_pending
+      expect(data_import.import).to be_pending
     end
 
     it "deletes old related instructions, wage schedules, work processes when editing" do
