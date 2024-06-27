@@ -86,7 +86,7 @@ RSpec.describe "Admin::SourceFiles::RedactFile", type: :request do
         end
 
         context "without occupation standard" do
-          it "only updates redacted_source_file" do
+          it "only updates redacted import" do
             travel_to Time.current do
               admin = create(:admin)
               data_import = create(:data_import, occupation_standard: nil)
