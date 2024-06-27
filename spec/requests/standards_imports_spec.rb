@@ -63,7 +63,7 @@ RSpec.describe "StandardsImports", type: :request do
       end
 
       context "when admin", :admin do
-        it "creates new standards import record, redirects to source files page, and does not notify admin" do
+        it "creates new standards import record, redirects to imports page, and does not notify admin" do
           stub_feature_flag(:recaptcha, true)
           admin = create(:admin)
 
@@ -100,7 +100,7 @@ RSpec.describe "StandardsImports", type: :request do
           expect(import).to be_unfurled
           expect(import).to be_public_document
 
-          expect(response).to redirect_to admin_source_files_path
+          expect(response).to redirect_to admin_imports_path
         end
       end
     end
