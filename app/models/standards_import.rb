@@ -29,21 +29,11 @@ class StandardsImport < ApplicationRecord
   end
 
   def source_files_in_need_of_notification
-    # standard:disable Style/IfInsideElse
-    if Flipper.enabled?(:show_imports_in_administrate)
-      if courtesy_notification_pending?
-        pdf_leaves.select { |pdf| pdf.needs_courtesy_notification? }
-      else
-        []
-      end
+    if courtesy_notification_pending?
+      pdf_leaves.select { |pdf| pdf.needs_courtesy_notification? }
     else
-      if courtesy_notification_pending?
-        source_files.select { |source_file| source_file.needs_courtesy_notification? }
-      else
-        []
-      end
+      []
     end
-    # standard:enable Style/IfInsideElse
   end
 
   def pdf_leaves
@@ -51,7 +41,7 @@ class StandardsImport < ApplicationRecord
   end
 
   def has_notified_uploader_of_all_conversions?
-    source_files.count == source_files.count { |source_file| source_file.courtesy_notification_completed? }
+    pdf_leaves.count == pdf_leaves.count { |pdf| pdf.courtesy_notification_completed?}
   end
 
   def file_count

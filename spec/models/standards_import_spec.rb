@@ -415,37 +415,24 @@ RSpec.describe StandardsImport, type: :model do
   end
 
   describe "#has_notified_uploader_of_all_conversions?" do
-    it "is true if source file total matches courtesy notification total" do
-      perform_enqueued_jobs do
-        file1 = file_fixture("pixel1x1.pdf")
-        file2 = file_fixture("pixel1x1.jpg")
+    it "is true if imports total matches courtesy notification total" do
+      standards_import = create(:standards_import, courtesy_notification: :pending, email: "foo@example.com", name: "Foo")
+      uncat1 = create(:imports_uncategorized, parent: standards_import)
+      pdf1 = create(:imports_pdf, parent: uncat1, status: :completed, courtesy_notification: :completed)
+      uncat2 = create(:imports_uncategorized, parent: standards_import)
+      pdf2 = create(:imports_pdf, parent: uncat2, status: :completed, courtesy_notification: :completed)
 
-        import = create(:standards_import, files: [file1, file2], courtesy_notification: :pending, email: "foo@example.com", name: "Foo")
-        source_file1 = SourceFile.first
-        source_file1.completed! # Conversion is complete
-        source_file1.courtesy_notification_completed! # User notified
-        source_file2 = SourceFile.last
-        source_file2.completed! # Conversion is complete
-        source_file2.courtesy_notification_completed! # User notified
-
-        expect(import.has_notified_uploader_of_all_conversions?).to be true
-      end
+      expect(standards_import.has_notified_uploader_of_all_conversions?).to be true
     end
 
     it "is false if source file total does not match courtesy notification total" do
-      perform_enqueued_jobs do
-        file1 = file_fixture("pixel1x1.pdf")
-        file2 = file_fixture("pixel1x1.jpg")
+      standards_import = create(:standards_import, courtesy_notification: :pending, email: "foo@example.com", name: "Foo")
+      uncat1 = create(:imports_uncategorized, parent: standards_import)
+      pdf1 = create(:imports_pdf, parent: uncat1, status: :completed, courtesy_notification: :completed)
+      uncat2 = create(:imports_uncategorized, parent: standards_import)
+      pdf2 = create(:imports_pdf, parent: uncat2, status: :completed, courtesy_notification: :pending)
 
-        import = create(:standards_import, files: [file1, file2], courtesy_notification: :pending, email: "foo@example.com", name: "Foo")
-        source_file1 = SourceFile.first
-        source_file1.completed! # Conversion is complete
-        source_file1.courtesy_notification_completed! # User notified
-        source_file2 = SourceFile.last
-        source_file2.completed! # Conversion is complete
-
-        expect(import.has_notified_uploader_of_all_conversions?).to be false
-      end
+      expect(standards_import.has_notified_uploader_of_all_conversions?).to be false
     end
   end
 
