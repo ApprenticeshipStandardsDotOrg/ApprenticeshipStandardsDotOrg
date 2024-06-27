@@ -18,5 +18,9 @@ class ChatGptGenerateText
     )
 
     response.dig("choices", 0, "message", "content")
+  rescue Faraday::TooManyRequestsError => e
+    puts "------ Too many requests"
+    sleep(20)
+    retry
   end
 end
