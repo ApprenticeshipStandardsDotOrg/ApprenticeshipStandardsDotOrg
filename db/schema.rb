@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_03_231520) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_27_222708) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -98,12 +98,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_03_231520) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "occupation_standard_id"
-    t.uuid "source_file_id"
     t.integer "status", default: 0, null: false
     t.uuid "import_id"
     t.index ["import_id"], name: "index_data_imports_on_import_id"
     t.index ["occupation_standard_id"], name: "index_data_imports_on_occupation_standard_id"
-    t.index ["source_file_id"], name: "index_data_imports_on_source_file_id"
     t.index ["user_id"], name: "index_data_imports_on_user_id"
   end
 
@@ -366,7 +364,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_03_231520) do
   add_foreign_key "courses", "organizations"
   add_foreign_key "data_imports", "imports"
   add_foreign_key "data_imports", "occupation_standards"
-  add_foreign_key "data_imports", "source_files"
   add_foreign_key "data_imports", "users"
   add_foreign_key "imports", "source_files"
   add_foreign_key "imports", "users", column: "assignee_id"
