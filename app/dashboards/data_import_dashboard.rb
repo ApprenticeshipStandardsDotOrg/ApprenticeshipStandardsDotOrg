@@ -8,7 +8,6 @@ class DataImportDashboard < Administrate::BaseDashboard
     filename: Field::String,
     occupation_standard: Field::BelongsTo,
     occupation_standard_title: Field::String,
-    source_file: Field::BelongsTo,
     import: Field::BelongsTo.with_options(class_name: "Import"),
     status: Field::String,
     created_at: Field::DateTime,
@@ -24,7 +23,6 @@ class DataImportDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = %i[
     description
     file
-    source_file
     import
     occupation_standard
     status

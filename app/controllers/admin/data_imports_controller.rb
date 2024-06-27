@@ -61,9 +61,6 @@ module Admin
 
     def set_parent
       @parent = Imports::Pdf.find_by(id: params[:import_id])
-      if @parent.nil?
-        @parent = requested_resource.import
-      end
     end
 
     def last_file_flag

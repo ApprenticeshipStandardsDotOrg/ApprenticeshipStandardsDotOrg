@@ -48,7 +48,6 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
             .and change(ActiveStorage::Attachment, :count).by(1)
 
           di = DataImport.last
-          expect(di.source_file).to be_nil
           expect(di.import).to eq imports_pdf
           expect(di.description).to eq "A new occupation standard"
           expect(di.file).to be
@@ -76,7 +75,6 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
             .and change(ActiveStorage::Attachment, :count).by(1)
 
           di = DataImport.last
-          expect(di.source_file).to be_nil
           expect(di.import).to eq imports_pdf
           expect(di.description).to eq "A new occupation standard"
           expect(di.file).to be
