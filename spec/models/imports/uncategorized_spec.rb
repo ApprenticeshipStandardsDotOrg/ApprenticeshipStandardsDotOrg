@@ -222,54 +222,6 @@ RSpec.describe Imports::Uncategorized, type: :model do
     end
   end
 
-  describe "#transfer_source_file_data!" do
-    it "transfers the status to the pdf leaf" do
-      source_file = create(:source_file, status: :completed)
-      uncat = create(:imports_uncategorized, source_file: source_file)
-      pdf = create(:imports_pdf, parent: uncat, status: :pending)
-
-      uncat.transfer_source_file_data!
-
-      expect(pdf.reload.status).to eq "completed"
-    end
-
-    it "transfers the assignee to the pdf leaf" do
-      assignee = create(:user, :converter)
-      source_file = create(:source_file, assignee: assignee)
-      uncat = create(:imports_uncategorized, source_file: source_file)
-      pdf = create(:imports_pdf, parent: uncat)
-
-      uncat.transfer_source_file_data!
-
-      expect(pdf.reload.assignee).to eq assignee
-    end
-
-    it "transfers the redacted file to the pdf leaf" do
-      source_file = create(:source_file, :with_redacted_source_file)
-      uncat = create(:imports_uncategorized, source_file: source_file)
-      pdf = create(:imports_pdf, parent: uncat, status: :pending)
-
-      uncat.transfer_source_file_data!
-
-      pdf.reload
-      expect(pdf.redacted_pdf.attached?).to be_truthy
-      expect(pdf.redacted_at).to be_present
-    end
-
-    it "returns nil if no pdf_leaf" do
-      source_file = create(:source_file)
-      uncat = create(:imports_uncategorized, source_file: source_file)
-
-      expect(uncat.transfer_source_file_data!).to be_nil
-    end
-
-    it "returns nil if no source_file" do
-      uncat = create(:imports_uncategorized, source_file: nil)
-
-      expect(uncat.transfer_source_file_data!).to be_nil
-    end
-  end
-
   describe "#filename" do
     it "returns filename if file attached" do
       import = create(:imports_uncategorized)

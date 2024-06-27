@@ -41,18 +41,6 @@ module Imports
       end
     end
 
-    def transfer_source_file_data!
-      pdf = pdf_leaf
-      if source_file && pdf
-        pdf.update!(
-          status: source_file.status,
-          assignee: source_file.assignee,
-          redacted_at: source_file.redacted_at,
-          redacted_pdf: source_file.redacted_source_file&.blob
-        )
-      end
-    end
-
     private
 
     DOCX_CONTENT_TYPE = Mime::Type.lookup_by_extension("docx").to_s
