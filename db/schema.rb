@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_27_222759) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_27_222900) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -248,25 +248,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_27_222759) do
     t.index ["organization_id"], name: "index_related_instructions_on_organization_id"
   end
 
-  create_table "source_files", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "active_storage_attachment_id", null: false
-    t.integer "status", default: 0, null: false
-    t.jsonb "metadata", default: {}
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.uuid "assignee_id"
-    t.boolean "public_document", default: false, null: false
-    t.text "plain_text_version"
-    t.integer "courtesy_notification", default: 0
-    t.datetime "redacted_at"
-    t.string "link_to_pdf_filename"
-    t.uuid "original_source_file_id"
-    t.boolean "bulletin", default: false, null: false
-    t.index ["active_storage_attachment_id"], name: "index_source_files_on_active_storage_attachment_id"
-    t.index ["assignee_id"], name: "index_source_files_on_assignee_id"
-    t.index ["original_source_file_id"], name: "index_source_files_on_original_source_file_id"
-  end
-
   create_table "standards_imports", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -376,9 +357,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_27_222759) do
   add_foreign_key "related_instructions", "courses", column: "default_course_id"
   add_foreign_key "related_instructions", "occupation_standards"
   add_foreign_key "related_instructions", "organizations"
-  add_foreign_key "source_files", "active_storage_attachments"
-  add_foreign_key "source_files", "source_files", column: "original_source_file_id"
-  add_foreign_key "source_files", "users", column: "assignee_id"
   add_foreign_key "wage_steps", "occupation_standards"
   add_foreign_key "work_processes", "occupation_standards"
 end
