@@ -8,8 +8,8 @@ class NotifyUploadersOfManualConversionCompletionJob < ApplicationJob
         source_files: standards_import.source_files_in_need_of_notification
       ).deliver_now
 
-      standards_import.source_files_in_need_of_notification.each do |source_file|
-        source_file.courtesy_notification_completed!
+      standards_import.source_files_in_need_of_notification.each do |pdf|
+        pdf.courtesy_notification_completed!
       end
 
       if standards_import.has_notified_uploader_of_all_conversions?
