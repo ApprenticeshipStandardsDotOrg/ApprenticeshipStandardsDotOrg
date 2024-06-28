@@ -100,11 +100,7 @@
                         <% if @occupation_standard.redacted_document.attached? %>
                           <%= render partial: "redacted_document", locals: {occupation_standard: @occupation_standard} %>
                         <% elsif @occupation_standard.public_document? %>
-                          <% if Flipper.enabled?(:show_imports_in_administrate) %>
-                            <%= render partial: "public_document", locals: {occupation_standard: @occupation_standard} %>
-                          <% else %>
-                            <%= render partial: "public_document_old", locals: {occupation_standard: @occupation_standard} %>
-                          <% end %>
+                          <%= render partial: "public_document", locals: {occupation_standard: @occupation_standard} %>
                         <% else %>
                           <%= render partial: "redacted_document_coming_soon" %>
                         <% end %>

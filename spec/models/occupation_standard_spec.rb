@@ -254,75 +254,36 @@ RSpec.describe OccupationStandard, type: :model do
   end
 
   describe "#source_file" do
-    it "returns the linked source_file record" do
-      source_file = create(:source_file)
-      data_import = create(:data_import, source_file: source_file)
-      occupation_standard = build(:occupation_standard, data_imports: [data_import])
-
-      expect(occupation_standard.source_file).to eq source_file
-    end
-
     it "returns nil if standard does not have an associated data import" do
       occupation_standard = build(:occupation_standard)
 
       expect(occupation_standard.source_file).to be_nil
     end
 
-    it "with import feature flag: returns the linked import record" do
-      stub_feature_flag(:show_imports_in_administrate, true)
-
+    it "returns the linked import record" do
       import = create(:imports_pdf)
-      data_import = create(:data_import, import: import, source_file: nil)
+      data_import = create(:data_import, import: import)
       occupation_standard = build(:occupation_standard, data_imports: [data_import])
 
       expect(occupation_standard.source_file).to eq import
-
-      stub_feature_flag(:show_imports_in_administrate, false)
     end
   end
 
   describe "#standards_import" do
-    context "with imports feature flag off" do
-      it "returns the source_file's standards_import" do
-        source_file = create(:source_file)
-        standards_import = StandardsImport.first
-        data_import = create(:data_import, source_file: source_file)
-        occupation_standard = create(:occupation_standard, data_imports: [data_import])
+    it "returns the ultimate parent standards_import" do
+      standards_import = create(:standards_import)
+      import_uncat = create(:imports_uncategorized, parent: standards_import)
+      import = create(:imports_pdf, parent: import_uncat)
+      data_import = create(:data_import, import: import)
+      occupation_standard = create(:occupation_standard, data_imports: [data_import])
 
-        expect(occupation_standard.standards_import).to eq standards_import
-      end
-
-      it "is nil if no source file" do
-        occupation_standard = build(:occupation_standard)
-
-        expect(occupation_standard.standards_import).to be_nil
-      end
+      expect(occupation_standard.standards_import).to eq standards_import
     end
 
-    context "with imports feature flag on" do
-      it "returns the ultimate parent standards_import" do
-        stub_feature_flag(:show_imports_in_administrate, true)
+    it "returns nil if no data_imports" do
+      occupation_standard = create(:occupation_standard, data_imports: [])
 
-        standards_import = create(:standards_import)
-        import_uncat = create(:imports_uncategorized, parent: standards_import)
-        import = create(:imports_pdf, parent: import_uncat)
-        data_import = create(:data_import, source_file: nil, import: import)
-        occupation_standard = create(:occupation_standard, data_imports: [data_import])
-
-        expect(occupation_standard.standards_import).to eq standards_import
-
-        stub_feature_flag(:show_imports_in_administrate, false)
-      end
-
-      it "returns nil if no data_imports" do
-        stub_feature_flag(:show_imports_in_administrate, true)
-
-        occupation_standard = create(:occupation_standard, data_imports: [])
-
-        expect(occupation_standard.standards_import).to be_nil
-
-        stub_feature_flag(:show_imports_in_administrate, false)
-      end
+      expect(occupation_standard.standards_import).to be_nil
     end
   end
 
@@ -615,64 +576,27 @@ RSpec.describe OccupationStandard, type: :model do
   end
 
   describe "#public_document?" do
-    context "with import feature flag off" do
-      it "returns true if source_file public document flag is true" do
-        occupation_standard = create(:occupation_standard, :with_data_import)
-        allow_any_instance_of(SourceFile).to receive(:public_document).and_return(true)
+    it "returns true if import public_document flag is true" do
+      import = create(:imports_pdf, public_document: true)
+      data_import = create(:data_import, import: import)
+      occupation_standard = create(:occupation_standard, data_imports: [data_import])
 
-        expect(occupation_standard.public_document?).to be true
-      end
-
-      it "returns true if associated standard import is public document regardless of source_file public_document flag" do
-        occupation_standard = create(:occupation_standard, :with_data_import)
-        allow_any_instance_of(SourceFile).to receive(:public_document).and_return(false)
-        allow_any_instance_of(StandardsImport).to receive(:public_document).and_return(true)
-
-        expect(occupation_standard.public_document?).to be true
-      end
-
-      it "returns false if no source_file or standard_import is associated to the occupation standard" do
-        occupation_standard = build(:occupation_standard)
-
-        expect(occupation_standard.public_document?).to be false
-      end
+      expect(occupation_standard.public_document?).to be true
     end
 
-    context "with import feature flag on" do
-      it "returns true if import public_document flag is true" do
-        stub_feature_flag(:show_imports_in_administrate, true)
+    it "returns true if associated standard import is public document regardless of import public_document flag" do
+      standards_import = create(:standards_import, public_document: true)
+      import = create(:imports_pdf, public_document: false, parent: standards_import)
+      data_import = create(:data_import, import: import)
+      occupation_standard = create(:occupation_standard, data_imports: [data_import])
 
-        import = create(:imports_pdf, public_document: true)
-        data_import = create(:data_import, import: import, source_file: nil)
-        occupation_standard = create(:occupation_standard, data_imports: [data_import])
+      expect(occupation_standard.public_document?).to be true
+    end
 
-        expect(occupation_standard.public_document?).to be true
+    it "returns false if no import or standard_import is associated to the occupation standard" do
+      occupation_standard = build(:occupation_standard)
 
-        stub_feature_flag(:show_imports_in_administrate, false)
-      end
-
-      it "returns true if associated standard import is public document regardless of import public_document flag" do
-        stub_feature_flag(:show_imports_in_administrate, true)
-
-        standards_import = create(:standards_import, public_document: true)
-        import = create(:imports_pdf, public_document: false, parent: standards_import)
-        data_import = create(:data_import, import: import, source_file: nil)
-        occupation_standard = create(:occupation_standard, data_imports: [data_import])
-
-        expect(occupation_standard.public_document?).to be true
-
-        stub_feature_flag(:show_imports_in_administrate, false)
-      end
-
-      it "returns false if no import or standard_import is associated to the occupation standard" do
-        stub_feature_flag(:show_imports_in_administrate, true)
-
-        occupation_standard = build(:occupation_standard)
-
-        expect(occupation_standard.public_document?).to be false
-
-        stub_feature_flag(:show_imports_in_administrate, false)
-      end
+      expect(occupation_standard.public_document?).to be false
     end
   end
 

@@ -16,7 +16,7 @@ class StandardsImportsController < ApplicationController
 
     if @standards_import.save
       if user_signed_in?
-        redirect_to admin_source_files_path
+        redirect_to admin_imports_path
       else
         @standards_import.notify_admin
         redirect_to standards_import_path(@standards_import)
@@ -27,13 +27,7 @@ class StandardsImportsController < ApplicationController
   end
 
   def show
-    # standard:disable Style/ConditionalAssignment
-    if Flipper.enabled?(:show_imports_in_administrate)
-      @standards_import = StandardsImport.includes(imports: {file_attachment: :blob}).find(params[:id])
-    else
-      @standards_import = StandardsImport.includes(files_attachments: [:blob, source_file: :original_source_file]).find(params[:id])
-    end
-    # standard:enable Style/ConditionalAssignment
+    @standards_import = StandardsImport.includes(imports: {file_attachment: :blob}).find(params[:id])
   end
 
   private
@@ -62,15 +56,13 @@ class StandardsImportsController < ApplicationController
   end
 
   def build_uncategorized_imports
-    if Flipper.enabled?(:show_imports_in_administrate)
-      @standards_import.files.each do |file|
-        @standards_import.imports.build(
-          type: "Imports::Uncategorized",
-          status: :unfurled,
-          public_document: @standards_import.public_document,
-          file: file.blob
-        )
-      end
+    @standards_import.files.each do |file|
+      @standards_import.imports.build(
+        type: "Imports::Uncategorized",
+        status: :unfurled,
+        public_document: @standards_import.public_document,
+        file: file.blob
+      )
     end
   end
 end

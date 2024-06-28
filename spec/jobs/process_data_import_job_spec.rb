@@ -33,7 +33,7 @@ RSpec.describe ProcessDataImportJob, type: :job do
 
       described_class.new.perform(data_import: data_import)
 
-      expect(data_import.source_file).to be_pending
+      expect(data_import.import).to be_pending
     end
 
     it "deletes old related instructions, wage schedules, work processes when editing" do
@@ -92,43 +92,7 @@ RSpec.describe ProcessDataImportJob, type: :job do
       expect { wage_step.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
-    it "with import flag off: marks the associated source file as complete if last_file is true, marks the occupation standard as in_review, and marks data_import as completed" do
-      create(:registration_agency, for_state_abbreviation: "CA", agency_type: :oa)
-      data_import = create(:data_import, :pending)
-      create(:industry, prefix: "13")
-
-      related_inst_mock = instance_double("ImportOccupationStandardRelatedInstruction")
-      wage_schedule_mock = instance_double("ImportOccupationStandardWageSchedule")
-      work_processes_mock = instance_double("ImportOccupationStandardWorkProcesses")
-
-      expect(ImportOccupationStandardRelatedInstruction).to receive(:new).with(
-        occupation_standard: kind_of(OccupationStandard),
-        data_import: data_import
-      ).and_return(related_inst_mock)
-      expect(related_inst_mock).to receive(:call)
-
-      expect(ImportOccupationStandardWageSchedule).to receive(:new).with(
-        occupation_standard: kind_of(OccupationStandard),
-        data_import: data_import
-      ).and_return(wage_schedule_mock)
-      expect(wage_schedule_mock).to receive(:call)
-
-      expect(ImportOccupationStandardWorkProcesses).to receive(:new).with(
-        occupation_standard: kind_of(OccupationStandard),
-        data_import: data_import
-      ).and_return(work_processes_mock)
-      expect(work_processes_mock).to receive(:call)
-
-      described_class.new.perform(data_import: data_import, last_file: true)
-
-      expect(data_import.reload).to be_completed
-      expect(data_import.source_file).to be_completed
-      expect(OccupationStandard.last).to be_in_review
-    end
-
-    it "with import flag on: marks the associated import as complete if last_file is true, marks the occupation standard as in_review, and marks data_import as completed" do
-      stub_feature_flag(:show_imports_in_administrate, true)
-
+    it "marks the associated import as complete if last_file is true, marks the occupation standard as in_review, and marks data_import as completed" do
       create(:registration_agency, for_state_abbreviation: "CA", agency_type: :oa)
       imports_pdf = create(:imports_pdf, status: :pending)
       data_import = create(:data_import, :pending, import: imports_pdf)
@@ -161,8 +125,6 @@ RSpec.describe ProcessDataImportJob, type: :job do
       expect(data_import.reload).to be_completed
       expect(imports_pdf.reload).to be_completed
       expect(OccupationStandard.last).to be_in_review
-
-      stub_feature_flag(:show_imports_in_administrate, false)
     end
   end
 end

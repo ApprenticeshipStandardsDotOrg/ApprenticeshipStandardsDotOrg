@@ -22,8 +22,6 @@ RSpec.describe CreateImportFromIo do
       end
 
       it "attaches file to a standards import record and creates an Uncategorized Import child" do
-        stub_feature_flag(:show_imports_in_administrate, true)
-
         allow(ConvertDocToPdf).to receive(:call).and_return(file_fixture("pixel1x1.pdf"))
 
         filename = "document.doc"
@@ -67,8 +65,6 @@ RSpec.describe CreateImportFromIo do
         expect(pdf.file.blob.filename.to_s).to eq "pixel1x1.pdf"
         expect(pdf.parent).to eq Imports::Doc.last
         expect(pdf.status).to eq "pending"
-
-        stub_feature_flag(:show_imports_in_administrate, true)
       end
     end
   end

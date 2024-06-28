@@ -1,6 +1,6 @@
 class ImportPolicy < ApplicationPolicy
   def index?
-    Flipper.enabled?(:show_imports_in_administrate) && admin_or_converter?
+    admin_or_converter?
   end
 
   def show?

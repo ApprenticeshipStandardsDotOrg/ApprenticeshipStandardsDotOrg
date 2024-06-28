@@ -4,11 +4,7 @@ module Admin
 
     def new
       resource = new_resource
-      if Flipper.enabled?(:show_imports_in_administrate)
-        resource.import = @parent
-      else
-        resource.source_file = @parent
-      end
+      resource.import = @parent
       authorize_resource(resource)
       render locals: {
         page: Administrate::Page::Form.new(dashboard, resource)
@@ -64,17 +60,7 @@ module Admin
     private
 
     def set_parent
-      if Flipper.enabled?(:show_imports_in_administrate)
-        @parent = Imports::Pdf.find_by(id: params[:import_id])
-        if @parent.nil?
-          @parent = requested_resource.import
-        end
-      else
-        @parent = SourceFile.find_by(id: params[:source_file_id])
-        if @parent.nil?
-          @parent = requested_resource.source_file
-        end
-      end
+      @parent = Imports::Pdf.find_by(id: params[:import_id])
     end
 
     def last_file_flag
@@ -82,27 +68,15 @@ module Admin
     end
 
     def after_data_import_created_path(parent, data_import)
-      if Flipper.enabled?(:show_imports_in_administrate)
-        admin_import_data_import_path(parent, data_import)
-      else
-        admin_source_file_data_import_path(parent, data_import)
-      end
+      admin_import_data_import_path(parent, data_import)
     end
 
     def after_resource_updated_path(parent, data_import)
-      if Flipper.enabled?(:show_imports_in_administrate)
-        admin_import_data_import_path(parent, data_import)
-      else
-        admin_source_file_data_import_path(parent, data_import)
-      end
+      admin_import_data_import_path(parent, data_import)
     end
 
     def after_resource_destroyed_path(parent)
-      if Flipper.enabled?(:show_imports_in_administrate)
-        admin_import_path(parent)
-      else
-        admin_source_file_path(parent)
-      end
+      admin_import_path(parent)
     end
   end
 end

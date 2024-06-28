@@ -9,7 +9,6 @@ class StandardsImportDashboard < Administrate::BaseDashboard
     organization: Field::String,
     files: Field::ActiveStorage,
     imports: Field::HasMany,
-    source_files: HasManySourceFilesField,
     courtesy_notification: EnumField.with_options(searchable: false),
     created_at: Field::DateTime,
     updated_at: Field::DateTime
@@ -24,7 +23,6 @@ class StandardsImportDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = %i[
     id
     email
-    source_files
     name
     notes
     organization

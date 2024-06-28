@@ -5,7 +5,6 @@ module Imports
   class Uncategorized < Import
     has_one_attached :file
     has_one :import, as: :parent, dependent: :destroy, autosave: true
-    belongs_to :source_file, optional: true
 
     before_save :set_courtesy_notification
 
@@ -38,18 +37,6 @@ module Imports
         import.pdf_leaves
       else
         []
-      end
-    end
-
-    def transfer_source_file_data!
-      pdf = pdf_leaf
-      if source_file && pdf
-        pdf.update!(
-          status: source_file.status,
-          assignee: source_file.assignee,
-          redacted_at: source_file.redacted_at,
-          redacted_pdf: source_file.redacted_source_file&.blob
-        )
       end
     end
 

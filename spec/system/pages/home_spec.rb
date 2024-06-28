@@ -110,7 +110,6 @@ RSpec.describe "pages/home" do
 
   context "with Elasticsearch enabled", :elasticsearch do
     before(:each) do |example|
-      stub_feature_flag(:show_imports_in_administrate, false)
       stub_feature_flag(:use_elasticsearch_for_search, true)
     end
 
@@ -282,7 +281,6 @@ RSpec.describe "pages/home" do
       before(:each) do |example|
         stub_feature_flag(:similar_programs_elasticsearch, false)
         stub_feature_flag(:use_elasticsearch_for_search, false)
-        stub_feature_flag(:show_imports_in_administrate, false)
       end
 
       it "displays a link to a search of occupation standards sorted by creation date" do
@@ -310,7 +308,6 @@ RSpec.describe "pages/home" do
       before(:each) do |example|
         stub_feature_flag(:similar_programs_elasticsearch, false)
         stub_feature_flag(:use_elasticsearch_for_search, false)
-        stub_feature_flag(:show_imports_in_administrate, true)
       end
 
       it "displays a link to a search of occupation standards sorted by creation date" do

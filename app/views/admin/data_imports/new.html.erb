@@ -18,9 +18,5 @@
     <p>If you want to override only some of the data, make sure the rows in the tabs you want to keep are empty.</p>
     <p>For example, if you just want to add Related Instructions to a RAPIDS Occupation Standard that already has Work Processes, make sure the Details tab and the Work Processes tab in Excel only contain the header row, and only provide data for the Related Instructions tab.</p>
   </div>
-  <% if Flipper.enabled?(:show_imports_in_administrate) %>
-    <%= render "form_new", page: page %>
-  <% else %>
-    <%= render "form", page: page %>
-  <% end %>
+  <%= render "form", page: page, url: admin_import_data_imports_path(@parent) %>
 </section>
