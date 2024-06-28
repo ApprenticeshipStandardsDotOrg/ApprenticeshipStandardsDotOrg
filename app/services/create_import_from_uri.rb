@@ -35,7 +35,6 @@ class CreateImportFromUri
 
       filename = File.basename(URI.decode_uri_component(uri))
       import.file.attach(io: URI.parse(uri).open, filename: filename)
-      standards_import.files.attach(import.file_blob)
 
       import.process(listing: listing)
     end
