@@ -1,14 +1,14 @@
 class StandardsImportsController < ApplicationController
   include Spammable
 
+  attr_accessor :files
+
   def new
     @standards_import = StandardsImport.new
   end
 
   def create
     @standards_import = StandardsImport.new(standards_import_params)
-
-    build_uncategorized_imports
 
     unless user_signed_in?
       @standards_import.courtesy_notification = :pending
@@ -53,16 +53,5 @@ class StandardsImportsController < ApplicationController
       :public_document,
       files: []
     )
-  end
-
-  def build_uncategorized_imports
-    @standards_import.files.each do |file|
-      @standards_import.imports.build(
-        type: "Imports::Uncategorized",
-        status: :unfurled,
-        public_document: @standards_import.public_document,
-        file: file.blob
-      )
-    end
   end
 end

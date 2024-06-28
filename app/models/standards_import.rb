@@ -19,6 +19,17 @@ class StandardsImport < ApplicationRecord
     end
   end
 
+  def files=(files)
+    files.each do |file|
+      imports.build(
+        type: "Imports::Uncategorized",
+        status: :unfurled,
+        public_document: public_document,
+        file: file
+      )
+    end
+  end
+
   def import_root
     self
   end
