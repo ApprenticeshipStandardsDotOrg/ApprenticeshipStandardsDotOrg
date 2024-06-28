@@ -47,19 +47,6 @@ RSpec.describe StandardsImport, type: :model do
     expect(import.reload.name).to eq "Mickey Mouse"
   end
 
-  it "deletes file import record when deleted" do
-    standards_import = create(:standards_import, :with_files)
-    attachment = standards_import.files.first
-
-    expect(attachment).to be
-
-    expect {
-      standards_import.destroy!
-    }.to change(ActiveStorage::Attachment, :count).by(-1)
-
-    expect { attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
-  end
-
   describe "imports" do
     it "builds a tree of imports" do
       standards_import = create(:standards_import)
@@ -245,14 +232,6 @@ RSpec.describe StandardsImport, type: :model do
       create(:imports_pdf, parent: uncat2, status: :completed, courtesy_notification: :pending)
 
       expect(standards_import.has_notified_uploader_of_all_conversions?).to be false
-    end
-  end
-
-  describe "#file_count" do
-    it "returns file count" do
-      si = create(:standards_import, :with_files)
-
-      expect(si.file_count).to eq 1
     end
   end
 

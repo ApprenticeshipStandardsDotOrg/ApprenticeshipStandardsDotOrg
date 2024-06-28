@@ -43,14 +43,6 @@ class StandardsImport < ApplicationRecord
     pdf_leaves.count == pdf_leaves.count { |pdf| pdf.courtesy_notification_completed? }
   end
 
-  def file_count
-    files.count
-  end
-
-  def url
-    files&.last&.url
-  end
-
   def notify_admin
     AdminMailer.new_standards_import(self).deliver_later
   end
