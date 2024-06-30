@@ -21,9 +21,10 @@ RSpec.describe Scraper::NewYorkJob, type: :job do
 
     context "when some files have been downloaded previously" do
       it "creates standards import records for new files only" do
-        name = "https://dol.ny.gov/system/files/documents/2022/06/cnc-tool-and-cutter-grinder-time.pdf"
-        old_standards_import = create(:standards_import, name: name, organization: name)
         stub_responses
+        name = "https://dol.ny.gov/system/files/documents/2022/06/cnc-tool-and-cutter-grinder-time.pdf"
+        create(:standards_import, name: name, organization: name)
+
         expect {
           described_class.new.perform
         }.to change(StandardsImport, :count).by(6)

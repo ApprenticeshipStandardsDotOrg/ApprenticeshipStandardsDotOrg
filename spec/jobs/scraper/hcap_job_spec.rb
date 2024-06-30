@@ -77,14 +77,13 @@ RSpec.describe Scraper::HcapJob, type: :job do
       it "creates standards import records for new pdfs only" do
         Dotenv.modify("AIRTABLE_PERSONAL_ACCESS_TOKEN" => "abc123") do
           stub_responses
-          old_standards_import = create(:standards_import, name: "https://a687e559-f74f-4c1e-b81d-83ee37e94af3.usrfiles.com/ugd/a687e5_f76fa7a5877742dd9cca8653d2fd6264.pdf", organization: "National Center for Healthcare Apprenticeships")
-          perform_enqueued_jobs do
-            expect {
-              described_class.new.perform
-            }.to change(StandardsImport, :count).by(2)
-              .and change(Imports::Uncategorized, :count).by(2)
-              .and change(Imports::Pdf, :count).by(2)
-          end
+          create(:standards_import, name: "https://a687e559-f74f-4c1e-b81d-83ee37e94af3.usrfiles.com/ugd/a687e5_f76fa7a5877742dd9cca8653d2fd6264.pdf", organization: "National Center for Healthcare Apprenticeships")
+
+          expect {
+            described_class.new.perform
+          }.to change(StandardsImport, :count).by(2)
+            .and change(Imports::Uncategorized, :count).by(2)
+            .and change(Imports::Pdf, :count).by(2)
         end
       end
     end

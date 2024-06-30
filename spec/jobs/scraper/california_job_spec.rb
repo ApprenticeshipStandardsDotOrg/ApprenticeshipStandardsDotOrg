@@ -30,8 +30,9 @@ RSpec.describe Scraper::CaliforniaJob, type: :job do
 
     context "when some files have been downloaded previously" do
       it "creates standards import record for new files only" do
-        old_standards_import = create(:standards_import, name: "https://www.dir.ca.gov/das/standards/100859_SETA%20ECE_Standards.pdf", organization: "Sacramento Employment and Training Agency (SETA) Early Childhood Education Apprenticeship Program")
         stub_responses
+        create(:standards_import, name: "https://www.dir.ca.gov/das/standards/100859_SETA%20ECE_Standards.pdf", organization: "Sacramento Employment and Training Agency (SETA) Early Childhood Education Apprenticeship Program")
+
         expect {
           described_class.new.perform
         }.to change(StandardsImport, :count).by(5)

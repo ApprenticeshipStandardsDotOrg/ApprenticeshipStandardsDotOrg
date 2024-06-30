@@ -7,7 +7,7 @@ class StandardsImport < ApplicationRecord
   normalizes :email, with: ->(email) { email.strip.downcase }
   normalizes :name, with: ->(name) { name.squish }
 
-  attr_accessor :files
+  attr_reader :files
 
   class << self
     def manual_submissions_in_need_of_courtesy_notification(email: nil)
