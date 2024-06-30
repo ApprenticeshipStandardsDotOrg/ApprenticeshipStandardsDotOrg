@@ -36,6 +36,10 @@ class StandardsImport < ApplicationRecord
     self
   end
 
+  def pdf_leaves
+    imports.includes(:import).flat_map(&:pdf_leaves)
+  end
+
   def has_converted_source_file_in_need_of_notification?
     source_files_in_need_of_notification.any?
   end
@@ -46,10 +50,6 @@ class StandardsImport < ApplicationRecord
     else
       []
     end
-  end
-
-  def pdf_leaves
-    imports.includes(:import).flat_map(&:pdf_leaves)
   end
 
   def has_notified_uploader_of_all_conversions?
