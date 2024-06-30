@@ -7,7 +7,7 @@ class StandardsImportDashboard < Administrate::BaseDashboard
     name: Field::String,
     notes: Field::Text,
     organization: Field::String,
-    files: Field::ActiveStorage,
+    files: PseudoFileUploadField,
     imports: Field::HasMany,
     courtesy_notification: EnumField.with_options(searchable: false),
     created_at: Field::DateTime,
@@ -44,6 +44,6 @@ class StandardsImportDashboard < Administrate::BaseDashboard
   COLLECTION_FILTERS = {}.freeze
 
   def permitted_attributes(action = nil)
-    super + [attachments: []]
+    super + [files: []]
   end
 end
