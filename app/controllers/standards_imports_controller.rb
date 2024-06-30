@@ -1,8 +1,6 @@
 class StandardsImportsController < ApplicationController
   include Spammable
 
-  attr_accessor :files
-
   def new
     @standards_import = StandardsImport.new
   end
