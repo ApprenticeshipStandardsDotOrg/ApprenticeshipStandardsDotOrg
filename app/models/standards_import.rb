@@ -22,8 +22,7 @@ class StandardsImport < ApplicationRecord
   end
 
   def files=(files)
-    files.each do |file|
-      next if file.blank?
+    files.compact_blank.each do |file|
       imports.build(
         type: "Imports::Uncategorized",
         status: :unfurled,
