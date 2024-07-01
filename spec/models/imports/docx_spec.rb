@@ -29,7 +29,8 @@ RSpec.describe Imports::Docx, type: :model do
       allow(ConvertDocToPdf).to receive(:call).and_raise(ConvertDocToPdf::PdfConversionError)
       docx = create(:imports_docx)
 
-      expect { docx.process }.to raise_error(ConvertDocToPdf::PdfConversionError)
+      expect_any_instance_of(ErrorSubscriber).to receive(:report).with(kind_of(ConvertDocToPdf::PdfConversionError), hash_including(context: {import_id: docx.id}, severity: :error)).and_call_original
+      docx.process
       docx.reload
 
       expect(docx.pdf).to be_blank

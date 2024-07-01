@@ -18,7 +18,7 @@ module Imports
         processing_errors: e.message,
         status: :needs_backend_support
       )
-      raise
+      Rails.error.report(e, context: {import_id: id}, severity: :error)
     end
 
     def docx_listing_root
