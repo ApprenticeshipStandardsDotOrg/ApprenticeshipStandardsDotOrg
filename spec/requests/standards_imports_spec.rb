@@ -31,7 +31,7 @@ RSpec.describe "StandardsImports", type: :request do
               }
             }
           }.to change(StandardsImport, :count).by(1)
-            .and change(ActiveStorage::Attachment, :count).by(4)
+            .and change(ActiveStorage::Attachment, :count).by(2)
             .and change(ActiveStorage::Blob, :count).by(2)
             .and change(Imports::Uncategorized, :count).by(2)
 
@@ -40,7 +40,6 @@ RSpec.describe "StandardsImports", type: :request do
           expect(si.email).to eq "mickey@mouse.com"
           expect(si.organization).to eq "Disney"
           expect(si.notes).to eq "a" * 500
-          expect(si.files.count).to eq 2
           expect(si.public_document?).to be false
           expect(si).to be_courtesy_notification_pending
 
@@ -81,7 +80,7 @@ RSpec.describe "StandardsImports", type: :request do
               }
             }
           }.to change(StandardsImport, :count).by(1)
-            .and change(ActiveStorage::Attachment, :count).by(2)
+            .and change(ActiveStorage::Attachment, :count).by(1)
             .and change(ActiveStorage::Blob, :count).by(1)
             .and change(Imports::Uncategorized, :count).by(1)
 
@@ -90,7 +89,6 @@ RSpec.describe "StandardsImports", type: :request do
           expect(si.email).to eq "mickey@mouse.com"
           expect(si.organization).to eq "Disney"
           expect(si.notes).to eq "a" * 500
-          expect(si.files.count).to eq 1
           expect(si.public_document?).to be true
           expect(si).to be_courtesy_notification_not_required
 

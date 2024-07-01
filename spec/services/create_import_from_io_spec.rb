@@ -40,11 +40,10 @@ RSpec.describe CreateImportFromIo do
           .and change(Imports::Uncategorized, :count).by(1)
           .and change(Imports::Doc, :count).by(1)
           .and change(Imports::Pdf, :count).by(1)
-          .and change(ActiveStorage::Attachment, :count).by(4)
+          .and change(ActiveStorage::Attachment, :count).by(3)
           .and change(ActiveStorage::Blob, :count).by(2)
 
         standards_import = StandardsImport.last
-        expect(standards_import.files.count).to eq 1
         expect(standards_import.name).to eq "document.doc"
         expect(standards_import.organization).to eq "Specialist"
         expect(standards_import.notes).to eq "Some notes"
@@ -75,7 +74,6 @@ RSpec.describe CreateImportFromIo do
       io = File.open(file_fixture(filename))
 
       create(:standards_import,
-        :with_files,
         name: "document.doc",
         organization: "Specialist")
 
@@ -96,7 +94,6 @@ RSpec.describe CreateImportFromIo do
       io = File.open(file_fixture(filename))
 
       create(:standards_import,
-        :with_files,
         name: "document.doc",
         organization: "Specialist")
 

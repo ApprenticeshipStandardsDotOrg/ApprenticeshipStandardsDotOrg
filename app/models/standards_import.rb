@@ -1,5 +1,4 @@
 class StandardsImport < ApplicationRecord
-  has_many_attached :files
   has_many :imports, as: :parent, dependent: :destroy
 
   enum courtesy_notification: [:not_required, :pending, :completed], _prefix: true
@@ -7,6 +6,8 @@ class StandardsImport < ApplicationRecord
   validates :email, :name, presence: true, unless: -> { courtesy_notification_not_required? }
   normalizes :email, with: ->(email) { email.strip.downcase }
   normalizes :name, with: ->(name) { name.squish }
+
+  attr_reader :files
 
   class << self
     def manual_submissions_in_need_of_courtesy_notification(email: nil)
@@ -20,8 +21,23 @@ class StandardsImport < ApplicationRecord
     end
   end
 
+  def files=(files)
+    files.compact_blank.each do |file|
+      imports.build(
+        type: "Imports::Uncategorized",
+        status: :unfurled,
+        public_document: public_document,
+        file: file
+      )
+    end
+  end
+
   def import_root
     self
+  end
+
+  def pdf_leaves
+    imports.includes(:import).flat_map(&:pdf_leaves)
   end
 
   def has_converted_source_file_in_need_of_notification?
@@ -36,20 +52,8 @@ class StandardsImport < ApplicationRecord
     end
   end
 
-  def pdf_leaves
-    imports.includes(:import).flat_map(&:pdf_leaves)
-  end
-
   def has_notified_uploader_of_all_conversions?
     pdf_leaves.count == pdf_leaves.count { |pdf| pdf.courtesy_notification_completed? }
-  end
-
-  def file_count
-    files.count
-  end
-
-  def url
-    files&.last&.url
   end
 
   def notify_admin

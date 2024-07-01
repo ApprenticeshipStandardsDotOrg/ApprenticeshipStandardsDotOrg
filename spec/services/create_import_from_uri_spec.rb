@@ -21,11 +21,10 @@ RSpec.describe CreateImportFromUri do
           )
         }.to change(StandardsImport, :count).by(1)
           .and change(Imports::Uncategorized, :count).by(1)
-          .and change(ActiveStorage::Attachment, :count).by(2)
+          .and change(ActiveStorage::Attachment, :count).by(1)
           .and change(ActiveStorage::Blob, :count).by(1)
 
         standards_import = StandardsImport.last
-        expect(standards_import.files.count).to eq 1
         expect(standards_import.name).to eq file_uri
         expect(standards_import.organization).to eq "Specialist"
         expect(standards_import.notes).to eq "Some notes"
@@ -50,7 +49,6 @@ RSpec.describe CreateImportFromUri do
       file_uri = "https://www.apprenticeship.gov/sites/default/files/bulletins/Bulletin%202023-52%20New%20NGS%20AFSA.docx"
 
       create(:standards_import,
-        :with_files,
         name: file_uri,
         organization: "Specialist")
 

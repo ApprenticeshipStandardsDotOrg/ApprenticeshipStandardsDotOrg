@@ -3,15 +3,16 @@ require "rails_helper"
 RSpec.describe Scraper::HcapJob, type: :job do
   describe "#perform" do
     context "when files have not been downloaded previously" do
-      it "downloads pdf files to a standards import record" do
+      it "creates standards import record and corresponding import records" do
         Dotenv.modify("AIRTABLE_PERSONAL_ACCESS_TOKEN" => "abc123") do
           stub_responses
           expect {
             described_class.new.perform
           }.to change(StandardsImport, :count).by(3)
+            .and change(Imports::Uncategorized, :count).by(3)
+            .and change(Imports::Pdf, :count).by(3)
 
           standards_import1 = StandardsImport.first
-          expect(standards_import1.files.count).to eq 1
           expect(standards_import1.name).to eq "https://a687e559-f74f-4c1e-b81d-83ee37e94af3.usrfiles.com/ugd/a687e5_f76fa7a5877742dd9cca8653d2fd6264.pdf"
           expect(standards_import1.organization).to eq "National Center for Healthcare Apprenticeships"
           expect(standards_import1.notes).to eq "From Scraper::HcapJob"
@@ -32,7 +33,6 @@ RSpec.describe Scraper::HcapJob, type: :job do
           expect(uncat1.metadata).to eq standards_import1.metadata
 
           standards_import2 = StandardsImport.second
-          expect(standards_import2.files.count).to eq 1
           expect(standards_import2.name).to eq "https://a687e559-f74f-4c1e-b81d-83ee37e94af3.usrfiles.com/ugd/a687e5_534fc5bb0217460d8d49a49b25841762.pdf"
           expect(standards_import2.organization).to eq "AHIMA Foundation"
           expect(standards_import2.notes).to eq "From Scraper::HcapJob"
@@ -53,7 +53,6 @@ RSpec.describe Scraper::HcapJob, type: :job do
           expect(uncat2.metadata).to eq standards_import2.metadata
 
           standards_import3 = StandardsImport.third
-          expect(standards_import3.files.count).to eq 1
           expect(standards_import3.name).to eq "https://a687e559-f74f-4c1e-b81d-83ee37e94af3.usrfiles.com/ugd/a687e5_8034a3f4112d4956a11337333229a16e.pdf"
           expect(standards_import3.organization).to eq "Institute for Wellness Education"
           expect(standards_import3.notes).to eq "From Scraper::HcapJob"
@@ -75,20 +74,16 @@ RSpec.describe Scraper::HcapJob, type: :job do
     end
 
     context "when some files have been downloaded previously" do
-      it "downloads new pdf files to a standards import record" do
+      it "creates standards import records for new pdfs only" do
         Dotenv.modify("AIRTABLE_PERSONAL_ACCESS_TOKEN" => "abc123") do
           stub_responses
-          old_standards_import = create(:standards_import, :with_files, name: "https://a687e559-f74f-4c1e-b81d-83ee37e94af3.usrfiles.com/ugd/a687e5_f76fa7a5877742dd9cca8653d2fd6264.pdf", organization: "National Center for Healthcare Apprenticeships")
-          perform_enqueued_jobs do
-            expect {
-              described_class.new.perform
-            }.to change(StandardsImport, :count).by(2)
-          end
+          create(:standards_import, name: "https://a687e559-f74f-4c1e-b81d-83ee37e94af3.usrfiles.com/ugd/a687e5_f76fa7a5877742dd9cca8653d2fd6264.pdf", organization: "National Center for Healthcare Apprenticeships")
 
-          standards_import = StandardsImport.last
-          expect(standards_import.files.count).to eq 1
-
-          expect(old_standards_import.reload.files.count).to eq 1
+          expect {
+            described_class.new.perform
+          }.to change(StandardsImport, :count).by(2)
+            .and change(Imports::Uncategorized, :count).by(2)
+            .and change(Imports::Pdf, :count).by(2)
         end
       end
     end

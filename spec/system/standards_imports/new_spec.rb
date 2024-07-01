@@ -25,7 +25,6 @@ RSpec.describe "standards_imports/new" do
       expect(si.email).to eq "mickey@example.com"
       expect(si.organization).to eq "Disney"
       expect(si.notes).to eq "a" * 500
-      expect(si.files.count).to eq 3
     end
   end
 

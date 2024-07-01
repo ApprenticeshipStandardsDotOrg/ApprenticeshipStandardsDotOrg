@@ -4,7 +4,8 @@ RSpec.describe AdminMailer, type: :mailer do
   describe "#new_standards_import" do
     it "renders the header and body correctly" do
       si = build(:standards_import, name: "Mickey", email: "mickey@mouse.com", organization: "Disney")
-      allow(si).to receive(:file_count).and_return(10)
+      uncat_imports = build_list(:imports_uncategorized, 10)
+      allow(si).to receive(:imports).and_return(uncat_imports)
 
       mail = described_class.new_standards_import(si)
 

@@ -14,20 +14,23 @@ RSpec.describe "admin/standards_imports/edit" do
     expect(page).to have_content "Pending"
   end
 
-  it "allows admin to add new files without removing the old ones", :admin do
-    import = create(:standards_import, :with_files)
+  it "allows admin to add new files", :admin do
+    standards_import = create(:standards_import)
+    create(:imports_uncategorized, parent: standards_import)
     admin = create(:admin)
 
     login_as admin
-    visit edit_admin_standards_import_path(import)
+    visit edit_admin_standards_import_path(standards_import)
 
     file = file_fixture("pixel1x1.jpg")
-    find("#standards_import_files").click
-    find("#standards_import_files").attach_file(file.to_path)
+    attach_file "Files", [file]
 
-    click_on "Update"
+    expect {
+      click_on "Update"
+    }.to change(Imports::Uncategorized, :count).by(1)
 
-    import.reload
-    expect(import.files.map(&:filename).map(&:to_s)).to contain_exactly("pixel1x1.jpg", "pixel1x1.pdf")
+    uncat = Imports::Uncategorized.last
+    expect(uncat.filename).to eq "pixel1x1.jpg"
+    expect(standards_import.imports.count).to eq 2
   end
 end
