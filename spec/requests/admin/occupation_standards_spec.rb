@@ -203,7 +203,7 @@ RSpec.describe "Admin::OccupationStandard", type: :request do
             expect(occupation_standard.onet_code).to_not eq "123.45"
             expect(occupation_standard.rapids_code).to_not eq "98765"
             expect(occupation_standard).to be_importing
-            expect(response).to have_http_status(:unprocessable_entity)
+            expect(response).to have_http_status(:unprocessable_content)
           end
         end
       end

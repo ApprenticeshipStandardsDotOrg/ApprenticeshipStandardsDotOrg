@@ -64,6 +64,26 @@ RSpec.describe Imports::Doc, type: :model do
     end
   end
 
+  describe "#docx_listing_root" do
+    it "when descended from bulletin, retrieves the docx_listing ancestor" do
+      standards_import = create(:standards_import)
+      uncat = create(:imports_uncategorized, parent: standards_import)
+      docx_listing = create(:imports_docx_listing, parent: uncat)
+      uncat2 = create(:imports_uncategorized, parent: docx_listing)
+      doc = create(:imports_doc, parent: uncat2)
+
+      expect(doc.docx_listing_root).to eq docx_listing
+    end
+
+    it "when not descended from bulletin, returns nil" do
+      standards_import = create(:standards_import)
+      uncat = create(:imports_uncategorized, parent: standards_import)
+      doc = create(:imports_doc, parent: uncat)
+
+      expect(doc.docx_listing_root).to be_nil
+    end
+  end
+
   describe "#pdf_leaf" do
     context "when pdf exists" do
       it "returns the Imports::Pdf record" do
@@ -79,6 +99,25 @@ RSpec.describe Imports::Doc, type: :model do
         doc = create(:imports_doc)
 
         expect(doc.pdf_leaf).to be_nil
+      end
+    end
+  end
+
+  describe "#pdf_leaves" do
+    context "when pdf exists" do
+      it "returns the Imports::Pdf record in an array" do
+        doc = create(:imports_doc)
+        pdf = create(:imports_pdf, parent: doc)
+
+        expect(doc.pdf_leaves).to eq [pdf]
+      end
+    end
+
+    context "when pdf does not exist" do
+      it "returns empty array" do
+        doc = create(:imports_doc)
+
+        expect(doc.pdf_leaves).to be_empty
       end
     end
   end

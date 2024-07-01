@@ -6,11 +6,9 @@ RSpec.describe Scraper::HcapJob, type: :job do
       it "downloads pdf files to a standards import record" do
         Dotenv.modify("AIRTABLE_PERSONAL_ACCESS_TOKEN" => "abc123") do
           stub_responses
-          perform_enqueued_jobs do
-            expect {
-              described_class.new.perform
-            }.to change(StandardsImport, :count).by(3)
-          end
+          expect {
+            described_class.new.perform
+          }.to change(StandardsImport, :count).by(3)
 
           standards_import1 = StandardsImport.first
           expect(standards_import1.files.count).to eq 1
@@ -30,8 +28,8 @@ RSpec.describe Scraper::HcapJob, type: :job do
           expect(metadata1["Resource Type"]).to eq "Work Processes, Related Outline"
           expect(metadata1["Occupation"]).to eq "Emergency Medical Technician"
           expect(metadata1["Apprenticeship Type"]).to eq "Competency-based"
-          source_file1 = standards_import1.files.last.source_file
-          expect(source_file1.metadata).to eq standards_import1.metadata
+          uncat1 = standards_import1.imports.last
+          expect(uncat1.metadata).to eq standards_import1.metadata
 
           standards_import2 = StandardsImport.second
           expect(standards_import2.files.count).to eq 1
@@ -51,8 +49,8 @@ RSpec.describe Scraper::HcapJob, type: :job do
           expect(metadata2["Resource Type"]).to eq "Work Processes, Related Outline"
           expect(metadata2["Occupation"]).to eq "Health Information Management Business Analyst"
           expect(metadata2["Apprenticeship Type"]).to eq "Competency-based"
-          source_file2 = standards_import2.files.last.source_file
-          expect(source_file2.metadata).to eq standards_import2.metadata
+          uncat2 = standards_import2.imports.last
+          expect(uncat2.metadata).to eq standards_import2.metadata
 
           standards_import3 = StandardsImport.third
           expect(standards_import3.files.count).to eq 1
@@ -70,8 +68,8 @@ RSpec.describe Scraper::HcapJob, type: :job do
           expect(metadata3["Resource Type"]).to eq "Work Processes, Related Outline"
           expect(metadata3["Occupation"]).to eq "Wellness Coach"
           expect(metadata3["Apprenticeship Type"]).to eq "Hybrid"
-          source_file3 = standards_import3.files.last.source_file
-          expect(source_file3.metadata).to eq standards_import3.metadata
+          uncat3 = standards_import3.imports.last
+          expect(uncat3.metadata).to eq standards_import3.metadata
         end
       end
     end

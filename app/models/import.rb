@@ -39,7 +39,30 @@ class Import < ApplicationRecord
   def redacted_pdf_url
   end
 
+  def notes
+    if !import_root.public_document
+      import_root&.notes
+    end
+  end
+
+  def organization
+    import_root.organization
+  end
+
   def import_root
     parent.import_root
+  end
+
+  def docx_listing_root
+    parent.docx_listing_root
+  end
+
+  def pdf_leaves
+    [pdf_leaf].compact
+  end
+
+  # For Administrate
+  def cousins
+    []
   end
 end

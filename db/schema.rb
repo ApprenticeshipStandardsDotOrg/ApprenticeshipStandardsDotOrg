@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_03_231520) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_27_222900) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -98,12 +98,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_03_231520) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "occupation_standard_id"
-    t.uuid "source_file_id"
     t.integer "status", default: 0, null: false
     t.uuid "import_id"
     t.index ["import_id"], name: "index_data_imports_on_import_id"
     t.index ["occupation_standard_id"], name: "index_data_imports_on_occupation_standard_id"
-    t.index ["source_file_id"], name: "index_data_imports_on_source_file_id"
     t.index ["user_id"], name: "index_data_imports_on_user_id"
   end
 
@@ -137,11 +135,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_03_231520) do
     t.datetime "processed_at", precision: nil
     t.text "processing_errors"
     t.datetime "redacted_at", precision: nil
-    t.uuid "source_file_id"
     t.index ["assignee_id"], name: "index_imports_on_assignee_id"
     t.index ["parent_type", "parent_id"], name: "index_imports_on_parent"
     t.index ["processed_at"], name: "index_imports_on_processed_at"
-    t.index ["source_file_id"], name: "index_imports_on_source_file_id"
   end
 
   create_table "industries", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -252,25 +248,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_03_231520) do
     t.index ["organization_id"], name: "index_related_instructions_on_organization_id"
   end
 
-  create_table "source_files", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "active_storage_attachment_id", null: false
-    t.integer "status", default: 0, null: false
-    t.jsonb "metadata", default: {}
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.uuid "assignee_id"
-    t.boolean "public_document", default: false, null: false
-    t.text "plain_text_version"
-    t.integer "courtesy_notification", default: 0
-    t.datetime "redacted_at"
-    t.string "link_to_pdf_filename"
-    t.uuid "original_source_file_id"
-    t.boolean "bulletin", default: false, null: false
-    t.index ["active_storage_attachment_id"], name: "index_source_files_on_active_storage_attachment_id"
-    t.index ["assignee_id"], name: "index_source_files_on_assignee_id"
-    t.index ["original_source_file_id"], name: "index_source_files_on_original_source_file_id"
-  end
-
   create_table "standards_imports", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -366,9 +343,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_03_231520) do
   add_foreign_key "courses", "organizations"
   add_foreign_key "data_imports", "imports"
   add_foreign_key "data_imports", "occupation_standards"
-  add_foreign_key "data_imports", "source_files"
   add_foreign_key "data_imports", "users"
-  add_foreign_key "imports", "source_files"
   add_foreign_key "imports", "users", column: "assignee_id"
   add_foreign_key "occupation_standards", "industries"
   add_foreign_key "occupation_standards", "occupations"
@@ -382,9 +357,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_03_231520) do
   add_foreign_key "related_instructions", "courses", column: "default_course_id"
   add_foreign_key "related_instructions", "occupation_standards"
   add_foreign_key "related_instructions", "organizations"
-  add_foreign_key "source_files", "active_storage_attachments"
-  add_foreign_key "source_files", "source_files", column: "original_source_file_id"
-  add_foreign_key "source_files", "users", column: "assignee_id"
   add_foreign_key "wage_steps", "occupation_standards"
   add_foreign_key "work_processes", "occupation_standards"
 end

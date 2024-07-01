@@ -11,6 +11,7 @@ FactoryBot.define do
     jobZone { "Job Zone Two: Some Preparation Needed." }
     isWPSUploaded { false }
     wpsDocument { "https://entbpmpstg.dol.gov/suite/webapi/rapids/data-sharing/documents/wps/1234" }
+    createdDt { "2024-06-13" }
     dwas { [] }
 
     transient do

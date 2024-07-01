@@ -1,6 +1,6 @@
 class ImportPolicy < ApplicationPolicy
   def index?
-    Flipper.enabled?(:show_imports_in_administrate) && admin_or_converter?
+    admin_or_converter?
   end
 
   def show?
@@ -33,7 +33,7 @@ class ImportPolicy < ApplicationPolicy
     if user.converter?
       [:status, :assignee_id]
     else
-      [:status, :assignee_id, :metadata, :public_document, :courtesy_notification]
+      [:status, :assignee_id, :metadata, :public_document, :courtesy_notification, :file]
     end
   end
 end

@@ -10,18 +10,22 @@ class ImportDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     id: Field::String,
     assignee: AssigneeField,
-    type: Field::String,
+    associated_occupation_standards: HasManyAssociatedOccupationStandardsField,
     courtesy_notification: Field::Select.with_options(searchable: false, collection: ->(field) { field.resource.class.send(field.attribute.to_s.pluralize).keys }),
-    metadata: Field::JSONB,
+    cousins: Field::String.with_options(searchable: false),
+    created_at: Field::DateTime,
+    data_imports: HasManyDataImportsField,
     file: Field::ActiveStorage,
     filename: Field::String.with_options(searchable: false),
-    parent: Field::Polymorphic,
     import: Field::BelongsTo,
     imports: Field::HasMany,
+    metadata: Field::JSONB,
+    notes: Field::String.with_options(searchable: false),
+    organization: Field::String.with_options(searchable: false),
+    parent: Field::Polymorphic,
     processed_at: Field::DateTime,
     processing_errors: Field::Text,
     public_document: Field::Boolean,
-    associated_occupation_standards: HasManyAssociatedOccupationStandardsField,
     redacted_pdf: Field::ActiveStorage.with_options(
       destroy_url: proc do |namespace, resource, attachment|
         [:redacted_import_admin_import, {attachment_id: attachment.id}]
@@ -29,8 +33,7 @@ class ImportDashboard < Administrate::BaseDashboard
     ),
     redacted_pdf_url: Field::Url.with_options(searchable: false),
     status: Field::Select.with_options(searchable: false, collection: ->(field) { field.resource.class.send(field.attribute.to_s.pluralize).keys }),
-    data_imports: HasManyDataImportsField,
-    created_at: Field::DateTime,
+    type: Field::String,
     updated_at: Field::DateTime
   }.freeze
 
@@ -42,6 +45,7 @@ class ImportDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = %i[
     created_at
     type
+    organization
     filename
     assignee
     public_document
@@ -56,6 +60,8 @@ class ImportDashboard < Administrate::BaseDashboard
     file
     associated_occupation_standards
     data_imports
+    notes
+    organization
     status
     assignee
     metadata
@@ -66,6 +72,7 @@ class ImportDashboard < Administrate::BaseDashboard
     processing_errors
     courtesy_notification
     parent
+    cousins
     import
     imports
     created_at
@@ -76,6 +83,7 @@ class ImportDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
+    file
     assignee
     metadata
     public_document

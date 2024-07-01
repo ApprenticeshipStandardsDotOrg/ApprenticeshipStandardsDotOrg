@@ -73,6 +73,17 @@ RSpec.describe Imports::Uncategorized, type: :model do
       expect(pdf_import).to have_received(:process).with(listing: false)
     end
 
+    it "assigns .doc files of application/x-ole-storage as Doc files" do
+      allow_any_instance_of(Imports::Doc).to receive(:process)
+      import = create(:imports_uncategorized, file: Rack::Test::UploadedFile.new(Rails.root.join("spec", "fixtures", "files", "x-ole-storage.doc")))
+
+      import.process(listing: false)
+      import.reload
+
+      expect(import.import).to be_a(Imports::Doc)
+      expect(import.import).to be_unfurled
+    end
+
     it "skips unknown files" do
       import = create(
         :imports_uncategorized,
@@ -144,6 +155,46 @@ RSpec.describe Imports::Uncategorized, type: :model do
     end
   end
 
+  describe "#pdf_leaves" do
+    context "when pdf leaf exists" do
+      it "returns the Imports::Pdf record in an array" do
+        uncat = create(:imports_uncategorized)
+        doc = create(:imports_doc, parent: uncat)
+        pdf = create(:imports_pdf, parent: doc)
+
+        expect(uncat.pdf_leaves).to eq [pdf]
+      end
+    end
+
+    context "when import is a docx_listing" do
+      it "returns docx_listing pdf_leaves" do
+        uncat = create(:imports_uncategorized)
+        docx_listing = create(:imports_docx_listing, parent: uncat)
+        uncat1 = create(:imports_uncategorized, parent: docx_listing)
+        uncat2 = create(:imports_uncategorized, parent: docx_listing)
+        uncat3 = create(:imports_uncategorized, parent: docx_listing)
+
+        doc = create(:imports_doc, parent: uncat1)
+        pdf1 = create(:imports_pdf, parent: doc)
+
+        docx = create(:imports_docx, parent: uncat2)
+        pdf2 = create(:imports_pdf, parent: docx)
+
+        pdf3 = create(:imports_pdf, parent: uncat3)
+
+        expect(uncat.pdf_leaves).to contain_exactly(pdf1, pdf2, pdf3)
+      end
+    end
+
+    context "when pdf leaf does not exist" do
+      it "returns empty array" do
+        uncat = create(:imports_uncategorized)
+
+        expect(uncat.pdf_leaves).to be_empty
+      end
+    end
+  end
+
   describe "#import_root" do
     it "retrieves the standards_import at the root" do
       standards_import = create(:standards_import)
@@ -153,51 +204,21 @@ RSpec.describe Imports::Uncategorized, type: :model do
     end
   end
 
-  describe "#transfer_source_file_data!" do
-    it "transfers the status to the pdf leaf" do
-      source_file = create(:source_file, status: :completed)
-      uncat = create(:imports_uncategorized, source_file: source_file)
-      pdf = create(:imports_pdf, parent: uncat, status: :pending)
+  describe "#docx_listing_root" do
+    it "when descended from bulletin, retrieves the docx_listing ancestor" do
+      standards_import = create(:standards_import)
+      uncat = create(:imports_uncategorized, parent: standards_import)
+      docx_listing = create(:imports_docx_listing, parent: uncat)
+      uncat2 = create(:imports_uncategorized, parent: docx_listing)
 
-      uncat.transfer_source_file_data!
-
-      expect(pdf.reload.status).to eq "completed"
+      expect(uncat2.docx_listing_root).to eq docx_listing
     end
 
-    it "transfers the assignee to the pdf leaf" do
-      assignee = create(:user, :converter)
-      source_file = create(:source_file, assignee: assignee)
-      uncat = create(:imports_uncategorized, source_file: source_file)
-      pdf = create(:imports_pdf, parent: uncat)
+    it "when not descended from bulletin, returns nil" do
+      standards_import = create(:standards_import)
+      uncat = create(:imports_uncategorized, parent: standards_import)
 
-      uncat.transfer_source_file_data!
-
-      expect(pdf.reload.assignee).to eq assignee
-    end
-
-    it "transfers the redacted file to the pdf leaf" do
-      source_file = create(:source_file, :with_redacted_source_file)
-      uncat = create(:imports_uncategorized, source_file: source_file)
-      pdf = create(:imports_pdf, parent: uncat, status: :pending)
-
-      uncat.transfer_source_file_data!
-
-      pdf.reload
-      expect(pdf.redacted_pdf.attached?).to be_truthy
-      expect(pdf.redacted_at).to be_present
-    end
-
-    it "returns nil if no pdf_leaf" do
-      source_file = create(:source_file)
-      uncat = create(:imports_uncategorized, source_file: source_file)
-
-      expect(uncat.transfer_source_file_data!).to be_nil
-    end
-
-    it "returns nil if no source_file" do
-      uncat = create(:imports_uncategorized, source_file: nil)
-
-      expect(uncat.transfer_source_file_data!).to be_nil
+      expect(uncat.docx_listing_root).to be_nil
     end
   end
 

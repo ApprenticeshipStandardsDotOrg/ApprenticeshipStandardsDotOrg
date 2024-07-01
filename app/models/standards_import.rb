@@ -10,12 +10,12 @@ class StandardsImport < ApplicationRecord
 
   class << self
     def manual_submissions_in_need_of_courtesy_notification(email: nil)
-      imports = StandardsImport.courtesy_notification_pending
+      standards_imports = StandardsImport.courtesy_notification_pending
       if email.present?
-        imports = imports.where(email: email)
+        standards_imports = standards_imports.where(email: email)
       end
-      imports.select do |import|
-        import.has_converted_source_file_in_need_of_notification?
+      standards_imports.select do |standards_import|
+        standards_import.has_converted_source_file_in_need_of_notification?
       end
     end
   end
@@ -24,28 +24,24 @@ class StandardsImport < ApplicationRecord
     self
   end
 
-  def source_files
-    files
-      .includes(source_file: {active_storage_attachment: :blob})
-      .order("active_storage_blobs.filename")
-      .map(&:source_file)
-      .compact
-  end
-
   def has_converted_source_file_in_need_of_notification?
     source_files_in_need_of_notification.any?
   end
 
   def source_files_in_need_of_notification
     if courtesy_notification_pending?
-      source_files.select { |source_file| source_file.needs_courtesy_notification? }
+      pdf_leaves.select { |pdf| pdf.needs_courtesy_notification? }
     else
-      StandardsImport.none
+      []
     end
   end
 
+  def pdf_leaves
+    imports.includes(:import).flat_map(&:pdf_leaves)
+  end
+
   def has_notified_uploader_of_all_conversions?
-    source_files.count == source_files.count { |source_file| source_file.courtesy_notification_completed? }
+    pdf_leaves.count == pdf_leaves.count { |pdf| pdf.courtesy_notification_completed? }
   end
 
   def file_count

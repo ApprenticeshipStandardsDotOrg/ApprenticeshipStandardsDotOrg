@@ -9,11 +9,12 @@ module RAPIDS
     class << self
       include Sanitizable
 
-      def initialize_from_response(response)
+      def find_or_initialize_from_response(response)
         rapids_code = sanitize_rapids_code(response["rapidsCode"])
         onet_code = response["onetSocCode"]
         title = fix_encoding(response["occupationTitle"])
-        ::OccupationStandard.new(
+        occupation_standard = occupation_standard(response)
+        occupation_standard.assign_attributes(
           title: title,
           onet_code: onet_code,
           rapids_code: rapids_code,
@@ -23,11 +24,26 @@ module RAPIDS
           ),
           organization: find_or_create_organization_by_organization_name(response["sponsorName"]),
           occupation: find_occupation(rapids_code, onet_code),
-          external_id: extract_wps_id(response["wpsDocument"])
+          external_id: extract_wps_id(response["wpsDocument"]),
+          registration_date: response["createdDt"]
         )
+        occupation_standard
       end
 
       private
+
+      def occupation_standard(response)
+        find_occupation_standard(response) || ::OccupationStandard.new
+      end
+
+      def find_occupation_standard(response)
+        ::OccupationStandard.includes(:organization).find_by(
+          title: fix_encoding(response["occupationTitle"]),
+          organization: {
+            title: response["sponsorName"]
+          }
+        )
+      end
 
       def ojt_type(occ_type)
         OCC_TYPE_MAPPING[occ_type]

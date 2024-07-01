@@ -16,7 +16,6 @@ RSpec.describe "OccupationStandard", type: :request do
       context "with ES search", :elasticsearch do
         it "with import flag on: makes one Elasticsearch query if no search params" do
           stub_feature_flag(:use_elasticsearch_for_search, true)
-          stub_feature_flag(:show_imports_in_administrate, true)
 
           create(:occupation_standard, :with_work_processes, :with_data_import)
 
@@ -28,7 +27,6 @@ RSpec.describe "OccupationStandard", type: :request do
 
         it "makes one Elasticsearch query if no search params" do
           stub_feature_flag(:use_elasticsearch_for_search, true)
-          stub_feature_flag(:show_imports_in_administrate, false)
 
           create(:occupation_standard, :with_work_processes, :with_data_import)
 
@@ -40,7 +38,6 @@ RSpec.describe "OccupationStandard", type: :request do
 
         it "makes one Elasticsearch query if only filter params" do
           stub_feature_flag(:use_elasticsearch_for_search, true)
-          stub_feature_flag(:show_imports_in_administrate, false)
 
           ra = create(:registration_agency)
           create(:occupation_standard, :with_work_processes, :with_data_import, registration_agency: ra)
@@ -53,7 +50,6 @@ RSpec.describe "OccupationStandard", type: :request do
 
         it "makes one Elasticsearch query if search params does not start with letter" do
           stub_feature_flag(:use_elasticsearch_for_search, true)
-          stub_feature_flag(:show_imports_in_administrate, false)
 
           create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic", onet_code: "15-1234.00")
 
@@ -65,7 +61,6 @@ RSpec.describe "OccupationStandard", type: :request do
 
         it "makes two Elasticsearch queries if search params start with letter" do
           stub_feature_flag(:use_elasticsearch_for_search, true)
-          stub_feature_flag(:show_imports_in_administrate, false)
 
           create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
 
@@ -77,7 +72,6 @@ RSpec.describe "OccupationStandard", type: :request do
 
         it "makes one Elasticsearch query if search params start with letter but onet_prefix is included in the search params" do
           stub_feature_flag(:use_elasticsearch_for_search, true)
-          stub_feature_flag(:show_imports_in_administrate, false)
 
           create(:occupation_standard, :with_work_processes, :with_data_import, title: "Mechanic")
 
@@ -89,7 +83,6 @@ RSpec.describe "OccupationStandard", type: :request do
 
         it "does not include onet_prefix in 2nd query if first hit has no onet code" do
           stub_feature_flag(:use_elasticsearch_for_search, true)
-          stub_feature_flag(:show_imports_in_administrate, false)
 
           create(:occupation_standard, :with_work_processes, :with_data_import, onet_code: nil, title: "Mechanic")
 

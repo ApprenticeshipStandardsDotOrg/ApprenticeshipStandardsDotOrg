@@ -8,20 +8,22 @@ RSpec.describe GuestMailer, type: :mailer do
           file1 = file_fixture("pixel1x1.pdf")
           file2 = file_fixture("pixel1x1.jpg")
 
-          create(:standards_import, files: [file1, file2], courtesy_notification: :pending, email: "foo@example.com", name: "Foo")
-          source_file1 = SourceFile.first
-          source_file2 = SourceFile.last
+          standards_import = create(:standards_import, files: [file1, file2], courtesy_notification: :pending, email: "foo@example.com", name: "Foo")
+          uncat1 = create(:imports_uncategorized, parent: standards_import, file: file1)
+          uncat2 = create(:imports_uncategorized, parent: standards_import, file: file2)
+          pdf1 = create(:imports_pdf, file: file1, parent: uncat1)
+          pdf2 = create(:imports_pdf, file: file2, parent: uncat2)
 
           occupation_standard1 = create(:occupation_standard, title: "Mechanic")
           occupation_standard2 = create(:occupation_standard, title: "Pipe Fitter")
           occupation_standard3 = create(:occupation_standard, title: "Tree Trimmer")
 
-          allow(source_file1).to receive(:associated_occupation_standards).and_return([occupation_standard1, occupation_standard2])
-          allow(source_file2).to receive(:associated_occupation_standards).and_return([occupation_standard3])
+          allow(pdf1).to receive(:associated_occupation_standards).and_return([occupation_standard1, occupation_standard2])
+          allow(pdf2).to receive(:associated_occupation_standards).and_return([occupation_standard3])
 
           mail = GuestMailer.manual_upload_conversion_complete(
             email: "foo@example.com",
-            source_files: [source_file1, source_file2]
+            source_files: [pdf1, pdf2]
           )
           expect(mail.subject).to eq("Your standards are live in the Apprenticeship Standards Library")
           expect(mail.to).to eq(["foo@example.com"])

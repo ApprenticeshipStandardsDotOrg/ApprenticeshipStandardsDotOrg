@@ -190,7 +190,7 @@ RSpec.describe "Admin::Synonym", type: :request do
             synonym.reload
             expect(synonym.word).to_not eq "Software Engineer"
             expect(synonym.synonyms).to_not eq "Developer, Dev"
-            expect(response).to have_http_status(:unprocessable_entity)
+            expect(response).to have_http_status(:unprocessable_content)
           end
         end
       end
@@ -237,7 +237,7 @@ RSpec.describe "Admin::Synonym", type: :request do
                   }
               }.to change(Synonym, :count).by(0)
 
-              expect(response).to have_http_status(:unprocessable_entity)
+              expect(response).to have_http_status(:unprocessable_content)
             end
           end
         end

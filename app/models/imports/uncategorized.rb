@@ -5,7 +5,6 @@ module Imports
   class Uncategorized < Import
     has_one_attached :file
     has_one :import, as: :parent, dependent: :destroy, autosave: true
-    belongs_to :source_file, optional: true
 
     before_save :set_courtesy_notification
 
@@ -22,20 +21,22 @@ module Imports
       raise
     end
 
+    def docx_listing_root
+      if parent.is_a?(DocxListing)
+        parent
+      end
+    end
+
     def pdf_leaf
       import&.pdf_leaf
     rescue NoPdfLeafError
     end
 
-    def transfer_source_file_data!
-      pdf = pdf_leaf
-      if source_file && pdf
-        pdf.update!(
-          status: source_file.status,
-          assignee: source_file.assignee,
-          redacted_at: source_file.redacted_at,
-          redacted_pdf: source_file.redacted_source_file&.blob
-        )
+    def pdf_leaves
+      if import
+        import.pdf_leaves
+      else
+        []
       end
     end
 
@@ -79,6 +80,12 @@ module Imports
         "Imports::Docx"
       in PDF_CONTENT_TYPE
         "Imports::Pdf"
+      in "application/x-ole-storage"
+        if file.filename.to_s.ends_with?(".doc")
+          "Imports::Doc"
+        else
+          raise Imports::UnknownFileTypeError, file_blob.content_type
+        end
       else
         raise Imports::UnknownFileTypeError, file_blob.content_type
       end

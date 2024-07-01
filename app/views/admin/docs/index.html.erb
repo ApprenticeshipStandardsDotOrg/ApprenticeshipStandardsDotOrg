@@ -1,0 +1,71 @@
+<% content_for(:title) do %>
+  <%= "Docs" %>
+<% end %>
+
+<header class="main-content__header">
+  <h1 class="main-content__page-title" id="page-title">
+    <%= content_for(:title) %>
+  </h1>
+</header>
+
+<section class="main-content__body main-content__body--flush">
+  <div class="main-content__page-description ml-6">
+    <h2 id="optionsForImportsSearch" class="font-bold">What are the options for Imports search?</h2>
+    <div class="mt-2">
+      By status:
+      <ul>
+        <li><code>status:pending</code></li>
+        <li><code>status:completed</code></li>
+        <li><code>status:needs_support</code></li>
+        <li><code>status:needs_human_review</code></li>
+        <li><code>status:archived</code></li>
+        <li><code>status:needs_backend_support</code></li>
+        <li><code>status:unfurled</code></li>
+      </ul>
+    </div>
+
+    <div class="mt-2">
+      By asignee name:
+      <ul>
+        <li><code>asignee:John</code></li>
+      </ul>
+    </div>
+
+    <div class="mt-2">
+      By organization:
+      <ul>
+        <li><code>organization:urban</code></li>
+      </ul>
+    </div>
+
+    <div class="mt-2">
+      By public document status:
+      <ul>
+        <li><code>public_document:true</code></li>
+        <li><code>public_document:false</code></li>
+      </ul>
+    </div>
+
+    <div class="mt-2">
+      By file name or extension:
+      <ul>
+        <li><code>file:pdf</code></li>
+      </ul>
+    </div>
+
+    <div class="mt-2">
+      Only files that need redaction:
+      <ul>
+        <li><code>needs_redaction:</code></li>
+      </ul>
+    </div>
+
+    <div class="mt-2">
+      Only files that are already redacted:
+      <ul>
+        <li><code>already_redacted:</code></li>
+      </ul>
+    </div>
+  </div>
+  <hr>
+</section>

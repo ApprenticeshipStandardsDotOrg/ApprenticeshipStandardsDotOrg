@@ -1,9 +1,4 @@
 <% @recently_redacted_records.each do |record| %>
-  <% if Flipper.enabled?(:show_imports_in_administrate) %>
-    <%= record.filename %>
-    <%= admin_import_url(record) %>
-  <% else %>
-    <%= record.active_storage_attachment.filename %>
-    <%= link_to "Admin", admin_source_file_url(record) %>
-  <% end %>
+  <%= record.filename %>
+  <%= admin_import_url(record) %>
 <% end %>

@@ -3,37 +3,33 @@ require "rails_helper"
 RSpec.describe DocxListingSplitter do
   describe "#split" do
     context "with file that has attachments" do
-      it "attaches 7 files to original standards_import file, marks original source_file as archived, and is idempotent" do
+      it "returns 7 file names extracted from the document" do
         # When viewing this file it looks to only have 6 attachments, but when
         # the files are extracted, there are 2 Word docs and 5 PDFs. Not sure
         # why only 4 PDFs are visible when viewing the doc.
-        perform_enqueued_jobs do
-          uncategorized = create(:imports_uncategorized, :docx_listing)
-          id = "8"
-          file_names = []
+        uncategorized = create(:imports_uncategorized, :docx_listing)
+        id = "8"
+        file_names = []
 
-          described_class.split(id, uncategorized.file) do |n|
-            file_names = n
-          end
-
-          expect(file_names.size).to eq 7
+        described_class.split(id, uncategorized.file) do |n|
+          file_names = n
         end
+
+        expect(file_names.size).to eq 7
       end
     end
 
     context "with file that doesn't have attachments" do
-      it "does not attach any files to the StandardImport and marks original source_file as archived" do
-        perform_enqueued_jobs do
-          uncategorized = create(:imports_uncategorized, :pdf)
-          id = "8"
-          file_names = []
+      it "returns 0 file names" do
+        uncategorized = create(:imports_uncategorized, :pdf)
+        id = "8"
+        file_names = []
 
-          described_class.split(id, uncategorized.file) do |n|
-            file_names = n
-          end
-
-          expect(file_names.size).to eq(0)
+        described_class.split(id, uncategorized.file) do |n|
+          file_names = n
         end
+
+        expect(file_names.size).to eq(0)
       end
     end
 

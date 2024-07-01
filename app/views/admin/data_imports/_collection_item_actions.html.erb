@@ -2,7 +2,7 @@
   <td><%= if accessible_action?(resource, :edit)
             link_to(
               t("administrate.actions.edit"),
-              [:edit, namespace, resource.source_file, resource],
+              edit_admin_import_data_import_path(resource.import, resource),
               class: "action-edit"
             )
           end %></td>

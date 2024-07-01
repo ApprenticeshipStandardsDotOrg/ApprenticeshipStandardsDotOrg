@@ -2,15 +2,17 @@ require "rails_helper"
 
 RSpec.describe "admin/data_imports/new" do
   it "allows admin user to create data import", :admin do
-    source_file = create(:source_file)
-    admin = create :admin
+    pdf = create(:imports_pdf)
+    admin = create(:admin)
 
     login_as admin
-    visit new_admin_source_file_data_import_path(source_file)
+    visit new_admin_import_data_import_path(pdf)
 
     within("h1") do
       expect(page).to have_content("Import data for pixel1x1.pdf")
     end
+    expect(page).to have_alert, text: "Read Carefully"
+
     expect(page).to have_link("import template", href: "https://www.notion.so/888b37991598495cb22d0dabc08ae3b2?v=f29055b156fa471ea9c30e9467238e66")
     expect(page).to have_link("ApprenticeshipStandards Notion", href: "https://www.notion.so/Instructions-060de1705e7d471fa8bee7a7c535a2d6")
 
@@ -31,11 +33,11 @@ RSpec.describe "admin/data_imports/new" do
   end
 
   it "does not allow invalid file types", :admin do
-    source_file = create(:source_file)
+    pdf = create(:imports_pdf)
     admin = create(:admin)
 
     login_as admin
-    visit new_admin_source_file_data_import_path(source_file)
+    visit new_admin_import_data_import_path(pdf)
 
     attach_file "File", file_fixture("pixel1x1.jpg")
 
@@ -47,11 +49,11 @@ RSpec.describe "admin/data_imports/new" do
   end
 
   it "allows admin user to process file with last_file flag", :admin do
-    source_file = create(:source_file)
-    admin = create :admin
+    pdf = create(:imports_pdf)
+    admin = create(:admin)
 
     login_as admin
-    visit new_admin_source_file_data_import_path(source_file)
+    visit new_admin_import_data_import_path(pdf)
 
     within("h1") do
       expect(page).to have_content("Import data for pixel1x1.pdf")

@@ -40,12 +40,12 @@
     <% resources.each do |resource| %>
       <tr class="js-table-row"
           <% if accessible_action?(resource, :show) %>
-            <%= %(tabindex=0 role=link data-url=#{polymorphic_path([namespace, resource])}) %>
+            <%= %(tabindex=0 role=link data-url=#{admin_import_data_import_path(resource.import, resource)}) %>
           <% end %>>
         <% collection_presenter.attributes_for(resource).each do |attribute| %>
           <td class="cell-data cell-data--<%= attribute.html_class %>">
             <% if accessible_action?(resource, :show) -%>
-              <a href="<%= polymorphic_path([namespace, resource.source_file, resource]) -%>"
+              <a href="<%= admin_import_data_import_path(resource.import, resource) -%>"
                  tabindex="-1"
                  class="action-show">
                 <%= render_field attribute %>

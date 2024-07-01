@@ -130,11 +130,178 @@ RSpec.describe Imports::Pdf, type: :model do
     end
   end
 
+  describe "#docx_listing_root" do
+    it "when descended from bulletin, retrieves the docx_listing ancestor" do
+      standards_import = create(:standards_import)
+      uncat = create(:imports_uncategorized, parent: standards_import)
+      docx_listing = create(:imports_docx_listing, parent: uncat)
+      uncat2 = create(:imports_uncategorized, parent: docx_listing)
+      doc = create(:imports_doc, parent: uncat2)
+      pdf = create(:imports_pdf, parent: doc)
+
+      expect(pdf.docx_listing_root).to eq docx_listing
+    end
+
+    it "when not descended from bulletin, returns nil" do
+      standards_import = create(:standards_import)
+      uncat = create(:imports_uncategorized, parent: standards_import)
+      doc = create(:imports_doc, parent: uncat)
+      pdf = create(:imports_pdf, parent: doc)
+
+      expect(pdf.docx_listing_root).to be_nil
+    end
+  end
+
   describe "#pdf_leaf" do
     it "returns self" do
       pdf = create(:imports_pdf)
 
       expect(pdf.pdf_leaf).to eq pdf
+    end
+  end
+
+  describe "#pdf_leaves" do
+    it "returns self in an array" do
+      pdf = create(:imports_pdf)
+
+      expect(pdf.pdf_leaves).to eq [pdf]
+    end
+  end
+
+  describe "#cousins" do
+    context "when descended from bulletin" do
+      it "returns all the pdf_leaves of the docx_listing ancestor, excluding self" do
+        docx_listing = create(:imports_docx_listing)
+        uncat1 = create(:imports_uncategorized, parent: docx_listing)
+        uncat2 = create(:imports_uncategorized, parent: docx_listing)
+        uncat3 = create(:imports_uncategorized, parent: docx_listing)
+
+        doc = create(:imports_doc, parent: uncat1)
+        pdf1 = create(:imports_pdf, parent: doc, file: Rack::Test::UploadedFile.new(Rails.root.join("spec", "fixtures", "files", "pixel1x1_redacted.pdf"), "application/pdf"))
+
+        docx = create(:imports_docx, parent: uncat2)
+        pdf2 = create(:imports_pdf, parent: docx)
+
+        pdf3 = create(:imports_pdf, parent: uncat3, file: Rack::Test::UploadedFile.new(Rails.root.join("spec", "fixtures", "files", "pixel1x1.pdf"), "application/pdf"))
+
+        expect(pdf2.cousins).to eq [pdf3, pdf1]
+      end
+
+      it "when only 1 document in bulletin returns empty array" do
+        docx_listing = create(:imports_docx_listing)
+        uncat = create(:imports_uncategorized, parent: docx_listing)
+        doc = create(:imports_doc, parent: uncat)
+        pdf = create(:imports_pdf, parent: doc)
+
+        expect(pdf.cousins).to be_empty
+      end
+    end
+
+    context "when not descended from bulletin" do
+      it "returns empty array" do
+        standards_import = create(:standards_import)
+        uncat = create(:imports_uncategorized, parent: standards_import)
+        doc = create(:imports_doc, parent: uncat)
+        pdf = create(:imports_pdf, parent: doc)
+
+        expect(pdf.cousins).to be_empty
+      end
+    end
+  end
+
+  describe "#available_for_redaction?" do
+    it "returns true when import is not public document and completed" do
+      pdf = create(:imports_pdf, public_document: false, status: :completed)
+
+      expect(pdf.available_for_redaction?).to be true
+    end
+
+    it "returns false when import is not public document but pending" do
+      pdf = create(:imports_pdf, public_document: false, status: :pending)
+
+      expect(pdf.available_for_redaction?).to be false
+    end
+
+    it "returns false when import is public document and completed" do
+      pdf = create(:imports_pdf, public_document: true, status: :completed)
+
+      expect(pdf.available_for_redaction?).to be false
+    end
+  end
+
+  describe "#notes" do
+    context "when standards_import is public" do
+      it "is blank" do
+        standards_import = create(:standards_import, public_document: true, notes: "from some scraper job")
+        uncat = create(:imports_uncategorized, parent: standards_import)
+        pdf = create(:imports_pdf, parent: uncat)
+
+        expect(pdf.notes).to be_blank
+      end
+    end
+
+    context "when standards_import is not public" do
+      it "returns standards_import notes" do
+        standards_import = create(:standards_import, public_document: false, notes: "Please anonymize sponsor")
+        uncat = create(:imports_uncategorized, parent: standards_import)
+        pdf = create(:imports_pdf, parent: uncat)
+
+        expect(pdf.notes).to eq "Please anonymize sponsor"
+      end
+    end
+  end
+
+  describe "#needs_courtesy_notification?" do
+    it "is false if status is pending" do
+      pdf = build(:imports_pdf, :pending)
+
+      expect(pdf.needs_courtesy_notification?).to be false
+    end
+
+    it "is false if status is needs_support" do
+      pdf = build(:imports_pdf, :needs_support)
+
+      expect(pdf.needs_courtesy_notification?).to be false
+    end
+
+    it "is false if status is completed and courtesy_notification is completed" do
+      pdf = build(:imports_pdf, :completed, courtesy_notification: :completed)
+
+      expect(pdf.needs_courtesy_notification?).to be false
+    end
+
+    it "is false if status is completed and courtesy_notification is not_required" do
+      pdf = build(:imports_pdf, :completed, courtesy_notification: :not_required)
+
+      expect(pdf.needs_courtesy_notification?).to be false
+    end
+
+    it "is true if status is completed and courtesy_notification is pending" do
+      pdf = build(:imports_pdf, :completed, courtesy_notification: :pending)
+
+      expect(pdf.needs_courtesy_notification?).to be true
+    end
+  end
+
+  describe "#organization" do
+    context "when standards_import has organization" do
+      it "returns standards_import organization" do
+        standards_import = create(:standards_import, organization: "Urban")
+        uncat = create(:imports_uncategorized, parent: standards_import)
+        pdf = create(:imports_pdf, parent: uncat)
+
+        expect(pdf.organization).to eq "Urban"
+      end
+    end
+
+    context "when standards_import does not have organization" do
+      it "is blank" do
+        standards_import = create(:standards_import, organization: nil)
+        uncat = create(:imports_uncategorized, parent: standards_import)
+        pdf = create(:imports_pdf, parent: uncat)
+
+        expect(pdf.organization).to be_blank
+      end
     end
   end
 end

@@ -13,9 +13,10 @@
 </header>
 
 <section aria-labelledby="title_id" class="main-content__body">
-  <% if Flipper.enabled?(:show_imports_in_administrate) %>
-    <%= render "form_new", page: page %>
-  <% else %>
-    <%= render "form", page: page %>
-  <% end %>
+  <div class="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4" role="alert">
+    <p class="font-bold">Read Carefully</p>
+    <p>If you want to override only some of the data, make sure the rows in the tabs you want to keep are empty.</p>
+    <p>For example, if you just want to add Related Instructions to a RAPIDS Occupation Standard that already has Work Processes, make sure the Details tab and the Work Processes tab in Excel only contain the header row, and only provide data for the Related Instructions tab.</p>
+  </div>
+  <%= render "form", page: page, url: admin_import_data_imports_path(@parent) %>
 </section>

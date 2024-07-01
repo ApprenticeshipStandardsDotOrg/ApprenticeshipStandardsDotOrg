@@ -4,8 +4,6 @@ RSpec.describe "admin/imports/show", :admin do
   context "when Imports::Pdf" do
     context "when admin" do
       it "does not have button for needing support but has data import and redact buttons" do
-        stub_feature_flag(:show_imports_in_administrate, true)
-
         admin = create(:admin)
         import = create(:imports_pdf)
 
@@ -15,15 +13,37 @@ RSpec.describe "admin/imports/show", :admin do
         expect(page).to have_text "Imports::Pdf"
         expect(page).to_not have_button "Needs support"
         expect(page).to have_link "New data import", href: new_admin_import_data_import_path(import)
-        expect(page).to have_link "Redact document", href: new_admin_import_redact_file_path(import)
+        expect(page).to_not have_link "Redact document", href: new_admin_import_redact_file_path(import)
         expect(page).to have_link "Edit", href: edit_admin_import_path(import)
         expect(page).to have_link "Destroy"
         expect(page).to have_text "Data import"
         expect(page).to have_text "Courtesy notification"
         expect(page).to have_text "Parent"
         expect(page).to have_text "Associated occupation standards"
+      end
 
-        stub_feature_flag(:show_imports_in_administrate, false)
+      it "displays data imports with the correct link" do
+        admin = create(:admin)
+        import = create(:imports_pdf)
+        data_import = create(:data_import, import: import)
+
+        login_as admin
+        visit admin_import_path(import)
+
+        expect(page).to have_text "occupation-standards-template.xlsx"
+        expect(page).to have_link "Edit", href: edit_admin_import_data_import_path(import, data_import)
+      end
+
+      context "when import is not public document and completed" do
+        it "shows redact document link" do
+          admin = create(:admin)
+          import = create(:imports_pdf, public_document: false, status: :completed)
+
+          login_as admin
+          visit admin_import_path(import)
+
+          expect(page).to have_link "Redact document", href: new_admin_import_redact_file_path(import)
+        end
       end
 
       it "allows admin to remove a redacted file" do
@@ -53,8 +73,6 @@ RSpec.describe "admin/imports/show", :admin do
 
     context "when converter" do
       it "has button for needing support, data imports, and redact buttons" do
-        stub_feature_flag(:show_imports_in_administrate, true)
-
         admin = create(:admin, :converter)
         import = create(:imports_pdf, status: :pending)
 
@@ -63,7 +81,7 @@ RSpec.describe "admin/imports/show", :admin do
 
         expect(page).to have_button "Needs support"
         expect(page).to have_link "New data import", href: new_admin_import_data_import_path(import)
-        expect(page).to have_link "Redact document", href: new_admin_import_redact_file_path(import)
+        expect(page).to_not have_link "Redact document", href: new_admin_import_redact_file_path(import)
         expect(page).to have_text "Data imports"
         expect(page).to_not have_link "Edit", href: edit_admin_import_path(import)
         expect(page).to_not have_link "Destroy"
@@ -77,12 +95,36 @@ RSpec.describe "admin/imports/show", :admin do
 
         expect(page).to have_text "needs_support"
         expect(import.reload).to be_needs_support
+      end
 
-        stub_feature_flag(:show_imports_in_administrate, false)
+      context "when import is not public document and completed" do
+        it "shows redact document link" do
+          admin = create(:admin, :converter)
+          import = create(:imports_pdf, public_document: false, status: :completed)
+
+          login_as admin
+          visit admin_import_path(import)
+
+          expect(page).to have_link "Redact document", href: new_admin_import_redact_file_path(import)
+        end
+      end
+
+      it "has button for archiving" do
+        admin = create(:admin, :converter)
+        import = create(:imports_pdf, status: :pending)
+
+        login_as admin
+        visit admin_import_path(import)
+
+        expect(page).to have_button "Archive"
+
+        click_on "Archive"
+
+        expect(page).to have_text "archived"
+        expect(import.reload).to be_archived
       end
 
       it "can view the associated occupation standards" do
-        stub_feature_flag(:show_imports_in_administrate, true)
         stub_feature_flag(:similar_programs_elasticsearch, false)
 
         admin = create(:admin, :converter)
@@ -100,8 +142,6 @@ RSpec.describe "admin/imports/show", :admin do
 
         expect(page).to have_text "Mechanic"
         expect(page).to have_text "WP1"
-
-        stub_feature_flag(:show_imports_in_administrate, false)
       end
     end
   end
@@ -109,8 +149,6 @@ RSpec.describe "admin/imports/show", :admin do
   context "when Imports::Uncategorized type" do
     context "when admin" do
       it "does not have buttons for needing support, data import or redact" do
-        stub_feature_flag(:show_imports_in_administrate, true)
-
         admin = create(:admin)
         import = create(:imports_uncategorized)
 
@@ -129,8 +167,6 @@ RSpec.describe "admin/imports/show", :admin do
         expect(page).to have_text "Child"
         expect(page).to have_text "Type"
         expect(page).to have_text "Associated occupation standards"
-
-        stub_feature_flag(:show_imports_in_administrate, false)
       end
     end
   end
@@ -138,8 +174,6 @@ RSpec.describe "admin/imports/show", :admin do
   context "when Imports::Doc type" do
     context "when admin" do
       it "does not have buttons for needing support, data import or redact" do
-        stub_feature_flag(:show_imports_in_administrate, true)
-
         admin = create(:admin)
         import = create(:imports_doc)
 
@@ -152,8 +186,6 @@ RSpec.describe "admin/imports/show", :admin do
         expect(page).to_not have_link "Redact document"
         expect(page).to have_link "Edit", href: edit_admin_import_path(import)
         expect(page).to have_link "Destroy"
-
-        stub_feature_flag(:show_imports_in_administrate, false)
       end
     end
   end
@@ -161,8 +193,6 @@ RSpec.describe "admin/imports/show", :admin do
   context "when Imports::Docx type" do
     context "when admin" do
       it "does not have buttons for needing support, data import or redact" do
-        stub_feature_flag(:show_imports_in_administrate, true)
-
         admin = create(:admin)
         import = create(:imports_docx)
 
@@ -175,8 +205,6 @@ RSpec.describe "admin/imports/show", :admin do
         expect(page).to_not have_link "Redact document"
         expect(page).to have_link "Edit", href: edit_admin_import_path(import)
         expect(page).to have_link "Destroy"
-
-        stub_feature_flag(:show_imports_in_administrate, false)
       end
     end
   end
@@ -184,8 +212,6 @@ RSpec.describe "admin/imports/show", :admin do
   context "when Imports::DocxListing type" do
     context "when admin" do
       it "does not have buttons for needing support, data import or redact" do
-        stub_feature_flag(:show_imports_in_administrate, true)
-
         admin = create(:admin)
         import = create(:imports_docx_listing)
 
@@ -198,8 +224,6 @@ RSpec.describe "admin/imports/show", :admin do
         expect(page).to_not have_link "Redact document"
         expect(page).to have_link "Edit", href: edit_admin_import_path(import)
         expect(page).to have_link "Destroy"
-
-        stub_feature_flag(:show_imports_in_administrate, false)
       end
     end
   end

@@ -2,7 +2,7 @@ module Imports
   class Pdf < Import
     has_one_attached :file
     has_one_attached :redacted_pdf
-    has_many :data_imports, -> { includes(:source_file, file_attachment: :blob) }, inverse_of: "import"
+    has_many :data_imports, -> { includes(file_attachment: :blob) }, inverse_of: "import"
     has_many :associated_occupation_standards, -> { distinct }, through: :data_imports, source: :occupation_standard
 
     scope :ole_object, -> { joins(file_attachment: :blob).where("active_storage_blobs.filename LIKE ?", "%oleObject%")}
@@ -45,8 +45,24 @@ module Imports
       redacted_pdf.attached? ? redacted_pdf : file
     end
 
+    def needs_courtesy_notification?
+      completed? && courtesy_notification_pending?
+    end
+
     def pdf_leaf
       self
+    end
+
+    def cousins
+      if docx_listing_root
+        (docx_listing_root.pdf_leaves - [self]).sort_by(&:filename)
+      else
+        []
+      end
+    end
+
+    def available_for_redaction?
+      !public_document? && completed?
     end
 
     # For Administrate

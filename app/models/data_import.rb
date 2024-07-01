@@ -2,7 +2,6 @@ class DataImport < ApplicationRecord
   has_one_attached :file
 
   belongs_to :user, optional: true
-  belongs_to :source_file, optional: true
   belongs_to :import, class_name: "Imports::Pdf", foreign_key: :import_id, optional: true
 
   belongs_to :occupation_standard, optional: true
@@ -29,18 +28,11 @@ class DataImport < ApplicationRecord
 
   def related_occupation_standard(title)
     OccupationStandard
-      .joins(data_imports: :source_file)
+      .joins(data_imports: :import)
       .where(occupation_standards: {title: title})
       .where.not(data_imports: {id: id})
-      .where(source_files: {id: source_file_id})
+      .where(imports: {id: import_id})
       .first
-  end
-
-  def set_import_field!
-    source_file_import = source_file&.import
-    if source_file_import
-      update!(import: source_file_import.pdf_leaf)
-    end
   end
 
   private

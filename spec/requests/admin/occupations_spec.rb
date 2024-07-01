@@ -186,7 +186,7 @@ RSpec.describe "Admin::Occupation", type: :request do
 
             occupation.reload
             expect(occupation.title).to_not be_blank
-            expect(response).to have_http_status(:unprocessable_entity)
+            expect(response).to have_http_status(:unprocessable_content)
           end
         end
       end

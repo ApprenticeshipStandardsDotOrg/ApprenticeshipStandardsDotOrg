@@ -7,19 +7,30 @@
 
   <div>
     <% if page.resource.is_a?(Imports::Pdf) %>
-      <%= if current_user.converter?
-            button_to(
-              "Needs support",
-              admin_import_path(page.resource),
-              params: {
-                imports_pdf: {status: "needs_support"},
-                redirect_back_to: admin_import_path(page.resource)
-              },
-              method: :patch,
-              class: "button",
-              form_class: "form-button"
-            )
-          end %>
+      <% if current_user.converter? %>
+            <%= button_to(
+                  "Needs support",
+                  admin_import_path(page.resource),
+                  params: {
+                    imports_pdf: {status: "needs_support"},
+                    redirect_back_to: admin_import_path(page.resource)
+                  },
+                  method: :patch,
+                  class: "button",
+                  form_class: "form-button"
+                ) %>
+            <%= button_to(
+                  "Archive",
+                  admin_import_path(page.resource),
+                  params: {
+                    imports_pdf: {status: "archived"},
+                    redirect_back_to: admin_import_path(page.resource)
+                  },
+                  method: :patch,
+                  class: "button",
+                  form_class: "form-button"
+                ) %>
+        <% end %>
 
       <%= link_to(
             "New data import",
@@ -27,7 +38,7 @@
             class: "button"
           ) %>
 
-      <%= if accessible_action?(:redact_file, :new)
+      <%= if accessible_action?(:redact_file, :new) && page.resource.available_for_redaction?
             link_to(
               "Redact document",
               new_admin_import_redact_file_path(page.resource),
@@ -65,7 +76,7 @@
         <% end %>
 
         <% attributes.each do |attribute| %>
-          <% next if attribute.name.match?("redacted") && !page.resource.is_a?(Imports::Pdf) %>
+          <% next if attribute.name.match?(/redacted|cousins/) && !page.resource.is_a?(Imports::Pdf) %>
           <% next if attribute.name == "import" && (page.resource.is_a?(Imports::Pdf) || page.resource.is_a?(Imports::DocxListing)) %>
           <% next if attribute.name == "imports" && !page.resource.is_a?(Imports::DocxListing) %>
           <% next if %w[courtesy_notification parent child type].include?(attribute.name) && current_user.converter? %>
@@ -82,6 +93,11 @@
                 <%= link_to "StandardsImport", admin_standards_import_path(attribute.data.id) %>
               <% else %>
                 <%= link_to attribute.data.type, admin_import_path(attribute.data.id) %>
+              <% end %>
+            <% elsif attribute.name == "cousins" %>
+              <% attribute.data.each do |cousin| %>
+                <%= link_to cousin.filename.to_s, admin_import_path(cousin) %>
+                <br>
               <% end %>
             <% elsif attribute.name == "import" %>
               <% if attribute.data %>

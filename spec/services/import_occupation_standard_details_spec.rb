@@ -208,7 +208,7 @@ RSpec.describe ImportOccupationStandardDetails do
         expect(os.onet_code).to be_nil
       end
 
-      it "finds and updates the occupation standard record linked to the same source file with the same name if one exists" do
+      it "finds and updates the occupation standard record linked to the same import with the same name if one exists" do
         ca_oa = create(:registration_agency, for_state_abbreviation: "CA", agency_type: :oa)
 
         create(:onet, code: "13-1071.01")
@@ -216,12 +216,13 @@ RSpec.describe ImportOccupationStandardDetails do
         occupation = create(:occupation, rapids_code: "0157")
 
         os = create(:occupation_standard, title: "HUMAN RESOURCE SPECIALIST")
-        original_data_import = create(:data_import, occupation_standard: os)
+        pdf = create(:imports_pdf)
+        create(:data_import, occupation_standard: os, import: pdf)
 
         os_other = create(:occupation_standard, title: "NOT HUMAN RESOURCE SPECIALIST")
-        create(:data_import, occupation_standard: os_other, source_file: original_data_import.source_file)
+        create(:data_import, occupation_standard: os_other, import: pdf)
 
-        new_data_import = create(:data_import, occupation_standard: nil, source_file: original_data_import.source_file)
+        new_data_import = create(:data_import, occupation_standard: nil, import: pdf)
 
         expect {
           described_class.new(new_data_import).call

@@ -11,9 +11,10 @@ class Scraper::OregonJob < Scraper::WatirJob
     body = Nokogiri::HTML(js_doc.inner_html)
 
     body.css("tr").each do |row|
-      title = row.css("td").first.content
+      details_td = row.css("td").last
+      file_path = details_td.css("a").last["href"]
 
-      browser.goto(apprenticeship_url + "trade-details.aspx?trade=" + title)
+      browser.goto(base + file_path)
       next if browser.element(css: "div.alert.alert-warning").present?
 
       programs = browser.element(css: "tbody").wait_until(&:present?)
@@ -24,13 +25,13 @@ class Scraper::OregonJob < Scraper::WatirJob
         program_path = row.css("td > a").first["href"]
 
         browser.goto(base + program_path)
-        next unless browser.element(css: "#primaryContent.col-md-12").present?
+        next unless browser.element(css: "#primaryContent").present?
 
         standards = browser.element(css: "tbody").wait_until(&:present?)
         standards_table = Nokogiri::HTML(standards.inner_html)
         standards_table.css("tr").each do |row|
           file = row.css("td > a").first
-          file_path = file["href"]
+          file_path = file["href"].tr(" ", "_")
 
           CreateImportFromUri.call(
             uri: base + file_path,
