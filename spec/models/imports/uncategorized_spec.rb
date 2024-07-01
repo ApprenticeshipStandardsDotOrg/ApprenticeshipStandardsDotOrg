@@ -93,7 +93,8 @@ RSpec.describe Imports::Uncategorized, type: :model do
         )
       )
 
-      expect { import.process(listing: false) }.to raise_error(Imports::UnknownFileTypeError)
+      expect_any_instance_of(ErrorSubscriber).to receive(:report).with(kind_of(Imports::UnknownFileTypeError), hash_including(context: {import_id: import.id}, severity: :error)).and_call_original
+      import.process(listing: false)
       import.reload
 
       expect(import.import).to be_blank
@@ -117,7 +118,8 @@ RSpec.describe Imports::Uncategorized, type: :model do
       import = create(:imports_uncategorized, :pdf)
       allow(import).to receive(:import).and_raise(ActiveRecord::RecordNotUnique)
 
-      expect { import.process(listing: false) }.to raise_error(ActiveRecord::RecordNotUnique)
+      expect_any_instance_of(ErrorSubscriber).to receive(:report).with(kind_of(ActiveRecord::RecordNotUnique), hash_including(context: {import_id: import.id}, severity: :error)).and_call_original
+      import.process(listing: false)
       import.reload
 
       expect(import.processed_at).to be_blank
