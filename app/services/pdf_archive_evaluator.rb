@@ -4,12 +4,12 @@ class PdfArchiveEvaluator
   end
 
   def call
-    return unless @pdf.filename.include?('oleObject') || @pdf.filename.include?('ActiveStorage')
-    return if @pdf.filename.eql? 'oleObject2.pdf'
-    return if contains_appendix_a.eql? 'true'
+    return unless @pdf.filename.include?("oleObject") || @pdf.filename.include?("ActiveStorage")
+    return if @pdf.filename.eql? "oleObject2.pdf"
+    return if contains_appendix_a.eql? "true"
 
     result = match_criteria
-    return unless result.eql? 'true'
+    return unless result.eql? "true"
 
     @pdf.update(status: :archived)
   end
@@ -17,11 +17,11 @@ class PdfArchiveEvaluator
   private
 
   def archive_criteria
-    ['requirements for apprenticeship sponsors reference guide',
-     'apprentice agreement and registration',
-     'employer acceptance agreement',
-     'appendix c',
-     'appendix d']
+    ["requirements for apprenticeship sponsors reference guide",
+      "apprentice agreement and registration",
+      "employer acceptance agreement",
+      "appendix c",
+      "appendix d"]
   end
 
   def match_criteria
@@ -37,6 +37,6 @@ class PdfArchiveEvaluator
   end
 
   def extract_pdf_content
-    PDF::Reader.new(StringIO.new(@pdf.file.download)).pages.map(&:text).join('').gsub(/\n/, ' ').squeeze(' ').downcase
+    PDF::Reader.new(StringIO.new(@pdf.file.download)).pages.map(&:text).join("").tr("\n", " ").squeeze(" ").downcase
   end
 end
