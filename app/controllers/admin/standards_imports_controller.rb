@@ -5,9 +5,6 @@ module Admin
     #
     def update
       if requested_resource.update(resource_params)
-        if params.dig(:standards_import, :files).present?
-          requested_resource.files.attach(params[:standards_import][:files].compact_blank)
-        end
         redirect_to(
           after_resource_updated_path(requested_resource),
           notice: translate_with_resource("update.success"),

@@ -61,7 +61,8 @@ RSpec.describe Imports::DocxListing, type: :model do
         file: Rack::Test::UploadedFile.new(Rails.root.join("spec", "fixtures", "files", "oleObject1.bin"))
       )
 
-      expect { docx_listing.process }.to raise_error(Zip::Error)
+      expect_any_instance_of(ErrorSubscriber).to receive(:report).with(kind_of(Zip::Error), hash_including(context: {import_id: docx_listing.id}, severity: :error)).and_call_original
+      docx_listing.process
       docx_listing.reload
 
       expect(docx_listing.processed_at).to be_blank

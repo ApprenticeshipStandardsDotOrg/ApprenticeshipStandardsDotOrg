@@ -3,14 +3,15 @@ require "rails_helper"
 RSpec.describe Scraper::NewYorkJob, type: :job do
   describe "#perform" do
     context "when files have not been downloaded previously" do
-      it "downloads pdf files to a standards import record" do
+      it "creates a standards import record with imports" do
         stub_responses
         expect {
           described_class.new.perform
         }.to change(StandardsImport, :count).by(7)
+          .and change(Imports::Uncategorized, :count).by(7)
+          .and change(Imports::Pdf, :count).by(7)
 
         standards_import = StandardsImport.last
-        expect(standards_import.files.count).to eq 1
         expect(standards_import.name).to eq "https://dol.ny.gov/system/files/documents/2022/06/cnc-tool-and-cutter-grinder-time.pdf"
         expect(standards_import.notes).to eq "From Scraper::NewYorkJob"
         expect(standards_import.public_document).to be true
@@ -19,18 +20,16 @@ RSpec.describe Scraper::NewYorkJob, type: :job do
     end
 
     context "when some files have been downloaded previously" do
-      it "downloads new pdf files to a standards import record" do
-        name = "https://dol.ny.gov/system/files/documents/2022/06/cnc-tool-and-cutter-grinder-time.pdf"
-        old_standards_import = create(:standards_import, :with_files, name: name, organization: name)
+      it "creates standards import records for new files only" do
         stub_responses
+        name = "https://dol.ny.gov/system/files/documents/2022/06/cnc-tool-and-cutter-grinder-time.pdf"
+        create(:standards_import, name: name, organization: name)
+
         expect {
           described_class.new.perform
         }.to change(StandardsImport, :count).by(6)
-
-        standards_import = StandardsImport.last
-        expect(standards_import.files.count).to eq 1
-
-        expect(old_standards_import.reload.files.count).to eq 1
+          .and change(Imports::Uncategorized, :count).by(6)
+          .and change(Imports::Pdf, :count).by(6)
       end
     end
   end
