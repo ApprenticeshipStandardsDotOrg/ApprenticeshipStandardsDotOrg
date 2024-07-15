@@ -5,7 +5,7 @@ module Imports
     has_many :data_imports, -> { includes(file_attachment: :blob) }, inverse_of: "import"
     has_many :associated_occupation_standards, -> { distinct }, through: :data_imports, source: :occupation_standard
 
-    after_create_commit :archive_unecessary_document
+    scope :pending, -> { where(status: :pending) }
 
     def self.recently_redacted(start_time: Time.zone.yesterday.beginning_of_day, end_time: Time.zone.yesterday.end_of_day)
       where(
@@ -63,10 +63,6 @@ module Imports
 
     def available_for_redaction?
       !public_document? && completed?
-    end
-
-    def archive_unecessary_document
-      PdfArchiveEvaluator.new(self).call
     end
 
     # For Administrate
