@@ -9,6 +9,7 @@ class ChatGptGenerateText
   end
 
   def call
+    attempts ||= 0
     response = @client.chat(
       parameters: {
         model: "gpt-4",
@@ -18,5 +19,12 @@ class ChatGptGenerateText
     )
 
     response.dig("choices", 0, "message", "content")
+  rescue Faraday::TooManyRequestsError => e
+    if attempts <= 5
+      duration = e.response_headers["Retry-After"].to_i + 1
+      puts "Duration: #{duration}"
+      sleep duration
+      retry
+    end
   end
 end
