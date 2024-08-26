@@ -65,4 +65,11 @@ class Import < ApplicationRecord
   def cousins
     []
   end
+
+
+  def text_representation
+    @text_representation ||= file.open do |file|
+      DocRipper::rip! file.path
+    end
+  end
 end

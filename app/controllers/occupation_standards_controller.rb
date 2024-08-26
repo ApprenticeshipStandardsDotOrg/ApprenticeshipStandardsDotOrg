@@ -41,6 +41,13 @@ class OccupationStandardsController < ApplicationController
 
         send_data(export.call, filename: export.filename)
       end
+      format.json do
+        render json: OccupationStandardBlueprint.render(@occupation_standard)
+      end
+
+      format.text do
+        render plain: @occupation_standard.data_import.import.text_representation
+      end
     end
   end
 

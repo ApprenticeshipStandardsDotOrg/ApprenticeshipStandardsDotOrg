@@ -1,3 +1,5 @@
+require "doc_ripper"
+
 module Imports
   class UnknownFileTypeError < StandardError
   end
@@ -52,6 +54,7 @@ module Imports
         )
       end
     end
+
 
     private
 
