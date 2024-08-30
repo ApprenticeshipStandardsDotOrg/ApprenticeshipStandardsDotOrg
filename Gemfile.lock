@@ -322,7 +322,7 @@ GEM
       snaky_hash (~> 2.0)
       version_gem (~> 1.1)
     orm_adapter (0.5.0)
-    pagy (8.6.3)
+    pagy (9.0.7)
     parallel (1.26.2)
     parser (3.3.4.2)
       ast (~> 2.4.1)
