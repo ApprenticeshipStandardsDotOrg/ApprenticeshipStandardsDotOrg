@@ -35,7 +35,11 @@ class OccupationStandardsController < ApplicationController
     @page_title = @occupation_standard.title
 
     respond_to do |format|
-      format.html {}
+      format.html do
+        survey_modal_service = SurveyModalService.new(cookies)
+        survey_modal_service.upsert_cookie!
+        @show_survey = survey_modal_service.show?
+      end
       format.docx do
         export = OccupationStandardExport.new(@occupation_standard)
 
