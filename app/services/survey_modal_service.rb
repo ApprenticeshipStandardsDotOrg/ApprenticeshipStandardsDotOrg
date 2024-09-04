@@ -82,7 +82,6 @@ class SurveyModalService
     @cookies.encrypted[COOKIE_NAME] = JSON.generate(values)
   end
 
-
   def parsed_cookies
     JSON.parse(
       cookies.encrypted[COOKIE_NAME]

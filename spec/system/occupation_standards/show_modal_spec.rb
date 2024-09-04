@@ -44,7 +44,6 @@ RSpec.describe "OccupationStandardShowModal" do
         expect(page).to_not have_modal("Apprenticeship Standard Survey")
       end
 
-
       # Sixth visit: enough time has passed and modal must appear (more than a month)
       travel 1.month + 9.days do
         visit occupation_standard_path(occupation_standard)
@@ -80,6 +79,6 @@ RSpec.describe "OccupationStandardShowModal" do
   end
 
   def dismiss_modal
-    find('button#dismiss-modal').click
+    find("button#dismiss-modal").click
   end
 end
