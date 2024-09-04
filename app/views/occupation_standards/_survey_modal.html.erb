@@ -4,7 +4,7 @@
   role="dialog"
   aria-hidden="true"
   aria-modal="true"
-  id="modalEl"
+  id="survey-modal"
   tabindex="-1"
   aria-labelledby="modal-title"
   aria-hidden="true"
@@ -23,11 +23,16 @@
           >
           Apprenticeship Standard Survey
         </h3>
-        <button
-          type="button"
-          class="ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
-          data-action="modal#hide"
-          >
+
+
+        <%= button_to dismiss_surveys_path(format: :html),
+          class: "ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white",
+          id: "dismiss-modal",
+          method: :post,
+          data: {
+            turbo: false
+          } do %>
+
           <svg
             class="h-3 w-3"
             aria-hidden="true"
@@ -44,7 +49,7 @@
               />
           </svg>
           <span class="sr-only">Close modal</span>
-        </button>
+        <% end %>
       </div>
       <!-- Modal body -->
       <div class="space-y-6 p-6">
@@ -77,13 +82,6 @@
           data-action="modal#hide"
           >
           I accept
-        </button>
-        <button
-          type="button"
-          class="rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-900 focus:z-10 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:border-gray-500 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-          data-action="modal#hide"
-          >
-          Decline
         </button>
       </div>
     </div>

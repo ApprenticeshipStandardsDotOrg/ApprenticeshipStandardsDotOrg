@@ -12,7 +12,8 @@ class SurveyModalService
   INITIAL_COOKIE_INFO = {
     submitted: false,
     standardsVisitedCount: 1,
-    dismissed: false
+    dismissedCount: 0,
+    dismissedAt: nil
   }
 
   def initialize(cookies)
@@ -23,7 +24,7 @@ class SurveyModalService
     return false unless cookie_present?
 
     minimum_amount_of_visits_reached? &&
-      !submitted?
+      !dismissed?
   end
 
   def upsert_cookie!
@@ -34,6 +35,15 @@ class SurveyModalService
     end
   end
 
+  def mark_as_dismissed!
+    values = parsed_cookies
+    values["standardsVisitedCount"] += 1
+    values["dismissedCount"] += 1
+    values["dismissedAt"] = Time.current
+
+    @cookies.encrypted[COOKIE_NAME] = JSON.generate(values)
+  end
+
   private
 
   def cookie_present?
@@ -42,6 +52,19 @@ class SurveyModalService
 
   def minimum_amount_of_visits_reached?
     parsed_cookies["standardsVisitedCount"] >= MININUM_AMOUNT_OF_VISITS
+  end
+
+  def dismissed?
+    dismissed_count = parsed_cookies["dismissedCount"]
+    dismissed_at = parsed_cookies["dismissedAt"]
+
+    return false if dismissed_count == 0 && dismissed_at.nil?
+
+    recurrence_limit = RECURRENCY_TIME_TABLE.fetch(dismissed_count, 10.years)
+    expiration_date = Time.new(dismissed_at) + recurrence_limit
+    future = (Time.current..)
+
+    future.cover?(expiration_date)
   end
 
   def submitted?

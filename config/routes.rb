@@ -64,6 +64,11 @@ Rails.application.routes.draw do
 
   resources :standards_imports, only: [:new, :create, :show]
   resources :occupation_standards, only: [:index, :show]
+  resources :surveys, only: [:create] do
+    collection do
+      post :dismiss
+    end
+  end
   resources :occupations, only: [:index], defaults: {format: :json}
   resources :industries, only: [:index]
   resources :states, only: [:index]
