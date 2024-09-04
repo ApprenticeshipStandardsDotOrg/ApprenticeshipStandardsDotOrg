@@ -24,7 +24,8 @@ class SurveyModalService
     return false unless cookie_present?
 
     minimum_amount_of_visits_reached? &&
-      !dismissed?
+      !dismissed? &&
+      !submitted?
   end
 
   def upsert_cookie!
@@ -40,6 +41,13 @@ class SurveyModalService
     values["standardsVisitedCount"] += 1
     values["dismissedCount"] += 1
     values["dismissedAt"] = Time.current
+
+    @cookies.encrypted[COOKIE_NAME] = JSON.generate(values)
+  end
+
+  def mark_as_submitted!
+    values = parsed_cookies
+    values["submitted"] = true
 
     @cookies.encrypted[COOKIE_NAME] = JSON.generate(values)
   end

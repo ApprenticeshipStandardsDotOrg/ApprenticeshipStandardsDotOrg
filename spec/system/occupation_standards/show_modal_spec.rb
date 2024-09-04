@@ -76,6 +76,42 @@ RSpec.describe "OccupationStandardShowModal" do
         expect(page).to_not have_modal("Apprenticeship Standard Survey")
       end
     end
+
+    context "users sends information" do
+      it "does not show the modal ever again" do
+
+        occupation_standard = create(:occupation_standard, :with_data_import)
+
+        # First visit: no modal
+        visit occupation_standard_path(occupation_standard)
+        expect(page).to_not have_modal("Apprenticeship Standard Survey")
+
+        # Second visit: modal appears
+        visit occupation_standard_path(occupation_standard)
+        expect(page).to have_modal("Apprenticeship Standard Survey")
+
+        within_modal "Apprenticeship Standard Survey" do
+          fill_in "Name", with: "Bob"
+          fill_in "Email", with: "bob@apprenticeshipstandars.org"
+          fill_in "Organization", with: "Apprenticeship Standards"
+          click_button "Submit"
+        end
+
+        expect(page).to_not have_modal("Apprenticeship Standard Survey")
+
+        # If we visit the site in 10 days, modal must not appear
+        travel 10.days do
+          visit occupation_standard_path(occupation_standard)
+          expect(page).to_not have_modal("Apprenticeship Standard Survey")
+        end
+
+        # If we visit the site in a year, modal must not appear
+        travel 1.year do
+          visit occupation_standard_path(occupation_standard)
+          expect(page).to_not have_modal("Apprenticeship Standard Survey")
+        end
+      end
+    end
   end
 
   def dismiss_modal
