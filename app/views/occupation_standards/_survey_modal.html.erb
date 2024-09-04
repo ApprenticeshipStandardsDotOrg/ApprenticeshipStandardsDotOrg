@@ -46,34 +46,32 @@
         <% end %>
       </div>
       <!-- Modal body -->
-      <div class="space-y-6 p-6">
-        <p
-          class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-          With less than a month to go before the European Union
-          enacts new consumer privacy laws for its citizens, companies
-          around the world are updating their terms of service
-          agreements to comply.
-        </p>
-        <p
-          class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-          The European Union’s General Data Protection Regulation
-          (G.D.P.R.) goes into effect on May 25 and is meant to ensure
-          a common set of data rights in the European Union. It
-          requires organizations to notify users as soon as possible
-          of high-risk data breaches that could personally affect
-          them.
-        </p>
-      </div>
-      <!-- Modal footer -->
-      <div
-        class="flex items-center space-x-2 rtl:space-x-reverse rounded-b border-t border-gray-200 p-6 dark:border-gray-600">
-        <button
-          type="button"
-          class="rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          data-action="modal#hide">
-          I accept
-        </button>
-      </div>
+      <%= form_for survey, class: "space-y-4" do |form| %>
+        <div class="space-y-6 p-6">
+          <p
+            class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+            The team behind the Registered Apprenticeship Standards Library wants to learn how to better support your apprenticeship needs. Can you tell us a bit about yourself so we can follow up for more info? Thanks!.
+          </p>
+          <div>
+            <%= form.label :name, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white", value: "Your Name" %>
+            <%= form.text_field :name, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white", required: true %>
+          </div>
+          <div>
+            <%= form.label :email, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white", value: "Your Email" %>
+            <%= form.email_field :email, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white", placeholder: "name@company.com", required: true %>
+          </div>
+          <div>
+            <%= form.label :organization, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white", value: "Your Organization" %>
+            <%= form.text_field :organization, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white", required: true %>
+          </div>
+        </div>
+
+        <!-- Modal footer -->
+        <div
+          class="flex items-center space-x-2 rtl:space-x-reverse rounded-b border-t border-gray-200 p-6 dark:border-gray-600">
+          <%= form.submit "Submit", class: "rounded-lg  px-5 py-2.5 text-center text-sm font-medium text-white bg-seafoam-700 hover:bg-seafoam-800 focus:ring-4 focus:outline-none focus:ring-primary-300" %>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

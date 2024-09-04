@@ -39,6 +39,7 @@ class OccupationStandardsController < ApplicationController
         survey_modal_service = SurveyModalService.new(cookies)
         survey_modal_service.upsert_cookie!
         @show_survey = survey_modal_service.show?
+        @survey = Survey.new if @show_survey
       end
       format.docx do
         export = OccupationStandardExport.new(@occupation_standard)

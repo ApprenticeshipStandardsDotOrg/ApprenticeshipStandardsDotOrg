@@ -237,5 +237,5 @@
 
 </section>
 <% if @show_survey %>
-  <%= render partial: "survey_modal" %>
+  <%= render partial: "survey_modal", locals: {survey: @survey} %>
 <% end %>
