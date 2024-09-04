@@ -79,7 +79,6 @@ RSpec.describe "OccupationStandardShowModal" do
 
     context "users sends information" do
       it "does not show the modal ever again" do
-
         occupation_standard = create(:occupation_standard, :with_data_import)
 
         # First visit: no modal

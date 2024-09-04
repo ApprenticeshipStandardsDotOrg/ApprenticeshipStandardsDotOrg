@@ -46,6 +46,7 @@ Rails.application.routes.draw do
       resources :onets, only: [:index, :show]
       resources :synonyms
       resources :contact_requests, only: [:index, :show]
+      resources :surveys, only: [:index]
       resources :users do
         post :invite, on: :member
       end
