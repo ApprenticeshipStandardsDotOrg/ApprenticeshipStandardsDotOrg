@@ -36,10 +36,14 @@ class OccupationStandardsController < ApplicationController
 
     respond_to do |format|
       format.html do
-        survey_modal_service = SurveyModalService.new(cookies)
-        survey_modal_service.upsert_cookie!
-        @show_survey = survey_modal_service.show?
-        @survey = Survey.new if @show_survey
+        @cookies_accepted = session[:cookies_accepted] == "true"
+
+        if @cookies_accepted
+          survey_modal_service = SurveyModalService.new(cookies)
+          survey_modal_service.upsert_cookie!
+          @show_survey = survey_modal_service.show?
+          @survey = Survey.new if @show_survey
+        end
       end
       format.docx do
         export = OccupationStandardExport.new(@occupation_standard)
