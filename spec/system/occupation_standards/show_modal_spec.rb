@@ -3,7 +3,8 @@ require "rails_helper"
 RSpec.describe "OccupationStandardShowModal", js: true do
   context "when user accepts cookies" do
     it "shows modal until second visit" do
-      Capybara.reset_sessions!
+      clear_cookies!
+
       occupation_standard = create(:occupation_standard, :with_data_import)
 
       visit root_path
@@ -19,9 +20,9 @@ RSpec.describe "OccupationStandardShowModal", js: true do
       expect(page).to have_modal("Apprenticeship Standard Survey")
     end
 
-    context "user dismisses modal", js: true do
+    context "user dismisses modal" do
       it "hides modal and will show modal again according to recurrences" do
-        Capybara.reset_sessions!
+        clear_cookies!
 
         occupation_standard = create(:occupation_standard, :with_data_import)
 
@@ -95,7 +96,7 @@ RSpec.describe "OccupationStandardShowModal", js: true do
 
       context "users sends information" do
         it "does not show the modal ever again" do
-          Capybara.reset_sessions!
+          clear_cookies!
 
           occupation_standard = create(:occupation_standard, :with_data_import)
 
@@ -140,7 +141,7 @@ RSpec.describe "OccupationStandardShowModal", js: true do
 
   context "when users rejects cookies" do
     it "never shows the modal" do
-      Capybara.reset_sessions!
+      clear_cookies!
 
       occupation_standard = create(:occupation_standard, :with_data_import)
 
@@ -160,5 +161,10 @@ RSpec.describe "OccupationStandardShowModal", js: true do
 
   def dismiss_modal
     find("button#dismiss-modal").click
+  end
+
+  def clear_cookies!
+    visit root_path
+    Capybara.reset_sessions!
   end
 end
