@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "OccupationStandardShowModal" do
+RSpec.describe "OccupationStandardShowModal", js: true do
   context "when user accepts cookies" do
     it "shows modal until second visit" do
       Capybara.reset_sessions!
