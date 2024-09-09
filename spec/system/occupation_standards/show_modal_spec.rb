@@ -7,7 +7,7 @@ RSpec.describe "OccupationStandardShowModal", js: true do
 
       occupation_standard = create(:occupation_standard, :with_data_import)
 
-      visit root_path
+      visit guest_root_path
 
       within_dialog "Cookie Notice" do
         click_on "Accept"
@@ -26,7 +26,7 @@ RSpec.describe "OccupationStandardShowModal", js: true do
 
         occupation_standard = create(:occupation_standard, :with_data_import)
 
-        visit root_path
+        visit guest_root_path
 
         within_dialog "Cookie Notice" do
           click_on "Accept"
@@ -100,7 +100,7 @@ RSpec.describe "OccupationStandardShowModal", js: true do
 
           occupation_standard = create(:occupation_standard, :with_data_import)
 
-          visit root_path
+          visit guest_root_path
 
           within_dialog "Cookie Notice" do
             click_on "Accept"
@@ -145,7 +145,7 @@ RSpec.describe "OccupationStandardShowModal", js: true do
 
       occupation_standard = create(:occupation_standard, :with_data_import)
 
-      visit root_path
+      visit guest_root_path
 
       within_dialog "Cookie Notice" do
         click_on "Reject"
@@ -164,7 +164,7 @@ RSpec.describe "OccupationStandardShowModal", js: true do
   end
 
   def clear_cookies!
-    visit root_path
+    visit guest_root_path
     Capybara.reset_sessions!
   end
 end
