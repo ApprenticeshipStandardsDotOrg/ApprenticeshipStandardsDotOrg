@@ -3,6 +3,7 @@ require "rails_helper"
 RSpec.describe "OccupationStandardShowModal" do
   context "when user accepts cookies" do
     it "shows modal until second visit" do
+      Capybara.reset_sessions!
       occupation_standard = create(:occupation_standard, :with_data_import)
 
       visit root_path
@@ -20,6 +21,8 @@ RSpec.describe "OccupationStandardShowModal" do
 
     context "user dismisses modal", js: true do
       it "hides modal and will show modal again according to recurrences" do
+        Capybara.reset_sessions!
+
         occupation_standard = create(:occupation_standard, :with_data_import)
 
         visit root_path
@@ -92,6 +95,8 @@ RSpec.describe "OccupationStandardShowModal" do
 
       context "users sends information" do
         it "does not show the modal ever again" do
+          Capybara.reset_sessions!
+
           occupation_standard = create(:occupation_standard, :with_data_import)
 
           visit root_path
@@ -135,6 +140,8 @@ RSpec.describe "OccupationStandardShowModal" do
 
   context "when users rejects cookies" do
     it "never shows the modal" do
+      Capybara.reset_sessions!
+
       occupation_standard = create(:occupation_standard, :with_data_import)
 
       visit root_path
