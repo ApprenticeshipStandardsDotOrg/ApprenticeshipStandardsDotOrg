@@ -41,6 +41,7 @@ class OccupationStandardsController < ApplicationController
 
         send_data(export.call, filename: export.filename)
       end
+      format.json { render json: @occupation_standard }
     end
   end
 
