@@ -151,4 +151,19 @@ RSpec.describe "OccupationStandard", type: :request do
       expect(response.content_type).to eq docx_mime_type
     end
   end
+
+  describe "GET /show/:id.json" do
+    it "returns an occupation standard in json format" do
+      occupation_standard = create(:occupation_standard, :with_data_import)
+
+      get occupation_standard_path(occupation_standard), params: {format: "json"}
+
+      expect(response).to be_successful
+
+      expect(response.content_type).to include("application/json")
+
+      json_response = JSON.parse(response.body)
+      expect(json_response["id"]).to eq(occupation_standard.id)
+    end
+  end
 end
