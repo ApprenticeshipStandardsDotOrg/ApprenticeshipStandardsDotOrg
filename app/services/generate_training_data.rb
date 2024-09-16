@@ -17,14 +17,14 @@ class GenerateTrainingData
 
     response.dig("choices", 0, "message", "content")
   rescue => e
-    puts ("Error: #{e.message}")
+    puts("Error: #{e.message}")
   end
 
   private
 
   def extract_text
     text = PdfToText.new(@import_id).call
-    text.gsub('\n', ' ').gsub(/\s+/, ' ').strip
+    text.gsub('\n', " ").gsub(/\s+/, " ").strip
   end
 
   def base_prompt

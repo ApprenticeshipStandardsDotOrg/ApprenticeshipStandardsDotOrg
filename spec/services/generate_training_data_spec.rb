@@ -9,30 +9,30 @@ RSpec.describe GenerateTrainingData do
       text_response = "[\n {\n\"title\": \"Proper/safe use of tools, materials, and equipment\",\n}\n]"
 
       expected_resp = {
-        "id"=>"chatcmpl-A",
-        "object"=>"chat.completion",
-        "created"=>1726499655,
-        "model"=>"gpt-4-0613",
-        "choices"=>
+        "id" => "chatcmpl-A",
+        "object" => "chat.completion",
+        "created" => 1726499655,
+        "model" => "gpt-4-0613",
+        "choices" =>
           [{
-            "index"=>0, 
-            "message"=>
+            "index" => 0,
+            "message" =>
               {
-                "role"=>"assistant", 
-                "content"=> text_response, 
-                "refusal"=>nil
+                "role" => "assistant",
+                "content" => text_response,
+                "refusal" => nil
               },
-            "logprobs"=>nil, 
-            "finish_reason"=>"stop"
+            "logprobs" => nil,
+            "finish_reason" => "stop"
           }],
-        "usage"=>
+        "usage" =>
           {
-            "prompt_tokens"=>1902, 
-            "completion_tokens"=>1019,
-            "total_tokens"=>2921,
-            "completion_tokens_details"=>{"reasoning_tokens"=>0}
-          }, 
-        "system_fingerprint"=>nil
+            "prompt_tokens" => 1902,
+            "completion_tokens" => 1019,
+            "total_tokens" => 2921,
+            "completion_tokens_details" => {"reasoning_tokens" => 0}
+          },
+        "system_fingerprint" => nil
       }
 
       allow_any_instance_of(PdfToText).to receive(:call).and_return(text_response)
