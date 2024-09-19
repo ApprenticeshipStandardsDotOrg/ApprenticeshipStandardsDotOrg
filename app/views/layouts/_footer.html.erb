@@ -45,4 +45,8 @@
       <hr class="my-6 sm:mx-auto border-gray-600 lg:my-8">
       <span class="block text-sm text-center text-primary-200">© 2022-<%= Time.current.year %> <%= link_to "ApprenticeshipStandards.org", home_page_path, class: "hover:underline" %>. All Rights Reserved.</span>
   </div>
+
+  <% if session[:cookies_accepted].nil? %>
+    <%= render "shared/cookies_banner" %>
+  <% end %>
 </footer>

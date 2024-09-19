@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "cookies/create"
   mount Rswag::Ui::Engine => "/api-docs"
   mount Rswag::Api::Engine => "/api-docs"
 
@@ -46,6 +47,7 @@ Rails.application.routes.draw do
       resources :onets, only: [:index, :show]
       resources :synonyms
       resources :contact_requests, only: [:index, :show]
+      resources :surveys, only: [:index]
       resources :users do
         post :invite, on: :member
       end
@@ -64,6 +66,12 @@ Rails.application.routes.draw do
 
   resources :standards_imports, only: [:new, :create, :show]
   resources :occupation_standards, only: [:index, :show]
+  resources :cookies, only: [:create]
+  resources :surveys, only: [:create] do
+    collection do
+      post :dismiss
+    end
+  end
   resources :occupations, only: [:index], defaults: {format: :json}
   resources :industries, only: [:index]
   resources :states, only: [:index]

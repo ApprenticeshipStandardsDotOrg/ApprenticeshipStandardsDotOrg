@@ -1,0 +1,10 @@
+wb = xlsx_package.workbook
+
+wb.add_worksheet(name: "Surveys") do |sheet|
+  # Create the header row
+  sheet.add_row ["Name", "Email", "Organization"]
+  # Create entries for each item
+  @surveys.each do |survey|
+    sheet.add_row [survey.name, survey.email, survey.organization]
+  end
+end

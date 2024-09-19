@@ -79,6 +79,7 @@ RSpec.configure do |config|
 
   config.before(:each, type: :system, js: true) do
     driven_by :selenium_chrome_headless
+    Capybara.page.driver.browser.manage.window.maximize
   end
 
   config.before(:each, type: :system, debug: true) do
@@ -89,8 +90,10 @@ RSpec.configure do |config|
     host! "admin.example.com"
   end
 
-  config.before(:each, type: :system, admin: true) do
+  config.around(:each, type: :system, admin: true) do |example|
     Capybara.app_host = "http://admin.example.localhost"
+    example.run
+    Capybara.app_host = "http://localhost:4000"
   end
 
   config.before(:each, url_generation: true) do

@@ -10,8 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_27_222900) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_27_160320) do
+  create_schema "heroku_ext"
+
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_stat_statements"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
@@ -154,6 +157,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_27_222900) do
     t.uuid "registration_agency_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "organization_id"
     t.string "title"
     t.integer "term_months"
     t.integer "ojt_type"
@@ -166,7 +170,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_27_222900) do
     t.integer "ojt_hours_max"
     t.integer "rsi_hours_min"
     t.integer "rsi_hours_max"
-    t.uuid "organization_id"
     t.integer "status", default: 0, null: false
     t.integer "national_standard_type"
     t.date "registration_date"
@@ -264,6 +267,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_27_222900) do
   create_table "states", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.string "abbreviation"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "surveys", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name", null: false
+    t.string "email", null: false
+    t.string "organization", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
