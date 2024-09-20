@@ -141,7 +141,7 @@ class OccupationStandardElasticsearchQuery
     OccupationStandard.__elasticsearch__.search(
       definition,
       from: offset,
-      size: Pagy::DEFAULT[:items]
+      size: Pagy::DEFAULT[:limit]
     )
   end
 end

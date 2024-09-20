@@ -10,7 +10,7 @@ class OccupationStandardsController < ApplicationController
         offset: offset
       ).call
       @pagy = Pagy.new(
-        items: Pagy::DEFAULT[:items],
+        items: Pagy::DEFAULT[:limit],
         page: current_page,
         count: es_response.response.aggregations.total.value
       )
@@ -99,7 +99,7 @@ class OccupationStandardsController < ApplicationController
   end
 
   def offset
-    (current_page.to_i - 1) * Pagy::DEFAULT[:items]
+    (current_page.to_i - 1) * Pagy::DEFAULT[:limit]
   end
 
   def add_inner_hits_from_results(occupation_standards)

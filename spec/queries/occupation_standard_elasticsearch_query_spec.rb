@@ -16,8 +16,8 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
   end
 
   it "limits size" do
-    default_items = Pagy::DEFAULT[:items]
-    Pagy::DEFAULT[:items] = 2
+    default_items = Pagy::DEFAULT[:limit]
+    Pagy::DEFAULT[:limit] = 2
     create(:occupation_standard, :with_work_processes)
     occupation_standards = create_list(:occupation_standard, 2, :with_work_processes)
 
@@ -27,12 +27,12 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
     response = described_class.new(search_params: {}).call
 
     expect(response.records).to match_array occupation_standards
-    Pagy::DEFAULT[:items] = default_items
+    Pagy::DEFAULT[:limit] = default_items
   end
 
   it "takes offset param" do
-    default_items = Pagy::DEFAULT[:items]
-    Pagy::DEFAULT[:items] = 2
+    default_items = Pagy::DEFAULT[:limit]
+    Pagy::DEFAULT[:limit] = 2
     occupation_standard = create(:occupation_standard, :with_work_processes)
     create_list(:occupation_standard, 2, :with_work_processes)
 
@@ -42,7 +42,7 @@ RSpec.describe OccupationStandardElasticsearchQuery, :elasticsearch do
     response = described_class.new(search_params: {}, offset: 2).call
 
     expect(response.records).to match_array [occupation_standard]
-    Pagy::DEFAULT[:items] = default_items
+    Pagy::DEFAULT[:limit] = default_items
   end
 
   it "allows searching occupation standards by title" do
