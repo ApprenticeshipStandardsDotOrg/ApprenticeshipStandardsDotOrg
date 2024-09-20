@@ -3,8 +3,8 @@ require "rails_helper"
 RSpec.describe "occupation_standards/index" do
   context "when not using elasticsearch for search" do
     it "displays pagination" do
-      default_items = Pagy::DEFAULT[:items]
-      Pagy::DEFAULT[:items] = 2
+      default_items = Pagy::DEFAULT[:limit]
+      Pagy::DEFAULT[:limit] = 2
       create_list(:occupation_standard, 3)
 
       visit occupation_standards_path
@@ -12,7 +12,7 @@ RSpec.describe "occupation_standards/index" do
       within(".pagy.nav") do
         expect(page).to have_link "2", href: occupation_standards_path(page: 2)
       end
-      Pagy::DEFAULT[:items] = default_items
+      Pagy::DEFAULT[:limit] = default_items
     end
 
     it "filters standards based on search term" do
@@ -325,8 +325,8 @@ RSpec.describe "occupation_standards/index" do
     after { stub_feature_flag(:use_elasticsearch_for_search, false) }
 
     it "displays pagination correctly when no collapsed items" do
-      default_items = Pagy::DEFAULT[:items]
-      Pagy::DEFAULT[:items] = 2
+      default_items = Pagy::DEFAULT[:limit]
+      Pagy::DEFAULT[:limit] = 2
       create(:occupation_standard, :with_work_processes, :with_data_import, title: "HR Specialist")
       create_pair(:occupation_standard, :with_work_processes, :with_data_import)
 
@@ -343,12 +343,12 @@ RSpec.describe "occupation_standards/index" do
       end
       expect(page).to have_text "HR Specialist"
 
-      Pagy::DEFAULT[:items] = default_items
+      Pagy::DEFAULT[:limit] = default_items
     end
 
     it "displays pagination correctly when there are collapsed items" do
-      default_items = Pagy::DEFAULT[:items]
-      Pagy::DEFAULT[:items] = 2
+      default_items = Pagy::DEFAULT[:limit]
+      Pagy::DEFAULT[:limit] = 2
 
       # 2nd page
       create(:occupation_standard, :with_work_processes, :with_data_import, title: "HR Specialist")
@@ -378,7 +378,7 @@ RSpec.describe "occupation_standards/index" do
       expect(page).to have_text "HR Specialist"
       expect(page).to have_text "Dental Assistant"
 
-      Pagy::DEFAULT[:items] = default_items
+      Pagy::DEFAULT[:limit] = default_items
     end
 
     it "filters standards based on search term" do
