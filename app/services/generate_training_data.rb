@@ -32,7 +32,7 @@ class GenerateTrainingData
       competencies: It is an array of text with each competency representing a line.
       Each competency has the following fields:
       title: title of the work process.
-      
+
       Return only the output in JSON format without any block or markdown.
 
       The input text is:\n\n"
