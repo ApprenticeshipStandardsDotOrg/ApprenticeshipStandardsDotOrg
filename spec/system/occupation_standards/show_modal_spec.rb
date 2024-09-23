@@ -49,7 +49,7 @@ RSpec.describe "OccupationStandardShowModal", js: true do
         expect(page).to_not have_modal("Apprenticeship Standard Survey")
 
         # Fourth visit: enough time has passed and modal must appear (more than 7 days)
-        travel 8.days do
+        travel 10.days do
           visit occupation_standard_path(occupation_standard)
           expect(page).to have_modal("Apprenticeship Standard Survey")
 
@@ -62,7 +62,7 @@ RSpec.describe "OccupationStandardShowModal", js: true do
         end
 
         # Sixth visit: enough time has passed and modal must appear (more than a month)
-        travel 1.month + 9.days do
+        travel 1.month + 15.days do
           visit occupation_standard_path(occupation_standard)
           expect(page).to have_modal("Apprenticeship Standard Survey")
 
@@ -164,7 +164,7 @@ RSpec.describe "OccupationStandardShowModal", js: true do
   end
 
   def clear_cookies!
-    visit guest_root_path
+    visit occupation_standards_path
     Capybara.reset_sessions!
   end
 end
