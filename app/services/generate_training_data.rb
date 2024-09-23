@@ -1,9 +1,9 @@
 require "openai"
 
 class GenerateTrainingData
-  def initialize(import_id)
+  def initialize(text)
     @client = OpenAI::Client.new
-    @import_id = import_id
+    @text = text
   end
 
   def call
@@ -22,11 +22,6 @@ class GenerateTrainingData
 
   private
 
-  def extract_text
-    text = PdfToText.new(@import_id).call
-    text.gsub('\n', " ").gsub(/\s+/, " ").strip
-  end
-
   def base_prompt
     "Get the work processes from the following text in JSON format. JSON output needs the following fields:\
       title: title of the work process.
@@ -37,12 +32,13 @@ class GenerateTrainingData
       competencies: It is an array of text with each competency representing a line.
       Each competency has the following fields:
       title: title of the work process.
+      
       Return only the output in JSON format without any block or markdown.
 
       The input text is:\n\n"
   end
 
   def prompt
-    "#{base_prompt} #{extract_text}"
+    "#{base_prompt} #{@text}"
   end
 end
