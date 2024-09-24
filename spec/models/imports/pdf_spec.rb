@@ -304,4 +304,19 @@ RSpec.describe Imports::Pdf, type: :model do
       end
     end
   end
+
+  describe "#text" do
+    it "converts pdf to text" do
+      pdf = create(:imports_pdf)
+
+      pdf_text = "Appendix A\n\n Welder (Industrial)\n(Competency based)\n\n"
+      cleaned_text = pdf_text.gsub('\n', " ").gsub(/\s+/, " ").strip
+
+      reader_mock = instance_double "PDF::Reader"
+      allow(PDF::Reader).to receive(:new).and_return(reader_mock)
+      allow(reader_mock).to receive(:pages).and_return([instance_double("PDF::Reader::Page", text: pdf_text)])
+
+      expect(pdf.text).to eq cleaned_text
+    end
+  end
 end
