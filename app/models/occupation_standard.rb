@@ -16,6 +16,7 @@ class OccupationStandard < ApplicationRecord
   has_many :work_processes, -> { order(:sort_order).includes(:competencies) }, dependent: :destroy
 
   has_one_attached :redacted_document
+  has_one :text_representation
 
   delegate :title, to: :organization, prefix: true, allow_nil: true
   delegate :title, to: :occupation, prefix: true, allow_nil: true

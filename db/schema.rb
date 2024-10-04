@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_27_160320) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_24_154858) do
   create_schema "heroku_ext"
 
   # These are extensions that must be enabled in order to support this database
@@ -290,6 +290,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_27_160320) do
     t.string "version", null: false
   end
 
+  create_table "text_representations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "occupation_standard_id", null: false
+    t.text "content"
+    t.string "document_sha"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["occupation_standard_id"], name: "index_text_representations_on_occupation_standard_id"
+  end
+
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.integer "role", default: 0, null: false
@@ -368,6 +377,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_27_160320) do
   add_foreign_key "related_instructions", "courses", column: "default_course_id"
   add_foreign_key "related_instructions", "occupation_standards"
   add_foreign_key "related_instructions", "organizations"
+  add_foreign_key "text_representations", "occupation_standards"
   add_foreign_key "wage_steps", "occupation_standards"
   add_foreign_key "work_processes", "occupation_standards"
 end
