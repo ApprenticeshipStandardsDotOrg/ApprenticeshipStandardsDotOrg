@@ -291,12 +291,12 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_24_154858) do
   end
 
   create_table "text_representations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "occupation_standard_id", null: false
+    t.uuid "data_import_id", null: false
     t.text "content"
     t.string "document_sha"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["occupation_standard_id"], name: "index_text_representations_on_occupation_standard_id"
+    t.index ["data_import_id"], name: "index_text_representations_on_data_import_id"
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -377,7 +377,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_24_154858) do
   add_foreign_key "related_instructions", "courses", column: "default_course_id"
   add_foreign_key "related_instructions", "occupation_standards"
   add_foreign_key "related_instructions", "organizations"
-  add_foreign_key "text_representations", "occupation_standards"
+  add_foreign_key "text_representations", "data_imports"
   add_foreign_key "wage_steps", "occupation_standards"
   add_foreign_key "work_processes", "occupation_standards"
 end

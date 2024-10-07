@@ -1,5 +1,6 @@
 class DataImport < ApplicationRecord
   has_one_attached :file
+  has_one :text_representation
 
   belongs_to :user, optional: true
   belongs_to :import, class_name: "Imports::Pdf", foreign_key: :import_id, optional: true
@@ -33,6 +34,16 @@ class DataImport < ApplicationRecord
       .where.not(data_imports: {id: id})
       .where(imports: {id: import_id})
       .first
+  end
+
+  def to_text
+    unless text_representation
+      create_text_representation!(
+        content: import.text
+      )
+    end
+
+    text_representation.content
   end
 
   private

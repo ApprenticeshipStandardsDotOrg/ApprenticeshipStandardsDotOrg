@@ -1,3 +1,3 @@
 class TextRepresentation < ApplicationRecord
-  belongs_to :occupation_standard
+  belongs_to :data_import
 end
