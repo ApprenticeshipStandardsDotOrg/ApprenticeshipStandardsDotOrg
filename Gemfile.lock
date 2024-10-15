@@ -346,7 +346,7 @@ GEM
     pundit (2.3.2)
       activesupport (>= 3.0.0)
     racc (1.8.1)
-    rack (3.1.7)
+    rack (3.1.8)
     rack-attack (6.7.0)
       rack (>= 1.0, < 4)
     rack-cors (2.0.2)
@@ -432,7 +432,7 @@ GEM
       json-schema (>= 2.2, < 5.0)
       railties (>= 5.2, < 8.0)
       rspec-core (>= 2.14)
-    rswag-ui (2.14.0)
+    rswag-ui (2.15.0)
       actionpack (>= 5.2, < 8.0)
       railties (>= 5.2, < 8.0)
     rubocop (1.65.1)
@@ -554,7 +554,7 @@ GEM
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zeitwerk (2.6.18)
+    zeitwerk (2.7.0)
 
 PLATFORMS
   aarch64-linux
