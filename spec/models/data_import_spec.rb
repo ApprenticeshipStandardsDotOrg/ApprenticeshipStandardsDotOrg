@@ -67,4 +67,31 @@ RSpec.describe DataImport, type: :model do
       expect(data_import_corrected.related_occupation_standard("HUMAN RESOURCE SPECIALIST")).to eq different_os_for_same_pdf
     end
   end
+
+  describe "#to_text" do
+    it "creates a new text representation if not present" do
+      pdf = create(:imports_pdf)
+      data_import = create(:data_import, import: pdf)
+
+      expect(data_import.text_representation).to be_nil
+
+      expect {
+        expect(data_import.to_text).to eq "" # PDF for test does not have text
+      }.to change(TextRepresentation, :count).by(1)
+
+      expect(data_import.text_representation).to be_present
+    end
+
+    it "returns content from text representation when present" do
+      pdf = create(:imports_pdf)
+      data_import = create(:data_import, import: pdf)
+      create(:text_representation, content: "PDF content", data_import: data_import)
+
+      expect(data_import.text_representation).to be_present
+
+      expect {
+        expect(data_import.to_text).to eq "PDF content"
+      }.not_to change(TextRepresentation, :count)
+    end
+  end
 end
