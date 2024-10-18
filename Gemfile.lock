@@ -205,7 +205,7 @@ GEM
     elasticsearch-api (8.10.0)
       multi_json
     elasticsearch-dsl (0.1.10)
-    erb_lint (0.6.0)
+    erb_lint (0.7.0)
       activesupport
       better_html (>= 2.0.1)
       parser (>= 2.7.1.4)
@@ -408,7 +408,7 @@ GEM
     responders (3.1.1)
       actionpack (>= 5.2)
       railties (>= 5.2)
-    rexml (3.3.7)
+    rexml (3.3.8)
     rollbar (3.6.0)
     roo (2.10.1)
       nokogiri (~> 1)
