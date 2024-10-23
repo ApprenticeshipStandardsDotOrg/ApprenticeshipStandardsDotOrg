@@ -1,8 +1,8 @@
 <% @data_imports.each do |data_import| %>
   <%= data_import.occupation_standard.title %>
   <%= data_import.occupation_standard.ojt_type&.titleize %> based
-  Public: <%= occupation_standard_url(data_import.occupation_standard, host: ENV.fetch("PUBLIC_DOMAIN", Rails.application.config.action_mailer.default_url_options[:host])) %>
-  Admin: <%= admin_occupation_standard_url(data_import.occupation_standard) %>
+  Public: <%= occupation_standard_url(data_import.occupation_standard, host: public_domain) %>
+  Admin: <%= admin_occupation_standard_url(data_import.occupation_standard, host: public_domain) %>
   Competencies count: <%= data_import.occupation_standard.competencies_count %>
   <% if data_import.occupation_standard.ojt_hours_min.to_i.positive? %>
   OJT hours min: <%= data_import.occupation_standard.ojt_hours_min %>
