@@ -44,7 +44,7 @@ class AdminMailer < ApplicationMailer
 
   def public_domain
     value = ENV["PUBLIC_DOMAIN"]
-    if value =~ /localhost\:3000\z/
+    if value&.end_with?("localhost:3000")
       value = nil
     end
 
