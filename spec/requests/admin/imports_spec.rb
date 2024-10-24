@@ -271,7 +271,7 @@ RSpec.describe "Admin::Imports", type: :request do
   describe "PUT /update/:id" do
     context "on admin subdomain", :admin do
       context "when admin user" do
-        it "updates record and redirects to index" do
+        it "updates record and redirects to show page" do
           admin = create(:admin)
           import = create(:imports_uncategorized, status: :unfurled)
 
@@ -283,12 +283,12 @@ RSpec.describe "Admin::Imports", type: :request do
           }
 
           expect(import.reload).to be_archived
-          expect(response).to redirect_to admin_imports_path
+          expect(response).to redirect_to admin_import_path(import)
         end
       end
 
       context "when converter" do
-        it "can update assignee and status only" do
+        it "can update assignee and status only and redirects to index" do
           assignee = create(:user, :converter)
           admin = create(:user, :converter)
           import = create(:imports_pdf)
