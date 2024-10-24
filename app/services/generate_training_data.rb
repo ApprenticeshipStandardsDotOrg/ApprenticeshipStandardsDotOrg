@@ -15,7 +15,17 @@ class GenerateTrainingData
       }
     )
 
-    response.dig("choices", 0, "message", "content")
+    response_text = response.dig("choices", 0, "message", "content")
+
+    text_file = File.new("tmp/text.txt", "w")
+    text_file.write(@text)
+    text_file.close
+
+    file = File.new("tmp/training.json", "w")
+    file.write(response_text.to_json)
+    file.close
+
+    puts "Output available in tmp/training.json"
   rescue => e
     puts("Error: #{e.message}")
   end
@@ -29,9 +39,9 @@ class GenerateTrainingData
       defaultHours: amount of hours. It is optional. If value not found, return null.
       minimumHours: the minimum amount of hours required. If value not found, return null.
       maximumHours: the maximum amount of hours required. If value not found, return null.
-      competencies: It is an array of text with each competency representing a line.
+      competencies: [It is an array of text with each competency representing a line.
       Each competency has the following fields:
-      title: title of the work process.
+      title: title of the work process.]
 
       Return only the output in JSON format without any block or markdown.
 

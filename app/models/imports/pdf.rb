@@ -65,8 +65,13 @@ module Imports
 
     def text
       extracted_text = file.open do |io|
-        reader = PDF::Reader.new(io)
-        reader.pages.map(&:text).join(" ")
+        begin
+          reader = PDF::Reader.new(io)
+          reader.pages.map(&:text).join(" ")
+        rescue PDF::Reader::MalformedPDFError => e
+          Rails.logger.error "Failed to process PDF: #{e.message}"
+          " "
+        end
       end
       extracted_text.gsub('\n', " ").gsub(/\s+/, " ").strip
     end
