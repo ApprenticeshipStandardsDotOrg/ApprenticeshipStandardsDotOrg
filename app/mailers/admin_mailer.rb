@@ -4,6 +4,8 @@ class AdminMailer < ApplicationMailer
   #
   #   en.admin_mailer.new_standards_import.subject
   #
+  helper_method :public_domain
+
   def new_standards_import(standards_import)
     @standards_import = standards_import
 
@@ -36,5 +38,16 @@ class AdminMailer < ApplicationMailer
       mail to: "info@workhands.us",
         subject: "Daily redacted files report #{date}"
     end
+  end
+
+  private
+
+  def public_domain
+    value = ENV["PUBLIC_DOMAIN"]
+    if value&.end_with?("localhost:3000")
+      value = nil
+    end
+
+    value || Rails.application.config.action_mailer.default_url_options[:host]
   end
 end
