@@ -22,4 +22,4 @@ jobs:
         run: bundle install
 
       - name: lint
-        run: bundle exec erblint --lint-all
+        run: bundle exec erb_lint --lint-all
