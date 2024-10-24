@@ -40,10 +40,10 @@ module Admin
 
     def after_resource_updated_path(resource)
       default_path = if current_user.converter?
-                       admin_imports_path
-                     else
-                       admin_import_path(requested_resource)
-                     end
+        admin_imports_path
+      else
+        admin_import_path(requested_resource)
+      end
       params[:redirect_back_to].presence || default_path
     end
   end
