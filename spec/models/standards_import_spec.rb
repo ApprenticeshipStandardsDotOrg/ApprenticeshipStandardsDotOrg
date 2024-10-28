@@ -107,17 +107,17 @@ RSpec.describe StandardsImport, type: :model do
 
   describe ".manual_submissions_during_period" do
     it "raises error when period given is invalid" do
-      expect{described_class.manual_submissions_during_period(date_range: 5..7)}
+      expect { described_class.manual_submissions_during_period(date_range: 5..7) }
         .to raise_error StandardsImport::InvalidDateRange
     end
 
-    fit "returns only standards imports converted during the period" do
-      standards_import_tooold = create(:standards_import)
-      create(:imports_uncategorized, parent: standards_import_tooold, processed_at: 3.months.ago )
+    it "returns only standards imports converted during the period" do
+      standards_import_too_old = create(:standards_import)
+      create(:imports_uncategorized, parent: standards_import_too_old, processed_at: 3.months.ago)
       standards_import_included = create(:standards_import)
-      create(:imports_uncategorized, parent: standards_import_included, processed_at: 6.weeks.ago )
-      standards_import_toonew = create(:standards_import)
-      create(:imports_uncategorized, parent: standards_import_toonew, processed_at: 1.week.ago )
+      create(:imports_uncategorized, parent: standards_import_included, processed_at: 6.weeks.ago)
+      standards_import_too_new = create(:standards_import)
+      create(:imports_uncategorized, parent: standards_import_too_new, processed_at: 1.week.ago)
 
       expect(
         described_class.manual_submissions_during_period(date_range: 2.months.ago..1.month.ago)

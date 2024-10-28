@@ -24,9 +24,9 @@ class StandardsImport < ApplicationRecord
       if date_range.is_a?(Range) && (date_range.begin.is_a?(Date) || date_range.begin.is_a?(Time))
         joins(:imports)
           .where(imports: {processed_at: date_range})
-          .merge( email.present? ? where(email:) : all )
+          .merge(email.present? ? where(email:) : all)
       else
-        raise InvalidDateRange, 'must be a Range of Dates or Times'
+        raise InvalidDateRange, "must be a Range of Dates or Times"
       end
     end
   end
