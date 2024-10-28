@@ -47,29 +47,6 @@ RSpec.describe StandardsImport, type: :model do
     expect(import.reload.name).to eq "Mickey Mouse"
   end
 
-  describe "imports" do
-    it "builds a tree of imports" do
-      standards_import = create(:standards_import)
-      standards_import.imports.build(attributes_for(:imports_uncategorized, parent: nil))
-      uncategorized = standards_import.imports.first
-      uncategorized.build_import(attributes_for(:imports_docx_listing, parent: nil))
-      docx_listing = uncategorized.import
-      docx_listing.imports.build(attributes_for(:imports_docx, parent: nil))
-      docx = docx_listing.imports.first
-      docx.build_pdf(attributes_for(:imports_pdf, parent: nil))
-
-      expect(standards_import.save).to be_truthy
-      standards_import.reload
-
-      expect(standards_import.imports.count).to eq(1)
-      expect(standards_import.imports.first).to be_an(Imports::Uncategorized)
-      expect(standards_import.imports.first.import).to be_an(Imports::DocxListing)
-      expect(standards_import.imports.first.import.imports.count).to eq(1)
-      expect(standards_import.imports.first.import.imports.first).to be_an(Imports::Docx)
-      expect(standards_import.imports.first.import.imports.first.pdf).to be_an(Imports::Pdf)
-    end
-  end
-
   describe ".manual_submissions_in_need_of_courtesy_notification" do
     context "when no email passed" do
       it "returns all standards imports that need notification" do
@@ -102,7 +79,8 @@ RSpec.describe StandardsImport, type: :model do
         # is marked as not_required.
         create(:standards_import, courtesy_notification: :not_required)
 
-        expect(described_class.manual_submissions_in_need_of_courtesy_notification).to contain_exactly(standards_import1, standards_import2)
+        expect(described_class.manual_submissions_in_need_of_courtesy_notification)
+          .to contain_exactly(standards_import1, standards_import2)
       end
     end
 
@@ -121,8 +99,52 @@ RSpec.describe StandardsImport, type: :model do
         uncat2 = create(:imports_uncategorized, parent: standards_import2)
         create(:imports_pdf, parent: uncat2, status: :completed, courtesy_notification: :pending)
 
-        expect(described_class.manual_submissions_in_need_of_courtesy_notification(email: " foo@EXAMPLE.COM")).to contain_exactly(standards_import1)
+        expect(described_class.manual_submissions_in_need_of_courtesy_notification(email: " foo@EXAMPLE.COM"))
+          .to contain_exactly(standards_import1)
       end
+    end
+  end
+
+  describe ".manual_submissions_during_period" do
+    it "raises error when period given is invalid" do
+      expect{described_class.manual_submissions_during_period(date_range: 5..7)}
+        .to raise_error StandardsImport::InvalidDateRange
+    end
+
+    fit "returns only standards imports converted during the period" do
+      standards_import_tooold = create(:standards_import)
+      create(:imports_uncategorized, parent: standards_import_tooold, processed_at: 3.months.ago )
+      standards_import_included = create(:standards_import)
+      create(:imports_uncategorized, parent: standards_import_included, processed_at: 6.weeks.ago )
+      standards_import_toonew = create(:standards_import)
+      create(:imports_uncategorized, parent: standards_import_toonew, processed_at: 1.week.ago )
+
+      expect(
+        described_class.manual_submissions_during_period(date_range: 2.months.ago..1.month.ago)
+      ).to match_array [standards_import_included]
+    end
+  end
+
+  describe "#imports" do
+    it "builds a tree of imports" do
+      standards_import = create(:standards_import)
+      standards_import.imports.build(attributes_for(:imports_uncategorized, parent: nil))
+      uncategorized = standards_import.imports.first
+      uncategorized.build_import(attributes_for(:imports_docx_listing, parent: nil))
+      docx_listing = uncategorized.import
+      docx_listing.imports.build(attributes_for(:imports_docx, parent: nil))
+      docx = docx_listing.imports.first
+      docx.build_pdf(attributes_for(:imports_pdf, parent: nil))
+
+      expect(standards_import.save).to be_truthy
+      standards_import.reload
+
+      expect(standards_import.imports.count).to eq(1)
+      expect(standards_import.imports.first).to be_an(Imports::Uncategorized)
+      expect(standards_import.imports.first.import).to be_an(Imports::DocxListing)
+      expect(standards_import.imports.first.import.imports.count).to eq(1)
+      expect(standards_import.imports.first.import.imports.first).to be_an(Imports::Docx)
+      expect(standards_import.imports.first.import.imports.first.pdf).to be_an(Imports::Pdf)
     end
   end
 

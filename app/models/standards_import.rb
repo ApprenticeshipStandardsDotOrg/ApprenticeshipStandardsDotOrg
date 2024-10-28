@@ -1,7 +1,7 @@
 class StandardsImport < ApplicationRecord
   has_many :imports, as: :parent, dependent: :destroy
 
-  enum courtesy_notification: [:not_required, :pending, :completed], _prefix: true
+  enum :courtesy_notification, [:not_required, :pending, :completed], prefix: true
 
   validates :email, :name, presence: true, unless: -> { courtesy_notification_not_required? }
   normalizes :email, with: ->(email) { email.strip.downcase }
@@ -17,6 +17,16 @@ class StandardsImport < ApplicationRecord
       end
       standards_imports.select do |standards_import|
         standards_import.has_converted_source_file_in_need_of_notification?
+      end
+    end
+
+    def manual_submissions_during_period(date_range:, email: nil)
+      if date_range.is_a?(Range) && (date_range.begin.is_a?(Date) || date_range.begin.is_a?(Time))
+        joins(:imports)
+          .where(imports: {processed_at: date_range})
+          .merge( email.present? ? where(email:) : all )
+      else
+        raise InvalidDateRange, 'must be a Range of Dates or Times'
       end
     end
   end
@@ -59,4 +69,6 @@ class StandardsImport < ApplicationRecord
   def notify_admin
     AdminMailer.new_standards_import(self).deliver_later
   end
+
+  class InvalidDateRange < ArgumentError; end
 end
