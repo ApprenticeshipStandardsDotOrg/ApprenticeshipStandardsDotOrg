@@ -21,13 +21,9 @@ class StandardsImport < ApplicationRecord
     end
 
     def manual_submissions_during_period(date_range:, email: nil)
-      if date_range.is_a?(Range) && (date_range.begin.is_a?(Date) || date_range.begin.is_a?(Time))
-        joins(:imports)
-          .where(imports: {processed_at: date_range})
-          .merge(email.present? ? where(email:) : all)
-      else
-        raise InvalidDateRange, "must be a Range of Dates or Times"
-      end
+      joins(:imports)
+        .where(imports: {processed_at: date_range})
+        .merge(email.present? ? where(email:) : all)
     end
   end
 
@@ -66,9 +62,11 @@ class StandardsImport < ApplicationRecord
     pdf_leaves.count == pdf_leaves.count { |pdf| pdf.courtesy_notification_completed? }
   end
 
+  def source_files_processed_during_period(date_range:, email: nil)
+    imports.where(processed_at: date_range).merge(email.present? ? where(email:) : all)
+  end
+
   def notify_admin
     AdminMailer.new_standards_import(self).deliver_later
   end
-
-  class InvalidDateRange < ArgumentError; end
 end

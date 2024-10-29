@@ -1,0 +1,17 @@
+<p>
+  From <%= @from %>, through <%= @through %>,
+  we've received and converted the standards you uploaded to
+  <%= link_to "apprenticeshipstandards.org", "https://apprenticeshipstandards.org" %>.
+  You can now view them live in the library:
+</p>
+
+<ul>
+  <% @source_files.each do |source_file| %>
+    <% source_file.associated_occupation_standards.each do |standard| %>
+      <li>
+        <%= link_to standard.title, occupation_standard_url(standard, host: @host) %>
+        <small>from <%= source_file.filename %></small>
+      </li>
+    <% end %>
+  <% end %>
+</ul>
