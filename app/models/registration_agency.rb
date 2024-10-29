@@ -5,7 +5,7 @@ class RegistrationAgency < ApplicationRecord
   belongs_to :state, optional: true
   has_many :occupation_standards
 
-  enum agency_type: [:oa, :saa]
+  enum :agency_type, [:oa, :saa]
 
   def to_s
     state_name = state&.name || "National"
