@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_24_154858) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_22_164023) do
   create_schema "heroku_ext"
 
   # These are extensions that must be enabled in order to support this database
@@ -340,6 +340,13 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_24_154858) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["occupation_standard_id"], name: "index_wage_steps_on_occupation_standard_id"
+  end
+
+  create_table "word_replacements", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "word", null: false
+    t.string "replacement", default: "****"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "work_processes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
