@@ -1,10 +1,10 @@
 require "rails_helper"
 
-RSpec.describe NotifyUploadsOfMonthsConversionsJob, type: :job do
+RSpec.describe NotifyUploadsOfConversionsForPeriodJob, type: :job do
   describe "#perform" do
     it "raises error when period given is invalid" do
       expect { described_class.new.perform(date_range: 5..7) }
-        .to raise_error NotifyUploadsOfMonthsConversionsJob::InvalidDateRange
+        .to raise_error described_class::InvalidDateRange
     end
 
     context "without email as a parameter", aggregate_failures: true do
@@ -37,11 +37,11 @@ RSpec.describe NotifyUploadsOfMonthsConversionsJob, type: :job do
         mailer = double("mailer", deliver_now: nil)
 
         expect(GuestMailer)
-          .to receive(:monthly_manual_upload_conversions)
+          .to receive(:manual_submissions_during_period)
           .with(date_range:, email: email_1, source_files: [pdf_1b])
           .and_return(mailer)
         expect(GuestMailer)
-          .to receive(:monthly_manual_upload_conversions)
+          .to receive(:manual_submissions_during_period)
           .with(date_range:, email: email_2, source_files: [pdf_2a])
           .and_return(mailer)
         expect(mailer).to receive(:deliver_now).twice
@@ -92,11 +92,11 @@ RSpec.describe NotifyUploadsOfMonthsConversionsJob, type: :job do
         mailer = double("mailer", deliver_now: nil)
 
         expect(GuestMailer)
-          .to receive(:monthly_manual_upload_conversions)
+          .to receive(:manual_submissions_during_period)
           .with(date_range:, email: email_1, source_files: [pdf_1b])
           .and_return(mailer)
         expect(GuestMailer)
-          .to receive(:monthly_manual_upload_conversions)
+          .to receive(:manual_submissions_during_period)
           .with(date_range:, email: email_2, source_files: [pdf_2a])
           .and_return(mailer)
         expect(mailer).to receive(:deliver_now).twice

@@ -1,4 +1,4 @@
-class NotifyUploadsOfMonthsConversionsJob < ApplicationJob
+class NotifyUploadsOfConversionsForPeriodJob < ApplicationJob
   queue_as :default
 
   def perform(date_range:, email: nil)
@@ -7,7 +7,7 @@ class NotifyUploadsOfMonthsConversionsJob < ApplicationJob
     end
 
     StandardsImport.manual_submissions_during_period(date_range:, email:).each do |standards_import|
-      GuestMailer.monthly_manual_upload_conversions(
+      GuestMailer.manual_submissions_during_period(
         date_range:,
         email: standards_import.email,
         source_files: standards_import.source_files_processed_during_period(date_range:, email:)

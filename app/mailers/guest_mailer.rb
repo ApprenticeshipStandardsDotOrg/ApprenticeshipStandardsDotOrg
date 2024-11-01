@@ -22,7 +22,7 @@ class GuestMailer < ApplicationMailer
     mail to: email, bcc: MAILER_BCC, subject:
   end
 
-  def monthly_manual_upload_conversions(date_range:, email:, source_files:)
+  def manual_submissions_during_period(date_range:, email:, source_files:)
     @from = strftime(date_range.begin)
     @through = strftime(date_range.end)
     @source_files = source_files

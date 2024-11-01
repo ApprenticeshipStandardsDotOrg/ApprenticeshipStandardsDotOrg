@@ -69,7 +69,7 @@ RSpec.describe GuestMailer, type: :mailer, aggregate_failures: true do
           allow(pdf1).to receive(:associated_occupation_standards).and_return([occupation_standard1, occupation_standard2])
           allow(pdf2).to receive(:associated_occupation_standards).and_return([occupation_standard3])
 
-          mail = GuestMailer.monthly_manual_upload_conversions(
+          mail = GuestMailer.manual_submissions_during_period(
             date_range:,
             email: "foo@example.com",
             source_files: [pdf1, pdf2]
