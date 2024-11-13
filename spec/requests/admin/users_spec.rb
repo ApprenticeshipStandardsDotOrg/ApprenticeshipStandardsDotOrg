@@ -81,4 +81,51 @@ RSpec.describe "Admin::User", type: :request do
       expect(email.from).to eq ["no-reply@apprenticeshipstandards.org"]
     end
   end
+
+  describe "POST /invite", :admin do
+    it "sends invitation email" do
+      admin = create(:admin)
+      user = create(:user)
+
+      sign_in admin
+      post invite_admin_user_path(id: user.id)
+
+      email = ActionMailer::Base.deliveries.last
+      expect(email.subject).to eq "Invitation instructions"
+      expect(email.to).to eq [user.email]
+      expect(email.from).to eq ["no-reply@apprenticeshipstandards.org"]
+    end
+
+    it "redirects to user path" do
+      admin = create(:admin)
+      user = create(:user)
+
+      sign_in admin
+      post invite_admin_user_path(id: user.id)
+
+      expect(response).to redirect_to admin_user_path(user)
+    end
+
+    it "renders flash notice on success" do
+      admin = create(:admin)
+      user = create(:user)
+
+      sign_in admin
+      post invite_admin_user_path(id: user.id)
+
+      expect(flash[:notice]).to eq I18n.t("devise.invitations.send_instructions", email: user.email)
+    end
+
+    it "renders flash error on failure" do
+      admin = create(:admin)
+      user = create(:user)
+
+      allow_any_instance_of(User).to receive(:invite!).and_return(double(errors: ["error"]))
+
+      sign_in admin
+      post invite_admin_user_path(id: user.id)
+
+      expect(flash[:error]).to eq "There was an error trying to send an invite to this user"
+    end
+  end
 end
