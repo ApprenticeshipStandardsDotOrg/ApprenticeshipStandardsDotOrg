@@ -19,7 +19,7 @@ GIT
 
 GIT
   remote: https://github.com/mvz/non-digest-assets.git
-  revision: daa0490fe16c89d6913b67d90e2b08489349296f
+  revision: d05bf6dbeec3e7ca6fd64f9a9ae4fe893678cdbc
   branch: master
   specs:
     non-digest-assets (2.4.0)
@@ -135,7 +135,7 @@ GEM
       aws-eventstream (~> 1, >= 1.0.2)
     base64 (0.2.0)
     bcrypt (3.1.20)
-    benchmark (0.3.0)
+    benchmark (0.4.0)
     better_html (2.1.1)
       actionview (>= 6.0)
       activesupport (>= 6.0)
@@ -479,7 +479,7 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    securerandom (0.3.1)
+    securerandom (0.3.2)
     selenium-webdriver (4.26.0)
       base64 (~> 0.2)
       logger (~> 1.4)
