@@ -62,6 +62,22 @@ RSpec.describe "Admin::User", type: :request do
       }.to change(User, :count).by(1)
     end
 
+    it "renders flash notice on success" do
+      admin = create(:admin)
+      params = {
+        user: {
+          name: "Test #1",
+          email: "test@test.com",
+          role: :admin
+        }
+      }
+
+      sign_in admin
+      post admin_users_path, params: params
+
+      expect(flash[:notice]).to eq "User was successfully created, and an invitation email has been sent to test@test.com."
+    end
+
     it "sends invitation email" do
       admin = create(:admin)
       params = {
