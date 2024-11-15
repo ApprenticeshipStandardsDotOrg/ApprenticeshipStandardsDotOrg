@@ -63,7 +63,12 @@ class StandardsImport < ApplicationRecord
   end
 
   def source_files_processed_during_period(date_range:, email: nil)
-    imports.where(processed_at: date_range).merge(email.present? ? where(email:) : all)
+    where_email = if email.present?
+                    where(email:)
+                  else
+                    self.class.all
+                  end
+    imports.where(processed_at: date_range).merge(where_email)
   end
 
   def notify_admin

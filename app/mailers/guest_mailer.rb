@@ -25,12 +25,15 @@ class GuestMailer < ApplicationMailer
   def manual_submissions_during_period(date_range:, email:, source_files:)
     @from = strftime(date_range.begin)
     @through = strftime(date_range.end)
-    @source_files = source_files
     @host = mailer_host
+    @source_files = source_files
 
-    subject = "Standards converted in the Apprenticeship Standards Library " \
-              "from #{@from}, through #{@through}."
-    mail to: email, bcc: MAILER_BCC, subject:
+    standards_count = source_files.sum { |file| file.associated_occupation_standards.count }
+    if standards_count.positive?
+      subject = "Standards converted in the Apprenticeship Standards Library " \
+                "from #{@from}, through #{@through}."
+      mail to: email, bcc: MAILER_BCC, subject:
+    end
   end
 
   private

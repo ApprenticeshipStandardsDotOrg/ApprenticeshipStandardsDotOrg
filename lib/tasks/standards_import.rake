@@ -1,4 +1,5 @@
 namespace :standards_import do
+  desc "If Tuesday, mails notification of completed standards import"
   task notify_uploaders_of_conversion_completion: :environment do
     if Date.current.tuesday? || ENV["FORCE"] == "true"
       puts "Running manual conversion complete notification job"
@@ -9,6 +10,7 @@ namespace :standards_import do
     end
   end
 
+  desc "If first weekday of month, mails report of all standards import conversations from the previous month"
   task notify_uploaders_of_conversions_for_last_month: :environment do
     def report_date
       date = Date.today.beginning_of_month

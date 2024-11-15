@@ -7,11 +7,14 @@ class NotifyUploadsOfConversionsForPeriodJob < ApplicationJob
     end
 
     StandardsImport.manual_submissions_during_period(date_range:, email:).each do |standards_import|
-      GuestMailer.manual_submissions_during_period(
-        date_range:,
-        email: standards_import.email,
-        source_files: standards_import.source_files_processed_during_period(date_range:, email:)
-      ).deliver_now
+      source_files = standards_import.source_files_processed_during_period(date_range:, email:)
+      if source_files
+        GuestMailer.manual_submissions_during_period(
+          date_range:,
+          email: standards_import.email,
+          source_files:
+        ).deliver_now
+      end
     end
   end
 
