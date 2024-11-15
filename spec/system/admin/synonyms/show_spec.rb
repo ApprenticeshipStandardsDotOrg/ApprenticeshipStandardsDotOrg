@@ -17,6 +17,6 @@ RSpec.describe "admin/synonyms/show" do
     expect(page).to have_selector("dd", text: synonym.synonyms)
 
     expect(page).to have_link("Edit Synonyms for Software Engineer", href: edit_admin_synonym_path(synonym))
-    expect(page).to have_link("Destroy", href: admin_synonym_path(synonym))
+    expect(page).to have_button("Destroy")
   end
 end
