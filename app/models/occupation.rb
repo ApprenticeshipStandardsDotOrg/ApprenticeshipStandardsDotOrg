@@ -3,6 +3,7 @@ class Occupation < ApplicationRecord
   include Elasticsearchable
 
   has_many :competency_options, as: :resource
+  has_many :occupation_standards
 
   belongs_to :onet, optional: true
 
