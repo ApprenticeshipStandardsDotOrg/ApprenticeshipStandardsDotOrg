@@ -19,11 +19,11 @@ GIT
 
 GIT
   remote: https://github.com/mvz/non-digest-assets.git
-  revision: d05bf6dbeec3e7ca6fd64f9a9ae4fe893678cdbc
+  revision: 36f4a401dfd616e59e07ddcf66d7a0df3ae4b7e4
   branch: master
   specs:
-    non-digest-assets (2.4.0)
-      activesupport (>= 6.0, < 7.3)
+    non-digest-assets (2.5.0)
+      activesupport (>= 6.0, < 8.1)
       sprockets (~> 4.0)
 
 GEM
@@ -288,7 +288,7 @@ GEM
     letter_opener (1.10.0)
       launchy (>= 2.2, < 4)
     lint_roller (1.1.0)
-    logger (1.6.1)
+    logger (1.6.2)
     loofah (2.23.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
@@ -301,7 +301,7 @@ GEM
     matrix (0.4.2)
     mini_magick (4.13.2)
     mini_mime (1.1.5)
-    minitest (5.25.2)
+    minitest (5.25.4)
     msgpack (1.7.2)
     multi_json (1.15.0)
     multi_xml (0.6.0)
@@ -479,7 +479,7 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    securerandom (0.3.2)
+    securerandom (0.4.0)
     selenium-webdriver (4.26.0)
       base64 (~> 0.2)
       logger (~> 1.4)
