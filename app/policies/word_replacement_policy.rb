@@ -1,0 +1,2 @@
+class WordReplacementPolicy < AdminPolicy
+end

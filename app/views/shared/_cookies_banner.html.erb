@@ -1,0 +1,29 @@
+<div
+  id="bottom-banner"
+  tabindex="-1"
+  class="fixed bottom-0 start-0 z-50 flex justify-between w-full p-4 border-t border-gray-200 bg-gray-50 dark:bg-gray-700 dark:border-gray-600"
+  role="dialog"
+  aria-modal="false"
+  aria-labelledby="alert-box-title"
+  aria-describedby="alert-box-message">
+  <h2 class="flex items-center text-sm font-bold text-gray-500 dark:text-gray-400" id="alert-box-title">Cookie Notice</h2>
+  <div class="flex items-center mx-auto">
+    <p class="flex items-center text-sm font-normal text-gray-500 dark:text-gray-400" id="alert-box-message">
+      This website uses cookie or similar technologies, to enhance your browsing experience and provide personalised recommendations
+    </p>
+  </div>
+  <div class="flex items-center flex-shrink-0">
+    <%= button_to "Reject", cookies_path(cookies: false, format: :html),
+          method: :post,
+          class: "inline-flex items-center justify-center px-3 py-2 me-3 text-xs font-medium text-gray-900 bg-white border border-gray-200 rounded-lg focus:outline-none hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700",
+          data: {
+            turbo: false
+          } %>
+  <%= button_to "Accept", cookies_path(cookies: true, format: :html),
+        method: :post,
+        class: "inline-flex items-center justify-center px-3 py-2 me-2 text-xs font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800",
+        data: {
+          turbo: false
+        } %>
+  </div>
+</div>

@@ -10,7 +10,7 @@ class OccupationStandardsController < ApplicationController
         offset: offset
       ).call
       @pagy = Pagy.new(
-        items: Pagy::DEFAULT[:items],
+        items: Pagy::DEFAULT[:limit],
         page: current_page,
         count: es_response.response.aggregations.total.value
       )
@@ -35,7 +35,16 @@ class OccupationStandardsController < ApplicationController
     @page_title = @occupation_standard.title
 
     respond_to do |format|
-      format.html {}
+      format.html do
+        @cookies_accepted = session[:cookies_accepted] == "true"
+
+        if @cookies_accepted
+          survey_modal_service = SurveyModalService.new(cookies)
+          survey_modal_service.upsert_cookie!
+          @show_survey = survey_modal_service.show?
+          @survey = Survey.new if @show_survey
+        end
+      end
       format.docx do
         export = OccupationStandardExport.new(@occupation_standard)
 
@@ -90,7 +99,7 @@ class OccupationStandardsController < ApplicationController
   end
 
   def offset
-    (current_page.to_i - 1) * Pagy::DEFAULT[:items]
+    (current_page.to_i - 1) * Pagy::DEFAULT[:limit]
   end
 
   def add_inner_hits_from_results(occupation_standards)

@@ -3,8 +3,8 @@
     <div>
       <span style="font-size: 1.5em; font-weight: 700"> <%= data_import.occupation_standard.title %> </span> <br>
       <span> <%= data_import.occupation_standard.ojt_type&.titleize %> based </span> <br> <br>
-      <%= link_to "Public", occupation_standard_url(data_import.occupation_standard, host: ENV.fetch("PUBLIC_DOMAIN", Rails.application.config.action_mailer.default_url_options[:host])) %> |
-      <%= link_to "Admin", admin_occupation_standard_url(data_import.occupation_standard) %> |
+      <%= link_to "Public", occupation_standard_url(data_import.occupation_standard, host: public_domain) %> |
+      <%= link_to "Admin", admin_occupation_standard_url(data_import.occupation_standard, host: public_domain) %> |
       <%= link_to "Data Import", admin_data_import_url(data_import) %> |
       <%= link_to "Source File", admin_import_url(data_import.import) %>
       <br> <br>

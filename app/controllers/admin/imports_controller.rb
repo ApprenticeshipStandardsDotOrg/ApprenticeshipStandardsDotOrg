@@ -39,7 +39,12 @@ module Admin
     end
 
     def after_resource_updated_path(resource)
-      params[:redirect_back_to].presence || admin_imports_path
+      default_path = if current_user.converter?
+        admin_imports_path
+      else
+        admin_import_path(requested_resource)
+      end
+      params[:redirect_back_to].presence || default_path
     end
   end
 end

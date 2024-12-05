@@ -1,0 +1,2 @@
+class WordReplacement < ApplicationRecord
+end

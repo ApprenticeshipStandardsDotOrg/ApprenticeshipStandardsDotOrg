@@ -10,8 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_27_222900) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_22_164023) do
+  create_schema "heroku_ext"
+
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_stat_statements"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
@@ -154,6 +157,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_27_222900) do
     t.uuid "registration_agency_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "organization_id"
     t.string "title"
     t.integer "term_months"
     t.integer "ojt_type"
@@ -166,7 +170,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_27_222900) do
     t.integer "ojt_hours_max"
     t.integer "rsi_hours_min"
     t.integer "rsi_hours_max"
-    t.uuid "organization_id"
     t.integer "status", default: 0, null: false
     t.integer "national_standard_type"
     t.date "registration_date"
@@ -268,6 +271,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_27_222900) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "surveys", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name", null: false
+    t.string "email", null: false
+    t.string "organization", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "synonyms", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "word", null: false
     t.string "synonyms", null: false
@@ -277,6 +288,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_27_222900) do
 
   create_table "task_records", id: false, force: :cascade do |t|
     t.string "version", null: false
+  end
+
+  create_table "text_representations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "data_import_id", null: false
+    t.text "content"
+    t.string "document_sha"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["data_import_id"], name: "index_text_representations_on_data_import_id"
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -322,6 +342,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_27_222900) do
     t.index ["occupation_standard_id"], name: "index_wage_steps_on_occupation_standard_id"
   end
 
+  create_table "word_replacements", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "word", null: false
+    t.string "replacement", default: "****"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "work_processes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title"
     t.string "description"
@@ -357,6 +384,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_27_222900) do
   add_foreign_key "related_instructions", "courses", column: "default_course_id"
   add_foreign_key "related_instructions", "occupation_standards"
   add_foreign_key "related_instructions", "organizations"
+  add_foreign_key "text_representations", "data_imports"
   add_foreign_key "wage_steps", "occupation_standards"
   add_foreign_key "work_processes", "occupation_standards"
 end

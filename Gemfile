@@ -3,7 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "3.3.1"
 
-gem "rails", "~> 7.1.3"
+gem "rails", "~> 7.2.2"
 
 gem "elasticsearch", "8.10.0"
 gem "elasticsearch-model", github: "elastic/elasticsearch-rails", branch: "8.x"
@@ -21,7 +21,7 @@ gem "non-digest-assets", github: "mvz/non-digest-assets", branch: "master"
 gem "pg", "~> 1.5"
 
 # Use the Puma web server [https://github.com/puma/puma]
-gem "puma", "~> 6.4"
+gem "puma", "~> 6.5"
 
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem "importmap-rails"
@@ -63,6 +63,8 @@ gem "pagy"
 gem "ruby-openai"
 gem "pdf-reader"
 gem "oauth2", "~> 2.0", ">= 2.0.9"
+gem "caxlsx"
+gem "caxlsx_rails"
 
 # Throttle excessive requests
 gem "rack-attack"
@@ -106,7 +108,7 @@ group :development do
   gem "erb_lint", require: false
   gem "erblint-github"
   gem "letter_opener"
-  gem "standard", "~> 1.40"
+  gem "standard", "~> 1.41"
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
 

@@ -14,6 +14,7 @@ class UserDashboard < Administrate::BaseDashboard
     current_sign_in_ip: Field::String,
     email: Field::String,
     encrypted_password: Field::String,
+    invitation_sent_at: Field::DateTime,
     last_sign_in_at: Field::DateTime,
     last_sign_in_ip: Field::String,
     name: Field::String,
@@ -51,6 +52,7 @@ class UserDashboard < Administrate::BaseDashboard
     current_sign_in_ip
     last_sign_in_at
     last_sign_in_ip
+    invitation_sent_at
     reset_password_sent_at
     sign_in_count
     created_at

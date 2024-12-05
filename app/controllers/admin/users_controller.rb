@@ -17,7 +17,7 @@ module Admin
         resource.invite!
         redirect_to(
           after_resource_created_path(resource),
-          notice: translate_with_resource("create.success")
+          notice: "#{resource_class.name} was successfully created, and an invitation email has been sent to #{resource.email}."
         )
       else
         render :new, locals: {

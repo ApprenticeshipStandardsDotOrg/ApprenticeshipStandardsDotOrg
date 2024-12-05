@@ -236,3 +236,6 @@
     </div><!-- end green border border -->
 
 </section>
+<% if @show_survey && @cookies_accepted %>
+  <%= render partial: "survey_modal", locals: {survey: @survey} %>
+<% end %>

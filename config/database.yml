@@ -24,6 +24,7 @@ default: &default
   username: <%= ENV.fetch("POSTGRES_USER", "postgres") %>
   password: <%= ENV.fetch("POSTGRES_PASSWORD", "") %>
   port: <%= ENV.fetch("POSTGRES_PORT", "5432") %>
+  prepared_statements: true
 
 development:
   <<: *default

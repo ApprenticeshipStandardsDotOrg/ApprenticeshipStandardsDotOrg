@@ -5,8 +5,7 @@
               <%= link_to "ApprenticeshipStandards.org", home_page_path, class: "flex items-center mb-2 text-2xl font-semibold sm:mb-0 text-white" %>
               <p class="my-4 font-light text-gray-100">
                 The Registered Apprenticeship Standards Library is developed
-                through the Urban Institute’s <%= link_to "Registered Apprenticeship
-                Occupations and Standards Center of Excellence", "https://www.urban.org/policy-centers/center-labor-human-services-and-population/projects/registered-apprenticeship-occupations-and-standards-center-excellence", class: "underline" %>. This project has
+                through the Urban Institute’s <%= link_to "National Apprenticeship Resource Hub", "https://apprenticeships.urban.org", class: "underline" %>. This project has
                 been funded, either wholly or in part, with federal funds from
                 the Department of Labor, Employment and Training Administration
                 under Cooperative Grant Number AP-36653-21-75-A-11. The contents
@@ -45,4 +44,8 @@
       <hr class="my-6 sm:mx-auto border-gray-600 lg:my-8">
       <span class="block text-sm text-center text-primary-200">© 2022-<%= Time.current.year %> <%= link_to "ApprenticeshipStandards.org", home_page_path, class: "hover:underline" %>. All Rights Reserved.</span>
   </div>
+
+  <% if session[:cookies_accepted].nil? %>
+    <%= render "shared/cookies_banner" %>
+  <% end %>
 </footer>
