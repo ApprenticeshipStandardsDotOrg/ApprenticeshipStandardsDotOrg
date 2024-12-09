@@ -30,7 +30,7 @@ class OccupationStandard < ApplicationRecord
   validates :title, :ojt_type, presence: true
   validates :registration_agency, presence: true
 
-  attr_accessor :inner_hits, :external_id
+  attr_accessor :inner_hits, :external_id, :open_ai_response
 
   MAX_SIMILAR_PROGRAMS_TO_DISPLAY = 5
   MAX_RECENTLY_ADDED_OCCUPATIONS_TO_DISPLAY = 4
@@ -224,6 +224,16 @@ class OccupationStandard < ApplicationRecord
   class << self
     def industry_count(onet_prefix)
       where("SPLIT_PART(onet_code, '-', 1) = ?", onet_prefix.to_s).count
+    end
+
+    def from_json(json)
+      {
+        title: json["title"],
+        existing_title: json["existingTitle"],
+        ojt_type: json["ojtType"],
+        onet_code: json["onetCode"],
+        rapids_code: json["rapidsCode"]
+      }
     end
   end
 
