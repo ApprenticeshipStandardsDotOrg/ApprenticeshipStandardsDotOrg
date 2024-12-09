@@ -27,7 +27,7 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
     updated_at: Field::DateTime,
     url: Field::Url,
     wage_steps: Field::HasMany,
-    work_processes: DynamicHasManyField,
+    work_processes: Field::HasMany,
     redacted_document: Field::ActiveStorage,
     open_ai_response: Field::Text
   }.freeze
