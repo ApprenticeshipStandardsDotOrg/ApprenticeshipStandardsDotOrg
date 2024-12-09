@@ -7,7 +7,6 @@ module Admin
 
       occupation_standard_attributes = OccupationStandard.from_json(occupation_standard_response)
 
-      Rails.logger.info "Attributes from OpenAI: #{occupation_standard_attributes}"
       resource = new_resource(occupation_standard_attributes)
       resource.open_ai_response = open_ai_response
       authorize_resource(resource)
