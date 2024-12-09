@@ -78,6 +78,7 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
     existing_title
     onet_code
     rapids_code
+    status
 
     ojt_type
     organization
