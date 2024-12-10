@@ -1,19 +1,7 @@
 class PdfReaderJob < ApplicationJob
   queue_as :default
 
-  def perform(import_id)
-    pdf = Imports::Pdf.find(import_id)
-
-    pdf.file.open do |io|
-      reader = PDF::Reader.new(io)
-      text = reader.pages.map { |page| page.text }.to_s
-
-      ChatGptGenerateText.new("#{base_prompt} #{text}").call
-    end
-  end
-
-  def base_prompt
-    "Get the Occupation standard info from the following text in JSON format. JSON output needs the following fields:\
+  BASE_PROMPT = "Get the Occupation standard info from the following text in JSON format. JSON output needs the following fields:\
       title: Title of the occupation standard.
       existingTitle: An existing or alternative title for the occupation.
       onetCode: Also can be found as O*NET code.
@@ -35,6 +23,17 @@ class PdfReaderJob < ApplicationJob
 
       Return only the output in JSON format without any block or markdown.
 
-      The input text is:\n\n"
+      The input text is:\n\n
+  "
+
+  def perform(import_id)
+    pdf = Imports::Pdf.find(import_id)
+
+    pdf.file.open do |io|
+      reader = PDF::Reader.new(io)
+      text = reader.pages.map { |page| page.text }.to_s
+
+      ChatGptGenerateText.new("#{BASE_PROMPT} #{text}").call
+    end
   end
 end
