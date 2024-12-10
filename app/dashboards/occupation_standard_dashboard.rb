@@ -28,7 +28,8 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
     url: Field::Url,
     wage_steps: Field::HasMany,
     work_processes: Field::HasMany,
-    redacted_document: Field::ActiveStorage
+    redacted_document: Field::ActiveStorage,
+    open_ai_response: Field::Text
   }.freeze
 
   COLLECTION_ATTRIBUTES = %i[
@@ -74,25 +75,17 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
 
   FORM_ATTRIBUTES = %i[
     title
+    existing_title
     onet_code
     rapids_code
-    term_months
-    url
     status
 
-    apprenticeship_to_journeyworker_ratio
-    existing_title
-    occupation
-    national_standard_type
     ojt_type
-    ojt_hours_max
-    ojt_hours_min
     organization
-    probationary_period_months
     registration_agency
-    rsi_hours_max
-    rsi_hours_min
-    redacted_document
+
+    open_ai_response
+
   ].freeze
 
   COLLECTION_FILTERS = {}.freeze

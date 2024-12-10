@@ -13,16 +13,12 @@ RSpec.describe PdfReaderJob do
       allow(
         ChatGptGenerateText
       ).to receive(:new).with(
-        "Create an array of the occupation(s) from the text. Return as a JSON array [\"Welder (Industrial)\\n(Competency based)\\n\\n\"]"
-      ).and_return chat_gpt_generator_mock("[\"Welder (Industrial)\"]")
+        "#{PdfReaderJob::BASE_PROMPT} [\"Welder (Industrial)\\n(Competency based)\\n\\n\"]"
+      ).and_return chat_gpt_generator_mock('{"Title": "Welder (Industrial)","Type": "competency" }')
 
-      allow(
-        ChatGptGenerateText
-      ).to receive(:new).with(
-        "Please fill out the template based on the given information for this occupation: Welder (Industrial) and return as JSON array information:[\"Welder (Industrial)\\n(Competency based)\\n\\n\"] template: { \"Title\": \"\", \"Type\": \"(Time based, Competency based, or Hybrid)\" }"
-      ).and_return chat_gpt_generator_mock("[\n  {\n    \"Title\": \"Welder (Industrial)\",\n    \"Type\": \"Competency based\"\n  }\n]")
+      parsed_response = JSON.parse(described_class.new.perform(pdf.id))
 
-      expect(described_class.new.perform(pdf.id)).to eq [{"Title" => "Welder (Industrial)", "Type" => "Competency based"}]
+      expect(parsed_response).to eq({"Title" => "Welder (Industrial)", "Type" => "competency"})
     end
   end
 end

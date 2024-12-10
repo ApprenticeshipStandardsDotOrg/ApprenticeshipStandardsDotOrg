@@ -38,6 +38,12 @@
             class: "button"
           ) %>
 
+      <%= link_to(
+            "Convert with AI",
+            new_admin_occupation_standard_path(import_id: page.resource.id),
+            class: "button"
+          ) %>
+
       <%= if accessible_action?(:redact_file, :new) && page.resource.available_for_redaction?
             link_to(
               "Redact document",
@@ -49,7 +55,7 @@
 
     <%= if authorized_action?(page.resource, :edit)
           link_to(
-            t("administrate.actions.edit_resource", name: page.page_title),
+            "Edit",
             edit_admin_import_path(page.resource),
             class: "button"
           )

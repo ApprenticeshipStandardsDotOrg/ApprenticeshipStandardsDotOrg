@@ -1,5 +1,20 @@
 module Admin
   class OccupationStandardsController < Admin::ApplicationController
+    def new
+      open_ai_response = PdfReaderJob.perform_now(params[:import_id])
+
+      occupation_standard_response = JSON.parse(open_ai_response)
+
+      occupation_standard_attributes = OccupationStandard.from_json(occupation_standard_response)
+
+      resource = new_resource(occupation_standard_attributes)
+      resource.open_ai_response = open_ai_response
+      authorize_resource(resource)
+      render locals: {
+        page: Administrate::Page::Form.new(dashboard, resource)
+      }
+    end
+
     def scoped_resource
       OccupationStandard.includes(occupation: :onet, registration_agency: :state)
     end
