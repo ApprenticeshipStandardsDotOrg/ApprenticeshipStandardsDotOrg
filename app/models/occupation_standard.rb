@@ -23,9 +23,9 @@ class OccupationStandard < ApplicationRecord
   delegate :name, to: :industry, prefix: true, allow_nil: true
   delegate :state, to: :registration_agency, allow_nil: true
 
-  enum ojt_type: [:time, :competency, :hybrid], _suffix: :based
-  enum national_standard_type: [:program_standard, :guideline_standard, :occupational_framework], _prefix: :national
-  enum status: [:importing, :in_review, :published]
+  enum :ojt_type, [:time, :competency, :hybrid], :suffix => :based
+  enum :national_standard_type, [:program_standard, :guideline_standard, :occupational_framework], :prefix => :national
+  enum :status, [:importing, :in_review, :published]
 
   validates :title, :ojt_type, presence: true
   validates :registration_agency, presence: true

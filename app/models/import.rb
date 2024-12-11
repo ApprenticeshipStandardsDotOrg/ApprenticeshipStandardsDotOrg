@@ -21,11 +21,11 @@ class Import < ApplicationRecord
     :needs_backend_support,
     :unfurled
   ]
-  enum courtesy_notification: [
+  enum :courtesy_notification, [
     :not_required,
     :pending,
     :completed
-  ], _prefix: true
+  ], :prefix => true
 
   scope :needs_unfurling, -> { unfurled.where("created_at < ?", 1.day.ago) }
 

@@ -1,7 +1,7 @@
 class StandardsImport < ApplicationRecord
   has_many :imports, as: :parent, dependent: :destroy
 
-  enum courtesy_notification: [:not_required, :pending, :completed], _prefix: true
+  enum :courtesy_notification, [:not_required, :pending, :completed], :prefix => true
 
   validates :email, :name, presence: true, unless: -> { courtesy_notification_not_required? }
   normalizes :email, with: ->(email) { email.strip.downcase }
