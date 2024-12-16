@@ -1,7 +1,7 @@
 class StandardsImport < ApplicationRecord
   has_many :imports, as: :parent, dependent: :destroy
 
-  enum courtesy_notification: [:not_required, :pending, :completed], _prefix: true
+  enum :courtesy_notification, [:not_required, :pending, :completed], prefix: true
 
   validates :email, :name, presence: true, unless: -> { courtesy_notification_not_required? }
   normalizes :email, with: ->(email) { email.strip.downcase }
@@ -18,6 +18,12 @@ class StandardsImport < ApplicationRecord
       standards_imports.select do |standards_import|
         standards_import.has_converted_source_file_in_need_of_notification?
       end
+    end
+
+    def manual_submissions_during_period(date_range:, email: nil)
+      joins(:imports)
+        .where(imports: {processed_at: date_range})
+        .merge(email.present? ? where(email:) : all)
     end
   end
 
@@ -54,6 +60,15 @@ class StandardsImport < ApplicationRecord
 
   def has_notified_uploader_of_all_conversions?
     pdf_leaves.count == pdf_leaves.count { |pdf| pdf.courtesy_notification_completed? }
+  end
+
+  def source_files_processed_during_period(date_range:, email: nil)
+    where_email = if email.present?
+                    where(email:)
+                  else
+                    self.class.all
+                  end
+    imports.where(processed_at: date_range).merge(where_email)
   end
 
   def notify_admin
