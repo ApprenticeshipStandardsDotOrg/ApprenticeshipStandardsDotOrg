@@ -106,7 +106,7 @@ For your local Elasticsearch setup, if you get errors like:
 
 then you will need to turn off the security features for your Elasticsearch
 configuration. Edit the `config/elasticsearch.yml` file in your Elasticsearch
-installation to turn all the `enabled` flags to `false`:
+installation (*located in `~/.asdf/installs/elasticsearch/8.10.3/` if you use asdf to install Elasticsearch*) to turn all the `enabled` flags to `false`:
 
 ```yml
 xpack.security.enabled: false
