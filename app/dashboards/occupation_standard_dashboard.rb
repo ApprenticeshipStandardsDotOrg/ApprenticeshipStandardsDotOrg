@@ -85,7 +85,7 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
     registration_agency
 
     work_processes
-    
+
     open_ai_response
   ].freeze
 

@@ -60,7 +60,7 @@ gem "administrate-field-jsonb"
 gem "pundit"
 gem "image_processing"
 gem "pagy"
-gem "rondo_form", '~> 1.0'
+gem "rondo_form", "~> 1.0"
 gem "ruby-openai"
 gem "pdf-reader"
 gem "oauth2", "~> 2.0", ">= 2.0.9"

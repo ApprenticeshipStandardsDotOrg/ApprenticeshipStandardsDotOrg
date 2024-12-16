@@ -234,7 +234,7 @@ class OccupationStandard < ApplicationRecord
         existing_title: json["existingTitle"],
         ojt_type: json["ojtType"],
         onet_code: json["onetCode"],
-        rapids_code: json["rapidsCode"],
+        rapids_code: json["rapidsCode"]
       }
     end
   end
