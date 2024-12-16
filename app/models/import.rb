@@ -25,7 +25,7 @@ class Import < ApplicationRecord
     :not_required,
     :pending,
     :completed
-  ], :prefix => true
+  ], prefix: true
 
   scope :needs_unfurling, -> { unfurled.where("created_at < ?", 1.day.ago) }
 
