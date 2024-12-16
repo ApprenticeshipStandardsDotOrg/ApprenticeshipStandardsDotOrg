@@ -1,6 +1,6 @@
 require "administrate/field/base"
 
-class WorkProcessesField < Administrate::Field::Base
+class WorkProcessesField < Administrate::Field::HasMany
   def to_s
     data
   end
