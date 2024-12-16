@@ -40,7 +40,6 @@ class WorkProcessDashboard < Administrate::BaseDashboard
   ].freeze
 
   FORM_ATTRIBUTES = %i[
-    competencies
     default_hours
     description
     maximum_hours
