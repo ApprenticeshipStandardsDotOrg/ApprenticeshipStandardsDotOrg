@@ -52,6 +52,6 @@ class WorkProcessDashboard < Administrate::BaseDashboard
   COLLECTION_FILTERS = {}.freeze
 
   def display_resource(work_process)
-    work_process.title.truncate(MAX_TITLE_LENGTH)
+    work_process.title&.truncate(MAX_TITLE_LENGTH) || "Work Process ##{work_process.id}"
   end
 end

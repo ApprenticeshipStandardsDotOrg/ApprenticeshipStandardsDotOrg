@@ -32,6 +32,8 @@ class OccupationStandard < ApplicationRecord
 
   attr_accessor :inner_hits, :external_id, :open_ai_response
 
+  accepts_nested_attributes_for :work_processes # reject_if: :all_blank, allow_destroy: true
+
   MAX_SIMILAR_PROGRAMS_TO_DISPLAY = 5
   MAX_RECENTLY_ADDED_OCCUPATIONS_TO_DISPLAY = 4
 
@@ -232,7 +234,7 @@ class OccupationStandard < ApplicationRecord
         existing_title: json["existingTitle"],
         ojt_type: json["ojtType"],
         onet_code: json["onetCode"],
-        rapids_code: json["rapidsCode"]
+        rapids_code: json["rapidsCode"],
       }
     end
   end

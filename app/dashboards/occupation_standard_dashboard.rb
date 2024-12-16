@@ -84,8 +84,9 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
     organization
     registration_agency
 
+    work_processes
+    
     open_ai_response
-
   ].freeze
 
   COLLECTION_FILTERS = {}.freeze
