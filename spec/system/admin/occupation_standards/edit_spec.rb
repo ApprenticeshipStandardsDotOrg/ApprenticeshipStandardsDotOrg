@@ -39,4 +39,14 @@ RSpec.describe "admin/occupation_standards/edit" do
 
     expect(page).to have_selector("h1", text: "Edit Mechanic")
   end
+
+  it "allows admin user to add work processes", :admin do
+    occupation_standard = create(:occupation_standard)
+    admin = create(:admin)
+
+    login_as admin
+    visit edit_admin_occupation_standard_path(occupation_standard)
+
+    expect(page).to have_field("Work processes")
+  end
 end
