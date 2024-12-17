@@ -1,30 +1,27 @@
-<table aria-labelledby="<%= table_title %>">
+<table aria-labelledby="<%= table_title %>" data-controller="table" data-action="click->table#visitDataUrl keydown->table#visitDataUrl">
   <thead>
     <tr>
       <% collection_presenter.attribute_types.each do |attr_name, attr_type| %>
-        <th class="cell-label
+      <th class="cell-label
         cell-label--<%= attr_type.html_class %>
         cell-label--<%= collection_presenter.ordered_html_class(attr_name) %>
-        cell-label--<%= "#{collection_presenter.resource_name}_#{attr_name}" %>"
-        scope="col"
-        role="columnheader"
-        aria-sort="<%= sort_order(collection_presenter.ordered_html_class(attr_name)) %>">
+        cell-label--<%= "#{collection_presenter.resource_name}_#{attr_name}" %>" scope="col" role="columnheader" aria-sort="<%= sort_order(collection_presenter.ordered_html_class(attr_name)) %>">
         <%= link_to(sanitized_order_params(page, collection_field_name).merge(
               collection_presenter.order_params_for(attr_name, key: collection_field_name)
             )) do %>
         <%= t(
               "helpers.label.#{collection_presenter.resource_name}.#{attr_name}",
-              default: resource_class.human_attribute_name(attr_name)
-            ).titleize %>
-            <% if collection_presenter.ordered_by?(attr_name) %>
-              <span class="cell-label__sort-indicator cell-label__sort-indicator--<%= collection_presenter.ordered_html_class(attr_name) %>">
-                <svg aria-hidden="true">
-                  <use xlink:href="#icon-up-caret" />
-                </svg>
-              </span>
-            <% end %>
-          <% end %>
-        </th>
+              default: resource_class.human_attribute_name(attr_name).titleize
+            ) %>
+        <% if collection_presenter.ordered_by?(attr_name) %>
+        <span class="cell-label__sort-indicator cell-label__sort-indicator--<%= collection_presenter.ordered_html_class(attr_name) %>">
+          <svg aria-hidden="true">
+            <use xlink:href="#icon-up-caret" />
+          </svg>
+        </span>
+        <% end %>
+        <% end %>
+      </th>
       <% end %>
       <%= render(
             "collection_header_actions",
@@ -38,34 +35,29 @@
 
   <tbody>
     <% resources.each do |resource| %>
-      <tr class="js-table-row"
-          <% if accessible_action?(resource, :show) %>
-            <%= %(tabindex=0 role=link data-url=#{admin_import_data_import_path(resource.import, resource)}) %>
-          <% end %>>
-        <% collection_presenter.attributes_for(resource).each do |attribute| %>
-          <td class="cell-data cell-data--<%= attribute.html_class %>">
-            <% if accessible_action?(resource, :show) -%>
-              <a href="<%= admin_import_data_import_path(resource.import, resource) -%>"
-                 tabindex="-1"
-                 class="action-show">
-                <%= render_field attribute %>
-              </a>
-            <% else %>
-              <%= render_field attribute %>
-            <% end -%>
-          </td>
-        <% end %>
+    <tr class="js-table-row" <% if accessible_action?(resource, :show) %> <%= %(tabindex=0 role=link data-url=#{admin_import_data_import_path(resource.import, resource)}) %> <% end %>>
+      <% collection_presenter.attributes_for(resource).each do |attribute| %>
+      <td class="cell-data cell-data--<%= attribute.html_class %>">
+        <% if accessible_action?(resource, :show) -%>
+        <a href="<%= admin_import_data_import_path(resource.import, resource) -%>" tabindex="-1" class="action-show">
+          <%= render_field attribute %>
+        </a>
+        <% else %>
+        <%= render_field attribute %>
+        <% end -%>
+      </td>
+      <% end %>
 
-        <%= render(
-              "admin/data_imports/collection_item_actions",
-              collection_presenter: collection_presenter,
-              collection_field_name: collection_field_name,
-              page: page,
-              namespace: namespace,
-              resource: resource,
-              table_title: "page-title"
-            ) %>
-      </tr>
+      <%= render(
+            "admin/data_imports/collection_item_actions",
+            collection_presenter: collection_presenter,
+            collection_field_name: collection_field_name,
+            page: page,
+            namespace: namespace,
+            resource: resource,
+            table_title: "page-title"
+          ) %>
+    </tr>
     <% end %>
   </tbody>
 </table>
