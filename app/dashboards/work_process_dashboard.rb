@@ -45,6 +45,7 @@ class WorkProcessDashboard < Administrate::BaseDashboard
     default_hours
     maximum_hours
     minimum_hours
+    sort_order
   ].freeze
 
   COLLECTION_FILTERS = {}.freeze
