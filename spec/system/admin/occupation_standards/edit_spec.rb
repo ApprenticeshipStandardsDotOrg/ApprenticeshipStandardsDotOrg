@@ -62,4 +62,23 @@ RSpec.describe "admin/occupation_standards/edit" do
     expect(page).to have_content("New Work Process")
     expect(occupation_standard.work_processes.count).to eq 1
   end
+
+  it "allows an admin user to remove a new work process from an occupation standard", :admin, js: true do
+    occupation_standard = create(:occupation_standard, :with_work_processes)
+    admin = create(:admin)
+
+    login_as admin
+    visit edit_admin_occupation_standard_path(occupation_standard)
+
+    within_fieldset("Work processes") do
+      click_on "Remove Work Process"
+    end
+
+    click_on "Update Occupation standard"
+
+    refresh
+
+    expect(page).not_to have_content("Work Process #")
+    expect(occupation_standard.work_processes.count).to eq 0
+  end
 end
