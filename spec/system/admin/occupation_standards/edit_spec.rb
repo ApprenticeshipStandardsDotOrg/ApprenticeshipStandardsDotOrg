@@ -47,14 +47,14 @@ RSpec.describe "admin/occupation_standards/edit" do
     login_as admin
     visit edit_admin_occupation_standard_path(occupation_standard)
 
-    within_fieldset('Work processes') do
+    within_fieldset("Work processes") do
       click_on "Add Work Process"
 
       within(".nested-fields") do
         fill_in "Title", with: "New Work Process"
       end
     end
-    
+
     click_on "Update Occupation standard"
 
     refresh
