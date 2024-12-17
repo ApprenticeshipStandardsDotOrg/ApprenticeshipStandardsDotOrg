@@ -5,6 +5,8 @@
     <%= content_for(:title) %>
   </h1>
 
+  <%= content_for(:header_middle) %>
+
   <div>
     <%= if accessible_action?(page.resource, :show)
           link_to(
@@ -14,8 +16,18 @@
           )
         end %>
   </div>
+
+  <%= content_for(:header_last) %>
 </header>
 
+<%= content_for(:before_main) %>
+
+<% if content_for?(:main) %>
+<%= content_for(:main) %>
+<% else %>
 <section aria-labelledby="title_id" class="main-content__body">
   <%= render "form", page: page, url: admin_import_data_import_path(page.resource.import, page.resource) %>
 </section>
+<% end %>
+
+<%= content_for(:after_main) %>
