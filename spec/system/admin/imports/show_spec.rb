@@ -15,7 +15,7 @@ RSpec.describe "admin/imports/show", :admin do
         expect(page).to have_link "New data import", href: new_admin_import_data_import_path(import)
         expect(page).to_not have_link "Redact document", href: new_admin_import_redact_file_path(import)
         expect(page).to have_link "Edit", href: edit_admin_import_path(import)
-        expect(page).to have_link "Destroy"
+        expect(page).to have_button "Destroy"
         expect(page).to have_text "Data import"
         expect(page).to have_text "Courtesy notification"
         expect(page).to have_text "Parent"
@@ -84,7 +84,7 @@ RSpec.describe "admin/imports/show", :admin do
         expect(page).to_not have_link "Redact document", href: new_admin_import_redact_file_path(import)
         expect(page).to have_text "Data imports"
         expect(page).to_not have_link "Edit", href: edit_admin_import_path(import)
-        expect(page).to_not have_link "Destroy"
+        expect(page).to_not have_button "Destroy"
         expect(page).to_not have_text "Courtesy notification"
         expect(page).to_not have_text "Parent"
         expect(page).to_not have_text "Child"
@@ -160,7 +160,7 @@ RSpec.describe "admin/imports/show", :admin do
         expect(page).to_not have_link "New data import"
         expect(page).to_not have_link "Redact document"
         expect(page).to have_link "Edit", href: edit_admin_import_path(import)
-        expect(page).to have_link "Destroy"
+        expect(page).to have_button "Destroy"
         expect(page).to have_text "Data import"
         expect(page).to have_text "Courtesy notification"
         expect(page).to have_text "Parent"
@@ -185,7 +185,7 @@ RSpec.describe "admin/imports/show", :admin do
         expect(page).to_not have_link "New data import"
         expect(page).to_not have_link "Redact document"
         expect(page).to have_link "Edit", href: edit_admin_import_path(import)
-        expect(page).to have_link "Destroy"
+        expect(page).to have_button "Destroy"
       end
     end
   end
@@ -204,7 +204,7 @@ RSpec.describe "admin/imports/show", :admin do
         expect(page).to_not have_link "New data import"
         expect(page).to_not have_link "Redact document"
         expect(page).to have_link "Edit", href: edit_admin_import_path(import)
-        expect(page).to have_link "Destroy"
+        expect(page).to have_button "Destroy"
       end
     end
   end
@@ -223,7 +223,7 @@ RSpec.describe "admin/imports/show", :admin do
         expect(page).to_not have_link "New data import"
         expect(page).to_not have_link "Redact document"
         expect(page).to have_link "Edit", href: edit_admin_import_path(import)
-        expect(page).to have_link "Destroy"
+        expect(page).to have_button "Destroy"
       end
     end
   end
