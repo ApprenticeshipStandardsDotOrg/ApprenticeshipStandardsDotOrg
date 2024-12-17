@@ -39,4 +39,27 @@ RSpec.describe "admin/occupation_standards/edit" do
 
     expect(page).to have_selector("h1", text: "Edit Mechanic")
   end
+
+  it "allows an admin user to add a new work process to an occupation standard", :admin, js: true do
+    occupation_standard = create(:occupation_standard)
+    admin = create(:admin)
+
+    login_as admin
+    visit edit_admin_occupation_standard_path(occupation_standard)
+
+    within_fieldset('Work processes') do
+      click_on "Add Work Process"
+
+      within(".nested-fields") do
+        fill_in "Title", with: "New Work Process"
+      end
+    end
+    
+    click_on "Update Occupation standard"
+
+    refresh
+
+    expect(page).to have_content("New Work Process")
+    expect(occupation_standard.work_processes.count).to eq 1
+  end
 end
