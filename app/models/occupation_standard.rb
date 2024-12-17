@@ -30,6 +30,10 @@ class OccupationStandard < ApplicationRecord
   validates :title, :ojt_type, presence: true
   validates :registration_agency, presence: true
 
+  accepts_nested_attributes_for(
+    :work_processes
+  )
+
   attr_accessor :inner_hits, :external_id, :open_ai_response
 
   MAX_SIMILAR_PROGRAMS_TO_DISPLAY = 5

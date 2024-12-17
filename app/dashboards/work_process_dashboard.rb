@@ -40,13 +40,11 @@ class WorkProcessDashboard < Administrate::BaseDashboard
   ].freeze
 
   FORM_ATTRIBUTES = %i[
-    competencies
-    default_hours
+    title
     description
+    default_hours
     maximum_hours
     minimum_hours
-    sort_order
-    title
   ].freeze
 
   COLLECTION_FILTERS = {}.freeze

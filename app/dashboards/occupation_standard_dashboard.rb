@@ -27,7 +27,7 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
     updated_at: Field::DateTime,
     url: Field::Url,
     wage_steps: Field::HasMany,
-    work_processes: Field::HasMany,
+    work_processes: Field::NestedHasMany.with_options(skip: :ocupation_standard),
     redacted_document: Field::ActiveStorage,
     open_ai_response: Field::Text
   }.freeze
@@ -83,6 +83,8 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
     ojt_type
     organization
     registration_agency
+
+    work_processes
 
     open_ai_response
 
