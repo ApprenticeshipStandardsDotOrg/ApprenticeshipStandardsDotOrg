@@ -31,7 +31,7 @@ class OccupationStandard < ApplicationRecord
   validates :registration_agency, presence: true
 
   accepts_nested_attributes_for(
-    :work_processes
+    :work_processes, allow_destroy: true
   )
 
   attr_accessor :inner_hits, :external_id, :open_ai_response
