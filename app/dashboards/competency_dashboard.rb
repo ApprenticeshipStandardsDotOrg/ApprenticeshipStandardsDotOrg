@@ -47,10 +47,10 @@ class CompetencyDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
-    competency_options
-    description
-    sort_order
     title
+    description
+    competency_options
+    sort_order
     work_process
   ].freeze
 

@@ -5,7 +5,7 @@ class WorkProcessDashboard < Administrate::BaseDashboard
 
   ATTRIBUTE_TYPES = {
     id: Field::String,
-    competencies: Field::HasMany,
+    competencies: Field::NestedHasMany.with_options(skip: :work_process),
     default_hours: Field::Number,
     description: Field::String,
     maximum_hours: Field::Number,
@@ -46,6 +46,7 @@ class WorkProcessDashboard < Administrate::BaseDashboard
     maximum_hours
     minimum_hours
     sort_order
+    competencies
   ].freeze
 
   COLLECTION_FILTERS = {}.freeze

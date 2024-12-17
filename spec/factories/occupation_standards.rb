@@ -12,6 +12,10 @@ FactoryBot.define do
       work_processes { build_list(:work_process, 1) }
     end
 
+    trait :with_work_processes_and_competencies do
+      work_processes { build_list(:work_process, 1, :with_competencies) }
+    end
+
     trait :state_standard do
       national_standard_type { nil }
     end
