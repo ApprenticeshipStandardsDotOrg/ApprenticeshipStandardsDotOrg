@@ -22,7 +22,8 @@ RSpec.describe "admin/data_imports/show" do
     login_as admin
     visit admin_data_import_path(data_import)
 
-    expect(page).to have_link "Destroy", href: admin_import_data_import_path(import, data_import)
+    expect(page).to have_selector "form[action='#{admin_import_data_import_path(import, data_import)}'][method='post']"
+    expect(page).to have_button "Destroy"
 
     expect {
       click_on "Destroy"

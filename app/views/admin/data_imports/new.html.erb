@@ -1,5 +1,5 @@
 <% content_for(:title) do %>
-  <%= "Import data for #{@parent.filename}" %>
+<%= "Import data for #{@parent.filename}" %>
 <% end %>
 
 <header class="main-content__header" role="banner">
@@ -7,11 +7,20 @@
     <%= content_for(:title) %>
   </h1>
 
+  <%= content_for(:header_middle) %>
+
   <div>
     <%= link_to t("administrate.actions.back"), :back, class: "button" %>
   </div>
+
+  <%= content_for(:header_last) %>
 </header>
 
+<%= content_for(:before_main) %>
+
+<% if content_for?(:main) %>
+<%= content_for(:main) %>
+<% else %>
 <section aria-labelledby="title_id" class="main-content__body">
   <div class="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4" role="alert">
     <p class="font-bold">Read Carefully</p>
@@ -20,3 +29,6 @@
   </div>
   <%= render "form", page: page, url: admin_import_data_imports_path(@parent) %>
 </section>
+<% end %>
+
+<%= content_for(:after_main) %>

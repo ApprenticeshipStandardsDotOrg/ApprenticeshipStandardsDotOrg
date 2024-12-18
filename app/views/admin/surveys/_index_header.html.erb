@@ -1,5 +1,5 @@
 <% content_for(:title) do %>
-  <%= display_resource_name(page.resource_name) %>
+<%= display_resource_name(page.resource_name) %>
 <% end %>
 
 <header class="main-content__header">
@@ -7,15 +7,19 @@
     <%= content_for(:title) %>
   </h1>
 
+  <%= content_for(:header_middle) %>
+
   <%= link_to admin_surveys_path(format: :xlsx), class: "text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" do %>
-    Download as XLS
+  Download as XLS
   <% end %>
 
   <% if show_search_bar %>
-    <%= render(
-          "search",
-          search_term: search_term,
-          resource_name: display_resource_name(page.resource_name)
-        ) %>
+  <%= render(
+        "search",
+        search_term: search_term,
+        resource_name: display_resource_name(page.resource_name)
+      ) %>
   <% end %>
+
+  <%= content_for(:header_last) %>
 </header>

@@ -3,6 +3,12 @@
       search_term: search_term,
       page: page,
       show_search_bar: show_search_bar) %>
+
+<%= content_for(:before_main) %>
+
+<% if content_for?(:main) %>
+<%= content_for(:main) %>
+<% else %>
 <section aria-labelledby="title_id" class="main-content__body main-content__body--flush">
   <%= render(
         "collection",
@@ -15,3 +21,6 @@
 
   <%= render("pagination", resources: resources) %>
 </section>
+<% end %>
+
+<%= content_for(:after_main) %>

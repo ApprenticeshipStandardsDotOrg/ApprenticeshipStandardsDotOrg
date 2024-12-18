@@ -1,5 +1,5 @@
 <% content_for(:title) do %>
-  <%= "Docs" %>
+<%= "Docs" %>
 <% end %>
 
 <header class="main-content__header">
@@ -8,6 +8,11 @@
   </h1>
 </header>
 
+<%= content_for(:before_main) %>
+
+<% if content_for?(:main) %>
+<%= content_for(:main) %>
+<% else %>
 <section class="main-content__body main-content__body--flush">
   <div class="main-content__page-description ml-6">
     <h2 id="optionsForImportsSearch" class="font-bold">What are the options for Imports search?</h2>
@@ -69,3 +74,6 @@
   </div>
   <hr>
 </section>
+<% end %>
+
+<%= content_for(:after_main) %>

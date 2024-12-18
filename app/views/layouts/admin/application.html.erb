@@ -1,30 +1,32 @@
 <!DOCTYPE html>
 <html lang="<%= I18n.locale %>">
-  <head>
-    <meta charset="utf-8">
-    <meta name="ROBOTS" content="NOODP">
-    <meta name="viewport" content="initial-scale=1">
-    <title>
-      <%= content_for(:title) %> - <%= application_title %>
-    </title>
-    <%= stylesheet_link_tag "https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" %>
-    <%= render "stylesheet" %>
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag if defined?(csp_meta_tag) %>
-  </head>
-  <body>
-    <%= render "icons" %>
 
-    <div class="app-container">
-      <%= render "navigation" -%>
+<head>
+  <meta charset="utf-8">
+  <meta name="ROBOTS" content="NOODP">
+  <meta name="viewport" content="initial-scale=1">
+  <title>
+    <%= content_for(:title) %> - <%= application_title %>
+  </title>
+  <%= stylesheet_link_tag "https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" %>
+  <%= render "stylesheet" %>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag if defined?(csp_meta_tag) %>
+  <%= render "javascript" %>
+</head>
 
-      <main class="main-content" role="main">
-        <%= render "flashes" -%>
-        <%= yield %>
-      </main>
-    </div>
+<body>
+  <%= render "icons" %>
 
-    <%= render "javascript" %>
-    <%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js" %>
-  </body>
+  <div class="app-container">
+    <%= render "navigation" -%>
+
+    <main class="main-content" role="main">
+      <%= render "flashes" -%>
+      <%= yield %>
+    </main>
+  </div>
+  <%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js" %>
+</body>
+
 </html>
