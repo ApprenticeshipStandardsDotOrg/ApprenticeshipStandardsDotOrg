@@ -52,6 +52,7 @@ RSpec.describe "admin/occupation_standards/edit" do
         click_on "Add Work Process"
 
         within(".nested-fields") do
+          page.find("details").click
           fill_in "Title", with: "New Work Process"
         end
       end
@@ -88,10 +89,13 @@ RSpec.describe "admin/occupation_standards/edit" do
       login_as admin
       visit edit_admin_occupation_standard_path(occupation_standard)
 
+      page.find("details").click
+
       within_fieldset("Competencies") do
         click_on "Add Competency"
 
         within(".nested-fields") do
+          page.find("details").click
           fill_in "Title", with: "New Competency"
         end
       end
@@ -108,6 +112,7 @@ RSpec.describe "admin/occupation_standards/edit" do
 
       login_as admin
       visit edit_admin_occupation_standard_path(occupation_standard)
+      page.find("details").click
 
       within_fieldset("Competencies") do
         click_on "Remove Competency"
