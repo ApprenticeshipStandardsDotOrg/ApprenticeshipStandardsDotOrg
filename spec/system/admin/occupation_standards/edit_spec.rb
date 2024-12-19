@@ -58,8 +58,6 @@ RSpec.describe "admin/occupation_standards/edit" do
 
       click_on "Update Occupation standard"
 
-      refresh
-
       expect(page).to have_content("New Work Process")
       expect(occupation_standard.work_processes.count).to eq 1
     end
@@ -76,8 +74,6 @@ RSpec.describe "admin/occupation_standards/edit" do
       end
 
       click_on "Update Occupation standard"
-
-      refresh
 
       expect(page).not_to have_content("Work Process #")
       expect(occupation_standard.work_processes.count).to eq 0
@@ -102,8 +98,6 @@ RSpec.describe "admin/occupation_standards/edit" do
 
       click_on "Update Occupation standard"
 
-      refresh
-
       expect(page).to have_content("1 competencies")
       expect(occupation_standard.work_processes.first.competencies.count).to eq 1
     end
@@ -120,8 +114,6 @@ RSpec.describe "admin/occupation_standards/edit" do
       end
 
       click_on "Update Occupation standard"
-
-      refresh
 
       expect(page).not_to have_content("Competency Title")
       expect(occupation_standard.work_processes.first.competencies.count).to eq 0
