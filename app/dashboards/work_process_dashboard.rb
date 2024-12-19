@@ -5,7 +5,7 @@ class WorkProcessDashboard < Administrate::BaseDashboard
 
   ATTRIBUTE_TYPES = {
     id: Field::String,
-    competencies: Field::HasMany,
+    competencies: Field::NestedHasMany.with_options(skip: :work_process),
     default_hours: Field::Number,
     description: Field::String,
     maximum_hours: Field::Number,
@@ -40,18 +40,18 @@ class WorkProcessDashboard < Administrate::BaseDashboard
   ].freeze
 
   FORM_ATTRIBUTES = %i[
-    competencies
-    default_hours
+    title
     description
+    default_hours
     maximum_hours
     minimum_hours
     sort_order
-    title
+    competencies
   ].freeze
 
   COLLECTION_FILTERS = {}.freeze
 
   def display_resource(work_process)
-    work_process.title.truncate(MAX_TITLE_LENGTH)
+    work_process.title&.truncate(MAX_TITLE_LENGTH) || "Work Process ##{work_process.id}"
   end
 end

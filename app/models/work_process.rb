@@ -8,6 +8,8 @@ class WorkProcess < ApplicationRecord
 
   delegate :work_processes_hours, to: :occupation_standard, prefix: true, allow_nil: true
 
+  accepts_nested_attributes_for :competencies, allow_destroy: true
+
   def hours
     [maximum_hours, minimum_hours].compact.first
   end

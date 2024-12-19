@@ -39,4 +39,84 @@ RSpec.describe "admin/occupation_standards/edit" do
 
     expect(page).to have_selector("h1", text: "Edit Mechanic")
   end
+
+  describe "work processes" do
+    it "allows an admin user to add a new work process to an occupation standard", :admin, js: true do
+      occupation_standard = create(:occupation_standard)
+      admin = create(:admin)
+
+      login_as admin
+      visit edit_admin_occupation_standard_path(occupation_standard)
+
+      within_fieldset("Work processes") do
+        click_on "Add Work Process"
+
+        within(".nested-fields") do
+          fill_in "Title", with: "New Work Process"
+        end
+      end
+
+      click_on "Update Occupation standard"
+
+      expect(page).to have_content("New Work Process")
+      expect(occupation_standard.work_processes.count).to eq 1
+    end
+
+    it "allows an admin user to remove a new work process from an occupation standard", :admin, js: true do
+      occupation_standard = create(:occupation_standard, :with_work_processes)
+      admin = create(:admin)
+
+      login_as admin
+      visit edit_admin_occupation_standard_path(occupation_standard)
+
+      within_fieldset("Work processes") do
+        click_on "Remove Work Process"
+      end
+
+      click_on "Update Occupation standard"
+
+      expect(page).not_to have_content("Work Process #")
+      expect(occupation_standard.work_processes.count).to eq 0
+    end
+  end
+
+  describe "competencies" do
+    it "allows an admin user to add a new competency to a work process", :admin, js: true do
+      occupation_standard = create(:occupation_standard, :with_work_processes)
+      admin = create(:admin)
+
+      login_as admin
+      visit edit_admin_occupation_standard_path(occupation_standard)
+
+      within_fieldset("Competencies") do
+        click_on "Add Competency"
+
+        within(".nested-fields") do
+          fill_in "Title", with: "New Competency"
+        end
+      end
+
+      click_on "Update Occupation standard"
+
+      expect(page).to have_content("1 competencies")
+      expect(occupation_standard.work_processes.first.competencies.count).to eq 1
+    end
+
+    it "allows an admin user to remove a competency from a work process", :admin, js: true do
+      occupation_standard = create(:occupation_standard, :with_work_processes_and_competencies)
+      admin = create(:admin)
+
+      login_as admin
+      visit edit_admin_occupation_standard_path(occupation_standard)
+
+      within_fieldset("Competencies") do
+        click_on "Remove Competency"
+      end
+
+      click_on "Update Occupation standard"
+
+      expect(page).not_to have_content("Competency Title")
+      expect(occupation_standard.work_processes.first.competencies.count).to eq 0
+    end
+  end
 end
