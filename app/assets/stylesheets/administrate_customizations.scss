@@ -1,7 +1,9 @@
 /* Flowbite styling is causing the Submit buttons to disappear
 so reinstate initial behavior */
+[type="text"],
+[type="number"],
 .main-content__body {
-  button, input:not([type="text"]), .button {
+  button, input:not([type]), .button {
     appearance: auto;
     background-color: #1976d2;
 
