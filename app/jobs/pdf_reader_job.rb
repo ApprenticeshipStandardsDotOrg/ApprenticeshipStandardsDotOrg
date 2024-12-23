@@ -12,7 +12,7 @@ class PdfReaderJob < ApplicationJob
       \"time\", \"competency\", or \"hybrid\". Transform if needed to match any of those three values. An
       example of an expected transformation is from \"Competency-based\" to \"competency\".
       registrationDate: The registration date of the occupation.
-      workProcesses: an array of work processes. Each work process has the fowolling fields:
+      workProcesses: an array of work processes. Each work process has the following fields:
       title: title of the work process.
       defaultHours: amount of hours. It is optional. If value not found, return null.
       minimumHours: the minimum amount of hours required. If value not found, return null.
@@ -20,6 +20,10 @@ class PdfReaderJob < ApplicationJob
       competencies: It is an array of text with each competency representing a line.
       Each competency has the following fields:
       title: title of the work process.
+      relatedInstructions: An array of related instructions. Each related instruction has the following fields:
+      title: Title of the related instruction.
+      description: Description of the related instruction. This field is optional.
+      hours: Amount of hours. This field is optional.
 
       Return only the output in JSON format without any block or markdown.
 
