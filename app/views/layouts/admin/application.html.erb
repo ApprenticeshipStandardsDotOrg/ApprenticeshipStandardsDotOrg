@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <meta name="ROBOTS" content="NOODP">
   <meta name="viewport" content="initial-scale=1">
+  <meta name="turbo-prefetch" content="false">
   <title>
     <%= content_for(:title) %> - <%= application_title %>
   </title>
@@ -13,6 +14,7 @@
   <%= csrf_meta_tags %>
   <%= csp_meta_tag if defined?(csp_meta_tag) %>
   <%= render "javascript" %>
+
 </head>
 
 <body>
