@@ -185,7 +185,7 @@ We are using [erb_lint][erb_lint] for ERB linting. To check the style of all
 `.erb` files, run:
 
 ```
-bundle exec erblint --lint-all --autocorrect
+bundle exec erb_lint --lint-all --autocorrect
 ```
 
 [standard]: https://github.com/testdouble/standard
