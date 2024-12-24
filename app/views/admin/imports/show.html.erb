@@ -43,7 +43,8 @@
     <%= link_to(
           "Convert with AI",
           new_admin_occupation_standard_path(import_id: page.resource.id),
-          class: "button"
+          class: "button",
+          data: {turbo_prefetch: false}
         ) %>
 
     <%= if accessible_action?(:redact_file, :new) && page.resource.available_for_redaction?
