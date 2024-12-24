@@ -45,14 +45,20 @@ div#dropdown {
   }
 }
 
-/* The input search is turning blue on hover.
-Seems like this is an Administrate issue,
-but will look into it more later. */
-input#search {
-  color: rgb(41, 63, 84);
+/* The table layout does not fit into its parent 
+container on smaller devices. This styling comes
+from administrate. */
+table {
+  table-layout: fixed;
+}
 
-  &:hover {
-    background-color: #fff;
-    color: rgb(41, 63, 84);
-  }
+td, th {
+  word-wrap: break-word;
+}
+
+/* The Filter by: button did not get displayed correctly. 
+The SVG got moved to the next line. */
+button#dropdownDefaultButton svg {
+  display: inline;
+  position: relative;
 }
