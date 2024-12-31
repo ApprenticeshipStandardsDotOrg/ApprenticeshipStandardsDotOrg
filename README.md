@@ -22,7 +22,8 @@ Rails 7, and PostgreSQL 14.
    127.0.0.1 admin.example.localhost
    # End ApprenticeshipStandards.org additions
    ```
-5. Start the rails app with `bin/dev`:
+5. Install `lipvips` with Homebrew: `brew install vips`
+6. Start the rails app with `bin/dev`:
     * The public facing application will be available at http://localhost:3000
     * The admin pages will be available at http://admin.example.localhost:3000
     * Email previews will be available at http://localhost:1080
@@ -213,7 +214,7 @@ post-deployment tasks.
 We are using [RSpec](http://rspec.info/) for tests. Before beginning a new
 feature, please run the specs and make sure the entire test suite is passing.
 All tests should be passing when submitting a PR. Please write specs as
-appropriate.
+appropriate. Ensure that Elasticsearch is running.
 
 To run all specs:
 
