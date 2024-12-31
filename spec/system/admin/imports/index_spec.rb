@@ -39,7 +39,7 @@ RSpec.describe "admin/imports/index", :admin do
       expect(page).to have_text "The file imported on this screen"
     end
 
-    it "can claim an import" do
+    it "can claim an import", js: true do
       converter = create(:user, :converter, name: "Mickey Mouse")
       create(:imports_pdf)
       create(:imports_pdf, assignee: converter)
