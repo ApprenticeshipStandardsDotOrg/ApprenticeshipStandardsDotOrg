@@ -19,13 +19,13 @@ class PdfReaderJob < ApplicationJob
       maximumHours: the maximum amount of hours required. If value not found, return null.
       competencies: It is an array of text with each competency representing a line.
       Each competency has the following fields:
-      title: title of the work process.
-      relatedInstructions: An array of related instructions. Each related instruction has the following fields:
+      title: title of the competency.
+      relatedInstructions: A new array of related instructions. Related instructions are not part of competencies or work processes. Each related instruction has the following fields:
       title: Title of the related instruction.
       description: Description of the related instruction. This field is optional.
-      hours: Amount of hours. This field is optional.
+      hours: Total amount of hours. This field is optional.
 
-      Return only the output in JSON format without any block or markdown.
+      Return only the output in JSON format without any block, code or markdown.
 
       The input text is:\n\n
   "
