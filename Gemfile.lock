@@ -19,11 +19,12 @@ GIT
 
 GIT
   remote: https://github.com/mvz/non-digest-assets.git
-  revision: 36f4a401dfd616e59e07ddcf66d7a0df3ae4b7e4
+  revision: 33da0ef203ad7abed3233289bb0abdd0be9a5883
   branch: master
   specs:
     non-digest-assets (2.5.0)
       activesupport (>= 6.0, < 8.1)
+      mutex_m (~> 0.3.0)
       sprockets (~> 4.0)
 
 GEM
@@ -310,6 +311,7 @@ GEM
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.4.1)
+    mutex_m (0.3.0)
     net-http (0.4.1)
       uri
     net-imap (0.5.2)
