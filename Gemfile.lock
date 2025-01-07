@@ -19,11 +19,12 @@ GIT
 
 GIT
   remote: https://github.com/mvz/non-digest-assets.git
-  revision: 36f4a401dfd616e59e07ddcf66d7a0df3ae4b7e4
+  revision: 33da0ef203ad7abed3233289bb0abdd0be9a5883
   branch: master
   specs:
     non-digest-assets (2.5.0)
       activesupport (>= 6.0, < 8.1)
+      mutex_m (~> 0.3.0)
       sprockets (~> 4.0)
 
 GEM
@@ -121,8 +122,8 @@ GEM
     after_party (2.0.0)
     ast (2.4.2)
     aws-eventstream (1.3.0)
-    aws-partitions (1.1023.0)
-    aws-sdk-core (3.214.0)
+    aws-partitions (1.1032.0)
+    aws-sdk-core (3.214.1)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
       aws-sigv4 (~> 1.9)
@@ -130,7 +131,7 @@ GEM
     aws-sdk-kms (1.96.0)
       aws-sdk-core (~> 3, >= 3.210.0)
       aws-sigv4 (~> 1.5)
-    aws-sdk-s3 (1.176.1)
+    aws-sdk-s3 (1.177.0)
       aws-sdk-core (~> 3, >= 3.210.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.5)
@@ -310,6 +311,7 @@ GEM
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.4.1)
+    mutex_m (0.3.0)
     net-http (0.4.1)
       uri
     net-imap (0.5.4)
@@ -474,7 +476,7 @@ GEM
     ruby-vips (2.2.2)
       ffi (~> 1.12)
       logger
-    rubyzip (2.3.2)
+    rubyzip (2.4.1)
     sablon (0.4.1)
       nokogiri (>= 1.8.5)
       rubyzip (>= 1.3.0)
