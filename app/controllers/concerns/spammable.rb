@@ -24,7 +24,11 @@ module Spammable
     score = parsed_json["score"].to_f
 
     unless success
-      Rails.error.report("Error with Google reCAPTCHA", context: parsed_json, handled: true)
+      Rails.error.report(
+        CaptchaError.new("Error with Google reCAPTCHA"),
+        context: parsed_json,
+        handled: true
+      )
     end
 
     if !success || score < VALID_RECAPTCHA_SCORE
@@ -35,4 +39,6 @@ module Spammable
   def skip_recaptcha?
     current_user&.admin? || !Flipper.enabled?(:recaptcha)
   end
+
+  class CaptchaError < StandardError; end
 end
