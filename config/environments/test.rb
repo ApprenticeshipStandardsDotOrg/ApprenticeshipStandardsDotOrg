@@ -23,6 +23,7 @@ Rails.application.configure do
 
   # Show full error reports.
   config.consider_all_requests_local = true
+  config.action_controller.perform_caching = false
   config.cache_store = :null_store
 
   # Render exception templates for rescuable exceptions and raise for other exceptions.
@@ -45,12 +46,38 @@ Rails.application.configure do
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
 
+  # Raise exceptions for disallowed deprecations.
+  config.active_support.disallowed_deprecation = :raise
+
+  # Tell Active Support which deprecation messages to disallow.
+  config.active_support.disallowed_deprecation_warnings = []
+
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 
   # Annotate rendered view with file names.
   # config.action_view.annotate_rendered_view_with_filenames = true
 
+  # Rack Attack configuration
+  # Set IP_BLOCKLIST for testing. Can't stub in spec since environment variable
+  # gets read during application initialization.
+  ENV["IP_BLOCKLIST"] = "4.5.6.7, 9.8.7.6,100.101.102.103"
+
+  config.after_initialize do
+    Bullet.enable = true
+    Bullet.bullet_logger = true
+    Bullet.unused_eager_loading_enable = false
+    Bullet.raise = true # raise an error if n+1 query occurs
+  end
+
+  config.assets.css_compressor = nil
+
+  config.active_storage.variant_processor = :mini_magic
+
+  config.active_job.queue_adapter = :test
+
   # Raise error when a before_action's only/except options reference missing actions.
   config.action_controller.raise_on_missing_callback_actions = true
+
+  config.flipper.strict = false
 end
