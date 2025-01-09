@@ -181,6 +181,7 @@ GEM
       bigdecimal
       rexml
     crass (1.0.6)
+    csv (3.3.2)
     date (3.4.1)
     debug (1.10.0)
       irb (~> 1.10)
@@ -595,6 +596,7 @@ DEPENDENCIES
   capybara_accessible_selectors!
   caxlsx
   caxlsx_rails
+  csv (~> 3.3, >= 3.3.2)
   debug
   devise
   devise_invitable (~> 2.0.9)

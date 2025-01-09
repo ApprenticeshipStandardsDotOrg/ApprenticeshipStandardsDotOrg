@@ -66,6 +66,7 @@ gem "pdf-reader"
 gem "oauth2", "~> 2.0", ">= 2.0.9"
 gem "caxlsx"
 gem "caxlsx_rails"
+gem "csv", "~> 3.3", ">= 3.3.2"
 
 # Throttle excessive requests
 gem "rack-attack"
