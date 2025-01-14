@@ -238,6 +238,55 @@ RSpec.describe OccupationStandard, type: :model do
     end
   end
 
+  describe ".from_json" do
+    it "extracts the attributes for the occupation standard" do
+      attributes = {
+        "title" => "Hair Stylist",
+        "existingTitle" => "Cosmetology",
+        "onetCode" => "31-1131.00",
+        "rapidsCode" => "0824",
+        "ojtType" => "competency",
+        "workProcesses" => []
+      }
+      occupation_standard = described_class.from_json(attributes)
+
+      expect(occupation_standard.title).to eq attributes["title"]
+      expect(occupation_standard.existing_title).to eq attributes["existingTitle"]
+      expect(occupation_standard.onet_code).to eq attributes["onetCode"]
+      expect(occupation_standard.rapids_code).to eq attributes["rapidsCode"]
+      expect(occupation_standard.ojt_type).to eq attributes["ojtType"]
+      expect(occupation_standard.work_processes).to match_array []
+    end
+
+    context "with work processes" do
+      it "extracts the attributes for the work processes" do
+        work_process_attributes = {
+          "title" => "Clean facilities or work areas",
+          "description" => "Clean things",
+          "defaultHours" => 100,
+          "minimumHours" => 100,
+          "maximumHours" => 120,
+          "competencies" => []
+        }
+
+        attributes = {
+          "workProcesses" => [work_process_attributes]
+        }
+
+        occupation_standard = described_class.from_json(attributes)
+
+        work_process = occupation_standard.work_processes.first
+
+        expect(work_process.title).to eq work_process_attributes["title"]
+        expect(work_process.description).to eq work_process_attributes["description"]
+        expect(work_process.default_hours).to eq work_process_attributes["defaultHours"]
+        expect(work_process.minimum_hours).to eq work_process_attributes["minimumHours"]
+        expect(work_process.maximum_hours).to eq work_process_attributes["maximumHours"]
+        expect(work_process.competencies).to match_array []
+      end
+    end
+  end
+
   describe "#sponsor_name" do
     it "returns organization name when it exists" do
       organization = build_stubbed(:organization, title: "Disney")

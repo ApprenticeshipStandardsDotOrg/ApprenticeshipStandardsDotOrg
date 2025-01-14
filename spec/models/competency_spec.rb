@@ -15,4 +15,16 @@ RSpec.describe Competency, type: :model do
     new_competency.sort_order = 2
     expect(new_competency).to be_valid
   end
+
+  describe ".from_json" do
+    it "gets the attributes from a JSON input" do
+      attributes = {
+        "title" => "Clean workstation.",
+        "description" => "Keep work stations clean and sanitize tools, such as scissors and combs."
+      }
+      competency = described_class.from_json(attributes)
+      expect(competency.title).to eq attributes["title"]
+      expect(competency.description).to eq attributes["description"]
+    end
+  end
 end

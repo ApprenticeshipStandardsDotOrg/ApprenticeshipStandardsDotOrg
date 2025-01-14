@@ -231,13 +231,18 @@ class OccupationStandard < ApplicationRecord
     end
 
     def from_json(json)
-      {
-        title: json["title"],
-        existing_title: json["existingTitle"],
-        ojt_type: json["ojtType"],
-        onet_code: json["onetCode"],
-        rapids_code: json["rapidsCode"]
-      }
+      occupation_standard = new(
+        json.except(
+          "organization",
+          "registrationAgency",
+          "workProcesses",
+          "relatedInstructions"
+        ).transform_keys(&:underscore)
+      )
+
+      occupation_standard.work_processes = json["workProcesses"].map { WorkProcess.from_json(it) }
+
+      occupation_standard
     end
   end
 

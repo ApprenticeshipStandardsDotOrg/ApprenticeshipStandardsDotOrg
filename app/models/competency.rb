@@ -4,6 +4,12 @@ class Competency < ApplicationRecord
 
   validates :sort_order, uniqueness: {scope: :work_process}
 
+  class << self
+    def from_json(json)
+      new(json)
+    end
+  end
+
   def sanitized_title
     ActionView::Base.full_sanitizer.sanitize(title)
   end

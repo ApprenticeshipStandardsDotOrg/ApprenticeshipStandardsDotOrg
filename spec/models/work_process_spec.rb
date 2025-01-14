@@ -7,6 +7,44 @@ RSpec.describe WorkProcess, type: :model do
     expect(wp).to be_valid
   end
 
+  describe ".from_json" do
+    it "gets the attributes for the work process" do
+      attributes = {
+        "title" => "Schedule appointments",
+        "description" => "Ability to manage appointments",
+        "default_hours" => nil,
+        "minimum_hours" => nil,
+        "maximum_hours" => 40,
+        "competencies" => []
+      }
+      work_process = described_class.from_json(attributes)
+      expect(work_process.title).to eq attributes["title"]
+      expect(work_process.description).to eq attributes["description"]
+      expect(work_process.default_hours).to eq attributes["defaultHours"]
+      expect(work_process.minimum_hours).to eq attributes["minimumHours"]
+      expect(work_process.competencies).to eq []
+    end
+
+    context "with competencies" do
+      it "gets the attributes for the competencies" do
+        competency_attributes = {
+          "title" => "Clean workstation.",
+          "description" => "Keep work stations clean and sanitize tools, such as scissors and combs."
+        }
+
+        attributes = {
+          "competencies" => [competency_attributes]
+        }
+
+        work_process = described_class.from_json(attributes)
+        competency = work_process.competencies.first
+
+        expect(competency.title).to eq competency_attributes["title"]
+        expect(competency.description).to eq competency_attributes["description"]
+      end
+    end
+  end
+
   describe "#hours" do
     it "returns maximum hours if present" do
       work_process = build(:work_process, maximum_hours: 1000, minimum_hours: 500)

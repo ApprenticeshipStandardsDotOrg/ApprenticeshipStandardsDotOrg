@@ -10,6 +10,21 @@ class WorkProcess < ApplicationRecord
 
   accepts_nested_attributes_for :competencies, allow_destroy: true
 
+  class << self
+    def from_json(json)
+      new(
+        {
+          title: json["title"],
+          description: json["description"],
+          default_hours: json["defaultHours"],
+          minimum_hours: json["minimumHours"],
+          maximum_hours: json["maximumHours"],
+          competencies: json["competencies"].map { Competency.from_json(it) }
+        }
+      )
+    end
+  end
+
   def hours
     [maximum_hours, minimum_hours].compact.first
   end
