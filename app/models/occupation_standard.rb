@@ -35,6 +35,10 @@ class OccupationStandard < ApplicationRecord
     :work_processes, allow_destroy: true
   )
 
+  accepts_nested_attributes_for(
+    :related_instructions, allow_destroy: true
+  )
+
   attr_accessor :inner_hits, :external_id, :open_ai_response
 
   MAX_SIMILAR_PROGRAMS_TO_DISPLAY = 5
@@ -239,6 +243,8 @@ class OccupationStandard < ApplicationRecord
         "relatedInstructions"
       ]) do |occupation_standard|
         occupation_standard.work_processes = json["workProcesses"].map { WorkProcess.from_json(it) }
+        occupation_standard.related_instructions = json["relatedInstructions"].map { RelatedInstruction.from_json(it) }
+
         occupation_standard
       end
     end

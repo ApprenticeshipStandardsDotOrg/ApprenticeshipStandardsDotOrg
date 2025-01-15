@@ -19,6 +19,24 @@ RSpec.describe RelatedInstruction, type: :model do
     expect(new_related_instruction).to be_valid
   end
 
+  describe ".from_json" do
+    it "extracts the attributes for the related instruction" do
+      attributes = {
+        "title" => "Laborer Level 100-1",
+        "description" => "Introduction to Construction Math",
+        "code" => "100-1",
+        "hours" => 8,
+        "organization" => "National Center for Construction Education"
+      }
+      related_instructions = described_class.from_json(attributes)
+
+      expect(related_instructions.title).to eq attributes["title"]
+      expect(related_instructions.description).to eq attributes["description"]
+      expect(related_instructions.code).to eq attributes["code"]
+      expect(related_instructions.hours).to eq attributes["hours"]
+    end
+  end
+
   describe "#has_details_to_display?" do
     it "is false if description is nil" do
       related_instruction = build(:related_instruction, description: nil)

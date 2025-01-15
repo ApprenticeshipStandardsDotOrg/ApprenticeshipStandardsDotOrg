@@ -246,7 +246,8 @@ RSpec.describe OccupationStandard, type: :model do
         "onetCode" => "31-1131.00",
         "rapidsCode" => "0824",
         "ojtType" => "competency",
-        "workProcesses" => []
+        "workProcesses" => [],
+        "relatedInstructions" => []
       }
       occupation_standard = described_class.from_json(attributes)
 
@@ -270,7 +271,8 @@ RSpec.describe OccupationStandard, type: :model do
         }
 
         attributes = {
-          "workProcesses" => [work_process_attributes]
+          "workProcesses" => [work_process_attributes],
+          "relatedInstructions" => []
         }
 
         occupation_standard = described_class.from_json(attributes)
@@ -283,6 +285,32 @@ RSpec.describe OccupationStandard, type: :model do
         expect(work_process.minimum_hours).to eq work_process_attributes["minimumHours"]
         expect(work_process.maximum_hours).to eq work_process_attributes["maximumHours"]
         expect(work_process.competencies).to match_array []
+      end
+    end
+
+    context "with related instructions" do
+      it "extracts the attributes for the related instructions" do
+        related_instructions_attributes = {
+          "title" => "Laborer Level 100-1",
+          "description" => "Introduction to Construction Math",
+          "code" => "100-1",
+          "hours" => 8,
+          "organization" => "National Center for Construction Education"
+        }
+
+        attributes = {
+          "workProcesses" => [],
+          "relatedInstructions" => [related_instructions_attributes]
+        }
+
+        occupation_standard = described_class.from_json(attributes)
+
+        related_instructions = occupation_standard.related_instructions.first
+
+        expect(related_instructions.title).to eq related_instructions_attributes["title"]
+        expect(related_instructions.description).to eq related_instructions_attributes["description"]
+        expect(related_instructions.code).to eq related_instructions_attributes["code"]
+        expect(related_instructions.hours).to eq related_instructions_attributes["hours"]
       end
     end
   end

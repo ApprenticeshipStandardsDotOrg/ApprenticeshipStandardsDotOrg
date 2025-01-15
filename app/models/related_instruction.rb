@@ -1,5 +1,6 @@
 class RelatedInstruction < ApplicationRecord
   include ActionView::Helpers::NumberHelper
+  include JsonImportable
 
   belongs_to :occupation_standard
   belongs_to :organization, optional: true
@@ -10,6 +11,12 @@ class RelatedInstruction < ApplicationRecord
 
   delegate :title, :description, :code, :hours, to: :default_course, prefix: true
   delegate :title, to: :organization, prefix: true
+
+  class << self
+    def from_json(json)
+      from_open_ai_json(json, exclude_fields: ["organization"])
+    end
+  end
 
   def hours_in_human_format
     number_to_human(
