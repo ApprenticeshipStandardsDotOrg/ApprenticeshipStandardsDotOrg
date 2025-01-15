@@ -1,5 +1,6 @@
 class WorkProcess < ApplicationRecord
   include ActionView::Helpers::NumberHelper
+  include JsonImportable
 
   belongs_to :occupation_standard
   has_many :competencies, -> { order(:sort_order) }, dependent: :destroy
@@ -12,16 +13,12 @@ class WorkProcess < ApplicationRecord
 
   class << self
     def from_json(json)
-      new(
-        {
-          title: json["title"],
-          description: json["description"],
-          default_hours: json["defaultHours"],
-          minimum_hours: json["minimumHours"],
-          maximum_hours: json["maximumHours"],
-          competencies: json["competencies"].map { Competency.from_json(it) }
-        }
-      )
+      from_open_ai_json(json, exclude_fields: [
+        "competencies"
+      ]) do |work_process|
+        work_process.competencies = json["competencies"].map { Competency.from_json(it) }
+        work_process
+      end
     end
   end
 

@@ -1,4 +1,6 @@
 class Competency < ApplicationRecord
+  include JsonImportable
+
   belongs_to :work_process, counter_cache: true
   has_many :competency_options, as: :resource
 
@@ -6,7 +8,7 @@ class Competency < ApplicationRecord
 
   class << self
     def from_json(json)
-      new(json)
+      from_open_ai_json(json)
     end
   end
 
