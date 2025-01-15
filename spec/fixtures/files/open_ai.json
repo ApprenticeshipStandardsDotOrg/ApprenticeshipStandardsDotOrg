@@ -1,0 +1,251 @@
+{
+  "title": "Hair Stylist",
+  "existingTitle": "Cosmetologist",
+  "onetCode": "39-5012.00",
+  "rapidsCode": "0096CB",
+  "organization": null,
+  "registrationAgency": null,
+  "ojtType": "competency",
+  "registrationDate": null,
+  "workProcesses": [
+    {
+      "title": "Clean facilities or work areas",
+      "description": null,
+      "defaultHours": null,
+      "minimumHours": null,
+      "maximumHours": null,
+      "competencies": [
+        {
+          "title": "Keep work stations clean and sanitize tools, such as scissors and combs."
+        }
+      ]
+    },
+    {
+      "title": "Apply solutions to hair for therapeutic or cosmetic purposes",
+      "description": null,
+      "defaultHours": null,
+      "minimumHours": null,
+      "maximumHours": null,
+      "competencies": [
+        {
+          "title": "Apply and use curlers, rollers, hot combs and curling irons to press and curl hair."
+        }
+      ]
+    },
+    {
+      "title": "Groom wigs or hairpieces",
+      "description": null,
+      "defaultHours": null,
+      "minimumHours": null,
+      "maximumHours": null,
+      "competencies": [
+        {
+          "title": "Shampoo, rinse, condition, and dry hair and scalp or hairpieces with water, liquid soap, or other solutions."
+        },
+        {
+          "title": "Comb, brush, and spray hair or wigs to set style."
+        },
+        {
+          "title": "Attach wigs or hairpieces to model heads and dress wigs and hairpieces according to instructions, samples, sketches or photographs."
+        }
+      ]
+    },
+    {
+      "title": "Schedule appointments",
+      "description": null,
+      "defaultHours": null,
+      "minimumHours": null,
+      "maximumHours": null,
+      "competencies": [
+        {
+          "title": "Schedule client appointments."
+        },
+        {
+          "title": "Rebook clients at the end of their service to build and maintain clientele."
+        }
+      ]
+    },
+    {
+      "title": "Demonstrate activity techniques or equipment use",
+      "description": null,
+      "defaultHours": null,
+      "minimumHours": null,
+      "maximumHours": null,
+      "competencies": [
+        {
+          "title": "Demonstrate and sell hair care products and cosmetics."
+        }
+      ]
+    },
+    {
+      "title": "Maintain client information or service records",
+      "description": null,
+      "defaultHours": null,
+      "minimumHours": null,
+      "maximumHours": null,
+      "competencies": [
+        {
+          "title": "Update and maintain customer information records, such as beauty services provided."
+        }
+      ]
+    },
+    {
+      "title": "Promote products, services, or programs",
+      "description": null,
+      "defaultHours": null,
+      "minimumHours": null,
+      "maximumHours": null,
+      "competencies": [
+        {
+          "title": "Demonstrate and sell hair care products and hair tools."
+        },
+        {
+          "title": "Sell memberships- memberships include service packages (1-2 services a month)."
+        }
+      ]
+    },
+    {
+      "title": "Assess hair conditions",
+      "description": null,
+      "defaultHours": null,
+      "minimumHours": null,
+      "maximumHours": null,
+      "competencies": [
+        {
+          "title": "Analyze patrons hair to determine and recommend beauty treatment or suggest hair styles."
+        }
+      ]
+    },
+    {
+      "title": "Supervise service workers",
+      "description": null,
+      "defaultHours": null,
+      "minimumHours": null,
+      "maximumHours": null,
+      "competencies": [
+        {
+          "title": "Train or supervise other hairstylists, hairdressers, and assistants."
+        }
+      ]
+    },
+    {
+      "title": "Train service staff",
+      "description": null,
+      "defaultHours": null,
+      "minimumHours": null,
+      "maximumHours": null,
+      "competencies": [
+        {
+          "title": "Train or supervise other hairstylists, hairdressers, and assistants."
+        }
+      ]
+    },
+    {
+      "title": "Apply cleansing or conditioning agents to client hair, scalp, or skin",
+      "description": null,
+      "defaultHours": null,
+      "minimumHours": null,
+      "maximumHours": null,
+      "competencies": [
+        {
+          "title": "Shampoo, rinse, condition, and dry hair and scalp or hairpieces with water, liquid soap, or other solutions."
+        }
+      ]
+    },
+    {
+      "title": "Administer therapeutic massages",
+      "description": null,
+      "defaultHours": null,
+      "minimumHours": null,
+      "maximumHours": null,
+      "competencies": [
+        {
+          "title": "Massage and treat scalp for hygienic and remedial purposes, using hands, fingers, or vibrating equipment."
+        }
+      ]
+    },
+    {
+      "title": "Operate cash registers",
+      "description": null,
+      "defaultHours": null,
+      "minimumHours": null,
+      "maximumHours": null,
+      "competencies": []
+    },
+    {
+      "title": "Provide medical or cosmetic advice for clients",
+      "description": null,
+      "defaultHours": null,
+      "minimumHours": null,
+      "maximumHours": null,
+      "competencies": [
+        {
+          "title": "Administer therapeutic medication and advise patron to seek medical treatment for chronic or contagious scalp conditions."
+        },
+        {
+          "title": "Recommend and explain the use of cosmetics, lotions, and creams to soften and lubricate skin and enhance and restore natural appearance."
+        }
+      ]
+    },
+    {
+      "title": "Order materials, supplies, or equipment",
+      "description": null,
+      "defaultHours": null,
+      "minimumHours": null,
+      "maximumHours": null,
+      "competencies": [
+        {
+          "title": "Order, display, and maintain supplies."
+        }
+      ]
+    },
+    {
+      "title": "Set up merchandise displays",
+      "description": null,
+      "defaultHours": null,
+      "minimumHours": null,
+      "maximumHours": null,
+      "competencies": [
+        {
+          "title": "Order, display, and maintain supplies."
+        }
+      ]
+    },
+    {
+      "title": "Administer basic health care or medical treatments",
+      "description": null,
+      "defaultHours": null,
+      "minimumHours": null,
+      "maximumHours": null,
+      "competencies": [
+        {
+          "title": "Administer therapeutic medication and advise patron to seek medical treatment for chronic or contagious scalp conditions."
+        }
+      ]
+    },
+    {
+      "title": "Design costumes or cosmetic effects for characters",
+      "description": null,
+      "defaultHours": null,
+      "minimumHours": null,
+      "maximumHours": null,
+      "competencies": [
+        {
+          "title": "Develop new styles and techniques."
+        }
+      ]
+    },
+    {
+      "title": "Maintain professional knowledge or certifications",
+      "description": null,
+      "defaultHours": null,
+      "minimumHours": null,
+      "maximumHours": null,
+      "competencies": [
+        {
+          "title": "Stay abreast of latest industry trends, products, research, and treatments."
+        }
+      ]
+    }
+  ]
+}

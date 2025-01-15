@@ -14,16 +14,18 @@ class PdfReaderJob < ApplicationJob
       registrationDate: The registration date of the occupation.
       workProcesses: an array of work processes. Each work process has the following fields:
       title: title of the work process.
+      description: description of the work process. If value not found, return null.
       defaultHours: amount of hours. It is optional. If value not found, return null.
       minimumHours: the minimum amount of hours required. If value not found, return null.
       maximumHours: the maximum amount of hours required. If value not found, return null.
       competencies: It is an array of text with each competency representing a line.
       Each competency has the following fields:
       title: title of the competency.
+      End of workProcesses info.
       relatedInstructions: A new array of related instructions. Related instructions are not part of competencies or work processes. Each related instruction has the following fields:
       title: Title of the related instruction.
       description: Description of the related instruction. This field is optional.
-      hours: Total amount of hours. This field is optional.
+      End of relatedInstructions info.
 
       Return only the output in JSON format without any block, code or markdown.
 

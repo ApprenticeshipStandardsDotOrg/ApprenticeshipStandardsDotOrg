@@ -5,13 +5,12 @@ module Admin
 
       occupation_standard_response = JSON.parse(open_ai_response)
 
-      occupation_standard_attributes = OccupationStandard.from_json(occupation_standard_response)
+      occupation_standard = OccupationStandard.from_json(occupation_standard_response)
 
-      resource = new_resource(occupation_standard_attributes)
-      resource.open_ai_response = open_ai_response
-      authorize_resource(resource)
+      occupation_standard.open_ai_response = open_ai_response
+      authorize_resource(occupation_standard)
       render locals: {
-        page: Administrate::Page::Form.new(dashboard, resource)
+        page: Administrate::Page::Form.new(dashboard, occupation_standard)
       }
     end
 

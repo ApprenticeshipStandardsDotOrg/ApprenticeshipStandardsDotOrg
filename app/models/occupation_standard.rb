@@ -4,6 +4,7 @@ class OccupationStandard < ApplicationRecord
   include ActionView::Helpers::NumberHelper
   include Elasticsearch::Model
   include Elasticsearchable
+  include JsonImportable
 
   belongs_to :occupation, optional: true
   belongs_to :registration_agency
@@ -231,13 +232,15 @@ class OccupationStandard < ApplicationRecord
     end
 
     def from_json(json)
-      {
-        title: json["title"],
-        existing_title: json["existingTitle"],
-        ojt_type: json["ojtType"],
-        onet_code: json["onetCode"],
-        rapids_code: json["rapidsCode"]
-      }
+      from_open_ai_json(json, exclude_fields: [
+        "organization",
+        "registrationAgency",
+        "workProcesses",
+        "relatedInstructions"
+      ]) do |occupation_standard|
+        occupation_standard.work_processes = json["workProcesses"].map { WorkProcess.from_json(it) }
+        occupation_standard
+      end
     end
   end
 

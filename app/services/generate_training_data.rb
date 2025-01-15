@@ -9,7 +9,7 @@ class GenerateTrainingData
   def call
     response = @client.chat(
       parameters: {
-        model: "gpt-4",
+        model: "gpt-4o-mini",
         messages: [{role: "user", content: prompt}],
         temperature: 0.2
       }
