@@ -17,7 +17,7 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
     probationary_period_months: Field::Number,
     rapids_code: Field::String,
     registration_agency: Field::BelongsTo.with_options(scope: -> { RegistrationAgency.includes(:state) }),
-    related_instructions: Field::HasMany,
+    related_instructions: Field::NestedHasMany.with_options(skip: :occupation_standard),
     related_job_titles: Field::String.with_options(searchable: false),
     rsi_hours_max: Field::Number,
     rsi_hours_min: Field::Number,
@@ -85,6 +85,7 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
     registration_agency
 
     work_processes
+    related_instructions
 
     open_ai_response
 

@@ -12,6 +12,10 @@ FactoryBot.define do
       work_processes { build_list(:work_process, 1) }
     end
 
+    trait :with_related_instructions do
+      related_instructions { build_list(:related_instruction, 1) }
+    end
+
     trait :with_work_processes_and_competencies do
       work_processes { build_list(:work_process, 1, :with_competencies) }
     end

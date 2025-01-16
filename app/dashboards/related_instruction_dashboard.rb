@@ -4,10 +4,7 @@ class RelatedInstructionDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     id: Field::String,
     code: Field::String,
-    course_id: Field::String,
-    default_course: Field::BelongsTo,
     description: Field::String,
-    elective: Field::Boolean,
     hours: Field::Number,
     occupation_standard: Field::BelongsTo,
     organization: Field::BelongsTo,
@@ -26,10 +23,7 @@ class RelatedInstructionDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = %i[
     id
     code
-    course_id
-    default_course
     description
-    elective
     hours
     occupation_standard
     organization
@@ -40,16 +34,12 @@ class RelatedInstructionDashboard < Administrate::BaseDashboard
   ].freeze
 
   FORM_ATTRIBUTES = %i[
-    code
-    course_id
-    default_course
-    description
-    elective
-    hours
-    occupation_standard
-    organization
-    sort_order
     title
+    description
+    code
+    hours
+    sort_order
+    organization
   ].freeze
 
   COLLECTION_FILTERS = {}.freeze

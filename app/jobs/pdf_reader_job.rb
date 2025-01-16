@@ -24,7 +24,10 @@ class PdfReaderJob < ApplicationJob
       End of workProcesses info.
       relatedInstructions: A new array of related instructions. Related instructions are not part of competencies or work processes. Each related instruction has the following fields:
       title: Title of the related instruction.
-      description: Description of the related instruction. This field is optional.
+      description: Description of the related instruction. If value not found, return null.
+      code: Code for the related instruction. If value not found, return null.
+      hours: Hours dedicated to the related instruction. If value not found, return null.
+      organization: Organization in charge of the related instruction. If value not found, return null.
       End of relatedInstructions info.
 
       Return only the output in JSON format without any block, code or markdown.
