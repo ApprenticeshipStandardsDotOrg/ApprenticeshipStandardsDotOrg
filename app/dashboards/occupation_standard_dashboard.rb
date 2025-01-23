@@ -29,7 +29,8 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
     wage_steps: Field::HasMany,
     work_processes: Field::NestedHasMany.with_options(skip: :occupation_standard),
     redacted_document: Field::ActiveStorage,
-    open_ai_response: Field::Text
+    open_ai_response: HiddenField,
+    import_id: HiddenField
   }.freeze
 
   COLLECTION_ATTRIBUTES = %i[
@@ -88,7 +89,7 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
     related_instructions
 
     open_ai_response
-
+    import_id
   ].freeze
 
   COLLECTION_FILTERS = {}.freeze

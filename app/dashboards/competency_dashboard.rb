@@ -34,7 +34,6 @@ class CompetencyDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
     id
-    competency_options
     description
     sort_order
     title
@@ -49,8 +48,6 @@ class CompetencyDashboard < Administrate::BaseDashboard
   FORM_ATTRIBUTES = %i[
     title
     description
-    competency_options
-    sort_order
     work_process
   ].freeze
 

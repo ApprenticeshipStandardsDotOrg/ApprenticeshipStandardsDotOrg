@@ -11,6 +11,7 @@ class Import < ApplicationRecord
   # Only Imports::DocxListing have multiple imports, but this
   # association is needed for all types due to limitation of Administrate
   has_many :imports, -> { none }
+  has_one :open_ai_import
 
   enum :status, [
     :pending,

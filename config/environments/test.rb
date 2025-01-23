@@ -80,4 +80,6 @@ Rails.application.configure do
   config.action_controller.raise_on_missing_callback_actions = true
 
   config.flipper.strict = false
+
+  config.cache_classes = true
 end

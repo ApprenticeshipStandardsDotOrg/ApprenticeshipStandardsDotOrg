@@ -38,7 +38,6 @@ class RelatedInstructionDashboard < Administrate::BaseDashboard
     description
     code
     hours
-    sort_order
     organization
   ].freeze
 

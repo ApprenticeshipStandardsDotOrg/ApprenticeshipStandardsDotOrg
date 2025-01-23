@@ -18,6 +18,7 @@ class OccupationStandard < ApplicationRecord
 
   has_one_attached :redacted_document
   has_one :text_representation
+  has_one :open_ai_import
 
   delegate :title, to: :organization, prefix: true, allow_nil: true
   delegate :title, to: :occupation, prefix: true, allow_nil: true
@@ -39,7 +40,7 @@ class OccupationStandard < ApplicationRecord
     :related_instructions, allow_destroy: true
   )
 
-  attr_accessor :inner_hits, :external_id, :open_ai_response
+  attr_accessor :inner_hits, :external_id, :open_ai_response, :import_id
 
   MAX_SIMILAR_PROGRAMS_TO_DISPLAY = 5
   MAX_RECENTLY_ADDED_OCCUPATIONS_TO_DISPLAY = 4

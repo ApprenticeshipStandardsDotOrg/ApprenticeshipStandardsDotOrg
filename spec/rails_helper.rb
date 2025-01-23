@@ -90,6 +90,11 @@ RSpec.configure do |config|
     host! "admin.example.com"
   end
 
+  # TODO Remove when Devise fixes https://github.com/heartcombo/devise/issues/5705
+  config.before(:each, type: :request) do
+    Rails.application.reload_routes_unless_loaded
+  end
+
   config.around(:each, type: :system, admin: true) do |example|
     Capybara.app_host = "http://admin.example.localhost"
     example.run
