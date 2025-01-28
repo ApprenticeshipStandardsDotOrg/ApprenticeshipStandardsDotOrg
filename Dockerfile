@@ -9,11 +9,9 @@ RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources
 
 RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends \
   git \
-  nodejs \
   shared-mime-info \
   tzdata \
   vim \
-  yarn \
   libreoffice \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
@@ -32,6 +30,26 @@ RUN gem install bundler:2.3.25 \
   && rm -rf /usr/local/bundle/cache/*.gem \
   && find /usr/local/bundle/gems/ -name "*.c" -delete \
   && find /usr/local/bundle/gems/ -name "*.o" -delete
+
+
+# Install nvm and node
+ENV NODE_VERSION=23.6.1
+ENV NVM_DIR=/usr/local/nvm
+
+RUN mkdir /usr/local/nvm
+
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash \
+  && . $NVM_DIR/nvm.sh \
+  && nvm install $NODE_VERSION \
+  && nvm alias default $NODE_VERSION \
+  && nvm use default
+
+ENV NODE_PATH=$NVM_DIR/v$NODE_VERSION/lib/node_modules
+ENV PATH=$NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
+
+# Copy yarn files
+
+COPY package.json yarn.lock ./
 
 RUN yarn install --frozen-lockfile
 
@@ -57,7 +75,6 @@ ENV RAILS_SERVE_STATIC_FILES=true
 RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends \
   google-chrome-stable \
   libreoffice \
-  nodejs \
   postgresql-client \
   tzdata \
   vim \
