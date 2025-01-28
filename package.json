@@ -1,4 +1,7 @@
 {
+  "engines": {
+    "node": "23.6.1"
+  },
   "dependencies": {
     "@foxitsoftware/foxit-pdf-sdk-for-web-library-full": "^9.2.1",
     "flowbite": "^1.6.5"
