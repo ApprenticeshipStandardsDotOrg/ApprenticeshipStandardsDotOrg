@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_22_164023) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_21_140530) do
   create_schema "heroku_ext"
 
   # These are extensions that must be enabled in order to support this database
-  enable_extension "pg_stat_statements"
-  enable_extension "pgcrypto"
-  enable_extension "plpgsql"
+  enable_extension "heroku_ext.pg_stat_statements"
+  enable_extension "heroku_ext.pgcrypto"
+  enable_extension "pg_catalog.plpgsql"
 
   create_table "active_storage_attachments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
@@ -215,6 +215,16 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_22_164023) do
     t.index ["version", "code"], name: "index_onets_on_version_and_code", unique: true
   end
 
+  create_table "open_ai_imports", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "import_id", null: false
+    t.uuid "occupation_standard_id", null: false
+    t.json "response"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["import_id"], name: "index_open_ai_imports_on_import_id"
+    t.index ["occupation_standard_id"], name: "index_open_ai_imports_on_occupation_standard_id"
+  end
+
   create_table "organizations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title", null: false
     t.string "organization_type"
@@ -379,6 +389,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_22_164023) do
   add_foreign_key "occupations", "onets"
   add_foreign_key "onet_mappings", "onets"
   add_foreign_key "onet_mappings", "onets", column: "next_version_onet_id"
+  add_foreign_key "open_ai_imports", "imports"
+  add_foreign_key "open_ai_imports", "occupation_standards"
   add_foreign_key "registration_agencies", "states"
   add_foreign_key "related_instructions", "courses"
   add_foreign_key "related_instructions", "courses", column: "default_course_id"

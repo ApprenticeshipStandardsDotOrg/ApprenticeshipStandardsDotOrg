@@ -16,5 +16,6 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym "RAPIDS"
   inflect.acronym "OJT"
   inflect.acronym "RSI"
+  inflect.acronym "AI"
   inflect.irregular "is", "are"
 end

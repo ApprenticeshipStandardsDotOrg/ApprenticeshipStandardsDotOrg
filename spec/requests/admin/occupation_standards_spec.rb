@@ -209,4 +209,38 @@ RSpec.describe "Admin::OccupationStandard", type: :request do
       end
     end
   end
+
+  describe "POST /create" do
+    context "on admin subdomain", :admin do
+      context "when admin user" do
+        it "creates record with associations and redirects to show page" do
+          admin = create(:admin)
+          import = create(:imports_pdf)
+
+          registration_agency = create(:registration_agency)
+          occupation_standard_attributes = attributes_for(:occupation_standard).tap do |attrs|
+            attrs[:registration_agency_id] = registration_agency.id
+            attrs[:import_id] = import.id
+            attrs[:open_ai_response] = "{}"
+          end
+
+          sign_in admin
+          post admin_occupation_standards_path,
+            params: {
+              occupation_standard: occupation_standard_attributes.except(:url)
+            }
+
+          occupation_standard = OccupationStandard.last
+
+          expect(response).to redirect_to admin_occupation_standard_path(occupation_standard)
+          expect(occupation_standard.open_ai_import).to_not be_nil
+
+          open_ai_import = occupation_standard.open_ai_import
+
+          expect(open_ai_import.response).to eq "{}"
+          expect(open_ai_import.import_id).to eq import.id
+        end
+      end
+    end
+  end
 end
