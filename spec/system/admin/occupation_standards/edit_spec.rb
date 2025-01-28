@@ -140,6 +140,7 @@ RSpec.describe "admin/occupation_standards/edit" do
           fill_in "Description", with: "Description for this related instruction"
           fill_in "Code", with: "RI-101"
           fill_in "Hours", with: "8"
+          fill_in "Sort order", with: "1"
         end
       end
 

@@ -39,6 +39,7 @@ class RelatedInstructionDashboard < Administrate::BaseDashboard
     code
     hours
     organization
+    sort_order
   ].freeze
 
   COLLECTION_FILTERS = {}.freeze
