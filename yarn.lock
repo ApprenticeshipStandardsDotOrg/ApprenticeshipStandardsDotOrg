@@ -34,7 +34,7 @@
     "@types/i18next" "^11.9.3"
     "@types/jquery" "^3.3.29"
     art-template "^4.13.0"
-    axios "^0.21.1"
+    axios "^0.28.0"
     babel-polyfill "^6.26.0"
     bootstrap-datepicker "^1.9.0"
     core-js "^3.22.2"
