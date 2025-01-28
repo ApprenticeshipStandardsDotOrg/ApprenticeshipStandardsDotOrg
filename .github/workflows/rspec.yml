@@ -1,4 +1,7 @@
 name: RSpec
+permissions:
+  contents: read
+  pull-requests: write
 
 on:
   push:
@@ -56,7 +59,7 @@ jobs:
           node-version: "23.6.1"
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@1287d2b408066abada82d5ad1c63652e758428d9
         with:
           bundler-cache: true
 
