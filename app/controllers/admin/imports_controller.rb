@@ -19,7 +19,7 @@ module Admin
       else
         resource_class
       end
-      scope.preload(file_attachment: :blob)
+      scope.preload(:open_ai_import, file_attachment: :blob)
     end
 
     def destroy_redacted_pdf

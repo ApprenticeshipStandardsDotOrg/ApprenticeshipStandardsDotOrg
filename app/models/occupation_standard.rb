@@ -432,6 +432,10 @@ class OccupationStandard < ApplicationRecord
     base_onet
   end
 
+  def converted_with_ai?
+    open_ai_import.present?
+  end
+
   private
 
   def national?

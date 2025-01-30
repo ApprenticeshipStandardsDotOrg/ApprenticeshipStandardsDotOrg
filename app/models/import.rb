@@ -66,4 +66,8 @@ class Import < ApplicationRecord
   def cousins
     []
   end
+
+  def converted_with_ai?
+    open_ai_import.present?
+  end
 end
