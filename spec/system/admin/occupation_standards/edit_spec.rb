@@ -163,6 +163,7 @@ RSpec.describe "admin/occupation_standards/edit" do
 
       click_on "Update Occupation standard"
 
+      expect(page).to have_content("Occupation standard was successfully updated.")
       expect(page).not_to have_content("Related Instruction #")
       expect(occupation_standard.related_instructions.count).to eq 0
     end
