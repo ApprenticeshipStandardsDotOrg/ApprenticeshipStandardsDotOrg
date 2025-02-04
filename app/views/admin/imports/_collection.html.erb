@@ -80,13 +80,15 @@ to display a collection of resources in an HTML table.
       </td>
       <% end %>
       <td class="cell-data cell-data--convert">
-        <% if resource.converted_with_ai? %>
-          <p
-            class="bg-indigo-100 text-indigo-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-indigo-900 dark:text-indigo-300">
-          AI Converted
-          </p>
-        <% elsif resource.is_a?(Imports::Pdf) %>
-          <%= link_to "Convert", new_admin_import_data_import_path(resource) %>
+        <% if resource.is_a?(Imports::Pdf) %>
+          <% if resource.converted_with_ai? %>
+            <p
+              class="bg-indigo-100 text-indigo-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-indigo-900 dark:text-indigo-300">
+              AI Converted
+            </p>
+          <% else %>
+            <%= link_to "Convert", new_admin_import_data_import_path(resource) %>
+          <% end %>
         <% end %>
       </td>
 
