@@ -1,4 +1,6 @@
 class Import < ApplicationRecord
+  include AIConvertible
+
   belongs_to :parent, polymorphic: true
   belongs_to :assignee, class_name: "User", optional: true
 
@@ -65,9 +67,5 @@ class Import < ApplicationRecord
   # For Administrate
   def cousins
     []
-  end
-
-  def converted_with_ai?
-    open_ai_import.present?
   end
 end
