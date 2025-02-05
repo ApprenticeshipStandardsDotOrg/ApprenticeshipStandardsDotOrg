@@ -70,4 +70,16 @@ RSpec.describe "admin/occupation_standards/index", :admin do
     expect(page).to have_text("Mechanic")
     expect(page).to_not have_text("Medical Assistant")
   end
+
+  it "shows AI label when an occupation was converted using AI" do
+    open_ai_import = create(:open_ai_import, :with_pdf_import)
+    open_ai_import.occupation_standard
+
+    admin = create(:admin)
+
+    login_as admin
+    visit admin_occupation_standards_path
+
+    expect(page).to have_text("AI Converted")
+  end
 end
