@@ -20,6 +20,8 @@ module Admin
       occupation_standard.build_open_ai_import(open_ai_import_params)
 
       if occupation_standard.save
+        occupation_standard.published!
+        occupation_standard.open_ai_import.import.archived!
         yield(occupation_standard) if block_given?
         redirect_to(
           after_resource_created_path(occupation_standard),
