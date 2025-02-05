@@ -999,4 +999,19 @@ RSpec.describe OccupationStandard, type: :model do
       expect(occupation_standard.related_onet_code_versions).to eq(["12.3456.00", "12.3456"])
     end
   end
+
+  describe "#converted_with_ai?" do
+    it "returns true when is has an associated OpenAIResponse" do
+      open_ai_import = create(:open_ai_import, :with_pdf_import)
+      occupation_standard = open_ai_import.occupation_standard
+
+      expect(occupation_standard).to be_converted_with_ai
+    end
+
+    it "returns false when is does not have an associated OpenAIResponse" do
+      occupation_standard = create(:occupation_standard)
+
+      expect(occupation_standard).to_not be_converted_with_ai
+    end
+  end
 end

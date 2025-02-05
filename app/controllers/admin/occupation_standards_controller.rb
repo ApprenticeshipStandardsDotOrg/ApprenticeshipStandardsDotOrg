@@ -33,7 +33,7 @@ module Admin
     end
 
     def scoped_resource
-      OccupationStandard.includes(occupation: :onet, registration_agency: :state)
+      OccupationStandard.includes(:open_ai_import, occupation: :onet, registration_agency: :state)
     end
 
     def filter_resources(resources, search_term:)

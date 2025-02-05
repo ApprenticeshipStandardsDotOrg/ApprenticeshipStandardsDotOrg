@@ -1,4 +1,6 @@
 class Import < ApplicationRecord
+  include AIConvertible
+
   belongs_to :parent, polymorphic: true
   belongs_to :assignee, class_name: "User", optional: true
 

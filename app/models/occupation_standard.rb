@@ -5,6 +5,7 @@ class OccupationStandard < ApplicationRecord
   include Elasticsearch::Model
   include Elasticsearchable
   include JsonImportable
+  include AIConvertible
 
   belongs_to :occupation, optional: true
   belongs_to :registration_agency

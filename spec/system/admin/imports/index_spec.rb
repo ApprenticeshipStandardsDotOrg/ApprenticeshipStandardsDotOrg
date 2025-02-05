@@ -196,5 +196,17 @@ RSpec.describe "admin/imports/index", :admin do
       expect(page).to_not have_button "Claim"
       expect(import.reload.assignee).to eq admin
     end
+
+    it "shows AI label when an import was used to do a conversion using AI" do
+      open_ai_import = create(:open_ai_import, :with_pdf_import)
+      open_ai_import.import
+
+      admin = create(:admin)
+
+      login_as admin
+      visit admin_imports_path
+
+      expect(page).to have_text("AI Converted")
+    end
   end
 end
