@@ -234,11 +234,13 @@ RSpec.describe "Admin::OccupationStandard", type: :request do
 
           expect(response).to redirect_to admin_occupation_standard_path(occupation_standard)
           expect(occupation_standard.open_ai_import).to_not be_nil
+          expect(occupation_standard).to be_published
 
           open_ai_import = occupation_standard.open_ai_import
 
           expect(open_ai_import.response).to eq "{}"
           expect(open_ai_import.import_id).to eq import.id
+          expect(import.reload).to be_archived
         end
       end
     end
