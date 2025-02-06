@@ -10,7 +10,7 @@ RSpec.describe "admin/occupation_standards/new?import_id=?" do
     allow(PdfReaderJob).to receive(:perform_now).and_return(mock_json_response)
 
     login_as admin
-    visit new_admin_occupation_standard_path(import: import)
+    visit new_admin_occupation_standard_path(import_id: import.id)
 
     expect(page).to have_field("Title", with: "Hair Stylist")
     expect(page).to have_field("Existing title", with: "Cosmetologist")
