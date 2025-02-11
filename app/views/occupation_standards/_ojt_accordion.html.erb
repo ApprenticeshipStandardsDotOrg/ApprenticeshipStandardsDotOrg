@@ -2,12 +2,12 @@
   <%= render "accordion", record: work_process do %>
 
     <%= render "accordion_summary", record: work_process do %>
-      <div class="m-1.5 w-28 rounded bg-yonder-100 px-1 py-3 text-center <%= competencies_count_display_class(work_process) %>">
+      <div class="m-1.5 w-28 rounded-xs bg-yonder-100 px-1 py-3 text-center <%= competencies_count_display_class(work_process) %>">
         <div class="text-3xl font-bold text-yonder-600">
           <%= work_process.competencies_count %>
         </div>
       </div>
-      <div class="m-1.5 w-28 rounded bg-rust-100 px-1 py-3 text-center <%= work_process_hours_display_class(work_process) %>">
+      <div class="m-1.5 w-28 rounded-xs bg-rust-100 px-1 py-3 text-center <%= work_process_hours_display_class(work_process) %>">
         <div class="text-3xl font-bold text-rust-800">
           <%= hours_in_human_format(work_process.hours) %>
         </div>

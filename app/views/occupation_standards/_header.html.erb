@@ -1,6 +1,6 @@
 <section aria-label="search" class="occ-hero bg-no-repeat bg-cover bg-center bg-gray-700">
   <%= render partial: "layouts/nav" %>
-  <div class="max-w-screen-xl px-4 pt-8 pb-16 mx-auto lg:py-16">
+  <div class="max-w-(--breakpoint-xl) px-4 pt-8 pb-16 mx-auto lg:py-16">
 
     <! -- If Content Page -->
     <!-- <h1 class="page-title" mb-3 text-3xl font-bold leading-none tracking-tight text-gray-100 md:text-4xl xl:text-5xl">Page Title</h1> -->
@@ -8,7 +8,7 @@
     <! -- If Occupation Standards Page -->
     <div class="mb-8 lg:mb-16">
       <div class="items-center sm:mb-6 lg:mb-0">
-        <div class="mx-auto max-w-2xl rounded bg-seafoam-100">
+        <div class="mx-auto max-w-2xl rounded-xs bg-seafoam-100">
           <%= render partial: "shared/search_form", locals: {show_filter: true} %>
         </div>
       </div>

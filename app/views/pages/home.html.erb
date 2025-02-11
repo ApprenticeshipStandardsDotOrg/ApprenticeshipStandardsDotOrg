@@ -19,7 +19,7 @@
 </section>
 
 <section class="bg-accent-300">
-  <div class="py-8 sm:py-16 px-4 lg:px-6 max-w-screen-xl mx-auto">
+  <div class="py-8 sm:py-16 px-4 lg:px-6 max-w-(--breakpoint-xl) mx-auto">
     The Registered Apprenticeship Standards Library is a comprehensive collection
     of approved apprenticeship programs from across the country. Explore
     thousands of apprenticeship program training standards and use them as a
@@ -33,7 +33,7 @@
 </section>
 
 <section aria-labelledby="section-title" class="bg-accent-300">
-  <div class="py-8 sm:py-16 px-4 lg:px-6 max-w-screen-xl mx-auto">
+  <div class="py-8 sm:py-16 px-4 lg:px-6 max-w-(--breakpoint-xl) mx-auto">
     <h2 class="section-title sr-only">Embedded video to introduce the Registered Apprenticeship Standards Library</h2>
     <iframe class="w-full md:w-3/4 lg:w-6/12 aspect-video mx-auto"
       src="https://www.youtube.com/embed/-cmdvkj0IV0">
@@ -41,7 +41,7 @@
   </div>
 </section>
 <section aria-labelledby="section-title" class="bg-accent-300">
-  <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+  <div class="py-8 px-4 mx-auto max-w-(--breakpoint-xl) sm:py-16 lg:px-6">
     <div class="mb-8 lg:mb-16 flex justify-between">
       <h2 class="section-title mb-4 text-4xl tracking-tight font-bold text-gray-900">Active States</h2>
         <%= link_to states_path, class: "font-bold text-accent-50 sm:text-lg uppercase" do %>
@@ -71,7 +71,7 @@
 </section>
 <!-- Popular types -->
 <section aria-labelledby="section-title" class="bg-accent-300">
-  <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+  <div class="py-8 px-4 mx-auto max-w-(--breakpoint-xl) sm:py-16 lg:px-6">
     <div class="mb-8 lg:mb-16 flex justify-between">
       <h2 class="section-title mb-4 text-4xl tracking-tight font-bold text-gray-900">Popular Types</h2>
     </div>
@@ -137,7 +137,7 @@
 </section>
 
 <section aria-labelledby="section-title" class="bg-accent-300">
-  <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+  <div class="py-8 px-4 mx-auto max-w-(--breakpoint-xl) sm:py-16 lg:px-6">
     <div class="mb-8 lg:mb-16 flex justify-between">
       <h2 class="section-title mb-4 text-4xl tracking-tight font-bold text-gray-900">Popular Industries</h2>
         <%= link_to industries_path, class: "font-bold text-accent-50 sm:text-lg uppercase" do %>
@@ -166,7 +166,7 @@
   </div>
 </section>
 <section aria-labelledby="section-title" class="bg-accent-300">
-  <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+  <div class="py-8 px-4 mx-auto max-w-(--breakpoint-xl) sm:py-16 lg:px-6">
     <div class="mb-8 lg:mb-16 flex justify-between">
       <h2 class="section-title mb-4 text-4xl tracking-tight font-bold text-gray-900">Popular Occupations</h2>
       <%= link_to occupation_standards_path, class: "font-bold text-accent-50 sm:text-lg uppercase" do %>
@@ -197,7 +197,7 @@
 </section>
 <!-- Recently added -->
   <section aria-labelledby="section-title" class="bg-accent-300">
-    <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+    <div class="py-8 px-4 mx-auto max-w-(--breakpoint-xl) sm:py-16 lg:px-6">
       <div class="mb-8 lg:mb-16 flex justify-between">
         <h2 class="section-title mb-4 text-4xl tracking-tight font-bold text-gray-900">Recently Added</h2>
         <%= link_to occupation_standards_path(sort: :created_at), class: "font-bold text-accent-50 sm:text-lg uppercase" do %>
