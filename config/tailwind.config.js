@@ -1,8 +1,8 @@
-const defaultTheme = require('tailwindcss/defaultTheme')
+// // // const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
   darkMode: 'class',
-  
+
   content: [
     './public/*.html',
     './app/helpers/**/*.rb',
@@ -117,7 +117,7 @@ module.exports = {
         }
       },
       fontFamily: {
-        sans: ['Montserrat', ...defaultTheme.fontFamily.sans],
+// // //         sans: ['Montserrat', ...defaultTheme.fontFamily.sans],
       },
     },
   },

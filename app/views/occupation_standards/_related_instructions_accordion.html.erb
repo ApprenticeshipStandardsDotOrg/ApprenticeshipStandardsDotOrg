@@ -2,7 +2,7 @@
   <%= render "accordion", record: related_instruction do %>
 
     <%= render "accordion_summary", record: related_instruction do %>
-      <div class="m-1.5 w-28 rounded bg-pear-100 px-1 py-3 text-center <%= related_instruction_hours_display_class(related_instruction) %>">
+      <div class="m-1.5 w-28 rounded-xs bg-pear-100 px-1 py-3 text-center <%= related_instruction_hours_display_class(related_instruction) %>">
         <div class="text-3xl font-bold text-pear-700">
           <%= hours_in_human_format(related_instruction.hours) %>
         </div>

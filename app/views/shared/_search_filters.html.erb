@@ -16,7 +16,7 @@
     <div class="flex flex-col lg:space-x-2 lg:flex-row lg:divide-x divide-seafoam-600">
       <div data-controller="checkbox-filter" data-checkbox-filter-displayable-class="checkbox-filter-count--displayable" data-action="clearForm@window->checkbox-filter#updateCount">
         <div class="font-bold">Program Type</div>
-        <button id="dropdownPrgrmTypeButton" data-dropdown-toggle="dropdownPrgrmType" class="my-2 mr-2 flex items-center space-x-2 rounded border border-primary-200 bg-white px-2 py-2.5 text-center font-bold text-seafoam-900 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-200" type="button">
+        <button id="dropdownPrgrmTypeButton" data-dropdown-toggle="dropdownPrgrmType" class="my-2 mr-2 flex items-center space-x-2 rounded-xs border border-primary-200 bg-white px-2 py-2.5 text-center font-bold text-seafoam-900 hover:bg-gray-50 focus:outline-hidden focus:ring-2 focus:ring-primary-200" type="button">
           <div class="flex">Type</div>
           <div class="flex h-5 w-5 items-center rounded-full bg-seafoam-800 text-white checkbox-filter-count" data-checkbox-filter-target="countWrapper">
             <div class="w-full text-center text-sm" data-checkbox-filter-target="count"></div>
@@ -27,24 +27,24 @@
         </button>
 
         <!-- PrgrmTypeButton Dropdown menu -->
-        <div id="dropdownPrgrmType" class="z-10 hidden rounded-b bg-white shadow">
+        <div id="dropdownPrgrmType" class="z-10 hidden rounded-b bg-white shadow-xs">
           <ul class="space-y-1 p-2 text-sm text-gray-700" aria-labelledby="dropdownPrgrmTypeButton">
             <li>
-              <div class="flex items-center rounded p-2">
-                <%= check_box_tag "ojt_type[hybrid]", "1", params.dig(:ojt_type, :hybrid), id: "hybrid", class: "h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500", "data-search-target": "checkbox", "data-checkbox-filter-target": "input", "data-action": "checkbox-filter#updateCount" %>
-                <%= label_tag "hybrid", "Hybrid", class: "ml-3 w-full rounded text-left text-sm font-medium text-seafoam-900" %>
+              <div class="flex items-center rounded-xs p-2">
+                <%= check_box_tag "ojt_type[hybrid]", "1", params.dig(:ojt_type, :hybrid), id: "hybrid", class: "h-5 w-5 rounded-xs border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500", "data-search-target": "checkbox", "data-checkbox-filter-target": "input", "data-action": "checkbox-filter#updateCount" %>
+                <%= label_tag "hybrid", "Hybrid", class: "ml-3 w-full rounded-xs text-left text-sm font-medium text-seafoam-900" %>
               </div>
             </li>
             <li>
-              <div class="flex items-center rounded p-2">
-                <%= check_box_tag "ojt_type[competency]", "1", params.dig(:ojt_type, :competency), id: "competency", class: "h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500", "data-search-target": "checkbox", "data-checkbox-filter-target": "input", "data-action": "checkbox-filter#updateCount" %>
-                <%= label_tag "competency", "Competency", class: "ml-3 w-full rounded text-left text-sm font-medium text-seafoam-900" %>
+              <div class="flex items-center rounded-xs p-2">
+                <%= check_box_tag "ojt_type[competency]", "1", params.dig(:ojt_type, :competency), id: "competency", class: "h-5 w-5 rounded-xs border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500", "data-search-target": "checkbox", "data-checkbox-filter-target": "input", "data-action": "checkbox-filter#updateCount" %>
+                <%= label_tag "competency", "Competency", class: "ml-3 w-full rounded-xs text-left text-sm font-medium text-seafoam-900" %>
               </div>
             </li>
             <li>
-              <div class="flex items-center rounded p-2">
-                <%= check_box_tag "ojt_type[time]", "1", params.dig(:ojt_type, :time), id: "time", class: "h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500", "data-search-target": "checkbox", "data-checkbox-filter-target": "input", "data-action": "checkbox-filter#updateCount" %>
-                <%= label_tag "time", "Time", class: "ml-3 w-full rounded text-left text-sm font-medium text-seafoam-900" %>
+              <div class="flex items-center rounded-xs p-2">
+                <%= check_box_tag "ojt_type[time]", "1", params.dig(:ojt_type, :time), id: "time", class: "h-5 w-5 rounded-xs border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500", "data-search-target": "checkbox", "data-checkbox-filter-target": "input", "data-action": "checkbox-filter#updateCount" %>
+                <%= label_tag "time", "Time", class: "ml-3 w-full rounded-xs text-left text-sm font-medium text-seafoam-900" %>
               </div>
             </li>
           </ul>
@@ -67,7 +67,7 @@
 
           <div>
             <div>
-              <button id="dropdownNationalButton" data-dropdown-toggle="dropdownNational" class="my-2 mr-2 flex items-center space-x-2 rounded border border-primary-200 bg-white px-2 py-2.5 text-center font-bold text-seafoam-900 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary-200" type="button">
+              <button id="dropdownNationalButton" data-dropdown-toggle="dropdownNational" class="my-2 mr-2 flex items-center space-x-2 rounded-xs border border-primary-200 bg-white px-2 py-2.5 text-center font-bold text-seafoam-900 hover:bg-gray-50 focus:outline-hidden focus:ring-2 focus:ring-primary-200" type="button">
                 <div>National</div>
                 <div class="flex h-5 w-5 items-center rounded-full bg-seafoam-800 text-white checkbox-filter-count" data-checkbox-filter-target="countWrapper">
                   <div class="w-full text-center text-sm" data-checkbox-filter-target="count"></div>
@@ -78,27 +78,27 @@
               </button>
 
               <!-- National Dropdown menu -->
-              <div id="dropdownNational" class="z-10 hidden rounded-b bg-white shadow">
+              <div id="dropdownNational" class="z-10 hidden rounded-b bg-white shadow-xs">
                 <ul class="space-y-1 p-2 text-sm text-gray-700" aria-labelledby="dropdownNationalButton">
                   <li>
-                    <div class="flex items-center rounded p-2">
-                      <%= check_box_tag "national_standard_type[guideline_standard]", "1", params.dig(:national_standard_type, :guideline_standard), id: "guideline_standards", class: "h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500", "data-search-target": "checkbox", "data-checkbox-filter-target": "input", "data-action": "checkbox-filter#updateCount" %>
-                      <%= label_tag "guideline_standards", "National Guideline Standards", class: "ml-3 w-full rounded text-left text-sm font-medium text-seafoam-900" %>
+                    <div class="flex items-center rounded-xs p-2">
+                      <%= check_box_tag "national_standard_type[guideline_standard]", "1", params.dig(:national_standard_type, :guideline_standard), id: "guideline_standards", class: "h-5 w-5 rounded-xs border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500", "data-search-target": "checkbox", "data-checkbox-filter-target": "input", "data-action": "checkbox-filter#updateCount" %>
+                      <%= label_tag "guideline_standards", "National Guideline Standards", class: "ml-3 w-full rounded-xs text-left text-sm font-medium text-seafoam-900" %>
                     </div>
-                    <div class="flex items-center rounded p-2">
-                      <%= check_box_tag "national_standard_type[program_standard]", "1", params.dig(:national_standard_type, :program_standard), id: "program_standards", class: "h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500", "data-search-target": "checkbox", "data-checkbox-filter-target": "input", "data-action": "checkbox-filter#updateCount" %>
-                      <%= label_tag "program_standards", "National Program Standards", class: "ml-3 w-full rounded text-left text-sm font-medium text-seafoam-900" %>
+                    <div class="flex items-center rounded-xs p-2">
+                      <%= check_box_tag "national_standard_type[program_standard]", "1", params.dig(:national_standard_type, :program_standard), id: "program_standards", class: "h-5 w-5 rounded-xs border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500", "data-search-target": "checkbox", "data-checkbox-filter-target": "input", "data-action": "checkbox-filter#updateCount" %>
+                      <%= label_tag "program_standards", "National Program Standards", class: "ml-3 w-full rounded-xs text-left text-sm font-medium text-seafoam-900" %>
                     </div>
-                    <div class="flex items-center rounded p-2">
-                      <%= check_box_tag "national_standard_type[occupational_framework]", "1", params.dig(:national_standard_type, :occupational_framework), id: "occupational_frameworks", class: "h-5 w-5 rounded border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500", "data-search-target": "checkbox", "data-checkbox-filter-target": "input", "data-action": "checkbox-filter#updateCount" %>
-                      <%= label_tag "occupational_frameworks", "National Occupational Frameworks", class: "ml-3 w-full rounded text-left text-sm font-medium text-seafoam-900" %>
+                    <div class="flex items-center rounded-xs p-2">
+                      <%= check_box_tag "national_standard_type[occupational_framework]", "1", params.dig(:national_standard_type, :occupational_framework), id: "occupational_frameworks", class: "h-5 w-5 rounded-xs border-gray-300 bg-gray-100 text-seafoam-800 focus:ring-2 focus:ring-seafoam-500", "data-search-target": "checkbox", "data-checkbox-filter-target": "input", "data-action": "checkbox-filter#updateCount" %>
+                      <%= label_tag "occupational_frameworks", "National Occupational Frameworks", class: "ml-3 w-full rounded-xs text-left text-sm font-medium text-seafoam-900" %>
                     </div>
                   </li>
                 </ul>
               </div>
             </div>
-            <button data-tooltip-target="national-standards-info" data-tooltip-placement="bottom" data-tooltip-trigger="click" type="button" class="py-0 mb-2 text-center text-sm font-medium text-seafoam-800 focus:outline-none focus:ring-4 focus:ring-slate-300" type="button">What is this?</button>
-            <div id="national-standards-info" role="tooltip" class="tooltip invisible absolute z-10 inline-block rounded-lg bg-primary-800 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm">
+            <button data-tooltip-target="national-standards-info" data-tooltip-placement="bottom" data-tooltip-trigger="click" type="button" class="py-0 mb-2 text-center text-sm font-medium text-seafoam-800 focus:outline-hidden focus:ring-4 focus:ring-slate-300" type="button">What is this?</button>
+            <div id="national-standards-info" role="tooltip" class="tooltip invisible absolute z-10 inline-block rounded-lg bg-primary-800 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-2xs">
               National standards are...
               <div class="tooltip-arrow" data-popper-arrow></div>
             </div>

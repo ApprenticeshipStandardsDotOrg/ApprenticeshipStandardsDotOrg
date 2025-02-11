@@ -1,6 +1,6 @@
 <%= turbo_frame_tag "public_document", data: {controller: "refresh", refresh_src_value: request.path} do %>
   <%= link_to occupation_standard.data_import.import.file.url do %>
-    <div class="flex w-full items-center space-x-4 rounded bg-slate-700 p-2 text-left text-white hover:bg-slate-600">
+    <div class="flex w-full items-center space-x-4 rounded-xs bg-slate-700 p-2 text-left text-white hover:bg-slate-600">
       <span>
         <svg aria-label="pdf icon" xmlns="http://www.w3.org/2000/svg" width="49" height="48" fill="none">
           <path stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M8.5 22V8a4 4 0 0 1 4-4h16l12 12v24a4 4 0 0 1-4 4h-24a4 4 0 0 1-4-4v-2" />

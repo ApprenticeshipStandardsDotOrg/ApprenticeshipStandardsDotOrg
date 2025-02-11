@@ -3,7 +3,7 @@
 </section>
 
 <nav class="flex px-5 py-3 text-gray-700 bg-seafoam-900" aria-label="Breadcrumb">
-    <div class="max-w-screen-xl mx-auto w-full px-4 lg:px-8">
+    <div class="max-w-(--breakpoint-xl) mx-auto w-full px-4 lg:px-8">
         <ol class="inline-flex items-center space-x-1 md:space-x-3">
             <li class="inline-flex items-center">
                 <a href="/home" class="inline-flex items-center text-sm font-medium text-gray-50 hover:text-white">
@@ -26,7 +26,7 @@
 </nav>
 
 <section aria-labelledby="section-title" class="bg-seafoam-50">
-  <div class="mx-auto max-w-screen-xl py-10 px-4 sm:py-16 lg:px-6">
+  <div class="mx-auto max-w-(--breakpoint-xl) py-10 px-4 sm:py-16 lg:px-6">
       <h3 class="font-bold text-2xl mt-4 mb-2">
           Thank you for submitting your apprenticeship standards!
       </h3>
@@ -58,7 +58,7 @@
           </div>
         </div>
         <div>
-          <%= link_to "Upload more standards", new_standards_import_path, class: "flex-none text-white inline-flex items-center bg-seafoam-700 hover:bg-seafoam-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium text-sm px-4 py-2" %>
+          <%= link_to "Upload more standards", new_standards_import_path, class: "flex-none text-white inline-flex items-center bg-seafoam-700 hover:bg-seafoam-800 focus:ring-4 focus:outline-hidden focus:ring-primary-300 font-medium text-sm px-4 py-2" %>
         </div>
       </div>
   </div>

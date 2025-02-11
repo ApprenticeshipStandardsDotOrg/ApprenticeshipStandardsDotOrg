@@ -1,23 +1,10 @@
-/*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS (and SCSS, if configured) file within this directory, lib/assets/stylesheets, or any plugin's
- * vendor/assets/stylesheets directory can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any other CSS
- * files in this directory. Styles in this file should be added after the last require_* statement.
- * It is generally better to create a new file per style scope.
- *
- *= require_tree .
- *= require_self
- */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;1,400;1,700&display=swap')
+layer(base);
+
 @import 'tailwindcss';
 
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
-@plugin 'flowbite/plugin';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -134,119 +121,36 @@
   }
 }
 
-.occupation-tabs *:focus, .occupation-tabs input:focus + label {
-  outline: none;
-  box-shadow: 0px 1px 0px 0px #007F82;
+@utility btn-primary {
+  @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-sm;
 }
 
-.occ-hero {
-  background-image: url('header-background.png');
+@utility btn-secondary {
+  @apply bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-sm;
 }
 
-.occupation-tabs .radiotab {
-  position: absolute;
-  opacity: 0;
+@utility pill {
+  @apply py-2 px-4 shadow-md no-underline rounded-full text-white font-sans font-semibold text-sm mr-2;
 }
 
-.occupation-tabs .label {
-  cursor: pointer;
-  transition: background .3s, color .3s;
-  /* margin-right: 20px; */
-}
+@layer base {
+  a.default-colors {
+    @apply text-blue-600 hover:text-blue-800 visited:text-purple-600
+  }
 
-.occupation-tabs .label:active {
-  background: #f3f3f3;
-}
+  .form-label, .show-label {
+    @apply block text-gray-700 text-sm font-bold mb-2
+  }
 
-.occupation-tabs .radiotab:checked + .label {
-  border-bottom: solid 3px #007F82;
-  font-weight: bold;
-}
+  .form-field {
+    @apply appearance-none border rounded-sm w-full py-2 px-3 text-gray-700 leading-tight focus:outline-hidden focus:shadow-sm
+  }
 
-.occupation-tabs .radiotab:checked + .label + .panel {
-  display: block;
-}
+  .show-field {
+    @apply w-full text-gray-700 leading-tight
+  }
 
-.accordion details summary::-webkit-details-marker {
-  display: none;
-}
-
-.accordion details[open] summary {
-  background: #415262;
-}
-
-.accordion details[open] summary .skill-title {
-  color: #F3F7F8;
-}
-
-.accordion details[open] summary .skill-code {
-  color: #C6D3DB;
-}
-
-.accordion details[open] summary::before {
-  content: "-";
-  color: #FF7169;
-}
-
-.accordion details[open] summary ~ * {
-}
-
-.accordion details[open] summary div {
-  animation-duration: 0.6s;
-  animation-delay: 0.2s;
-  animation-fill-mode: forwards;
-}
-
-.pagy.nav {
-  font-family: 'Montserrat', sans-serif;
-  color: #066B6E;
-  font-weight: bold;
-}
-
-.pagy.nav a[href] {
-  text-decoration: none;
-  color: #066B6E;
-}
-
-.pagy.nav a[href]:hover {
-  color: #018083;
-}
-
-.pagy.nav a {
-  padding: 7px 10px;
-  text-align: center;
-}
-
-.pagy.nav .current {
-  color: #fff;
-  background-color: #018083;
-  border-radius: 7px;
-}
-
-.pagy.nav [aria-disabled='true'] {
-  color: #9AC1C1;
-}
-
-.pagy.nav [aria-label='Previous'] {
-  margin-right: 15px
-}
-
-.pagy.nav [aria-label='Next'] {
-  margin-left: 15px
-}
-
-nav li.active {
-  box-shadow: 0 3px 0 0 rgba(249, 111, 0, 1);
-}
-
-nav li.active a {
-  font-weight: bold;
-}
-
-.checkbox-filter-count {
-  visibility: hidden;
-}
-
-.checkbox-filter-count.checkbox-filter-count--displayable {
-  visibility: visible;
+  h1 {
+    @apply text-2xl font-semibold
+  }
 }
