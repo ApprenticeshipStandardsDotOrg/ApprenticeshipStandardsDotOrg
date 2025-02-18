@@ -7,7 +7,7 @@ RSpec.describe "admin/occupation_standards/new?import_id=?" do
       registration_agency = create(:registration_agency)
       admin = create(:admin)
       mock_json_response = File.read("spec/fixtures/files/open_ai.json")
-      open_ai_import = create(
+      create(
         :open_ai_import,
         import: import,
         occupation_standard: nil,
