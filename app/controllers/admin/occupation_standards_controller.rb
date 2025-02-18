@@ -1,16 +1,22 @@
 module Admin
   class OccupationStandardsController < Admin::ApplicationController
-    def new
-      open_ai_response = PdfReaderJob.perform_now(params[:import_id])
-      occupation_standard_response = JSON.parse(open_ai_response)
-      occupation_standard = OccupationStandard.from_json(occupation_standard_response)
+    before_action :find_open_ai_import, only: :new
 
-      occupation_standard.open_ai_response = open_ai_response
-      occupation_standard.import_id = params[:import_id]
-      authorize_resource(occupation_standard)
-      render locals: {
-        page: Administrate::Page::Form.new(dashboard, occupation_standard)
-      }
+    def new
+      if @open_ai_import.present?
+        occupation_standard_response = JSON.parse(@open_ai_import.response)
+        occupation_standard = OccupationStandard.from_json(occupation_standard_response)
+
+        occupation_standard.open_ai_response = @open_ai_import.response
+        occupation_standard.import_id = params[:import_id]
+        authorize_resource(occupation_standard)
+        render locals: {
+          page: Administrate::Page::Form.new(dashboard, occupation_standard)
+        }
+      else
+        skip_authorization
+        redirect_to admin_import_path(params[:import_id]), notice: "You must prepare the document by clicking Convert with AI"
+      end
     end
 
     def create
@@ -53,6 +59,12 @@ module Admin
         import_id: params[:occupation_standard][:import_id],
         response: params[:occupation_standard][:open_ai_response]
       }
+    end
+
+    def find_open_ai_import
+      @open_ai_import = OpenAIImport.find_by(
+        import_id: params[:import_id]
+      )
     end
   end
 end
