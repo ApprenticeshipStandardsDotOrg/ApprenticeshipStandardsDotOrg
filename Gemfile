@@ -124,3 +124,5 @@ group :test do
   gem "selenium-webdriver"
   gem "webmock"
 end
+
+gem "noticed", "~> 2.6"
