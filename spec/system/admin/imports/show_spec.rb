@@ -69,6 +69,27 @@ RSpec.describe "admin/imports/show", :admin do
         expect(page).to have_text "No attachment"
         expect(page).to_not have_link "Remove"
       end
+
+      context "if not converted with AI previously" do
+        it "allows admin to Convert with AI" do
+          admin = create(:admin)
+          import = create(:imports_pdf, :with_redacted_pdf)
+
+          login_as admin
+          visit admin_import_path(import)
+
+          expect(page).to have_link(
+            "Convert with AI",
+            href: convert_with_ai_admin_import_path(import)
+          )
+
+          expect(PdfReaderJob).to receive(:perform_later).with(import.id)
+
+          click_link "Convert with AI"
+
+          expect(page).to have_text("Started AI conversion. You'll be notified when document is ready for review.")
+        end
+      end
     end
 
     context "when converter" do

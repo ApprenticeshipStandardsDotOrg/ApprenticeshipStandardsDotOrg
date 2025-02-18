@@ -29,6 +29,14 @@ module Admin
       redirect_to admin_import_path(requested_resource)
     end
 
+    def convert_with_ai
+      authorize requested_resource
+
+      PdfReaderJob.perform_later(params[:id])
+
+      redirect_to admin_imports_path, notice: "Started AI conversion. You'll be notified when document is ready for review."
+    end
+
     private
 
     def resource_params
