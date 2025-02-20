@@ -1,7 +1,3 @@
-# To deliver this notification:
-#
-# NewOpenAIImportAvailableNotifier.with(record: @post, message: "New post").deliver(User.all)
-
 class NewOpenAIImportAvailableNotifier < ApplicationNotifier
   deliver_by :email do |config|
     config.mailer = "AdminMailer"

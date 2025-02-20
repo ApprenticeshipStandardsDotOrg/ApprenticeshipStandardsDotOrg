@@ -83,6 +83,10 @@ RSpec.describe "admin/imports/show", :admin do
           click_button "Convert with AI"
 
           expect(page).to have_text("Started AI conversion. You'll be notified when document is ready for review.")
+
+          import.reload
+
+          expect(import.assignee).to eq admin
         end
       end
     end

@@ -3,7 +3,8 @@ require "rails_helper"
 RSpec.describe PdfReaderJob do
   describe "#perform" do
     it "returns an array of templates with ChatGPT responses" do
-      pdf = create(:imports_pdf)
+      user = create(:user)
+      pdf = create(:imports_pdf, assignee: user)
 
       reader_mock = instance_double "PDF::Reader"
 
@@ -18,7 +19,10 @@ RSpec.describe PdfReaderJob do
 
       parsed_response = JSON.parse(described_class.new.perform(pdf.id))
 
+      open_ai_import = OpenAIImport.find_by(import: pdf)
+
       expect(parsed_response).to eq({"Title" => "Welder (Industrial)", "Type" => "competency"})
+      expect(open_ai_import).to be_present
     end
   end
 end
