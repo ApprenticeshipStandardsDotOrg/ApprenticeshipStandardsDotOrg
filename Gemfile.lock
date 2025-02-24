@@ -19,7 +19,7 @@ GIT
 
 GIT
   remote: https://github.com/mvz/non-digest-assets.git
-  revision: 33da0ef203ad7abed3233289bb0abdd0be9a5883
+  revision: 318c8b3cb80caa7ef7b5405a6ad0bb093272ebf8
   branch: master
   specs:
     non-digest-assets (2.5.0)
