@@ -42,7 +42,12 @@ class PdfReaderJob < ApplicationJob
       reader = PDF::Reader.new(io)
       text = reader.pages.map { |page| page.text }.to_s
 
-      ChatGptGenerateText.new("#{BASE_PROMPT} #{text}").call
+      response = ChatGptGenerateText.new("#{BASE_PROMPT} #{text}").call
+
+      open_ai_import = OpenAIImport.create(import_id: import_id, response: response)
+      NewOpenAIImportAvailableNotifier.with(record: open_ai_import, message: "New post").deliver(pdf.assignee)
+
+      response
     end
   end
 end

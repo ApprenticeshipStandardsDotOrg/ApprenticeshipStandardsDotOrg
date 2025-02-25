@@ -36,6 +36,7 @@ Rails.application.routes.draw do
         resource :redact_file, only: [:new, :create]
         resources :data_imports, except: [:index]
         delete :redacted_import, on: :member, action: :destroy_redacted_pdf
+        post :convert_with_ai, on: :member
       end
       resources :occupation_standards, only: [:index, :show, :edit, :update, :new, :create]
       resources :occupations, only: [:index, :show, :edit, :update]

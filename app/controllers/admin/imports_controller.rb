@@ -1,18 +1,5 @@
 module Admin
   class ImportsController < Admin::ApplicationController
-    # Override this method to specify custom lookup behavior.
-    # This will be used to set the resource for the `show`, `edit`, and `update`
-    # actions.
-    #
-    # def find_resource(param)
-    #   Foo.find_by!(slug: param)
-    # end
-
-    # The result of this lookup will be available as `requested_resource`
-
-    # Override this if you have certain roles that require a subset
-    # this will be used to set the records shown on the `index` action.
-    #
     def scoped_resource
       scope = if current_user.converter? || params[:pdf_only] == "true"
         Imports::Pdf
@@ -27,6 +14,17 @@ module Admin
       redacted_pdf.purge
 
       redirect_to admin_import_path(requested_resource)
+    end
+
+    def convert_with_ai
+      authorize requested_resource
+
+      PdfReaderJob.perform_later(params[:id])
+
+      requested_resource.assignee = current_user
+      requested_resource.save!
+
+      redirect_to admin_imports_path, notice: "Started AI conversion. You'll be notified when document is ready for review."
     end
 
     private

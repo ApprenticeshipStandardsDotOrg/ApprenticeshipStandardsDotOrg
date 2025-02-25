@@ -40,10 +40,11 @@
           class: "button"
         ) %>
 
-    <%= link_to(
+    <%= button_to(
           "Convert with AI",
-          new_admin_occupation_standard_path(import_id: page.resource.id),
+          convert_with_ai_admin_import_path(page.resource),
           class: "button",
+          method: :post,
           data: {turbo_prefetch: false}
         ) %>
 

@@ -40,6 +40,14 @@ class AdminMailer < ApplicationMailer
     end
   end
 
+  def new_open_ai_import_available
+    subject = User.find(params[:notification][:recipient_id])
+    @import = Import.find(params[:record][:import_id])
+
+    mail to: subject.email,
+      subject: "Import ready for conversion"
+  end
+
   private
 
   def public_domain
