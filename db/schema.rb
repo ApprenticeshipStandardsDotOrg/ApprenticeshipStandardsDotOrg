@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_18_152003) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_26_171225) do
   create_schema "heroku_ext"
 
   # These are extensions that must be enabled in order to support this database
@@ -247,6 +247,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_18_152003) do
     t.datetime "updated_at", null: false
     t.index ["import_id"], name: "index_open_ai_imports_on_import_id"
     t.index ["occupation_standard_id"], name: "index_open_ai_imports_on_occupation_standard_id"
+  end
+
+  create_table "open_ai_prompts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.text "prompt", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "name", null: false
   end
 
   create_table "organizations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
