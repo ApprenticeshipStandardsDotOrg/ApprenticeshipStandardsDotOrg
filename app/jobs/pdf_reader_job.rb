@@ -35,14 +35,14 @@ class PdfReaderJob < ApplicationJob
       The input text is:\n\n
   "
 
-  def perform(import_id)
+  def perform(import_id:, open_ai_prompt: OpenAIImport.default)
     pdf = Imports::Pdf.find(import_id)
 
     pdf.file.open do |io|
       reader = PDF::Reader.new(io)
       text = reader.pages.map { |page| page.text }.to_s
 
-      response = ChatGptGenerateText.new("#{BASE_PROMPT} #{text}").call
+      response = ChatGptGenerateText.new("#{open_ai_prompt.prompt} #{text}").call
 
       open_ai_import = OpenAIImport.create(import_id: import_id, response: response)
       NewOpenAIImportAvailableNotifier.with(record: open_ai_import, message: "New post").deliver(pdf.assignee)
