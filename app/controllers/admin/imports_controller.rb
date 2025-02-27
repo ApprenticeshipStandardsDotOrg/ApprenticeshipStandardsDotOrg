@@ -19,7 +19,10 @@ module Admin
     def convert_with_ai
       authorize requested_resource
 
-      PdfReaderJob.perform_later(params[:id])
+      PdfReaderJob.perform_later(
+        import_id: params[:id],
+        open_ai_prompt: OpenAIPrompt.default
+      )
 
       requested_resource.assignee = current_user
       requested_resource.save!

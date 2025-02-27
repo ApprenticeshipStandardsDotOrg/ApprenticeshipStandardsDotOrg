@@ -1,0 +1,2 @@
+class OpenAIPromptPolicy < AdminPolicy
+end

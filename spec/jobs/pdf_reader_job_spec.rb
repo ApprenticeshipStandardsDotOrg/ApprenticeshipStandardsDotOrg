@@ -5,6 +5,7 @@ RSpec.describe PdfReaderJob do
     it "returns an array of templates with ChatGPT responses" do
       user = create(:user)
       pdf = create(:imports_pdf, assignee: user)
+      open_ai_prompt = create(:open_ai_prompt, name: "Sample prompt", prompt: "Prompt")
 
       reader_mock = instance_double "PDF::Reader"
 
@@ -14,10 +15,13 @@ RSpec.describe PdfReaderJob do
       allow(
         ChatGptGenerateText
       ).to receive(:new).with(
-        "#{PdfReaderJob::BASE_PROMPT} [\"Welder (Industrial)\\n(Competency based)\\n\\n\"]"
+        "#{open_ai_prompt.prompt} [\"Welder (Industrial)\\n(Competency based)\\n\\n\"]"
       ).and_return chat_gpt_generator_mock('{"Title": "Welder (Industrial)","Type": "competency" }')
 
-      parsed_response = JSON.parse(described_class.new.perform(pdf.id))
+      parsed_response = JSON.parse(described_class.new.perform(
+        import_id: pdf.id,
+        open_ai_prompt: open_ai_prompt
+      ))
 
       open_ai_import = OpenAIImport.find_by(import: pdf)
 

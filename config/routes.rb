@@ -47,6 +47,7 @@ Rails.application.routes.draw do
       resources :wage_steps, only: [:show, :edit, :update]
       resources :onets, only: [:index, :show]
       resources :synonyms
+      resources :open_ai_prompts
       resources :word_replacements
       resources :contact_requests, only: [:index, :show]
       resources :surveys, only: [:index]

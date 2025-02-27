@@ -1,7 +1,11 @@
-class PdfReaderJob < ApplicationJob
-  queue_as :default
+namespace :after_party do
+  desc "Deployment task: create_default_open_ai_prompt"
+  task create_default_open_ai_prompt: :environment do
+    puts "Running deploy task 'create_default_open_ai_prompt'"
 
-  BASE_PROMPT = "Get the Occupation standard info from the following text in JSON format. JSON output needs the following fields:\
+    OpenAIPrompt.create(
+      name: "Default OpenAI Prompt",
+      prompt: "Get the Occupation standard info from the following text in JSON format. JSON output needs the following fields:\
       title: Title of the occupation standard.
       existingTitle: An existing or alternative title for the occupation.
       onetCode: Also can be found as O*NET code.
@@ -33,21 +37,9 @@ class PdfReaderJob < ApplicationJob
       Return only the output in JSON format without any block, code or markdown.
 
       The input text is:\n\n
-  "
-
-  def perform(import_id:, open_ai_prompt: OpenAIImport.default)
-    pdf = Imports::Pdf.find(import_id)
-
-    pdf.file.open do |io|
-      reader = PDF::Reader.new(io)
-      text = reader.pages.map { |page| page.text }.to_s
-
-      response = ChatGptGenerateText.new("#{open_ai_prompt.prompt} #{text}").call
-
-      open_ai_import = OpenAIImport.create(import_id: import_id, response: response)
-      NewOpenAIImportAvailableNotifier.with(record: open_ai_import, message: "New post").deliver(pdf.assignee)
-
-      response
-    end
+      "
+    )
+    AfterParty::TaskRecord
+      .create version: AfterParty::TaskRecorder.new(__FILE__).timestamp
   end
 end

@@ -74,11 +74,15 @@ RSpec.describe "admin/imports/show", :admin do
         it "allows admin to Convert with AI" do
           admin = create(:admin)
           import = create(:imports_pdf, :with_redacted_pdf)
+          open_ai_prompt = create(:open_ai_prompt)
 
           login_as admin
           visit admin_import_path(import)
 
-          expect(PdfReaderJob).to receive(:perform_later).with(import.id)
+          expect(PdfReaderJob).to receive(:perform_later).with(
+            import_id: import.id,
+            open_ai_prompt: open_ai_prompt
+          )
 
           click_button "Convert with AI"
 
