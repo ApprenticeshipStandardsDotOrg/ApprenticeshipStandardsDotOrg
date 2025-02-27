@@ -60,6 +60,6 @@ class OpenAIPromptDashboard < Administrate::BaseDashboard
   # across all pages of the admin dashboard.
   #
   def display_resource(open_ai_prompt)
-    "#{open_ai_prompt.name}"
+    open_ai_prompt.name.to_s
   end
 end
