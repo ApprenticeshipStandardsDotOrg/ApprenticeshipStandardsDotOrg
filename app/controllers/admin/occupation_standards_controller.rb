@@ -53,11 +53,12 @@ module Admin
     end
 
     def index
+      authorize_resource(resource_class)
       search_term = params[:search].to_s.strip
       resources = filter_resources(scoped_resource, search_term: search_term)
       resources = apply_collection_includes(resources)
       resources = order.apply(resources)
-      
+
       # Filter by control_group if specified
       if params[:filter].present? && params[:filter][:control_group].present?
         if params[:filter][:control_group] == "true"
@@ -66,7 +67,7 @@ module Admin
           resources = resources.where(control_group: false)
         end
       end
-      
+
       resources = paginate_resources(resources)
       page = Administrate::Page::Collection.new(dashboard, order: order)
 
@@ -85,7 +86,7 @@ module Admin
           export_resources = filter_resources(scoped_resource, search_term: search_term)
           export_resources = apply_collection_includes(export_resources)
           export_resources = order.apply(export_resources)
-          
+
           # Apply control_group filter if specified
           if params[:filter].present? && params[:filter][:control_group].present?
             if params[:filter][:control_group] == "true"
@@ -94,7 +95,7 @@ module Admin
               export_resources = export_resources.where(control_group: false)
             end
           end
-          
+
           @occupation_standards = export_resources.includes(
             :occupation,
             :registration_agency,

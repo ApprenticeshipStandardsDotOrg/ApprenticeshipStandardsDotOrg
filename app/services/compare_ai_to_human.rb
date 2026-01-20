@@ -176,7 +176,7 @@ class CompareAIToHuman
     return 0.0 if ai_work_processes.empty? || human_work_processes.empty?
 
     total_similarities = []
-    
+
     ai_work_processes.each do |ai_wp|
       ai_title = normalize(ai_wp["title"] || "")
       matching_human_wp = human_work_processes.find do |human_wp|
@@ -253,10 +253,6 @@ class CompareAIToHuman
     max_length = [str1.length, str2.length].max
     return 0.0 if max_length == 0
 
-    # Simple approach: count matching character sequences
-    matches = 0
-    min_length = [str1.length, str2.length].min
-
     # Check if strings are similar
     if str1.include?(str2) || str2.include?(str1)
       return 0.9 # High similarity for substring matches
@@ -272,4 +268,3 @@ class CompareAIToHuman
     [similarity, 1.0].min
   end
 end
-

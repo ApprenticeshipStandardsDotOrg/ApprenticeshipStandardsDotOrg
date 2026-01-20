@@ -17,4 +17,3 @@ class AIComparisonResult < ApplicationRecord
     save!
   end
 end
-

@@ -53,13 +53,12 @@ class AIComparisonResultDashboard < Administrate::BaseDashboard
     needs_review: ->(resources, _arg) { resources.needs_review },
     flagged: ->(resources, _arg) { resources.flagged },
     low_score: ->(resources, arg) {
-      threshold = arg.to_f > 0 ? arg.to_f : 70
+      threshold = (arg.to_f > 0) ? arg.to_f : 70
       resources.low_score(threshold)
     }
   }.freeze
 
   def display_resource(ai_comparison_result)
-    "#{ai_comparison_result.occupation_standard&.title} (Score: #{ai_comparison_result.overall_score || 'N/A'})"
+    "#{ai_comparison_result.occupation_standard&.title} (Score: #{ai_comparison_result.overall_score || "N/A"})"
   end
 end
-

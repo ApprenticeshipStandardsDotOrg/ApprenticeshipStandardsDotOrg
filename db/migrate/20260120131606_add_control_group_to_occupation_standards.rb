@@ -4,4 +4,3 @@ class AddControlGroupToOccupationStandards < ActiveRecord::Migration[8.0]
     add_index :occupation_standards, :control_group
   end
 end
-

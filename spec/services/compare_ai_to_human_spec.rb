@@ -12,7 +12,7 @@ RSpec.describe CompareAIToHuman do
     end
 
     context "when there is no response in open_ai_import" do
-      let!(:open_ai_import) { create(:open_ai_import, occupation_standard: occupation_standard, response: nil) }
+      let!(:open_ai_import) { build(:open_ai_import, occupation_standard: occupation_standard, response: "").tap { |o| o.save(validate: false) } }
 
       it "returns nil" do
         expect(service.call).to be_nil
@@ -33,12 +33,12 @@ RSpec.describe CompareAIToHuman do
         let(:ai_response) do
           {
             "workProcesses" => [
-              { "title" => "Installation and Setup", "description" => "Install equipment", "competencies" => [] },
-              { "title" => "Maintenance Procedures", "description" => "Maintain systems", "competencies" => [] }
+              {"title" => "Installation and Setup", "description" => "Install equipment", "competencies" => []},
+              {"title" => "Maintenance Procedures", "description" => "Maintain systems", "competencies" => []}
             ],
             "relatedInstructions" => [
-              { "title" => "Safety Training", "hours" => 40 },
-              { "title" => "Technical Skills", "hours" => 80 }
+              {"title" => "Safety Training", "hours" => 40},
+              {"title" => "Technical Skills", "hours" => 80}
             ]
           }
         end
@@ -83,7 +83,7 @@ RSpec.describe CompareAIToHuman do
         let(:ai_response) do
           {
             "workProcesses" => [
-              { "title" => "Work Process 1", "description" => nil, "competencies" => [] }
+              {"title" => "Work Process 1", "description" => nil, "competencies" => []}
             ],
             "relatedInstructions" => []
           }
@@ -109,7 +109,7 @@ RSpec.describe CompareAIToHuman do
         let(:ai_response) do
           {
             "workProcesses" => [
-              { "title" => "Installation & Setup", "description" => nil, "competencies" => [] }
+              {"title" => "Installation & Setup", "description" => nil, "competencies" => []}
             ],
             "relatedInstructions" => []
           }
@@ -130,7 +130,7 @@ RSpec.describe CompareAIToHuman do
         let(:ai_response) do
           {
             "workProcesses" => [
-              { "title" => "Work Process Z", "description" => nil, "competencies" => [] }
+              {"title" => "Work Process Z", "description" => nil, "competencies" => []}
             ],
             "relatedInstructions" => []
           }
@@ -157,8 +157,8 @@ RSpec.describe CompareAIToHuman do
                 "title" => "Work Process 1",
                 "description" => nil,
                 "competencies" => [
-                  { "title" => "Install wiring" },
-                  { "title" => "Test systems" }
+                  {"title" => "Install wiring"},
+                  {"title" => "Test systems"}
                 ]
               }
             ],
@@ -188,8 +188,8 @@ RSpec.describe CompareAIToHuman do
           {
             "workProcesses" => [],
             "relatedInstructions" => [
-              { "title" => "Training", "hours" => 100 },
-              { "title" => "Education", "hours" => 200 }
+              {"title" => "Training", "hours" => 100},
+              {"title" => "Education", "hours" => 200}
             ]
           }
         end
@@ -214,8 +214,8 @@ RSpec.describe CompareAIToHuman do
           {
             "workProcesses" => [],
             "relatedInstructions" => [
-              { "title" => "Training", "hours" => 50 },
-              { "title" => "Education", "hours" => 100 }
+              {"title" => "Training", "hours" => 50},
+              {"title" => "Education", "hours" => 100}
             ]
           }
         end
@@ -255,10 +255,10 @@ RSpec.describe CompareAIToHuman do
         let(:ai_response) do
           {
             "workProcesses" => [
-              { "title" => "Work Process 1", "description" => nil, "competencies" => [] }
+              {"title" => "Work Process 1", "description" => nil, "competencies" => []}
             ],
             "relatedInstructions" => [
-              { "title" => "Instruction 1", "hours" => 40 }
+              {"title" => "Instruction 1", "hours" => 40}
             ]
           }
         end
@@ -302,10 +302,10 @@ RSpec.describe CompareAIToHuman do
         let(:ai_response) do
           {
             "workProcesses" => [
-              { "title" => "Work Process 1", "description" => nil, "competencies" => [] }
+              {"title" => "Work Process 1", "description" => nil, "competencies" => []}
             ],
             "relatedInstructions" => [
-              { "title" => "Instruction 1", "hours" => 40 }
+              {"title" => "Instruction 1", "hours" => 40}
             ]
           }
         end
@@ -333,10 +333,10 @@ RSpec.describe CompareAIToHuman do
         let(:ai_response) do
           {
             "workProcesses" => [
-              { "title" => "Work Process Z", "description" => nil, "competencies" => [] }
+              {"title" => "Work Process Z", "description" => nil, "competencies" => []}
             ],
             "relatedInstructions" => [
-              { "title" => "Instruction Z", "hours" => 10 }
+              {"title" => "Instruction Z", "hours" => 10}
             ]
           }
         end
@@ -362,7 +362,7 @@ RSpec.describe CompareAIToHuman do
         let(:ai_response) do
           {
             "workProcesses" => [
-              { "title" => "Work Process 1", "description" => nil, "competencies" => [] }
+              {"title" => "Work Process 1", "description" => nil, "competencies" => []}
             ],
             "relatedInstructions" => []
           }
@@ -390,4 +390,3 @@ RSpec.describe CompareAIToHuman do
     # Additional edge case tests can be added here
   end
 end
-

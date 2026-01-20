@@ -28,7 +28,7 @@ wb.add_worksheet(name: "Control Group Comparison Results") do |sheet|
     bg_color: "366092",
     fg_color: "FFFFFF",
     b: true,
-    alignment: { horizontal: :center, vertical: :center }
+    alignment: {horizontal: :center, vertical: :center}
   )
 
   sheet.rows.first.style = header_style
@@ -36,7 +36,7 @@ wb.add_worksheet(name: "Control Group Comparison Results") do |sheet|
   # Create entries for each control group standard with comparison results
   @occupation_standards.each do |standard|
     comparison = standard.ai_comparison_result
-    
+
     wp_details = if comparison&.work_processes_comparison_details
       JSON.parse(comparison.work_processes_comparison_details)
     else
@@ -83,4 +83,3 @@ wb.add_worksheet(name: "Control Group Comparison Results") do |sheet|
   # Auto-size columns
   sheet.column_widths 30, 15, 15, 10, 12, 18, 22, 15, 12, 18, 16, 18, 22, 22, 22, 15, 15, 40
 end
-

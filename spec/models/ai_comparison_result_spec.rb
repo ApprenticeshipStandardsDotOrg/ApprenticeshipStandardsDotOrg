@@ -157,4 +157,3 @@ RSpec.describe AIComparisonResult, type: :model do
     end
   end
 end
-
