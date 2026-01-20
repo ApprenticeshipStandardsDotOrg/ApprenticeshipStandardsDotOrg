@@ -1,0 +1,19 @@
+# Cursor Rules for ApprenticeshipStandardsDotOrg
+
+## Testing
+- **CRITICAL**: Whenever creating or editing a spec file (*_spec.rb), you MUST run the specs immediately to confirm they work.
+- Always run specs after creating new test files: `rspec spec/path/to/spec_file_spec.rb`
+- After modifying existing specs, run them to ensure they still pass and new tests work correctly.
+- Never commit spec files without verifying they pass.
+
+## Code Style
+- Follow Ruby on Rails conventions
+- Use existing patterns in the codebase
+- Maintain consistency with Administrate dashboard configurations
+
+## Spec Files
+- Use FactoryBot for test data
+- Follow the existing spec structure in the `spec/` directory
+- Ensure factories match the model structure
+- Test edge cases and error conditions
+

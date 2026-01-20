@@ -52,6 +52,61 @@ module Admin
       ).run
     end
 
+    def index
+      search_term = params[:search].to_s.strip
+      resources = filter_resources(scoped_resource, search_term: search_term)
+      resources = apply_collection_includes(resources)
+      resources = order.apply(resources)
+      
+      # Filter by control_group if specified
+      if params[:filter].present? && params[:filter][:control_group].present?
+        if params[:filter][:control_group] == "true"
+          resources = resources.where(control_group: true)
+        elsif params[:filter][:control_group] == "false"
+          resources = resources.where(control_group: false)
+        end
+      end
+      
+      resources = paginate_resources(resources)
+      page = Administrate::Page::Collection.new(dashboard, order: order)
+
+      respond_to do |format|
+        format.html do
+          render locals: {
+            resources: resources,
+            search_term: search_term,
+            page: page,
+            show_search_bar: show_search_bar?
+          }
+        end
+
+        format.xlsx do
+          # Get all records for export (not paginated)
+          export_resources = filter_resources(scoped_resource, search_term: search_term)
+          export_resources = apply_collection_includes(export_resources)
+          export_resources = order.apply(export_resources)
+          
+          # Apply control_group filter if specified
+          if params[:filter].present? && params[:filter][:control_group].present?
+            if params[:filter][:control_group] == "true"
+              export_resources = export_resources.where(control_group: true)
+            elsif params[:filter][:control_group] == "false"
+              export_resources = export_resources.where(control_group: false)
+            end
+          end
+          
+          @occupation_standards = export_resources.includes(
+            :occupation,
+            :registration_agency,
+            :state,
+            :ai_comparison_result,
+            registration_agency: :state
+          )
+          render "index"
+        end
+      end
+    end
+
     private
 
     def open_ai_import_params

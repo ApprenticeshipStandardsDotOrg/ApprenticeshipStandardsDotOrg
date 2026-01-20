@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_26_171225) do
+ActiveRecord::Schema[8.0].define(version: 2026_01_20_131730) do
   create_schema "heroku_ext"
 
   # These are extensions that must be enabled in order to support this database
@@ -44,6 +44,25 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_26_171225) do
     t.uuid "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "ai_comparison_results", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "occupation_standard_id", null: false
+    t.decimal "work_processes_score", precision: 5, scale: 2
+    t.decimal "related_instructions_score", precision: 5, scale: 2
+    t.decimal "overall_score", precision: 5, scale: 2
+    t.boolean "needs_review", default: false, null: false
+    t.boolean "flagged_by_system", default: false, null: false
+    t.boolean "flagged_by_user", default: false, null: false
+    t.text "work_processes_comparison_details"
+    t.text "related_instructions_comparison_details"
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["flagged_by_system", "flagged_by_user"], name: "idx_on_flagged_by_system_flagged_by_user_823ef4087f"
+    t.index ["needs_review"], name: "index_ai_comparison_results_on_needs_review"
+    t.index ["occupation_standard_id"], name: "index_ai_comparison_results_on_occupation_standard_id", unique: true
+    t.index ["overall_score"], name: "index_ai_comparison_results_on_overall_score"
   end
 
   create_table "api_keys", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -199,6 +218,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_26_171225) do
     t.date "registration_date"
     t.date "latest_update_date"
     t.uuid "industry_id"
+    t.boolean "control_group", default: false, null: false
+    t.index ["control_group"], name: "index_occupation_standards_on_control_group"
     t.index ["industry_id"], name: "index_occupation_standards_on_industry_id"
     t.index ["occupation_id"], name: "index_occupation_standards_on_occupation_id"
     t.index ["organization_id"], name: "index_occupation_standards_on_organization_id"
@@ -406,6 +427,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_26_171225) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "ai_comparison_results", "occupation_standards"
   add_foreign_key "api_keys", "users"
   add_foreign_key "competencies", "work_processes"
   add_foreign_key "courses", "organizations"

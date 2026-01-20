@@ -35,7 +35,7 @@ class PdfReaderJob < ApplicationJob
       The input text is:\n\n
   "
 
-  def perform(import_id:, open_ai_prompt: OpenAIImport.default)
+  def perform(import_id:, open_ai_prompt: OpenAIPrompt.default)
     pdf = Imports::Pdf.find(import_id)
 
     pdf.file.open do |io|
