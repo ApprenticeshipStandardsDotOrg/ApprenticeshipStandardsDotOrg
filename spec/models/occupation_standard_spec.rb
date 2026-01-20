@@ -1014,4 +1014,24 @@ RSpec.describe OccupationStandard, type: :model do
       expect(occupation_standard).to_not be_converted_with_ai
     end
   end
+
+  describe ".control_group" do
+    it "returns only occupation standards marked as control group" do
+      control_standard = create(:occupation_standard, control_group: true)
+      non_control_standard = create(:occupation_standard, control_group: false)
+
+      expect(described_class.control_group).to include(control_standard)
+      expect(described_class.control_group).not_to include(non_control_standard)
+    end
+  end
+
+  describe ".not_control_group" do
+    it "returns only occupation standards not marked as control group" do
+      control_standard = create(:occupation_standard, control_group: true)
+      non_control_standard = create(:occupation_standard, control_group: false)
+
+      expect(described_class.not_control_group).to include(non_control_standard)
+      expect(described_class.not_control_group).not_to include(control_standard)
+    end
+  end
 end

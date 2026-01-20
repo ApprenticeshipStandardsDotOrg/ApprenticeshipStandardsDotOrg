@@ -20,6 +20,7 @@ class OccupationStandard < ApplicationRecord
   has_one_attached :redacted_document
   has_one :text_representation
   has_one :open_ai_import
+  has_one :ai_comparison_result, class_name: "AIComparisonResult"
 
   delegate :title, to: :organization, prefix: true, allow_nil: true
   delegate :title, to: :occupation, prefix: true, allow_nil: true
@@ -231,6 +232,9 @@ class OccupationStandard < ApplicationRecord
   scope :with_work_processes, -> { joins(:work_processes).distinct }
 
   scope :recently_added, -> { where.associated(:work_processes).distinct.order(created_at: :desc).limit(MAX_RECENTLY_ADDED_OCCUPATIONS_TO_DISPLAY) }
+
+  scope :control_group, -> { where(control_group: true) }
+  scope :not_control_group, -> { where(control_group: false) }
 
   class << self
     def industry_count(onet_prefix)

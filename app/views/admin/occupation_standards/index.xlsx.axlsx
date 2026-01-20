@@ -1,0 +1,85 @@
+wb = xlsx_package.workbook
+
+wb.add_worksheet(name: "Control Group Comparison Results") do |sheet|
+  # Create the header row
+  sheet.add_row [
+    "Title",
+    "OJT Type",
+    "Registration Agency",
+    "State",
+    "Control Group",
+    "Work Processes Score",
+    "Related Instructions Score",
+    "Overall Score",
+    "Needs Review",
+    "Flagged by System",
+    "Flagged by User",
+    "AI Work Processes Count",
+    "Human Work Processes Count",
+    "AI Related Instructions Count",
+    "Human Related Instructions Count",
+    "AI Total Hours",
+    "Human Total Hours",
+    "Notes"
+  ]
+
+  # Style the header row
+  header_style = sheet.styles.add_style(
+    bg_color: "366092",
+    fg_color: "FFFFFF",
+    b: true,
+    alignment: {horizontal: :center, vertical: :center}
+  )
+
+  sheet.rows.first.style = header_style
+
+  # Create entries for each control group standard with comparison results
+  @occupation_standards.each do |standard|
+    comparison = standard.ai_comparison_result
+
+    wp_details = if comparison&.work_processes_comparison_details
+      JSON.parse(comparison.work_processes_comparison_details)
+    else
+      {}
+    end
+
+    ri_details = if comparison&.related_instructions_comparison_details
+      JSON.parse(comparison.related_instructions_comparison_details)
+    else
+      {}
+    end
+
+    sheet.add_row [
+      standard.title,
+      standard.ojt_type&.titleize,
+      standard.registration_agency&.agency_type&.upcase,
+      standard.state&.abbreviation || standard.registration_agency&.state&.abbreviation,
+      standard.control_group? ? "Yes" : "No",
+      comparison&.work_processes_score,
+      comparison&.related_instructions_score,
+      comparison&.overall_score,
+      comparison&.needs_review? ? "Yes" : "No",
+      comparison&.flagged_by_system? ? "Yes" : "No",
+      comparison&.flagged_by_user? ? "Yes" : "No",
+      wp_details["ai_count"] || 0,
+      wp_details["human_count"] || 0,
+      ri_details["ai_count"] || 0,
+      ri_details["human_count"] || 0,
+      ri_details["ai_total_hours"] || 0,
+      ri_details["human_total_hours"] || 0,
+      comparison&.notes
+    ]
+
+    # Highlight rows with low scores or flagged items
+    if comparison && (comparison.overall_score.to_f < 70 || comparison.flagged?)
+      row_style = sheet.styles.add_style(
+        bg_color: "FFE6E6",
+        fg_color: "000000"
+      )
+      sheet.rows.last.style = row_style
+    end
+  end
+
+  # Auto-size columns
+  sheet.column_widths 30, 15, 15, 10, 12, 18, 22, 15, 12, 18, 16, 18, 22, 22, 22, 15, 15, 40
+end

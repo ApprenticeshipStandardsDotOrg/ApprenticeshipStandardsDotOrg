@@ -3,8 +3,10 @@ require "administrate/base_dashboard"
 class OccupationStandardDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     apprenticeship_to_journeyworker_ratio: Field::String,
+    control_group: Field::Boolean,
     created_at: Field::DateTime,
     data_imports: Field::HasMany,
+    ai_comparison_result: Field::HasOne.with_options(class_name: "AIComparisonResult"),
     existing_title: Field::String,
     id: Field::String.with_options(searchable: false),
     national_standard_type: EnumField,
@@ -41,6 +43,7 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
     onet_code
     rapids_code
     status
+    control_group
   ].freeze
 
   SHOW_PAGE_ATTRIBUTES = %i[
@@ -68,6 +71,7 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
 
     data_imports
     redacted_document
+    ai_comparison_result
     work_processes
     related_instructions
     wage_steps
@@ -92,7 +96,17 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
     import_id
   ].freeze
 
-  COLLECTION_FILTERS = {}.freeze
+  COLLECTION_FILTERS = {
+    control_group: ->(resources, arg) {
+      if arg.to_s.downcase == "true" || arg.to_s.downcase == "yes" || arg.to_s.downcase == "1"
+        resources.where(control_group: true)
+      elsif arg.to_s.downcase == "false" || arg.to_s.downcase == "no" || arg.to_s.downcase == "0"
+        resources.where(control_group: false)
+      else
+        resources
+      end
+    }
+  }.freeze
 
   def display_resource(occupation_standard)
     occupation_standard.title
