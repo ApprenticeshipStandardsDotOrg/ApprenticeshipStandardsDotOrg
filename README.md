@@ -22,7 +22,7 @@ Rails 7, and PostgreSQL 14.
    127.0.0.1 admin.example.localhost
    # End ApprenticeshipStandards.org additions
    ```
-5. Install `lipvips` with Homebrew: `brew install vips`
+5. Install `libvips` with Homebrew: `brew install vips`
 6. Start the rails app with `bin/dev`:
     * The public facing application will be available at http://localhost:3000
     * The admin pages will be available at http://admin.example.localhost:3000

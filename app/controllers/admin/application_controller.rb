@@ -10,6 +10,11 @@ module Admin
 
     def authenticate_admin
       authenticate_user!
+
+      return if current_user.admin? || current_user.converter?
+
+      sign_out current_user
+      redirect_to new_user_session_path, alert: "You are not authorized to access the admin area."
     end
 
     private

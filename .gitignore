@@ -36,6 +36,9 @@
 !/app/assets/builds/.keep
 
 .env
+.envrc
+latest.dump
+codex_resume.sh
 
 # Ignore spec file to track failures for --only-failures flag
 spec/examples.txt

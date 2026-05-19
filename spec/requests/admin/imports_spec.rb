@@ -170,6 +170,17 @@ RSpec.describe "Admin::Imports", type: :request do
           expect(response).to redirect_to new_user_session_path
         end
       end
+
+      context "when basic user" do
+        it "signs out and redirects to sign in" do
+          user = create(:user)
+
+          sign_in user
+          get admin_imports_path
+
+          expect(response).to redirect_to new_user_session_path
+        end
+      end
     end
 
     context "on non-admin subdomain" do
