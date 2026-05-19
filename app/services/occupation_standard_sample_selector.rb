@@ -119,7 +119,7 @@ class OccupationStandardSampleSelector
   def random_ids(scope, count, excluded_ids)
     return [] if count <= 0
 
-    scope.where.not(id: excluded_ids).pluck(:id).shuffle(random: @random).first(count)
+    scope.where.not(id: excluded_ids).pluck(:id).sample(count, random: @random)
   end
 
   def persist(selected_ids)
