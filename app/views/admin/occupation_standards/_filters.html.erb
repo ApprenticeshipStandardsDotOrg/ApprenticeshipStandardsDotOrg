@@ -6,11 +6,11 @@
 <div id="sampleFilter" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-xs w-44 dark:bg-gray-700">
   <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="sampleFilterButton">
     <li>
-      <%= link_to "Sample data", url_for(search: "sample:true"),
+      <%= link_to "Sample set", url_for(search: "sample_set:true"),
             class: "block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" %>
     </li>
     <li>
-      <%= link_to "Not sample data", url_for(search: "sample:false"),
+      <%= link_to "Not sample set", url_for(search: "sample_set:false"),
             class: "block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" %>
     </li>
     <li>

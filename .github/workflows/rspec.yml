@@ -75,6 +75,7 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB_TEST: app_test
+          PGHOST: localhost
           CI: true
           ELASTICSEARCH_URL: http://localhost:9200
         run: |

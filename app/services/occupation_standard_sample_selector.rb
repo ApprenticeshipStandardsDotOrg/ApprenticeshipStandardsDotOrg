@@ -124,8 +124,8 @@ class OccupationStandardSampleSelector
 
   def persist(selected_ids)
     OccupationStandard.transaction do
-      OccupationStandard.where(sample: true).update_all(sample: false)
-      OccupationStandard.where(id: selected_ids).update_all(sample: true)
+      OccupationStandard.where(sample_set: true).update_all(sample_set: false)
+      OccupationStandard.where(id: selected_ids).update_all(sample_set: true)
     end
   end
 end
