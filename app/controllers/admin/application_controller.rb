@@ -5,14 +5,18 @@ module Admin
 
     rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
-    before_action :authenticate_admin
+    before_action :authenticate_user!
+    before_action :signout_unauthorized_user
     after_action :verify_authorized # Pundit
 
-    def authenticate_admin
-      authenticate_user!
-    end
-
     private
+
+    def signout_unauthorized_user
+      return if current_user.admin? || current_user.converter?
+
+      sign_out current_user
+      redirect_to new_user_session_path, alert: "You are not authorized to access the admin area."
+    end
 
     def user_not_authorized
       flash[:alert] = "You are not authorized to perform this action."

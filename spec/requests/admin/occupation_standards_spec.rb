@@ -22,6 +22,20 @@ RSpec.describe "Admin::OccupationStandard", type: :request do
 
           expect(response).to be_successful
         end
+
+        it "can filter by sample set" do
+          admin = create(:admin)
+          sample_standard = create(:occupation_standard, title: "Sample Standard", sample_set: true)
+          create(:occupation_standard, title: "Other Standard", sample_set: false)
+
+          sign_in admin
+          get admin_occupation_standards_path(search: "sample_set:true")
+
+          expect(response).to be_successful
+          expect(response.body).to include("Sample set")
+          expect(response.body).to include(sample_standard.title)
+          expect(response.body).not_to include("Other Standard")
+        end
       end
 
       context "when converter" do
