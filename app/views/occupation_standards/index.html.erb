@@ -25,14 +25,16 @@
 
 <section aria-label="search results" class="bg-seafoam-50">
     <div class="mx-auto max-w-(--breakpoint-xl) py-10 px-4 sm:py-16 lg:px-6">
-        <% if @search_term.present? %>
-            <div class="mb-8 flex lg:mb-8">
-                <h2 class="mb-4 text-2xl tracking-tight text-gray-900">
-                    Showing Results for
-                    <span class="font-bold"><%= @search_term %></span>
-                </h2>
-            </div>
-        <% end %>
+        <div class="mb-8 flex lg:mb-8">
+            <h2 class="mb-4 text-2xl tracking-tight text-gray-900">
+                Showing
+                <span class="font-bold"><%= number_with_delimiter(@pagy.count) %></span>
+                <%= "result".pluralize(@pagy.count) %>
+                <% if @search_term.present? %>
+                    for <span class="font-bold"><%= @search_term %></span>
+                <% end %>
+            </h2>
+        </div>
 
         <% @occupation_standards.each do |occupation_standard| %>
           <% unless Flipper.enabled?(:use_elasticsearch_for_search) %>
