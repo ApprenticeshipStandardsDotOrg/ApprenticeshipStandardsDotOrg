@@ -199,13 +199,11 @@ ActiveRecord::Schema[8.0].define(version: 2026_05_19_120000) do
     t.date "registration_date"
     t.date "latest_update_date"
     t.uuid "industry_id"
-    t.boolean "sample", default: false, null: false
     t.boolean "sample_set", default: false, null: false
     t.index ["industry_id"], name: "index_occupation_standards_on_industry_id"
     t.index ["occupation_id"], name: "index_occupation_standards_on_occupation_id"
     t.index ["organization_id"], name: "index_occupation_standards_on_organization_id"
     t.index ["registration_agency_id"], name: "index_occupation_standards_on_registration_agency_id"
-    t.index ["sample"], name: "index_occupation_standards_on_sample"
     t.index ["sample_set"], name: "index_occupation_standards_on_sample_set"
   end
 
