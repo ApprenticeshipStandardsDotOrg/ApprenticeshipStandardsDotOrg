@@ -14,6 +14,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_05_19_120000) do
   create_schema "heroku_ext"
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "heroku_ext.pg_stat_statements"
   enable_extension "heroku_ext.pgcrypto"
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_stat_statements"
