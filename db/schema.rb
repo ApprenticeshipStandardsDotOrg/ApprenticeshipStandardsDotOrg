@@ -14,9 +14,9 @@ ActiveRecord::Schema[8.0].define(version: 2026_05_19_120000) do
   create_schema "heroku_ext"
 
   # These are extensions that must be enabled in order to support this database
-  enable_extension "heroku_ext.pg_stat_statements"
   enable_extension "heroku_ext.pgcrypto"
   enable_extension "pg_catalog.plpgsql"
+  enable_extension "pg_stat_statements"
 
   create_table "active_storage_attachments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
@@ -181,7 +181,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_05_19_120000) do
     t.uuid "registration_agency_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.uuid "organization_id"
     t.string "title"
     t.integer "term_months"
     t.integer "ojt_type"
@@ -194,16 +193,19 @@ ActiveRecord::Schema[8.0].define(version: 2026_05_19_120000) do
     t.integer "ojt_hours_max"
     t.integer "rsi_hours_min"
     t.integer "rsi_hours_max"
+    t.uuid "organization_id"
     t.integer "status", default: 0, null: false
     t.integer "national_standard_type"
     t.date "registration_date"
     t.date "latest_update_date"
     t.uuid "industry_id"
+    t.boolean "sample", default: false, null: false
     t.boolean "sample_set", default: false, null: false
     t.index ["industry_id"], name: "index_occupation_standards_on_industry_id"
     t.index ["occupation_id"], name: "index_occupation_standards_on_occupation_id"
     t.index ["organization_id"], name: "index_occupation_standards_on_organization_id"
     t.index ["registration_agency_id"], name: "index_occupation_standards_on_registration_agency_id"
+    t.index ["sample"], name: "index_occupation_standards_on_sample"
     t.index ["sample_set"], name: "index_occupation_standards_on_sample_set"
   end
 
