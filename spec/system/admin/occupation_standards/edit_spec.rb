@@ -52,7 +52,6 @@ RSpec.describe "admin/occupation_standards/edit" do
         click_on "Add Work Process"
 
         within(".nested-fields") do
-          page.find("details").click
           fill_in "Title", with: "New Work Process"
         end
       end

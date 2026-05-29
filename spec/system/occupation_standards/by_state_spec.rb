@@ -25,6 +25,6 @@ RSpec.describe ":state/occupation_standards" do
   it "shows no results when state does not exist" do
     visit occupation_standards_by_state_path(state: "ZZ")
 
-    expect(page).to have_no_text "Showing Results for"
+    expect(page).to have_no_text(/Showing \d+ results? for/)
   end
 end

@@ -98,7 +98,7 @@ RSpec.configure do |config|
   config.around(:each, type: :system, admin: true) do |example|
     Capybara.app_host = "http://admin.example.localhost"
     example.run
-    Capybara.app_host = "http://localhost:4000"
+    Capybara.app_host = "http://localhost"
   end
 
   config.before(:each, url_generation: true) do

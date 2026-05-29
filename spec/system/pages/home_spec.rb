@@ -14,7 +14,7 @@ RSpec.describe "pages/home" do
       find("#search").click
 
       expect(page).to have_current_path(occupation_standards_path(q: "Mechanic"))
-      expect(page).to have_text "Showing Results for Mechanic"
+      expect(page).to have_text(/Showing \d+ results? for Mechanic/)
       expect(page).to have_field("q", with: "Mechanic")
 
       expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
@@ -128,7 +128,7 @@ RSpec.describe "pages/home" do
       find("#search").click
 
       expect(page).to have_current_path(occupation_standards_path(q: "Mechanic"))
-      expect(page).to have_text "Showing Results for Mechanic"
+      expect(page).to have_text(/Showing \d+ results? for Mechanic/)
       expect(page).to have_field("q", with: "Mechanic")
 
       expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
