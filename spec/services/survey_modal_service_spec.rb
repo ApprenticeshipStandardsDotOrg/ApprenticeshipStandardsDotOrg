@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe SurveyModalService do
   include ActiveSupport::Testing::TimeHelpers
 
-  let(:cookies) { TestCookieJar.new }
+  let(:cookies) { Struct.new(:encrypted).new({}) }
   let(:service) { described_class.new(cookies) }
 
   after { travel_back }
@@ -57,13 +57,5 @@ RSpec.describe SurveyModalService do
 
     travel 1.year
     expect(service.show?).to be false
-  end
-
-  class TestCookieJar
-    attr_reader :encrypted
-
-    def initialize
-      @encrypted = {}
-    end
   end
 end
