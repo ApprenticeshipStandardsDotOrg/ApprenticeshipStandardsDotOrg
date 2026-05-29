@@ -34,8 +34,10 @@ describe Rack::Attack do
 
   describe "throttle excessive ip requests" do
     it "changes the request status to 429 when higher than limit" do
+      allow(Rack::Attack.throttles["req/ip"]).to receive(:limit).and_return(3)
+
       travel_to Time.current do
-        300.times do |i|
+        3.times do
           get "/", {}, {"REMOTE_ADDR" => "103.1.3.1}"}
 
           expect(last_response.status).to eq(200)

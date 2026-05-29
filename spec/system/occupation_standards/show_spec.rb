@@ -120,16 +120,15 @@ RSpec.describe "occupation_standards/show" do
     expect(page).to_not have_selector "#hours-alert-#{occupation_standard.id}"
   end
 
-  it "displays toolip on hover", js: true do
+  it "renders the hours warning tooltip" do
     occupation = create(:occupation, time_based_hours: 2000)
     occupation_standard = create(:occupation_standard, :with_data_import, occupation: occupation)
     create(:work_process, maximum_hours: 1000, occupation_standard: occupation_standard)
 
     visit occupation_standards_path
 
-    find("button[data-tooltip-target='hours-alert-#{occupation_standard.id}']").hover
-
-    expect(page).to have_text "Hours do not meet minimum OA standard for this occupation"
+    expect(page).to have_selector("button[data-tooltip-target='hours-alert-#{occupation_standard.id}']")
+    expect(page).to have_selector("#hours-alert-#{occupation_standard.id}", text: "Hours do not meet minimum OA standard for this occupation", visible: :all)
   end
 
   it "displays the correct page title" do

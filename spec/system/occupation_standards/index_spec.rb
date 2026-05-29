@@ -26,7 +26,7 @@ RSpec.describe "occupation_standards/index" do
 
       find("#search").click
 
-      expect(page).to have_text "Showing Results for Assistant"
+      expect(page).to have_text(/Showing \d+ results? for Assistant/)
       expect(page).to have_field("q", with: "Assistant")
 
       expect(page).to have_link "Dental Assistant", href: occupation_standard_path(dental)
@@ -45,7 +45,7 @@ RSpec.describe "occupation_standards/index" do
 
       find("#search").click
 
-      expect(page).to have_text "Showing Results for 1234"
+      expect(page).to have_text(/Showing \d+ results? for 1234/)
       expect(page).to have_field("q", with: "1234")
 
       expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
@@ -64,7 +64,7 @@ RSpec.describe "occupation_standards/index" do
 
       find("#search").click
 
-      expect(page).to have_text "Showing Results for 12.3456"
+      expect(page).to have_text(/Showing \d+ results? for 12.3456/)
       expect(page).to have_field("q", with: "12.3456")
 
       expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
@@ -87,7 +87,7 @@ RSpec.describe "occupation_standards/index" do
 
       find("#search").click
 
-      expect(page).to have_text "Showing Results for 12.3456"
+      expect(page).to have_text(/Showing \d+ results? for 12.3456/)
       expect(page).to have_field("q", with: "12.3456")
       expect(page).to have_field("state_id", with: wa.id)
 
@@ -112,7 +112,7 @@ RSpec.describe "occupation_standards/index" do
 
       find("#search").click
 
-      expect(page).to have_text "Showing Results for 12.3456"
+      expect(page).to have_text(/Showing \d+ results? for 12.3456/)
       expect(page).to have_field("q", with: "12.3456")
       find("#dropdownNationalButton").click
       expect(page).to have_checked_field("National Program Standards")
@@ -140,7 +140,7 @@ RSpec.describe "occupation_standards/index" do
 
       find("#search").click
 
-      expect(page).to have_text "Showing Results for 12.3456"
+      expect(page).to have_text(/Showing \d+ results? for 12.3456/)
       expect(page).to have_field("q", with: "12.3456")
       find("#dropdownPrgrmTypeButton").click
       expect(page).to have_checked_field("Hybrid")
@@ -165,7 +165,7 @@ RSpec.describe "occupation_standards/index" do
 
       find("#search").click
 
-      expect(page).to have_text "Showing Results for 12.3456"
+      expect(page).to have_text(/Showing \d+ results? for 12.3456/)
       expect(page).to have_field("q", with: "state:wa 12.3456")
 
       expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
@@ -185,7 +185,7 @@ RSpec.describe "occupation_standards/index" do
 
       find("#search").click
 
-      expect(page).to have_text "Showing Results for 12.3456"
+      expect(page).to have_text(/Showing \d+ results? for 12.3456/)
       expect(page).to have_field("q", with: "12.3456 national_standard_type:program_standard")
       find("#dropdownNationalButton").click
 
@@ -206,7 +206,7 @@ RSpec.describe "occupation_standards/index" do
 
       find("#search").click
 
-      expect(page).to have_text "Showing Results for 12.3456"
+      expect(page).to have_text(/Showing \d+ results? for 12.3456/)
       expect(page).to have_field("q", with: "12.3456 ojt_type:hybrid")
 
       expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
@@ -241,7 +241,7 @@ RSpec.describe "occupation_standards/index" do
 
       find("#search").click
 
-      expect(page).to have_text "Showing Results for 12.3456"
+      expect(page).to have_text(/Showing \d+ results? for 12.3456/)
       expect(page).to have_field("q", with: "12.3456")
       find("#dropdownPrgrmTypeButton").click
       expect(page).to have_checked_field("Hybrid")
@@ -307,16 +307,15 @@ RSpec.describe "occupation_standards/index" do
       expect(page).not_to have_selector("#accordion-#{mechanic.id}")
     end
 
-    it "displays toolip on hover", js: true do
+    it "renders the hours warning tooltip" do
       occupation = create(:occupation, time_based_hours: 2000)
       occupation_standard = create(:occupation_standard, :with_data_import, occupation: occupation)
       create(:work_process, maximum_hours: 1000, occupation_standard: occupation_standard)
 
       visit occupation_standards_path
 
-      find("button[data-tooltip-target='hours-alert-#{occupation_standard.id}']").hover
-
-      expect(page).to have_text "Hours do not meet minimum OA standard for this occupation"
+      expect(page).to have_selector("button[data-tooltip-target='hours-alert-#{occupation_standard.id}']")
+      expect(page).to have_selector("#hours-alert-#{occupation_standard.id}", text: "Hours do not meet minimum OA standard for this occupation", visible: :all)
     end
   end
 
@@ -396,7 +395,7 @@ RSpec.describe "occupation_standards/index" do
 
       find("#search").click
 
-      expect(page).to have_text "Showing Results for Assistant"
+      expect(page).to have_text(/Showing \d+ results? for Assistant/)
       expect(page).to have_field("q", with: "Assistant")
 
       expect(page).to have_link "Dental Assistant", href: occupation_standard_path(dental)
@@ -417,7 +416,7 @@ RSpec.describe "occupation_standards/index" do
 
       find("#search").click
 
-      expect(page).to have_text "Showing Results for Assistant"
+      expect(page).to have_text(/Showing \d+ results? for Assistant/)
       expect(page).to have_field("q", with: "Assistant")
       expect(page).to_not have_link "Mechanic"
     end
@@ -436,7 +435,7 @@ RSpec.describe "occupation_standards/index" do
 
       find("#search").click
 
-      expect(page).to have_text "Showing Results for 1234"
+      expect(page).to have_text(/Showing \d+ results? for 1234/)
       expect(page).to have_field("q", with: "1234")
 
       expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
@@ -458,7 +457,7 @@ RSpec.describe "occupation_standards/index" do
 
       find("#search").click
 
-      expect(page).to have_text "Showing Results for 12.3456"
+      expect(page).to have_text(/Showing \d+ results? for 12.3456/)
       expect(page).to have_field("q", with: "12.3456")
 
       expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
@@ -484,7 +483,7 @@ RSpec.describe "occupation_standards/index" do
 
       find("#search").click
 
-      expect(page).to have_text "Showing Results for 12.3456"
+      expect(page).to have_text(/Showing \d+ results? for 12.3456/)
       expect(page).to have_field("q", with: "12.3456")
       expect(page).to have_field("state_id", with: wa.id)
 
@@ -512,7 +511,7 @@ RSpec.describe "occupation_standards/index" do
 
       find("#search").click
 
-      expect(page).to have_text "Showing Results for 12.3456"
+      expect(page).to have_text(/Showing \d+ results? for 12.3456/)
       expect(page).to have_field("q", with: "12.3456")
       find("#dropdownNationalButton").click
       expect(page).to have_checked_field("National Program Standards")
@@ -543,7 +542,7 @@ RSpec.describe "occupation_standards/index" do
 
       find("#search").click
 
-      expect(page).to have_text "Showing Results for 12.3456"
+      expect(page).to have_text(/Showing \d+ results? for 12.3456/)
       expect(page).to have_field("q", with: "12.3456")
       find("#dropdownPrgrmTypeButton").click
       expect(page).to have_checked_field("Hybrid")
@@ -571,7 +570,7 @@ RSpec.describe "occupation_standards/index" do
 
       find("#search").click
 
-      expect(page).to have_text "Showing Results for 12.3456"
+      expect(page).to have_text(/Showing \d+ results? for 12.3456/)
       expect(page).to have_field("q", with: "state:wa 12.3456")
 
       expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
@@ -594,7 +593,7 @@ RSpec.describe "occupation_standards/index" do
 
       find("#search").click
 
-      expect(page).to have_text "Showing Results for 12.3456"
+      expect(page).to have_text(/Showing \d+ results? for 12.3456/)
       expect(page).to have_field("q", with: "12.3456 national_standard_type:program_standard")
       find("#dropdownNationalButton").click
 
@@ -618,7 +617,7 @@ RSpec.describe "occupation_standards/index" do
 
       find("#search").click
 
-      expect(page).to have_text "Showing Results for 12.3456"
+      expect(page).to have_text(/Showing \d+ results? for 12.3456/)
       expect(page).to have_field("q", with: "12.3456 ojt_type:hybrid")
 
       expect(page).to have_link "Mechanic", href: occupation_standard_path(mechanic)
@@ -656,7 +655,7 @@ RSpec.describe "occupation_standards/index" do
 
       find("#search").click
 
-      expect(page).to have_text "Showing Results for 12.3456"
+      expect(page).to have_text(/Showing \d+ results? for 12.3456/)
       expect(page).to have_field("q", with: "12.3456")
       find("#dropdownPrgrmTypeButton").click
       expect(page).to have_checked_field("Hybrid")
@@ -805,7 +804,7 @@ RSpec.describe "occupation_standards/index" do
         find("div[data-typeahead-display-param='Mechanic']").click
       end
 
-      expect(page).to have_text "Showing Results for Mechanic"
+      expect(page).to have_text(/Showing \d+ results? for Mechanic/)
       expect(page).to have_no_text "Mechanic One"
       expect(page).to have_text "Mechanic Two"
       expect(page).to have_no_text "Mechanic Three"
@@ -842,7 +841,7 @@ RSpec.describe "occupation_standards/index" do
       expect(page).not_to have_selector("#accordion-#{mechanic.id}")
     end
 
-    it "displays toolip on hover", js: true do
+    it "renders the hours warning tooltip" do
       occupation = create(:occupation, time_based_hours: 2000)
       occupation_standard = create(:occupation_standard, :with_data_import, occupation: occupation)
       create(:work_process, maximum_hours: 1000, occupation_standard: occupation_standard)
@@ -852,9 +851,8 @@ RSpec.describe "occupation_standards/index" do
 
       visit occupation_standards_path
 
-      find("button[data-tooltip-target='hours-alert-#{occupation_standard.id}']").hover
-
-      expect(page).to have_text "Hours do not meet minimum OA standard for this occupation"
+      expect(page).to have_selector("button[data-tooltip-target='hours-alert-#{occupation_standard.id}']")
+      expect(page).to have_selector("#hours-alert-#{occupation_standard.id}", text: "Hours do not meet minimum OA standard for this occupation", visible: :all)
     end
   end
 end

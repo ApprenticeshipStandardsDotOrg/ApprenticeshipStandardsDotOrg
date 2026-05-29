@@ -17,6 +17,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_05_19_120000) do
   enable_extension "heroku_ext.pg_stat_statements"
   enable_extension "heroku_ext.pgcrypto"
   enable_extension "pg_catalog.plpgsql"
+  enable_extension "pg_stat_statements"
 
   create_table "active_storage_attachments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
@@ -181,7 +182,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_05_19_120000) do
     t.uuid "registration_agency_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.uuid "organization_id"
     t.string "title"
     t.integer "term_months"
     t.integer "ojt_type"
@@ -194,6 +194,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_05_19_120000) do
     t.integer "ojt_hours_max"
     t.integer "rsi_hours_min"
     t.integer "rsi_hours_max"
+    t.uuid "organization_id"
     t.integer "status", default: 0, null: false
     t.integer "national_standard_type"
     t.date "registration_date"
