@@ -127,8 +127,8 @@ RSpec.describe "occupation_standards/show" do
 
     visit occupation_standards_path
 
-      expect(page).to have_selector("button[data-tooltip-target='hours-alert-#{occupation_standard.id}']")
-      expect(page).to have_selector("#hours-alert-#{occupation_standard.id}", text: "Hours do not meet minimum OA standard for this occupation", visible: :all)
+    expect(page).to have_selector("button[data-tooltip-target='hours-alert-#{occupation_standard.id}']")
+    expect(page).to have_selector("#hours-alert-#{occupation_standard.id}", text: "Hours do not meet minimum OA standard for this occupation", visible: :all)
   end
 
   it "displays the correct page title" do
