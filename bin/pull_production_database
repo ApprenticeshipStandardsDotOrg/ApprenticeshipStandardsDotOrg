@@ -1,0 +1,60 @@
+#!/usr/bin/env ruby
+
+require "fileutils"
+require "shellwords"
+
+APP_ROOT = File.expand_path("..", __dir__)
+
+HEROKU_APP = "apprenticeship-standards-dot-o"
+DATABASE = "apprenticeship_standards_development"
+DUMP_PATH = File.join(APP_ROOT, "tmp", "heroku", "latest.dump")
+
+def system!(*command)
+  puts "\n==> #{command.shelljoin}"
+  system(*command, exception: true)
+end
+
+puts "Heroku app: #{HEROKU_APP}"
+puts "Development database: #{DATABASE}"
+
+puts
+puts "This will replace your local development database with production data."
+print %(Type "#{DATABASE}" to continue: )
+abort "Aborted." unless $stdin.gets&.chomp == DATABASE
+
+FileUtils.mkdir_p(File.dirname(DUMP_PATH))
+
+system!("heroku", "pg:backups:capture", "--app", HEROKU_APP)
+system!("heroku", "pg:backups:download", "--app", HEROKU_APP, "--output", DUMP_PATH)
+
+terminate_sql = <<~SQL
+  SELECT pg_terminate_backend(pid)
+  FROM pg_stat_activity
+  WHERE datname = '#{DATABASE}'
+    AND pid <> pg_backend_pid();
+SQL
+
+psql_commands = [
+  ["postgres", terminate_sql],
+  ["postgres", "DROP DATABASE IF EXISTS #{DATABASE};"],
+  ["postgres", "CREATE DATABASE #{DATABASE};"],
+  [DATABASE, "CREATE SCHEMA IF NOT EXISTS heroku_ext; CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA heroku_ext;"]
+]
+
+psql_commands.each do |dbname, command|
+  system!("psql", "--quiet", "--no-psqlrc", "--dbname", dbname, "--command", command)
+end
+
+system!(
+  "pg_restore",
+  "--verbose",
+  "--clean",
+  "--if-exists",
+  "--no-acl",
+  "--no-owner",
+  "--dbname",
+  DATABASE,
+  DUMP_PATH
+)
+
+puts "\nDone. #{DATABASE} has been restored from #{HEROKU_APP}."
