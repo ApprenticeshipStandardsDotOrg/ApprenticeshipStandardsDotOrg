@@ -42,5 +42,12 @@ module Admin
 
     # See https://administrate-demo.herokuapp.com/customizing_controller_actions
     # for more information
+    private
+
+    def resource_params
+      attributes = super
+      attributes[:default] = true if params[:set_default].present?
+      attributes
+    end
   end
 end

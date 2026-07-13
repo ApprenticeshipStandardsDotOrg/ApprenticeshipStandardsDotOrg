@@ -74,7 +74,7 @@ RSpec.describe "admin/imports/show", :admin do
         it "allows admin to Convert with AI" do
           admin = create(:admin)
           import = create(:imports_pdf, :with_redacted_pdf)
-          open_ai_prompt = create(:open_ai_prompt)
+          open_ai_prompt = create(:open_ai_prompt, default: true)
 
           login_as admin
           visit admin_import_path(import)
