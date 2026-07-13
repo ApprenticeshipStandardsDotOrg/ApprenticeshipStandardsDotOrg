@@ -1,6 +1,7 @@
 class API::V1::StandardResource < JSONAPI::Resource
   immutable
   model_name "OccupationStandard"
+  self._routed = true
 
   attributes :title, :existing_title, :sponsor_name, :registration_agency, :onet_code, :rapids_code, :ojt_type, :term_months, :probationary_period_months, :apprenticeship_to_journeyworker_ratio, :ojt_hours_min, :ojt_hours_max, :rsi_hours_min, :rsi_hours_max
 

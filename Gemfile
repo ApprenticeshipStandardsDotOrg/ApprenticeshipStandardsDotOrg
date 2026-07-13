@@ -3,7 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "3.4.1"
 
-gem "rails", "~> 8.0.1"
+gem "rails", "~> 8.1.3"
 
 gem "elasticsearch", "8.10.0"
 gem "elasticsearch-model", github: "elastic/elasticsearch-rails", branch: "8.x"
@@ -21,7 +21,7 @@ gem "non-digest-assets", github: "mvz/non-digest-assets", branch: "master"
 gem "pg", "~> 1.5"
 
 # Use the Puma web server [https://github.com/puma/puma]
-gem "puma", "~> 6.6"
+gem "puma", "~> 8.0"
 
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem "importmap-rails"

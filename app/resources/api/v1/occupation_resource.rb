@@ -1,6 +1,7 @@
 class API::V1::OccupationResource < JSONAPI::Resource
   immutable
   model_name "Occupation"
+  self._routed = true
 
   attributes :title, :onet_code, :rapids_code, :time_based_hours, :competency_based_hours
 
