@@ -48,7 +48,7 @@ gem "blueprinter"
 gem "devise"
 gem "devise_invitable", "~> 2.0.9"
 gem "rollbar"
-gem "roo", "~> 2.10.1"
+gem "roo", "~> 3.0.0"
 gem "aws-sdk-s3", require: false
 gem "after_party"
 gem "sidekiq", "~> 7"
