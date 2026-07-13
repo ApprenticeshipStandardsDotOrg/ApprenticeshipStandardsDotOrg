@@ -11,6 +11,7 @@ class OpenAIPromptDashboard < Administrate::BaseDashboard
     id: Field::String,
     prompt: Field::Text,
     name: Field::String,
+    default: Field::Boolean,
     created_at: Field::DateTime,
     updated_at: Field::DateTime
   }.freeze
@@ -23,6 +24,7 @@ class OpenAIPromptDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = %i[
     id
     name
+    default
     prompt
     created_at
     updated_at
@@ -33,6 +35,7 @@ class OpenAIPromptDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = %i[
     id
     name
+    default
     prompt
   ].freeze
 

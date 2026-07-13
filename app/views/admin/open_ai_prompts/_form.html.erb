@@ -1,0 +1,53 @@
+<%= form_for([namespace, page.resource], html: {class: "form"}) do |f| %>
+  <% if page.resource.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= t(
+              "administrate.form.errors",
+              pluralized_errors: pluralize(page.resource.errors.count, t("administrate.form.error")),
+              resource_name: display_resource_name(page.resource_name, singular: true)
+            ) %>
+      </h2>
+
+      <ul>
+        <% page.resource.errors.full_messages.each do |message| %>
+          <li class="flash-error"><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field-unit">
+    <div class="field-unit__label">
+      Default prompt
+    </div>
+    <div class="field-unit__field">
+      <% if page.resource.default? %>
+        <strong>This prompt is currently used by Convert with AI.</strong>
+      <% else %>
+        <span>This prompt is not currently used by Convert with AI.</span>
+        <% if (default_prompt = OpenAIPrompt.find_by(default: true)) %>
+          <div>
+            Current default:
+            <%= link_to default_prompt.name, edit_admin_open_ai_prompt_path(default_prompt) %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <% page.attributes(controller.action_name).each do |_title, attributes| -%>
+    <% attributes.each do |attribute| %>
+      <div class="field-unit field-unit--<%= attribute.html_class %> field-unit--<%= requireness(attribute) %>">
+        <%= render_field attribute, f: f %>
+      </div>
+    <% end %>
+  <% end -%>
+
+  <div class="form-actions">
+    <%= f.submit %>
+    <% unless page.resource.default? %>
+      <%= f.submit "Save and set as default", name: :set_default %>
+    <% end %>
+  </div>
+<% end %>
