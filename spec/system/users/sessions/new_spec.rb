@@ -26,11 +26,11 @@ RSpec.describe "user/sessions/new", :admin, :js do
 
       click_on "Log in"
       expect(page).to_not have_link "Logout"
-      expect(page).to have_text "Invalid Email or password"
+      expect(page).to have_text "Invalid email or password."
       expect(page).to have_css('div[role="alert"]')
 
       find("svg[aria-label=Close]").click
-      expect(page).to have_no_content "Invalid Email or password"
+      expect(page).to have_no_content "Invalid email or password."
     end
   end
 end

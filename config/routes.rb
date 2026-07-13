@@ -88,8 +88,8 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      jsonapi_resources :occupations
-      jsonapi_resources :standards
+      resources :occupations, only: [:index, :show]
+      resources :standards, only: [:index, :show]
     end
   end
 end
