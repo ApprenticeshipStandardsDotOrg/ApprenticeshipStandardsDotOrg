@@ -1,0 +1,42 @@
+name: Deploy
+permissions:
+  contents: read
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: deploy-main
+  cancel-in-progress: false
+
+jobs:
+  deploy_staging:
+    name: Deploy staging
+    runs-on: ubuntu-latest
+    environment: staging
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to Heroku staging
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: |
+          git push --force https://heroku:${HEROKU_API_KEY}@git.heroku.com/apprenticeship-standards-stag.git HEAD:main
+
+  deploy_production:
+    name: Deploy production
+    runs-on: ubuntu-latest
+    needs: deploy_staging
+    environment: production
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to Heroku production
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: |
+          git push --force https://heroku:${HEROKU_API_KEY}@git.heroku.com/apprenticeship-standards-dot-o.git HEAD:main
