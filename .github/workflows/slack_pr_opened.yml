@@ -1,0 +1,59 @@
+name: Slack PR notification
+permissions:
+  contents: read
+  pull-requests: read
+
+on:
+  pull_request_target:
+    types:
+      - opened
+    branches:
+      - main
+
+jobs:
+  notify_slack:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Notify engineering channel
+        uses: slackapi/slack-github-action@v3.0.5
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload: |
+            text: "New pull request opened: ${{ github.event.pull_request.html_url }}"
+            blocks:
+              - type: "section"
+                text:
+                  type: "mrkdwn"
+                  text: "*New pull request opened*"
+              - type: "section"
+                text:
+                  type: "plain_text"
+                  text: |-
+                    ${{ github.event.pull_request.title }}
+              - type: "section"
+                fields:
+                  - type: "mrkdwn"
+                    text: |-
+                      *Repository:*
+                      ${{ github.repository }}
+                  - type: "mrkdwn"
+                    text: |-
+                      *Author:*
+                      ${{ github.event.pull_request.user.login }}
+                  - type: "mrkdwn"
+                    text: |-
+                      *Base:*
+                      ${{ github.event.pull_request.base.ref }}
+                  - type: "mrkdwn"
+                    text: |-
+                      *Head:*
+                      ${{ github.event.pull_request.head.ref }}
+              - type: "actions"
+                elements:
+                  - type: "button"
+                    text:
+                      type: "plain_text"
+                      text: "View pull request"
+                    url: "${{ github.event.pull_request.html_url }}"
