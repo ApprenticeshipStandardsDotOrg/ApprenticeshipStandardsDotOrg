@@ -222,33 +222,27 @@ RSpec.describe "occupation_standards/index" do
       medical_assistant = create(:occupation_standard, :with_work_processes, :program_standard, :time, :with_data_import, title: "Medical Assistant", onet_code: "12.34567", registration_agency: ra)
       create(:occupation_standard, :with_work_processes, :competency, :with_data_import, title: "Pipe Fitter", onet_code: "12.34567")
 
-      visit occupation_standards_path
-
-      fill_in "q", with: "12.3456"
-      click_on "Expand Filters"
-      find("#dropdownPrgrmTypeButton").click
-      check "Hybrid"
-      check "Time"
-      within("#dropdownPrgrmTypeButton") do
-        expect(page).to have_text "2"
-      end
-      select "Washington"
-      find("#dropdownNationalButton").click
-      check "National Program Standards"
-      within("#dropdownNationalButton") do
-        expect(page).to have_text "1"
-      end
-
-      find("#search").click
+      visit occupation_standards_path(
+        q: "12.3456",
+        state_id: wa.id,
+        ojt_type: {hybrid: "1", time: "1"},
+        national_standard_type: {program_standard: "1"}
+      )
 
       expect(page).to have_text(/Showing \d+ results? for 12.3456/)
       expect(page).to have_field("q", with: "12.3456")
       find("#dropdownPrgrmTypeButton").click
+      within("#dropdownPrgrmTypeButton") do
+        expect(page).to have_text "2"
+      end
       expect(page).to have_checked_field("Hybrid")
       expect(page).to have_checked_field("Time")
       expect(page).to_not have_checked_field("Competency")
       expect(page).to have_select("state_id", selected: "Washington")
       find("#dropdownNationalButton").click
+      within("#dropdownNationalButton") do
+        expect(page).to have_text "1"
+      end
       expect(page).to have_checked_field("National Program Standards")
       expect(page).to_not have_checked_field("National Occupational Frameworks")
       expect(page).to_not have_checked_field("National Guideline Standards")
@@ -636,33 +630,27 @@ RSpec.describe "occupation_standards/index" do
       OccupationStandard.import
       OccupationStandard.__elasticsearch__.refresh_index!
 
-      visit occupation_standards_path
-
-      fill_in "q", with: "12.3456"
-      click_on "Expand Filters"
-      find("#dropdownPrgrmTypeButton").click
-      check "Hybrid"
-      check "Time"
-      within("#dropdownPrgrmTypeButton") do
-        expect(page).to have_text "2"
-      end
-      select "Washington"
-      find("#dropdownNationalButton").click
-      check "National Program Standards"
-      within("#dropdownNationalButton") do
-        expect(page).to have_text "1"
-      end
-
-      find("#search").click
+      visit occupation_standards_path(
+        q: "12.3456",
+        state_id: wa.id,
+        ojt_type: {hybrid: "1", time: "1"},
+        national_standard_type: {program_standard: "1"}
+      )
 
       expect(page).to have_text(/Showing \d+ results? for 12.3456/)
       expect(page).to have_field("q", with: "12.3456")
       find("#dropdownPrgrmTypeButton").click
+      within("#dropdownPrgrmTypeButton") do
+        expect(page).to have_text "2"
+      end
       expect(page).to have_checked_field("Hybrid")
       expect(page).to have_checked_field("Time")
       expect(page).to_not have_checked_field("Competency")
       expect(page).to have_select("state_id", selected: "Washington")
       find("#dropdownNationalButton").click
+      within("#dropdownNationalButton") do
+        expect(page).to have_text "1"
+      end
       expect(page).to have_checked_field("National Program Standards")
       expect(page).to_not have_checked_field("National Occupational Frameworks")
       expect(page).to_not have_checked_field("National Guideline Standards")
