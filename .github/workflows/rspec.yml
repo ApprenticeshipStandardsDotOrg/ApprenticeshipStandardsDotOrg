@@ -4,13 +4,6 @@ permissions:
   pull-requests: write
 
 on:
-  push:
-    paths-ignore:
-      - "bin/*"
-      - "**.md"
-    branches:
-      - "**-wip"
-      - "main"
   pull_request:
     branches:
       - main
