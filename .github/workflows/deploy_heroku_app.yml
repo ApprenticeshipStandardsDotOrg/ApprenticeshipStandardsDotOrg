@@ -1,0 +1,78 @@
+name: Deploy Heroku app
+permissions:
+  contents: read
+
+on:
+  workflow_call:
+    inputs:
+      heroku_app:
+        required: true
+        type: string
+      environment:
+        required: true
+        type: string
+      environment_label:
+        required: true
+        type: string
+    secrets:
+      HEROKU_API_KEY:
+        required: true
+      SLACK_DEPLOY_HOOK_URL:
+        required: true
+
+jobs:
+  deploy:
+    name: Deploy ${{ inputs.environment_label }}
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Deploy to Heroku ${{ inputs.environment_label }}
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_APP: ${{ inputs.heroku_app }}
+        run: |
+          git push --force https://heroku:${HEROKU_API_KEY}@git.heroku.com/${HEROKU_APP}.git HEAD:main
+
+      - name: Notify Slack of ${{ inputs.environment_label }} deploy
+        if: ${{ always() }}
+        uses: slackapi/slack-github-action@v3.0.5
+        with:
+          webhook: ${{ secrets.SLACK_DEPLOY_HOOK_URL }}
+          webhook-type: incoming-webhook
+          payload: |
+            text: "Apprenticeship Standards - ${{ inputs.environment_label }} deploy ${{ job.status }}: ${{ github.sha }}"
+            blocks:
+              - type: "section"
+                text:
+                  type: "mrkdwn"
+                  text: "*${{ inputs.environment_label }} deploy ${{ job.status }}*"
+              - type: "section"
+                fields:
+                  - type: "mrkdwn"
+                    text: |-
+                      *Repository:*
+                      ${{ github.repository }}
+                  - type: "mrkdwn"
+                    text: |-
+                      *Commit:*
+                      `${{ github.sha }}`
+                  - type: "mrkdwn"
+                    text: |-
+                      *Triggered by:*
+                      ${{ github.actor }}
+                  - type: "mrkdwn"
+                    text: |-
+                      *Environment:*
+                      ${{ inputs.environment }}
+              - type: "actions"
+                elements:
+                  - type: "button"
+                    text:
+                      type: "plain_text"
+                      text: "View workflow run"
+                    url: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
