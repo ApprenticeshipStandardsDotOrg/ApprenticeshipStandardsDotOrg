@@ -34,6 +34,21 @@ RSpec.describe "admin/imports/show", :admin do
         expect(page).to have_link "Edit", href: edit_admin_import_data_import_path(import, data_import)
       end
 
+      it "links to an occupation standard created by AI conversion" do
+        admin = create(:admin)
+        import = create(:imports_pdf)
+        occupation_standard = create(:occupation_standard, title: "AI Mechanic")
+        create(:open_ai_import, import: import, occupation_standard: occupation_standard)
+
+        login_as admin
+        visit admin_import_path(import)
+
+        expect(page).to have_text "Associated occupation standards"
+        expect(page).to have_text "AI Mechanic"
+        expect(page).to have_link "Admin", href: admin_occupation_standard_path(occupation_standard)
+        expect(page).to have_link "Public", href: occupation_standard_path(occupation_standard)
+      end
+
       context "when import is not public document and completed" do
         it "shows redact document link" do
           admin = create(:admin)
@@ -81,16 +96,59 @@ RSpec.describe "admin/imports/show", :admin do
 
           expect(PdfReaderJob).to receive(:perform_later).with(
             import_id: import.id,
-            open_ai_prompt: open_ai_prompt
+            open_ai_prompt: open_ai_prompt,
+            force: false
           )
 
           click_button "Convert with AI"
 
-          expect(page).to have_text("Started AI conversion. You'll be notified when document is ready for review.")
+          expect(page).to have_text("Started AI conversion.")
+          expect(import.reload.assignee).to be_nil
+        end
+      end
 
-          import.reload
+      context "if AI conversion previously failed" do
+        it "enqueues a retry" do
+          admin = create(:admin)
+          import = create(:imports_pdf, :with_redacted_pdf)
+          open_ai_prompt = create(:open_ai_prompt, default: true)
+          create(
+            :open_ai_import,
+            import: import,
+            occupation_standard: nil,
+            extraction_errors: ["Could not resolve registration agency"]
+          )
 
-          expect(import.assignee).to eq admin
+          login_as admin
+          visit admin_import_path(import)
+
+          expect(PdfReaderJob).to receive(:perform_later).with(
+            import_id: import.id,
+            open_ai_prompt: open_ai_prompt,
+            force: true
+          )
+
+          click_button "Convert with AI"
+
+          expect(page).to have_text("Started AI conversion.")
+        end
+      end
+
+      context "if AI conversion already created a standard" do
+        it "does not enqueue another conversion" do
+          admin = create(:admin)
+          import = create(:imports_pdf, :with_redacted_pdf)
+          occupation_standard = create(:occupation_standard)
+          create(:open_ai_import, import: import, occupation_standard: occupation_standard)
+
+          login_as admin
+          visit admin_import_path(import)
+
+          expect(PdfReaderJob).to_not receive(:perform_later)
+
+          click_button "Convert with AI"
+
+          expect(page).to have_text("AI conversion already ran for this import.")
         end
       end
     end
@@ -161,8 +219,11 @@ RSpec.describe "admin/imports/show", :admin do
         visit admin_import_path(import)
 
         expect(page).to have_text "Associated occupation standards"
+        expect(page).to have_text "Mechanic"
+        expect(page).to_not have_link "Admin", href: admin_occupation_standard_path(occupation_standard)
+        expect(page).to have_link "Public", href: occupation_standard_path(occupation_standard)
 
-        click_on "Mechanic", match: :first
+        click_on "Public", match: :first
 
         expect(page).to have_text "Mechanic"
         expect(page).to have_text "WP1"

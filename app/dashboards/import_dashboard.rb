@@ -17,6 +17,7 @@ class ImportDashboard < Administrate::BaseDashboard
     data_imports: HasManyDataImportsField,
     file: Field::ActiveStorage,
     filename: Field::String.with_options(searchable: false),
+    has_occupation_standard: Field::Boolean.with_options(searchable: false),
     import: Field::BelongsTo,
     imports: Field::HasMany,
     metadata: Field::JSONB,
@@ -49,6 +50,7 @@ class ImportDashboard < Administrate::BaseDashboard
     filename
     assignee
     public_document
+    has_occupation_standard
     status
   ].freeze
 
@@ -112,6 +114,13 @@ class ImportDashboard < Administrate::BaseDashboard
         .where("standards_imports.organization ILIKE ?", "%#{arg}%")
     },
     public_document: ->(resources, arg) { resources.where(public_document: arg) },
+    has_occupation_standard: ->(resources, arg) {
+      if ActiveModel::Type::Boolean.new.cast(arg)
+        resources.with_occupation_standard
+      else
+        resources.without_occupation_standard
+      end
+    },
     file: ->(resources, arg) {
       resources
         .joins("JOIN active_storage_attachments ON (active_storage_attachments.record_id = imports.id)")

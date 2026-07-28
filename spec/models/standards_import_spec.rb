@@ -70,6 +70,40 @@ RSpec.describe StandardsImport, type: :model do
     end
   end
 
+  describe ".with_imports" do
+    it "returns standards imports with direct imports" do
+      standards_import = create(:standards_import)
+      create(:imports_uncategorized, parent: standards_import)
+      create(:standards_import)
+
+      expect(described_class.with_imports).to eq [standards_import]
+    end
+  end
+
+  describe ".without_imports" do
+    it "returns standards imports without direct imports" do
+      create(:imports_uncategorized)
+      standards_import = create(:standards_import)
+
+      expect(described_class.without_imports).to eq [standards_import]
+    end
+  end
+
+  describe "#has_imports" do
+    it "is true when imports are associated" do
+      standards_import = create(:standards_import)
+      create(:imports_uncategorized, parent: standards_import)
+
+      expect(standards_import.reload.has_imports).to be true
+    end
+
+    it "is false when no imports are associated" do
+      standards_import = create(:standards_import)
+
+      expect(standards_import.has_imports).to be false
+    end
+  end
+
   describe ".manual_submissions_in_need_of_courtesy_notification" do
     context "when no email passed" do
       it "returns all standards imports that need notification" do

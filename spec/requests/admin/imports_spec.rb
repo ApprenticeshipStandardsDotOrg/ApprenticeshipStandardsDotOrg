@@ -80,6 +80,31 @@ RSpec.describe "Admin::Imports", type: :request do
           expect(response.body).to include(import_private.id)
         end
 
+        it "allows filtering by associated occupation standard" do
+          admin = create(:admin)
+          data_import_pdf = create(:imports_pdf)
+          ai_import_pdf = create(:imports_pdf)
+          import_without_standard = create(:imports_pdf)
+          create(:data_import, import: data_import_pdf)
+          create(:open_ai_import, import: ai_import_pdf)
+
+          sign_in admin
+
+          get admin_imports_path(search: "has_occupation_standard:true")
+
+          expect(response).to be_successful
+          expect(response.body).to include(data_import_pdf.id)
+          expect(response.body).to include(ai_import_pdf.id)
+          expect(response.body).not_to include(import_without_standard.id)
+
+          get admin_imports_path(search: "has_occupation_standard:false")
+
+          expect(response).to be_successful
+          expect(response.body).not_to include(data_import_pdf.id)
+          expect(response.body).not_to include(ai_import_pdf.id)
+          expect(response.body).to include(import_without_standard.id)
+        end
+
         it "allows filtering by filename" do
           admin = create(:admin)
           import_pdf = create(:imports_pdf)

@@ -82,4 +82,24 @@ RSpec.describe "admin/occupation_standards/index", :admin do
 
     expect(page).to have_text("AI Converted")
   end
+
+  it "can filter by source" do
+    ai_standard = create(:occupation_standard, title: "AI Standard", source: :ai_conversion)
+    create(:occupation_standard, title: "Manual Standard", source: :manual_upload)
+    admin = create(:admin)
+
+    login_as admin
+    visit admin_occupation_standards_path
+
+    expect(page).to have_link(
+      "AI Conversion",
+      href: admin_occupation_standards_path(search: "source:ai_conversion"),
+      visible: :all
+    )
+
+    visit admin_occupation_standards_path(search: "source:ai_conversion")
+
+    expect(page).to have_text(ai_standard.title)
+    expect(page).to_not have_text("Manual Standard")
+  end
 end

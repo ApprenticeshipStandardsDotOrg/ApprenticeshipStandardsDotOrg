@@ -117,6 +117,14 @@ RSpec.describe Imports::Pdf, type: :model do
 
       expect(import.associated_occupation_standards).to eq [occupation_standard]
     end
+
+    it "includes occupation standards created by AI conversion" do
+      import = create(:imports_pdf)
+      occupation_standard = create(:occupation_standard)
+      create(:open_ai_import, import: import, occupation_standard: occupation_standard)
+
+      expect(import.associated_occupation_standards).to eq [occupation_standard]
+    end
   end
 
   describe "#import_root" do

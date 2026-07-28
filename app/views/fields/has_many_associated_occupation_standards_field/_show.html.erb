@@ -1,5 +1,9 @@
 <% field.resource.associated_occupation_standards.each do |occupation_standard| %>
   <div>
-    <%= link_to occupation_standard.title, occupation_standard_url(occupation_standard), target: "_blank" %>
+    <strong><%= occupation_standard.title %></strong>
+    <% if policy(occupation_standard).show? %>
+      <%= link_to "Admin", admin_occupation_standard_path(occupation_standard) %>
+    <% end %>
+    <%= link_to "Public", occupation_standard_path(occupation_standard), target: "_blank", rel: "noopener" %>
   </div>
 <% end %>

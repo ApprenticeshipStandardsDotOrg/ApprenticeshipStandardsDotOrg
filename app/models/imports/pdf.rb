@@ -3,7 +3,7 @@ module Imports
     has_one_attached :file
     has_one_attached :redacted_pdf
     has_many :data_imports, -> { includes(file_attachment: :blob) }, inverse_of: "import"
-    has_many :associated_occupation_standards, -> { distinct }, through: :data_imports, source: :occupation_standard
+    has_many :data_import_occupation_standards, -> { distinct }, through: :data_imports, source: :occupation_standard
 
     def self.recently_redacted(start_time: Time.zone.yesterday.beginning_of_day, end_time: Time.zone.yesterday.end_of_day)
       where(
@@ -69,6 +69,10 @@ module Imports
         reader.pages.map(&:text).join(" ")
       end
       extracted_text.gsub('\n', " ").gsub(/\s+/, " ").strip
+    end
+
+    def associated_occupation_standards
+      (data_import_occupation_standards.to_a + [open_ai_import&.occupation_standard]).compact.uniq
     end
 
     # For Administrate

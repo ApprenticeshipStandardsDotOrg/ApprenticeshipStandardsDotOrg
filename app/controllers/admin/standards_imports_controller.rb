@@ -38,7 +38,7 @@ module Admin
     #   end
     # end
     def scoped_resource
-      resource_class.includes(imports: :file_attachment)
+      resource_class.includes(imports: [:data_imports, :open_ai_import, :file_attachment])
     end
 
     # Override `resource_params` if you want to transform the submitted

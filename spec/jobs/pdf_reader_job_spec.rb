@@ -12,21 +12,25 @@ RSpec.describe PdfReaderJob do
       allow(PDF::Reader).to receive(:new).and_return(reader_mock)
       allow(reader_mock).to receive(:pages).and_return([instance_double("PDF::Reader::Page", text: "Welder (Industrial)\n(Competency based)\n\n")])
 
-      allow(
-        ChatGptGenerateText
-      ).to receive(:new).with(
-        "#{open_ai_prompt.prompt} [\"Welder (Industrial)\\n(Competency based)\\n\\n\"]"
-      ).and_return chat_gpt_generator_mock('{"Title": "Welder (Industrial)","Type": "competency" }')
+      create(:registration_agency, for_state_abbreviation: "CA")
 
-      parsed_response = JSON.parse(described_class.new.perform(
+      allow(ChatGptGenerateText).to receive(:new).with(
+        "#{open_ai_prompt.prompt} [\"Welder (Industrial)\\n(Competency based)\\n\\n\"]"
+      ).and_return chat_gpt_generator_mock(
+        '{"title": "Welder (Industrial)","ojtType": "competency","registrationAgencyType": "oa","registrationState": "CA"}'
+      )
+
+      result = described_class.new.perform(
         import_id: pdf.id,
         open_ai_prompt: open_ai_prompt
-      ))
+      )
 
       open_ai_import = OpenAIImport.find_by(import: pdf)
 
-      expect(parsed_response).to eq({"Title" => "Welder (Industrial)", "Type" => "competency"})
+      expect(result.created).to be true
       expect(open_ai_import).to be_present
+      expect(open_ai_import.occupation_standard).to be_present
+      expect(open_ai_import.occupation_standard).to be_source_ai_conversion
     end
 
     it "uses the default OpenAI prompt when one is not provided" do
@@ -38,14 +42,17 @@ RSpec.describe PdfReaderJob do
 
       allow(PDF::Reader).to receive(:new).and_return(reader_mock)
       allow(reader_mock).to receive(:pages).and_return([instance_double("PDF::Reader::Page", text: "Welder")])
+      create(:registration_agency, for_state_abbreviation: "CA")
 
       allow(ChatGptGenerateText).to receive(:new)
         .with("#{open_ai_prompt.prompt} [\"Welder\"]")
-        .and_return chat_gpt_generator_mock('{"Title": "Welder"}')
+        .and_return chat_gpt_generator_mock(
+          '{"title": "Welder","ojtType": "competency","registrationAgencyType": "oa","registrationState": "CA"}'
+        )
 
-      parsed_response = JSON.parse(described_class.new.perform(import_id: pdf.id))
+      result = described_class.new.perform(import_id: pdf.id)
 
-      expect(parsed_response).to eq({"Title" => "Welder"})
+      expect(result.created).to be true
       expect(OpenAIImport.find_by(import: pdf)).to be_present
     end
   end

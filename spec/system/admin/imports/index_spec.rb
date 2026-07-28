@@ -18,6 +18,7 @@ RSpec.describe "admin/imports/index", :admin do
       expect(page).to have_text "pending"
       expect(page).to have_text "completed"
       expect(page).to have_text "needs_support"
+      expect(page).to have_text "Has Occupation Standard"
 
       click_on "Imports::Uncategorized", match: :first
       expect(page).to have_text "StandardsImport" # parent
@@ -70,9 +71,11 @@ RSpec.describe "admin/imports/index", :admin do
       expect(page).to have_content("Imports::Uncategorized")
       expect(page).to have_content("Imports::Pdf").thrice
 
-      expect(page).to have_button "Filter by:"
-      click_on "Filter by"
-      click_on "Needs Redaction"
+      expect(page).to have_text "Filters"
+      expect(page).to have_link "Has Standard", visible: :all
+      expect(page).to have_link "No Standard", visible: :all
+
+      visit admin_imports_path(search: "needs_redaction:", pdf_only: true)
 
       expect(page).to have_text "completed"
       expect(page).to_not have_text "pending"
@@ -80,8 +83,7 @@ RSpec.describe "admin/imports/index", :admin do
       expect(page).to_not have_content("Imports::Uncategorized")
       expect(page).to have_content("Imports::Pdf").once
 
-      click_on "Filter by"
-      click_on "Redacted"
+      visit admin_imports_path(search: "redacted:", pdf_only: true)
 
       expect(page).to_not have_text "completed"
       expect(page).to have_text "pending"
@@ -89,8 +91,7 @@ RSpec.describe "admin/imports/index", :admin do
       expect(page).to_not have_content("Imports::Uncategorized")
       expect(page).to have_content("Imports::Pdf").once
 
-      click_on "Filter by"
-      click_on "Show All"
+      visit admin_imports_path
 
       expect(page).to have_text "completed"
       expect(page).to have_text "pending"
@@ -158,23 +159,22 @@ RSpec.describe "admin/imports/index", :admin do
       login_as admin
       visit admin_imports_path
 
-      expect(page).to have_button "Filter by:"
-      click_on "Filter by"
-      click_on "Needs Redaction"
+      expect(page).to have_text "Filters"
+      expect(page).to have_link "Needs Redaction", visible: :all
+
+      visit admin_imports_path(search: "needs_redaction:", pdf_only: true)
 
       expect(page).to have_text "completed"
       expect(page).to_not have_text "pending"
       expect(page).to_not have_text "needs_backend_support"
 
-      click_on "Filter by"
-      click_on "Redacted"
+      visit admin_imports_path(search: "redacted:", pdf_only: true)
 
       expect(page).to_not have_text "completed"
       expect(page).to have_text "pending"
       expect(page).to_not have_text "needs_backend_support"
 
-      click_on "Filter by"
-      click_on "Show All"
+      visit admin_imports_path
 
       expect(page).to have_text "completed"
       expect(page).to have_text "pending"
