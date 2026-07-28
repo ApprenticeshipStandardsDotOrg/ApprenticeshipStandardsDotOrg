@@ -1,0 +1,143 @@
+require "rails_helper"
+
+RSpec.describe ConvertPdfImportWithAI do
+  describe "#call" do
+    it "creates an occupation standard from the OpenAI response" do
+      pdf = create(:imports_pdf)
+      prompt = create(:open_ai_prompt, prompt: "Extract")
+      registration_agency = create(:registration_agency, for_state_abbreviation: "CA")
+      organization = create(:organization, title: "Acme")
+      occupation = create(:occupation, rapids_code: "2028CB")
+      create(:industry, prefix: "51", version: Industry::CURRENT_VERSION)
+
+      stub_pdf_text("Welder standard")
+      stub_open_ai_response(prompt, "Welder standard", {
+        title: "Welder",
+        existingTitle: "Welder Existing",
+        onetCode: "51-4121.00",
+        rapidsCode: "2028CB",
+        organization: organization.title,
+        ojtType: "competency",
+        registrationAgencyType: "oa",
+        registrationState: "CA",
+        workProcesses: [
+          {
+            title: "Welding",
+            minimumHours: 100,
+            competencies: [{title: "Inspect welds"}]
+          }
+        ],
+        relatedInstructions: [
+          {
+            title: "Safety",
+            hours: 20
+          }
+        ]
+      }.to_json)
+      expect_any_instance_of(OccupationStandard).not_to receive(:update_document)
+
+      result = described_class.new(import: pdf, open_ai_prompt: prompt).call
+
+      occupation_standard = result.occupation_standard
+
+      expect(result.created).to be true
+      expect(occupation_standard).to be_persisted
+      expect(occupation_standard).to be_source_ai_conversion
+      expect(occupation_standard.title).to eq "Welder"
+      expect(occupation_standard.rapids_code).to eq "2028CB"
+      expect(occupation_standard.registration_agency).to eq registration_agency
+      expect(occupation_standard.organization).to eq organization
+      expect(occupation_standard.occupation).to eq occupation
+      expect(occupation_standard.work_processes.first.competencies.first.title).to eq "Inspect welds"
+      expect(occupation_standard.related_instructions.first.title).to eq "Safety"
+      expect(pdf.reload).to be_archived
+      expect(result.open_ai_import.parsed_response["title"]).to eq "Welder"
+      expect(result.open_ai_import.extraction_errors).to eq []
+    end
+
+    it "uses the national registration agency when no state is available" do
+      pdf = create(:imports_pdf)
+      prompt = create(:open_ai_prompt, prompt: "Extract")
+      national_agency = create(:registration_agency, :for_national_program, agency_type: :oa)
+
+      stub_pdf_text("Federal standard")
+      stub_open_ai_response(prompt, "Federal standard", {
+        title: "Welder",
+        ojtType: "competency",
+        registrationAgencyType: "oa",
+        state: nil,
+        registrationState: nil
+      }.to_json)
+      expect_any_instance_of(OccupationStandard).not_to receive(:update_document)
+
+      result = described_class.new(import: pdf, open_ai_prompt: prompt).call
+
+      expect(result.created).to be true
+      expect(result.occupation_standard.registration_agency).to eq national_agency
+      expect(result.occupation_standard.state).to be_nil
+    end
+
+    it "stores extraction errors without creating an invalid occupation standard" do
+      pdf = create(:imports_pdf)
+      prompt = create(:open_ai_prompt, prompt: "Extract")
+      create(:registration_agency, :for_national_program, agency_type: :oa)
+
+      stub_pdf_text("Incomplete standard")
+      stub_open_ai_response(prompt, "Incomplete standard", {
+        title: "Welder"
+      }.to_json)
+
+      result = described_class.new(import: pdf, open_ai_prompt: prompt).call
+
+      expect(result.created).to be false
+      expect(result.open_ai_import).to be_persisted
+      expect(result.open_ai_import.occupation_standard).to be_nil
+      expect(result.errors.join).to include "Could not extract OJT type"
+      expect(pdf.reload).to be_pending
+    end
+
+    it "replaces a failed AI import when forced" do
+      pdf = create(:imports_pdf)
+      prompt = create(:open_ai_prompt, prompt: "Extract")
+      failed_open_ai_import = create(
+        :open_ai_import,
+        import: pdf,
+        occupation_standard: nil,
+        extraction_errors: ["Could not resolve registration agency"]
+      )
+      create(:registration_agency, for_state_abbreviation: "CA")
+
+      stub_pdf_text("Retryable standard")
+      stub_open_ai_response(prompt, "Retryable standard", {
+        title: "Welder",
+        ojtType: "competency",
+        registrationAgencyType: "oa",
+        registrationState: "CA"
+      }.to_json)
+      expect_any_instance_of(OccupationStandard).not_to receive(:update_document)
+
+      result = described_class.new(import: pdf, open_ai_prompt: prompt, force: true).call
+
+      expect(result.created).to be true
+      expect(result.open_ai_import).to be_persisted
+      expect(result.open_ai_import).to_not eq failed_open_ai_import
+      expect(OpenAIImport.exists?(failed_open_ai_import.id)).to be false
+      expect(result.occupation_standard).to be_persisted
+    end
+  end
+
+  def stub_pdf_text(text)
+    reader = instance_double("PDF::Reader")
+
+    allow(PDF::Reader).to receive(:new).and_return(reader)
+    allow(reader).to receive(:pages).and_return([
+      instance_double("PDF::Reader::Page", text: text)
+    ])
+  end
+
+  def stub_open_ai_response(prompt, pdf_text, response)
+    allow(ChatGptGenerateText).to receive(:new)
+      .with("#{prompt.prompt} [\"#{pdf_text}\"]")
+      .and_return(OpenStruct.new(call: response))
+  end
+end

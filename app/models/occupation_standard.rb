@@ -28,6 +28,7 @@ class OccupationStandard < ApplicationRecord
 
   enum :ojt_type, [:time, :competency, :hybrid], suffix: :based
   enum :national_standard_type, [:program_standard, :guideline_standard, :occupational_framework], prefix: :national
+  enum :source, [:manual_upload, :rapids_api, :onet_api, :ai_conversion], prefix: true
   enum :status, [:importing, :in_review, :published]
 
   validates :title, :ojt_type, presence: true
@@ -241,6 +242,10 @@ class OccupationStandard < ApplicationRecord
       from_open_ai_json(json, exclude_fields: [
         "organization",
         "registrationAgency",
+        "registrationAgencyType",
+        "registrationState",
+        "nationalStandardType",
+        "extractionWarnings",
         "workProcesses",
         "relatedInstructions"
       ]) do |occupation_standard|

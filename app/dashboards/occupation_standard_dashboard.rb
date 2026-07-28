@@ -22,6 +22,7 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
     rsi_hours_max: Field::Number,
     rsi_hours_min: Field::Number,
     sample_set: Field::Boolean,
+    source: EnumField,
     status: EnumField,
     term_months: Field::Number,
     title: Field::String,
@@ -42,6 +43,7 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
     onet_code
     rapids_code
     sample_set
+    source
     status
   ].freeze
 
@@ -52,6 +54,7 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
     term_months
     url
     status
+    source
     sample_set
     created_at
     updated_at
@@ -83,6 +86,7 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
     onet_code
     rapids_code
     status
+    source
     sample_set
 
     ojt_type
@@ -97,7 +101,13 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
   ].freeze
 
   COLLECTION_FILTERS = {
-    sample_set: ->(resources, arg) { resources.where(sample_set: ActiveModel::Type::Boolean.new.cast(arg)) }
+    sample_set: ->(resources, arg) { resources.where(sample_set: ActiveModel::Type::Boolean.new.cast(arg)) },
+    source: ->(resources, arg) {
+      sources = arg.to_s.split(",")
+      valid_sources = sources.select { |source| OccupationStandard.sources.key?(source) }
+
+      valid_sources.any? ? resources.where(source: valid_sources) : resources.none
+    }
   }.freeze
 
   def display_resource(occupation_standard)

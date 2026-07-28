@@ -10,11 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_13_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_27_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "pg_catalog.plpgsql"
-  enable_extension "pg_stat_statements"
 
   create_table "active_storage_attachments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "blob_id", null: false
@@ -193,6 +192,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_13_120000) do
     t.integer "rsi_hours_max"
     t.integer "rsi_hours_min"
     t.boolean "sample_set", default: false, null: false
+    t.integer "source"
     t.integer "status", default: 0, null: false
     t.integer "term_months"
     t.string "title"
@@ -203,6 +203,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_13_120000) do
     t.index ["organization_id"], name: "index_occupation_standards_on_organization_id"
     t.index ["registration_agency_id"], name: "index_occupation_standards_on_registration_agency_id"
     t.index ["sample_set"], name: "index_occupation_standards_on_sample_set"
+    t.index ["source"], name: "index_occupation_standards_on_source"
   end
 
   create_table "occupations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -241,8 +242,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_13_120000) do
 
   create_table "open_ai_imports", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.jsonb "extraction_errors", default: [], null: false
     t.uuid "import_id", null: false
     t.uuid "occupation_standard_id"
+    t.jsonb "parsed_response", default: {}, null: false
     t.json "response"
     t.datetime "updated_at", null: false
     t.index ["import_id"], name: "index_open_ai_imports_on_import_id"

@@ -19,6 +19,8 @@ RSpec.describe "open_ai_prompts:create_default" do
 
     expect(default_prompt.name).to eq(OpenAIPrompt::DEFAULT_NAME)
     expect(default_prompt.prompt).to eq(OpenAIPrompt::DEFAULT_PROMPT)
+    expect(default_prompt.prompt).to include("state: The two-letter US state abbreviation")
+    expect(default_prompt.prompt).to include("county, city, agency, address, or other context")
     expect(previous_default.reload).not_to be_default
     expect(existing_prompt.reload).to be_present
   end

@@ -1,5 +1,5 @@
 <% content_for(:title) do %>
-  <%= display_resource_name(page.resource_name) %>
+<%= display_resource_name(page.resource_name) %>
 <% end %>
 
 <header class="main-content__header">
@@ -7,12 +7,16 @@
     <%= content_for(:title) %>
   </h1>
 
+  <%= content_for(:header_middle) %>
+
+  <%= render partial: "filters" %>
+
   <% if show_search_bar %>
-    <%= render(
-          "search",
-          search_term: search_term,
-          resource_name: display_resource_name(page.resource_name)
-        ) %>
+  <%= render(
+        "search",
+        search_term: search_term,
+        resource_name: display_resource_name(page.resource_name)
+      ) %>
   <% end %>
 
   <div>
@@ -22,9 +26,11 @@
               "administrate.actions.new_resource",
               name: display_resource_name(page.resource_name, singular: true).downcase
             ),
-            [:new, page.resource_path.to_sym],
+            new_standards_import_path,
             class: "button"
           ) %>
     <% end %>
   </div>
+
+  <%= content_for(:header_last) %>
 </header>

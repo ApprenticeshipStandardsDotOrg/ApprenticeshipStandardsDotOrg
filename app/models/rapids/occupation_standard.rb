@@ -25,7 +25,8 @@ module RAPIDS
           organization: find_or_create_organization_by_organization_name(response["sponsorName"]),
           occupation: find_occupation(rapids_code, onet_code),
           external_id: extract_wps_id(response["wpsDocument"]),
-          registration_date: response["createdDt"]
+          registration_date: response["createdDt"],
+          source: :rapids_api
         )
         occupation_standard
       end

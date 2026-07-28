@@ -9,6 +9,7 @@ class StandardsImportDashboard < Administrate::BaseDashboard
     organization: Field::String,
     files: PseudoFileUploadField,
     imports: Field::HasMany,
+    has_imports: Field::Boolean.with_options(searchable: false),
     courtesy_notification: EnumField.with_options(searchable: false),
     created_at: Field::DateTime,
     updated_at: Field::DateTime
@@ -18,6 +19,7 @@ class StandardsImportDashboard < Administrate::BaseDashboard
     created_at
     name
     organization
+    has_imports
   ].freeze
 
   SHOW_PAGE_ATTRIBUTES = %i[
@@ -41,7 +43,15 @@ class StandardsImportDashboard < Administrate::BaseDashboard
     courtesy_notification
   ].freeze
 
-  COLLECTION_FILTERS = {}.freeze
+  COLLECTION_FILTERS = {
+    has_imports: ->(resources, arg) {
+      if ActiveModel::Type::Boolean.new.cast(arg)
+        resources.with_imports
+      else
+        resources.without_imports
+      end
+    }
+  }.freeze
 
   def permitted_attributes(action = nil)
     super + [files: []]

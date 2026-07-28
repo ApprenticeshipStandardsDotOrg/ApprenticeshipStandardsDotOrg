@@ -6,7 +6,18 @@ module Admin
       else
         resource_class
       end
-      scope.preload(:open_ai_import, file_attachment: :blob)
+      scope.preload(
+        :open_ai_import,
+        :data_imports,
+        file_attachment: :blob,
+        parent: {
+          parent: {
+            parent: {
+              parent: :parent
+            }
+          }
+        }
+      )
     end
 
     def destroy_redacted_pdf
@@ -19,18 +30,33 @@ module Admin
     def convert_with_ai
       authorize requested_resource
 
+      if requested_resource.open_ai_import&.occupation_standard.present?
+        redirect_to(
+          admin_import_path(requested_resource),
+          alert: existing_open_ai_import_message(requested_resource.open_ai_import)
+        )
+        return
+      end
+
       PdfReaderJob.perform_later(
         import_id: params[:id],
-        open_ai_prompt: OpenAIPrompt.default
+        open_ai_prompt: OpenAIPrompt.default,
+        force: requested_resource.open_ai_import.present?
       )
 
-      requested_resource.assignee = current_user
-      requested_resource.save!
-
-      redirect_to admin_imports_path, notice: "Started AI conversion. You'll be notified when document is ready for review."
+      redirect_to admin_imports_path, notice: "Started AI conversion."
     end
 
     private
+
+    def existing_open_ai_import_message(open_ai_import)
+      errors = open_ai_import.extraction_errors.presence
+      if errors
+        "AI conversion already ran but did not create a standard: #{errors.join(", ")}"
+      else
+        "AI conversion already ran for this import."
+      end
+    end
 
     def resource_params
       params.require(requested_resource.class.model_name.param_key)

@@ -31,9 +31,32 @@ class Import < ApplicationRecord
   ], prefix: true
 
   scope :needs_unfurling, -> { unfurled.where("created_at < ?", 1.day.ago) }
+  scope :with_occupation_standard, -> do
+    where(
+      "EXISTS (
+        SELECT 1
+        FROM data_imports
+        WHERE data_imports.import_id = imports.id
+          AND data_imports.occupation_standard_id IS NOT NULL
+      ) OR EXISTS (
+        SELECT 1
+        FROM open_ai_imports
+        WHERE open_ai_imports.import_id = imports.id
+          AND open_ai_imports.occupation_standard_id IS NOT NULL
+      )"
+    )
+  end
+  scope :without_occupation_standard, -> do
+    where.not(id: with_occupation_standard.select(:id))
+  end
 
   def filename
     file&.blob&.filename.to_s
+  end
+
+  def has_occupation_standard
+    data_imports.any? { |data_import| data_import.occupation_standard_id.present? } ||
+      open_ai_import&.occupation_standard_id.present?
   end
 
   def redacted_pdf

@@ -36,6 +36,34 @@ RSpec.describe "Admin::OccupationStandard", type: :request do
           expect(response.body).to include(sample_standard.title)
           expect(response.body).not_to include("Other Standard")
         end
+
+        it "can filter by source" do
+          admin = create(:admin)
+          ai_standard = create(:occupation_standard, title: "AI Standard", source: :ai_conversion)
+          create(:occupation_standard, title: "Manual Standard", source: :manual_upload)
+
+          sign_in admin
+          get admin_occupation_standards_path(search: "source:ai_conversion")
+
+          expect(response).to be_successful
+          expect(response.body).to include(ai_standard.title)
+          expect(response.body).not_to include("Manual Standard")
+        end
+
+        it "can combine sample set and source filters" do
+          admin = create(:admin)
+          rapids_sample = create(:occupation_standard, title: "RAPIDS Sample", sample_set: true, source: :rapids_api)
+          create(:occupation_standard, title: "RAPIDS Non Sample", sample_set: false, source: :rapids_api)
+          create(:occupation_standard, title: "AI Sample", sample_set: true, source: :ai_conversion)
+
+          sign_in admin
+          get admin_occupation_standards_path(search: "sample_set:true source:rapids_api")
+
+          expect(response).to be_successful
+          expect(response.body).to include(rapids_sample.title)
+          expect(response.body).not_to include("RAPIDS Non Sample")
+          expect(response.body).not_to include("AI Sample")
+        end
       end
 
       context "when converter" do

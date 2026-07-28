@@ -1,24 +1,54 @@
-<button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-hidden focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">Filter by: <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
-</svg>
-</button>
+<% search_terms = admin_filter_search_terms_without("needs_redaction", "redacted", "has_occupation_standard") %>
+<% active_redaction = "needs_redaction" if admin_filter_value("needs_redaction") %>
+<% active_redaction = "redacted" if admin_filter_value("redacted") %>
+<% active_has_standard = admin_filter_value("has_occupation_standard") %>
+<% active_filter_count = (active_redaction.present? ? 1 : 0) + (active_has_standard.present? ? 1 : 0) %>
 
-<!-- Dropdown menu -->
-<div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-xs w-44 dark:bg-gray-700">
-    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-      <li>
-        <%= link_to "Needs Redaction", url_for(search: "needs_redaction:", pdf_only: true),
-              class: "block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" %>
-      </li>
-      <li>
-        <%= link_to "Redacted", url_for(search: "redacted:", pdf_only: true),
-              class: "block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" %>
-      </li>
-      <li>
-        <div class="py-1" role="none">
-          <%= link_to "Show All", admin_imports_path,
-                class: "block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" %>
-        </div>
-      </li>
-    </ul>
-</div>
+<details class="relative">
+  <summary class="inline-flex cursor-pointer list-none items-center gap-2 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-800 hover:border-blue-500 hover:text-blue-700">
+    Filters
+    <% if active_filter_count.positive? %>
+      <span class="rounded-full bg-blue-700 px-2 py-0.5 text-xs font-semibold text-white"><%= active_filter_count %></span>
+    <% end %>
+  </summary>
+
+  <div class="absolute right-0 z-20 mt-2 w-72 rounded-md border border-gray-200 bg-white p-3 shadow-lg">
+    <div class="mb-3">
+      <div class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500">Redaction</div>
+      <div class="flex flex-wrap gap-2">
+        <% [["Needs Redaction", "needs_redaction"], ["Redacted", "redacted"]].each do |label, value| %>
+          <% selected = active_redaction == value %>
+          <% next_redaction = selected ? nil : value %>
+          <% search = admin_filter_search(search_terms, next_redaction => next_redaction.present?, "has_occupation_standard" => active_has_standard) %>
+          <%= link_to label,
+                admin_filter_url(search, "pdf_only" => next_redaction.present?),
+                class: admin_filter_option_class(selected),
+                aria: {pressed: selected} %>
+        <% end %>
+      </div>
+    </div>
+
+    <div>
+      <div class="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500">Occupation Standard</div>
+      <div class="flex flex-wrap gap-2">
+        <% [["Has Standard", "true"], ["No Standard", "false"]].each do |label, value| %>
+          <% selected = active_has_standard == value %>
+          <% next_has_standard = selected ? nil : value %>
+          <% search = admin_filter_search(search_terms, active_redaction => active_redaction.present?, "has_occupation_standard" => next_has_standard) %>
+          <%= link_to label,
+                admin_filter_url(search, "pdf_only" => active_redaction.present?),
+                class: admin_filter_option_class(selected),
+                aria: {pressed: selected} %>
+        <% end %>
+      </div>
+    </div>
+
+    <% if active_filter_count.positive? %>
+      <div class="mt-3 border-t border-gray-200 pt-3">
+        <%= link_to "Clear filters",
+              admin_filter_url(search_terms.join(" ")),
+              class: "text-sm font-medium text-gray-600 hover:text-gray-900" %>
+      </div>
+    <% end %>
+  </div>
+</details>

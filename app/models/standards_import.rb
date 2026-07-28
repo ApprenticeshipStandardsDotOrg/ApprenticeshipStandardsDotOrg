@@ -10,6 +10,21 @@ class StandardsImport < ApplicationRecord
   attr_reader :files
 
   class << self
+    def with_imports
+      where(
+        "EXISTS (
+          SELECT 1
+          FROM imports
+          WHERE imports.parent_id = standards_imports.id
+            AND imports.parent_type = 'StandardsImport'
+        )"
+      )
+    end
+
+    def without_imports
+      where.not(id: with_imports.select(:id))
+    end
+
     def manual_submissions_in_need_of_courtesy_notification(email: nil)
       standards_imports = StandardsImport.courtesy_notification_pending
       if email.present?
@@ -34,6 +49,10 @@ class StandardsImport < ApplicationRecord
 
   def import_root
     self
+  end
+
+  def has_imports
+    imports.any?
   end
 
   def pdf_leaves

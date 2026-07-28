@@ -57,4 +57,14 @@ system!(
   DUMP_PATH
 )
 
+post_restore_commands = [
+  "DROP EXTENSION IF EXISTS pg_stat_statements;",
+  "ALTER EXTENSION pgcrypto SET SCHEMA public;",
+  "DROP SCHEMA IF EXISTS heroku_ext;"
+]
+
+post_restore_commands.each do |command|
+  system!("psql", "--quiet", "--no-psqlrc", "--dbname", DATABASE, "--command", command)
+end
+
 puts "\nDone. #{DATABASE} has been restored from #{HEROKU_APP}."
