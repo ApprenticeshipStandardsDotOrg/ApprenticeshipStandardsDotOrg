@@ -51,7 +51,7 @@ gem "rollbar"
 gem "roo", "~> 2.10.1"
 gem "aws-sdk-s3", require: false
 gem "after_party"
-gem "sidekiq", "~> 7"
+gem "sidekiq", "~> 8"
 gem "watir", "~> 7.3"
 gem "docx"
 gem "administrate", "~> 1.0.0beta3"
