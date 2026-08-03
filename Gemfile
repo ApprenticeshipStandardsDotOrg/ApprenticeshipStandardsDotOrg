@@ -5,7 +5,7 @@ ruby "3.4.1"
 
 gem "rails", "~> 8.1.3"
 
-gem "elasticsearch", "8.10.0"
+gem "elasticsearch", "8.19.3"
 gem "elasticsearch-model", github: "elastic/elasticsearch-rails", branch: "8.x"
 gem "elasticsearch-rails", github: "elastic/elasticsearch-rails", branch: "8.x"
 gem "elasticsearch-dsl"

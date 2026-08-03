@@ -213,13 +213,14 @@ GEM
       dotenv (= 3.1.7)
       railties (>= 6.1)
     drb (2.2.3)
-    elastic-transport (8.3.0)
+    elastic-transport (8.5.3)
       faraday (< 3)
       multi_json
-    elasticsearch (8.10.0)
-      elastic-transport (~> 8)
-      elasticsearch-api (= 8.10.0)
-    elasticsearch-api (8.10.0)
+    elasticsearch (8.19.3)
+      elastic-transport (~> 8.3)
+      elasticsearch-api (= 8.19.3)
+      ostruct
+    elasticsearch-api (8.19.3)
       multi_json
     elasticsearch-dsl (0.1.10)
     erb (6.0.4)
@@ -277,7 +278,7 @@ GEM
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     jmespath (1.6.2)
-    json (2.21.1)
+    json (2.21.2)
     json-schema (5.0.1)
       addressable (~> 2.8)
     jsonapi-resources (0.10.7)
@@ -322,7 +323,7 @@ GEM
       drb (~> 2.0)
       prism (~> 1.5)
     msgpack (1.8.3)
-    multi_json (1.15.0)
+    multi_json (1.21.1)
     multi_xml (0.9.1)
       bigdecimal (>= 3.1, < 5)
     multipart-post (2.4.1)
@@ -362,6 +363,7 @@ GEM
       snaky_hash (~> 2.0, >= 2.0.6)
       version_gem (~> 1.1, >= 1.1.12)
     orm_adapter (0.5.0)
+    ostruct (0.6.3)
     pagy (9.3.3)
     parallel (1.26.3)
     parser (3.3.7.1)
@@ -640,7 +642,7 @@ DEPENDENCIES
   devise_invitable (~> 2.0.9)
   docx
   dotenv-rails
-  elasticsearch (= 8.10.0)
+  elasticsearch (= 8.19.3)
   elasticsearch-dsl
   elasticsearch-model!
   elasticsearch-rails!
