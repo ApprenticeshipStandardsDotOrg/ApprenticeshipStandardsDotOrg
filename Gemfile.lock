@@ -121,7 +121,7 @@ GEM
     administrate-field-nested_has_many (2.1.0)
       administrate (>= 0.19, < 1)
       cocoon (~> 1.2, >= 1.2.11)
-    afm (0.2.2)
+    afm (1.0.0)
     after_party (2.0.0)
     anonymous_loader (0.1.2)
       version_gem (~> 1.1, >= 1.1.13)
@@ -369,9 +369,9 @@ GEM
     parser (3.3.7.1)
       ast (~> 2.4.1)
       racc
-    pdf-reader (2.14.1)
+    pdf-reader (2.15.1)
       Ascii85 (>= 1.0, < 3.0, != 2.0.0)
-      afm (~> 0.2.1)
+      afm (>= 0.2.1, < 2)
       hashery (~> 2.0)
       ruby-rc4
       ttfunk
