@@ -77,6 +77,70 @@ RSpec.describe ConvertPdfImportWithAI do
       expect(result.occupation_standard.state).to be_nil
     end
 
+    it "prefers a state registration agency when OpenAI also returns a national standard type" do
+      pdf = create(:imports_pdf)
+      prompt = create(:open_ai_prompt, prompt: "Extract")
+      alabama_agency = create(:registration_agency, for_state_abbreviation: "AL", agency_type: :saa)
+
+      stub_pdf_text("Alabama program standard")
+      stub_open_ai_response(prompt, "Alabama program standard", {
+        title: "Automobile Body Repairer",
+        ojtType: "competency",
+        registrationAgencyType: "saa",
+        registrationState: "AL",
+        nationalStandardType: "program_standard"
+      }.to_json)
+      expect_any_instance_of(OccupationStandard).not_to receive(:update_document)
+
+      result = described_class.new(import: pdf, open_ai_prompt: prompt).call
+
+      expect(result.created).to be true
+      expect(result.occupation_standard.registration_agency).to eq alabama_agency
+      expect(result.occupation_standard.national_standard_type).to be_nil
+    end
+
+    it "uses the state's authoritative registration agency when OpenAI returns the wrong agency type" do
+      pdf = create(:imports_pdf)
+      prompt = create(:open_ai_prompt, prompt: "Extract")
+      colorado_agency = create(:registration_agency, for_state_abbreviation: "CO", agency_type: :saa)
+
+      stub_pdf_text("Colorado teacher standard")
+      stub_open_ai_response(prompt, "Colorado teacher standard", {
+        title: "Special Education Teacher",
+        ojtType: "competency",
+        registrationAgencyType: "oa",
+        registrationState: "CO"
+      }.to_json)
+      expect_any_instance_of(OccupationStandard).not_to receive(:update_document)
+
+      result = described_class.new(import: pdf, open_ai_prompt: prompt).call
+
+      expect(result.created).to be true
+      expect(result.occupation_standard.registration_agency).to eq colorado_agency
+    end
+
+    it "allows either California agency because California has both OA and SAA agencies" do
+      pdf = create(:imports_pdf)
+      prompt = create(:open_ai_prompt, prompt: "Extract")
+      california = create(:state, abbreviation: "CA")
+      create(:registration_agency, state: california, agency_type: :oa)
+      california_saa = create(:registration_agency, state: california, agency_type: :saa)
+
+      stub_pdf_text("California teacher standard")
+      stub_open_ai_response(prompt, "California teacher standard", {
+        title: "Special Education Teacher",
+        ojtType: "competency",
+        registrationAgencyType: "saa",
+        registrationState: "CA"
+      }.to_json)
+      expect_any_instance_of(OccupationStandard).not_to receive(:update_document)
+
+      result = described_class.new(import: pdf, open_ai_prompt: prompt).call
+
+      expect(result.created).to be true
+      expect(result.occupation_standard.registration_agency).to eq california_saa
+    end
+
     it "stores extraction errors without creating an invalid occupation standard" do
       pdf = create(:imports_pdf)
       prompt = create(:open_ai_prompt, prompt: "Extract")

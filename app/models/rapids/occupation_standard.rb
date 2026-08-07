@@ -63,7 +63,10 @@ module RAPIDS
           )
 
           if state
-            registration_agency = state.registration_agencies.find_by(agency_type: "oa")
+            registration_agency = RegistrationAgency.registration_agency_for_state(
+              state,
+              requested_agency_type: :oa
+            )
           end
         end
 

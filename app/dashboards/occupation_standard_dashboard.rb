@@ -23,6 +23,7 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
     rsi_hours_min: Field::Number,
     sample_set: Field::Boolean,
     source: EnumField,
+    source_documents: SourceDocumentsField.with_options(searchable: false),
     status: EnumField,
     term_months: Field::Number,
     title: Field::String,
@@ -55,6 +56,7 @@ class OccupationStandardDashboard < Administrate::BaseDashboard
     url
     status
     source
+    source_documents
     sample_set
     created_at
     updated_at

@@ -1,0 +1,27 @@
+<% if field.data.any? %>
+  <ul>
+    <% field.data.each do |import| %>
+      <li>
+        <%= link_to import.filename,
+              rails_blob_path(import.file, disposition: "inline"),
+              target: "_blank",
+              rel: "noopener" %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <%= field.resource.source_document_status %>
+<% end %>
+
+<% if field.source_urls.any? %>
+  <div>
+    Source URL:
+    <% field.source_urls.each do |source_url| %>
+      <% if field.linkable_url?(source_url) %>
+        <%= link_to source_url, source_url, target: "_blank", rel: "noopener" %>
+      <% else %>
+        <%= source_url %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
