@@ -41,7 +41,17 @@ module Admin
     end
 
     def scoped_resource
-      OccupationStandard.includes(:open_ai_import, occupation: :onet, registration_agency: :state)
+      import_preloads = [
+        {file_attachment: :blob},
+        {parent: {parent: {parent: {parent: :parent}}}}
+      ]
+
+      OccupationStandard.includes(
+        {data_imports: {import: import_preloads}},
+        {occupation: :onet},
+        {open_ai_import: {import: import_preloads}},
+        {registration_agency: :state}
+      )
     end
 
     def filter_resources(resources, search_term:)

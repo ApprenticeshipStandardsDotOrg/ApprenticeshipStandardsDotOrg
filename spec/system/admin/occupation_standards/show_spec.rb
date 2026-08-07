@@ -28,6 +28,7 @@ RSpec.describe "admin/occupation_standards/show" do
     expect(page).to have_selector("dt", text: "Term months")
     expect(page).to have_selector("dt", text: "URL")
     expect(page).to have_selector("dt", text: "Status")
+    expect(page).to have_selector("dt", text: "Source documents")
     expect(page).to have_selector("dt", text: "Created at")
     expect(page).to have_selector("dt", text: "Updated at")
 
@@ -51,6 +52,7 @@ RSpec.describe "admin/occupation_standards/show" do
     expect(page).to have_selector("dd", text: occupation_standard.term_months)
     expect(page).to have_selector("dd", text: occupation_standard.url)
     expect(page).to have_selector("dd", text: occupation_standard.status.titleize)
+    expect(page).to have_link("pixel1x1.pdf", href: rails_blob_path(occupation_standard.source_documents.first.file, disposition: "inline"))
     expect(page).to have_selector("dd", text: "2022-01-15 01:02:03 EST")
     expect(page).to have_selector("dd", text: "2022-06-17 10:11:12 EDT")
 
@@ -120,5 +122,45 @@ RSpec.describe "admin/occupation_standards/show" do
 
     expect(page).to have_selector("h1", text: occupation_standard.title)
     expect(page).to have_selector("dt", text: "Occupation")
+  end
+
+  it "links to the source document from an AI conversion", :admin do
+    occupation_standard = create(:occupation_standard, source: :ai_conversion)
+    import = create(:imports_pdf)
+    create(:open_ai_import, import: import, occupation_standard: occupation_standard)
+    admin = create(:admin)
+
+    login_as admin
+    visit admin_occupation_standard_path(occupation_standard)
+
+    expect(page).to have_selector("dt", text: "Source documents")
+    expect(page).to have_link(import.filename, href: rails_blob_path(import.file, disposition: "inline"))
+  end
+
+  it "shows the source URL from the root import", :admin do
+    source_url = "https://example.com/source-programs"
+    standards_import = create(:standards_import, source_url: source_url)
+    import = create(:imports_pdf, parent: standards_import)
+    occupation_standard = create(:occupation_standard)
+    create(:data_import, import: import, occupation_standard: occupation_standard)
+    admin = create(:admin)
+
+    login_as admin
+    visit admin_occupation_standard_path(occupation_standard)
+
+    expect(page).to have_link(import.filename, href: rails_blob_path(import.file, disposition: "inline"))
+    expect(page).to have_text("Source URL:")
+    expect(page).to have_link(source_url, href: source_url)
+  end
+
+  it "shows when an API-imported standard does not have a source document", :admin do
+    occupation_standard = create(:occupation_standard, source: :rapids_api)
+    admin = create(:admin)
+
+    login_as admin
+    visit admin_occupation_standard_path(occupation_standard)
+
+    expect(page).to have_selector("dt", text: "Source documents")
+    expect(page).to have_text("No source PDF is linked; this standard was imported directly from the RAPIDS API.")
   end
 end

@@ -161,15 +161,22 @@ class ConvertPdfImportWithAI
     state = registration_state(response)
     agency_type = registration_agency_type(response)
 
-    if national_standard?(response)
-      RegistrationAgency.find_by(state: nil, agency_type: agency_type.presence || :oa)
-    elsif state && agency_type
-      RegistrationAgency.find_by(state: state, agency_type: agency_type)
+    if state && agency_type
+      RegistrationAgency.registration_agency_for_state(state, requested_agency_type: agency_type) ||
+        single_registration_agency_for_state(state)
     elsif state
-      RegistrationAgency.find_by(state: state, agency_type: :oa)
+      RegistrationAgency.registration_agency_for_state(state, requested_agency_type: :oa) ||
+        single_registration_agency_for_state(state)
+    elsif national_standard?(response)
+      RegistrationAgency.find_by(state: nil, agency_type: agency_type.presence || :oa)
     else
       RegistrationAgency.registration_agency_for_national_program
     end
+  end
+
+  def single_registration_agency_for_state(state)
+    agencies = RegistrationAgency.where(state: state).to_a
+    agencies.one? ? agencies.first : nil
   end
 
   def registration_state(response)
@@ -192,11 +199,16 @@ class ConvertPdfImportWithAI
   end
 
   def national_standard?(response)
-    value(response, "national", "National").present? ||
-      value(response, "nationalStandardType", "national_standard_type").present?
+    registration_state(response).blank? &&
+      (
+        value(response, "national", "National").present? ||
+        value(response, "nationalStandardType", "national_standard_type").present?
+      )
   end
 
   def national_standard_type(response)
+    return unless national_standard?(response)
+
     type = value(response, "nationalStandardType", "national_standard_type", "National")
     return if type.blank?
 

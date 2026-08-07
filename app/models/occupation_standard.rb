@@ -265,6 +265,35 @@ class OccupationStandard < ApplicationRecord
     data_import&.import
   end
 
+  def source_imports
+    [
+      open_ai_import&.import,
+      *data_imports.map(&:import)
+    ].compact.uniq
+  end
+
+  def source_documents
+    source_imports.select { |import| import.respond_to?(:file) && import.file.attached? }
+  end
+
+  def source_urls
+    source_imports.filter_map do |import|
+      root = import.import_root
+      root.source_url if root.respond_to?(:source_url)
+    end.compact_blank.uniq
+  end
+
+  def source_document_status
+    case source
+    when "rapids_api"
+      "No source PDF is linked; this standard was imported directly from the RAPIDS API."
+    when "onet_api"
+      "No source PDF is linked; this standard was imported directly from the O*NET API."
+    else
+      "No source PDF is linked to this occupation standard."
+    end
+  end
+
   def standards_import
     source_file&.import_root
   end

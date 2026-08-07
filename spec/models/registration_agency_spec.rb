@@ -28,6 +28,45 @@ RSpec.describe RegistrationAgency, type: :model do
     end
   end
 
+  describe ".registration_agency_for_state" do
+    it "uses the state's authoritative SAA agency when a document says OA" do
+      colorado = create(:state, abbreviation: "CO")
+      colorado_saa = create(:registration_agency, state: colorado, agency_type: :saa)
+
+      result = described_class.registration_agency_for_state(
+        colorado,
+        requested_agency_type: :oa
+      )
+
+      expect(result).to eq colorado_saa
+    end
+
+    it "uses the state's authoritative OA agency when a document says SAA" do
+      texas = create(:state, abbreviation: "TX")
+      texas_oa = create(:registration_agency, state: texas, agency_type: :oa)
+
+      result = described_class.registration_agency_for_state(
+        texas,
+        requested_agency_type: :saa
+      )
+
+      expect(result).to eq texas_oa
+    end
+
+    it "uses the requested California agency because California has both agency types" do
+      california = create(:state, abbreviation: "CA")
+      create(:registration_agency, state: california, agency_type: :oa)
+      california_saa = create(:registration_agency, state: california, agency_type: :saa)
+
+      result = described_class.registration_agency_for_state(
+        california,
+        requested_agency_type: :saa
+      )
+
+      expect(result).to eq california_saa
+    end
+  end
+
   describe "#to_s" do
     it "returns state name and agency type" do
       ca = build_stubbed(:state, name: "California")
