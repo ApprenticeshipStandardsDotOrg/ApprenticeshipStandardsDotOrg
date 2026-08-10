@@ -1,4 +1,5 @@
 require "rails_helper"
+require "csv"
 
 RSpec.describe "Admin::OccupationStandard", type: :request do
   describe "GET /index" do
@@ -63,6 +64,66 @@ RSpec.describe "Admin::OccupationStandard", type: :request do
           expect(response.body).to include(rapids_sample.title)
           expect(response.body).not_to include("RAPIDS Non Sample")
           expect(response.body).not_to include("AI Sample")
+        end
+
+        it "can generate a filtered sample set CSV report" do
+          admin = create(:admin)
+          oa_agency = create(:registration_agency, agency_type: :oa)
+          saa_agency = create(:registration_agency, :saa, state: create(:state, name: "Alabama", abbreviation: "AL"))
+          organization = create(:organization)
+
+          time_standard = create(
+            :occupation_standard,
+            sample_set: true,
+            source: :rapids_api,
+            ojt_type: :time,
+            registration_agency: oa_agency,
+            organization: organization,
+            onet_code: "13-1071.01",
+            rapids_code: "0157"
+          )
+          create_list(:work_process, 2, occupation_standard: time_standard)
+          create(:related_instruction, occupation_standard: time_standard)
+
+          hybrid_standard = create(
+            :occupation_standard,
+            sample_set: true,
+            source: :rapids_api,
+            ojt_type: :hybrid,
+            registration_agency: saa_agency,
+            organization: nil,
+            onet_code: nil,
+            rapids_code: nil
+          )
+          create(:related_instruction, occupation_standard: hybrid_standard, sort_order: 1)
+          create(:related_instruction, occupation_standard: hybrid_standard, sort_order: 2)
+
+          create(:occupation_standard, sample_set: false, source: :rapids_api)
+          create(:occupation_standard, sample_set: true, source: :ai_conversion)
+
+          sign_in admin
+          get sample_set_report_admin_occupation_standards_path(format: :csv, search: "source:rapids_api")
+
+          csv = CSV.parse(response.body, headers: true)
+          row = csv.first
+
+          expect(response).to be_successful
+          expect(response.media_type).to eq "text/csv"
+          expect(row["total"]).to eq "2"
+          expect(row["filters"]).to eq "source:rapids_api sample_set:true"
+          expect(row["pct_ojt_time"]).to eq "50.0"
+          expect(row["pct_ojt_hybrid"]).to eq "50.0"
+          expect(row["pct_reg_agency"]).to eq "100.0"
+          expect(row["pct_agency_oa"]).to eq "50.0"
+          expect(row["pct_agency_saa"]).to eq "50.0"
+          expect(row["pct_org"]).to eq "50.0"
+          expect(row["pct_source_rapids"]).to eq "100.0"
+          expect(row["pct_onet"]).to eq "50.0"
+          expect(row["pct_rapids"]).to eq "50.0"
+          expect(row["pct_work_proc"]).to eq "50.0"
+          expect(row["avg_work_proc"]).to eq "2.0"
+          expect(row["pct_rel_instr"]).to eq "100.0"
+          expect(row["avg_rel_instr"]).to eq "1.5"
         end
       end
 

@@ -38,7 +38,9 @@ Rails.application.routes.draw do
         delete :redacted_import, on: :member, action: :destroy_redacted_pdf
         post :convert_with_ai, on: :member
       end
-      resources :occupation_standards, only: [:index, :show, :edit, :update, :new, :create]
+      resources :occupation_standards, only: [:index, :show, :edit, :update, :new, :create] do
+        get :sample_set_report, on: :collection
+      end
       resources :occupations, only: [:index, :show, :edit, :update]
       resources :organizations, only: [:index, :show, :edit, :update]
       resources :work_processes, only: [:show, :edit, :update]

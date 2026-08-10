@@ -97,9 +97,19 @@ RSpec.describe "admin/occupation_standards/index", :admin do
       visible: :all
     )
 
+    expect(page).to have_link(
+      "Sample CSV",
+      href: sample_set_report_admin_occupation_standards_path(format: :csv, search: "sample_set:true")
+    )
+
     visit admin_occupation_standards_path(search: "source:ai_conversion")
 
     expect(page).to have_text(ai_standard.title)
     expect(page).to_not have_text("Manual Standard")
+
+    expect(page).to have_link(
+      "Sample CSV",
+      href: sample_set_report_admin_occupation_standards_path(format: :csv, search: "source:ai_conversion sample_set:true")
+    )
   end
 end

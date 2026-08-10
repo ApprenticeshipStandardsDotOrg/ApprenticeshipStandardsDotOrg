@@ -11,6 +11,13 @@
 
   <%= render partial: "filters" %>
 
+  <%= link_to "Sample CSV",
+        sample_set_report_admin_occupation_standards_path(
+          format: :csv,
+          search: admin_filter_search(admin_filter_search_terms_without("sample_set"), sample_set: "true")
+        ),
+        class: "button" %>
+
   <% if show_search_bar %>
   <%= render(
         "search",
