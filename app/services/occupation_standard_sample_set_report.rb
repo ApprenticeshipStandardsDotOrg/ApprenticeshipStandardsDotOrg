@@ -2,39 +2,62 @@ require "csv"
 
 class OccupationStandardSampleSetReport
   HEADERS = %w[
-    total
+    report_total
     filters
-    pct_ojt_time
-    pct_ojt_comp
-    pct_ojt_hybrid
-    pct_ojt_unknown
-    pct_reg_agency
-    pct_agency_oa
-    pct_agency_saa
-    pct_agency_unknown
-    pct_org
-    pct_source_manual
-    pct_source_rapids
-    pct_source_onet
-    pct_source_ai
-    pct_source_unknown
-    pct_onet
-    pct_rapids
-    pct_work_proc
-    avg_work_proc
-    pct_rel_instr
-    avg_rel_instr
+    id
+    title
+    state
+    state_registered
+    agency_type
+    ojt_type
+    source
+    organization
+    has_org
+    onet_code
+    rapids_code
+    import_user
+    converted_at
+    ai_converted_at
+    manual_wp_count
+    manual_skill_count
+    manual_ojt_hours
+    manual_ri_count
+    manual_ri_hours
+    ai_wp_count
+    ai_skill_count
+    ai_ojt_hours
+    ai_ri_count
+    ai_ri_hours
+    score_wp_count
+    score_skill_count
+    score_ojt_hours
+    score_ri_count
+    score_ri_hours
+    score_wp_text
+    score_skill_text
+    score_ri_text
   ].freeze
 
   def initialize(relation, filters:)
-    @scope = OccupationStandard.where(id: relation.select(:id).distinct)
+    @scope = OccupationStandard
+      .where(id: relation.select(:id).distinct)
+      .includes(
+        :organization,
+        :open_ai_import,
+        data_imports: :user,
+        registration_agency: :state,
+        related_instructions: [],
+        work_processes: :competencies
+      )
     @filters = filters
   end
 
   def to_csv
     CSV.generate(headers: true) do |csv|
       csv << HEADERS
-      csv << row
+      scope.find_each do |occupation_standard|
+        csv << row(occupation_standard)
+      end
     end
   end
 
@@ -42,99 +65,209 @@ class OccupationStandardSampleSetReport
 
   attr_reader :scope, :filters
 
-  def row
+  def row(occupation_standard)
+    manual = ManualSummary.new(occupation_standard)
+    ai = AISummary.new(occupation_standard.open_ai_import&.parsed_response || {})
+
     [
-      total,
+      report_total,
       filters.presence || "sample_set:true",
-      percentage(ojt_type_counts["time"]),
-      percentage(ojt_type_counts["competency"]),
-      percentage(ojt_type_counts["hybrid"]),
-      percentage(unknown_ojt_type_count),
-      percentage(present_count(:registration_agency_id)),
-      percentage(registration_agency_counts["oa"]),
-      percentage(registration_agency_counts["saa"]),
-      percentage(unknown_registration_agency_type_count),
-      percentage(present_count(:organization_id)),
-      percentage(source_counts["manual_upload"]),
-      percentage(source_counts["rapids_api"]),
-      percentage(source_counts["onet_api"]),
-      percentage(source_counts["ai_conversion"]),
-      percentage(unknown_source_count),
-      percentage(present_text_count(:onet_code)),
-      percentage(present_text_count(:rapids_code)),
-      percentage(standards_with_work_processes_count),
-      average_association_count("work_processes"),
-      percentage(standards_with_related_instructions_count),
-      average_association_count("related_instructions")
+      occupation_standard.id,
+      occupation_standard.title,
+      occupation_standard.state&.abbreviation,
+      occupation_standard.state.present?,
+      occupation_standard.registration_agency&.agency_type,
+      occupation_standard.ojt_type,
+      occupation_standard.source,
+      occupation_standard.organization&.title,
+      occupation_standard.organization.present?,
+      occupation_standard.onet_code,
+      occupation_standard.rapids_code,
+      manual.import_user,
+      manual.converted_at,
+      occupation_standard.open_ai_import&.created_at,
+      manual.work_process_count,
+      manual.skill_count,
+      manual.ojt_hours,
+      manual.related_instruction_count,
+      manual.related_instruction_hours,
+      ai.work_process_count,
+      ai.skill_count,
+      ai.ojt_hours,
+      ai.related_instruction_count,
+      ai.related_instruction_hours,
+      numeric_score(manual.work_process_count, ai.work_process_count),
+      numeric_score(manual.skill_count, ai.skill_count),
+      numeric_score(manual.ojt_hours, ai.ojt_hours),
+      numeric_score(manual.related_instruction_count, ai.related_instruction_count),
+      numeric_score(manual.related_instruction_hours, ai.related_instruction_hours),
+      text_score(manual.work_process_text, ai.work_process_text),
+      text_score(manual.skill_text, ai.skill_text),
+      text_score(manual.related_instruction_text, ai.related_instruction_text)
     ]
   end
 
-  def total
-    @total ||= scope.count
+  def report_total
+    @report_total ||= scope.count
   end
 
-  def ojt_type_counts
-    @ojt_type_counts ||= scope.group(:ojt_type).count
+  def numeric_score(expected, actual)
+    expected = expected.to_i
+    actual = actual.to_i
+
+    return "N/A" if expected.zero? && actual.zero?
+    return 0.0 if expected.zero? || actual.zero?
+
+    (([expected, actual].min.to_f / [expected, actual].max) * 100).round(2)
   end
 
-  def unknown_ojt_type_count
-    total - ojt_type_counts.values.sum
+  def text_score(expected, actual)
+    expected_tokens = tokenize(expected)
+    actual_tokens = tokenize(actual)
+
+    return "N/A" if expected_tokens.empty? && actual_tokens.empty?
+    return 0.0 if expected_tokens.empty? || actual_tokens.empty?
+
+    ((expected_tokens.intersection(actual_tokens).count.to_f / expected_tokens.count) * 100).round(2)
   end
 
-  def registration_agency_counts
-    @registration_agency_counts ||= scope
-      .joins(:registration_agency)
-      .group("registration_agencies.agency_type")
-      .count
+  def tokenize(text)
+    text.to_s.downcase.scan(/[a-z0-9]+/).uniq
   end
 
-  def unknown_registration_agency_type_count
-    total - registration_agency_counts.values.sum
+  class ManualSummary
+    def initialize(occupation_standard)
+      @occupation_standard = occupation_standard
+    end
+
+    def import_user
+      data_import&.user&.email || data_import&.user&.name
+    end
+
+    def converted_at
+      data_import&.updated_at
+    end
+
+    def work_process_count
+      work_processes.length
+    end
+
+    def skill_count
+      work_processes.sum(&:competencies_count)
+    end
+
+    def ojt_hours
+      work_processes.sum { |work_process| work_process.hours.to_i }
+    end
+
+    def related_instruction_count
+      related_instructions.length
+    end
+
+    def related_instruction_hours
+      related_instructions.sum { |related_instruction| related_instruction.hours.to_i }
+    end
+
+    def work_process_text
+      work_processes.map { |work_process| [work_process.title, work_process.description].compact.join(" ") }.join(" ")
+    end
+
+    def skill_text
+      work_processes.flat_map(&:competencies).map(&:title).join(" ")
+    end
+
+    def related_instruction_text
+      related_instructions.map { |instruction| [instruction.title, instruction.description].compact.join(" ") }.join(" ")
+    end
+
+    private
+
+    attr_reader :occupation_standard
+
+    def data_import
+      occupation_standard.data_imports.max_by(&:updated_at)
+    end
+
+    def work_processes
+      occupation_standard.work_processes
+    end
+
+    def related_instructions
+      occupation_standard.related_instructions
+    end
   end
 
-  def source_counts
-    @source_counts ||= scope.group(:source).count
-  end
+  class AISummary
+    def initialize(response)
+      @response = response || {}
+    end
 
-  def unknown_source_count
-    total - source_counts.values.sum
-  end
+    def work_process_count
+      work_processes.count
+    end
 
-  def present_count(column)
-    scope.where.not(column => nil).count
-  end
+    def skill_count
+      work_processes.sum { |work_process| competencies(work_process).count }
+    end
 
-  def present_text_count(column)
-    scope.where("NULLIF(TRIM(#{column}), '') IS NOT NULL").count
-  end
+    def ojt_hours
+      work_processes.sum do |work_process|
+        integer_value(work_process, "maximumHours", "maximum_hours", "minimumHours", "minimum_hours", "defaultHours", "default_hours")
+      end
+    end
 
-  def standards_with_work_processes_count
-    @standards_with_work_processes_count ||= scope.joins(:work_processes).distinct.count
-  end
+    def related_instruction_count
+      related_instructions.count
+    end
 
-  def standards_with_related_instructions_count
-    @standards_with_related_instructions_count ||= scope.joins(:related_instructions).distinct.count
-  end
+    def related_instruction_hours
+      related_instructions.sum { |instruction| integer_value(instruction, "hours") }
+    end
 
-  def average_association_count(table_name)
-    connection.select_value(<<~SQL.squish).to_f.round(2)
-      SELECT COALESCE(AVG(item_count), 0)
-      FROM (
-        SELECT COUNT(*) AS item_count
-        FROM #{table_name}
-        WHERE occupation_standard_id IN (#{scope.select(:id).to_sql})
-        GROUP BY occupation_standard_id
-      ) association_counts
-    SQL
-  end
+    def work_process_text
+      work_processes.map { |work_process| text_value(work_process, "title", "description") }.join(" ")
+    end
 
-  def percentage(count)
-    return 0 if total.zero?
+    def skill_text
+      work_processes.flat_map { |work_process| competencies(work_process) }.map do |competency|
+        competency.is_a?(Hash) ? value(competency, "title", "description") : competency
+      end.join(" ")
+    end
 
-    ((count.to_f / total) * 100).round(2)
-  end
+    def related_instruction_text
+      related_instructions.map { |instruction| text_value(instruction, "title", "description") }.join(" ")
+    end
 
-  def connection
-    ActiveRecord::Base.connection
+    private
+
+    attr_reader :response
+
+    def work_processes
+      Array(value(response, "workProcesses", "work_processes"))
+    end
+
+    def related_instructions
+      Array(value(response, "relatedInstructions", "related_instructions"))
+    end
+
+    def competencies(work_process)
+      Array(value(work_process, "competencies", "skills"))
+    end
+
+    def integer_value(hash, *keys)
+      value(hash, *keys).to_i
+    end
+
+    def value(hash, *keys)
+      return unless hash.respond_to?(:[])
+
+      keys.lazy.map { |key| hash[key] }.find(&:present?)
+    end
+
+    def text_value(hash, *keys)
+      return "" unless hash.respond_to?(:[])
+
+      keys.filter_map { |key| hash[key].presence }.join(" ")
+    end
   end
 end

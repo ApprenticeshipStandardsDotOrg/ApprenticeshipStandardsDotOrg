@@ -68,6 +68,7 @@ RSpec.describe "Admin::OccupationStandard", type: :request do
 
         it "can generate a filtered sample set CSV report" do
           admin = create(:admin)
+          manual_converter = create(:user, email: "converter@example.com")
           oa_agency = create(:registration_agency, agency_type: :oa)
           saa_agency = create(:registration_agency, :saa, state: create(:state, name: "Alabama", abbreviation: "AL"))
           organization = create(:organization)
@@ -82,8 +83,27 @@ RSpec.describe "Admin::OccupationStandard", type: :request do
             onet_code: "13-1071.01",
             rapids_code: "0157"
           )
-          create_list(:work_process, 2, occupation_standard: time_standard)
-          create(:related_instruction, occupation_standard: time_standard)
+          work_process_1 = create(:work_process, occupation_standard: time_standard, title: "Cut Metal", description: nil, maximum_hours: 100)
+          work_process_2 = create(:work_process, occupation_standard: time_standard, title: "Weld Frame", description: nil, maximum_hours: 200)
+          create(:competency, work_process: work_process_1, title: "Inspect welds")
+          create(:competency, work_process: work_process_2, title: "Fit panels")
+          create(:related_instruction, occupation_standard: time_standard, title: "Blueprint Reading", description: nil, hours: 40)
+          create(:related_instruction, occupation_standard: time_standard, title: "Safety", description: nil, hours: 60, sort_order: 2)
+          create(:data_import, occupation_standard: time_standard, user: manual_converter)
+          create(
+            :open_ai_import,
+            :with_pdf_import,
+            occupation_standard: time_standard,
+            parsed_response: {
+              "workProcesses" => [
+                {"title" => "Cut Metal", "maximumHours" => 90, "competencies" => [{"title" => "Inspect welds"}]},
+                {"title" => "Weld Frame", "maximumHours" => 200, "competencies" => []}
+              ],
+              "relatedInstructions" => [
+                {"title" => "Blueprint Reading", "hours" => 50}
+              ]
+            }
+          )
 
           hybrid_standard = create(
             :occupation_standard,
@@ -95,8 +115,6 @@ RSpec.describe "Admin::OccupationStandard", type: :request do
             onet_code: nil,
             rapids_code: nil
           )
-          create(:related_instruction, occupation_standard: hybrid_standard, sort_order: 1)
-          create(:related_instruction, occupation_standard: hybrid_standard, sort_order: 2)
 
           create(:occupation_standard, sample_set: false, source: :rapids_api)
           create(:occupation_standard, sample_set: true, source: :ai_conversion)
@@ -105,25 +123,63 @@ RSpec.describe "Admin::OccupationStandard", type: :request do
           get sample_set_report_admin_occupation_standards_path(format: :csv, search: "source:rapids_api")
 
           csv = CSV.parse(response.body, headers: true)
-          row = csv.first
 
           expect(response).to be_successful
           expect(response.media_type).to eq "text/csv"
-          expect(row["total"]).to eq "2"
+          expect(csv.headers).to include(
+            "report_total",
+            "filters",
+            "agency_type",
+            "import_user",
+            "converted_at",
+            "manual_wp_count",
+            "ai_wp_count",
+            "score_wp_text"
+          )
+          expect(csv.headers).not_to include("has_onet", "has_rapids", "manual_converter", "manual_converted_at")
+          expect(csv.count).to eq 2
+
+          row = csv.find { |csv_row| csv_row["id"] == time_standard.id }
+
+          expect(row["report_total"]).to eq "2"
           expect(row["filters"]).to eq "source:rapids_api sample_set:true"
-          expect(row["pct_ojt_time"]).to eq "50.0"
-          expect(row["pct_ojt_hybrid"]).to eq "50.0"
-          expect(row["pct_reg_agency"]).to eq "100.0"
-          expect(row["pct_agency_oa"]).to eq "50.0"
-          expect(row["pct_agency_saa"]).to eq "50.0"
-          expect(row["pct_org"]).to eq "50.0"
-          expect(row["pct_source_rapids"]).to eq "100.0"
-          expect(row["pct_onet"]).to eq "50.0"
-          expect(row["pct_rapids"]).to eq "50.0"
-          expect(row["pct_work_proc"]).to eq "50.0"
-          expect(row["avg_work_proc"]).to eq "2.0"
-          expect(row["pct_rel_instr"]).to eq "100.0"
-          expect(row["avg_rel_instr"]).to eq "1.5"
+          expect(row["title"]).to eq time_standard.title
+          expect(row["state_registered"]).to eq "true"
+          expect(row["agency_type"]).to eq "oa"
+          expect(row["ojt_type"]).to eq "time"
+          expect(row["source"]).to eq "rapids_api"
+          expect(row["organization"]).to eq organization.title
+          expect(row["has_org"]).to eq "true"
+          expect(row["import_user"]).to eq "converter@example.com"
+          expect(row["converted_at"]).to be_present
+          expect(row["manual_wp_count"]).to eq "2"
+          expect(row["manual_skill_count"]).to eq "2"
+          expect(row["manual_ojt_hours"]).to eq "300"
+          expect(row["manual_ri_count"]).to eq "2"
+          expect(row["manual_ri_hours"]).to eq "100"
+          expect(row["ai_wp_count"]).to eq "2"
+          expect(row["ai_skill_count"]).to eq "1"
+          expect(row["ai_ojt_hours"]).to eq "290"
+          expect(row["ai_ri_count"]).to eq "1"
+          expect(row["ai_ri_hours"]).to eq "50"
+          expect(row["score_wp_count"]).to eq "100.0"
+          expect(row["score_skill_count"]).to eq "50.0"
+          expect(row["score_ojt_hours"]).to eq "96.67"
+          expect(row["score_ri_count"]).to eq "50.0"
+          expect(row["score_ri_hours"]).to eq "50.0"
+          expect(row["score_wp_text"]).to eq "100.0"
+          expect(row["score_skill_text"]).to eq "50.0"
+          expect(row["score_ri_text"]).to eq "66.67"
+
+          empty_row = csv.find { |csv_row| csv_row["id"] == hybrid_standard.id }
+
+          expect(empty_row["score_wp_count"]).to eq "N/A"
+          expect(empty_row["score_skill_count"]).to eq "N/A"
+          expect(empty_row["score_ojt_hours"]).to eq "N/A"
+          expect(empty_row["score_ri_count"]).to eq "N/A"
+          expect(empty_row["score_ri_hours"]).to eq "N/A"
+          expect(empty_row["score_wp_text"]).to eq "N/A"
+          expect(empty_row["score_ri_text"]).to eq "N/A"
         end
       end
 

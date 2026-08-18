@@ -11,12 +11,32 @@
 
   <%= render partial: "filters" %>
 
-  <%= link_to "Sample CSV",
-        sample_set_report_admin_occupation_standards_path(
-          format: :csv,
-          search: admin_filter_search(admin_filter_search_terms_without("sample_set"), sample_set: "true")
-        ),
-        class: "button" %>
+  <div class="relative inline-flex items-center gap-2">
+    <%= link_to "Sample CSV Report",
+          sample_set_report_admin_occupation_standards_path(
+            format: :csv,
+            search: admin_filter_search(admin_filter_search_terms_without("sample_set"), sample_set: "true")
+          ),
+          class: "button" %>
+
+    <details class="relative">
+      <summary class="inline-flex h-8 w-8 cursor-pointer list-none items-center justify-center rounded-full border border-gray-300 bg-white text-sm font-semibold text-gray-700 hover:border-blue-500 hover:text-blue-700" aria-label="Sample CSV report field definitions">
+        ?
+      </summary>
+
+      <div class="absolute right-0 z-20 mt-2 max-h-96 w-96 overflow-y-auto rounded-md border border-gray-200 bg-white p-4 text-sm shadow-lg">
+        <h2 class="mb-3 text-sm font-semibold text-gray-900">Sample CSV Report Fields</h2>
+        <dl class="space-y-2">
+          <% sample_csv_report_field_definitions.each do |field_name, description| %>
+            <div>
+              <dt class="font-mono text-xs font-semibold text-gray-900"><%= field_name %></dt>
+              <dd class="text-gray-600"><%= description %></dd>
+            </div>
+          <% end %>
+        </dl>
+      </div>
+    </details>
+  </div>
 
   <% if show_search_bar %>
   <%= render(
