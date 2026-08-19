@@ -60,8 +60,6 @@ module ApplicationHelper
 
   def sample_csv_report_field_definitions
     {
-      report_total: "Total standards included in this report.",
-      filters: "Admin filters applied, with sample_set:true always included.",
       id: "Occupation standard ID.",
       title: "Occupation standard title.",
       state: "Registration agency state abbreviation.",

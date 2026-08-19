@@ -51,7 +51,27 @@ class OccupationStandardSampleSelector
   private
 
   def eligible_scope
-    OccupationStandard.with_work_processes
+    OccupationStandard
+      .with_work_processes
+      .joins(data_imports: {import: :file_attachment})
+      .where(imports: {type: "Imports::Pdf"})
+      .where(<<~SQL.squish)
+        NOT EXISTS (
+          SELECT 1
+          FROM open_ai_imports
+          WHERE open_ai_imports.occupation_standard_id = occupation_standards.id
+        )
+      SQL
+      .where(<<~SQL.squish)
+        NOT EXISTS (
+          SELECT 1
+          FROM open_ai_imports source_open_ai_imports
+          INNER JOIN data_imports source_data_imports
+            ON source_data_imports.import_id = source_open_ai_imports.import_id
+          WHERE source_data_imports.occupation_standard_id = occupation_standards.id
+        )
+      SQL
+      .distinct
   end
 
   def federal_scope

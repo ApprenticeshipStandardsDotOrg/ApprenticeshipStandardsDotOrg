@@ -89,11 +89,11 @@ RSpec.describe "Admin::OccupationStandard", type: :request do
           create(:competency, work_process: work_process_2, title: "Fit panels")
           create(:related_instruction, occupation_standard: time_standard, title: "Blueprint Reading", description: nil, hours: 40)
           create(:related_instruction, occupation_standard: time_standard, title: "Safety", description: nil, hours: 60, sort_order: 2)
-          create(:data_import, occupation_standard: time_standard, user: manual_converter)
+          data_import = create(:data_import, occupation_standard: time_standard, user: manual_converter)
           create(
             :open_ai_import,
-            :with_pdf_import,
-            occupation_standard: time_standard,
+            import: data_import.import,
+            occupation_standard: create(:occupation_standard, source: :ai_conversion),
             parsed_response: {
               "workProcesses" => [
                 {"title" => "Cut Metal", "maximumHours" => 90, "competencies" => [{"title" => "Inspect welds"}]},
@@ -127,8 +127,6 @@ RSpec.describe "Admin::OccupationStandard", type: :request do
           expect(response).to be_successful
           expect(response.media_type).to eq "text/csv"
           expect(csv.headers).to include(
-            "report_total",
-            "filters",
             "agency_type",
             "import_user",
             "converted_at",
@@ -136,13 +134,18 @@ RSpec.describe "Admin::OccupationStandard", type: :request do
             "ai_wp_count",
             "score_wp_text"
           )
-          expect(csv.headers).not_to include("has_onet", "has_rapids", "manual_converter", "manual_converted_at")
+          expect(csv.headers).not_to include(
+            "report_total",
+            "filters",
+            "has_onet",
+            "has_rapids",
+            "manual_converter",
+            "manual_converted_at"
+          )
           expect(csv.count).to eq 2
 
           row = csv.find { |csv_row| csv_row["id"] == time_standard.id }
 
-          expect(row["report_total"]).to eq "2"
-          expect(row["filters"]).to eq "source:rapids_api sample_set:true"
           expect(row["title"]).to eq time_standard.title
           expect(row["state_registered"]).to eq "true"
           expect(row["agency_type"]).to eq "oa"

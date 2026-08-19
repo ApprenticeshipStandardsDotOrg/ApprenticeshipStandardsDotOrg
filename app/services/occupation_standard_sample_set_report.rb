@@ -2,8 +2,6 @@ require "csv"
 
 class OccupationStandardSampleSetReport
   HEADERS = %w[
-    report_total
-    filters
     id
     title
     state
@@ -44,7 +42,10 @@ class OccupationStandardSampleSetReport
       .includes(
         :organization,
         :open_ai_import,
-        data_imports: :user,
+        data_imports: [
+          :user,
+          {import: :open_ai_import}
+        ],
         registration_agency: :state,
         related_instructions: [],
         work_processes: :competencies
@@ -67,11 +68,10 @@ class OccupationStandardSampleSetReport
 
   def row(occupation_standard)
     manual = ManualSummary.new(occupation_standard)
-    ai = AISummary.new(occupation_standard.open_ai_import&.parsed_response || {})
+    open_ai_import = open_ai_import_for(occupation_standard)
+    ai = AISummary.new(open_ai_import&.parsed_response || {})
 
     [
-      report_total,
-      filters.presence || "sample_set:true",
       occupation_standard.id,
       occupation_standard.title,
       occupation_standard.state&.abbreviation,
@@ -85,7 +85,7 @@ class OccupationStandardSampleSetReport
       occupation_standard.rapids_code,
       manual.import_user,
       manual.converted_at,
-      occupation_standard.open_ai_import&.created_at,
+      open_ai_import&.created_at,
       manual.work_process_count,
       manual.skill_count,
       manual.ojt_hours,
@@ -107,8 +107,9 @@ class OccupationStandardSampleSetReport
     ]
   end
 
-  def report_total
-    @report_total ||= scope.count
+  def open_ai_import_for(occupation_standard)
+    occupation_standard.open_ai_import ||
+      occupation_standard.source_imports.filter_map(&:open_ai_import).max_by(&:created_at)
   end
 
   def numeric_score(expected, actual)
