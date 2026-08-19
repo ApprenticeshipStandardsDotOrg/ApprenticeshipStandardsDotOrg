@@ -58,6 +58,43 @@ module ApplicationHelper
     end
   end
 
+  def sample_csv_report_field_definitions
+    {
+      id: "Occupation standard ID.",
+      title: "Occupation standard title.",
+      state: "Registration agency state abbreviation.",
+      state_registered: "Whether the standard is associated with a state registration agency.",
+      agency_type: "Registration agency type: oa or saa.",
+      ojt_type: "OJT type: time, competency, or hybrid.",
+      source: "Occupation standard source classification.",
+      organization: "Associated sponsor or organization name.",
+      has_org: "Whether an organization is associated.",
+      onet_code: "O*NET code stored on the standard.",
+      rapids_code: "RAPIDS code stored on the standard.",
+      import_user: "Latest associated manual data import user, when available.",
+      converted_at: "Latest associated manual data import update time.",
+      ai_converted_at: "AI conversion creation time, when available.",
+      manual_wp_count: "Persisted work process count.",
+      manual_skill_count: "Persisted competency count across work processes.",
+      manual_ojt_hours: "Persisted total work process hours.",
+      manual_ri_count: "Persisted related instruction count.",
+      manual_ri_hours: "Persisted total related instruction hours.",
+      ai_wp_count: "AI extracted work process count.",
+      ai_skill_count: "AI extracted competency count.",
+      ai_ojt_hours: "AI extracted total work process hours.",
+      ai_ri_count: "AI extracted related instruction count.",
+      ai_ri_hours: "AI extracted total related instruction hours.",
+      score_wp_count: "Work process count match score, or N/A when both sides are empty.",
+      score_skill_count: "Competency count match score, or N/A when both sides are empty.",
+      score_ojt_hours: "OJT hours match score, or N/A when both sides are empty.",
+      score_ri_count: "Related instruction count match score, or N/A when both sides are empty.",
+      score_ri_hours: "Related instruction hours match score, or N/A when both sides are empty.",
+      score_wp_text: "Work process text token-overlap score, or N/A when both sides are empty.",
+      score_skill_text: "Competency text token-overlap score, or N/A when both sides are empty.",
+      score_ri_text: "Related instruction text token-overlap score, or N/A when both sides are empty."
+    }
+  end
+
   private
 
   def admin_filter_search_words

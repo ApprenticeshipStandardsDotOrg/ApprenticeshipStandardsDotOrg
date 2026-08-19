@@ -97,9 +97,22 @@ RSpec.describe "admin/occupation_standards/index", :admin do
       visible: :all
     )
 
+    expect(page).to have_link(
+      "Sample CSV Report",
+      href: sample_set_report_admin_occupation_standards_path(format: :csv, search: "sample_set:true")
+    )
+    expect(page).to have_selector("summary[aria-label='Sample CSV report field definitions']", text: "?")
+    expect(page).to have_selector("dt", text: "manual_wp_count", visible: :all)
+    expect(page).to have_selector("dd", text: "AI extracted work process count.", visible: :all)
+
     visit admin_occupation_standards_path(search: "source:ai_conversion")
 
     expect(page).to have_text(ai_standard.title)
     expect(page).to_not have_text("Manual Standard")
+
+    expect(page).to have_link(
+      "Sample CSV Report",
+      href: sample_set_report_admin_occupation_standards_path(format: :csv, search: "source:ai_conversion sample_set:true")
+    )
   end
 end

@@ -40,6 +40,20 @@ module Admin
       end
     end
 
+    def sample_set_report
+      authorize_resource(resource_class)
+
+      search_term = sample_set_report_search_term
+      resources = filter_resources(OccupationStandard.all, search_term: search_term)
+      report = OccupationStandardSampleSetReport.new(resources, filters: search_term)
+
+      send_data(
+        report.to_csv,
+        filename: "occupation-standards-sample-set-report-#{Time.zone.today}.csv",
+        type: "text/csv"
+      )
+    end
+
     def scoped_resource
       import_preloads = [
         {file_attachment: :blob},
@@ -63,6 +77,14 @@ module Admin
     end
 
     private
+
+    def sample_set_report_search_term
+      search_terms_without_sample_set = params[:search].to_s.split.reject do |word|
+        word.start_with?("sample_set:")
+      end
+
+      (search_terms_without_sample_set + ["sample_set:true"]).join(" ")
+    end
 
     def open_ai_import_params
       {
