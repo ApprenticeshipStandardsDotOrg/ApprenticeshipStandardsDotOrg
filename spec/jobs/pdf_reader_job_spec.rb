@@ -15,7 +15,7 @@ RSpec.describe PdfReaderJob do
       create(:registration_agency, for_state_abbreviation: "CA")
 
       allow(ChatGptGenerateText).to receive(:new).with(
-        "#{open_ai_prompt.prompt} [\"Welder (Industrial)\\n(Competency based)\\n\\n\"]"
+        "#{open_ai_prompt.prompt} --- Page 1 ---\nWelder (Industrial)\n(Competency based)\n\n"
       ).and_return chat_gpt_generator_mock(
         '{"title": "Welder (Industrial)","ojtType": "competency","registrationAgencyType": "oa","registrationState": "CA"}'
       )
@@ -45,7 +45,7 @@ RSpec.describe PdfReaderJob do
       create(:registration_agency, for_state_abbreviation: "CA")
 
       allow(ChatGptGenerateText).to receive(:new)
-        .with("#{open_ai_prompt.prompt} [\"Welder\"]")
+        .with("#{open_ai_prompt.prompt} --- Page 1 ---\nWelder")
         .and_return chat_gpt_generator_mock(
           '{"title": "Welder","ojtType": "competency","registrationAgencyType": "oa","registrationState": "CA"}'
         )

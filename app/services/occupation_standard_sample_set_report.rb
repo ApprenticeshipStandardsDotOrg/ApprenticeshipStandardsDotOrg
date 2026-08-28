@@ -213,7 +213,22 @@ class OccupationStandardSampleSetReport
 
     def ojt_hours
       work_processes.sum do |work_process|
-        integer_value(work_process, "maximumHours", "maximum_hours", "minimumHours", "minimum_hours", "defaultHours", "default_hours")
+        integer_value(
+          work_process,
+          "maximumHours",
+          "maximum_hours",
+          "maxHours",
+          "max_hours",
+          "minimumHours",
+          "minimum_hours",
+          "minHours",
+          "min_hours",
+          "defaultHours",
+          "default_hours",
+          "estimatedHours",
+          "estimated_hours",
+          "hours"
+        )
       end
     end
 
@@ -222,21 +237,21 @@ class OccupationStandardSampleSetReport
     end
 
     def related_instruction_hours
-      related_instructions.sum { |instruction| integer_value(instruction, "hours") }
+      related_instructions.sum { |instruction| integer_value(instruction, "hours", "defaultHours", "default_hours", "estimatedHours", "estimated_hours") }
     end
 
     def work_process_text
-      work_processes.map { |work_process| text_value(work_process, "title", "description") }.join(" ")
+      work_processes.map { |work_process| text_value(work_process, "title", "name", "workProcess", "work_process", "workActivity", "work_activity", "task", "duty", "description") }.join(" ")
     end
 
     def skill_text
       work_processes.flat_map { |work_process| competencies(work_process) }.map do |competency|
-        competency.is_a?(Hash) ? value(competency, "title", "description") : competency
+        competency.is_a?(Hash) ? value(competency, "title", "name", "skill", "task", "duty", "description", "text") : competency
       end.join(" ")
     end
 
     def related_instruction_text
-      related_instructions.map { |instruction| text_value(instruction, "title", "description") }.join(" ")
+      related_instructions.map { |instruction| text_value(instruction, "title", "name", "course", "courseTitle", "course_title", "description") }.join(" ")
     end
 
     private
@@ -244,31 +259,58 @@ class OccupationStandardSampleSetReport
     attr_reader :response
 
     def work_processes
-      Array(value(response, "workProcesses", "work_processes"))
+      Array(value(
+        response,
+        "workProcesses",
+        "work_processes",
+        "workProcessSchedule",
+        "work_process_schedule",
+        "onTheJobTraining",
+        "on_the_job_training",
+        "onTheJobLearning",
+        "on_the_job_learning",
+        "ojt",
+        "ojl"
+      ))
     end
 
     def related_instructions
-      Array(value(response, "relatedInstructions", "related_instructions"))
+      Array(value(
+        response,
+        "relatedInstructions",
+        "related_instructions",
+        "relatedTechnicalInstruction",
+        "related_technical_instruction",
+        "classroomInstruction",
+        "classroom_instruction",
+        "rti",
+        "rsi",
+        "courses"
+      ))
     end
 
     def competencies(work_process)
-      Array(value(work_process, "competencies", "skills"))
+      Array(value(work_process, "competencies", "skills", "tasks", "duties", "performanceObjectives", "performance_objectives"))
     end
 
     def integer_value(hash, *keys)
-      value(hash, *keys).to_i
+      raw_value = value(hash, *keys)
+      return 0 if raw_value.blank?
+
+      match = raw_value.to_s.delete(",").match(/\d+/)
+      match ? match[0].to_i : 0
     end
 
     def value(hash, *keys)
       return unless hash.respond_to?(:[])
 
-      keys.lazy.map { |key| hash[key] }.find(&:present?)
+      keys.lazy.map { |key| hash[key] || hash[key.to_sym] }.find(&:present?)
     end
 
     def text_value(hash, *keys)
       return "" unless hash.respond_to?(:[])
 
-      keys.filter_map { |key| hash[key].presence }.join(" ")
+      keys.filter_map { |key| (hash[key] || hash[key.to_sym]).presence }.join(" ")
     end
   end
 end

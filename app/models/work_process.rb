@@ -23,7 +23,7 @@ class WorkProcess < ApplicationRecord
   end
 
   def hours
-    [maximum_hours, minimum_hours].compact.first
+    [maximum_hours, minimum_hours, default_hours].compact.first
   end
 
   def hours_in_human_format

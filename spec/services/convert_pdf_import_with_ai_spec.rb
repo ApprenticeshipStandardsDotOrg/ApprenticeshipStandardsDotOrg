@@ -119,6 +119,50 @@ RSpec.describe ConvertPdfImportWithAI do
       expect(result.occupation_standard.registration_agency).to eq colorado_agency
     end
 
+    it "extracts work process, skill, and related instruction data from alternate response keys" do
+      pdf = create(:imports_pdf)
+      prompt = create(:open_ai_prompt, prompt: "Extract")
+      create(:registration_agency, for_state_abbreviation: "CA")
+
+      stub_pdf_text("Machinist standard")
+      stub_open_ai_response(prompt, "Machinist standard", {
+        title: "Machinist",
+        ojtType: "time",
+        registrationAgencyType: "oa",
+        registrationState: "CA",
+        onTheJobTraining: [
+          {
+            name: "Operate CNC machines",
+            hours: "1,200",
+            skills: [
+              {skill: "Set up CNC tooling"},
+              {task: "Inspect finished parts"}
+            ]
+          }
+        ],
+        relatedTechnicalInstruction: [
+          {
+            courseTitle: "Blueprint Reading",
+            estimatedHours: "144"
+          }
+        ]
+      }.to_json)
+      expect_any_instance_of(OccupationStandard).not_to receive(:update_document)
+
+      result = described_class.new(import: pdf, open_ai_prompt: prompt).call
+      occupation_standard = result.occupation_standard
+
+      expect(result.created).to be true
+      expect(occupation_standard.work_processes.first.title).to eq "Operate CNC machines"
+      expect(occupation_standard.work_processes.first.maximum_hours).to eq 1200
+      expect(occupation_standard.work_processes.first.competencies.map(&:title)).to eq [
+        "Set up CNC tooling",
+        "Inspect finished parts"
+      ]
+      expect(occupation_standard.related_instructions.first.title).to eq "Blueprint Reading"
+      expect(occupation_standard.related_instructions.first.hours).to eq 144
+    end
+
     it "allows either California agency because California has both OA and SAA agencies" do
       pdf = create(:imports_pdf)
       prompt = create(:open_ai_prompt, prompt: "Extract")
@@ -201,7 +245,11 @@ RSpec.describe ConvertPdfImportWithAI do
 
   def stub_open_ai_response(prompt, pdf_text, response)
     allow(ChatGptGenerateText).to receive(:new)
-      .with("#{prompt.prompt} [\"#{pdf_text}\"]")
+      .with("#{prompt.prompt} #{formatted_pdf_text(pdf_text)}")
       .and_return(OpenStruct.new(call: response))
+  end
+
+  def formatted_pdf_text(text)
+    "--- Page 1 ---\n#{text}"
   end
 end
