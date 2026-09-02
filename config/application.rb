@@ -52,6 +52,7 @@ module ApprenticeshipStandardsDotOrg
     end
 
     config.active_storage.service_urls_expire_in = 1.hour
+    config.active_storage.variant_processor = :disabled
 
     # Rewrite FoxitSDK relative routes to redirect to /assets
     config.middleware.insert_before(Rack::Runtime, Rack::Rewrite) do

@@ -72,8 +72,6 @@ Rails.application.configure do
 
   config.assets.css_compressor = nil
 
-  config.active_storage.variant_processor = :mini_magic
-
   config.active_job.queue_adapter = :test
 
   # Raise error when a before_action's only/except options reference missing actions.
