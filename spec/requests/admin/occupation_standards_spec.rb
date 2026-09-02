@@ -95,6 +95,9 @@ RSpec.describe "Admin::OccupationStandard", type: :request do
             import: data_import.import,
             occupation_standard: create(:occupation_standard, source: :ai_conversion),
             parsed_response: {
+              "documentOccupationCount" => 1,
+              "singleOccupation" => true,
+              "selectedOccupationTitle" => time_standard.title,
               "workProcesses" => [
                 {"title" => "Cut Metal", "maximumHours" => 90, "competencies" => [{"title" => "Inspect welds"}]},
                 {"title" => "Weld Frame", "maximumHours" => 200, "competencies" => []}
@@ -130,9 +133,18 @@ RSpec.describe "Admin::OccupationStandard", type: :request do
             "agency_type",
             "import_user",
             "converted_at",
+            "ai_document_occupation_count",
+            "ai_single_occupation",
+            "ai_selected_occupation_title",
             "manual_wp_count",
             "ai_wp_count",
-            "score_wp_text"
+            "score_wp_text",
+            "expected_work_processes",
+            "actual_work_processes",
+            "missing_competency_names",
+            "unexpected_related_instruction_titles",
+            "work_process_mismatch_category",
+            "hierarchy_boundary_overlap_count"
           )
           expect(csv.headers).not_to include(
             "report_total",
@@ -142,6 +154,18 @@ RSpec.describe "Admin::OccupationStandard", type: :request do
             "manual_converter",
             "manual_converted_at"
           )
+          expect(csv.headers.values_at(19, 20, 21, 22, 23, 24, 25, 26, 27, 28)).to eq [
+            "manual_wp_count",
+            "ai_wp_count",
+            "manual_skill_count",
+            "ai_skill_count",
+            "manual_ojt_hours",
+            "ai_ojt_hours",
+            "manual_ri_count",
+            "ai_ri_count",
+            "manual_ri_hours",
+            "ai_ri_hours"
+          ]
           expect(csv.count).to eq 2
 
           row = csv.find { |csv_row| csv_row["id"] == time_standard.id }
@@ -155,6 +179,11 @@ RSpec.describe "Admin::OccupationStandard", type: :request do
           expect(row["has_org"]).to eq "true"
           expect(row["import_user"]).to eq "converter@example.com"
           expect(row["converted_at"]).to be_present
+          expect(row["ai_document_occupation_count"]).to eq "1"
+          expect(row["ai_single_occupation"]).to eq "true"
+          expect(row["ai_selected_occupation_title"]).to eq time_standard.title
+          expect(row["source_pdf_standard_count"]).to eq "1"
+          expect(row["baseline_oa_state_single_occupation"]).to eq "1"
           expect(row["manual_wp_count"]).to eq "2"
           expect(row["manual_skill_count"]).to eq "2"
           expect(row["manual_ojt_hours"]).to eq "300"
@@ -173,16 +202,43 @@ RSpec.describe "Admin::OccupationStandard", type: :request do
           expect(row["score_wp_text"]).to eq "100.0"
           expect(row["score_skill_text"]).to eq "50.0"
           expect(row["score_ri_text"]).to eq "66.67"
+          expect(row["score_wp_names_match"]).to eq "100.0"
+          expect(row["score_wp_hours_match"]).to eq "0.0"
+          expect(row["score_competency_names_match"]).to eq "0.0"
+          expect(row["score_ri_titles_match"]).to eq "0.0"
+          expect(row["score_oa_single_occupation_success"]).to eq "0.0"
+          expect(JSON.parse(row["expected_work_processes"])).to contain_exactly(
+            include("title" => "Cut Metal", "maximumHours" => 100),
+            include("title" => "Weld Frame", "maximumHours" => 200)
+          )
+          expect(JSON.parse(row["actual_work_processes"])).to contain_exactly(
+            include("title" => "Cut Metal", "maximumHours" => 90),
+            include("title" => "Weld Frame", "maximumHours" => 200)
+          )
+          expect(JSON.parse(row["missing_competency_names"])).to eq ["Fit panels"]
+          expect(JSON.parse(row["unexpected_competency_names"])).to be_empty
+          expect(row["work_process_mismatch_category"]).to eq "exact"
+          expect(row["competency_mismatch_category"]).to eq "extraction_omission"
+          expect(row["related_instruction_mismatch_category"]).to eq "extraction_omission"
+          expect(row["baseline_duplicate_work_process_name_count"]).to eq "0"
+          expect(row["baseline_work_process_titles_with_hours_count"]).to eq "0"
+          expect(row["hierarchy_boundary_overlap_count"]).to eq "0"
 
           empty_row = csv.find { |csv_row| csv_row["id"] == hybrid_standard.id }
 
-          expect(empty_row["score_wp_count"]).to eq "N/A"
-          expect(empty_row["score_skill_count"]).to eq "N/A"
-          expect(empty_row["score_ojt_hours"]).to eq "N/A"
-          expect(empty_row["score_ri_count"]).to eq "N/A"
-          expect(empty_row["score_ri_hours"]).to eq "N/A"
-          expect(empty_row["score_wp_text"]).to eq "N/A"
-          expect(empty_row["score_ri_text"]).to eq "N/A"
+          expect(empty_row["baseline_oa_state_single_occupation"]).to eq "0"
+          expect(empty_row["score_wp_count"]).to eq "100.0"
+          expect(empty_row["score_skill_count"]).to eq "100.0"
+          expect(empty_row["score_ojt_hours"]).to eq "100.0"
+          expect(empty_row["score_ri_count"]).to eq "100.0"
+          expect(empty_row["score_ri_hours"]).to eq "100.0"
+          expect(empty_row["score_wp_text"]).to eq "100.0"
+          expect(empty_row["score_ri_text"]).to eq "100.0"
+          expect(empty_row["score_wp_names_match"]).to eq "100.0"
+          expect(empty_row["score_wp_hours_match"]).to eq "100.0"
+          expect(empty_row["score_competency_names_match"]).to eq "100.0"
+          expect(empty_row["score_ri_titles_match"]).to eq "100.0"
+          expect(empty_row["score_oa_single_occupation_success"]).to be_blank
         end
       end
 

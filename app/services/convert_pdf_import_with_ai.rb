@@ -40,7 +40,7 @@ class ConvertPdfImportWithAI
   rescue JSON::ParserError => error
     open_ai_import = OpenAIImport.create!(
       import: import,
-      response: raw_response,
+      response: raw_response.presence || "{}",
       extraction_errors: ["OpenAI response was not valid JSON: #{error.message}"]
     )
 
@@ -77,12 +77,7 @@ class ConvertPdfImportWithAI
   end
 
   def pdf_text
-    import.file.open do |io|
-      reader = PDF::Reader.new(io)
-      reader.pages.each_with_index.map do |page, index|
-        "--- Page #{index + 1} ---\n#{page.text}"
-      end.join("\n\n")
-    end
+    PdfTextExtractor.new(import.file).call
   end
 
   def parse_response(raw_response)
@@ -91,8 +86,8 @@ class ConvertPdfImportWithAI
 
   def build_occupation_standard(response)
     OccupationStandard.new(
-      title: value(response, "title", "Title"),
-      existing_title: value(response, "existingTitle", "existing_title", "Existing Title"),
+      title: title(response),
+      existing_title: existing_title(response),
       onet_code: onet_code(response),
       rapids_code: rapids_code(response),
       ojt_type: ojt_type(response),
@@ -110,6 +105,7 @@ class ConvertPdfImportWithAI
 
   def extraction_errors(response, occupation_standard)
     errors = []
+    errors << "PDF appears to contain multiple occupations" if multiple_occupations?(response)
     errors << "Could not extract title" if occupation_standard.title.blank?
     errors << "Could not extract OJT type" if occupation_standard.ojt_type.blank?
     errors << registration_agency_error(response) if occupation_standard.registration_agency.blank?
@@ -121,6 +117,14 @@ class ConvertPdfImportWithAI
     errors.compact.uniq
   end
 
+  def multiple_occupations?(response)
+    count = integer_value(response, "documentOccupationCount", "document_occupation_count", "occupationCount", "occupation_count")
+    return true if count.to_i > 1
+
+    single_occupation = value(response, "singleOccupation", "single_occupation")
+    single_occupation == false || single_occupation.to_s.match?(/\Afalse\z/i)
+  end
+
   def registration_agency_error(response)
     [
       "Could not resolve registration agency",
@@ -130,6 +134,8 @@ class ConvertPdfImportWithAI
   end
 
   def value(hash, *keys)
+    return unless hash.respond_to?(:[])
+
     keys.lazy.map { |key| hash[key] || hash[key.to_sym] }.find(&:present?)
   end
 
@@ -142,11 +148,13 @@ class ConvertPdfImportWithAI
   end
 
   def onet_code(response)
-    value(response, "onetCode", "onet_code", "Onet Code", "O*NET Code")
+    value(response, "onetCode", "onet_code", "Onet Code", "O*NET Code") ||
+      value(selected_occupation(response), "onetCode", "onet_code", "O*NET Code")
   end
 
   def rapids_code(response)
-    rapids = value(response, "rapidsCode", "rapids_code", "RAPIDS Code")
+    rapids = value(response, "rapidsCode", "rapids_code", "RAPIDS Code") ||
+      value(selected_occupation(response), "rapidsCode", "rapids_code", "RAPIDS Code")
     return if rapids.blank?
 
     code = rapids.to_s.strip.upcase.delete(" ")
@@ -157,13 +165,35 @@ class ConvertPdfImportWithAI
   end
 
   def ojt_type(response)
-    case value(response, "ojtType", "ojt_type", "Type").to_s
+    case (value(response, "ojtType", "ojt_type", "Type") ||
+      value(selected_occupation(response), "ojtType", "ojt_type", "Type")).to_s
     when /competency/i
       :competency
     when /time|hour/i
       :time
     when /hybrid/i
       :hybrid
+    end
+  end
+
+  def title(response)
+    value(response, "title", "Title") ||
+      value(response, "selectedOccupationTitle", "selected_occupation_title") ||
+      value(selected_occupation(response), "title", "Title")
+  end
+
+  def existing_title(response)
+    value(response, "existingTitle", "existing_title", "Existing Title") ||
+      value(selected_occupation(response), "existingTitle", "existing_title", "Existing Title")
+  end
+
+  def selected_occupation(response)
+    inventory = Array(value(response, "occupationInventory", "occupation_inventory"))
+    selected_title = value(response, "selectedOccupationTitle", "selected_occupation_title").to_s
+    return inventory.first if inventory.one?
+
+    inventory.find do |occupation|
+      value(occupation, "title", "Title").to_s == selected_title
     end
   end
 

@@ -6,8 +6,15 @@ class OpenAIPrompt < ApplicationRecord
 
     Preserve the document's structure. Do not summarize or collapse tables, numbered lists, bullets, skills, tasks, or courses into paragraph descriptions.
     If a section exists but labels are imperfect because of PDF text extraction, extract the best-supported values and add a short extractionWarnings entry.
+    For Office of Apprenticeship state standards, Appendix A is the primary source of truth for the occupation, work process schedule, OJT approach, work process hours, competencies, and related instruction outline. Prefer Appendix A over boilerplate program language elsewhere in the document.
+    First identify the document structure before extracting fields. Determine whether the PDF contains exactly one occupation standard or multiple occupation standards. If multiple occupations are present, do not mix rows from different occupations.
 
     JSON fields:
+    documentOccupationCount: Number of distinct occupations or Appendix A occupation sections found in the PDF. Return 1 only when the document clearly contains one occupation.
+    singleOccupation: true when the PDF clearly contains exactly one occupation standard; false when multiple occupations are present or the count is ambiguous.
+    selectedOccupationTitle: The occupation title for the Appendix A section used for extraction. If singleOccupation is false, return null unless one occupation is clearly dominant.
+    occupationInventory: An array of occupation objects found in the PDF. Each object has title, existingTitle, onetCode, rapidsCode, ojtType, appendixLabel, and pageNumbers when found.
+    The top-level title, existingTitle, onetCode, rapidsCode, and ojtType fields must describe the selected occupation and should mirror the matching occupationInventory object.
     title: Title of the occupation standard.
     existingTitle: An existing or alternative title for the occupation.
     onetCode: Also can be found as O*NET code.
@@ -22,6 +29,12 @@ class OpenAIPrompt < ApplicationRecord
     registrationDate: The registration date of the occupation.
 
     workProcesses: An array of work process objects. Look for sections or tables named Work Process Schedule, Work Processes, Schedule of Work Experience, On-the-Job Learning, On-the-Job Training, OJL, OJT, Appendix A, Major Processes, Work Experience, or similar.
+    If Appendix A lists one occupation, extract only that occupation's work process schedule.
+    If Appendix A lists multiple occupations, set singleOccupation to false, list all found occupations in occupationInventory, and extract only the selected occupation when the document clearly identifies one primary occupation. Otherwise return empty workProcesses and explain the ambiguity in extractionWarnings.
+    Work process names must come from the row labels/headings in the schedule. Keep one workProcesses item per schedule row or heading; do not merge adjacent rows.
+    Work process titles are the primary row labels in Appendix A. Do not promote competency/task bullets into separate work process titles unless the document presents them as work process rows.
+    For time-based and hybrid standards, preserve row-level OJT hours exactly as shown. For a single required hours column, put the value in maximumHours. For min/max columns, put values in minimumHours and maximumHours. For competency-based standards, do not invent hours when the Appendix A table has no hours.
+    Do not treat wage schedules, apprentice ratios, selection procedures, probationary periods, signatures, or boilerplate terms as work processes.
     Each work process object has:
     title: The work process, duty, task group, or work activity title.
     description: Description of the work process. If not found, return null.
@@ -30,6 +43,8 @@ class OpenAIPrompt < ApplicationRecord
     maximumHours: Maximum hours when a range, maximum column, or single required hour value is present. Remove commas. If not found, return null.
     competencies: An array of competency objects. Look for skills, tasks, duties, steps, performance objectives, apprentice will be able to items, or bullet lines under a work process. Each competency represents one line item and has:
     title: The competency, skill, task, duty, or performance objective text.
+    Do not put competency names only in the work process description. They must appear as individual competencies.
+    Do not put related instruction course titles in competencies.
 
     relatedInstructions: An array of related instruction objects. Related instructions are not competencies or work processes. Look for sections or tables named Related Instruction, Related Technical Instruction, RTI, RSI, Classroom Instruction, Appendix B, Courses, or similar.
     Each related instruction object has:

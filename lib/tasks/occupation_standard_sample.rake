@@ -26,11 +26,11 @@ namespace :occupation_standards do
   desc "Enqueue AI conversion jobs for selected sample set source PDFs. Usage: bin/rails occupation_standards:enqueue_sample_ai_conversions"
   task enqueue_sample_ai_conversions: :environment do
     dry_run = ActiveModel::Type::Boolean.new.cast(ENV.fetch("DRY_RUN", false))
-    limit = ENV["COUNT"].to_i
     pdfs = sample_source_pdfs_without_ai_conversion
-    pdfs = pdfs.limit(limit) if limit.positive?
 
     puts "Dry run: #{dry_run}"
+    puts "Baseline only: #{baseline_only?}"
+    puts "Source PDF subset size: #{sample_source_pdf_ids.count}"
     puts "Source PDFs pending AI conversion: #{pdfs.count}"
 
     pdfs.find_each do |pdf|
@@ -54,6 +54,8 @@ namespace :occupation_standards do
     occupation_standards = open_ai_imports.filter_map(&:occupation_standard).uniq
 
     puts "Dry run: #{dry_run}"
+    puts "Baseline only: #{baseline_only?}"
+    puts "Source PDF subset size: #{sample_source_pdf_ids.count}"
     puts "Sample source PDF AI imports to delete: #{open_ai_imports.count}"
     puts "AI occupation standards to delete: #{occupation_standards.count}"
 
@@ -73,27 +75,27 @@ namespace :occupation_standards do
     end
   end
 
-  desc "Write the sample set comparison CSV report. Usage: bin/rails 'occupation_standards:sample_set_report[tmp/sample-report.csv]'"
+  desc "Write the sample set comparison CSV report. Usage: bin/rails 'occupation_standards:sample_set_report[tmp/sample-report.csv]' or bin/rails 'occupation_standards:sample_set_report[-]'"
   task :sample_set_report, [:path] => :environment do |_task, args|
     path = args[:path].presence || Rails.root.join("tmp", "occupation-standards-sample-set-report-#{Time.zone.today}.csv")
-    scope = OccupationStandard.where(sample_set: true)
+    scope = sample_occupation_standards
+    csv = OccupationStandardSampleSetReport.new(scope, filters: "sample_set:true").to_csv
 
-    File.write(
-      path,
-      OccupationStandardSampleSetReport.new(scope, filters: "sample_set:true").to_csv
-    )
+    if path.to_s == "-"
+      print csv
+    else
+      File.write(path, csv)
 
-    puts "Wrote #{scope.count} sample set rows to #{path}"
+      puts "Wrote #{scope.count} sample set rows to #{path}"
+    end
   end
 
   def sample_source_pdfs_without_ai_conversion
     Imports::Pdf
-      .joins(:data_imports)
-      .joins(:file_attachment)
+      .where(id: sample_source_pdf_ids)
       .left_outer_joins(:open_ai_import)
-      .where(data_imports: {occupation_standard_id: OccupationStandard.where(sample_set: true).select(:id)})
       .where(open_ai_imports: {id: nil})
-      .distinct
+      .order(:id)
   end
 
   def sample_source_pdf_ai_conversions
@@ -102,10 +104,61 @@ namespace :occupation_standards do
 
   def sample_source_pdf_ai_conversion_ids
     OpenAIImport
-      .joins("INNER JOIN data_imports ON data_imports.import_id = open_ai_imports.import_id")
+      .where(import_id: sample_source_pdf_ids)
+      .select(:id)
+      .distinct
+  end
+
+  def sample_occupation_standards
+    query = OccupationStandard
+      .where(sample_set: true)
+      .joins(:data_imports)
+      .where(data_imports: {import_id: sample_source_pdf_ids})
+      .distinct
+
+    query = query.where(id: baseline_standard_ids) if baseline_only?
+    query
+  end
+
+  def sample_source_pdf_ids
+    query = Imports::Pdf
+      .joins(:data_imports)
+      .joins(:file_attachment)
       .where(data_imports: {occupation_standard_id: OccupationStandard.where(sample_set: true).select(:id)})
       .select(:id)
       .distinct
+      .order(:id)
+    query = query.where(id: baseline_source_pdf_ids) if baseline_only?
+
+    limit = ENV["COUNT"].to_i
+    limit.positive? ? query.limit(limit) : query
+  end
+
+  def baseline_source_pdf_ids
+    single_standard_source_pdf_ids = DataImport
+      .where.not(occupation_standard_id: nil)
+      .where.not(import_id: nil)
+      .group(:import_id)
+      .having("COUNT(DISTINCT occupation_standard_id) = 1")
+      .select(:import_id)
+
+    DataImport
+      .where(occupation_standard_id: baseline_standard_ids)
+      .where(import_id: single_standard_source_pdf_ids)
+      .select(:import_id)
+  end
+
+  def baseline_standard_ids
+    OccupationStandard
+      .where(sample_set: true)
+      .joins(:registration_agency)
+      .where(registration_agencies: {agency_type: :oa})
+      .where.not(registration_agencies: {state_id: nil})
+      .select(:id)
+  end
+
+  def baseline_only?
+    ActiveModel::Type::Boolean.new.cast(ENV.fetch("BASELINE_ONLY", false))
   end
 
   def destroy_ai_occupation_standard(occupation_standard)
