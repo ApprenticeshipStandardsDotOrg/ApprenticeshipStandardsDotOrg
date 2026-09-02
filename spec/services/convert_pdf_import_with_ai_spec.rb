@@ -55,6 +55,72 @@ RSpec.describe ConvertPdfImportWithAI do
       expect(result.open_ai_import.extraction_errors).to eq []
     end
 
+    it "stores an extraction error without creating a standard when the PDF contains multiple occupations" do
+      pdf = create(:imports_pdf)
+      prompt = create(:open_ai_prompt, prompt: "Extract")
+      create(:registration_agency, for_state_abbreviation: "CA")
+
+      stub_pdf_text("Multi occupation standard")
+      stub_open_ai_response(prompt, "Multi occupation standard", {
+        documentOccupationCount: 2,
+        singleOccupation: false,
+        title: "Welder",
+        ojtType: "time",
+        registrationAgencyType: "oa",
+        registrationState: "CA"
+      }.to_json)
+
+      result = described_class.new(import: pdf, open_ai_prompt: prompt).call
+
+      expect(result.created).to be false
+      expect(result.open_ai_import).to be_persisted
+      expect(result.open_ai_import.occupation_standard).to be_nil
+      expect(result.errors).to include "PDF appears to contain multiple occupations"
+      expect(pdf.reload).to be_pending
+    end
+
+    it "uses the selected occupation inventory item when top-level occupation fields are missing" do
+      pdf = create(:imports_pdf)
+      prompt = create(:open_ai_prompt, prompt: "Extract")
+      registration_agency = create(:registration_agency, for_state_abbreviation: "CA")
+      occupation = create(:occupation, rapids_code: "3092CB")
+
+      stub_pdf_text("Inventory-only occupation fields")
+      stub_open_ai_response(prompt, "Inventory-only occupation fields", {
+        documentOccupationCount: 1,
+        singleOccupation: true,
+        selectedOccupationTitle: "Ecological Engineer",
+        occupationInventory: [
+          {
+            title: "Ecological Engineer",
+            existingTitle: "Sustainability Specialist",
+            onetCode: "13-1199.05",
+            rapidsCode: "3092CB",
+            ojtType: "competency"
+          }
+        ],
+        registrationAgencyType: "oa",
+        registrationState: "CA",
+        workProcesses: [
+          {
+            title: "Research sustainability issues",
+            competencies: [{title: "Research regulatory issues"}]
+          }
+        ],
+        relatedInstructions: []
+      }.to_json)
+
+      result = described_class.new(import: pdf, open_ai_prompt: prompt).call
+
+      expect(result.created).to be true
+      expect(result.occupation_standard.title).to eq "Ecological Engineer"
+      expect(result.occupation_standard.existing_title).to eq "Sustainability Specialist"
+      expect(result.occupation_standard.rapids_code).to eq "3092CB"
+      expect(result.occupation_standard).to be_competency_based
+      expect(result.occupation_standard.registration_agency).to eq registration_agency
+      expect(result.occupation_standard.occupation).to eq occupation
+    end
+
     it "uses the national registration agency when no state is available" do
       pdf = create(:imports_pdf)
       prompt = create(:open_ai_prompt, prompt: "Extract")
@@ -117,6 +183,50 @@ RSpec.describe ConvertPdfImportWithAI do
 
       expect(result.created).to be true
       expect(result.occupation_standard.registration_agency).to eq colorado_agency
+    end
+
+    it "extracts work process, skill, and related instruction data from alternate response keys" do
+      pdf = create(:imports_pdf)
+      prompt = create(:open_ai_prompt, prompt: "Extract")
+      create(:registration_agency, for_state_abbreviation: "CA")
+
+      stub_pdf_text("Machinist standard")
+      stub_open_ai_response(prompt, "Machinist standard", {
+        title: "Machinist",
+        ojtType: "time",
+        registrationAgencyType: "oa",
+        registrationState: "CA",
+        onTheJobTraining: [
+          {
+            name: "Operate CNC machines",
+            hours: "1,200",
+            skills: [
+              {skill: "Set up CNC tooling"},
+              {task: "Inspect finished parts"}
+            ]
+          }
+        ],
+        relatedTechnicalInstruction: [
+          {
+            courseTitle: "Blueprint Reading",
+            estimatedHours: "144"
+          }
+        ]
+      }.to_json)
+      expect_any_instance_of(OccupationStandard).not_to receive(:update_document)
+
+      result = described_class.new(import: pdf, open_ai_prompt: prompt).call
+      occupation_standard = result.occupation_standard
+
+      expect(result.created).to be true
+      expect(occupation_standard.work_processes.first.title).to eq "Operate CNC machines"
+      expect(occupation_standard.work_processes.first.maximum_hours).to eq 1200
+      expect(occupation_standard.work_processes.first.competencies.map(&:title)).to eq [
+        "Set up CNC tooling",
+        "Inspect finished parts"
+      ]
+      expect(occupation_standard.related_instructions.first.title).to eq "Blueprint Reading"
+      expect(occupation_standard.related_instructions.first.hours).to eq 144
     end
 
     it "allows either California agency because California has both OA and SAA agencies" do
@@ -191,17 +301,12 @@ RSpec.describe ConvertPdfImportWithAI do
   end
 
   def stub_pdf_text(text)
-    reader = instance_double("PDF::Reader")
-
-    allow(PDF::Reader).to receive(:new).and_return(reader)
-    allow(reader).to receive(:pages).and_return([
-      instance_double("PDF::Reader::Page", text: text)
-    ])
+    allow(PdfTextExtractor).to receive(:new).and_return(instance_double(PdfTextExtractor, call: text))
   end
 
   def stub_open_ai_response(prompt, pdf_text, response)
     allow(ChatGptGenerateText).to receive(:new)
-      .with("#{prompt.prompt} [\"#{pdf_text}\"]")
+      .with("#{prompt.prompt} #{pdf_text}")
       .and_return(OpenStruct.new(call: response))
   end
 end

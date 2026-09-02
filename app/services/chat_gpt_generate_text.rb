@@ -14,7 +14,7 @@ class ChatGptGenerateText
       parameters: {
         model: "gpt-4o-mini",
         messages: [{role: "user", content: prompt}],
-        temperature: 0.7
+        temperature: 0
       }
     )
 

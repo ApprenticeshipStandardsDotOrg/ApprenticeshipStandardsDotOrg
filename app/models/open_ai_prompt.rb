@@ -1,43 +1,64 @@
 class OpenAIPrompt < ApplicationRecord
   DEFAULT_NAME = "Default OpenAI Prompt"
-  DEFAULT_PROMPT = "Get the Occupation standard info from the following text in JSON format. JSON output needs the following fields:\
-      title: Title of the Occupation standard.
-      existingTitle: An existing or alternative title for the occupation.
-      onetCode: Also can be found as O*NET code.
-      rapidsCode: RAPIDS code for the occupation.
-      organization: The name of the organization.
-      registrationAgency: The name of the agency of the state.
-      state: The two-letter US state abbreviation associated with the standard. Extract this from any available document context including registration agency name, state apprenticeship agency name, state department name, state seal/header/footer, sponsor address, county/city references, document title, source URL, or other geographic clues. If only a county, city, or state agency is present, infer the state from that context. If this is a national, federal, Office of Apprenticeship, or generic RAPIDS standard and no specific state applies, return null.
-      registrationAgencyType: Must be one of \"oa\" or \"saa\". Use \"oa\" for Office of Apprenticeship, national programs, federal standards, or generic RAPIDS standards without a state. Use \"saa\" for State Apprenticeship Agency programs. If value not found, return null.
-      registrationState: The two-letter US state abbreviation for the registration agency. For state-level standards, this should match state. If the document only implies a state through county, city, agency, address, or other context, infer and return the two-letter abbreviation. If this is a national program, return null.
-      nationalStandardType: If this is a national standard, return one of \"program_standard\", \"guideline_standard\", or \"occupational_framework\". If this is not a national standard, return null.
-      ojtType: On the job type or apprenticeship approach. It must be one of the following values:
-      \"time\", \"competency\", or \"hybrid\". Transform if needed to match any of those three values. An
-      example of an expected transformation is from \"Competency-based\" to \"competency\".
-      registrationDate: The registration date of the occupation.
-      workProcesses: an array of work processes. Each work process has the following fields:
-      title: title of the work process.
-      description: description of the work process. If value not found, return null.
-      defaultHours: amount of hours. It is optional. If value not found, return null.
-      minimumHours: the minimum amount of hours required. If value not found, return null.
-      maximumHours: the maximum amount of hours required. If value not found, return null.
-      competencies: It is an array of text with each competency representing a line.
-      Each competency has the following fields:
-      title: title of the competency.
-      End of workProcesses info.
-      relatedInstructions: A new array of related instructions. Related instructions are not part of competencies or work processes. Each related instruction has the following fields:
-      title: Title of the related instruction.
-      description: Description of the related instruction. If value not found, return null.
-      code: Code for the related instruction. If value not found, return null.
-      hours: Hours dedicated to the related instruction. If value not found, return null.
-      organization: Organization in charge of the related instruction. If value not found, return null.
-      End of relatedInstructions info.
-      extractionWarnings: An array of strings describing fields that could not be confidently extracted or context used for inferred values such as registrationState.
+  DEFAULT_PROMPT = <<~PROMPT
+    Extract registered apprenticeship occupation standard data from the following PDF text.
+    Return only valid JSON. Do not include markdown, prose, code fences, or comments.
 
-      Return only the output in JSON format without any block, code or markdown.
+    Preserve the document's structure. Do not summarize or collapse tables, numbered lists, bullets, skills, tasks, or courses into paragraph descriptions.
+    If a section exists but labels are imperfect because of PDF text extraction, extract the best-supported values and add a short extractionWarnings entry.
+    For Office of Apprenticeship state standards, Appendix A is the primary source of truth for the occupation, work process schedule, OJT approach, work process hours, competencies, and related instruction outline. Prefer Appendix A over boilerplate program language elsewhere in the document.
+    First identify the document structure before extracting fields. Determine whether the PDF contains exactly one occupation standard or multiple occupation standards. If multiple occupations are present, do not mix rows from different occupations.
 
-      The input text is:\n\n
-  "
+    JSON fields:
+    documentOccupationCount: Number of distinct occupations or Appendix A occupation sections found in the PDF. Return 1 only when the document clearly contains one occupation.
+    singleOccupation: true when the PDF clearly contains exactly one occupation standard; false when multiple occupations are present or the count is ambiguous.
+    selectedOccupationTitle: The occupation title for the Appendix A section used for extraction. If singleOccupation is false, return null unless one occupation is clearly dominant.
+    occupationInventory: An array of occupation objects found in the PDF. Each object has title, existingTitle, onetCode, rapidsCode, ojtType, appendixLabel, and pageNumbers when found.
+    The top-level title, existingTitle, onetCode, rapidsCode, and ojtType fields must describe the selected occupation and should mirror the matching occupationInventory object.
+    title: Title of the occupation standard.
+    existingTitle: An existing or alternative title for the occupation.
+    onetCode: Also can be found as O*NET code.
+    rapidsCode: RAPIDS code for the occupation. Preserve alphabetic suffixes such as 2028CB.
+    organization: The sponsor or organization name.
+    registrationAgency: The registration agency name.
+    state: The two-letter US state abbreviation associated with the standard. Extract this from registration agency name, state apprenticeship agency name, state department name, state seal/header/footer, sponsor address, county/city references, document title, source URL, or other geographic clues. If only a county, city, or state agency is present, infer the state from that context. If this is a national, federal, Office of Apprenticeship, or generic RAPIDS standard and no specific state applies, return null.
+    registrationAgencyType: Must be one of "oa" or "saa". Use "oa" for Office of Apprenticeship, national programs, federal standards, or generic RAPIDS standards without a state. Use "saa" for State Apprenticeship Agency programs. If value not found, return null.
+    registrationState: The two-letter US state abbreviation for the registration agency. For state-level standards, this should match state. If the document only implies a state through county, city, agency, address, or other context, infer and return the two-letter abbreviation. If this is a national program, return null.
+    nationalStandardType: If this is a national standard, return one of "program_standard", "guideline_standard", or "occupational_framework". If this is not a national standard, return null.
+    ojtType: On-the-job type or apprenticeship approach. Must be one of "time", "competency", or "hybrid". Transform values like "Competency-based" to "competency".
+    registrationDate: The registration date of the occupation.
+
+    workProcesses: An array of work process objects. Look for sections or tables named Work Process Schedule, Work Processes, Schedule of Work Experience, On-the-Job Learning, On-the-Job Training, OJL, OJT, Appendix A, Major Processes, Work Experience, or similar.
+    If Appendix A lists one occupation, extract only that occupation's work process schedule.
+    If Appendix A lists multiple occupations, set singleOccupation to false, list all found occupations in occupationInventory, and extract only the selected occupation when the document clearly identifies one primary occupation. Otherwise return empty workProcesses and explain the ambiguity in extractionWarnings.
+    Work process names must come from the row labels/headings in the schedule. Keep one workProcesses item per schedule row or heading; do not merge adjacent rows.
+    Work process titles are the primary row labels in Appendix A. Do not promote competency/task bullets into separate work process titles unless the document presents them as work process rows.
+    For time-based and hybrid standards, preserve row-level OJT hours exactly as shown. For a single required hours column, put the value in maximumHours. For min/max columns, put values in minimumHours and maximumHours. For competency-based standards, do not invent hours when the Appendix A table has no hours.
+    Do not treat wage schedules, apprentice ratios, selection procedures, probationary periods, signatures, or boilerplate terms as work processes.
+    Each work process object has:
+    title: The work process, duty, task group, or work activity title.
+    description: Description of the work process. If not found, return null.
+    defaultHours: Hours only when the document gives one unlabeled or default hour value. Remove commas. If not found, return null.
+    minimumHours: Minimum hours when a range or minimum column is present. Remove commas. If not found, return null.
+    maximumHours: Maximum hours when a range, maximum column, or single required hour value is present. Remove commas. If not found, return null.
+    competencies: An array of competency objects. Look for skills, tasks, duties, steps, performance objectives, apprentice will be able to items, or bullet lines under a work process. Each competency represents one line item and has:
+    title: The competency, skill, task, duty, or performance objective text.
+    Do not put competency names only in the work process description. They must appear as individual competencies.
+    Do not put related instruction course titles in competencies.
+
+    relatedInstructions: An array of related instruction objects. Related instructions are not competencies or work processes. Look for sections or tables named Related Instruction, Related Technical Instruction, RTI, RSI, Classroom Instruction, Appendix B, Courses, or similar.
+    Each related instruction object has:
+    title: Title of the course or related instruction.
+    description: Description. If not found, return null.
+    code: Course or instruction code. If not found, return null.
+    hours: Hours dedicated to the related instruction. Remove commas. If not found, return null.
+    organization: Organization in charge of the related instruction. If not found, return null.
+
+    extractionWarnings: An array of strings describing fields that could not be confidently extracted or context used for inferred values such as registrationState.
+
+    The input text is:
+
+  PROMPT
 
   before_save :clear_existing_default, if: :default?
 

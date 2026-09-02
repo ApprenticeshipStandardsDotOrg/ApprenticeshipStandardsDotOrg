@@ -58,8 +58,14 @@ RSpec.describe WorkProcess, type: :model do
       expect(work_process.hours).to eq 500
     end
 
-    it "returns nil if minimum_hours and maximum_hours are not present" do
-      work_process = build(:work_process, maximum_hours: nil, minimum_hours: nil)
+    it "returns default_hours if minimum_hours and maximum_hours are not present" do
+      work_process = build(:work_process, maximum_hours: nil, minimum_hours: nil, default_hours: 250)
+
+      expect(work_process.hours).to eq 250
+    end
+
+    it "returns nil if none of the hour fields are present" do
+      work_process = build(:work_process, maximum_hours: nil, minimum_hours: nil, default_hours: nil)
 
       expect(work_process.hours).to eq nil
     end

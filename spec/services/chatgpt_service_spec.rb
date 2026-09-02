@@ -22,7 +22,7 @@ RSpec.describe ChatGptGenerateText do
         parameters: {
           model: "gpt-4o-mini",
           messages: [{role: "user", content: "Hello"}],
-          temperature: 0.7
+          temperature: 0
         }
       ).and_return expected_resp
 

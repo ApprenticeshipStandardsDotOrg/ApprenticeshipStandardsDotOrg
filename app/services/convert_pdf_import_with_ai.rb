@@ -40,7 +40,7 @@ class ConvertPdfImportWithAI
   rescue JSON::ParserError => error
     open_ai_import = OpenAIImport.create!(
       import: import,
-      response: raw_response,
+      response: raw_response.presence || "{}",
       extraction_errors: ["OpenAI response was not valid JSON: #{error.message}"]
     )
 
@@ -77,10 +77,7 @@ class ConvertPdfImportWithAI
   end
 
   def pdf_text
-    import.file.open do |io|
-      reader = PDF::Reader.new(io)
-      reader.pages.map(&:text).to_s
-    end
+    PdfTextExtractor.new(import.file).call
   end
 
   def parse_response(raw_response)
@@ -89,8 +86,8 @@ class ConvertPdfImportWithAI
 
   def build_occupation_standard(response)
     OccupationStandard.new(
-      title: value(response, "title", "Title"),
-      existing_title: value(response, "existingTitle", "existing_title", "Existing Title"),
+      title: title(response),
+      existing_title: existing_title(response),
       onet_code: onet_code(response),
       rapids_code: rapids_code(response),
       ojt_type: ojt_type(response),
@@ -108,6 +105,7 @@ class ConvertPdfImportWithAI
 
   def extraction_errors(response, occupation_standard)
     errors = []
+    errors << "PDF appears to contain multiple occupations" if multiple_occupations?(response)
     errors << "Could not extract title" if occupation_standard.title.blank?
     errors << "Could not extract OJT type" if occupation_standard.ojt_type.blank?
     errors << registration_agency_error(response) if occupation_standard.registration_agency.blank?
@@ -119,6 +117,14 @@ class ConvertPdfImportWithAI
     errors.compact.uniq
   end
 
+  def multiple_occupations?(response)
+    count = integer_value(response, "documentOccupationCount", "document_occupation_count", "occupationCount", "occupation_count")
+    return true if count.to_i > 1
+
+    single_occupation = value(response, "singleOccupation", "single_occupation")
+    single_occupation == false || single_occupation.to_s.match?(/\Afalse\z/i)
+  end
+
   def registration_agency_error(response)
     [
       "Could not resolve registration agency",
@@ -128,15 +134,27 @@ class ConvertPdfImportWithAI
   end
 
   def value(hash, *keys)
-    keys.lazy.map { |key| hash[key] }.find(&:present?)
+    return unless hash.respond_to?(:[])
+
+    keys.lazy.map { |key| hash[key] || hash[key.to_sym] }.find(&:present?)
+  end
+
+  def integer_value(hash, *keys)
+    raw_value = value(hash, *keys)
+    return if raw_value.blank?
+
+    match = raw_value.to_s.delete(",").match(/\d+/)
+    match[0].to_i if match
   end
 
   def onet_code(response)
-    value(response, "onetCode", "onet_code", "Onet Code", "O*NET Code")
+    value(response, "onetCode", "onet_code", "Onet Code", "O*NET Code") ||
+      value(selected_occupation(response), "onetCode", "onet_code", "O*NET Code")
   end
 
   def rapids_code(response)
-    rapids = value(response, "rapidsCode", "rapids_code", "RAPIDS Code")
+    rapids = value(response, "rapidsCode", "rapids_code", "RAPIDS Code") ||
+      value(selected_occupation(response), "rapidsCode", "rapids_code", "RAPIDS Code")
     return if rapids.blank?
 
     code = rapids.to_s.strip.upcase.delete(" ")
@@ -147,13 +165,35 @@ class ConvertPdfImportWithAI
   end
 
   def ojt_type(response)
-    case value(response, "ojtType", "ojt_type", "Type").to_s
+    case (value(response, "ojtType", "ojt_type", "Type") ||
+      value(selected_occupation(response), "ojtType", "ojt_type", "Type")).to_s
     when /competency/i
       :competency
     when /time|hour/i
       :time
     when /hybrid/i
       :hybrid
+    end
+  end
+
+  def title(response)
+    value(response, "title", "Title") ||
+      value(response, "selectedOccupationTitle", "selected_occupation_title") ||
+      value(selected_occupation(response), "title", "Title")
+  end
+
+  def existing_title(response)
+    value(response, "existingTitle", "existing_title", "Existing Title") ||
+      value(selected_occupation(response), "existingTitle", "existing_title", "Existing Title")
+  end
+
+  def selected_occupation(response)
+    inventory = Array(value(response, "occupationInventory", "occupation_inventory"))
+    selected_title = value(response, "selectedOccupationTitle", "selected_occupation_title").to_s
+    return inventory.first if inventory.one?
+
+    inventory.find do |occupation|
+      value(occupation, "title", "Title").to_s == selected_title
     end
   end
 
@@ -241,16 +281,52 @@ class ConvertPdfImportWithAI
   end
 
   def work_processes(response)
-    Array(value(response, "workProcesses", "work_processes")).filter_map.with_index(1) do |work_process_response, index|
-      title = value(work_process_response, "title", "Work Process Title")
+    Array(value(
+      response,
+      "workProcesses",
+      "work_processes",
+      "workProcessSchedule",
+      "work_process_schedule",
+      "onTheJobTraining",
+      "on_the_job_training",
+      "onTheJobLearning",
+      "on_the_job_learning",
+      "ojt",
+      "ojl"
+    )).filter_map.with_index(1) do |work_process_response, index|
+      title = value(
+        work_process_response,
+        "title",
+        "name",
+        "workProcess",
+        "work_process",
+        "workActivity",
+        "work_activity",
+        "task",
+        "duty",
+        "Work Process Title"
+      )
       next if title.blank?
+
+      default_hours = integer_value(work_process_response, "defaultHours", "default_hours", "default", "hours")
+      minimum_hours = integer_value(work_process_response, "minimumHours", "minimum_hours", "minHours", "min_hours")
+      maximum_hours = integer_value(
+        work_process_response,
+        "maximumHours",
+        "maximum_hours",
+        "maxHours",
+        "max_hours",
+        "estimatedHours",
+        "estimated_hours",
+        "hours"
+      )
 
       WorkProcess.new(
         title: title,
-        description: value(work_process_response, "description", "Work Process Description"),
-        default_hours: value(work_process_response, "defaultHours", "default_hours"),
-        minimum_hours: value(work_process_response, "minimumHours", "minimum_hours"),
-        maximum_hours: value(work_process_response, "maximumHours", "maximum_hours"),
+        description: value(work_process_response, "description", "details", "Work Process Description"),
+        default_hours: default_hours,
+        minimum_hours: minimum_hours,
+        maximum_hours: maximum_hours || default_hours,
         sort_order: index,
         competencies: competencies(work_process_response)
       )
@@ -258,8 +334,20 @@ class ConvertPdfImportWithAI
   end
 
   def competencies(work_process_response)
-    Array(value(work_process_response, "competencies")).filter_map.with_index(1) do |competency_response, index|
-      title = competency_response.is_a?(Hash) ? value(competency_response, "title") : competency_response
+    Array(value(
+      work_process_response,
+      "competencies",
+      "skills",
+      "tasks",
+      "duties",
+      "performanceObjectives",
+      "performance_objectives"
+    )).filter_map.with_index(1) do |competency_response, index|
+      title = if competency_response.is_a?(Hash)
+        value(competency_response, "title", "name", "skill", "task", "duty", "description", "text")
+      else
+        competency_response
+      end
       next if title.blank?
 
       Competency.new(title: title, sort_order: index)
@@ -267,15 +355,26 @@ class ConvertPdfImportWithAI
   end
 
   def related_instructions(response)
-    Array(value(response, "relatedInstructions", "related_instructions")).filter_map.with_index(1) do |related_instruction_response, index|
-      title = value(related_instruction_response, "title")
+    Array(value(
+      response,
+      "relatedInstructions",
+      "related_instructions",
+      "relatedTechnicalInstruction",
+      "related_technical_instruction",
+      "classroomInstruction",
+      "classroom_instruction",
+      "rti",
+      "rsi",
+      "courses"
+    )).filter_map.with_index(1) do |related_instruction_response, index|
+      title = value(related_instruction_response, "title", "name", "course", "courseTitle", "course_title")
       next if title.blank?
 
       RelatedInstruction.new(
         title: title,
-        description: value(related_instruction_response, "description"),
-        code: value(related_instruction_response, "code"),
-        hours: value(related_instruction_response, "hours"),
+        description: value(related_instruction_response, "description", "details"),
+        code: value(related_instruction_response, "code", "courseCode", "course_code"),
+        hours: integer_value(related_instruction_response, "hours", "defaultHours", "default_hours", "estimatedHours", "estimated_hours"),
         organization: related_instruction_organization(related_instruction_response),
         sort_order: index
       )
@@ -283,7 +382,7 @@ class ConvertPdfImportWithAI
   end
 
   def related_instruction_organization(response)
-    title = value(response, "organization")
+    title = value(response, "organization", "provider", "institution")
     Organization.find_or_initialize_by(title: title) if title.present?
   end
 end
