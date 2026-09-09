@@ -9,6 +9,7 @@ RSpec.describe OccupationStandardCsvExport do
       later_standard = create(
         :occupation_standard,
         onet_code: "47-2111.00",
+        rapids_code: "0159",
         organization: organization,
         registration_agency: registration_agency,
         source: :ai_conversion,
@@ -35,6 +36,8 @@ RSpec.describe OccupationStandardCsvExport do
 
       row = report[-1]
       expect(row["soc_code"]).to eq "47-2111"
+      expect(row["rapids_code"]).to eq "0159"
+      expect(row["onet_code"]).to eq "47-2111.00"
       expect(row["org_name"]).to eq "Example Sponsor"
       expect(row["state_name"]).to eq "Washington"
       expect(row["source"]).to eq "ai_conversion"

@@ -3,6 +3,8 @@ require "csv"
 class OccupationStandardCsvExport
   HEADERS = %w[
     soc_code
+    rapids_code
+    onet_code
     org_name
     state_name
     source
@@ -56,6 +58,8 @@ class OccupationStandardCsvExport
   def row(occupation_standard)
     [
       soc_code(occupation_standard.onet_code),
+      occupation_standard.rapids_code,
+      occupation_standard.onet_code,
       occupation_standard.organization&.title,
       occupation_standard.registration_agency&.state&.name,
       occupation_standard.source,
