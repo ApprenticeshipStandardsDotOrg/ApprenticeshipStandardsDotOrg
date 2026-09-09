@@ -12,6 +12,7 @@
 /tmp/*
 !/log/.keep
 !/tmp/.keep
+/occupation-standards-sample-set*.csv
 
 # Ignore pidfiles, but keep the directory.
 /tmp/pids/*
