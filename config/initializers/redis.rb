@@ -1,5 +1,5 @@
 SIDEKIQ_REDIS_CONFIGURATION = {
-  url: ENV.fetch(ENV.fetch("REDIS_PROVIDER", "REDIS_URL"), nil),
+  url: ENV["REDIS_URL"],
   ssl_params: {verify_mode: OpenSSL::SSL::VERIFY_NONE} # we must trust Heroku and AWS here
 }
 

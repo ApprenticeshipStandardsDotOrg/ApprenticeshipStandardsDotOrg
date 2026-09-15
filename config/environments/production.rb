@@ -54,9 +54,8 @@ Rails.application.configure do
   config.active_support.report_deprecations = false
 
   # Replace the default in-process memory cache store with a durable alternative.
-  redis_url = ENV.fetch(ENV.fetch("REDIS_PROVIDER", "REDIS_URL"), nil)
   config.cache_store = :redis_cache_store, {
-    url: redis_url,
+    url: ENV["REDIS_URL"],
     ssl_params: {verify_mode: OpenSSL::SSL::VERIFY_NONE}
   }
 
