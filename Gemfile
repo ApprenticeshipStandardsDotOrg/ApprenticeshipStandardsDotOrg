@@ -15,7 +15,7 @@ gem "sprockets-rails"
 gem "rubyzip"
 
 # Add new relic for monitoring / observability
-gem 'newrelic_rpm'
+gem "newrelic_rpm"
 
 # This is needed to make FoxitSDK work since it uses relative references to files without digest
 gem "non-digest-assets", github: "mvz/non-digest-assets", branch: "master"
