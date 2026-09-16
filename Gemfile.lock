@@ -339,6 +339,8 @@ GEM
       timeout
     net-smtp (0.5.1)
       net-protocol
+    newrelic_rpm (10.8.0)
+      logger
     nio4r (2.7.5)
     nokogiri (1.19.4-aarch64-linux-gnu)
       racc (~> 1.4)
@@ -656,6 +658,7 @@ DEPENDENCIES
   jsonapi-resources
   jwt
   letter_opener
+  newrelic_rpm
   non-digest-assets!
   noticed (~> 2.6)
   oauth2 (~> 2.0, >= 2.0.9)
