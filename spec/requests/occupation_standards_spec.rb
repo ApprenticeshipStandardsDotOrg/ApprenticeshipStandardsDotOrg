@@ -149,6 +149,7 @@ RSpec.describe "OccupationStandard", type: :request do
 
       expect(response).to be_successful
       expect(response.content_type).to eq docx_mime_type
+      expect(response.headers["X-Robots-Tag"]).to eq "noindex, nofollow"
     end
   end
 
