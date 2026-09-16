@@ -35,7 +35,8 @@ Rollbar.configure do |config|
   config.exception_level_filters["ActionController::RoutingError"] = "ignore"
 
   handler = proc do |options|
-    if options[:exception].is_a?(Sidekiq::JobRetry::Skip)
+    if defined?(Sidekiq::JobRetry::Skip) &&
+        options[:exception].is_a?(Sidekiq::JobRetry::Skip)
       raise Rollbar::Ignore
     end
   end

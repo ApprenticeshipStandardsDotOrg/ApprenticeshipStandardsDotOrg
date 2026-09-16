@@ -376,6 +376,17 @@ RSpec.describe OccupationStandard, type: :model do
       expect(occupation_standard.competencies_count).to eq 3
     end
 
+    it "uses counter caches when work processes are already loaded" do
+      occupation_standard = create(:occupation_standard)
+      work_process = create(:work_process, occupation_standard: occupation_standard)
+      create_list(:competency, 2, work_process: work_process)
+      occupation_standard.work_processes.load
+
+      expect(Competency).not_to receive(:joins)
+
+      expect(occupation_standard.competencies_count).to eq 2
+    end
+
     it "is 0 if standard is time-based" do
       occupation_standard = create(:occupation_standard, :time)
       wp = create(:work_process, occupation_standard: occupation_standard)
@@ -488,6 +499,16 @@ RSpec.describe OccupationStandard, type: :model do
       create(:related_instruction, hours: nil, occupation_standard: occupation_standard, sort_order: 3)
 
       expect(occupation_standard.related_instructions_hours).to eq 300
+    end
+
+    it "uses related instructions already loaded in memory" do
+      occupation_standard = create(:occupation_standard)
+      create(:related_instruction, hours: 100, occupation_standard: occupation_standard)
+      occupation_standard.related_instructions.load
+
+      expect(occupation_standard.related_instructions).not_to receive(:calculate)
+
+      expect(occupation_standard.related_instructions_hours).to eq 100
     end
   end
 

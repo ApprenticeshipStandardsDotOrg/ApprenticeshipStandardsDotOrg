@@ -15,6 +15,7 @@ class OccupationStandardsController < ApplicationController
         count: es_response.response.aggregations.total.value
       )
       @occupation_standards = add_inner_hits_from_results(es_response.records)
+      preload_index_associations(@occupation_standards)
     else
       @occupation_standards_search = OccupationStandardQuery::Container.new(
         search_term_params: search_term_params
@@ -48,6 +49,7 @@ class OccupationStandardsController < ApplicationController
       format.docx do
         export = OccupationStandardExport.new(@occupation_standard)
 
+        response.set_header("X-Robots-Tag", "noindex, nofollow")
         send_data(export.call, filename: export.filename)
       end
       format.json { render json: @occupation_standard }
@@ -111,5 +113,18 @@ class OccupationStandardsController < ApplicationController
 
       occupation_standard
     end
+  end
+
+  def preload_index_associations(occupation_standards)
+    ActiveRecord::Associations::Preloader.new(
+      records: occupation_standards,
+      associations: [
+        :organization,
+        :occupation,
+        :work_processes,
+        :related_instructions,
+        {registration_agency: :state}
+      ]
+    ).call
   end
 end

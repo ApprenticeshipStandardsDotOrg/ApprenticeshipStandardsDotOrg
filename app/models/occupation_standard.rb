@@ -347,6 +347,8 @@ class OccupationStandard < ApplicationRecord
   def competencies_count
     if time_based?
       0
+    elsif association(:work_processes).loaded?
+      work_processes.sum(&:competencies_count)
     else
       Competency.joins(work_process: :occupation_standard).where(occupation_standards: {id: id}).count
     end
@@ -364,8 +366,9 @@ class OccupationStandard < ApplicationRecord
     if competency_based?
       0
     else
-      maximum_hours = work_processes.uniq(&:title).pluck(:maximum_hours).compact.sum
-      minimum_hours = work_processes.uniq(&:title).pluck(:minimum_hours).compact.sum
+      unique_work_processes = work_processes.uniq(&:title)
+      maximum_hours = unique_work_processes.filter_map(&:maximum_hours).sum
+      minimum_hours = unique_work_processes.filter_map(&:minimum_hours).sum
       ([maximum_hours, minimum_hours] - [0]).first || 0
     end
   end
@@ -383,7 +386,11 @@ class OccupationStandard < ApplicationRecord
   end
 
   def related_instructions_hours
-    related_instructions.sum(:hours)
+    if association(:related_instructions).loaded?
+      related_instructions.sum { |related_instruction| related_instruction.hours.to_i }
+    else
+      related_instructions.sum(:hours)
+    end
   end
 
   def related_instructions_hours_in_human_format
@@ -432,8 +439,7 @@ class OccupationStandard < ApplicationRecord
 
   def show_national_occupational_framework_badge?
     national_occupational_framework? &&
-      organization_id.present? &&
-      organization_id == Organization.urban_institute&.id
+      organization&.title == "Urban Institute"
   end
 
   def hours_meet_occupation_requirements?
