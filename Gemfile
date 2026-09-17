@@ -73,6 +73,7 @@ gem "csv", "~> 3.3", ">= 3.3.2"
 
 # Throttle excessive requests
 gem "rack-attack"
+gem "rack-timeout"
 gem "redis"
 
 # This is needed  to make FoxitSDK work since it uses file paths relative to the view instead of /assests

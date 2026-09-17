@@ -140,16 +140,32 @@ RSpec.describe "OccupationStandard", type: :request do
   end
 
   describe "GET /show/:id.docx" do
-    it "returns a docx document" do
+    it "enqueues generation and returns a small pending response" do
       occupation_standard = create(:occupation_standard, :with_data_import)
+
+      expect {
+        get occupation_standard_path(occupation_standard), params: {format: "docx"}
+      }.to have_enqueued_job(GenerateOccupationStandardExportJob).with(occupation_standard)
+
+      expect(response).to have_http_status(:accepted)
+      expect(response.headers["X-Robots-Tag"]).to eq "noindex, nofollow"
+    end
+
+    it "redirects to a current cached document" do
+      occupation_standard = create(:occupation_standard, :with_data_import)
+      export = instance_double(
+        OccupationStandardExport,
+        call: "document",
+        filename: "working-copy.docx"
+      )
+      allow(OccupationStandardExport).to receive(:new).and_return(export)
+      GenerateOccupationStandardExportJob.perform_now(occupation_standard)
 
       get occupation_standard_path(occupation_standard), params: {format: "docx"}
 
-      docx_mime_type = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-
-      expect(response).to be_successful
-      expect(response.content_type).to eq docx_mime_type
-      expect(response.headers["X-Robots-Tag"]).to eq "noindex, nofollow"
+      expect(response).to redirect_to(
+        rails_blob_path(occupation_standard.working_copy_document, disposition: "attachment")
+      )
     end
   end
 

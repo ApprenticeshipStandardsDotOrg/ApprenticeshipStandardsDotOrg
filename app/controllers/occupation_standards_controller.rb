@@ -34,9 +34,11 @@ class OccupationStandardsController < ApplicationController
   def show
     @occupation_standard = OccupationStandard.find(params[:id])
     @page_title = @occupation_standard.title
+    instrument_show_transaction
 
     respond_to do |format|
       format.html do
+        @similar_programs = @occupation_standard.similar_programs
         @cookies_accepted = session[:cookies_accepted] == "true"
 
         if @cookies_accepted
@@ -47,10 +49,17 @@ class OccupationStandardsController < ApplicationController
         end
       end
       format.docx do
-        export = OccupationStandardExport.new(@occupation_standard)
-
         response.set_header("X-Robots-Tag", "noindex, nofollow")
-        send_data(export.call, filename: export.filename)
+
+        if @occupation_standard.working_copy_current?
+          redirect_to rails_blob_path(
+            @occupation_standard.working_copy_document,
+            disposition: "attachment"
+          )
+        else
+          enqueue_working_copy
+          render :working_copy_pending, formats: :html, status: :accepted, layout: false
+        end
       end
       format.json { render json: @occupation_standard }
     end
@@ -126,5 +135,23 @@ class OccupationStandardsController < ApplicationController
         {registration_agency: :state}
       ]
     ).call
+  end
+
+  def enqueue_working_copy
+    cache_key = "occupation-standard-working-copy/#{@occupation_standard.id}"
+    return unless Rails.cache.write(cache_key, true, expires_in: 15.minutes, unless_exist: true)
+
+    GenerateOccupationStandardExportJob.perform_later(@occupation_standard)
+  end
+
+  def instrument_show_transaction
+    return unless defined?(NewRelic::Agent)
+
+    format = request.format.symbol || :html
+    NewRelic::Agent.set_transaction_name("OccupationStandardsController/show/#{format}")
+    NewRelic::Agent.add_custom_attributes(
+      response_format: format,
+      occupation_standard_source: @occupation_standard.source
+    )
   end
 end

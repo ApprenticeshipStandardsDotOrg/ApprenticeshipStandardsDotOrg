@@ -7,6 +7,7 @@ class SimilarOccupationStandards
 
   RESULTS_SIZE = 5
   MINIMUM_SCORE = 0.2
+  MAX_WORK_PROCESS_TITLES = 50
 
   def self.similar_to(occupation_standard)
     new(occupation_standard).similar_to
@@ -19,6 +20,13 @@ class SimilarOccupationStandards
   def similar_to
     response = OccupationStandard.__elasticsearch__.search(query(occupation_standard))
     response.records.to_a
+  rescue Elastic::Transport::Transport::Errors::BadRequest => error
+    Rails.error.report(
+      error,
+      handled: true,
+      context: {occupation_standard_id: occupation_standard.id}
+    )
+    []
   end
 
   private
@@ -35,10 +43,12 @@ class SimilarOccupationStandards
               boost: 5
             }
           end
-          should do
-            match work_process_titles: {
-              query: occupation_standard.work_processes.pluck(:title).to_sentence
-            }
+          if work_process_titles.any?
+            should do
+              match work_process_titles: {
+                query: work_process_titles.to_sentence
+              }
+            end
           end
           should do
             match ojt_type: {
@@ -61,5 +71,16 @@ class SimilarOccupationStandards
         end
       end
     end
+  end
+
+  def work_process_titles
+    @work_process_titles ||= WorkProcess
+      .where(occupation_standard_id: occupation_standard.id)
+      .where.not(title: [nil, ""])
+      .distinct
+      .order(:title)
+      .pluck(:title)
+      .uniq { |title| title.squish.downcase }
+      .first(MAX_WORK_PROCESS_TITLES)
   end
 end
