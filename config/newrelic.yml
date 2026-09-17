@@ -36,7 +36,7 @@ common: &default_settings
       # If `true`, the agent captures log records emitted by this application.
       enabled: true
       # Defines the maximum number of log records to buffer in memory at a time.
-      max_samples_stored: 10000
+      max_samples_stored: 1000
     metrics:
       # If `true`, the agent captures metrics related to logging for this application.
       enabled: true

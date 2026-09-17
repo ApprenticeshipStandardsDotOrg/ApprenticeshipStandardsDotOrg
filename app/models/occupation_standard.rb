@@ -18,6 +18,7 @@ class OccupationStandard < ApplicationRecord
   has_many :work_processes, -> { order(:sort_order).includes(:competencies) }, dependent: :destroy
 
   has_one_attached :redacted_document
+  has_one_attached :working_copy_document
   has_one :text_representation
   has_one :open_ai_import
 
@@ -43,6 +44,26 @@ class OccupationStandard < ApplicationRecord
   )
 
   attr_accessor :inner_hits, :external_id, :open_ai_response, :import_id
+
+  def working_copy_current?
+    working_copy_document.attached? &&
+      working_copy_document.blob.metadata["occupation_standard_version"] == working_copy_version
+  end
+
+  def working_copy_version
+    competency_scope = Competency.joins(:work_process).where(work_processes: {occupation_standard_id: id})
+    content_version = [
+      attributes.except("created_at", "updated_at"),
+      work_processes.count,
+      work_processes.maximum(:updated_at),
+      competency_scope.count,
+      competency_scope.maximum(:updated_at),
+      related_instructions.count,
+      related_instructions.maximum(:updated_at)
+    ]
+
+    Digest::SHA2.hexdigest(content_version.to_json)
+  end
 
   MAX_SIMILAR_PROGRAMS_TO_DISPLAY = 5
   MAX_RECENTLY_ADDED_OCCUPATIONS_TO_DISPLAY = 4

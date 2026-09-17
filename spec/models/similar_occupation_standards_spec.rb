@@ -1,6 +1,41 @@
 require "rails_helper"
 
 RSpec.describe SimilarOccupationStandards, type: :model do
+  describe "#work_process_titles" do
+    it "deduplicates normalized titles and limits query input" do
+      stub_const("SimilarOccupationStandards::MAX_WORK_PROCESS_TITLES", 2)
+      occupation_standard = create(:occupation_standard)
+      create(:work_process, occupation_standard: occupation_standard, title: "Inspect equipment")
+      create(:work_process, occupation_standard: occupation_standard, title: " inspect  EQUIPMENT ")
+      create(:work_process, occupation_standard: occupation_standard, title: "Repair equipment")
+      create(:work_process, occupation_standard: occupation_standard, title: "Test equipment")
+
+      titles = described_class.new(occupation_standard).send(:work_process_titles)
+
+      expect(titles.length).to eq 2
+      expect(titles.map { |title| title.squish.downcase }).to contain_exactly(
+        "inspect equipment",
+        "repair equipment"
+      )
+    end
+  end
+
+  describe ".similar_to" do
+    it "does not fail the page when Elasticsearch rejects the optional query" do
+      occupation_standard = create(:occupation_standard)
+      error = Elastic::Transport::Transport::Errors::BadRequest.new("too many clauses")
+      allow(OccupationStandard.__elasticsearch__).to receive(:search).and_raise(error)
+      allow(Rails.error).to receive(:report)
+
+      expect(described_class.similar_to(occupation_standard)).to eq []
+      expect(Rails.error).to have_received(:report).with(
+        error,
+        handled: true,
+        context: {occupation_standard_id: occupation_standard.id}
+      )
+    end
+  end
+
   describe ".similar_to", :elasticsearch do
     it "returns records that are similar to the passed occupation standard" do
       al_reg_agency = create(:registration_agency, for_state_abbreviation: "AL")
