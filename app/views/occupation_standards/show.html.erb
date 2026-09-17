@@ -213,11 +213,12 @@
 
         </div><!-- end purple border -->
 
-        <% if @similar_programs.any? %>
+        <% similar_programs = @similar_programs || @occupation_standard.similar_programs %>
+        <% if similar_programs.any? %>
           <div class="similar-programs">
             <h3 class="font-bold text-2xl text-primary-600 pt-4">Similar Programs</h3>
             <div class="py-4 flex flex-col lg:flex-row">
-              <% @similar_programs.each do |similar_program| %>
+              <% similar_programs.each do |similar_program| %>
                 <%= link_to similar_program, class: "lg:w-1/5 rounded-xs py-4 px-2 mr-4 mb-4 border-2 border-seafoam-200 bg-white" do %>
                   <div class="text-primary-600 font-bold">
                     <span><%= similar_program.title %></span>
