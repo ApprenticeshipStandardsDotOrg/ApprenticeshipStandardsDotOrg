@@ -105,6 +105,16 @@ RSpec.describe "Admin::DataImports", type: :request, admin: true do
   end
 
   describe "GET /show" do
+    it "returns http success for a legacy Data Import without an associated Import" do
+      admin = create(:admin)
+      data_import = create(:data_import, import: nil)
+
+      sign_in admin
+      get admin_data_import_path(data_import)
+
+      expect(response).to be_successful
+    end
+
     context "when admin" do
       it "returns http success" do
         admin = create(:admin)
