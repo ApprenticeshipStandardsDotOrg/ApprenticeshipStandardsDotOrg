@@ -9,14 +9,14 @@ class AdminMailer < ApplicationMailer
   def new_standards_import(standards_import)
     @standards_import = standards_import
 
-    mail to: "patrick@workhands.us",
+    mail to: ["patrick@workhands.us", "chris@workhands.us"],
       subject: "New standards import uploaded"
   end
 
   def new_contact_request(contact_request)
     @contact_request = contact_request
 
-    mail to: "patrick@workhands.us",
+    mail to: ["patrick@workhands.us", "chris@workhands.us"],
       subject: "New ApprenticeshipStandards Contact Request"
   end
 
