@@ -15,7 +15,6 @@ class OccupationStandardsController < ApplicationController
         count: es_response.response.aggregations.total.value
       )
       @occupation_standards = add_inner_hits_from_results(es_response.records)
-      preload_index_associations(@occupation_standards)
     else
       @occupation_standards_search = OccupationStandardQuery::Container.new(
         search_term_params: search_term_params
@@ -28,6 +27,7 @@ class OccupationStandardsController < ApplicationController
       @pagy, @occupation_standards = pagy(occupation_standards)
     end
 
+    preload_index_associations(@occupation_standards)
     @search_term = search_term_params[:q]
   end
 
@@ -102,7 +102,12 @@ class OccupationStandardsController < ApplicationController
   end
 
   def standards_scope
-    OccupationStandard.includes(:organization, :work_processes, registration_agency: :state, occupation: :onet)
+    OccupationStandard.includes(
+      :organization,
+      :work_processes,
+      registration_agency: :state,
+      occupation: :onet
+    )
   end
 
   def current_page
@@ -132,9 +137,15 @@ class OccupationStandardsController < ApplicationController
         :occupation,
         :work_processes,
         :related_instructions,
+        {data_imports: {import: source_import_parent_preloads}},
+        {open_ai_import: {import: source_import_parent_preloads}},
         {registration_agency: :state}
       ]
     ).call
+  end
+
+  def source_import_parent_preloads
+    {parent: {parent: {parent: {parent: :parent}}}}
   end
 
   def enqueue_working_copy

@@ -1,5 +1,5 @@
 <%= turbo_frame_tag "public_document" do %>
-  <%= link_to rails_blob_path(occupation_standard.data_import.import.file, disposition: "inline") do %>
+  <%= link_to rails_blob_path(occupation_standard.public_source_document.file, disposition: "inline") do %>
     <div class="flex w-full items-center space-x-4 rounded-xs bg-slate-700 p-2 text-left text-white hover:bg-slate-600">
       <span>
         <svg aria-label="pdf icon" xmlns="http://www.w3.org/2000/svg" width="49" height="48" fill="none">
