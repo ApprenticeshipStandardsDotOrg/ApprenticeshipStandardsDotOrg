@@ -15,7 +15,6 @@ class OccupationStandardsController < ApplicationController
         count: es_response.response.aggregations.total.value
       )
       @occupation_standards = add_inner_hits_from_results(es_response.records)
-      preload_index_associations(@occupation_standards)
     else
       @occupation_standards_search = OccupationStandardQuery::Container.new(
         search_term_params: search_term_params
@@ -26,9 +25,9 @@ class OccupationStandardsController < ApplicationController
         search_term_params
       )
       @pagy, @occupation_standards = pagy(occupation_standards)
-      preload_index_associations(@occupation_standards)
     end
 
+    preload_index_associations(@occupation_standards)
     @search_term = search_term_params[:q]
   end
 
