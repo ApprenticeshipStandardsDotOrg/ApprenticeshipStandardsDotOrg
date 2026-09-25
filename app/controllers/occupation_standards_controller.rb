@@ -26,6 +26,7 @@ class OccupationStandardsController < ApplicationController
         search_term_params
       )
       @pagy, @occupation_standards = pagy(occupation_standards)
+      preload_index_associations(@occupation_standards)
     end
 
     @search_term = search_term_params[:q]
@@ -102,7 +103,12 @@ class OccupationStandardsController < ApplicationController
   end
 
   def standards_scope
-    OccupationStandard.includes(:organization, :work_processes, registration_agency: :state, occupation: :onet)
+    OccupationStandard.includes(
+      :organization,
+      :work_processes,
+      registration_agency: :state,
+      occupation: :onet
+    )
   end
 
   def current_page
@@ -132,9 +138,15 @@ class OccupationStandardsController < ApplicationController
         :occupation,
         :work_processes,
         :related_instructions,
+        {data_imports: {import: source_import_parent_preloads}},
+        {open_ai_import: {import: source_import_parent_preloads}},
         {registration_agency: :state}
       ]
     ).call
+  end
+
+  def source_import_parent_preloads
+    {parent: {parent: {parent: {parent: :parent}}}}
   end
 
   def enqueue_working_copy

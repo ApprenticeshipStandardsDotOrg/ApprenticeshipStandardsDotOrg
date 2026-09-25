@@ -338,7 +338,9 @@ class OccupationStandard < ApplicationRecord
   end
 
   def public_document?
-    public_source_document.present?
+    source_imports.any? do |import|
+      import.public_document? || import.import_root&.public_document?
+    end
   end
 
   def public_source_document
