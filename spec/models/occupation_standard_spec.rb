@@ -691,6 +691,35 @@ RSpec.describe OccupationStandard, type: :model do
       expect(occupation_standard.public_document?).to be true
     end
 
+    it "returns true if an AI conversion import is public" do
+      import = create(:imports_pdf, public_document: true)
+      occupation_standard = create(:occupation_standard, source: :ai_conversion)
+      create(:open_ai_import, import: import, occupation_standard: occupation_standard)
+
+      expect(occupation_standard.public_document?).to be true
+      expect(occupation_standard.public_source_document).to eq import
+    end
+
+    it "returns true if the root of an AI conversion import is public" do
+      standards_import = create(:standards_import, public_document: true)
+      import = create(:imports_pdf, public_document: false, parent: standards_import)
+      occupation_standard = create(:occupation_standard, source: :ai_conversion)
+      create(:open_ai_import, import: import, occupation_standard: occupation_standard)
+
+      expect(occupation_standard.public_document?).to be true
+      expect(occupation_standard.public_source_document).to eq import
+    end
+
+    it "returns false if an AI conversion import and its root are private" do
+      standards_import = create(:standards_import, public_document: false)
+      import = create(:imports_pdf, public_document: false, parent: standards_import)
+      occupation_standard = create(:occupation_standard, source: :ai_conversion)
+      create(:open_ai_import, import: import, occupation_standard: occupation_standard)
+
+      expect(occupation_standard.public_document?).to be false
+      expect(occupation_standard.public_source_document).to be_nil
+    end
+
     it "returns false if no import or standard_import is associated to the occupation standard" do
       occupation_standard = build(:occupation_standard)
 

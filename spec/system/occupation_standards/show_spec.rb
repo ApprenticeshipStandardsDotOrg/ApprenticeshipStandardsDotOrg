@@ -63,6 +63,19 @@ RSpec.describe "occupation_standards/show" do
     expect(page).to have_no_text "View Redacted Document"
   end
 
+  it "shows the public source document from an AI conversion" do
+    import = create(:imports_pdf, public_document: true)
+    occupation_standard = create(:occupation_standard, source: :ai_conversion)
+    create(:open_ai_import, import: import, occupation_standard: occupation_standard)
+
+    visit occupation_standard_path(occupation_standard)
+
+    expect(page).to have_link(
+      "View Original Document",
+      href: rails_blob_path(import.file, disposition: "inline")
+    )
+  end
+
   it "shows message if neither public nor redacted document are available" do
     occupation_standard = create(:occupation_standard, :with_data_import)
     allow_any_instance_of(OccupationStandard).to receive(:public_document?).and_return(false)

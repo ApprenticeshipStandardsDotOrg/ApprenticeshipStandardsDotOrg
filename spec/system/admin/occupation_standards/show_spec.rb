@@ -135,6 +135,7 @@ RSpec.describe "admin/occupation_standards/show" do
 
     expect(page).to have_selector("dt", text: "Source documents")
     expect(page).to have_link(import.filename, href: rails_blob_path(import.file, disposition: "inline"))
+    expect(page).to have_link("View import", href: admin_import_path(import))
   end
 
   it "shows the source URL from the root import", :admin do

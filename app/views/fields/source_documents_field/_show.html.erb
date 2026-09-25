@@ -6,6 +6,7 @@
               rails_blob_path(import.file, disposition: "inline"),
               target: "_blank",
               rel: "noopener" %>
+        (<%= link_to "View import", admin_import_path(import) %>)
       </li>
     <% end %>
   </ul>
