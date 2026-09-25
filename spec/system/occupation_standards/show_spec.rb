@@ -45,7 +45,7 @@ RSpec.describe "occupation_standards/show" do
 
   it "shows only redacted document if both public and redacted are available" do
     occupation_standard = create(:occupation_standard, :with_data_import, :with_redacted_document)
-    allow_any_instance_of(OccupationStandard).to receive(:public_document?).and_return(true)
+    occupation_standard.source_file.update!(public_document: true)
 
     visit occupation_standard_path(occupation_standard)
 
@@ -55,7 +55,7 @@ RSpec.describe "occupation_standards/show" do
 
   it "shows public document if standards import comes from a public source" do
     occupation_standard = create(:occupation_standard, :with_data_import)
-    allow_any_instance_of(OccupationStandard).to receive(:public_document?).and_return(true)
+    occupation_standard.source_file.import_root.update!(public_document: true)
 
     visit occupation_standard_path(occupation_standard)
 
@@ -78,7 +78,6 @@ RSpec.describe "occupation_standards/show" do
 
   it "shows message if neither public nor redacted document are available" do
     occupation_standard = create(:occupation_standard, :with_data_import)
-    allow_any_instance_of(OccupationStandard).to receive(:public_document?).and_return(false)
 
     visit occupation_standard_path(occupation_standard)
 
