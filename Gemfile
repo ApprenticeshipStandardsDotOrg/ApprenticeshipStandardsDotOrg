@@ -3,7 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "3.4.1"
 
-gem "rails", "~> 8.1.3"
+gem "rails", "~> 8.1.4"
 
 gem "elasticsearch", "8.19.3"
 gem "elasticsearch-model", github: "elastic/elasticsearch-rails", branch: "8.x"
@@ -51,7 +51,7 @@ gem "blueprinter"
 gem "devise"
 gem "devise_invitable", "~> 2.0.9"
 gem "rollbar"
-gem "roo", "~> 2.10.1"
+gem "roo", "~> 3.0.0"
 gem "aws-sdk-s3", require: false
 gem "after_party"
 gem "sidekiq", "~> 8"
@@ -116,7 +116,7 @@ group :development do
   gem "erb_lint", require: false
   gem "erblint-github"
   gem "letter_opener"
-  gem "standard", "~> 1.45"
+  gem "standard", "~> 1.56"
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
 
