@@ -11,7 +11,7 @@ class Scraper::ApprenticeshipBulletinsJob < ApplicationJob
 
       CreateImportFromUri.call(
         uri: row["File URI"],
-        title: row["Title"],
+        title: row["Subject"].presence || row["ID"],
         notes: "From Scraper::ApprenticeshipBulletinsJob",
         source: Scraper::ApprenticeshipBulletinsJob::BULLETIN_LIST_URL,
         metadata: {date: row["Date"]},
