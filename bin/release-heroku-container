@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+require_relative "../lib/heroku_container_release"
+
+release = HerokuContainerRelease.new(
+  app: ENV.fetch("HEROKU_APP"),
+  api_key: ENV.fetch("HEROKU_API_KEY"),
+  images: %w[web worker release].to_h { |type| [type, ENV.fetch("#{type.upcase}_IMAGE_ID")] }
+).call
+puts "Release v#{release.fetch("version")} succeeded"

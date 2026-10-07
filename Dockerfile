@@ -1,29 +1,40 @@
 ARG BASE_IMAGE=amd64/ruby
 ARG BASE_TAG=3.4.1
-ARG BASE_IMAGE=${BASE_IMAGE}:${BASE_TAG}
 
-FROM ${BASE_IMAGE} AS builder
+FROM node:23.6.1-bookworm-slim AS node
 
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+FROM ${BASE_IMAGE}:${BASE_TAG} AS runtime
 
-RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends \
-  git \
-  shared-mime-info \
-  tzdata \
-  vim \
-  libreoffice \
+# Install runtime dependencies once, shared by the builder and all process images.
+RUN install -d /etc/apt/keyrings \
+  && curl -fsSL https://dl-ssl.google.com/linux/linux_signing_key.pub \
+    | gpg --dearmor -o /etc/apt/keyrings/google-chrome.gpg \
+  && echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/google-chrome.gpg] https://dl.google.com/linux/chrome/deb/ stable main" \
+    > /etc/apt/sources.list.d/google-chrome.list \
+  && apt-get update -yqq \
+  && apt-get install -yqq --no-install-recommends \
+    google-chrome-stable libreoffice \
+    postgresql-client shared-mime-info tzdata \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
-ARG RAILS_ROOT=/usr/src/app/
-WORKDIR $RAILS_ROOT
-
+WORKDIR /usr/src/app
+# Retain the build argument used by heroku.yml for review-app builds.
 ARG RAILS_ENV=production
-ARG NODE_ENV=production
+ENV RAILS_ENV=${RAILS_ENV} \
+    NODE_ENV=production \
+    RAILS_LOG_TO_STDOUT=true \
+    RAILS_SERVE_STATIC_FILES=true
 
-COPY Gemfile* package.json yarn.lock $RAILS_ROOT
-RUN gem install bundler:4.0.16 \
+FROM runtime AS builder
+
+COPY --from=node /usr/local/bin/node /usr/local/bin/node
+COPY --from=node /opt/yarn-v1.22.22 /opt/yarn-v1.22.22
+RUN ln -s /opt/yarn-v1.22.22/bin/yarn /usr/local/bin/yarn
+
+# Changes to JavaScript dependencies must not invalidate the Ruby gem layer.
+COPY Gemfile Gemfile.lock ./
+RUN gem install bundler:4.0.16 --no-document \
   && bundle config --local frozen 1 \
   && bundle config --local without "development test" \
   && bundle install -j4 \
@@ -31,60 +42,25 @@ RUN gem install bundler:4.0.16 \
   && find /usr/local/bundle/gems/ -name "*.c" -delete \
   && find /usr/local/bundle/gems/ -name "*.o" -delete
 
-
-# Install nvm and node
-ENV NODE_VERSION=23.6.1
-ENV NVM_DIR=/usr/local/nvm
-
-RUN mkdir /usr/local/nvm
-
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash \
-  && . $NVM_DIR/nvm.sh \
-  && nvm install $NODE_VERSION \
-  && nvm alias default $NODE_VERSION \
-  && nvm use default \
-  && npm install yarn -g
-
-ENV NODE_PATH=$NVM_DIR/v$NODE_VERSION/lib/node_modules
-ENV PATH=$NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
-
-# Copy yarn files
-
 COPY package.json yarn.lock ./
-
 RUN yarn install --frozen-lockfile
 
 COPY . .
+RUN SECRET_KEY_BASE=dummy bundle exec rails assets:precompile \
+  && rm -rf node_modules tmp/cache \
+  && mkdir -p tmp/pids log storage \
+  && chmod -R 0777 tmp log storage
 
-RUN SECRET_KEY_BASE=dummy bundle exec bin/rails assets:precompile
-
-### BUILD STEP DONE ###
-
-FROM ${BASE_IMAGE} AS final
-
-# Download Google Chrome
-RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
-RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
-
-ARG RAILS_ROOT=/usr/src/app/
-
-ENV RAILS_ENV=production
-ENV NODE_ENV=production
-ENV RAILS_LOG_TO_STDOUT=true
-ENV RAILS_SERVE_STATIC_FILES=true
-
-RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends \
-  google-chrome-stable \
-  libreoffice \
-  postgresql-client \
-  tzdata \
-  vim \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/*
-
-WORKDIR $RAILS_ROOT
-
-COPY --from=builder $RAILS_ROOT $RAILS_ROOT
-COPY --from=builder /usr/local/bundle/ /usr/local/bundle/
-
+FROM runtime AS application
+COPY --from=builder /usr/src/app /usr/src/app
+COPY --from=builder /usr/local/bundle /usr/local/bundle
 EXPOSE 3000
+
+FROM application AS worker
+CMD ["bundle", "exec", "sidekiq", "-c", "3"]
+
+FROM application AS release
+CMD ["sh", "-c", "bundle exec rails db:migrate && bundle exec rake after_party:run"]
+
+FROM application AS final
+CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
