@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+require "json"
+require_relative "../lib/rspec_shards"
+
+Dir.chdir(File.expand_path("..", __dir__)) do
+  shard = Integer(ARGV.shift || "1")
+  count = Integer(ARGV.shift || "2")
+  abort "Shard must be between 1 and #{count}" unless (1..count).cover?(shard)
+
+  runtimes = JSON.parse(File.read("config/rspec_runtimes.json"))
+  files = Dir.glob("spec/**/*_spec.rb")
+  group = RspecShards.partition(files, count: count, runtimes: runtimes).fetch(shard - 1)
+  abort "Shard contains no specs" if group.empty?
+  puts "Running shard #{shard}/#{count}: #{group.length} spec files"
+  $stdout.flush
+  exec("bundle", "exec", "rspec", *group, *ARGV)
+end

@@ -1,6 +1,7 @@
 name: Deploy Heroku app
 permissions:
   contents: read
+  packages: read
 
 on:
   workflow_call:
@@ -12,6 +13,15 @@ on:
         required: true
         type: string
       environment_label:
+        required: true
+        type: string
+      web_image:
+        required: true
+        type: string
+      worker_image:
+        required: true
+        type: string
+      release_image:
         required: true
         type: string
     secrets:
@@ -28,15 +38,41 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@1287d2b408066abada82d5ad1c63652e758428d9
+
+      - uses: docker/login-action@v3
         with:
-          fetch-depth: 0
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push the tested process images to Heroku
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_APP: ${{ inputs.heroku_app }}
+          WEB_SOURCE_IMAGE: ${{ inputs.web_image }}
+          WORKER_SOURCE_IMAGE: ${{ inputs.worker_image }}
+          RELEASE_SOURCE_IMAGE: ${{ inputs.release_image }}
+        run: |
+          printf '%s' "$HEROKU_API_KEY" | docker login --username _ --password-stdin registry.heroku.com
+          for process in web worker release; do
+            source_var="${process^^}_SOURCE_IMAGE"
+            source_image="${!source_var}"
+            destination="registry.heroku.com/${HEROKU_APP}/${process}"
+            docker pull "$source_image"
+            docker tag "$source_image" "$destination"
+            docker push "$destination"
+            image_id=$(docker inspect "$source_image" --format '{{.Id}}')
+            printf '%s_IMAGE_ID=%s\n' "${process^^}" "$image_id" >> "$GITHUB_ENV"
+          done
 
       - name: Deploy to Heroku ${{ inputs.environment_label }}
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
           HEROKU_APP: ${{ inputs.heroku_app }}
         run: |
-          git push --force https://heroku:${HEROKU_API_KEY}@git.heroku.com/${HEROKU_APP}.git HEAD:main
+          ruby bin/release-heroku-container
 
       - name: Notify Slack of ${{ inputs.environment_label }} deploy
         if: ${{ always() }}
