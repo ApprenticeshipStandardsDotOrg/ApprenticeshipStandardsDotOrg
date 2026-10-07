@@ -23,7 +23,7 @@ ARG RAILS_ENV=production
 ARG NODE_ENV=production
 
 COPY Gemfile* package.json yarn.lock $RAILS_ROOT
-RUN gem install bundler:2.3.25 \
+RUN gem install bundler:4.0.16 \
   && bundle config --local frozen 1 \
   && bundle config --local without "development test" \
   && bundle install -j4 \
