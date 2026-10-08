@@ -1,5 +1,6 @@
 require "spec_helper"
 require "webmock/rspec"
+require "zlib"
 require_relative "../../lib/heroku_container_release"
 
 RSpec.describe HerokuContainerRelease do
@@ -35,6 +36,20 @@ RSpec.describe HerokuContainerRelease do
     stub_request(:get, "#{url}/releases/new").to_return(body: pending.merge(status: "failed").to_json)
 
     expect { service.call }.to raise_error(/release v2 failed/)
+  end
+
+  it "decodes gzip release lists with Heroku pagination headers" do
+    headers = {"Content-Encoding" => "gzip", "Content-Range" => "version 1..2"}
+    stub_request(:get, "#{url}/releases").with(
+      headers: {"Range" => "version ..; max=1, order=desc"}
+    ).to_return(
+      {status: 206, headers: headers, body: Zlib.gzip([previous].to_json)},
+      {status: 206, headers: headers, body: Zlib.gzip([pending].to_json)}
+    )
+    stub_request(:get, "#{url}/releases/new").to_return(body: pending.merge(status: "succeeded").to_json)
+
+    expect(service.call.fetch("version")).to eq 2
+    expect(a_request(:patch, "#{url}/formation")).to have_been_made.once
   end
 
   it "completes a retry when the requested images are already released" do

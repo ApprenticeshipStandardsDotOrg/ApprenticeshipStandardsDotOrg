@@ -1,6 +1,8 @@
 require "json"
 require "net/http"
+require "stringio"
 require "uri"
+require "zlib"
 
 class HerokuContainerRelease
   def initialize(app:, api_key:, images:, timeout: 3600, poll_interval: 5)
@@ -71,6 +73,12 @@ class HerokuContainerRelease
     response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true, open_timeout: 30, read_timeout: 60) { |http| http.request(req) }
     raise "Heroku #{method.upcase} #{path} failed (HTTP #{response.code})" unless response.is_a?(Net::HTTPSuccess)
 
-    JSON.parse(response.body)
+    response_body = response.body
+    # Net::HTTP skips decompression for Content-Range, including Heroku's
+    # record pagination. Automatically decoded responses have this header removed.
+    if %w[gzip x-gzip].include?(response["Content-Encoding"]&.downcase)
+      response_body = Zlib::GzipReader.wrap(StringIO.new(response_body), &:read)
+    end
+    JSON.parse(response_body)
   end
 end
