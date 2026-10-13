@@ -3,6 +3,43 @@
 This report compares manually imported occupation standards against AI extraction
 from the same source PDF.
 
+## Simplified admin report
+
+The admin index's `Sample CSV Report` downloads an automatic comparison score.
+The existing detailed report remains accessible directly at
+`/admin/occupation_standards/sample_set_report.csv?full=true`, without a UI link.
+The sample report link retains the current filters and restricts results to the sample set. The rake task
+continues to generate the detailed report.
+
+The simplified CSV includes only the baseline UUID (`id`) and baseline title
+as identifying columns, followed by nine numeric scoring columns. The `title`
+column is the title match score. Baseline UUID and title are blank when no
+unambiguous baseline is available.
+
+- Title, O*NET code, RAPIDS code, source document, occupation, OJT type, and
+  registration agency: one point each when present and matching; otherwise zero.
+- Work processes and instructions: zero for missing AI content, one for present
+  but differing content, and two for matching content. Both absent earns two
+  points as not applicable.
+
+`total_percentage` is `total_points / 11 * 100`, rounded to two decimals.
+Missing successful conversions or unambiguous baselines receive zero points.
+AI-selected rows use the one non-AI standard linked to their source PDF as the
+baseline; ambiguous PDF associations are not guessed.
+
+Fuzzy title/content matching uses case-insensitive unique alphanumeric tokens
+with intersection / union similarity of at least 80%. Work-process text includes
+competencies, and instruction text includes descriptions. Counts, ordering,
+and grouping do not need to match. Codes and OJT type match after trimming and
+ignoring case; registration agency IDs match (including state). Occupation
+matches by reference ID or fuzzy title. Source-document credit requires the
+conversion to use the baseline's same attached PDF, establishing shared source
+provenance and root URL.
+
+These scores estimate agreement with stored RAPIDS/manual data. They do not
+verify PDF accuracy or resolve conflicts between the baseline and PDF, and token
+overlap cannot reliably detect every semantic difference.
+
 AI conversion uses layout-preserving `pdftotext -layout` output when the
 command is available. It falls back to `PDF::Reader` text extraction when
 `pdftotext` is unavailable or returns blank text.

@@ -102,8 +102,9 @@ RSpec.describe "admin/occupation_standards/index", :admin do
       href: sample_set_report_admin_occupation_standards_path(format: :csv, search: "sample_set:true")
     )
     expect(page).to have_selector("summary[aria-label='Sample CSV report field definitions']", text: "?")
-    expect(page).to have_selector("dt", text: "manual_wp_count", visible: :all)
-    expect(page).to have_selector("dd", text: "AI extracted work process count.", visible: :all)
+    expect(page).not_to have_link("Full CSV Report")
+    expect(page).to have_selector("dt", text: "total_percentage", visible: :all)
+    expect(page).to have_selector("dd", text: "Automatic baseline comparison, not verified PDF accuracy.", visible: :all)
 
     visit admin_occupation_standards_path(search: "source:ai_conversion")
 

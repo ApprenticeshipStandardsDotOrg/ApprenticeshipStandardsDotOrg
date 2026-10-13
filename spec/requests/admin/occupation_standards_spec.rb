@@ -66,7 +66,20 @@ RSpec.describe "Admin::OccupationStandard", type: :request do
           expect(response.body).not_to include("AI Sample")
         end
 
-        it "can generate a filtered sample set CSV report" do
+        it "defaults to the simplified filtered scoring report" do
+          standard = create(:occupation_standard, sample_set: true, source: :rapids_api)
+          create(:occupation_standard, sample_set: false, source: :rapids_api)
+          sign_in create(:admin)
+          get sample_set_report_admin_occupation_standards_path(format: :csv, search: "source:rapids_api")
+
+          csv = CSV.parse(response.body, headers: true)
+          expect(response).to be_successful
+          expect(csv.headers).to eq OccupationStandardSampleSetScoreReport::HEADERS
+          expect(csv.map { |row| row["id"] }).to eq [standard.id]
+          expect(csv.first["total_possible"]).to eq "11"
+        end
+
+        it "can generate a filtered full sample set CSV report" do
           admin = create(:admin)
           manual_converter = create(:user, email: "converter@example.com")
           oa_agency = create(:registration_agency, agency_type: :oa)
@@ -123,7 +136,7 @@ RSpec.describe "Admin::OccupationStandard", type: :request do
           create(:occupation_standard, sample_set: true, source: :ai_conversion)
 
           sign_in admin
-          get sample_set_report_admin_occupation_standards_path(format: :csv, search: "source:rapids_api")
+          get sample_set_report_admin_occupation_standards_path(format: :csv, search: "source:rapids_api", full: true)
 
           csv = CSV.parse(response.body, headers: true)
 
