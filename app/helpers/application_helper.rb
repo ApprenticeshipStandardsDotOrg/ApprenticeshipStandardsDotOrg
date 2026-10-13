@@ -60,6 +60,25 @@ module ApplicationHelper
 
   def sample_csv_report_field_definitions
     {
+      id: "RAPIDS/manual baseline UUID; blank if no unambiguous baseline is available.",
+      baseline_title: "RAPIDS/manual comparison title; blank if no unambiguous baseline is available.",
+      title: "0 or 1: title present and fuzzy matching the baseline (at least 80% token overlap).",
+      onet_code: "0 or 1: O*NET code present and matching the baseline.",
+      rapids_code: "0 or 1: RAPIDS code present and matching the baseline.",
+      source_document: "0 or 1: AI conversion uses the same attached source PDF as the baseline.",
+      occupation: "0 or 1: occupation present and matching by ID or fuzzy title.",
+      ojt_type: "0 or 1: OJT type present and matching the baseline.",
+      registration_agency: "0 or 1: registration agency and state match the baseline.",
+      work_processes: "0–2: missing, present but differing, or at least 80% token overlap across process and competency text. Counts and grouping need not match. Both absent receives 2 (not applicable).",
+      instructions: "0–2: missing, present but differing, or at least 80% token overlap across related instruction text. Counts and grouping need not match. Both absent receives 2 (not applicable).",
+      total_points: "Sum of the nine field scores. All scores are 0 when a successful conversion or unambiguous baseline is missing.",
+      total_possible: "11 possible points.",
+      total_percentage: "Total points / 11 × 100. Automatic baseline comparison, not verified PDF accuracy."
+    }
+  end
+
+  def full_sample_csv_report_field_definitions
+    {
       id: "Occupation standard ID.",
       title: "Occupation standard title.",
       state: "Registration agency state abbreviation.",

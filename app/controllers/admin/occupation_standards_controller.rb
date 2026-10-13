@@ -45,7 +45,8 @@ module Admin
 
       search_term = sample_set_report_search_term
       resources = filter_resources(OccupationStandard.all, search_term: search_term)
-      report = OccupationStandardSampleSetReport.new(resources, filters: search_term)
+      report_class = ActiveModel::Type::Boolean.new.cast(params[:full]) ? OccupationStandardSampleSetReport : OccupationStandardSampleSetScoreReport
+      report = report_class.new(resources, filters: search_term)
 
       send_data(
         report.to_csv,
