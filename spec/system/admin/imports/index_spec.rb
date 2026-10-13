@@ -42,7 +42,7 @@ RSpec.describe "admin/imports/index", :admin do
 
     it "can claim an import", js: true do
       converter = create(:user, :converter, name: "Mickey Mouse")
-      create(:imports_pdf)
+      import = create(:imports_pdf)
       create(:imports_pdf, assignee: converter)
       admin = create(:admin, name: "Amy Applebaum")
 
@@ -54,8 +54,9 @@ RSpec.describe "admin/imports/index", :admin do
 
       click_button "Claim"
 
-      expect(page).to have_text "Amy Applebaum"
+      expect(page).to have_link("Amy Applebaum", href: admin_user_path(admin))
       expect(page).to_not have_button "Claim"
+      expect(import.reload.assignee).to eq admin
     end
 
     it "allows filtering by redaction status" do
