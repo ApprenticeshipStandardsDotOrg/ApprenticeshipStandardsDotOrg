@@ -297,6 +297,14 @@ class OccupationStandard < ApplicationRecord
     source_imports.select { |import| import.respond_to?(:file) && import.file.attached? }
   end
 
+  def source_pdf_occupation_scope
+    scopes = source_imports.grep(Imports::Pdf).map(&:linked_occupation_scope)
+    return "multiple" if scopes.include?("multiple")
+    return "single" if scopes.present? && scopes.all?("single")
+
+    "unknown"
+  end
+
   def source_urls
     source_imports.filter_map do |import|
       root = import.import_root

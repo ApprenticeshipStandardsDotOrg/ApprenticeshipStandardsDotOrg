@@ -60,7 +60,9 @@ module ApplicationHelper
 
   def sample_csv_report_field_definitions
     {
-      id: "RAPIDS/manual baseline UUID; blank if no unambiguous baseline is available.",
+      id: "Production admin URL for the occupation standard in this row.",
+      registration_agency_name: "Registration agency name, for example Texas (OA).",
+      source_pdf_occupation_scope: "single or multiple based on distinct standards linked through source PDF Data Imports, excluding the AI comparison copy; unknown without linked standards. Inferred from links, not verified PDF contents.",
       baseline_title: "RAPIDS/manual comparison title; blank if no unambiguous baseline is available.",
       title: "0 or 1: title present and fuzzy matching the baseline (at least 80% token overlap).",
       onet_code: "0 or 1: O*NET code present and matching the baseline.",
