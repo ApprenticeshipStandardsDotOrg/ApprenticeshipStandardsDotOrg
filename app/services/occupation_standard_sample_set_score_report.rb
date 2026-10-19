@@ -1,5 +1,5 @@
 class OccupationStandardSampleSetScoreReport < OccupationStandardSampleSetReport
-  HEADERS = %w[id baseline_title title onet_code rapids_code source_document occupation ojt_type registration_agency work_processes instructions total_points total_possible total_percentage].freeze
+  HEADERS = %w[id baseline_title registration_agency_name source_pdf_occupation_scope title onet_code rapids_code source_document occupation ojt_type registration_agency work_processes instructions total_points total_possible total_percentage].freeze
   TOTAL_POSSIBLE = 11
   TEXT_MATCH_THRESHOLD = 0.8
 
@@ -8,6 +8,7 @@ class OccupationStandardSampleSetScoreReport < OccupationStandardSampleSetReport
     @scope = scope.includes(
       :occupation,
       open_ai_import: {occupation_standard: :occupation, import: [
+        :open_ai_import,
         {file_attachment: :blob},
         {data_imports: {occupation_standard: [:occupation, {data_imports: {import: {file_attachment: :blob}}}, {work_processes: :competencies}, :related_instructions]}}
       ]},
@@ -56,7 +57,9 @@ class OccupationStandardSampleSetScoreReport < OccupationStandardSampleSetReport
     end
 
     total = scores.sum
-    [baseline&.id, baseline&.title, *scores, total, TOTAL_POSSIBLE, (total.fdiv(TOTAL_POSSIBLE) * 100).round(2)]
+    url = Rails.application.routes.url_helpers.admin_occupation_standard_url(standard, host: "admin.apprenticeshipstandards.org", protocol: "https")
+    [url, baseline&.title, standard.registration_agency.to_s, standard.source_pdf_occupation_scope,
+      *scores, total, TOTAL_POSSIBLE, (total.fdiv(TOTAL_POSSIBLE) * 100).round(2)]
   end
 
   def field_score(expected, actual)

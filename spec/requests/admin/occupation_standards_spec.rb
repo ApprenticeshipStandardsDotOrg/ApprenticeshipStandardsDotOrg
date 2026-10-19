@@ -75,7 +75,7 @@ RSpec.describe "Admin::OccupationStandard", type: :request do
           csv = CSV.parse(response.body, headers: true)
           expect(response).to be_successful
           expect(csv.headers).to eq OccupationStandardSampleSetScoreReport::HEADERS
-          expect(csv.map { |row| row["id"] }).to eq [standard.id]
+          expect(csv.map { |row| row["id"] }).to eq ["https://admin.apprenticeshipstandards.org/admin/occupation_standards/#{standard.id}"]
           expect(csv.first["total_possible"]).to eq "11"
         end
 

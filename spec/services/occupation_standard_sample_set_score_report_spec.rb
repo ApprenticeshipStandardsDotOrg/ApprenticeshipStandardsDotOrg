@@ -28,7 +28,9 @@ RSpec.describe OccupationStandardSampleSetScoreReport do
       "relatedInstructions" => [{"title" => "Safety"}, {"title" => "Procedures"}])
 
     row = report_row(baseline)
-    expect(row["id"]).to eq baseline.id
+    expect(row["id"]).to eq "https://admin.apprenticeshipstandards.org/admin/occupation_standards/#{baseline.id}"
+    expect(row["registration_agency_name"]).to eq baseline.registration_agency.to_s
+    expect(row["source_pdf_occupation_scope"]).to eq "single"
     expect(row["baseline_title"]).to eq baseline.title
     expect(row.headers).not_to include("ai_id", "ai_title")
     expect(row["title"]).to eq "1"
@@ -62,7 +64,7 @@ RSpec.describe OccupationStandardSampleSetScoreReport do
 
   it "compares an AI-selected row against its source baseline" do
     convert
-    expect(report_row(actual)["id"]).to eq baseline.id
+    expect(report_row(actual)["id"]).to eq "https://admin.apprenticeshipstandards.org/admin/occupation_standards/#{actual.id}"
     expect(report_row(actual)["baseline_title"]).to eq baseline.title
     expect(report_row(actual)["total_points"]).to eq "11"
   end
@@ -70,8 +72,17 @@ RSpec.describe OccupationStandardSampleSetScoreReport do
   it "does not compare an AI row against itself or choose an ambiguous baseline" do
     convert
     create(:data_import, import: baseline.data_imports.first.import, occupation_standard: create(:occupation_standard))
-    expect(report_row(actual)["id"]).to be_nil
+    expect(report_row(actual)["source_pdf_occupation_scope"]).to eq "multiple"
     expect(report_row(actual)["total_points"]).to eq "0"
+  end
+
+  it "reports unknown when no PDF provenance is available" do
+    expect(report_row(create(:occupation_standard))["source_pdf_occupation_scope"]).to eq "unknown"
+  end
+
+  it "does not count repeated data imports as additional occupations" do
+    create(:data_import, import: baseline.data_imports.first.import, occupation_standard: baseline)
+    expect(report_row(baseline)["source_pdf_occupation_scope"]).to eq "single"
   end
 
   it "includes competencies regardless of process boundaries" do

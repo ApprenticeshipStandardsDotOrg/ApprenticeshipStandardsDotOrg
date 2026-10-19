@@ -75,6 +75,15 @@ module Imports
       (data_import_occupation_standards.to_a + [open_ai_import&.occupation_standard]).compact.uniq
     end
 
+    # Linked manual standards describe document coverage; the AI comparison copy
+    # does not represent an additional occupation. This is not PDF verification.
+    def linked_occupation_scope
+      ids = data_imports.filter_map(&:occupation_standard_id).uniq - [open_ai_import&.occupation_standard_id]
+      return "unknown" if ids.empty?
+
+      (ids.length > 1) ? "multiple" : "single"
+    end
+
     # For Administrate
     def import
     end
