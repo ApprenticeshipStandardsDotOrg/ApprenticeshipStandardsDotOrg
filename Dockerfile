@@ -14,7 +14,7 @@ RUN install -d /etc/apt/keyrings \
   && apt-get update -yqq \
   && apt-get install -yqq --no-install-recommends \
     google-chrome-stable libreoffice \
-    postgresql-client shared-mime-info tzdata \
+    postgresql-client shared-mime-info tzdata poppler-utils \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
