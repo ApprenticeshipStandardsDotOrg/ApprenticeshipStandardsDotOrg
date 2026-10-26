@@ -26,6 +26,7 @@ class ImportDashboard < Administrate::BaseDashboard
     parent: Field::Polymorphic,
     processed_at: Field::DateTime,
     processing_errors: Field::Text,
+    ai_conversion_errors: Field::Text,
     public_document: Field::Boolean,
     redacted_pdf: Field::ActiveStorage.with_options(
       destroy_url: proc do |namespace, resource, attachment|
@@ -72,6 +73,7 @@ class ImportDashboard < Administrate::BaseDashboard
     redacted_pdf_url
     processed_at
     processing_errors
+    ai_conversion_errors
     courtesy_notification
     parent
     cousins

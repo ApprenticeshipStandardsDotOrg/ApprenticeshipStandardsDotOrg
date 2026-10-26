@@ -72,7 +72,7 @@ class OccupationStandardSampleSetReport
         :open_ai_import,
         data_imports: [
           :user,
-          {import: [:open_ai_import, :data_imports]}
+          {import: [:open_ai_import, :data_imports, {open_ai_imports: :occupation_standard}]}
         ],
         registration_agency: :state,
         related_instructions: [],
@@ -226,7 +226,7 @@ class OccupationStandardSampleSetReport
 
   def open_ai_import_for(occupation_standard)
     occupation_standard.open_ai_import ||
-      occupation_standard.source_imports.filter_map(&:open_ai_import).max_by(&:created_at)
+      occupation_standard.source_imports.filter_map { |source| source.ai_import_for(occupation_standard) }.max_by(&:created_at)
   end
 
   def baseline_success_score(occupation_standard, baseline_candidate, manual, ai)

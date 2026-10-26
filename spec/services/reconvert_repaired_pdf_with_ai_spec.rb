@@ -58,8 +58,8 @@ RSpec.describe ReconvertRepairedPdfWithAI do
 
     expect { expect(convert.created).to be true }.to change(OccupationStandard, :count).by(1)
 
-    expect(attempt.reload.occupation_standard).to be_source_ai_conversion
-    expect(attempt.extraction_errors).to be_empty
+    expect(pdf.reload.open_ai_import.occupation_standard).to be_source_ai_conversion
+    expect(pdf.open_ai_import.extraction_errors).to be_empty
   end
 
   it "rejects manual standards and changed RAPIDS identity" do

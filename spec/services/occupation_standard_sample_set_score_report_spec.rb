@@ -80,6 +80,24 @@ RSpec.describe OccupationStandardSampleSetScoreReport do
     expect(report_row(create(:occupation_standard))["source_pdf_occupation_scope"]).to eq "unknown"
   end
 
+  it "scores the matching occupation when a source PDF produced several AI standards" do
+    other = create(:occupation_standard, source: :ai_conversion, title: "Electrician", rapids_code: "0159")
+    create(:open_ai_import, import: baseline.data_imports.first.import, occupation_standard: other,
+      parsed_response: {"documentOccupationCount" => 2, "singleOccupation" => false})
+    convert("documentOccupationCount" => 2, "singleOccupation" => false)
+
+    expect(report_row(baseline)["total_points"]).to eq "11"
+  end
+
+  it "finds the matching baseline for an AI occupation in a multi-standard document" do
+    convert("documentOccupationCount" => 2, "singleOccupation" => false)
+    second_baseline = create(:occupation_standard, source: :rapids_api, title: "Electrician", rapids_code: "0159")
+    create(:data_import, import: baseline.data_imports.first.import, occupation_standard: second_baseline)
+
+    expect(report_row(actual)["baseline_title"]).to eq baseline.title
+    expect(report_row(actual)["total_points"]).to eq "11"
+  end
+
   it "does not count repeated data imports as additional occupations" do
     create(:data_import, import: baseline.data_imports.first.import, occupation_standard: baseline)
     expect(report_row(baseline)["source_pdf_occupation_scope"]).to eq "single"

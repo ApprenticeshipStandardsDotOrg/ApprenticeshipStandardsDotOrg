@@ -4,7 +4,7 @@ module Admin
 
     def new
       if @open_ai_import.present?
-        occupation_standard_response = JSON.parse(@open_ai_import.response)
+        occupation_standard_response = @open_ai_import.parsed_response.presence || JSON.parse(@open_ai_import.response)
         occupation_standard = OccupationStandard.from_json(occupation_standard_response)
 
         occupation_standard.open_ai_response = @open_ai_import.response
@@ -57,6 +57,7 @@ module Admin
 
     def scoped_resource
       import_preloads = [
+        :open_ai_imports,
         {file_attachment: :blob},
         {parent: {parent: {parent: {parent: :parent}}}}
       ]

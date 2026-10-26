@@ -72,7 +72,7 @@ class PopulateNofOccupationStandards
       return entry(row, "no_pdf", "Reimporting the bulletin did not produce a PDF leaf") if pdfs.empty?
     end
 
-    eligible_pdfs = pdfs.reject { |pdf| pdf.open_ai_import&.occupation_standard_id.present? }
+    eligible_pdfs = pdfs.reject(&:ai_conversion_complete?)
     if eligible_pdfs.empty?
       return entry(
         row,
@@ -89,7 +89,7 @@ class PopulateNofOccupationStandards
       PdfReaderJob.perform_later(
         import_id: pdf.id,
         open_ai_prompt: OpenAIPrompt.default,
-        force: pdf.open_ai_import.present?
+        force: pdf.open_ai_imports.any?
       )
     end
     entry(row, "enqueued", "Enqueued #{eligible_pdfs.length} source PDF(s)")
@@ -112,7 +112,7 @@ class PopulateNofOccupationStandards
 
   def pdfs_for(roots)
     roots.sort_by(&:created_at).reverse_each do |root|
-      pdfs = Imports::Pdf.where(id: descendant_ids(root)).includes(:open_ai_import).to_a
+      pdfs = Imports::Pdf.where(id: descendant_ids(root)).includes(:open_ai_import, :open_ai_imports).to_a
       return pdfs if pdfs.any?
     end
 

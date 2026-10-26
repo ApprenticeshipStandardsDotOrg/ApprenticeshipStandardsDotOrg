@@ -12,7 +12,7 @@
 /tmp/*
 !/log/.keep
 !/tmp/.keep
-/occupation-standard*.csv
+/*.csv
 /*.xlsx
 
 # Ignore pidfiles, but keep the directory.

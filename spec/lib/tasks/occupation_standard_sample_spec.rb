@@ -7,14 +7,31 @@ RSpec.describe "occupation_standards rake tasks" do
     Rake::Task["occupation_standards:enqueue_sample_ai_conversions"].reenable
     Rake::Task["occupation_standards:reset_sample_ai_conversions"].reenable
     Rake::Task["occupation_standards:sample_set_report"].reenable
+    Rake::Task["occupation_standards:sample_set_score_report"].reenable
   end
 
   after do
     ENV.delete("COUNT")
     ENV.delete("BASELINE_ONLY")
+    ENV.delete("FORCE")
   end
 
   describe "occupation_standards:enqueue_sample_ai_conversions" do
+    it "can refresh previously converted sample PDFs explicitly without deleting their standards" do
+      prompt = create(:open_ai_prompt, default: true)
+      baseline = create(:occupation_standard, sample_set: true)
+      pdf = create(:imports_pdf)
+      create(:data_import, import: pdf, occupation_standard: baseline)
+      attempt = create(:open_ai_import, import: pdf)
+      ENV["FORCE"] = "true"
+      allow(PdfReaderJob).to receive(:perform_later)
+
+      expect { Rake::Task["occupation_standards:enqueue_sample_ai_conversions"].invoke }.not_to change(OccupationStandard, :count)
+
+      expect(PdfReaderJob).to have_received(:perform_later).with(import_id: pdf.id, open_ai_prompt: prompt, force: true)
+      expect(attempt.reload).to be_persisted
+    end
+
     it "enqueues conversion jobs for sample source PDFs without AI conversions" do
       open_ai_prompt = create(:open_ai_prompt, default: true)
       sample_standard = create(:occupation_standard, sample_set: true)
@@ -85,6 +102,23 @@ RSpec.describe "occupation_standards rake tasks" do
         open_ai_prompt: OpenAIPrompt.default,
         force: false
       )
+    end
+  end
+
+  describe "occupation_standards:sample_set_score_report" do
+    it "exports the unchanged eleven-point score format" do
+      baseline = create(:occupation_standard, :with_data_import, sample_set: true)
+      Dir.mktmpdir do |directory|
+        path = File.join(directory, "scores.csv")
+
+        Rake::Task["occupation_standards:sample_set_score_report"].invoke(path)
+
+        rows = CSV.read(path, headers: true)
+        expect(rows.size).to eq 1
+        expect(rows.headers.last).to eq "total_percentage"
+        expect(rows.first["id"]).to end_with baseline.id
+        expect(rows.first["total_possible"]).to eq "11"
+      end
     end
   end
 
