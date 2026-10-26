@@ -132,6 +132,14 @@ If you are using a docker image of  Elasticsearch you can start it with `docker 
 
 [ES-documentation]: https://www.elastic.co/guide/en/elasticsearch/reference/8.10/install-elasticsearch.html
 
+### After pulling the production database
+
+`bin/pull_production_database` restores PostgreSQL and then automatically restores
+synonym rules and rebuilds both development Elasticsearch indexes. Keep local
+Elasticsearch running before starting the pull. See [the development Elasticsearch
+rebuild guide](docs/development-elasticsearch.md) for verification and the manual
+retry command if search rebuilding fails after the database restore.
+
 ### Kibana setup
 If you are working on any tasks related to Elasticsearch, then it may be helpful
 to set up [Kibana][kibana].

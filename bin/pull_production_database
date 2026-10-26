@@ -2,6 +2,7 @@
 
 require "fileutils"
 require "shellwords"
+require "etc"
 
 APP_ROOT = File.expand_path("..", __dir__)
 
@@ -9,9 +10,9 @@ HEROKU_APP = "apprenticeship-standards-dot-o"
 DATABASE = "apprenticeship_standards_development"
 DUMP_PATH = File.join(APP_ROOT, "tmp", "heroku", "latest.dump")
 
-def system!(*command)
+def system!(*command, env: {}, **options)
   puts "\n==> #{command.shelljoin}"
-  system(*command, exception: true)
+  system(env, *command, exception: true, **options)
 end
 
 puts "Heroku app: #{HEROKU_APP}"
@@ -67,4 +68,26 @@ post_restore_commands.each do |command|
   system!("psql", "--quiet", "--no-psqlrc", "--dbname", DATABASE, "--command", command)
 end
 
-puts "\nDone. #{DATABASE} has been restored from #{HEROKU_APP}."
+puts "\n#{DATABASE} has been restored. Rebuilding development Elasticsearch..."
+
+reindex_environment = {
+  "RAILS_ENV" => "development",
+  "POSTGRES_DB" => DATABASE,
+  "POSTGRES_USER" => ENV["POSTGRES_USER"] || ENV["PGUSER"] || Etc.getpwuid.name
+}
+
+begin
+  system!(
+    "bundle", "exec", "rails", "development:reindex",
+    env: reindex_environment,
+    chdir: APP_ROOT
+  )
+rescue => error
+  warn "The database restore succeeded, but Elasticsearch rebuilding failed: #{error.message}"
+  retry_environment = reindex_environment.map { |key, value| "#{key}=#{Shellwords.escape(value)}" }.join(" ")
+  warn "Fix Elasticsearch, then retry with #{retry_environment} bundle exec rails development:reindex."
+  warn "The database pull does not need to be repeated."
+  exit 1
+end
+
+puts "\nDone. #{DATABASE} has been restored from #{HEROKU_APP} and development search rebuilt."

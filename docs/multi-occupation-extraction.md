@@ -25,6 +25,11 @@ PDF. Its eleven-point scoring rules and thresholds are unchanged. Matching may
 normalize RAPIDS suffixes and recognize unique title aliases for selection; that
 does not change extracted codes or award extra score points.
 
+For the complete production runbook, see
+[rerunning AI conversions for the existing sample](ai_sample_set_report.md#rerunning-ai-conversions-for-the-existing-sample).
+It covers prompt activation, preview, canary, full refresh, Sidekiq completion,
+and exporting the new accuracy CSV.
+
 To activate the code-defined prompt in a deployed environment, use the existing
 prompt task. Updating the Ruby constant alone does not change the editable
 database default:
@@ -36,13 +41,13 @@ bundle exec rails open_ai_prompts:create_default
 Preview a sample refresh before enqueueing it:
 
 ```sh
-FORCE=true DRY_RUN=true bundle exec rails occupation_standards:enqueue_sample_ai_conversions
-FORCE=true COUNT=1 bundle exec rails occupation_standards:enqueue_sample_ai_conversions
+FORCE=true DRY_RUN=true COUNT=0 BASELINE_ONLY=false bundle exec rails occupation_standards:enqueue_sample_ai_conversions
+FORCE=true DRY_RUN=false COUNT=1 BASELINE_ONLY=false bundle exec rails occupation_standards:enqueue_sample_ai_conversions
 ```
 
 Review the canary against the actual source, including agency/state, OJT type and
-hours, occupation boundaries, processes, competencies, and instruction. Then omit
-COUNT to refresh all PDFs in the current sample. Run Sidekiq with the deployed
+hours, occupation boundaries, processes, competencies, and instruction. Then set
+COUNT=0 to refresh all PDFs in the current sample. Run Sidekiq with the deployed
 code/default prompt. This refresh path preserves AI standard UUIDs; do not use the
 destructive sample reset task for routine prompt evaluation.
 
