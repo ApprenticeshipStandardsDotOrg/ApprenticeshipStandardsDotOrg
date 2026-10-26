@@ -9,10 +9,12 @@ class OccupationStandardSampleSetScoreReport < OccupationStandardSampleSetReport
       :occupation,
       open_ai_import: {occupation_standard: :occupation, import: [
         :open_ai_import,
+        {open_ai_imports: :occupation_standard},
         {file_attachment: :blob},
         {data_imports: {occupation_standard: [:occupation, {data_imports: {import: {file_attachment: :blob}}}, {work_processes: :competencies}, :related_instructions]}}
       ]},
-      data_imports: {import: [{file_attachment: :blob}, {open_ai_import: {occupation_standard: [:occupation, :registration_agency]}}]}
+      data_imports: {import: [{file_attachment: :blob}, {open_ai_import: {occupation_standard: [:occupation, :registration_agency]}},
+        {open_ai_imports: {occupation_standard: [:occupation, :registration_agency]}}]}
     )
   end
 
@@ -32,7 +34,12 @@ class OccupationStandardSampleSetScoreReport < OccupationStandardSampleSetReport
     actual = conversion&.occupation_standard
     baseline = if standard.source_ai_conversion?
       candidates = conversion&.import&.data_imports&.filter_map(&:occupation_standard)&.reject(&:source_ai_conversion?)&.uniq || []
-      candidates.first if candidates.length == 1
+      if candidates.length == 1
+        candidates.first
+      else
+        matches = candidates.select { |candidate| conversion.import.ai_import_for(candidate)&.occupation_standard_id == actual&.id }
+        matches.first if matches.one?
+      end
     else
       standard
     end

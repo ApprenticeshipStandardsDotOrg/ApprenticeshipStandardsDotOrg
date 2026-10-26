@@ -26,7 +26,8 @@ namespace :occupation_standards do
   desc "Enqueue AI conversion jobs for selected sample set source PDFs. Usage: bin/rails occupation_standards:enqueue_sample_ai_conversions"
   task enqueue_sample_ai_conversions: :environment do
     dry_run = ActiveModel::Type::Boolean.new.cast(ENV.fetch("DRY_RUN", false))
-    pdfs = sample_source_pdfs_without_ai_conversion
+    force = ActiveModel::Type::Boolean.new.cast(ENV.fetch("FORCE", false))
+    pdfs = force ? Imports::Pdf.where(id: sample_source_pdf_ids) : sample_source_pdfs_without_ai_conversion
 
     puts "Dry run: #{dry_run}"
     puts "Baseline only: #{baseline_only?}"
@@ -40,7 +41,7 @@ namespace :occupation_standards do
         PdfReaderJob.perform_later(
           import_id: pdf.id,
           open_ai_prompt: OpenAIPrompt.default,
-          force: false
+          force: force
         )
         puts "Enqueued #{pdf.id}"
       end
@@ -87,6 +88,19 @@ namespace :occupation_standards do
       File.write(path, csv)
 
       puts "Wrote #{scope.count} sample set rows to #{path}"
+    end
+  end
+
+  desc "Write the eleven-point sample accuracy CSV. Usage: bin/rails 'occupation_standards:sample_set_score_report[tmp/sample-scores.csv]'"
+  task :sample_set_score_report, [:path] => :environment do |_task, args|
+    path = args[:path].presence || Rails.root.join("tmp", "occupation-standards-sample-scores-#{Time.zone.today}.csv")
+    scope = sample_occupation_standards
+    csv = OccupationStandardSampleSetScoreReport.new(scope, filters: "sample_set:true").to_csv
+    if path.to_s == "-"
+      print csv
+    else
+      File.write(path, csv)
+      puts "Wrote #{scope.count} sample score rows to #{path}"
     end
   end
 

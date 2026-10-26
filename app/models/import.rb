@@ -14,6 +14,7 @@ class Import < ApplicationRecord
   # association is needed for all types due to limitation of Administrate
   has_many :imports, -> { none }
   has_one :open_ai_import
+  has_many :open_ai_imports
 
   enum :status, [
     :pending,
@@ -56,7 +57,22 @@ class Import < ApplicationRecord
 
   def has_occupation_standard
     data_imports.any? { |data_import| data_import.occupation_standard_id.present? } ||
-      open_ai_import&.occupation_standard_id.present?
+      open_ai_imports.any? { |attempt| attempt.occupation_standard_id.present? }
+  end
+
+  def ai_import_for(standard)
+    MatchAIOccupation.call(open_ai_imports.select { |attempt| attempt.extraction_errors.empty? }, standard)
+  end
+
+  def ai_conversion_complete?
+    open_ai_imports.any? && open_ai_imports.all? { |attempt| attempt.occupation_standard_id.present? && attempt.extraction_errors.empty? }
+  end
+
+  def ai_conversion_errors
+    open_ai_imports.flat_map do |attempt|
+      title = attempt.parsed_response["title"].presence || "Document"
+      attempt.extraction_errors.map { |error| "#{title}: #{error}" }
+    end.join("\n")
   end
 
   def redacted_pdf

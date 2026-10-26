@@ -2,6 +2,16 @@ require "rails_helper"
 
 RSpec.describe PdfReaderJob do
   describe "#perform" do
+    it "logs stored validation failures while completing the job" do
+      pdf = create(:imports_pdf)
+      prompt = create(:open_ai_prompt)
+      result = ConvertPdfImportWithAI::Result.new(open_ai_import: nil, occupation_standard: nil, created: false, errors: ["Nurse: missing OJT type"])
+      allow(ConvertPdfImportWithAI).to receive(:new).and_return(instance_double(ConvertPdfImportWithAI, call: result))
+      expect(Rails.logger).to receive(:warn).with("AI conversion for import #{pdf.id}: Nurse: missing OJT type")
+
+      expect(described_class.new.perform(import_id: pdf.id, open_ai_prompt: prompt)).to eq result
+    end
+
     it "returns an array of templates with ChatGPT responses" do
       user = create(:user)
       pdf = create(:imports_pdf, assignee: user)

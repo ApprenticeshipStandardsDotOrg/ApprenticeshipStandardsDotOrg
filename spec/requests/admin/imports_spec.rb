@@ -219,6 +219,23 @@ RSpec.describe "Admin::Imports", type: :request do
 
   describe "GET /show", :admin do
     context "when admin" do
+      it "shows every AI occupation and per-occupation validation errors" do
+        admin = create(:admin)
+        pdf = create(:imports_pdf)
+        first = create(:occupation_standard, title: "Welder")
+        second = create(:occupation_standard, title: "Electrician")
+        create(:open_ai_import, import: pdf, occupation_standard: first)
+        create(:open_ai_import, import: pdf, occupation_standard: second)
+        create(:open_ai_import, import: pdf, occupation_standard: nil,
+          parsed_response: {"title" => "Nurse"}, extraction_errors: ["Could not extract OJT type"])
+
+        sign_in admin
+        get admin_import_path(pdf)
+
+        expect(response).to be_successful
+        expect(response.body).to include("Welder", "Electrician", "Nurse: Could not extract OJT type")
+      end
+
       it "returns http success" do
         admin = create(:admin)
         import = create(:imports_uncategorized)

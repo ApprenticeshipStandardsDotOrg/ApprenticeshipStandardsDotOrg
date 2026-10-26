@@ -145,7 +145,7 @@ class OccupationStandardsController < ApplicationController
   end
 
   def source_import_parent_preloads
-    {parent: {parent: {parent: {parent: :parent}}}}
+    [:open_ai_imports, {parent: {parent: {parent: {parent: :parent}}}}]
   end
 
   def enqueue_working_copy

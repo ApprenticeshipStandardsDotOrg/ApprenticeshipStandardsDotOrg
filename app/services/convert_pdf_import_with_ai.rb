@@ -1,5 +1,9 @@
 class ConvertPdfImportWithAI
-  Result = Data.define(:open_ai_import, :occupation_standard, :created, :errors)
+  Result = Data.define(:open_ai_import, :occupation_standard, :created, :errors) do
+    def occupation_standards
+      open_ai_import&.import&.open_ai_imports&.select { |attempt| attempt.extraction_errors.empty? }&.filter_map(&:occupation_standard)&.uniq || []
+    end
+  end
 
   def initialize(import:, open_ai_prompt: OpenAIPrompt.default, force: false)
     @import = import
@@ -8,48 +12,14 @@ class ConvertPdfImportWithAI
   end
 
   def call
-    clear_failed_attempt if force
-    return existing_result if import.open_ai_import
+    return existing_result if !force && import.open_ai_imports.any?
 
+    source_blob_id = import.file.blob.id
     raw_response = generate_response
     parsed_response = parse_response(raw_response)
-    occupation_standard = build_occupation_standard(parsed_response)
-    errors = extraction_errors(parsed_response, occupation_standard)
-
-    OpenAIImport.transaction do
-      open_ai_import = OpenAIImport.create!(
-        import: import,
-        response: raw_response,
-        parsed_response: parsed_response,
-        extraction_errors: errors
-      )
-
-      if errors.empty?
-        occupation_standard.save!
-        open_ai_import.update!(occupation_standard: occupation_standard)
-        import.archived!
-      end
-
-      Result.new(
-        open_ai_import: open_ai_import,
-        occupation_standard: open_ai_import.occupation_standard,
-        created: errors.empty?,
-        errors: errors
-      )
-    end
+    persist_document(raw_response, parsed_response, source_blob_id)
   rescue JSON::ParserError => error
-    open_ai_import = OpenAIImport.create!(
-      import: import,
-      response: raw_response.presence || "{}",
-      extraction_errors: ["OpenAI response was not valid JSON: #{error.message}"]
-    )
-
-    Result.new(
-      open_ai_import: open_ai_import,
-      occupation_standard: nil,
-      created: false,
-      errors: open_ai_import.extraction_errors
-    )
+    store_document_error(raw_response, {}, ["OpenAI response was not valid JSON: #{error.message}"])
   end
 
   private
@@ -57,16 +27,101 @@ class ConvertPdfImportWithAI
   attr_reader :import, :open_ai_prompt, :force
 
   def clear_failed_attempt
-    return unless import.open_ai_import&.occupation_standard_id.blank?
-
-    import.open_ai_import.destroy!
+    import.open_ai_imports.where(occupation_standard_id: nil).destroy_all
     import.reload
   end
 
+  def persist_document(raw_response, response, source_blob_id)
+    return store_document_error(raw_response, {}, ["OpenAI response must be a JSON object"]) unless response.is_a?(Hash)
+
+    entries = response["occupations"]
+    if response.key?("occupations") && (!entries.is_a?(Array) || entries.empty? || entries.any? { |entry| !entry.is_a?(Hash) })
+      return store_document_error(raw_response, response, ["occupations must contain complete occupation objects"])
+    end
+    separated = entries.is_a?(Array)
+    entries ||= [response]
+    import.with_lock do
+      raise "PDF changed during conversion" unless import.file.blob.id == source_blob_id
+
+      return existing_result if !force && import.open_ai_imports.any?
+
+      clear_failed_attempt if force
+      existing = import.open_ai_imports.includes(:occupation_standard).to_a
+      attempts = []
+      errors = []
+      identities = []
+      entries.each do |entry|
+        occupation_response = separated ? separate_response(response, entry) : entry
+        candidate = build_occupation_standard(occupation_response)
+        entry_errors = extraction_errors(occupation_response, candidate, separated: separated)
+        identity = [MatchAIOccupation.normalize_code(candidate.rapids_code), MatchAIOccupation.normalize_title(candidate.title),
+          entry["appendixLabel"], candidate.organization&.title, candidate.registration_agency_id]
+        entry_errors << "Duplicate occupation section" if separated && identities.include?(identity)
+        identities << identity
+        matched = MatchAIOccupation.call(existing.reject { |attempt| attempts.include?(attempt) }, candidate, allow_single_fallback: false, occupation_response: occupation_response)
+        linked = existing.select { |attempt| attempt.occupation_standard_id.present? }
+        if entries.one? && linked.one? && !matched && candidate.rapids_code.present? && linked.first.occupation_standard.rapids_code.present?
+          entry_errors << "Extracted RAPIDS code differs from the existing AI standard"
+          matched = linked.first
+        end
+        if matched && candidate.rapids_code.present? && matched.occupation_standard.rapids_code.present? &&
+            MatchAIOccupation.normalize_code(candidate.rapids_code)[/\A\d+/] != MatchAIOccupation.normalize_code(matched.occupation_standard.rapids_code)[/\A\d+/] &&
+            MatchAIOccupation.normalize_title(candidate.title) != MatchAIOccupation.normalize_title(matched.occupation_standard.title)
+          entry_errors << "Extracted RAPIDS code differs from the existing AI standard" unless entry_errors.include?("Extracted RAPIDS code differs from the existing AI standard")
+        end
+        attempt = matched || OpenAIImport.new(import: import)
+        attempt.update!(response: raw_response, parsed_response: occupation_response, extraction_errors: entry_errors)
+        PersistAIOccupation.call(attempt: attempt, candidate: candidate) if entry_errors.empty?
+        attempts << attempt
+        errors.concat(entry_errors.map { |error| separated ? "#{candidate.title.presence || "Occupation #{attempts.size}"}: #{error}" : error })
+      end
+      declared_count = integer_value(response, "documentOccupationCount")
+      if separated && declared_count && declared_count != entries.size
+        message = "Occupation inventory/extraction count mismatch: expected #{declared_count}, received #{entries.size}"
+        attempts << OpenAIImport.create!(import: import, response: raw_response, parsed_response: response, extraction_errors: [message])
+        errors << message
+      end
+      (existing - attempts).each do |attempt|
+        next unless attempt.occupation_standard_id
+
+        message = "Previously converted occupation was not found in the latest extraction"
+        attempt.update!(extraction_errors: [message])
+        errors << "#{attempt.occupation_standard.title}: #{message}"
+      end
+      standard = attempts.filter_map(&:occupation_standard).first
+      if errors.empty?
+        import.archived!
+      elsif standard
+        import.needs_human_review!
+      end
+      Result.new(open_ai_import: attempts.first, occupation_standard: standard, created: errors.empty?, errors: errors)
+    end
+  end
+
+  def separate_response(document, entry)
+    shared_keys = %w[organization registrationAgency state registrationAgencyType registrationState nationalStandardType registrationDate]
+    document.slice(*shared_keys).merge(entry).merge(
+      "documentOccupationCount" => document["documentOccupationCount"] || document["occupations"].size,
+      "singleOccupation" => document["occupations"].one?,
+      "selectedOccupationTitle" => entry["title"],
+      "extractionWarnings" => (Array(document["extractionWarnings"]) + Array(entry["extractionWarnings"])).uniq,
+      "occupationInventory" => [entry.slice("title", "existingTitle", "onetCode", "rapidsCode", "ojtType", "appendixLabel", "pageNumbers")]
+    )
+  end
+
+  def store_document_error(raw_response, response, errors)
+    import.with_lock do
+      attempt = import.open_ai_imports.first || OpenAIImport.new(import: import)
+      attempt.update!(response: raw_response.presence || "{}", parsed_response: response, extraction_errors: errors)
+      Result.new(open_ai_import: attempt, occupation_standard: attempt.occupation_standard, created: false, errors: errors)
+    end
+  end
+
   def existing_result
+    attempt = import.open_ai_imports.detect { |record| record.occupation_standard_id.present? && record.extraction_errors.empty? } || import.open_ai_imports.first
     Result.new(
-      open_ai_import: import.open_ai_import,
-      occupation_standard: import.open_ai_import.occupation_standard,
+      open_ai_import: attempt,
+      occupation_standard: attempt&.occupation_standard,
       created: false,
       errors: ["Import has already been converted with AI"]
     )
@@ -103,9 +158,9 @@ class ConvertPdfImportWithAI
     )
   end
 
-  def extraction_errors(response, occupation_standard)
+  def extraction_errors(response, occupation_standard, separated: false)
     errors = []
-    errors << "PDF appears to contain multiple occupations" if multiple_occupations?(response)
+    errors << "PDF appears to contain multiple occupations" if !separated && multiple_occupations?(response)
     errors << "Could not extract title" if occupation_standard.title.blank?
     errors << "Could not extract OJT type" if occupation_standard.ojt_type.blank?
     errors << registration_agency_error(response) if occupation_standard.registration_agency.blank?

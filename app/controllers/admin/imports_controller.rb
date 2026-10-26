@@ -8,6 +8,7 @@ module Admin
       end
       scope.preload(
         :open_ai_import,
+        {open_ai_imports: :occupation_standard},
         :data_imports,
         file_attachment: :blob,
         parent: {
@@ -30,7 +31,8 @@ module Admin
     def convert_with_ai
       authorize requested_resource
 
-      if requested_resource.open_ai_import&.occupation_standard.present?
+      attempts = requested_resource.open_ai_imports
+      if requested_resource.ai_conversion_complete?
         redirect_to(
           admin_import_path(requested_resource),
           alert: existing_open_ai_import_message(requested_resource.open_ai_import)
@@ -41,7 +43,7 @@ module Admin
       PdfReaderJob.perform_later(
         import_id: params[:id],
         open_ai_prompt: OpenAIPrompt.default,
-        force: requested_resource.open_ai_import.present?
+        force: attempts.any?
       )
 
       redirect_to admin_imports_path, notice: "Started AI conversion."

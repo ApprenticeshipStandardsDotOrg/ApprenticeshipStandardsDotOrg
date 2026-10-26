@@ -116,7 +116,9 @@ Production rollout:
    AI standard when the new extraction passes validation. Manual standards are
    never overwritten.
 
-   Multi-occupation documents, changed RAPIDS identity, and invalid responses
+   Multi-occupation documents now produce separate occupation results; see
+   [multi-occupation extraction](multi-occupation-extraction.md). Ambiguous
+   identities, incomplete occupation sets, and invalid individual responses
    remain review cases. The latest response/errors are stored on `OpenAIImport`;
    a failed refresh keeps the prior standard data. Do not delete those standards
    or force a multi-occupation document into a single occupation. The task exits
