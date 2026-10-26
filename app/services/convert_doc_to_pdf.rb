@@ -24,7 +24,7 @@ class ConvertDocToPdf
       run_command!(
         "soffice --headless --convert-to pdf #{file.path} --outdir #{dir}"
       )
-      pdf_filename(dir, file)
+      AppendEmbeddedDocumentsToPdf.call(source_path: file.path, pdf_path: pdf_filename(dir, file))
     end
   end
 
