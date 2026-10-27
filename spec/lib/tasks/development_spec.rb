@@ -8,6 +8,8 @@ RSpec.describe "development:reindex" do
   let(:client) { double("Elasticsearch client", synonyms: synonyms_client) }
 
   before do
+    # CI seeds a UX synonym before the suite; isolate each example's rules.
+    Synonym.delete_all
     task.reenable
     allow(Elasticsearch::Model).to receive(:client).and_return(client)
   end

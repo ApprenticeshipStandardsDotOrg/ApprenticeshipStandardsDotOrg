@@ -148,6 +148,7 @@ Shared application hosts:
 - The local PostgreSQL role commonly needs `POSTGRES_USER=ck`, for example: `POSTGRES_USER=ck bundle exec rspec path/to/spec.rb`.
 - Elasticsearch should be running for search/system specs. Do not assume a container is required if the host service is available.
 - Run `bundle exec standardrb <changed Ruby files>` and relevant specs. ERB uses `bundle exec erb_lint`.
+- CI runs `after_party:generate_synonym_set` before RSpec, leaving a persisted UX synonym. Specs that need an exact or empty synonym table must isolate their rows inside the example transaction rather than assume an empty database.
 - Use Rails models/services and transactions for data repair. Default to a dry run, print counts and reasons, make targeting explicit, and make production tasks idempotent.
 - Never commit exports, production data, credentials, signed object-storage URLs, app names the user considers sensitive, or files under `tmp/`.
 - For factual questions about existing behavior, inspect and explain first; do not change code unless asked.
