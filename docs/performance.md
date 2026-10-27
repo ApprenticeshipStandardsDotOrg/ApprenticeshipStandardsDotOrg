@@ -47,7 +47,7 @@ Use example IDs rather than definition locations: shared examples and Swagger
 examples can have definition locations outside their owning spec file.
 
 Deployment builds the application once with BuildKit's GitHub Actions cache and
-publishes web, worker, and release images to GHCR. The images share application
+publishes web, worker, aiworker, and release images to GHCR. The images share application
 layers and differ in their commands. Staging and production receive the same
 digest-pinned images through Heroku Container Registry. The release image runs
 migrations and After Party tasks; the workflow waits for the release phase to
@@ -64,7 +64,8 @@ The Dockerfile shares runtime package installation across stages, copies a
 pinned Node/Yarn installation from the Node image, and installs Ruby dependencies
 before copying JavaScript lockfiles. `.dockerignore` allows only production
 inputs. Node modules are cached during asset building and excluded from the
-runtime image. Worker concurrency stays at three.
+runtime image. General worker concurrency stays at three. The dedicated AI worker defaults to
+ten threads; see [AI worker operations](ai-workers.md).
 
 To deliberately refresh cached OS packages, invalidate the deployment cache
 scope or use BuildKit's `--no-cache-filter runtime`. Dependency lockfile and base

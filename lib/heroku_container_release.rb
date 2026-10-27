@@ -14,8 +14,8 @@ class HerokuContainerRelease
   end
 
   def call
-    unless @images.keys.sort == %w[release web worker] && @images.values.all? { |id| /\Asha256:[0-9a-f]{64}\z/.match?(id) }
-      raise ArgumentError, "Provide web, worker, and release Docker image IDs"
+    unless @images.keys.sort == %w[aiworker release web worker] && @images.values.all? { |id| /\Asha256:[0-9a-f]{64}\z/.match?(id) }
+      raise ArgumentError, "Provide web, worker, aiworker, and release Docker image IDs"
     end
 
     previous_release = releases.max_by { |release| release.fetch("version") }

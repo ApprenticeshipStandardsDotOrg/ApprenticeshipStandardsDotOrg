@@ -57,7 +57,10 @@ COPY --from=builder /usr/local/bundle /usr/local/bundle
 EXPOSE 3000
 
 FROM application AS worker
-CMD ["bundle", "exec", "sidekiq", "-c", "3"]
+CMD ["bundle", "exec", "sidekiq", "-c", "3", "-q", "default"]
+
+FROM application AS aiworker
+CMD ["ruby", "bin/ai-worker"]
 
 FROM application AS release
 CMD ["sh", "-c", "bundle exec rails db:migrate && bundle exec rake after_party:run"]

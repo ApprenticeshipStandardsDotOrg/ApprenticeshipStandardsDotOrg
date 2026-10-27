@@ -13,5 +13,9 @@ run:
   web: bundle exec puma -C config/puma.rb
   worker: 
     command:
-      - bundle exec sidekiq -c 3
+      - bundle exec sidekiq -c 3 -q default
+    image: web
+  aiworker:
+    command:
+      - ruby bin/ai-worker
     image: web
