@@ -1,6 +1,11 @@
 require "rails_helper"
 
 RSpec.describe PdfReaderJob do
+  it "enqueues PDF conversions on the dedicated AI queue" do
+    expect { described_class.perform_later(import_id: "pdf-id", force: true) }
+      .to have_enqueued_job(described_class).with(import_id: "pdf-id", force: true).on_queue("ai_conversion")
+  end
+
   describe "#perform" do
     it "logs stored validation failures while completing the job" do
       pdf = create(:imports_pdf)

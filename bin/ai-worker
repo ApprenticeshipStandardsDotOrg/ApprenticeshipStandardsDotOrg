@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+concurrency = Integer(ENV.fetch("AI_CONVERSION_CONCURRENCY", "10"))
+abort "AI_CONVERSION_CONCURRENCY must be positive" unless concurrency.positive?
+
+# This process needs a database connection for every job thread. Scope the
+# setting to this worker so Puma and the general worker keep their own pools.
+ENV["RAILS_MAX_THREADS"] = concurrency.to_s
+exec "bundle", "exec", "sidekiq", "-c", concurrency.to_s, "-q", "ai_conversion"

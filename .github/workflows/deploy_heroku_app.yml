@@ -18,6 +18,9 @@ on:
       web_image:
         required: true
         type: string
+      aiworker_image:
+        required: true
+        type: string
       worker_image:
         required: true
         type: string
@@ -52,11 +55,12 @@ jobs:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
           HEROKU_APP: ${{ inputs.heroku_app }}
           WEB_SOURCE_IMAGE: ${{ inputs.web_image }}
+          AIWORKER_SOURCE_IMAGE: ${{ inputs.aiworker_image }}
           WORKER_SOURCE_IMAGE: ${{ inputs.worker_image }}
           RELEASE_SOURCE_IMAGE: ${{ inputs.release_image }}
         run: |
           printf '%s' "$HEROKU_API_KEY" | docker login --username _ --password-stdin registry.heroku.com
-          for process in web worker release; do
+          for process in web worker aiworker release; do
             source_var="${process^^}_SOURCE_IMAGE"
             source_image="${!source_var}"
             destination="registry.heroku.com/${HEROKU_APP}/${process}"

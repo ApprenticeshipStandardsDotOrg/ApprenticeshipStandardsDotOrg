@@ -4,7 +4,7 @@ require "zlib"
 require_relative "../../lib/heroku_container_release"
 
 RSpec.describe HerokuContainerRelease do
-  let(:images) { %w[web worker release].to_h { |type| [type, "sha256:#{"a" * 64}"] } }
+  let(:images) { %w[web worker aiworker release].to_h { |type| [type, "sha256:#{"a" * 64}"] } }
   let(:service) { described_class.new(app: "example", api_key: "test-token", images: images, poll_interval: 0) }
   let(:url) { "https://api.heroku.com/apps/example" }
   let(:previous) { {id: "previous", version: 1, status: "succeeded"} }
@@ -21,7 +21,7 @@ RSpec.describe HerokuContainerRelease do
     ).to_return(body: "[]")
   end
 
-  it "releases all three process images and waits for migrations to succeed" do
+  it "releases all four process images and waits for migrations to succeed" do
     stub_request(:get, "#{url}/releases/new").to_return(
       {body: pending.to_json},
       {body: pending.merge(status: "succeeded").to_json}
