@@ -2,6 +2,32 @@ require "rails_helper"
 
 RSpec.describe ChatGptGenerateText do
   describe "#call" do
+    it "supports a reasoning model with enforced JSON without unsupported temperature settings" do
+      client = instance_double(OpenAI::Client)
+      allow(OpenAI::Client).to receive(:new).with(request_timeout: 600).and_return(client)
+      expect(client).to receive(:chat).with(parameters: {
+        model: "gpt-5.4",
+        messages: [{role: "user", content: "Extract JSON"}],
+        reasoning_effort: "low",
+        response_format: {type: "json_object"}
+      }).and_return({"choices" => [{"message" => {"content" => '{"occupations":[]}'}}]})
+
+      result = described_class.new("Extract JSON", model: "gpt-5.4", reasoning_effort: "low", json: true).call
+
+      expect(result).to eq '{"occupations":[]}'
+    end
+
+    it "uses temperature zero with reasoning disabled" do
+      client = instance_double(OpenAI::Client)
+      allow(OpenAI::Client).to receive(:new).with(request_timeout: 600).and_return(client)
+      expect(client).to receive(:chat).with(parameters: {
+        model: "gpt-5.4-mini", messages: [{role: "user", content: "Extract JSON"}],
+        reasoning_effort: "none", temperature: 0
+      }).and_return({"choices" => [{"message" => {"content" => "{}"}}]})
+
+      expect(described_class.new("Extract JSON", model: "gpt-5.4-mini", reasoning_effort: "none", json: false).call).to eq "{}"
+    end
+
     it "returns generated text" do
       client_mock = instance_double "OpenAI::Client"
       allow(OpenAI::Client).to receive(:new).and_return client_mock
