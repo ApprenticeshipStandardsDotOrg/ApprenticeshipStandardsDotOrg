@@ -1,7 +1,118 @@
 require "rails_helper"
 
 RSpec.describe ConvertPdfImportWithAI do
+  describe "reference occupation resolution" do
+    subject(:converter) { described_class.new(import: nil, open_ai_prompt: nil) }
+
+    it "resolves a unique base code before an unrelated occupation sharing the O*NET code" do
+      expected = create(:occupation, rapids_code: "0845")
+      onet = create(:onet)
+      create(:occupation, onet: onet, rapids_code: "9999")
+      response = {"rapidsCode" => "0845R", "onetCode" => onet.code}
+
+      expect(converter.send(:occupation, response)).to eq expected
+      expect(converter.send(:rapids_code, response)).to eq "0845R"
+    end
+
+    it "prefers an exact suffixed reference code" do
+      create(:occupation, rapids_code: "0845")
+      expected = create(:occupation, rapids_code: "0845R")
+
+      expect(converter.send(:occupation, {"rapidsCode" => "0845R"})).to eq expected
+    end
+
+    it "does not choose between duplicate base-code references" do
+      create_list(:occupation, 2, rapids_code: "0845")
+
+      expect(converter.send(:occupation, {"rapidsCode" => "0845R"})).to be_nil
+    end
+
+    it "does not select a reference with a blank code when the extracted code is absent" do
+      create(:occupation, rapids_code: nil)
+
+      expect(converter.send(:occupation, {})).to be_nil
+    end
+
+    it "finds a unique reference across O*NET versions when the first code match has no reference" do
+      create(:onet, code: "47-2211.00", version: "2010")
+      current = create(:onet, code: "47-2211.00")
+      expected = create(:occupation, onet: current)
+
+      expect(converter.send(:occupation, {"onetCode" => "47-2211.00"})).to eq expected
+    end
+
+    it "resolves a SOC-only source through a unique .00 reference without rewriting the printed code" do
+      onet = create(:onet, code: "47-2211.00")
+      expected = create(:occupation, onet: onet)
+      response = {"onetCode" => "47-2211"}
+
+      expect(converter.send(:occupation, response)).to eq expected
+      expect(converter.send(:onet_code, response)).to eq "47-2211"
+    end
+
+    it "leaves ambiguous cross-version O*NET references unresolved" do
+      create(:onet, code: "47-2211.00", version: "2010")
+      create(:occupation, onet: create(:onet, code: "47-2211.00", version: "2015"))
+      create(:occupation, onet: create(:onet, code: "47-2211.00"))
+
+      expect(converter.send(:occupation, {"onetCode" => "47-2211.00"})).to be_nil
+    end
+  end
+
   describe "#call" do
+    it "corrects a single occupation approach from explicit source completion evidence" do
+      pdf = create(:imports_pdf)
+      prompt = create(:open_ai_prompt, prompt: "Extract")
+      create(:registration_agency, :for_national_program, agency_type: :oa)
+      text = "Time-based Competency-based Hybrid\nThe term of the occupation is based on the apprentice’s demonstration of the mastery of competencies as specified in these standards (approximately 1 year), supplemented by related instruction."
+      stub_pdf_text(text)
+      raw = {documentOccupationCount: 1, singleOccupation: true, occupations: [
+        {title: "Nursing Assistant", ojtType: "hybrid", extractionWarnings: ["Checkbox graphics missing"]}
+      ]}.to_json
+      stub_open_ai_response(prompt, text, raw)
+
+      result = described_class.new(import: pdf, open_ai_prompt: prompt).call
+
+      expect(result.occupation_standard.ojt_type).to eq "competency"
+      expect(result.open_ai_import.response).to eq raw
+      expect(result.open_ai_import.parsed_response["ojtType"]).to eq "competency"
+      expect(result.open_ai_import.parsed_response["ojtTypeEvidence"].first).to include("page" => 1)
+      expect(result.open_ai_import.parsed_response["extractionWarnings"]).to include("Checkbox graphics missing", a_string_including("OJT approach corrected"))
+      expect(PdfTextExtractor).to have_received(:new).once
+    end
+
+    it "does not apply one occupation's checked approach to a sibling" do
+      pdf = create(:imports_pdf)
+      prompt = create(:open_ai_prompt, prompt: "Extract")
+      create(:registration_agency, :for_national_program, agency_type: :oa)
+      text = "☒ Time-based ☐ Competency-based ☐ Hybrid"
+      stub_pdf_text(text)
+      stub_open_ai_response(prompt, text, {documentOccupationCount: 2, singleOccupation: false, occupations: [
+        {title: "Welder", ojtType: "time"}, {title: "Nurse", ojtType: "competency"}
+      ]}.to_json)
+
+      result = described_class.new(import: pdf, open_ai_prompt: prompt).call
+
+      expect(result.occupation_standards.map(&:ojt_type)).to match_array(%w[time competency])
+      expect(result.open_ai_import.parsed_response).not_to have_key "ojtTypeEvidence"
+    end
+
+    it "does not correct a document-wide approach when linked standards establish multiple occupations" do
+      pdf = create(:imports_pdf)
+      prompt = create(:open_ai_prompt, prompt: "Extract")
+      agency = create(:registration_agency, :for_national_program, agency_type: :oa)
+      create_list(:occupation_standard, 2, registration_agency: agency).each do |standard|
+        create(:data_import, import: pdf, occupation_standard: standard)
+      end
+      text = "☒ Time-based ☐ Competency-based ☐ Hybrid"
+      stub_pdf_text(text)
+      stub_open_ai_response(prompt, text, {documentOccupationCount: 1, occupations: [{title: "Nurse", ojtType: "competency"}]}.to_json)
+
+      result = described_class.new(import: pdf, open_ai_prompt: prompt).call
+
+      expect(result.occupation_standard.ojt_type).to eq "competency"
+    end
+
     it "creates an occupation standard from the OpenAI response" do
       pdf = create(:imports_pdf)
       prompt = create(:open_ai_prompt, prompt: "Extract")

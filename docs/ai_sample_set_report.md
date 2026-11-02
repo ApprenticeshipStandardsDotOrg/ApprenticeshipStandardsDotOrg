@@ -46,6 +46,76 @@ AI conversion uses layout-preserving `pdftotext -layout` output when the
 command is available. It falls back to `PDF::Reader` text extraction when
 `pdftotext` is unavailable or returns blank text.
 
+## Auditing OJT disagreements against the PDF
+
+Run a read-only evidence report for the exact IDs in an existing score CSV:
+
+```sh
+POSTGRES_USER=ck bundle exec rails 'occupation_standards:ojt_audit[benchmark.csv,tmp/ojt-audit.csv]'
+```
+
+This downloads the linked PDFs but makes no AI calls and changes no database
+records. It uses the supplied IDs rather than current sample membership and
+refuses to overwrite the input CSV. The output includes admin links, baseline,
+AI and source approaches, source pages/quotes, blob checksums and text hashes.
+Keep these record-level reports under ignored `tmp/`.
+
+`baseline_source_conflict` means the PDF evidence supports the AI approach;
+`ai_source_conflict` means it supports the baseline instead. Neither classification
+changes the eleven-point score. `needs_review` includes conflicting or implicit
+approaches and shared PDFs whose occupation boundaries need separate review.
+The report does not guess an approach from an occupation code, task list or hours
+column. Agreement with the baseline alone does not establish PDF accuracy.
+
+`OJTTypeEvidence` recognizes checked choices, explicit apprenticeship approach
+statements and a narrow, explicit competency-mastery completion requirement.
+Checkbox graphics can disappear from both text extractors; a rendered-page
+review may still be needed. Approximate years and required related-instruction
+hours do not by themselves make an occupation time-based or hybrid.
+
+During conversion, decisive evidence can correct the parsed OJT approach for an
+unambiguous single-occupation document. Known shared sources and conflicting
+evidence are excluded. The raw provider response is retained; the normalized
+response records `ojtTypeEvidence` and an `extractionWarnings` entry when corrected.
+Other extracted fields and the database default prompt follow the usual flow.
+Existing results are reused until explicitly refreshed, so deploying this code
+does not update old conversions automatically. Saved responses can be replayed
+with the same PDF/text for evaluation without another provider call.
+
+## Controlled model and prompt comparisons
+
+`ChatGptGenerateText` defaults to `gpt-4o-mini`, temperature zero. Model experiments
+can set `AI_CONVERSION_MODEL`, `AI_CONVERSION_REASONING_EFFORT`, and
+`AI_CONVERSION_JSON=true` without changing the default database prompt. For example:
+
+```sh
+AI_CONVERSION_MODEL=gpt-5.4 AI_CONVERSION_REASONING_EFFORT=low AI_CONVERSION_JSON=true \
+  POSTGRES_USER=ck bundle exec rails runner path/to/local_evaluation.rb
+```
+
+Reasoning requests omit temperature unless reasoning is disabled with `none`.
+GPT-5.4 requests allow up to 600 seconds for long document responses. JSON mode
+prevents malformed JSON but does not establish correct fields, document coverage,
+or occupation attribution. Default worker behavior is unchanged unless these
+settings are supplied to that process.
+
+Keep benchmark UUIDs, source hashes, text, prompt, and scoring fixed when comparing
+models. Reserve OA/SAA and single/shared-source holdouts before inspecting outputs.
+Save provider responses and token usage so the application parser, validation,
+matching, and persistence can be evaluated again without another paid call. A
+rolled-back full-converter replay exercises those layers without committing
+changes or running indexing callbacks. Count malformed output, validation failures,
+unmatched previous occupations, and UUID changes explicitly; do not award stale
+results credit as if they were successful new extractions.
+
+Separate the proposed configuration's score from the score of any subset actually
+applied locally. Use validity and provenance checks to decide whether a proposed
+refresh is safe; do not select individual responses merely because their scores
+are higher. After applying a change, export scores and structural metrics for the
+same UUID set and report both improvements and regressions. Baseline/PDF conflicts
+remain review cases even when the unchanged agreement score penalizes source-correct
+extraction.
+
 ## Selection criteria
 
 Select a benchmark once and keep its standard UUIDs fixed across extraction

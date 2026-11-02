@@ -40,6 +40,11 @@ class ConvertPdfImportWithAI
     end
     separated = entries.is_a?(Array)
     entries ||= [response]
+    declared_count = integer_value(response, "documentOccupationCount", "document_occupation_count", "occupationCount", "occupation_count")
+    single = entries.one? && (separated || declared_count == 1) && declared_count.to_i <= 1 &&
+      response["singleOccupation"].to_s != "false" && response["single_occupation"].to_s != "false" &&
+      Array(response["occupationInventory"] || response["occupation_inventory"]).size <= 1 && import.linked_occupation_scope != "multiple"
+    source_approach = OJTTypeEvidence.new(text: single ? pdf_text : "", single_occupation: single).call
     import.with_lock do
       raise "PDF changed during conversion" unless import.file.blob.id == source_blob_id
 
@@ -52,6 +57,7 @@ class ConvertPdfImportWithAI
       identities = []
       entries.each do |entry|
         occupation_response = separated ? separate_response(response, entry) : entry
+        occupation_response = reconcile_ojt_type(occupation_response, source_approach)
         candidate = build_occupation_standard(occupation_response)
         entry_errors = extraction_errors(occupation_response, candidate, separated: separated)
         identity = [MatchAIOccupation.normalize_code(candidate.rapids_code), MatchAIOccupation.normalize_title(candidate.title),
@@ -132,7 +138,17 @@ class ConvertPdfImportWithAI
   end
 
   def pdf_text
-    PdfTextExtractor.new(import.file).call
+    @pdf_text ||= PdfTextExtractor.new(import.file).call
+  end
+
+  def reconcile_ojt_type(response, source_approach)
+    return response unless source_approach.ojt_type && source_approach.ojt_type != ojt_type(response).to_s
+
+    response.merge(
+      "ojtType" => source_approach.ojt_type,
+      "ojtTypeEvidence" => source_approach.evidence,
+      "extractionWarnings" => (Array(response["extractionWarnings"]) + ["OJT approach corrected from #{ojt_type(response) || "missing"} to #{source_approach.ojt_type} using source completion/approach evidence"])
+    )
   end
 
   def parse_response(raw_response)
@@ -317,10 +333,30 @@ class ConvertPdfImportWithAI
   end
 
   def occupation(response)
-    Occupation.find_by(rapids_code: rapids_code(response)) || begin
-      onet = Onet.find_by(code: onet_code(response))
-      Occupation.find_by(onet: onet) if onet
+    code = rapids_code(response)
+    exact = Occupation.find_by(rapids_code: code) if code.present?
+    return exact if exact
+
+    # Printed approach/specialty suffixes may be absent from the reference
+    # catalog. Keep the source code intact and resolve only a unique base code.
+    if code.to_s.match?(/\A\d+[A-Z]+\z/)
+      candidates = Occupation.where(rapids_code: code[/\A\d+/]).limit(2).to_a
+      return candidates.first if candidates.one?
     end
+
+    source_onet_code = onet_code(response).to_s
+    return if source_onet_code.blank?
+
+    onet = Onet.find_by(code: source_onet_code)
+    existing = Occupation.find_by(onet: onet) if onet
+    return existing if existing
+
+    # An older O*NET version can be the first code match without owning any
+    # reference occupations. Resolve a unique reference across versions; a
+    # printed SOC-only code can also identify its unspecialized .00 record.
+    lookup_code = source_onet_code.match?(/\A\d{2}-\d{4}\z/) ? "#{source_onet_code}.00" : source_onet_code
+    references = Occupation.where(onet_id: Onet.where(code: lookup_code).select(:id)).limit(2).to_a
+    references.first if references.one?
   end
 
   def industry(response)
